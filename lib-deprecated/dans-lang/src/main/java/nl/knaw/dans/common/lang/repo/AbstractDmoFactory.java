@@ -11,17 +11,15 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import org.dom4j.Element;
 
 /**
- * An abstract factory for creating DataModelObjects. Concrete factories can be registered at this class.
- * Which concrete factory is assigned to create the specific DataModelObject depends on the namespace of
- * the DataModelObject. Since the namespace is part of the storeId of a DataModelObject, the
- * AbstractDmoFactory can create DataModelObjects of the correct type, if it is given either the
- * namespace or the storeId of the concrete DataModelObject to instantiate.
+ * An abstract factory for creating DataModelObjects. Concrete factories can be registered at this class. Which concrete factory is assigned to create the
+ * specific DataModelObject depends on the namespace of the DataModelObject. Since the namespace is part of the storeId of a DataModelObject, the
+ * AbstractDmoFactory can create DataModelObjects of the correct type, if it is given either the namespace or the storeId of the concrete DataModelObject to
+ * instantiate.
  * 
  * @param <T>
  *        The type of DataModelObject
  */
-public abstract class AbstractDmoFactory<T extends DataModelObject> implements DmoFactory<T>
-{
+public abstract class AbstractDmoFactory<T extends DataModelObject> implements DmoFactory<T> {
 
     private static final String SID_SPLIT = ":";
 
@@ -30,59 +28,46 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
 
     public static SidDispenser sidDispenser;
 
-    public static void register(DmoFactory<?> factory)
-    {
+    public static void register(DmoFactory<?> factory) {
         register(factory.getNamespace(), factory);
     }
 
-    public static void register(DmoNamespace namespace, DmoFactory<?> factory)
-    {
-        synchronized (registry)
-        {
+    public static void register(DmoNamespace namespace, DmoFactory<?> factory) {
+        synchronized (registry) {
             registry.put(namespace, factory);
         }
     }
 
-    public static DmoFactory<?> unRegister(DmoNamespace namespace)
-    {
-        synchronized (registry)
-        {
+    public static DmoFactory<?> unRegister(DmoNamespace namespace) {
+        synchronized (registry) {
             return registry.remove(namespace);
         }
     }
 
-    public static boolean isRegistered(DmoNamespace namespace)
-    {
-        synchronized (registry)
-        {
+    public static boolean isRegistered(DmoNamespace namespace) {
+        synchronized (registry) {
             return registry.containsKey(namespace);
         }
     }
 
-    public static DmoFactory<?> factoryFor(String storeId)
-    {
+    public static DmoFactory<?> factoryFor(String storeId) {
         DmoNamespace namespace = computeNamespace(storeId);
         return factoryFor(namespace);
     }
 
-    public static DmoFactory<?> factoryFor(DmoNamespace namespace)
-    {
+    public static DmoFactory<?> factoryFor(DmoNamespace namespace) {
         DmoFactory<?> factory;
-        synchronized (registry)
-        {
+        synchronized (registry) {
             factory = registry.get(namespace);
         }
-        if (factory == null)
-        {
+        if (factory == null) {
             throw new IllegalArgumentException("No factory registered for namespace " + namespace);
         }
         return factory;
     }
 
-    private static DmoNamespace computeNamespace(String storeId)
-    {
-        if (storeId == null)
-        {
+    private static DmoNamespace computeNamespace(String storeId) {
+        if (storeId == null) {
             return null;
         }
 
@@ -90,27 +75,21 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
         return new DmoNamespace(plit[0]);
     }
 
-    protected static String nextSid(DmoNamespace namespace) throws RepositoryException
-    {
-        if (sidDispenser != null)
-        {
+    protected static String nextSid(DmoNamespace namespace) throws RepositoryException {
+        if (sidDispenser != null) {
             return sidDispenser.nextSid(namespace);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    protected static void setSidDispenser(SidDispenser sidDispenser)
-    {
+    protected static void setSidDispenser(SidDispenser sidDispenser) {
         AbstractDmoFactory.sidDispenser = sidDispenser;
     }
 
     /**
-     * Create an new instance of the class associated with storeIdOrNamespace, with a newly obtained
-     * storeId. The storeId of the returned object may be <code>null</code> if no SidDispenser is
-     * associated with the AbstractDmoFactory.
+     * Create an new instance of the class associated with storeIdOrNamespace, with a newly obtained storeId. The storeId of the returned object may be
+     * <code>null</code> if no SidDispenser is associated with the AbstractDmoFactory.
      * <p/>
      * <b>Use this method for dmo's not yet ingested.</b>
      * 
@@ -120,8 +99,7 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
      * @throws RepositoryException
      *         for exceptions while obtaining a new storeId
      */
-    public static DataModelObject newDmo(DmoNamespace namespace) throws RepositoryException
-    {
+    public static DataModelObject newDmo(DmoNamespace namespace) throws RepositoryException {
         return factoryFor(namespace).newDmo();
     }
 
@@ -134,13 +112,11 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
      *        storeId for returned instance
      * @return new instance of the class associated with the given storeId
      */
-    public static DataModelObject dmoInstance(String storeId)
-    {
+    public static DataModelObject dmoInstance(String storeId) {
         return factoryFor(storeId).createDmo(storeId);
     }
 
-    protected String nextSid() throws RepositoryException
-    {
+    protected String nextSid() throws RepositoryException {
         return nextSid(getNamespace());
     }
 
@@ -150,8 +126,7 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
      * @throws ObjectDeserializationException
      */
     @Override
-    public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException
-    {
+    public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException {
 
     }
 
@@ -169,13 +144,10 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
      *  </bean>
      * </pre>
      */
-    public static class Registrator
-    {
+    public static class Registrator {
 
-        public void setFactories(List<DmoFactory<?>> listOfFactories)
-        {
-            for (DmoFactory<?> factory : listOfFactories)
-            {
+        public void setFactories(List<DmoFactory<?>> listOfFactories) {
+            for (DmoFactory<?> factory : listOfFactories) {
                 AbstractDmoFactory.register(factory);
             }
         }

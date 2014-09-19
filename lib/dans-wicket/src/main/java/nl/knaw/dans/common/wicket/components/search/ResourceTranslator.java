@@ -10,31 +10,25 @@ import org.apache.wicket.model.ResourceModel;
  * 
  * @author lobo
  */
-public class ResourceTranslator implements Translator<String>
-{
+public class ResourceTranslator implements Translator<String> {
     private static final long serialVersionUID = -5288594668340132408L;
 
     private String prefix = "";
 
     private String postfix = "";
 
-    public ResourceTranslator()
-    {
-    }
+    public ResourceTranslator() {}
 
-    public ResourceTranslator(String prefix)
-    {
+    public ResourceTranslator(String prefix) {
         this.prefix = prefix;
     }
 
-    public ResourceTranslator(String prefix, String postfix)
-    {
+    public ResourceTranslator(String prefix, String postfix) {
         this.prefix = prefix;
         this.postfix = postfix;
     }
 
-    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName)
-    {
+    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName) {
         return new ResourceModel(prefix + originalValue + postfix);
     }
 

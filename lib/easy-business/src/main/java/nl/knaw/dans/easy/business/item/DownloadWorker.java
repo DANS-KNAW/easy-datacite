@@ -42,8 +42,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DownloadWorker
-{
+public class DownloadWorker {
 
     public static final int MEGA_BYTE = 1024 * 1024;
     public static final int MAX_DOWNLOAD_SIZE = Data.getDownloadLimit() * MEGA_BYTE;
@@ -62,8 +61,7 @@ public class DownloadWorker
 
     private static final Logger logger = LoggerFactory.getLogger(DownloadWorker.class);
 
-    protected DownloadWorker()
-    {
+    protected DownloadWorker() {
 
     }
 
@@ -72,15 +70,12 @@ public class DownloadWorker
     {
         final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId());
         final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset);
-        try
-        {
+        try {
             final List<FileItemVO> itemList = FILE_STORE_ACCESS.findFilesById(Arrays.asList(fileItemId));
             final List<? extends ItemVO> filteredItems = downloadFilter.apply(itemList);
-            if (!filteredItems.isEmpty())
-            {
+            if (!filteredItems.isEmpty()) {
                 final FileItemVO fileItemVO = (FileItemVO) filteredItems.get(0);
-                if (fileItemVO.getSize() > MAX_DOWNLOAD_SIZE)
-                {
+                if (fileItemVO.getSize() > MAX_DOWNLOAD_SIZE) {
                     // TODO make special exception
                     throw new FileSizeException(fileItemVO.getSize() / MEGA_BYTE, MAX_DOWNLOAD_SIZE / MEGA_BYTE);
                 }
@@ -88,19 +83,15 @@ public class DownloadWorker
                 fileContentWrapper.setFileItemVO(fileItemVO);
                 final URL url = Data.getEasyStore().getFileURL(new DmoStoreId(fileItemVO.getSid()));
                 fileContentWrapper.setURL(url);
-            }
-            else
-            {
+            } else {
                 throw new CommonSecurityException("Insufficient rights");
             }
         }
-        catch (final DomainException e)
-        {
+        catch (final DomainException e) {
             logger.error("Unable to apply download filter: ", e);
             throw new ServiceException(e);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             logger.error("Unable to get file content: ", e);
             throw new ServiceException(e);
         }
@@ -113,8 +104,7 @@ public class DownloadWorker
     {
         final ZipFileContentWrapper zippedContent = new ZipFileContentWrapper();
         final String baseFolderName = getBaseFoldername(dataset);
-        try
-        {
+        try {
             final List<ItemVO> requesteItemVOs = getRequestedItemVOs(requestedItems);
             final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset);
             final List<? extends ItemVO> permittedItemVOs = downloadFilter.apply(requesteItemVOs);
@@ -123,22 +113,18 @@ public class DownloadWorker
             zippedContent.setZipFile(zipFile);
             zippedContent.setFilename(System.currentTimeMillis() + "-" + baseFolderName + ".zip");
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             logger.error("Unable to create zip file: ", e);
             throw new ServiceException(e);
         }
-        catch (final DomainException e)
-        {
+        catch (final DomainException e) {
             logger.error("Unable to apply download filter: ", e);
             throw new ServiceException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Unable to create zip file: ", e);
             throw new ServiceException(e);
         }
@@ -146,15 +132,11 @@ public class DownloadWorker
         return zippedContent;
     }
 
-    private URL getAdditionalLicenseUrl(final Dataset dataset) throws ServiceException, RepositoryException
-    {
+    private URL getAdditionalLicenseUrl(final Dataset dataset) throws ServiceException, RepositoryException {
         List<UnitMetadata> addLicenseList = Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
-        if (addLicenseList.isEmpty())
-        {
+        if (addLicenseList.isEmpty()) {
             return null;
-        }
-        else
-        {
+        } else {
             final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID), new DateTime());
             return url;
         }
@@ -166,12 +148,9 @@ public class DownloadWorker
         final List<ZipItem> zipItems = toZipItems(items);
 
         final URL generalConditionsUrl = DownloadWorker.class.getResource(GENERAL_CONDITIONS_FILE_NAME);
-        if (generalConditionsUrl != null)
-        {
+        if (generalConditionsUrl != null) {
             zipItems.add(new ZipItem(METADATA_PATH + GENERAL_CONDITIONS_FILE_NAME, generalConditionsUrl));
-        }
-        else
-        {
+        } else {
             logger.error("\n!\n!\n!\n!\n!No " + GENERAL_CONDITIONS_FILE_NAME + " found!\n!\n!\n!\n!\n!");
         }
 
@@ -188,10 +167,8 @@ public class DownloadWorker
     }
 
     // Note: could determine total size of files before trying to zip them
-    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException, TooManyFilesException
-    {
-        if (items.size() > MAX_NUMBER_OF_FILES)
-        {
+    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException, TooManyFilesException {
+        if (items.size() > MAX_NUMBER_OF_FILES) {
             throw new TooManyFilesException(items.size(), MAX_NUMBER_OF_FILES);
         }
         final List<ZipItem> zipItems = new ArrayList<ZipItem>();
@@ -199,29 +176,20 @@ public class DownloadWorker
         int totalSize = calculateTotalSizeUnzipped(items);
         logger.debug("total size unzipped " + totalSize);
 
-        if (totalSize > MAX_DOWNLOAD_SIZE)
-        {
+        if (totalSize > MAX_DOWNLOAD_SIZE) {
             throw new ZipFileLengthException(totalSize / MEGA_BYTE, MAX_DOWNLOAD_SIZE / MEGA_BYTE);
-        }
-        else
-        {
+        } else {
             // add zip items
-            for (final ItemVO item : items)
-            {
-                if (item instanceof FileItemVO)
-                {
+            for (final ItemVO item : items) {
+                if (item instanceof FileItemVO) {
                     totalSize += ((FileItemVO) item).getSize();
                     final URL url = Data.getEasyStore().getFileURL(new DmoStoreId(item.getSid()));
                     final ZipItem zipFileItem = new ZipItem(item.getPath(), url);
                     zipItems.add(zipFileItem);
-                }
-                else if (item instanceof FolderItemVO)
-                {
+                } else if (item instanceof FolderItemVO) {
                     final ZipItem zipFolderItem = new ZipItem(item.getPath());
                     zipItems.add(zipFolderItem);
-                }
-                else
-                {
+                } else {
                     logger.warn("Unknown Item type: " + item);
                 }
             }
@@ -230,13 +198,10 @@ public class DownloadWorker
         return zipItems;
     }
 
-    private int calculateTotalSizeUnzipped(final List<? extends ItemVO> items)
-    {
+    private int calculateTotalSizeUnzipped(final List<? extends ItemVO> items) {
         int totalSize = 0;
-        for (final ItemVO item : items)
-        {
-            if (item instanceof FileItemVO)
-            {
+        for (final ItemVO item : items) {
+            if (item instanceof FileItemVO) {
                 totalSize += ((FileItemVO) item).getSize();
             }
         }
@@ -252,21 +217,17 @@ public class DownloadWorker
      * @throws IOException
      * @throws RepositoryException
      */
-    File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException, RepositoryException
-    {
+    File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException, RepositoryException {
         final File metaFile = File.createTempFile("meta", ".xml");
         boolean hasMetaData = false;
         final PrintStream metaOutputStream = new PrintStream(metaFile);
         metaOutputStream.println("<?xml version='1.0' encoding='UTF-8'?>");
         metaOutputStream.println("<metadata>");
 
-        for (final ItemVO item : items)
-        {
-            if (item instanceof FileItemVO)
-            {
+        for (final ItemVO item : items) {
+            if (item instanceof FileItemVO) {
                 List<UnitMetadata> umdList = Data.getEasyStore().getUnitMetadata(new DmoStoreId(item.getSid()), new DsUnitId(DescriptiveMetadata.UNIT_ID));
-                if (!umdList.isEmpty())
-                {
+                if (!umdList.isEmpty()) {
                     hasMetaData = true;
                     collectMetadata(metaOutputStream, item);
                 }
@@ -277,85 +238,66 @@ public class DownloadWorker
         }
         metaOutputStream.println("</metadata>");
         metaOutputStream.close();
-        if (hasMetaData)
-        {
+        if (hasMetaData) {
             return metaFile;
         }
         return null;
     }
 
-    private boolean collectMetadata(final PrintStream metaOutputStream, final ItemVO item) throws IOException
-    {
+    private boolean collectMetadata(final PrintStream metaOutputStream, final ItemVO item) throws IOException {
         InputStream stream = null;
-        try
-        {
+        try {
             stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
             int b;
-            while (0 < (b = stream.read()))
-            {
+            while (0 < (b = stream.read())) {
                 metaOutputStream.write(b);
             }
         }
-        catch (final FileNotFoundException e)
-        {
+        catch (final FileNotFoundException e) {
             return false;
         }
-        finally
-        {
+        finally {
             if (stream != null)
                 stream.close();
         }
         return true;
     }
 
-    private static List<ItemVO> getRequestedItemVOs(final Collection<RequestedItem> requestedItems) throws StoreAccessException
-    {
+    private static List<ItemVO> getRequestedItemVOs(final Collection<RequestedItem> requestedItems) throws StoreAccessException {
         // TODO move fedoraFileStoreAccess: saves transactions
         // TODO merge with FileMetadataPanel.getFileItemsRecursively and
         // FileExplorerUpdateCommand.createSidList
         final List<ItemVO> itemVOs = new ArrayList<ItemVO>();
         final List<DmoStoreId> leaves = new ArrayList<DmoStoreId>();
-        for (final RequestedItem requestItem : requestedItems)
-        {
-            if (requestItem.isFile())
-            {
+        for (final RequestedItem requestItem : requestedItems) {
+            if (requestItem.isFile()) {
                 leaves.add(new DmoStoreId(requestItem.getStoreId()));
-            }
-            else if (requestItem.filesOnly())
-            {
+            } else if (requestItem.filesOnly()) {
                 itemVOs.addAll(FILE_STORE_ACCESS.getFiles(new DmoStoreId(requestItem.getStoreId()), -1, -1, null, null));
 
-            }
-            else
-            {
+            } else {
                 recursiveGet(itemVOs, new DmoStoreId(requestItem.getStoreId()));
             }
         }
-        if (!leaves.isEmpty())
-        {
+        if (!leaves.isEmpty()) {
             itemVOs.addAll(FILE_STORE_ACCESS.findFilesById(leaves));
         }
         return itemVOs;
     }
 
-    private static void recursiveGet(final List<ItemVO> itemVOs, final DmoStoreId folderId) throws StoreAccessException
-    {
+    private static void recursiveGet(final List<ItemVO> itemVOs, final DmoStoreId folderId) throws StoreAccessException {
         final List<ItemVO> children = FILE_STORE_ACCESS.getFilesAndFolders(folderId, -1, -1, null, null);
-        for (final ItemVO itemVO : children)
-        {
-            if (itemVO instanceof FolderItemVO)
-            {
+        for (final ItemVO itemVO : children) {
+            if (itemVO instanceof FolderItemVO) {
                 recursiveGet(itemVOs, new DmoStoreId(itemVO.getSid()));
             }
         }
         itemVOs.addAll(children);
     }
 
-    public static String getBaseFoldername(final Dataset dataset)
-    {
+    public static String getBaseFoldername(final Dataset dataset) {
         String title = dataset.getPreferredTitle();
-        if (title.length() > MAX_FILENAME_LENGTH)
-        {
+        if (title.length() > MAX_FILENAME_LENGTH) {
             title = title.substring(0, MAX_FILENAME_LENGTH);
         }
         return title.replaceAll(" ", "_");

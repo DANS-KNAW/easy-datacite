@@ -19,15 +19,13 @@ import org.xml.sax.SAXException;
 
 // ecco: CHECKSTYLE: OFF
 
-public class EasyMetadataValidatorTest
-{
+public class EasyMetadataValidatorTest {
 
     private static final String VALID_XML = "src/test/resources/xml-validator/valid-emd.xml";
     private static final String INVALID_0_XML = "src/test/resources/xml-validator/invalid-emd0.xml";
 
     @Test
-    public void testValidate() throws XMLException, SAXException, SchemaCreationException
-    {
+    public void testValidate() throws XMLException, SAXException, SchemaCreationException {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         XMLErrorHandler result = EMDValidator.instance().validate(emd);
         Assert.assertTrue(result.passed());
@@ -38,31 +36,25 @@ public class EasyMetadataValidatorTest
     }
 
     @Test
-    public void testValidateValidXML() throws IOException, ValidatorException, SAXException, SchemaCreationException
-    {
+    public void testValidateValidXML() throws IOException, ValidatorException, SAXException, SchemaCreationException {
         InputStream fis = null;
-        try
-        {
+        try {
             fis = new FileInputStream(VALID_XML);
             XMLErrorHandler result = EMDValidator.instance().validate(fis, EMDValidator.VERSION_0_1);
             Assert.assertTrue(result.passed());
         }
-        finally
-        {
-            if (fis != null)
-            {
+        finally {
+            if (fis != null) {
                 fis.close();
             }
         }
     }
 
     @Test
-    public void testValidateInvalidXML0() throws IOException, ValidatorException, SAXException, SchemaCreationException
-    {
+    public void testValidateInvalidXML0() throws IOException, ValidatorException, SAXException, SchemaCreationException {
 
         InputStream fis = null;
-        try
-        {
+        try {
             fis = new FileInputStream(INVALID_0_XML);
 
             XMLErrorHandler result = EMDValidator.instance().validate(fis, EMDValidator.VERSION_0_1);
@@ -73,18 +65,15 @@ public class EasyMetadataValidatorTest
             Assert.assertEquals(9, result.getErrors().size());
             Assert.assertEquals(0, result.getFatalErrors().size());
         }
-        finally
-        {
-            if (fis != null)
-            {
+        finally {
+            if (fis != null) {
                 fis.close();
             }
         }
     }
 
     @Test
-    public void testValidateString() throws ValidatorException, SAXException, SchemaCreationException
-    {
+    public void testValidateString() throws ValidatorException, SAXException, SchemaCreationException {
         String xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\"/>";
         XMLErrorHandler result = EMDValidator.instance().validate(xmlString, EMDValidator.VERSION_0_1);
         Assert.assertFalse(result.passed());
@@ -97,8 +86,7 @@ public class EasyMetadataValidatorTest
     }
 
     @Test
-    public void testSchema() throws ValidatorException, SchemaCreationException
-    {
+    public void testSchema() throws ValidatorException, SchemaCreationException {
         Schema schemaGrammer = EMDValidator.instance().getSchema(EMDValidator.VERSION_0_1);
         Schema schemaGrammer2 = EMDValidator.instance().getSchema(EMDValidator.VERSION_0_1);
         Assert.assertSame(schemaGrammer, schemaGrammer2);

@@ -29,14 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class for applying stylesheet transformations (xslt) to xml. XMLTransformer caches stylesheet
- * templates for better performance. Cache can be cleared by calling {@link #clearCache()} or
- * {@link #clearCache(String)}. The latter call clears the cache on a per TransformerFactory basis.
+ * Class for applying stylesheet transformations (xslt) to xml. XMLTransformer caches stylesheet templates for better performance. Cache can be cleared by
+ * calling {@link #clearCache()} or {@link #clearCache(String)}. The latter call clears the cache on a per TransformerFactory basis.
  * 
  * @author ecco
  */
-public class XMLTransformer implements ErrorListener
-{
+public class XMLTransformer implements ErrorListener {
 
     /**
      * The system property key for {@link TransformerFactory}.
@@ -54,8 +52,7 @@ public class XMLTransformer implements ErrorListener
     public static final String TF_SAXON = "net.sf.saxon.TransformerFactoryImpl";
 
     /**
-     * The default maximum for {@link Transformer} reuse. Saxon has a known problem with heap memory
-     * usage if the same Transformer is used over and over again.
+     * The default maximum for {@link Transformer} reuse. Saxon has a known problem with heap memory usage if the same Transformer is used over and over again.
      */
     public static final int DEFAULT_MAX_TRANSFORMER_REUSE = 100;
 
@@ -73,36 +70,31 @@ public class XMLTransformer implements ErrorListener
     private Transformer transformer;
 
     /**
-     * Constructor that takes the filename of the stylesheet as parameter, using the default
-     * {@link TransformerFactory}, from xalan.
+     * Constructor that takes the filename of the stylesheet as parameter, using the default {@link TransformerFactory}, from xalan.
      * 
      * @param xsltFileName
      *        filename of the stylesheet
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(String xsltFileName) throws TransformerException
-    {
+    public XMLTransformer(String xsltFileName) throws TransformerException {
         this(xsltFileName, TF_XALAN);
     }
 
     /**
-     * Constructor that takes the stylesheet file as parameter, using the default
-     * {@link TransformerFactory} from xalan.
+     * Constructor that takes the stylesheet file as parameter, using the default {@link TransformerFactory} from xalan.
      * 
      * @param xsltFile
      *        stylesheet file
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(File xsltFile) throws TransformerException
-    {
+    public XMLTransformer(File xsltFile) throws TransformerException {
         this(xsltFile, TF_XALAN);
     }
 
     /**
-     * Constructor that takes the filename of the stylesheet and the fully qualified classname of the
-     * transformerFactory as parameters.
+     * Constructor that takes the filename of the stylesheet and the fully qualified classname of the transformerFactory as parameters.
      * 
      * @param xsltFileName
      *        filename of the stylesheet
@@ -111,14 +103,12 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(String xsltFileName, String transformerFactoryName) throws TransformerException
-    {
+    public XMLTransformer(String xsltFileName, String transformerFactoryName) throws TransformerException {
         this(new File(xsltFileName), transformerFactoryName);
     }
 
     /**
-     * Constructor that takes the stylesheet file and the fully qualified classname of the
-     * transformerFactory as parameters.
+     * Constructor that takes the stylesheet file and the fully qualified classname of the transformerFactory as parameters.
      * 
      * @param xsltFile
      *        filename of the stylesheet
@@ -127,10 +117,8 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(File xsltFile, String transformerFactoryName) throws TransformerException
-    {
-        if (transformerFactoryName == null)
-        {
+    public XMLTransformer(File xsltFile, String transformerFactoryName) throws TransformerException {
+        if (transformerFactoryName == null) {
             transformerFactoryName = TF_XALAN;
             logger.warn("Parameter 'transformerFactoryName' is null. Using default TransformerFactory.");
         }
@@ -140,15 +128,12 @@ public class XMLTransformer implements ErrorListener
         logger.info("Using TransformerFactory: {}", this.transformerFactory.getClass().getName());
     }
 
-    public XMLTransformer(URL url) throws TransformerException
-    {
+    public XMLTransformer(URL url) throws TransformerException {
         this(url, TF_XALAN);
     }
 
-    public XMLTransformer(URL url, String transformerFactoryName) throws TransformerException
-    {
-        if (transformerFactoryName == null)
-        {
+    public XMLTransformer(URL url, String transformerFactoryName) throws TransformerException {
+        if (transformerFactoryName == null) {
             transformerFactoryName = TF_XALAN;
             logger.warn("Parameter 'transformerFactoryName' is null. Using default TransformerFactory.");
         }
@@ -168,8 +153,7 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(String xsltFileName, TransformerFactory transformerFactory) throws TransformerException
-    {
+    public XMLTransformer(String xsltFileName, TransformerFactory transformerFactory) throws TransformerException {
         this(new File(xsltFileName), transformerFactory);
     }
 
@@ -183,16 +167,12 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public XMLTransformer(File xsltFile, TransformerFactory transformerFactory) throws TransformerException
-    {
-        if (transformerFactory == null)
-        {
+    public XMLTransformer(File xsltFile, TransformerFactory transformerFactory) throws TransformerException {
+        if (transformerFactory == null) {
             logger.warn("Parameter 'transformerFactory' is null. Using default TransformerFactory.");
             System.setProperty(XMLTransformer.PROP_TRANSFORMERFACTORY, TF_XALAN);
             this.transformerFactory = TransformerFactory.newInstance();
-        }
-        else
-        {
+        } else {
             this.transformerFactory = transformerFactory;
         }
         stylesheetName = xsltFile.getPath();
@@ -204,8 +184,7 @@ public class XMLTransformer implements ErrorListener
      * 
      * @return the TransformerFactory in use.
      */
-    public TransformerFactory getTransformerFactory()
-    {
+    public TransformerFactory getTransformerFactory() {
         return transformerFactory;
     }
 
@@ -214,95 +193,76 @@ public class XMLTransformer implements ErrorListener
      * 
      * @return name of the TransformerFactory in use
      */
-    public String getTransformerFactoryName()
-    {
+    public String getTransformerFactoryName() {
         return transformerFactory.getClass().getName();
     }
 
-    public int getMaxTransformerReuse()
-    {
+    public int getMaxTransformerReuse() {
         return maxTransformerReuse;
     }
 
-    public void setMaxTransformerReuse(int maxTransformerReuse)
-    {
-        if (maxTransformerReuse < 1)
-        {
+    public void setMaxTransformerReuse(int maxTransformerReuse) {
+        if (maxTransformerReuse < 1) {
             throw new IllegalArgumentException("maxTransformerReuse should be set to a possitive integer. " + "A value of " + maxTransformerReuse
                     + " is invalid.");
         }
         this.maxTransformerReuse = maxTransformerReuse;
     }
 
-    public void transform(String filenameIn, String filenameOut) throws TransformerException
-    {
+    public void transform(String filenameIn, String filenameOut) throws TransformerException {
         transform(new StreamSource(filenameIn), new StreamResult(filenameOut));
     }
 
-    public void transform(File fileIn, File fileOut) throws TransformerException
-    {
+    public void transform(File fileIn, File fileOut) throws TransformerException {
         transform(new StreamSource(fileIn), new StreamResult(fileOut));
     }
 
-    public void transform(Source xmlSource, File fileOut) throws TransformerException
-    {
+    public void transform(Source xmlSource, File fileOut) throws TransformerException {
         transform(xmlSource, new StreamResult(fileOut));
     }
 
-    public void transform(File fileIn, OutputStream out) throws TransformerException
-    {
+    public void transform(File fileIn, OutputStream out) throws TransformerException {
         transform(new StreamSource(fileIn), new StreamResult(out));
     }
 
-    public void transform(File fileIn, Writer out) throws TransformerException
-    {
+    public void transform(File fileIn, Writer out) throws TransformerException {
         transform(new StreamSource(fileIn), new StreamResult(out));
     }
 
-    public void transform(URL urlIn, OutputStream out) throws TransformerException
-    {
-        try
-        {
+    public void transform(URL urlIn, OutputStream out) throws TransformerException {
+        try {
             transformURL(urlIn, out);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Could not close inputstream [{}]", urlIn);
             throw new TransformerException(e);
         }
     }
 
-    private void transformURL(URL urlIn, OutputStream out) throws TransformerException, IOException
-    {
+    private void transformURL(URL urlIn, OutputStream out) throws TransformerException, IOException {
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = urlIn.openStream();
             transform(new StreamSource(inStream), new StreamResult(out));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Could not open or read inputstream [{}].", urlIn);
             throw new TransformerException(e);
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }
     }
 
-    public void transform(InputStream in, OutputStream out) throws TransformerException
-    {
+    public void transform(InputStream in, OutputStream out) throws TransformerException {
         transform(new StreamSource(in), new StreamResult(out));
     }
 
     /**
-     * Transform the given <code>xmlSource</code> to the given <code>result</code>, using this
-     * XMLTransformer' stylesheet. During transformation this XMLTransformer listens for errors. After
-     * transformation errors and warnings can be obtained.
+     * Transform the given <code>xmlSource</code> to the given <code>result</code>, using this XMLTransformer' stylesheet. During transformation this
+     * XMLTransformer listens for errors. After transformation errors and warnings can be obtained.
      * 
      * @see #getErrorCount()
      * @see #getErrors()
@@ -313,8 +273,7 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public void transform(Source xmlSource, Result result) throws TransformerException
-    {
+    public void transform(Source xmlSource, Result result) throws TransformerException {
         errorList.clear();
         getTransformer().transform(xmlSource, result);
     }
@@ -326,54 +285,43 @@ public class XMLTransformer implements ErrorListener
      * @throws TransformerException
      *         in case of exceptional conditions
      */
-    public Transformer getTransformer() throws TransformerException
-    {
+    public Transformer getTransformer() throws TransformerException {
         // known problems with reuse transformer. out of memory error after transforming {amount}
         // documents.
-        if (cycleCount++ % maxTransformerReuse == 0)
-        {
+        if (cycleCount++ % maxTransformerReuse == 0) {
             transformer = null;
         }
-        if (transformer == null)
-        {
+        if (transformer == null) {
             transformer = getTemplates(transformerFactory, stylesheetName).newTransformer();
             transformer.setErrorListener(this);
-        }
-        else
-        {
+        } else {
             transformer.reset();
         }
         return transformer;
     }
 
-    public void error(TransformerException exception) throws TransformerException
-    {
+    public void error(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public void fatalError(TransformerException exception) throws TransformerException
-    {
+    public void fatalError(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public void warning(TransformerException exception) throws TransformerException
-    {
+    public void warning(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public int getErrorCount()
-    {
+    public int getErrorCount() {
         return errorList.size();
     }
 
-    public String getErrors()
-    {
+    public String getErrors() {
         final StringBuilder builder = new StringBuilder();
-        for (TransformerException tex : errorList)
-        {
+        for (TransformerException tex : errorList) {
             builder.append(tex.getClass().getName());
             builder.append("\n\t");
             builder.append(tex.getMessage());
@@ -389,29 +337,22 @@ public class XMLTransformer implements ErrorListener
         return builder.toString();
     }
 
-    private static Templates getTemplates(TransformerFactory factory, String stylesheetName) throws TransformerException
-    {
+    private static Templates getTemplates(TransformerFactory factory, String stylesheetName) throws TransformerException {
         Templates templates;
         String factoryName = factory.getClass().getName();
-        synchronized (TEMPLATES_CACHE)
-        {
+        synchronized (TEMPLATES_CACHE) {
             Map<String, Templates> factoryTemplates = TEMPLATES_CACHE.get(factoryName);
-            if (factoryTemplates == null)
-            {
+            if (factoryTemplates == null) {
                 factoryTemplates = new HashMap<String, Templates>();
                 TEMPLATES_CACHE.put(factoryName, factoryTemplates);
                 logger.trace("New factory templates map for [{}]", factoryName);
             }
             templates = factoryTemplates.get(stylesheetName);
-            if (templates == null)
-            {
+            if (templates == null) {
                 File stylesheetFile = new File(stylesheetName);
-                if (stylesheetFile.exists())
-                {
+                if (stylesheetFile.exists()) {
                     templates = createTemplatesFromFile(factory, stylesheetFile);
-                }
-                else
-                {
+                } else {
                     templates = createTemplatesFromURL(factory, stylesheetName);
                 }
                 factoryTemplates.put(stylesheetName, templates);
@@ -421,33 +362,27 @@ public class XMLTransformer implements ErrorListener
         }
     }
 
-    private static Templates createTemplatesFromURL(TransformerFactory factory, String stylesheetName) throws TransformerException
-    {
+    private static Templates createTemplatesFromURL(TransformerFactory factory, String stylesheetName) throws TransformerException {
         Templates templates;
         InputStream inStream = null;
-        try
-        {
+        try {
             URL url = new URL(stylesheetName);
             inStream = url.openStream();
             templates = factory.newTemplates(new StreamSource(inStream));
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             throw new TransformerException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new TransformerException(e);
         }
-        finally
-        {
+        finally {
             IOUtils.closeQuietly(inStream);
         }
         return templates;
     }
 
-    private static Templates createTemplatesFromFile(TransformerFactory factory, File stylesheetFile) throws TransformerConfigurationException
-    {
+    private static Templates createTemplatesFromFile(TransformerFactory factory, File stylesheetFile) throws TransformerConfigurationException {
         Templates templates;
         templates = factory.newTemplates(new StreamSource(stylesheetFile));
         return templates;
@@ -456,10 +391,8 @@ public class XMLTransformer implements ErrorListener
     /**
      * Clear all cached templates.
      */
-    public static void clearCache()
-    {
-        synchronized (TEMPLATES_CACHE)
-        {
+    public static void clearCache() {
+        synchronized (TEMPLATES_CACHE) {
             TEMPLATES_CACHE.clear();
             logger.info("Cleared cache.");
         }
@@ -471,40 +404,31 @@ public class XMLTransformer implements ErrorListener
      * @param transformerFactoryName
      *        fully qualified classname of a TransformerFactory
      */
-    public static void clearCache(String transformerFactoryName)
-    {
-        synchronized (TEMPLATES_CACHE)
-        {
+    public static void clearCache(String transformerFactoryName) {
+        synchronized (TEMPLATES_CACHE) {
             Map<String, Templates> factoryTemplates = TEMPLATES_CACHE.get(transformerFactoryName);
-            if (factoryTemplates != null)
-            {
+            if (factoryTemplates != null) {
                 factoryTemplates.clear();
                 logger.info("Cleared cache [{}].", transformerFactoryName);
             }
         }
     }
 
-    public static int getCacheSize()
-    {
+    public static int getCacheSize() {
         int size = 0;
-        synchronized (TEMPLATES_CACHE)
-        {
-            for (Map<String, Templates> factoryTemplates : TEMPLATES_CACHE.values())
-            {
+        synchronized (TEMPLATES_CACHE) {
+            for (Map<String, Templates> factoryTemplates : TEMPLATES_CACHE.values()) {
                 size += factoryTemplates.size();
             }
         }
         return size;
     }
 
-    public static int getCacheSize(String transformerFactoryName)
-    {
+    public static int getCacheSize(String transformerFactoryName) {
         int size = -1;
-        synchronized (TEMPLATES_CACHE)
-        {
+        synchronized (TEMPLATES_CACHE) {
             Map<String, Templates> factoryTemplates = TEMPLATES_CACHE.get(transformerFactoryName);
-            if (factoryTemplates != null)
-            {
+            if (factoryTemplates != null) {
                 size = factoryTemplates.size();
             }
         }

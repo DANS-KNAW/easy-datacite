@@ -25,16 +25,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AdminAlertTest
-{
+public class AdminAlertTest {
 
     private static EasyStore store;
     private static FooMailer mailer;
     private static EasyUserRepo userRepo;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         store = EasyMock.createMock(EasyStore.class);
         Data data = new Data();
         data.setEasyStore(store);
@@ -50,8 +48,7 @@ public class AdminAlertTest
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setEasyStore(null);
@@ -59,8 +56,7 @@ public class AdminAlertTest
     }
 
     @Test
-    public void serviceExceptionCatcher() throws Exception
-    {
+    public void serviceExceptionCatcher() throws Exception {
         EasyUser sessionUser = new EasyUserImpl("ben");
         sessionUser.setState(State.ACTIVE);
 
@@ -75,12 +71,10 @@ public class AdminAlertTest
         EasyMock.expect(store.ingest(EasyMock.isA(Dataset.class), EasyMock.isA(String.class))).andThrow(new RepositoryException("foo&bar")).anyTimes();
         EasyMock.replay(store, userRepo);
 
-        try
-        {
+        try {
             ds.saveEasyMetadata(sessionUser, dataset);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             // expected
         }
 
@@ -88,8 +82,7 @@ public class AdminAlertTest
         checkMail("ServiceException");
     }
 
-    private void checkMail(String check)
-    {
+    private void checkMail(String check) {
         if (Tester.isVerbose())
             System.out.println("\n--------- subject --------\n" + mailer.subject);
 
@@ -99,27 +92,23 @@ public class AdminAlertTest
         assertTrue(mailer.text.contains(check));
     }
 
-    static class FooMailer extends AdminMailer
-    {
+    static class FooMailer extends AdminMailer {
         String subject;
         String text;
         boolean fail;
 
-        public FooMailer()
-        {
+        public FooMailer() {
             super(null, "Easy");
         }
 
         @Override
-        protected boolean send(String subject, String text)
-        {
+        protected boolean send(String subject, String text) {
             this.subject = subject;
             this.text = text;
             return !fail;
         }
 
-        public void setFail(boolean fail)
-        {
+        public void setFail(boolean fail) {
             this.fail = fail;
         }
     }

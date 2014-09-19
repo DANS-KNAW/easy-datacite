@@ -6,10 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({SchemaCacheTest.class, XMLErrorHandlerTest.class, XMLValidatorTest.class})
-public class AllxmlTests
-{
-    private AllxmlTests()
-    {
+public class AllxmlTests {
+    private AllxmlTests() {
         // never instantiate
     }
 

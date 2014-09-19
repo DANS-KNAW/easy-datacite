@@ -17,53 +17,44 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PermissionRequestRequiredRuleTest
-{
+public class PermissionRequestRequiredRuleTest {
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setFileStoreAccess(null);
     }
 
     @Test
-    public void noPermissionRequired() throws Exception
-    {
+    public void noPermissionRequired() throws Exception {
         check(mockUser(), false, false);
     }
 
     @Test
-    public void noPermissionRequired2() throws Exception
-    {
+    public void noPermissionRequired2() throws Exception {
         check(mockArchivist(), false, false);
     }
 
     @Test
-    public void noPermissionRequired3() throws Exception
-    {
+    public void noPermissionRequired3() throws Exception {
         check(mockAdmin(), false, false);
     }
 
     @Test
-    public void user() throws Exception
-    {
+    public void user() throws Exception {
         check(mockUser(), true, true);
     }
 
     @Test
-    public void archivist() throws Exception
-    {
+    public void archivist() throws Exception {
         check(mockArchivist(), true, false);
     }
 
     @Test
-    public void admin() throws Exception
-    {
+    public void admin() throws Exception {
         check(mockAdmin(), true, false);
     }
 
-    private void check(final EasyUser user, boolean datasetHasRestrictedFiles, final boolean warnThatPermissionIsRequired) throws Exception
-    {
+    private void check(final EasyUser user, boolean datasetHasRestrictedFiles, final boolean warnThatPermissionIsRequired) throws Exception {
         if (user != EasyUserAnonymous.getInstance())
             user.setState(State.ACTIVE);
 
@@ -88,36 +79,31 @@ public class PermissionRequestRequiredRuleTest
         EasyMock.verify(dataset, Data.getFileStoreAccess());
     }
 
-    private EasyUser mockArchivist()
-    {
+    private EasyUser mockArchivist() {
         final EasyUser requester = new EasyUserImpl("archivist");
         requester.addRole(EasyUser.Role.ARCHIVIST);
         return requester;
     }
 
-    private EasyUser mockAdmin()
-    {
+    private EasyUser mockAdmin() {
         final EasyUser requester = new EasyUserImpl("admin");
         requester.addRole(EasyUser.Role.ADMIN);
         return requester;
     }
 
-    private EasyUser mockUser()
-    {
+    private EasyUser mockUser() {
         final EasyUser requester = new EasyUserImpl("user");
         requester.addRole(EasyUser.Role.USER);
         return requester;
     }
 
     @Test
-    public void noPermissionRequired4() throws Exception
-    {
+    public void noPermissionRequired4() throws Exception {
         check(EasyUserAnonymous.getInstance(), false, false);
     }
 
     @Test
-    public void anonymous() throws Exception
-    {
+    public void anonymous() throws Exception {
         check(EasyUserAnonymous.getInstance(), true, true);
     }
 }

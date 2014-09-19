@@ -13,50 +13,39 @@ import org.apache.commons.lang.StringUtils;
  * 
  * @author ecco Mar 31, 2009
  */
-public class BasicStringListWrapper extends AbstractDefaultListWrapper<String, BasicString>
-{
+public class BasicStringListWrapper extends AbstractDefaultListWrapper<String, BasicString> {
 
     private static final long serialVersionUID = -8198236609846333286L;
 
-    public BasicStringListWrapper(List<BasicString> sourceList)
-    {
+    public BasicStringListWrapper(List<BasicString> sourceList) {
         super(sourceList);
     }
 
-    public BasicStringListWrapper(List<BasicString> sourceList, String schemeName, String schemeId)
-    {
+    public BasicStringListWrapper(List<BasicString> sourceList, String schemeName, String schemeId) {
         super(sourceList, schemeName, schemeId);
     }
 
-    public List<String> getInitialItems()
-    {
+    public List<String> getInitialItems() {
         List<String> listItems = new ArrayList<String>();
-        for (BasicString bs : getWrappedList())
-        {
-            if (isSame(getSchemeName(), bs.getScheme()))
-            {
+        for (BasicString bs : getWrappedList()) {
+            if (isSame(getSchemeName(), bs.getScheme())) {
                 listItems.add(bs.getValue());
             }
         }
         return listItems;
     }
 
-    public int synchronize(List<String> listItems)
-    {
+    public int synchronize(List<String> listItems) {
         List<BasicString> filteredList = new ArrayList<BasicString>();
-        for (BasicString bs : getWrappedList())
-        {
-            if (isSame(getSchemeName(), bs.getScheme()))
-            {
+        for (BasicString bs : getWrappedList()) {
+            if (isSame(getSchemeName(), bs.getScheme())) {
                 filteredList.add(bs);
             }
         }
         getWrappedList().removeAll(filteredList);
 
-        for (String str : (listItems))
-        {
-            if (!StringUtils.isBlank(str))
-            {
+        for (String str : (listItems)) {
+            if (!StringUtils.isBlank(str)) {
                 BasicString basicString = new BasicString(str);
                 basicString.setScheme(getSchemeName());
                 basicString.setSchemeId(getSchemeId());

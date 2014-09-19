@@ -18,22 +18,18 @@ import nl.knaw.dans.common.lang.search.simple.SimpleIndexDocument;
 
 import org.apache.commons.lang.StringUtils;
 
-public class GenericSearchBeanConverter implements SearchBeanConverter<Object>
-{
+public class GenericSearchBeanConverter implements SearchBeanConverter<Object> {
 
     @SuppressWarnings("unchecked")
-    public IndexDocument toIndexDocument(Object searchBean) throws SearchBeanConverterException, SearchBeanException
-    {
+    public IndexDocument toIndexDocument(Object searchBean) throws SearchBeanConverterException, SearchBeanException {
         Class sbClass = searchBean.getClass();
         if (!sbClass.isAnnotationPresent(SearchBean.class))
             throw new ObjectIsNotASearchBeanException(sbClass.toString());
 
         SimpleIndexDocument indexDocument = new SimpleIndexDocument(SearchBeanUtil.getDefaultIndex(sbClass));
 
-        for (java.lang.reflect.Field classField : ClassUtil.getAllFields(sbClass).values())
-        {
-            if (classField.isAnnotationPresent(SearchField.class))
-            {
+        for (java.lang.reflect.Field classField : ClassUtil.getAllFields(sbClass).values()) {
+            if (classField.isAnnotationPresent(SearchField.class)) {
                 SearchField sbField = classField.getAnnotation(SearchField.class);
 
                 String fieldName = sbField.name();
@@ -43,12 +39,9 @@ public class GenericSearchBeanConverter implements SearchBeanConverter<Object>
                 String getMethodName = "get" + StringUtils.capitalize(propName);
                 addFieldToDocument(searchBean, indexDocument, getMethodName, fieldName, isRequired, converter);
 
-                if (classField.isAnnotationPresent(CopyField.class))
-                {
-                    for (Annotation annot : classField.getAnnotations())
-                    {
-                        if (annot instanceof CopyField)
-                        {
+                if (classField.isAnnotationPresent(CopyField.class)) {
+                    for (Annotation annot : classField.getAnnotations()) {
+                        if (annot instanceof CopyField) {
                             CopyField sbCopyField = (CopyField) annot;
                             fieldName = sbCopyField.name();
                             isRequired = sbCopyField.required();
@@ -62,8 +55,7 @@ public class GenericSearchBeanConverter implements SearchBeanConverter<Object>
             }
         }
 
-        if (indexDocument.getIndex() != null)
-        {
+        if (indexDocument.getIndex() != null) {
             if (indexDocument.getFields().getByFieldName(indexDocument.getIndex().getPrimaryKey()) == null)
                 throw new PrimaryKeyMissingException("Primary key not set to search bean object.");
         }
@@ -77,41 +69,32 @@ public class GenericSearchBeanConverter implements SearchBeanConverter<Object>
     {
         Method getMethod = null;
         Object fieldValue = null;
-        try
-        {
+        try {
             getMethod = searchBean.getClass().getMethod(getMethodName, new Class[] {});
             fieldValue = getMethod.invoke(searchBean);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SearchBeanException(e);
         }
 
-        if (fieldValue != null)
-        {
-            if (!converterClass.equals(DefaultSearchFieldConverter.class))
-            {
+        if (fieldValue != null) {
+            if (!converterClass.equals(DefaultSearchFieldConverter.class)) {
                 // run the SearchFieldConverter
-                try
-                {
+                try {
                     SearchFieldConverter<Object> converter = (SearchFieldConverter<Object>) converterClass.newInstance();
                     fieldValue = converter.toFieldValue(fieldValue);
                 }
-                catch (InstantiationException e)
-                {
+                catch (InstantiationException e) {
                     throw new SearchBeanConverterException(e);
                 }
-                catch (IllegalAccessException e)
-                {
+                catch (IllegalAccessException e) {
                     throw new SearchBeanConverterException(e);
                 }
             }
 
             SimpleField newField = new SimpleField(fieldName, fieldValue);
             indexDocument.addField(newField);
-        }
-        else
-        {
+        } else {
             if (isRequired)
                 throw new MissingRequiredFieldException(fieldName);
         }

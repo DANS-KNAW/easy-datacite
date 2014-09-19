@@ -9,8 +9,7 @@ import java.io.Serializable;
  * @param <T>
  *        the value type
  */
-public interface FacetValue<T> extends Serializable
-{
+public interface FacetValue<T> extends Serializable {
     int getCount();
 
     T getValue();

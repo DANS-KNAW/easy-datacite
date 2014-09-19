@@ -24,8 +24,7 @@ import org.hibernate.classic.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InMemoryDatabase implements Closeable
-{
+public class InMemoryDatabase implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryDatabase.class);
 
     private static final ThreadLocalSessionFactory SESSION_FACTORY = ThreadLocalSessionFactory.instance();
@@ -33,34 +32,29 @@ public class InMemoryDatabase implements Closeable
     private final Session session;
 
     /**
-     * Creates access to an in memory database for testing purposes. Must be called before creating the
-     * {@link FedoraFileStoreAccess} bean. Typically called from a BeforeClass, Before or Test method.
+     * Creates access to an in memory database for testing purposes. Must be called before creating the {@link FedoraFileStoreAccess} bean. Typically called
+     * from a BeforeClass, Before or Test method.
      */
-    public InMemoryDatabase()
-    {
+    public InMemoryDatabase() {
         FedoraDbTestSchema.init();
         session = SESSION_FACTORY.openSession();
     }
 
     /**
-     * Clears the content created in the in-memory database. Typically called from an AfterClass, After
-     * or Test method.
+     * Clears the content created in the in-memory database. Typically called from an AfterClass, After or Test method.
      * 
      * @param fileStoreAccess
      *        the instance created by {@link InMemoryDatabase#initDB()}
      */
-    public void close()
-    {
+    public void close() {
         SESSION_FACTORY.closeSession();
         FedoraDbTestSchema.reset();
     }
 
     /** Makes the inserted items available for retrieval. */
-    public void flush()
-    {
+    public void flush() {
         session.flush();
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             final String[] qs = {"select sid, parentSid, datasetSid, path, name from " + FolderItemVO.class.getName(),
                     "select sid, parentSid, datasetSid, path, name, size, mimetype, creatorRole, visibleTo, accessibleTo from " + FileItemVO.class.getName()};
             for (final String q : qs)
@@ -80,8 +74,7 @@ public class InMemoryDatabase implements Closeable
      * @return
      * @throws DomainException
      */
-    public FolderItem insertFolder(final int id, final DatasetItemContainer parent, final String label) throws DomainException
-    {
+    public FolderItem insertFolder(final int id, final DatasetItemContainer parent, final String label) throws DomainException {
         final FolderItemImpl item = new FolderItemImpl(new DmoStoreId(FolderItem.NAMESPACE, id + "").getStoreId());
         item.setLabel(label);
         item.setParent(parent);
@@ -125,8 +118,7 @@ public class InMemoryDatabase implements Closeable
         return item;
     }
 
-    private static DmoStoreId getDatasetId(final DatasetItemContainer parent)
-    {
+    private static DmoStoreId getDatasetId(final DatasetItemContainer parent) {
         if (parent instanceof FileItem)
             throw new IllegalArgumentException("a file item cannot be a parent");
         if (parent instanceof FolderItem)

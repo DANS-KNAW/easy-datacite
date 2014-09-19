@@ -10,12 +10,10 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 /**
  * Container for resource properties of category contributor.
  * 
- * @see <a
- *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+ * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
  * @author ecco
  */
-public class EmdContributor extends AbstractEmdContainer
-{
+public class EmdContributor extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -34,85 +32,66 @@ public class EmdContributor extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcContributor()
-    {
+    public List<BasicString> getDcContributor() {
         return dcContributor;
     }
 
     /**
-     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @param dcContributor
      *        a list of resource properties
      */
-    public void setDcContributor(final List<BasicString> dcContributor)
-    {
+    public void setDcContributor(final List<BasicString> dcContributor) {
         this.dcContributor = dcContributor;
     }
 
     /**
-     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @return a list of resource properties
      */
-    public List<Author> getEasContributor()
-    {
+    public List<Author> getEasContributor() {
         return easContributor;
     }
 
     /**
-     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @param easContributor
      *        a list of resource properties
      */
-    public void setEasContributor(final List<Author> easContributor)
-    {
+    public void setEasContributor(final List<Author> easContributor) {
         this.easContributor = easContributor;
     }
 
-    public List<String> getDigitalAuthorIds()
-    {
+    public List<String> getDigitalAuthorIds() {
         List<String> dais = new ArrayList<String>();
-        for (Author author : easContributor)
-        {
-            if (author.hasDigitalAuthorId())
-            {
+        for (Author author : easContributor) {
+            if (author.hasDigitalAuthorId()) {
                 dais.add(author.getEntityId());
             }
         }
         return dais;
     }
 
-    public List<Author> getDAIAuthors()
-    {
+    public List<Author> getDAIAuthors() {
         List<Author> daiAuthors = new ArrayList<Author>();
-        for (Author author : easContributor)
-        {
-            if (author.hasDigitalAuthorId())
-            {
+        for (Author author : easContributor) {
+            if (author.hasDigitalAuthorId()) {
                 daiAuthors.add(author);
             }
         }

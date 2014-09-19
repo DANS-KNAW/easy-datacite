@@ -18,15 +18,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChoiceListTest
-{
+public class ChoiceListTest {
     private static final Logger logger = LoggerFactory.getLogger(ChoiceListTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws XMLException
-    {
+    public void serializeDeserializeEmpty() throws XMLException {
         ChoiceList choiceList = new ChoiceList();
         if (verbose)
             logger.debug("\n" + choiceList.asXMLString(4) + "\n");
@@ -36,8 +34,7 @@ public class ChoiceListTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws XMLException
-    {
+    public void serializeDeserializeFull() throws XMLException {
         List<KeyValuePair> choices = new ArrayList<KeyValuePair>();
         choices.add(new KeyValuePair("key1", "value1"));
         choices.add(new KeyValuePair("key2", "value2"));
@@ -54,8 +51,7 @@ public class ChoiceListTest
     // <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
     @Ignore
     @Test
-    public void deserializeFromFile() throws XMLException
-    {
+    public void deserializeFromFile() throws XMLException {
         File file = TestHelper.getFile(this.getClass(), "spatial.xml");
         ChoiceList choiceList = (ChoiceList) JiBXObjectFactory.unmarshal(ChoiceList.class, file);
         if (verbose)

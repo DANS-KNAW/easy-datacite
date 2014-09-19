@@ -12,11 +12,9 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.joda.time.DateTime;
 
-public interface EasyStore extends DmoStore
-{
+public interface EasyStore extends DmoStore {
 
-    public enum RepositoryState
-    {
+    public enum RepositoryState {
         /**
          * Indicates a Digital Object is <i>Active</i>.
          */
@@ -32,8 +30,7 @@ public interface EasyStore extends DmoStore
 
         public final String code;
 
-        private RepositoryState(String code)
-        {
+        private RepositoryState(String code) {
             this.code = code;
         }
     }

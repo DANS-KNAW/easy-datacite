@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.repo;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 
-public interface SidDispenser
-{
+public interface SidDispenser {
     /**
      * Get the next storeId for the given objectNamespace.
      * 

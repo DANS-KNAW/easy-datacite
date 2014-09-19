@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Maintains the flag whether easy is in read only mode in preparation for a shutdown.
  */
-public class SystemReadOnlyStatus
-{
+public class SystemReadOnlyStatus {
     private static final String REFRESH_FREQUENCY = "refresh.frequency";
     private static final String IS_READ_ONLY = "is.read.only";
     private static final Logger logger = LoggerFactory.getLogger(SystemReadOnlyStatus.class);
@@ -27,19 +26,15 @@ public class SystemReadOnlyStatus
     private long lastCheck = 0L;
 
     /** Required for wicket's SpringBean annotation, do not use otherwise. */
-    public SystemReadOnlyStatus()
-    {
-    }
+    public SystemReadOnlyStatus() {}
 
     /**
      * Creates a bean to set the easy system in read only mode in preparation for a shutdown.
      * 
      * @param file
-     *        communicates the status between the WebUI, sword or any other instance of easy that has the
-     *        same file configured.
+     *        communicates the status between the WebUI, sword or any other instance of easy that has the same file configured.
      */
-    public SystemReadOnlyStatus(File file)
-    {
+    public SystemReadOnlyStatus(File file) {
         this.file = file;
 
         // get the refresh frequency from a previous configuration
@@ -52,90 +47,74 @@ public class SystemReadOnlyStatus
         flush();
     }
 
-    public boolean getReadOnly()
-    {
+    public boolean getReadOnly() {
         fetch();
         String value = properties.getProperty(IS_READ_ONLY);
         return Boolean.parseBoolean(value);
     }
 
-    public void setReadOnly(boolean isReadOnly)
-    {
+    public void setReadOnly(boolean isReadOnly) {
         properties.setProperty(IS_READ_ONLY, isReadOnly + "");
         flush();
     }
 
-    public long getRefreshFrequency()
-    {
+    public long getRefreshFrequency() {
         // fetch here would cause a stack overflow
         // changes will be read along with other properties
         String value = properties.getProperty(REFRESH_FREQUENCY, DEFAULT_FREQUENCY);
         return Integer.parseInt(value);
     }
 
-    public void setCheckFrequency(long checkFrequency)
-    {
+    public void setCheckFrequency(long checkFrequency) {
         properties.setProperty(REFRESH_FREQUENCY, checkFrequency + "");
         flush();
     }
 
-    private File getFile()
-    {
+    private File getFile() {
         if (file == null)
             throw new IllegalStateException("call the constructor with arguments, the default constructor is for wicket's SpringBean annotation");
         return file;
     }
 
-    private void flush()
-    {
+    private void flush() {
         String property = properties.getProperty(REFRESH_FREQUENCY);
         if (property == null || property.trim().length() == 0)
             properties.setProperty(REFRESH_FREQUENCY, DEFAULT_FREQUENCY);
-        try
-        {
+        try {
             FileOutputStream outputStream = new FileOutputStream(getFile());
-            try
-            {
+            try {
                 properties.store(outputStream, "exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword)");
             }
-            finally
-            {
+            finally {
                 outputStream.close();
             }
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
             logger.error("file not found " + getFile(), e);
             throw new IllegalStateException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
     }
 
-    private void fetch()
-    {
+    private void fetch() {
         // each WebApp has its own instance of the singleton
         // so we synchronize SWORD, web-ui and the rest interfaces via the file system
         if (System.currentTimeMillis() < lastCheck + getRefreshFrequency())
             return;
-        try
-        {
+        try {
             FileInputStream inputStream = new FileInputStream(getFile());
-            try
-            {
+            try {
                 properties.clear();
                 properties.load(inputStream);
             }
-            finally
-            {
+            finally {
                 inputStream.close();
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }

@@ -11,50 +11,42 @@ import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 
 /**
- * A DataModelObject is a StorableObject that aggregates zero or more MetadataUnits and/or BinaryUnits. A
- * dmo can be in three states: not loaded, loaded and registered for deletion. Currently not loaded means
- * not stored in the repository and loaded means stored in the repository and retrieved. Registered for
- * deletion means that the status of the object has been set to deleted. A type of DataModelObject can be
- * identified via its content model and its object namespace. Each DataModelObject should have its own
- * unique object namespace as well as provide at least one unique content model. The content model allows
+ * A DataModelObject is a StorableObject that aggregates zero or more MetadataUnits and/or BinaryUnits. A dmo can be in three states: not loaded, loaded and
+ * registered for deletion. Currently not loaded means not stored in the repository and loaded means stored in the repository and retrieved. Registered for
+ * deletion means that the status of the object has been set to deleted. A type of DataModelObject can be identified via its content model and its object
+ * namespace. Each DataModelObject should have its own unique object namespace as well as provide at least one unique content model. The content model allows
  * inheritance and extension, but the object namespace does not.
  * 
  * @author ecco Oct 9, 2009
  * @author lobo
  */
-public interface DataModelObject extends StorableObject
-{
+public interface DataModelObject extends StorableObject {
     /**
      * The object namespace is prefixed before the storeId of the data model object
      */
     DmoNamespace getDmoNamespace();
 
     /**
-     * Get the {@link DmoStoreId} of this DataModelObject or <code>null</code> if this DataModelObject
-     * has no storeId.
+     * Get the {@link DmoStoreId} of this DataModelObject or <code>null</code> if this DataModelObject has no storeId.
      * 
      * @return the DmoStoreId or <code>null</code>
      */
     DmoStoreId getDmoStoreId();
 
     /**
-     * Each data model object can have several content models, which identify the kind of operations the
-     * object can do. This method should be implemented by each abstract or non-abstract class and add
-     * one ore more content models to the content models from the super class. Currently the content
-     * model is nothing more but a string, but in the future it might become a repository level class
-     * descriptor for the data model object.
+     * Each data model object can have several content models, which identify the kind of operations the object can do. This method should be implemented by
+     * each abstract or non-abstract class and add one ore more content models to the content models from the super class. Currently the content model is
+     * nothing more but a string, but in the future it might become a repository level class descriptor for the data model object.
      */
     Set<String> getContentModels();
 
     /**
-     * @return a list of implementing MetadataUnit objects. It is called by the dmoStore at ingest or
-     *         update time.
+     * @return a list of implementing MetadataUnit objects. It is called by the dmoStore at ingest or update time.
      */
     List<MetadataUnit> getMetadataUnits();
 
     /**
-     * @return a list of implementing BinaryUnit objects. It is called by the dmoStore at ingest or
-     *         update time.
+     * @return a list of implementing BinaryUnit objects. It is called by the dmoStore at ingest or update time.
      */
     List<BinaryUnit> getBinaryUnits();
 
@@ -69,14 +61,12 @@ public interface DataModelObject extends StorableObject
     boolean isDeletable();
 
     /**
-     * @return true if this object is registered for deletion. If the object is not registered for
-     *         deletion it cannot be purged (see dmoStore.purge)
+     * @return true if this object is registered for deletion. If the object is not registered for deletion it cannot be purged (see dmoStore.purge)
      */
     boolean isRegisteredDeleted();
 
     /**
-     * Sets the object to the deleted state. This does not mean it has been deleted, but simply means it
-     * is ready to be deleted (i.e. purged).
+     * Sets the object to the deleted state. This does not mean it has been deleted, but simply means it is ready to be deleted (i.e. purged).
      * 
      * @throws RepositoryException
      */
@@ -87,8 +77,7 @@ public interface DataModelObject extends StorableObject
     UnitOfWork getUnitOfWork() throws NoUnitOfWorkAttachedException;
 
     /**
-     * Tries to retrieve the store from which this dmo was loaded. If the dmo was not loaded it will
-     * throw a NoStoreAttachedException
+     * Tries to retrieve the store from which this dmo was loaded. If the dmo was not loaded it will throw a NoStoreAttachedException
      * 
      * @return the store from which this dmo was loaded.
      * @throws NoStoreAttachedException
@@ -99,8 +88,7 @@ public interface DataModelObject extends StorableObject
     DmoStore getStore() throws NoStoreAttachedException, CouldNotGetStoreException;
 
     /**
-     * @return true if this object is outdated. This means the object, but not this instance, has been
-     *         updated in the store.
+     * @return true if this object is outdated. This means the object, but not this instance, has been updated in the store.
      * @throws RepositoryException
      *         a wrapper exception
      */
@@ -127,8 +115,8 @@ public interface DataModelObject extends StorableObject
     void setAuthzStrategy(AuthzStrategy authzStrategy);
 
     /**
-     * Get the name of the authzStrategy. A AuthzStrategyProvider is responsible for mapping the name to
-     * an implementing class. F.i. name "foo" may be mapped to MyAuthzStrategy.
+     * Get the name of the authzStrategy. A AuthzStrategyProvider is responsible for mapping the name to an implementing class. F.i. name "foo" may be mapped to
+     * MyAuthzStrategy.
      * 
      * @return the name of the authzStrategy
      */

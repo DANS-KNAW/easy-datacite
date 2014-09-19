@@ -5,8 +5,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.aspectj.lang.JoinPoint;
 import org.joda.time.DateTime;
 
-public abstract class AbstractAuditRecord<T> implements AuditRecord<T>
-{
+public abstract class AbstractAuditRecord<T> implements AuditRecord<T> {
 
     public static final String SEPARATOR = ";";
 
@@ -16,8 +15,7 @@ public abstract class AbstractAuditRecord<T> implements AuditRecord<T>
     private final String methodSignature;
     private final Object[] arguments;
 
-    protected AbstractAuditRecord(EasyUser sessionUser, T tracedObject, JoinPoint joinPoint)
-    {
+    protected AbstractAuditRecord(EasyUser sessionUser, T tracedObject, JoinPoint joinPoint) {
         date = new DateTime();
         this.sessionUser = sessionUser;
         this.tracedObject = tracedObject;
@@ -25,40 +23,33 @@ public abstract class AbstractAuditRecord<T> implements AuditRecord<T>
         this.arguments = joinPoint.getArgs();
     }
 
-    public DateTime getDate()
-    {
+    public DateTime getDate() {
         return date;
     }
 
-    public EasyUser getSessionUser()
-    {
+    public EasyUser getSessionUser() {
         return sessionUser;
     }
 
-    public T getTracedObject()
-    {
+    public T getTracedObject() {
         return tracedObject;
     }
 
-    public String getMethodSignature()
-    {
+    public String getMethodSignature() {
         return methodSignature;
     }
 
-    public Object[] getArguments()
-    {
+    public Object[] getArguments() {
         return arguments;
     }
 
     public abstract String getTracedObjectId();
 
-    public String getTracedType()
-    {
+    public String getTracedType() {
         return tracedObject == null ? "unknown" : tracedObject.getClass().getSimpleName();
     }
 
-    public String getRecord()
-    {
+    public String getRecord() {
         StringBuilder sb = new StringBuilder(date.toString()).append(SEPARATOR).append(getTracedType()).append(SEPARATOR)
                 .append(sessionUser.isAnonymous() ? "anonymous" : sessionUser.getId()).append(SEPARATOR)
                 .append(sessionUser.isAnonymous() ? "anonymous" : sessionUser.getEmail()).append(SEPARATOR).append(getTracedObjectId()).append(SEPARATOR)

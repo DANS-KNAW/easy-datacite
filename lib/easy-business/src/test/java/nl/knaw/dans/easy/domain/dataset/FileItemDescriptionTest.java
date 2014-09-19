@@ -8,12 +8,10 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 
 import org.junit.Test;
 
-public class FileItemDescriptionTest
-{
+public class FileItemDescriptionTest {
 
     @Test
-    public void testConstructor()
-    {
+    public void testConstructor() {
         FileItemDescription fid = new FileItemDescription(new FileItemMetadataImpl());
 
         List<KeyValuePair> props = fid.getAllProperties();

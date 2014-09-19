@@ -15,8 +15,7 @@ import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 
-public class EasyFederativeUserService extends AbstractEasyService implements FederativeUserService
-{
+public class EasyFederativeUserService extends AbstractEasyService implements FederativeUserService {
     private static Logger logger = LoggerFactory.getLogger(EasyFederativeUserService.class);
     private URL federationUrl;
     private boolean federationLoginEnabled;
@@ -28,25 +27,21 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     private String propertyNameShibSessionId;
 
     @Override
-    public EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException
-    {
+    public EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException {
         EasyUser user = null;
         String uid = "";
 
         // Find uid from mapping for federated user
-        try
-        {
+        try {
             FederativeUserIdMap userIdMap = Data.getFederativeUserRepo().findById(fedUserId);
             uid = userIdMap.getDansUserId();
             logger.debug("Found easy user for federative user: fedUserId='" + fedUserId + "', userId='" + uid + "'");
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             logger.debug("Object not found. fedUserId='" + fedUserId + "'");
             throw new ObjectNotAvailableException("Object not found. fedUserId='" + fedUserId + "' :", e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not get user with fedUserId '" + fedUserId + "' :", e);
             throw new ServiceException("Could not get user with fedUserId '" + fedUserId + "' :", e);
         }
@@ -54,20 +49,17 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         // get associated EasyUser with that uid
         // NOTE maybe use EasyUserService for that
         // But if we want to handle thing a bit different...
-        try
-        {
+        try {
             user = Data.getUserRepo().findById(uid);
             logger.debug("Found user: " + user.toString());
         }
-        catch (final ObjectNotInStoreException e)
-        {
+        catch (final ObjectNotInStoreException e) {
             // Maybe the mapping is wrong, because if it refers to a easy user, the uid should be OK
             logger.debug("Easy user Object not found. userId='" + uid + "'");
             // throw new ObjectNotAvailableException("Object not found. userId='" + uid + "' :", e);
             throw new ServiceException("Easy user Object not found. userId='" + uid + "' :", e);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             logger.debug("Could not get user with id '" + uid + "' :", e);
             throw new ServiceException("Could not get user with id '" + uid + "' :", e);
         }
@@ -76,126 +68,103 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     }
 
     @Override
-    public void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException
-    {
+    public void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException {
         // Overwrite any existing coupling (idMap) for that federation Id
-        try
-        {
-            if (Data.getFederativeUserRepo().exists(fedUserId))
-            {
+        try {
+            if (Data.getFederativeUserRepo().exists(fedUserId)) {
                 Data.getFederativeUserRepo().delete(fedUserId);
                 logger.debug("Removed coupling for federated user Id: " + fedUserId + ", but should replace it with easy Id: " + easyUserId);
             }
         }
-        catch (RepositoryException e1)
-        {
+        catch (RepositoryException e1) {
             logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
             throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
         }
 
         FederativeUserIdMap idMap = new FederativeUserIdMap(fedUserId, easyUserId);
-        try
-        {
+        try {
             Data.getFederativeUserRepo().add(idMap);
             logger.debug("Added coupling for federated user Id: " + fedUserId + " with easy Id: " + easyUserId);
         }
-        catch (ObjectExistsException e)
-        {
+        catch (ObjectExistsException e) {
             logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
             throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
             throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
         }
     }
 
     @Override
-    public URL getFederationUrl()
-    {
+    public URL getFederationUrl() {
         return federationUrl;
     }
 
-    public void setFederationUrl(URL federationUrl)
-    {
+    public void setFederationUrl(URL federationUrl) {
         this.federationUrl = federationUrl;
     }
 
-    public void setFederationLoginEnabled(boolean enabled)
-    {
+    public void setFederationLoginEnabled(boolean enabled) {
         federationLoginEnabled = enabled;
     }
 
     @Override
-    public boolean isFederationLoginEnabled()
-    {
+    public boolean isFederationLoginEnabled() {
         return federationLoginEnabled;
     }
 
     @Override
-    public String getPropertyNameRemoteUser()
-    {
+    public String getPropertyNameRemoteUser() {
         return propertyNameRemoteUser;
     }
 
-    public void setPropertyNameRemoteUser(String propertyNameRemoteUser)
-    {
+    public void setPropertyNameRemoteUser(String propertyNameRemoteUser) {
         this.propertyNameRemoteUser = propertyNameRemoteUser;
     }
 
     @Override
-    public String getPropertyNameEmail()
-    {
+    public String getPropertyNameEmail() {
         return propertyNameEmail;
     }
 
-    public void setPropertyNameEmail(String propertyNameEmail)
-    {
+    public void setPropertyNameEmail(String propertyNameEmail) {
         this.propertyNameEmail = propertyNameEmail;
     }
 
     @Override
-    public String getPropertyNameFirstName()
-    {
+    public String getPropertyNameFirstName() {
         return propertyNameFirstName;
     }
 
-    public void setPropertyNameFirstName(String propertyNameFirstName)
-    {
+    public void setPropertyNameFirstName(String propertyNameFirstName) {
         this.propertyNameFirstName = propertyNameFirstName;
     }
 
     @Override
-    public String getPropertyNameSurname()
-    {
+    public String getPropertyNameSurname() {
         return propertyNameSurname;
     }
 
-    public void setPropertyNameSurname(String propertyNameSurname)
-    {
+    public void setPropertyNameSurname(String propertyNameSurname) {
         this.propertyNameSurname = propertyNameSurname;
     }
 
     @Override
-    public String getPopertyNameOrganization()
-    {
+    public String getPopertyNameOrganization() {
         return propertyNameOrganization;
     }
 
-    public void setPropertyNameOrganization(String popertyNameOrganization)
-    {
+    public void setPropertyNameOrganization(String popertyNameOrganization) {
         this.propertyNameOrganization = popertyNameOrganization;
     }
 
     @Override
-    public String getPropertyNameShibSessionId()
-    {
+    public String getPropertyNameShibSessionId() {
         return propertyNameShibSessionId;
     }
 
-    public void setPropertyNameShibSessionId(String propertyNameShibSessionId)
-    {
+    public void setPropertyNameShibSessionId(String propertyNameShibSessionId) {
         this.propertyNameShibSessionId = propertyNameShibSessionId;
     }
 }

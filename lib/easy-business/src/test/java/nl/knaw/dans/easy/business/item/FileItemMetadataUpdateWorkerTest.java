@@ -25,8 +25,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FileItemMetadataUpdateWorkerTest
-{
+public class FileItemMetadataUpdateWorkerTest {
 
     private static final String ADDITIONAL_CONTENT_ID = "addi";
     private static UnitOfWork MOCK_UOW;
@@ -35,8 +34,7 @@ public class FileItemMetadataUpdateWorkerTest
     private static FileItem MOCK_FILE_ITEM;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         MOCK_UOW = EasyMock.createMock(UnitOfWork.class);
         MOCK_DATASET = EasyMock.createMock(Dataset.class);
         MOCK_FSACCES = EasyMock.createMock(FileStoreAccess.class);
@@ -45,15 +43,13 @@ public class FileItemMetadataUpdateWorkerTest
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setFileStoreAccess(null);
     }
 
     @Test
-    public void workUpdateMetadata() throws Exception
-    {
+    public void workUpdateMetadata() throws Exception {
         AdditionalMetadataUpdateStrategy strategy = new ElementnameUpdateStrategy(ADDITIONAL_CONTENT_ID);
         FileItemMetadataUpdateWorker worker = new FileItemMetadataUpdateWorker(MOCK_UOW, strategy);
         String path = "the/path/to/file.txt";
@@ -89,8 +85,7 @@ public class FileItemMetadataUpdateWorkerTest
 
     }
 
-    protected ResourceMetadataList createResourceMetadataList(AccessCategory discover, AccessCategory read, String path, String[]... values)
-    {
+    protected ResourceMetadataList createResourceMetadataList(AccessCategory discover, AccessCategory read, String path, String[]... values) {
         ResourceMetadataList rmdl = new ResourceMetadataList();
         ResourceMetadata rmd = new ResourceMetadata(path);
         rmd.setCategoryDiscover(discover);
@@ -100,13 +95,11 @@ public class FileItemMetadataUpdateWorkerTest
         return rmdl;
     }
 
-    protected AdditionalMetadata createAMD(String[]... values)
-    {
+    protected AdditionalMetadata createAMD(String[]... values) {
         AdditionalMetadata amd = new AdditionalMetadata();
         Element content = new DefaultElement("myContent");
 
-        for (int i = 0; i < values.length; i++)
-        {
+        for (int i = 0; i < values.length; i++) {
             Element e = new DefaultElement(values[i][0]);
             e.setText(values[i][1]);
             content.add(e);

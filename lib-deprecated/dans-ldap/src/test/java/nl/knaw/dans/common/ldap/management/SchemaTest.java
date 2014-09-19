@@ -2,12 +2,10 @@ package nl.knaw.dans.common.ldap.management;
 
 import org.junit.Test;
 
-public class SchemaTest
-{
+public class SchemaTest {
 
     @Test
-    public void printSchema() throws Exception
-    {
+    public void printSchema() throws Exception {
         DANSSchema danss = new DANSSchema();
         danss.exportForOpenLdap();
 

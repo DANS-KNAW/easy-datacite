@@ -6,14 +6,12 @@ package nl.knaw.dans.easy.rest.util;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class SimpleXmlWriter
-{
+public class SimpleXmlWriter {
 
     /**
      * Throw an AssertionError if this class or one of it's subclasses is ever instantiated.
      */
-    protected SimpleXmlWriter()
-    {
+    protected SimpleXmlWriter() {
         throw new AssertionError("Instantiating utility class...");
     }
 
@@ -24,8 +22,7 @@ public class SimpleXmlWriter
      *        Node name.
      * @return Starting node.
      */
-    public static String startNode(String name)
-    {
+    public static String startNode(String name) {
         return "<" + name + ">";
     }
 
@@ -36,8 +33,7 @@ public class SimpleXmlWriter
      *        Node name.
      * @return Ending node.
      */
-    public static String endNode(String name)
-    {
+    public static String endNode(String name) {
         return "</" + name + ">";
     }
 
@@ -50,8 +46,7 @@ public class SimpleXmlWriter
      *        Value of the node.
      * @return The node with it's value.
      */
-    public static String addNode(String nodeName, String value)
-    {
+    public static String addNode(String nodeName, String value) {
         return value != null && value.length() > 0 ? "<" + nodeName + ">" + value + "</" + nodeName + ">" : "<" + nodeName + "/>";
     }
 

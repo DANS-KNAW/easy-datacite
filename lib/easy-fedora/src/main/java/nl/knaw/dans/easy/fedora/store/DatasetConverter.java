@@ -27,32 +27,25 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
-{
+public class DatasetConverter extends AbstractDobConverter<DatasetImpl> {
     private static final Logger logger = LoggerFactory.getLogger(DatasetConverter.class);
 
-    public DatasetConverter()
-    {
+    public DatasetConverter() {
         super(Dataset.NAMESPACE);
     }
 
     @Override
-    public DigitalObject serialize(DatasetImpl dataset) throws ObjectSerializationException
-    {
-        try
-        {
+    public DigitalObject serialize(DatasetImpl dataset) throws ObjectSerializationException {
+        try {
             dataset.setParents(dataset.getParentDisciplines());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ApplicationException(e);
         }
-        catch (ObjectNotFoundException e)
-        {
+        catch (ObjectNotFoundException e) {
             throw new ApplicationException(e);
         }
-        catch (DomainException e)
-        {
+        catch (DomainException e) {
             throw new ApplicationException(e);
         }
 
@@ -60,70 +53,55 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
     }
 
     @Override
-    public void prepareForUpdate(DatasetImpl dataset) throws ObjectSerializationException
-    {
-        try
-        {
+    public void prepareForUpdate(DatasetImpl dataset) throws ObjectSerializationException {
+        try {
             dataset.setParents(dataset.getParentDisciplines());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ApplicationException(e);
         }
-        catch (ObjectNotFoundException e)
-        {
+        catch (ObjectNotFoundException e) {
             throw new ApplicationException(e);
         }
-        catch (DomainException e)
-        {
+        catch (DomainException e) {
             throw new ApplicationException(e);
         }
     }
 
     @Override
-    public void deserialize(DigitalObject digitalObject, DatasetImpl dataset) throws ObjectDeserializationException
-    {
+    public void deserialize(DigitalObject digitalObject, DatasetImpl dataset) throws ObjectDeserializationException {
         super.deserialize(digitalObject, dataset);
 
         DatastreamVersion emdVersion = digitalObject.getLatestVersion(EasyMetadata.UNIT_ID);
-        if (emdVersion != null)
-        {
+        if (emdVersion != null) {
             Element element = emdVersion.getXmlContentElement();
             EasyMetadata emd;
-            try
-            {
+            try {
                 emd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(element);
             }
-            catch (nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException e)
-            {
+            catch (nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException e) {
                 throw new ObjectDeserializationException(e);
             }
             emd.setTimestamp(emdVersion.getTimestamp());
             emd.setDirty(false);
             dataset.setEasyMetadata(emd);
-        }
-        else
-        {
+        } else {
             logger.warn("No easyMetadata found on retrieved digital object. sid=" + digitalObject.getSid());
         }
 
         DatastreamVersion amdVersion = digitalObject.getLatestVersion(AdministrativeMetadata.UNIT_ID);
-        if (amdVersion != null)
-        {
+        if (amdVersion != null) {
             Element element = amdVersion.getXmlContentElement();
             AdministrativeMetadata amd = (AdministrativeMetadata) unmarshal(AdministrativeMetadataImpl.class, element);
             amd.setTimestamp(amdVersion.getTimestamp());
             amd.setDirty(false);
             dataset.setAdministrativeMetadata(amd);
-        }
-        else
-        {
+        } else {
             logger.warn("No administrative metadata found on retrieved digital object. sid=" + digitalObject.getSid());
         }
 
         DatastreamVersion icmdVersion = digitalObject.getLatestVersion(DatasetItemContainerMetadata.UNIT_ID);
-        if (icmdVersion != null)
-        {
+        if (icmdVersion != null) {
             Element element = icmdVersion.getXmlContentElement();
             ItemContainerMetadataImpl icmd = (ItemContainerMetadataImpl) unmarshal(ItemContainerMetadataImpl.class, element);
             icmd.setDirty(false);
@@ -132,8 +110,7 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
         }
 
         DatastreamVersion pslVersion = digitalObject.getLatestVersion(PermissionSequenceList.UNIT_ID);
-        if (pslVersion != null)
-        {
+        if (pslVersion != null) {
             Element element = pslVersion.getXmlContentElement();
             PermissionSequenceList psl = (PermissionSequenceListImpl) unmarshal(PermissionSequenceListImpl.class, element);
             psl.setDirty(false);
@@ -142,14 +119,11 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
         }
     }
 
-    private Object unmarshal(Class<?> classToInstantiate, Element rootElement) throws ObjectDeserializationException
-    {
-        try
-        {
+    private Object unmarshal(Class<?> classToInstantiate, Element rootElement) throws ObjectDeserializationException {
+        try {
             return JiBXObjectFactory.unmarshal(classToInstantiate, rootElement);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             logger.error("Could not unmarshall element {} into an instance of {}", rootElement, classToInstantiate);
             throw new ObjectDeserializationException(e);
         }

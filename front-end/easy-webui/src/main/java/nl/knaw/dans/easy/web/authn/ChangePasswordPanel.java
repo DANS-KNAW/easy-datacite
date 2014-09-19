@@ -28,8 +28,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements EasyResources
-{
+public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements EasyResources {
     private static final String WI_CHANGE_PASSWORD_FORM = "changePasswordForm";
     private static final String WI_RANDOM_TOKEN = "token";
     private static final String WI_USER_ID = "user.userId";
@@ -48,8 +47,7 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
     @SpringBean(name = "userService")
     private UserService userService;
 
-    public ChangePasswordPanel(String wicketId, ChangePasswordMessenger messenger)
-    {
+    public ChangePasswordPanel(String wicketId, ChangePasswordMessenger messenger) {
         super(wicketId);
 
         add(new Label(WI_USER_ID, new StringResourceModel("label.userId", new Model<ChangePasswordMessenger>(messenger))));
@@ -60,8 +58,7 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
         addCommonFeedbackPanel(new ExcludeMessageFilter(changePasswordForm));
     }
 
-    private class ChangePasswordForm extends AbstractEasyStatelessForm
-    {
+    private class ChangePasswordForm extends AbstractEasyStatelessForm {
         private static final long serialVersionUID = 6204591036947047986L;
 
         /**
@@ -69,8 +66,7 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
          */
         private final String randomString;
 
-        public ChangePasswordForm(String wicketId, ChangePasswordMessenger messenger)
-        {
+        public ChangePasswordForm(String wicketId, ChangePasswordMessenger messenger) {
             super(wicketId, new CompoundPropertyModel<ChangePasswordMessenger>(messenger));
 
             this.randomString = SecurityUtil.getRandomString();
@@ -104,14 +100,12 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
 
             add(new SubmitLink(UPDATE_BUTTON));
 
-            Link cancelButton = new Link(CANCEL_BUTTON)
-            {
+            Link cancelButton = new Link(CANCEL_BUTTON) {
 
                 private static final long serialVersionUID = 8826482066530609209L;
 
                 @Override
-                public void onClick()
-                {
+                public void onClick() {
                     handleCancelButtonClicked();
                 }
             };
@@ -120,57 +114,47 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
         }
 
         @Override
-        protected void onSubmit()
-        {
+        protected void onSubmit() {
             handleUpdateButtonClicked();
         }
 
-        private void handleUpdateButtonClicked()
-        {
+        private void handleUpdateButtonClicked() {
             // Check for a valid token
-            if (randomString == null)
-            {
+            if (randomString == null) {
                 errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
                 logger.warn("password form is submitted without a valid token");
                 return;
             }
 
             final ChangePasswordMessenger messenger = (ChangePasswordMessenger) getModelObject();
-            if (!this.randomString.equals(messenger.getToken()))
-            {
+            if (!this.randomString.equals(messenger.getToken())) {
                 errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
                 logger.warn("password form is submitted with an invalid token. Expected: " + this.randomString + ", got " + messenger.getToken());
                 return;
             }
 
-            try
-            {
+            try {
                 userService.changePassword(messenger);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                 logger.error(message, e);
                 throw new InternalWebError();
             }
-            if (messenger.isCompleted())
-            {
+            if (messenger.isCompleted()) {
                 disableForm(new String[] {});
                 final String message = infoMessage(EasyResources.PASSWORD_SUCCESFULLY_CHANGED);
                 logger.info(message);
                 final String title = getString(INFO_PAGE);
                 setResponsePage(new InfoPage(title));
-            }
-            else
-            {
+            } else {
                 final String message = errorMessage("state." + messenger.getState());
                 logger.warn(message);
                 return;
             }
         }
 
-        private void handleCancelButtonClicked()
-        {
+        private void handleCancelButtonClicked() {
             setResponsePage(new UserInfoPage(false, true));
         }
 

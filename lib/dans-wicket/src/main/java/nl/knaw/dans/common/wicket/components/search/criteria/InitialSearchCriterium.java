@@ -10,18 +10,15 @@ import org.apache.wicket.model.IModel;
  * @see CriteriumLabel
  * @author lobo
  */
-public class InitialSearchCriterium extends AbstractSearchCriterium
-{
+public class InitialSearchCriterium extends AbstractSearchCriterium {
     private static final long serialVersionUID = 8071037422279464457L;
 
-    public InitialSearchCriterium(IModel<String> labelModel)
-    {
+    public InitialSearchCriterium(IModel<String> labelModel) {
         super(labelModel);
     }
 
     @Override
-    public void apply(SimpleSearchRequest sr)
-    {
+    public void apply(SimpleSearchRequest sr) {
         // do nothing
     }
 

@@ -7,30 +7,23 @@ import nl.knaw.dans.common.lang.search.bean.SearchFieldConverter;
 import nl.knaw.dans.common.lang.search.exceptions.SearchBeanConverterException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
-public class PermissionRequestSearchInfoConverter implements SearchFieldConverter<List<PermissionRequestSearchInfo>>
-{
+public class PermissionRequestSearchInfoConverter implements SearchFieldConverter<List<PermissionRequestSearchInfo>> {
 
     @SuppressWarnings("unchecked")
-    public List<PermissionRequestSearchInfo> fromFieldValue(Object in) throws SearchBeanConverterException
-    {
+    public List<PermissionRequestSearchInfo> fromFieldValue(Object in) throws SearchBeanConverterException {
         List<String> inList;
-        if (in instanceof String)
-        {
+        if (in instanceof String) {
             inList = new ArrayList<String>(1);
             inList.add((String) in);
-        }
-        else
+        } else
             inList = (List<String>) in;
         List<PermissionRequestSearchInfo> out = new ArrayList<PermissionRequestSearchInfo>();
-        for (String inStr : inList)
-        {
+        for (String inStr : inList) {
             PermissionRequestSearchInfo pmInfo = new PermissionRequestSearchInfo();
-            try
-            {
+            try {
                 pmInfo.fromString(inStr);
             }
-            catch (DomainException e)
-            {
+            catch (DomainException e) {
                 throw new SearchBeanConverterException(e);
             }
             out.add(pmInfo);
@@ -38,11 +31,9 @@ public class PermissionRequestSearchInfoConverter implements SearchFieldConverte
         return out;
     }
 
-    public Object toFieldValue(List<PermissionRequestSearchInfo> in) throws SearchBeanConverterException
-    {
+    public Object toFieldValue(List<PermissionRequestSearchInfo> in) throws SearchBeanConverterException {
         List<String> out = new ArrayList<String>(in.size());
-        for (PermissionRequestSearchInfo pmInfo : in)
-        {
+        for (PermissionRequestSearchInfo pmInfo : in) {
             out.add(pmInfo.toString());
         }
         return out;

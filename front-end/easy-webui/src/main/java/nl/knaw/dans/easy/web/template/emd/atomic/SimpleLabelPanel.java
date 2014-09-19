@@ -12,8 +12,7 @@ import org.apache.wicket.model.ResourceModel;
 /**
  * @author Eko Indarto
  */
-public class SimpleLabelPanel extends AbstractAtomicPanel
-{
+public class SimpleLabelPanel extends AbstractAtomicPanel {
     private static final long serialVersionUID = 5379953933385672968L;
     private static final String DEFAULT_RESOURCE_VALUE = "simpleLabelPanel.default_resource_value";
 
@@ -32,37 +31,31 @@ public class SimpleLabelPanel extends AbstractAtomicPanel
      * @param anchorName
      * @param required
      */
-    public SimpleLabelPanel(String id, String label, String anchorName, boolean required)
-    {
+    public SimpleLabelPanel(String id, String label, String anchorName, boolean required) {
         super(id);
         this.label = label;
         this.anchorName = anchorName;
         this.required = required;
     }
 
-    public boolean isPopUpButtonIsVisible()
-    {
+    public boolean isPopUpButtonIsVisible() {
         return popUpButtonIsVisible;
     }
 
-    public void setPopUpButtonIsVisible(boolean popUpButtonIsVisible)
-    {
+    public void setPopUpButtonIsVisible(boolean popUpButtonIsVisible) {
         this.popUpButtonIsVisible = popUpButtonIsVisible;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))).setEscapeModelStrings(false));
         this.add(new Label("requiredMark", "*").setVisible(required));
         HelpPopup popup = new HelpPopup("popup", anchorName, new HelpFileReader(anchorName).read());

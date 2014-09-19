@@ -9,9 +9,8 @@ import org.apache.wicket.markup.html.list.ListView;
 
 /**
  * <p>
- * Where {@link ListView<T>} rather works with a TABLE, UL or OL, this repeater uses a prefix as
- * separator. The first occurrence of the prefix is not rendered. Though the repeater is not restricted
- * to links, a typical example would be:
+ * Where {@link ListView<T>} rather works with a TABLE, UL or OL, this repeater uses a prefix as separator. The first occurrence of the prefix is not rendered.
+ * Though the repeater is not restricted to links, a typical example would be:
  * </p>
  * HTML
  * 
@@ -45,23 +44,20 @@ import org.apache.wicket.markup.html.list.ListView;
  * }
  * </pre>
  */
-public class SeparatedListView extends ListView<Component>
-{
+public class SeparatedListView extends ListView<Component> {
     // TODO move to commons?
 
     private static final long serialVersionUID = 3720302690110935794L;
 
     private final String separatorId;
 
-    public SeparatedListView(final String id, final String separatorId, final List<? extends Component> list)
-    {
+    public SeparatedListView(final String id, final String separatorId, final List<? extends Component> list) {
         super(id, list);
         this.separatorId = separatorId;
     }
 
     @Override
-    protected void populateItem(final ListItem<Component> item)
-    {
+    protected void populateItem(final ListItem<Component> item) {
         final boolean showSeparator = item.getIndex() != 0;
         item.add(item.getModelObject());
         item.add(new WebMarkupContainer(separatorId).setVisible(showSeparator));

@@ -15,14 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A class that contains convenient methods for Resource classes. The methods defined by this class add
- * facilities for response generation. Other Resource classes should extend this class.
+ * A class that contains convenient methods for Resource classes. The methods defined by this class add facilities for response generation. Other Resource
+ * classes should extend this class.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class Resource extends AbstractResource
-{
+public class Resource extends AbstractResource {
     /**
      * Instantiate a logger.
      */
@@ -48,8 +47,7 @@ public class Resource extends AbstractResource
      *        The content byte array.
      * @return The proper Response containing the content.
      */
-    protected Response responseXmlOrJson(byte[] content)
-    {
+    protected Response responseXmlOrJson(byte[] content) {
         return responseXmlOrJson(new String(content));
     }
 
@@ -60,33 +58,23 @@ public class Resource extends AbstractResource
      *        The content String.
      * @return The proper Response containing the content.
      */
-    protected Response responseXmlOrJson(String content)
-    {
-        try
-        {
-            if (wantsXml())
-            {
+    protected Response responseXmlOrJson(String content) {
+        try {
+            if (wantsXml()) {
                 return Response.ok(content, MediaType.APPLICATION_XML).build();
-            }
-            else if (wantsJson())
-            {
+            } else if (wantsJson()) {
                 return Response.ok(XmlToJsonConverter.convert(content), MediaType.APPLICATION_JSON).build();
-            }
-            else
-            {
+            } else {
                 return notAcceptable();
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             return internalServerError(e);
         }
-        catch (XMLStreamException e)
-        {
+        catch (XMLStreamException e) {
             return internalServerError(e);
         }
-        catch (FactoryConfigurationError e)
-        {
+        catch (FactoryConfigurationError e) {
             return internalServerError(e);
         }
     }
@@ -96,8 +84,7 @@ public class Resource extends AbstractResource
      * 
      * @return A simple response (containing OPTIONS,GET,HEAD) for an OPTIONS request.
      */
-    protected Response optionsResponse()
-    {
+    protected Response optionsResponse() {
         return isAcceptable() ? Response.ok().header("Allow", "OPTIONS,GET,HEAD").build() : notAcceptable();
     }
 
@@ -108,8 +95,7 @@ public class Resource extends AbstractResource
      *        Status code of the response.
      * @return Simple response with no body.
      */
-    protected Response simpleResponse(int status)
-    {
+    protected Response simpleResponse(int status) {
         return Response.status(status).type(MediaType.WILDCARD).build();
     }
 
@@ -120,8 +106,7 @@ public class Resource extends AbstractResource
      *        Message that goes in the body of the response.
      * @return Simple response with the given message in the body.
      */
-    protected Response simpleResponse(String msg)
-    {
+    protected Response simpleResponse(String msg) {
         return Response.ok(msg, MediaType.TEXT_PLAIN).build();
     }
 
@@ -134,8 +119,7 @@ public class Resource extends AbstractResource
      *        Message that goes in the body of the response.
      * @return Simple response with the given message in the body.
      */
-    protected Response simpleResponse(int status, String msg)
-    {
+    protected Response simpleResponse(int status, String msg) {
         return Response.status(status).type(MediaType.TEXT_PLAIN).entity(msg).build();
     }
 
@@ -144,8 +128,7 @@ public class Resource extends AbstractResource
      * 
      * @return Simple 404 response with a simple message in the body.
      */
-    protected Response notFound()
-    {
+    protected Response notFound() {
         return simpleResponse(HTTP_NOT_FOUND, "Not found.");
     }
 
@@ -156,8 +139,7 @@ public class Resource extends AbstractResource
      *        Message that goes in the body of the response.
      * @return Simple 404 response with a message in the body.
      */
-    protected Response notFound(String msg)
-    {
+    protected Response notFound(String msg) {
         return simpleResponse(HTTP_NOT_FOUND, msg);
     }
 
@@ -168,8 +150,7 @@ public class Resource extends AbstractResource
      *        The exception that was thrown.
      * @return Simple 500 response, with no body.
      */
-    protected Response internalServerError(Throwable t)
-    {
+    protected Response internalServerError(Throwable t) {
         logger.error(t.getMessage());
         return simpleResponse(HTTP_INTERNAL_SERVER_ERROR, "Internal server error.");
     }
@@ -179,8 +160,7 @@ public class Resource extends AbstractResource
      * 
      * @return Simple 401 response, with no body.
      */
-    protected Response notAuthorized()
-    {
+    protected Response notAuthorized() {
         return simpleResponse(HTTP_NOT_AUTHORIZED, "Not authorized.");
     }
 
@@ -189,13 +169,11 @@ public class Resource extends AbstractResource
      * 
      * @return Simple 406 response.
      */
-    protected Response notAcceptable()
-    {
+    protected Response notAcceptable() {
         return Response.notAcceptable(variantXmlJson()).build();
     }
 
-    private List<Variant> variantXmlJson()
-    {
+    private List<Variant> variantXmlJson() {
         return Variant.mediaTypes(MediaType.TEXT_XML_TYPE, MediaType.APPLICATION_XML_TYPE, MediaType.APPLICATION_XHTML_XML_TYPE, MediaType.TEXT_HTML_TYPE,
                 MediaType.APPLICATION_JSON_TYPE).build();
     }

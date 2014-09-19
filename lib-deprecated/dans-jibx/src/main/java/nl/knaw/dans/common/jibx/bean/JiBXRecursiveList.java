@@ -9,8 +9,7 @@ import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveEntry;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 
-public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> implements Serializable, RecursiveList
-{
+public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> implements Serializable, RecursiveList {
 
     private static final long serialVersionUID = 3490879024839204765L;
 
@@ -18,13 +17,11 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
     private List<RecursiveEntry> recursiveEntries = new ArrayList<RecursiveEntry>();
 
     @SuppressWarnings("unused")
-    private JiBXRecursiveList()
-    {
+    private JiBXRecursiveList() {
         // used by JiBX
     }
 
-    public JiBXRecursiveList(String listId)
-    {
+    public JiBXRecursiveList(String listId) {
         this.listId = listId;
     }
 
@@ -33,8 +30,7 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#getListId()
      */
     @Override
-    public String getListId()
-    {
+    public String getListId() {
         return listId;
     }
 
@@ -43,8 +39,7 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#setListId(java.lang.String)
      */
     @Override
-    public void setListId(String listId)
-    {
+    public void setListId(String listId) {
         this.listId = listId;
     }
 
@@ -53,8 +48,7 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#getChildren()
      */
     @Override
-    public List<RecursiveEntry> getChildren()
-    {
+    public List<RecursiveEntry> getChildren() {
         return recursiveEntries;
     }
 
@@ -63,33 +57,27 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#setChildren(java.util.List)
      */
     @Override
-    public void setChildren(List<RecursiveEntry> recursiveEntries)
-    {
+    public void setChildren(List<RecursiveEntry> recursiveEntries) {
         this.recursiveEntries = recursiveEntries;
     }
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.common.jibx.bean.RecursiveList#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
+     * @see nl.knaw.dans.common.jibx.bean.RecursiveList#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
      */
     @Override
-    public void add(RecursiveEntry re)
-    {
-        if (re == null)
-        {
+    public void add(RecursiveEntry re) {
+        if (re == null) {
             throw new NullPointerException("A Child of a RecursiveList cannot be null");
         }
         recursiveEntries.add(re);
     }
 
     @Override
-    public RecursiveEntry get(String key)
-    {
+    public RecursiveEntry get(String key) {
         RecursiveEntry entry = null;
         Iterator<RecursiveEntry> iter = recursiveEntries.iterator();
-        while (iter.hasNext() && entry == null)
-        {
+        while (iter.hasNext() && entry == null) {
             RecursiveEntry kid = iter.next();
             entry = kid.get(key);
         }

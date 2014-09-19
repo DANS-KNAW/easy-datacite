@@ -5,8 +5,7 @@ import java.net.URI;
 import nl.knaw.dans.common.lang.repo.AbstractTimestampedObject;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 
-public class JumpoffMarkup extends AbstractTimestampedObject implements MetadataUnit
-{
+public class JumpoffMarkup extends AbstractTimestampedObject implements MetadataUnit {
 
     public static final String UNIT_ID = "JOM";
 
@@ -32,71 +31,50 @@ public class JumpoffMarkup extends AbstractTimestampedObject implements Metadata
 
     private String markup = ROOT_ELEMENT;
 
-    public String getUnitFormat()
-    {
+    public String getUnitFormat() {
         return UNIT_FORMAT;
     }
 
-    public URI getUnitFormatURI()
-    {
+    public URI getUnitFormatURI() {
         return UNIT_FORMAT_URI;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return UNIT_ID;
     }
 
-    public String getUnitLabel()
-    {
+    public String getUnitLabel() {
         return UNIT_LABEL;
     }
 
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return false;
     }
 
-    public void setVersionable(boolean versionable)
-    {
-    }
+    public void setVersionable(boolean versionable) {}
 
-    public byte[] asObjectXML()
-    {
+    public byte[] asObjectXML() {
         return markup.getBytes();
     }
 
-    public void setMarkup(String markup)
-    {
-        if (markup == null || "".equals(markup))
-        {
+    public void setMarkup(String markup) {
+        if (markup == null || "".equals(markup)) {
             this.markup = ROOT_ELEMENT;
-        }
-        else if (markup.trim().startsWith(ROOT_START_ELEMENT))
-        {
+        } else if (markup.trim().startsWith(ROOT_START_ELEMENT)) {
             this.markup = markup;
-        }
-        else
-        {
-            if (markup.trim().startsWith(CLASS_START_ELEMENT))
-            {
+        } else {
+            if (markup.trim().startsWith(CLASS_START_ELEMENT)) {
                 this.markup = ROOT_START_ELEMENT + markup + ROOT_END_ELEMENT;
-            }
-            else
-            {
+            } else {
                 this.markup = ROOT_START_ELEMENT + CLASS_START_ELEMENT + "\n" + markup + "\n" + CLASS_END_ELEMENT + ROOT_END_ELEMENT;
             }
         }
     }
 
-    public String getMarkup()
-    {
-        if (ROOT_ELEMENT.equals(markup))
-        {
+    public String getMarkup() {
+        if (ROOT_ELEMENT.equals(markup)) {
             return "";
-        }
-        else
-        {
+        } else {
             return markup.substring(ROOT_START_ELEMENT.length(), markup.length() - ROOT_END_ELEMENT.length());
         }
     }

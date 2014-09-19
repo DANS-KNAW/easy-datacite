@@ -22,20 +22,16 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ViewCommonDatasetPage extends AbstractEasyNavPage
-{
+public class ViewCommonDatasetPage extends AbstractEasyNavPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewCommonDatasetPage.class);
 
-    public ViewCommonDatasetPage(PageParameters parameters)
-    {
+    public ViewCommonDatasetPage(PageParameters parameters) {
         String datasetId = parameters.getString(DatasetViewPage.PM_DATASET_ID);
         CommonDataset dataset = null;
-        try
-        {
+        try {
             dataset = Services.getDatasetService().getCommonDataset(new DmoStoreId(datasetId));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.LOAD_DATASET, datasetId);
             LOGGER.error(message, e);
             throw new InternalWebError();
@@ -51,40 +47,32 @@ public class ViewCommonDatasetPage extends AbstractEasyNavPage
         String href = dataset.getDublinCoreMetadata().getIdentifier().get(0);
         add(new ExternalLink("link", href, href));
 
-        Link backToListLink = new Link("backToList")
-        {
+        Link backToListLink = new Link("backToList") {
             private static final long serialVersionUID = 2282643032675018321L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 Page page = ViewCommonDatasetPage.this.getEasySession().getRedirectPage(ViewCommonDatasetPage.class);
-                if (page != null && page instanceof AbstractEasyPage)
-                {
+                if (page != null && page instanceof AbstractEasyPage) {
                     ((AbstractEasyPage) page).refresh();
                 }
-                if (page != null)
-                {
+                if (page != null) {
                     setResponsePage(page);
                 }
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return ViewCommonDatasetPage.this.getEasySession().hasRedirectPage(ViewCommonDatasetPage.class);
             }
         };
         add(backToListLink);
     }
 
-    private String formatStrList(List<String> c)
-    {
+    private String formatStrList(List<String> c) {
         String result = "";
-        if (c != null && c.size() > 0)
-        {
-            for (int i = 0; i < c.size(); i++)
-            {
+        if (c != null && c.size() > 0) {
+            for (int i = 0; i < c.size(); i++) {
                 result += c.get(i);
                 if (i + 1 < c.size())
                     result += ", ";

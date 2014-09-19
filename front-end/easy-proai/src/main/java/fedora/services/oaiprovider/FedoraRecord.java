@@ -8,8 +8,7 @@ import proai.Record;
  * @author Edwin Shin
  * @author cwilper@cs.cornell.edu
  */
-public class FedoraRecord implements Record
-{
+public class FedoraRecord implements Record {
 
     public static Logger logger = Logger.getLogger(FedoraRecord.class.getName());
 
@@ -35,8 +34,7 @@ public class FedoraRecord implements Record
      * @param aboutDiss
      *        null (doen we niet aan)
      */
-    public FedoraRecord(String itemID, String mdPrefix, String recordDiss, String date, boolean deleted, String[] setSpecs, String aboutDiss)
-    {
+    public FedoraRecord(String itemID, String mdPrefix, String recordDiss, String date, boolean deleted, String[] setSpecs, String aboutDiss) {
 
         m_itemID = itemID;
         m_mdPrefix = mdPrefix;
@@ -46,8 +44,7 @@ public class FedoraRecord implements Record
         buf.append(" " + aboutDiss);
         buf.append(" " + deleted);
         buf.append(" " + date); // lastModified
-        for (int i = 0; i < setSpecs.length; i++)
-        {
+        for (int i = 0; i < setSpecs.length; i++) {
             String setSpec = setSpecs[i].replace(' ', '_');
             setSpec = setSpec.replace("\"", "");
             buf.append(" " + setSpec);
@@ -59,18 +56,15 @@ public class FedoraRecord implements Record
      * (non-Javadoc)
      * @see proai.Record#getItemID()
      */
-    public String getItemID()
-    {
+    public String getItemID() {
         return m_itemID;
     }
 
-    public String getPrefix()
-    {
+    public String getPrefix() {
         return m_mdPrefix;
     }
 
-    public String getSourceInfo()
-    {
+    public String getSourceInfo() {
         logger.debug("Returning source info line: " + m_sourceInfo);
         return m_sourceInfo;
     }

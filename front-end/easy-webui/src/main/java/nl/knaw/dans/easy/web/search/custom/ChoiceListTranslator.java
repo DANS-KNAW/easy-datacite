@@ -12,35 +12,29 @@ import nl.knaw.dans.common.wicket.components.search.Translator;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
-public class ChoiceListTranslator implements Translator<String>
-{
+public class ChoiceListTranslator implements Translator<String> {
 
     private static final long serialVersionUID = -5317555410541552791L;
     private static final Logger logger = LoggerFactory.getLogger(ChoiceListTranslator.class);
 
     private final String listId;
 
-    public ChoiceListTranslator(String listId)
-    {
+    public ChoiceListTranslator(String listId) {
         this.listId = listId;
     }
 
     @Override
-    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName)
-    {
+    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName) {
         String translation = null;
-        try
-        {
+        try {
             ChoiceList choiceList = Services.getDepositService().getChoices(listId, locale);
             translation = choiceList.getValue(originalValue);
-            if (translation == null)
-            {
+            if (translation == null) {
                 logger.error("No value found for key '" + originalValue + "' in list " + listId);
                 translation = originalValue;
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not get choicelist: ", e);
         }
 

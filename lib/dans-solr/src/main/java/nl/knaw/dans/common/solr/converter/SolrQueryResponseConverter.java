@@ -24,10 +24,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-public class SolrQueryResponseConverter
-{
-    public static SimpleSearchResult<Document> convert(QueryResponse queryResponse, Index index)
-    {
+public class SolrQueryResponseConverter {
+    public static SimpleSearchResult<Document> convert(QueryResponse queryResponse, Index index) {
         SimpleSearchResult<Document> result = new SimpleSearchResult<Document>();
 
         Map<String, Map<String, List<String>>> hl = queryResponse.getHighlighting();
@@ -49,44 +47,34 @@ public class SolrQueryResponseConverter
         // add the documents
         List<SearchHit<Document>> hits = new ArrayList<SearchHit<Document>>(sdl.size());
         String primaryKeyValue = null;
-        for (SolrDocument solrDoc : sdl)
-        {
+        for (SolrDocument solrDoc : sdl) {
             // Don't change class type! SimpleSearchHit is assumed in SolrSearchEngine!
             SimpleDocument resultDoc = new SimpleDocument();
             float score = 0;
             List<SnippetField> snippetFields = null;
 
             // copy all fields
-            for (Entry<String, Object> fieldEntry : solrDoc.entrySet())
-            {
-                if (index != null)
-                {
-                    if (fieldEntry.getKey().equals(index.getPrimaryKey()))
-                    {
+            for (Entry<String, Object> fieldEntry : solrDoc.entrySet()) {
+                if (index != null) {
+                    if (fieldEntry.getKey().equals(index.getPrimaryKey())) {
                         primaryKeyValue = fieldEntry.getValue().toString();
                     }
                 }
 
-                if (fieldEntry.getKey().equals("score"))
-                {
+                if (fieldEntry.getKey().equals("score")) {
                     score = ((Float) fieldEntry.getValue()).floatValue() / sdl.getMaxScore();
-                }
-                else
-                {
+                } else {
                     SimpleField<Object> field = new SimpleField<Object>(fieldEntry.getKey(), fieldEntry.getValue());
                     resultDoc.addField(field);
                 }
             }
 
             // add highlight info to SearchHit
-            if (hl != null && primaryKeyValue != null)
-            {
+            if (hl != null && primaryKeyValue != null) {
                 Map<String, List<String>> hlMap = hl.get(primaryKeyValue);
-                if (hlMap != null && hlMap.size() > 0)
-                {
+                if (hlMap != null && hlMap.size() > 0) {
                     snippetFields = new ArrayList<SnippetField>(hlMap.size());
-                    for (Entry<String, List<String>> hlEntry : hlMap.entrySet())
-                    {
+                    for (Entry<String, List<String>> hlEntry : hlMap.entrySet()) {
                         SimpleSnippetField snippetField = new SimpleSnippetField(hlEntry.getKey(), hlEntry.getValue());
                         snippetFields.add(snippetField);
                     }
@@ -103,17 +91,14 @@ public class SolrQueryResponseConverter
 
         // add facet fields to response
         List<org.apache.solr.client.solrj.response.FacetField> solrFacets = queryResponse.getFacetFields();
-        if (solrFacets != null)
-        {
+        if (solrFacets != null) {
             List<FacetField> facetFields = new ArrayList<FacetField>(solrFacets.size());
-            for (org.apache.solr.client.solrj.response.FacetField solrFacet : solrFacets)
-            {
+            for (org.apache.solr.client.solrj.response.FacetField solrFacet : solrFacets) {
                 List<Count> solrFacetValues = solrFacet.getValues();
                 if (solrFacetValues == null)
                     continue;
                 List<FacetValue<?>> facetValues = new ArrayList<FacetValue<?>>(solrFacetValues.size());
-                for (Count solrFacetValue : solrFacetValues)
-                {
+                for (Count solrFacetValue : solrFacetValues) {
                     SimpleFacetValue<String> facetValue = new SimpleFacetValue<String>();
                     facetValue.setCount((int) solrFacetValue.getCount());
                     facetValue.setValue(solrFacetValue.getName());

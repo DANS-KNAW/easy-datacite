@@ -37,8 +37,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.joda.time.DateTime;
 
-class PermissionReplyForm extends PermissionForm
-{
+class PermissionReplyForm extends PermissionForm {
     private static final long serialVersionUID = 6204591036947047986L;
 
     private static final String STATUS_RESOURCE_KEY = "permission.reply.status";
@@ -53,35 +52,29 @@ class PermissionReplyForm extends PermissionForm
 
     private static final String GRANTED = PermissionSequence.State.Granted.toString();
 
-    public static class ChoiceItem implements Serializable
-    {
+    public static class ChoiceItem implements Serializable {
         private static final long serialVersionUID = 1L;
         private PermissionSequence.State key;
         private String value;
 
-        ChoiceItem(final PermissionSequence.State state)
-        {
+        ChoiceItem(final PermissionSequence.State state) {
             this.setKey(state);
             this.setValue(state.name());
         }
 
-        public State getKey()
-        {
+        public State getKey() {
             return key;
         }
 
-        public String getValue()
-        {
+        public String getValue() {
             return value;
         }
 
-        public void setValue(final String value)
-        {
+        public void setValue(final String value) {
             this.value = value;
         }
 
-        public void setKey(final PermissionSequence.State key)
-        {
+        public void setKey(final PermissionSequence.State key) {
             this.key = key;
         }
     }
@@ -95,8 +88,7 @@ class PermissionReplyForm extends PermissionForm
 
     private final PermissionReplyModel prmReply;
 
-    public PermissionReplyForm(final String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence)
-    {
+    public PermissionReplyForm(final String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence) {
         super(wicketId, fromPage, datasetModel);
         addCommonFeedbackPanel();
 
@@ -110,8 +102,7 @@ class PermissionReplyForm extends PermissionForm
     }
 
     // TODO put the personal info on a separate Panel
-    private void addPersonalInfo(final EasyUser requester)
-    {
+    private void addPersonalInfo(final EasyUser requester) {
 
         add(new Label("userId", requester.getId()));
         add(new Label("email", requester.getEmail()));
@@ -132,16 +123,14 @@ class PermissionReplyForm extends PermissionForm
         add(new Label("country", requester.getCountry()));
     }
 
-    private void addMotivation(final PermissionSequence sequence)
-    {
+    private void addMotivation(final PermissionSequence sequence) {
         final DateTime requestDate = sequence.getLastRequestDate();
         add(new Label("title", sequence.getRequestTitle()));
         add(new MultiLineLabel("theme", sequence.getRequestTheme()));
         add(new DateTimeLabel("date", getString(DATE_TIME_FORMAT), new Model(requestDate)));
     }
 
-    private void addFields(final boolean editMode)
-    {
+    private void addFields(final boolean editMode) {
         // TODO add help links and required marks (only for status submitted)
         // final SimpleLabelPanel explanationLabel =
         // new SimpleLabelPanel(EXPLANATION_WID, EXPLANATION_RESOURCE_KEY + ".label",
@@ -152,8 +141,7 @@ class PermissionReplyForm extends PermissionForm
 
         final IModel explanationLabelModel = new ResourceModel(EXPLANATION_RESOURCE_KEY + ".label");
         final IModel explanationModel = new PropertyModel(prmReply, "explanation");
-        if (editMode)
-        {
+        if (editMode) {
             prmReply.setExplanation("");
             prmReply.setState(null);
         }
@@ -170,50 +158,41 @@ class PermissionReplyForm extends PermissionForm
         add(new Validator(choice, explanation));
     }
 
-    private class Validator extends AbstractFormValidator
-    {
+    private class Validator extends AbstractFormValidator {
         private static final long serialVersionUID = 2001927122670938692L;
         final FormComponent choice;
         final FormComponent explanation;
 
-        public Validator(final FormComponent choice, final FormComponent explanation)
-        {
+        public Validator(final FormComponent choice, final FormComponent explanation) {
             this.choice = choice;
             this.explanation = explanation;
         }
 
         @Override
-        public void validate(Form<?> form)
-        {
-            if (explanation.getValue().trim().length() == 0)
-            {
+        public void validate(Form<?> form) {
+            if (explanation.getValue().trim().length() == 0) {
                 error(explanation);
                 /*
-                 * TODO maybe not always required, but needs to be in sync with the
-                 * PermissionWorker.validateReply if (! GRANTED.equals(choice.getValue())) {
+                 * TODO maybe not always required, but needs to be in sync with the PermissionWorker.validateReply if (! GRANTED.equals(choice.getValue())) {
                  * error(explanation); }
                  */
             }
         }
 
         @Override
-        public FormComponent<?>[] getDependentFormComponents()
-        {
+        public FormComponent<?>[] getDependentFormComponents() {
             final FormComponent<?>[] components = {choice, explanation};
             return components;
         }
     }
 
-    private void addButtons(final boolean editMode)
-    {
+    private void addButtons(final boolean editMode) {
         addComponent(new SubmitLink(SUBMIT_WID)).setVisible(editMode);
-        add(new Link(CANCEL_WID)
-        {
+        add(new Link(CANCEL_WID) {
             private static final long serialVersionUID = -6091186801938439734L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logAction("permission reply cancelled.", prmReply);
                 pageBack();
             }
@@ -221,10 +200,8 @@ class PermissionReplyForm extends PermissionForm
     }
 
     @Override
-    protected void onSubmit()
-    {
-        try
-        {
+    protected void onSubmit() {
+        try {
             prmReply.setRequestLink(PermissionRequestPage.urlFor(getDataset().getStoreId(), prmReply.getRequesterId(), this));
             prmReply.setDatasetLink(DatasetViewPage.urlFor(getDataset(), DataFilesPanel.TAB_INDEX, true, this));
             Services.getDatasetService().savePermissionReply(getSessionUser(), getDataset(), prmReply);
@@ -232,14 +209,12 @@ class PermissionReplyForm extends PermissionForm
             final String message = infoMessage(EasyResources.PERMISSION_SUBMITTED);
             logger.info(message);
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             final String message = errorMessage(EasyResources.PERMISSION_SUBMIT_FAIL);
             logger.error(message, e);
             throw new InternalWebError();
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             final String message = errorMessage(EasyResources.PERMISSION_SUBMIT_FAIL);
             logger.error(message, e);
             throw new InternalWebError();
@@ -247,8 +222,7 @@ class PermissionReplyForm extends PermissionForm
         pageBack();
     }
 
-    protected void logAction(final String action, final PermissionReplyModel permissionReply)
-    {
+    protected void logAction(final String action, final PermissionReplyModel permissionReply) {
         logger.debug(String.format("%s requesterId=[%s] state=[%s] explanation=[%s]", action, permissionReply.getRequesterId(), permissionReply.getState(),
                 StringUtils.abbreviate(permissionReply.getExplanation(), 25)));
     }

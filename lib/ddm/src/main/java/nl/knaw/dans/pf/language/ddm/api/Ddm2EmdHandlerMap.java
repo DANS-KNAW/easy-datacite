@@ -72,21 +72,18 @@ import org.dom4j.DocumentException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
-{
+public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
     private static final SkippedFieldHandler SKIPPED_FIELD_HANDLER = new SkippedFieldHandler(null);
     private static final CrosswalkHandler<EasyMetadata> NOT_YET_IMPLEMENTED = new SkippedFieldHandler("not yet configured/implemented");
     private static final Ddm2EmdHandlerMap INSTANCE = new Ddm2EmdHandlerMap();
     private static Map<String, String> uri2prefix = initNameSpaceMap();
     private static Map<String, CrosswalkHandler<EasyMetadata>> map;
 
-    public static Ddm2EmdHandlerMap getInstance()
-    {
+    public static Ddm2EmdHandlerMap getInstance() {
         return INSTANCE;
     }
 
-    private static Map<String, String> initNameSpaceMap()
-    {
+    private static Map<String, String> initNameSpaceMap() {
         final Map<String, String> map = new HashMap<String, String>();
         for (final NameSpace ns : NameSpace.values())
             map.put(ns.uri, ns.prefix);
@@ -94,21 +91,16 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
     }
 
     /** no instantiation for a singleton */
-    private Ddm2EmdHandlerMap()
-    {
-    }
+    private Ddm2EmdHandlerMap() {}
 
     /** TODO let test achieve this with mocking and make the class not public */
-    public Set<String> getKeys()
-    {
+    public Set<String> getKeys() {
         return map.keySet();
     }
 
     /** lazy initialization */
-    private Map<String, CrosswalkHandler<EasyMetadata>> getMap() throws SAXException
-    {
-        if (map == null)
-        {
+    private Map<String, CrosswalkHandler<EasyMetadata>> getMap() throws SAXException {
+        if (map == null) {
             // note that a recursive chain of handlers would require multiple instances of handlers
             map = new HashMap<String, CrosswalkHandler<EasyMetadata>>();
 
@@ -128,15 +120,13 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
     }
 
     @Override
-    public CrosswalkHandler<EasyMetadata> getHandler(final String uri, final String localName, final Attributes attributes) throws SAXException
-    {
+    public CrosswalkHandler<EasyMetadata> getHandler(final String uri, final String localName, final Attributes attributes) throws SAXException {
         final String key = toHandlerKey(uri, localName, attributes);
         return getMap().get(key);
     }
 
     @Override
-    public boolean reportMissingHandler(final String uri, final String localName, final Attributes attributes) throws SAXException
-    {
+    public boolean reportMissingHandler(final String uri, final String localName, final Attributes attributes) throws SAXException {
         final String key = toHandlerKey(uri, localName, attributes);
         return !getMap().containsKey(key);
     }
@@ -151,8 +141,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
      * @throws SAXException
      *         if lazy initialization of the map fails
      */
-    private String toHandlerKey(final String uri, final String localName, final Attributes attributes) throws SAXException
-    {
+    private String toHandlerKey(final String uri, final String localName, final Attributes attributes) throws SAXException {
         final String element = uri2prefix.get(uri) + ":" + localName;
 
         // fix name space prefix when the local names become ambiguous
@@ -161,20 +150,16 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         return type + "/" + element;
     }
 
-    private Map<String, String> loadVocabulary(final String xsd) throws SAXException
-    {
-        try
-        {
+    private Map<String, String> loadVocabulary(final String xsd) throws SAXException {
+        try {
             return new MapFromXSD(xsd).getEnum2appInfo();
         }
-        catch (final DocumentException e)
-        {
+        catch (final DocumentException e) {
             throw new SAXException("could not load map [" + xsd + "] " + e.getMessage(), e);
         }
     }
 
-    private void putAudienceHandlers() throws SAXException
-    {
+    private void putAudienceHandlers() throws SAXException {
         final BasicStringHandler narcisHandler = new AudienceHandler(loadVocabulary(NameSpace.NARCIS_TYPE.xsd), NameSpace.NARCIS_TYPE.schemeId);
         map.put("/ddm:audience", narcisHandler);
         map.put("DisciplineType/dcterms:audience", narcisHandler);
@@ -183,8 +168,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("/dcterms:educationLevel", audienceHandler);
     }
 
-    private void putAuthorHandlers()
-    {
+    private void putAuthorHandlers() {
         final BasicStringHandler simpleCreatorHandler = new SimpleCreatorHandler();
         final BasicStringHandler simpleContributorHandler = new SimpleContributorHandler();
         map.put("/dc:creator", simpleCreatorHandler);
@@ -197,8 +181,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("/dcx-dai:contributor", new DaiContributorHandler());
     }
 
-    private void putRalationHandlers()
-    {
+    private void putRalationHandlers() {
         final BasicIdentifierHandler dcRelationHandler = new DcRelationHandler();
         map.put("/dc:relation", dcRelationHandler);
         map.put("/dcterms:relation", dcRelationHandler);
@@ -220,8 +203,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         // and add content to getTarget().getEmdRelation().getDcXXX
     }
 
-    private void putNotImplementedHandlers()
-    {
+    private void putNotImplementedHandlers() {
         map.put("/dcterms:instructionalMethod", SKIPPED_FIELD_HANDLER);
         map.put("/dcterms:accrualMethod", SKIPPED_FIELD_HANDLER);
         map.put("/dcterms:accrualPolicy", SKIPPED_FIELD_HANDLER);
@@ -237,8 +219,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("/dcterms:tableOfContents", SKIPPED_FIELD_HANDLER);
     }
 
-    private void putDateHandlers()
-    {
+    private void putDateHandlers() {
         // EasyMetadataImpl: EmdDate emdDate;
         final IsoDateHandler easCreatedHandler = new EasCreatedHandler();
         map.put("/ddm:created", easCreatedHandler);
@@ -276,8 +257,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("W3CDTF/dcterms:date", easDateHandler);
     }
 
-    private void putHandledByChilds()
-    {
+    private void putHandledByChilds() {
         map.put("/dcx-dai:organization", null);
         map.put("/dcx-dai:author", null);
         map.put("/ddm:dcmiMetadata", null);
@@ -286,8 +266,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("/ddm:additional-xml", null);
     }
 
-    private void putMiscellaneousHandlers()
-    {
+    private void putMiscellaneousHandlers() {
         // 3-fold checks: maxDDM as generated by oXygen / EasyMetadataImpl fields / deposit pages
         // <ref-panelId> mainly from emd-view-definition in archaeology.xml and unspecified.xml
 
@@ -365,8 +344,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         // EasyMetadataImpl: EmdType emdType;
     }
 
-    private void putAboutHandlers()
-    {
+    private void putAboutHandlers() {
         final BasicStringHandler dcCoverageHandler = new DcCoverageHandler();
         map.put("/dc:coverage", dcCoverageHandler);
         map.put("/dcterms:coverage", dcCoverageHandler);
@@ -397,8 +375,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         // EasyMetadataImpl: EmdSubject emdSubject;
     }
 
-    private String toLocalName(final String value)
-    {
+    private String toLocalName(final String value) {
         final String localName;
         if (value == null)
             localName = "";

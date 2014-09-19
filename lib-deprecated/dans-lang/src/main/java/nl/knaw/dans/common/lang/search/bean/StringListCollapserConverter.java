@@ -11,19 +11,16 @@ import nl.knaw.dans.common.lang.search.exceptions.SearchBeanConverterException;
  * 
  * @author paulboon
  */
-public class StringListCollapserConverter implements SearchFieldConverter<List<String>>
-{
+public class StringListCollapserConverter implements SearchFieldConverter<List<String>> {
 
-    public List<String> fromFieldValue(Object in) throws SearchBeanConverterException
-    {
+    public List<String> fromFieldValue(Object in) throws SearchBeanConverterException {
         if (!(in instanceof String))
             throw new SearchBeanConverterException("Expected String argument but found " + in.getClass().getSimpleName());
 
         List<String> list = splitCommaSeparated((String) in);
 
         // unescape the escaped characters
-        for (int i = 0; i < list.size(); i++)
-        {
+        for (int i = 0; i < list.size(); i++) {
 
             // unescape ','
             // Note: every ',' must be escaped,
@@ -39,13 +36,11 @@ public class StringListCollapserConverter implements SearchFieldConverter<List<S
         return list;
     }
 
-    public Object toFieldValue(List<String> in) throws SearchBeanConverterException
-    {
+    public Object toFieldValue(List<String> in) throws SearchBeanConverterException {
         String result = "";
 
         Iterator<String> inIter = in.iterator();
-        while (inIter.hasNext())
-        {
+        while (inIter.hasNext()) {
             String escaped = inIter.next();
 
             // escape '\'
@@ -68,21 +63,17 @@ public class StringListCollapserConverter implements SearchFieldConverter<List<S
     /**
      * split, but take care of escaped comma's and even escaped escapes
      */
-    public List<String> splitCommaSeparated(final String input)
-    {
+    public List<String> splitCommaSeparated(final String input) {
         List<String> result = new ArrayList<String>();
 
-        if (input == null || input.length() == 0)
-        {
+        if (input == null || input.length() == 0) {
             result.add("");
             return result;
         }
 
         int beginIndex = 0;
-        for (int i = 0; i < input.length(); i++)
-        {
-            if (input.charAt(i) == ',')
-            {
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == ',') {
                 if (isEscaped(input, i))
                     continue;
 
@@ -91,8 +82,7 @@ public class StringListCollapserConverter implements SearchFieldConverter<List<S
                 // handle the case that the last string is empty
                 if (i == input.length() - 1) // last index
                     result.add("");
-            }
-            else if (i == input.length() - 1) // last index
+            } else if (i == input.length() - 1) // last index
             {
                 // remainder
                 result.add(input.substring(beginIndex));
@@ -103,15 +93,14 @@ public class StringListCollapserConverter implements SearchFieldConverter<List<S
     }
 
     /**
-     * determine if a character is escaped by '\' because the escape char can be escaped we determine if
-     * the position is preceded by an uneven number of slashes.
+     * determine if a character is escaped by '\' because the escape char can be escaped we determine if the position is preceded by an uneven number of
+     * slashes.
      * 
      * @param str
      * @param pos
      * @return
      */
-    public boolean isEscaped(final String str, final int pos)
-    {
+    public boolean isEscaped(final String str, final int pos) {
         // count backwards from the index the number of escape chars (continues)
         int numEsc = 0;
 

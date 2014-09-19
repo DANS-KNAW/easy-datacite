@@ -25,15 +25,13 @@ import org.apache.wicket.util.tester.FormTester;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-public class TestChangePassword extends UserInfoFixture
-{
+public class TestChangePassword extends UserInfoFixture {
 
     private static final String CHANGE_PASSWORD_FORM = "changePasswordPanel:changePasswordForm";
     private static final String NEW_PASSWORD_MESSAGE_PATH = CHANGE_PASSWORD_FORM + ":newPassword-componentFeedback:feedbackul:messages:0:message";
 
     @Test
-    public void cancelChangePassword() throws Exception
-    {
+    public void cancelChangePassword() throws Exception {
         addMocks(createSessionUser());
         final EasyWicketTester tester = startFromHomePage();
         tester.dumpPage();
@@ -42,8 +40,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void anonymousChangesPassword() throws Exception
-    {
+    public void anonymousChangesPassword() throws Exception {
         // this covers a security check, but how to get here manually?
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, ChangePasswordPage.class);
         tester.dumpPage();
@@ -51,8 +48,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void submitChangePassword() throws Exception
-    {
+    public void submitChangePassword() throws Exception {
         final String messagePath = "missionAccomplishedFeedback:feedbackul:messages:0:message";
         addMocks(createSessionUser());
         final EasyWicketTester tester = startFromHomePage();
@@ -68,8 +64,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void submitEmptyChangePassword() throws Exception
-    {
+    public void submitEmptyChangePassword() throws Exception {
         addMocks(createSessionUser());
         final EasyWicketTester tester = startFromHomePage();
         tester.newFormTester(CHANGE_PASSWORD_FORM).submit();
@@ -79,8 +74,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void submitIdenticalChangePassword() throws Exception
-    {
+    public void submitIdenticalChangePassword() throws Exception {
         addMocks(createSessionUser());
         final EasyWicketTester tester = startFromHomePage();
         final FormTester formTester = tester.newFormTester(CHANGE_PASSWORD_FORM);
@@ -94,8 +88,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void changeForgottenPassword() throws Exception
-    {
+    public void changeForgottenPassword() throws Exception {
         mockAuthentication(true);
         final EasyWicketTester tester = startForgottenPasswordPage(true, true, true);
         // with a manual test the new password field has a value
@@ -108,8 +101,7 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void changeInvalidForgottenPassword1() throws Exception
-    {
+    public void changeInvalidForgottenPassword1() throws Exception {
         mockAuthentication(true);
         final EasyWicketTester tester = startForgottenPasswordPage(true, true, false);
         tester.dumpPage();
@@ -117,45 +109,39 @@ public class TestChangePassword extends UserInfoFixture
     }
 
     @Test
-    public void changeInvalidForgottenPassword2() throws Exception
-    {
+    public void changeInvalidForgottenPassword2() throws Exception {
         mockAuthentication(true);
         final EasyWicketTester tester = startForgottenPasswordPage(true, false, false);
         assertFeedbackMessage(tester, "Invalid url");
     }
 
     @Test
-    public void changeInvalidForgottenPassword3() throws Exception
-    {
+    public void changeInvalidForgottenPassword3() throws Exception {
         mockAuthentication(true);
         final EasyWicketTester tester = startForgottenPasswordPage(false, false, false);
         assertFeedbackMessage(tester, "Invalid url");
     }
 
     @Test
-    public void changeInvalidForgottenPassword4() throws Exception
-    {
+    public void changeInvalidForgottenPassword4() throws Exception {
         mockAuthentication(false);
         final EasyWicketTester tester = startForgottenPasswordPage(true, true, true);
         assertFeedbackMessage(tester, "Invalid url");
     }
 
     @Test
-    public void changeInvalidForgottenPassword5() throws Exception
-    {
+    public void changeInvalidForgottenPassword5() throws Exception {
         mockAuthenticationException();
         final EasyWicketTester tester = startForgottenPasswordPage(true, true, true);
         assertFeedbackMessage(tester, "Internal error");
     }
 
-    private void assertFeedbackMessage(final EasyWicketTester tester, final String value)
-    {
+    private void assertFeedbackMessage(final EasyWicketTester tester, final String value) {
         tester.assertLabelContains("commonFeedbackPanel:feedbackul:messages", value);
         tester.assertRenderedPage(ErrorPage.class);
     }
 
-    private EasyWicketTester startForgottenPasswordPage(final boolean userId, final boolean requestTime, final boolean requestToken)
-    {
+    private EasyWicketTester startForgottenPasswordPage(final boolean userId, final boolean requestTime, final boolean requestToken) {
         final PageParameters parameters = new PageParameters();
         parameters.add("requestTime", requestTime ? new DateTime().minusMinutes(5).getMillis() + "" : "");
         parameters.add("requestToken", requestToken ? "tokenValue" : "");
@@ -163,8 +149,7 @@ public class TestChangePassword extends UserInfoFixture
         return EasyWicketTester.startPage(applicationContext, ChangePasswordPage.class, parameters);
     }
 
-    private EasyWicketTester startFromHomePage()
-    {
+    private EasyWicketTester startFromHomePage() {
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, HomePage.class);
         tester.assertRenderedPage(HomePage.class);
         tester.clickLink("myPersonalInfoLink");
@@ -174,28 +159,23 @@ public class TestChangePassword extends UserInfoFixture
         return tester;
     }
 
-    private void mockAuthenticationException() throws ServiceException
-    {
+    private void mockAuthenticationException() throws ServiceException {
         applicationContext.expectNoDatasets();
         final UserService mock = applicationContext.getUserService();
         expect(mock.newForgottenPasswordMailAuthentication(isA(String.class), isA(String.class), isA(String.class))).andThrow(new ServiceException(""));
     }
 
-    private void mockAuthentication(final boolean isCompleted) throws ServiceException
-    {
+    private void mockAuthentication(final boolean isCompleted) throws ServiceException {
         applicationContext.expectNoDatasets();
         final UserService mock = applicationContext.getUserService();
-        final ForgottenPasswordMailAuthentication authentication = new ForgottenPasswordMailAuthentication(null, null, null)
-        {
+        final ForgottenPasswordMailAuthentication authentication = new ForgottenPasswordMailAuthentication(null, null, null) {
             private static final long serialVersionUID = 1L;
 
-            public boolean isCompleted()
-            {
+            public boolean isCompleted() {
                 return isCompleted;
             }
 
-            public EasyUser getUser()
-            {
+            public EasyUser getUser() {
                 return createSessionUser();
             }
         };
@@ -204,28 +184,22 @@ public class TestChangePassword extends UserInfoFixture
         expectLastCall().anyTimes();
     }
 
-    private void addMocks(final EasyUser sessionUser) throws Exception
-    {
+    private void addMocks(final EasyUser sessionUser) throws Exception {
         applicationContext.expectAuthenticatedAs(sessionUser);
         applicationContext.expectNoDatasets();
         applicationContext.getUserService().changePassword(isA(ChangePasswordMessenger.class));
-        expectLastCall().andStubDelegateTo(new EasyUserService()
-        {
-            public void changePassword(final ChangePasswordMessenger messenger)
-            {
+        expectLastCall().andStubDelegateTo(new EasyUserService() {
+            public void changePassword(final ChangePasswordMessenger messenger) {
                 messenger.setState(ChangePasswordMessenger.State.PasswordChanged);
             }
         });
     }
 
-    private EasyUserImpl createSessionUser()
-    {
-        return new EasyUserImpl("sessionUserId")
-        {
+    private EasyUserImpl createSessionUser() {
+        return new EasyUserImpl("sessionUserId") {
             private static final long serialVersionUID = 1L;
 
-            public Set<Group> getGroups()
-            {
+            public Set<Group> getGroups() {
                 return new HashSet<Group>();
             }
         };

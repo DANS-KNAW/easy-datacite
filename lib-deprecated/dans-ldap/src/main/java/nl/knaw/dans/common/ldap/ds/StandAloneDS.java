@@ -10,8 +10,7 @@ import javax.naming.directory.InitialDirContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StandAloneDS implements DirContextSupplier
-{
+public class StandAloneDS implements DirContextSupplier {
 
     /**
      * Logger for logging.
@@ -22,10 +21,8 @@ public class StandAloneDS implements DirContextSupplier
     private String securityPrincipal;
     private String securityCredentials;
 
-    public String getProviderURL()
-    {
-        if (providerURL == null)
-        {
+    public String getProviderURL() {
+        if (providerURL == null) {
             final String msg = "Missing providerURL: null";
             logger.debug(msg);
             throw new IllegalStateException(msg);
@@ -33,15 +30,12 @@ public class StandAloneDS implements DirContextSupplier
         return providerURL;
     }
 
-    public void setProviderURL(final String providerURL)
-    {
+    public void setProviderURL(final String providerURL) {
         this.providerURL = providerURL;
     }
 
-    public String getSecurityPrincipal()
-    {
-        if (securityPrincipal == null)
-        {
+    public String getSecurityPrincipal() {
+        if (securityPrincipal == null) {
             final String msg = "Missing securityPrincipal: null";
             logger.debug(msg);
             throw new IllegalStateException(msg);
@@ -49,15 +43,12 @@ public class StandAloneDS implements DirContextSupplier
         return securityPrincipal;
     }
 
-    public void setSecurityPrincipal(final String securityPrincipal)
-    {
+    public void setSecurityPrincipal(final String securityPrincipal) {
         this.securityPrincipal = securityPrincipal;
     }
 
-    public String getSecurityCredentials()
-    {
-        if (securityCredentials == null)
-        {
+    public String getSecurityCredentials() {
+        if (securityCredentials == null) {
             final String msg = "Missing securityCredentials: null";
             logger.debug(msg);
             throw new IllegalStateException(msg);
@@ -65,19 +56,16 @@ public class StandAloneDS implements DirContextSupplier
         return securityCredentials;
     }
 
-    public void setSecurityCredentials(final String securityCredentials)
-    {
+    public void setSecurityCredentials(final String securityCredentials) {
         this.securityCredentials = securityCredentials;
     }
 
-    public DirContext getDirContext() throws NamingException
-    {
+    public DirContext getDirContext() throws NamingException {
         // InitialDirContext is not thread safe.
         return new InitialDirContext(getEnvironment());
     }
 
-    private Hashtable<String, String> getEnvironment()
-    {
+    private Hashtable<String, String> getEnvironment() {
         Hashtable<String, String> env = new Hashtable<String, String>();
         env.put(Context.INITIAL_CONTEXT_FACTORY, Constants.CONTEXT_FACTORY);
         env.put(Context.SECURITY_AUTHENTICATION, Constants.SIMPLE_AUTHENTICATION);

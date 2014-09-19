@@ -7,39 +7,30 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangePasswordSpecification
-{
+public class ChangePasswordSpecification {
     private static Logger logger = LoggerFactory.getLogger(ChangePasswordSpecification.class);
 
     private AuthenticationSpecification authenticationSpecification;
 
-    public boolean isSatisFiedBy(ChangePasswordMessenger messenger)
-    {
+    public boolean isSatisFiedBy(ChangePasswordMessenger messenger) {
         boolean satisfied = true;
         satisfied &= hasSufficientData(messenger);
-        if (satisfied && !messenger.isMailContext())
-        {
+        if (satisfied && !messenger.isMailContext()) {
             logger.debug("No mail context: checking for authentication.");
             satisfied &= checkAuthentication(messenger);
-        }
-        else if (satisfied && messenger.isMailContext())
-        {
+        } else if (satisfied && messenger.isMailContext()) {
             logger.debug("Mail context: checking for qualifiedState.");
             satisfied &= authenticationSpecification.checkUserStateForForgottenPassword(messenger.getUser());
         }
         return satisfied;
     }
 
-    private boolean checkAuthentication(ChangePasswordMessenger messenger)
-    {
+    private boolean checkAuthentication(ChangePasswordMessenger messenger) {
         boolean authenticated = false;
         UsernamePasswordAuthentication authentication = new UsernamePasswordAuthentication(messenger.getUserId(), messenger.getOldPassword());
-        if (authenticationSpecification.isSatisfiedBy(authentication))
-        {
+        if (authenticationSpecification.isSatisfiedBy(authentication)) {
             authenticated = true;
-        }
-        else
-        {
+        } else {
             logger.debug("ChangePassword did not get past Authentication" + messenger.toString());
             messenger.setState(ChangePasswordMessenger.State.NotAuthenticated);
             messenger.getExceptions().addAll(authentication.getExceptions());
@@ -47,19 +38,16 @@ public class ChangePasswordSpecification
         return authenticated;
     }
 
-    private static boolean hasSufficientData(ChangePasswordMessenger messenger)
-    {
+    private static boolean hasSufficientData(ChangePasswordMessenger messenger) {
         boolean hasSufficientData = true;
-        if (StringUtils.isBlank(messenger.getNewPassword()))
-        {
+        if (StringUtils.isBlank(messenger.getNewPassword())) {
             hasSufficientData = false;
             messenger.setState(ChangePasswordMessenger.State.InsufficientData);
         }
         return hasSufficientData;
     }
 
-    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
-    {
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification) {
         this.authenticationSpecification = authenticationSpecification;
     }
 

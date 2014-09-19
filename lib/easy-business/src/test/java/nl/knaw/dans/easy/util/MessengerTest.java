@@ -5,22 +5,18 @@ import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class MessengerTest
-{
+public class MessengerTest {
 
-    public enum TestState
-    {
+    public enum TestState {
         START, MIDDLE, A_BIT_FURTHER, END
     }
 
-    public enum EmptyState
-    {
+    public enum EmptyState {
 
     }
 
     @Test
-    public void testMessenger()
-    {
+    public void testMessenger() {
         Messenger<TestState> messenger = new Messenger<TestState>(TestState.class);
         assertEquals(TestState.START, messenger.getState());
         assertFalse(messenger.isCompleted());
@@ -32,14 +28,12 @@ public class MessengerTest
     }
 
     @Test(expected = Exception.class)
-    public void testEmptyState()
-    {
+    public void testEmptyState() {
         new Messenger<EmptyState>(EmptyState.class);
     }
 
     @Test
-    public void accumulatedStates()
-    {
+    public void accumulatedStates() {
         Messenger<TestState> messenger = new Messenger<TestState>(TestState.class);
         assertEquals(TestState.START, messenger.getState());
         assertTrue(messenger.getAccumelatedStates().isEmpty());
@@ -61,8 +55,7 @@ public class MessengerTest
     }
 
     @Test
-    public void stateKeys()
-    {
+    public void stateKeys() {
         Messenger<TestState> messenger = new Messenger<TestState>(TestState.class);
         List<String> allStateKeys = messenger.getAllStateKeys();
         assertTrue(allStateKeys.contains("state.START"));
@@ -73,8 +66,7 @@ public class MessengerTest
     }
 
     @Test
-    public void createMailToken()
-    {
+    public void createMailToken() {
         Messenger<TestState> messenger = new Messenger<TestState>(TestState.class);
         String mailToken = messenger.createMailToken(null);
         assertNotNull(mailToken);

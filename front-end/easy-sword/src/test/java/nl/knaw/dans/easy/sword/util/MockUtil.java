@@ -39,8 +39,7 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 
-public class MockUtil
-{
+public class MockUtil {
     public static final String PASSWORD = "secret";
 
     public static final String INVALID_USER_ID = "nobody";
@@ -56,8 +55,7 @@ public class MockUtil
 
     private static Services services;
 
-    public static void mockAll() throws Exception
-    {
+    public static void mockAll() throws Exception {
         mockNow();
         mockItemService();
         mockDatasetService();
@@ -67,8 +65,7 @@ public class MockUtil
         mockContext();
     }
 
-    private static void mockContext() throws Exception
-    {
+    private static void mockContext() throws Exception {
         final Context context = new Context();
         context.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
         context.setCollectionTreatment("This is a test server");
@@ -85,13 +82,11 @@ public class MockUtil
         context.setSystemReadOnlyStatus(systemReadOnlyStatus);
     }
 
-    private static void mockNow()
-    {
+    private static void mockNow() {
         DateTimeUtils.setCurrentMillisFixed(new DateTime("2011-08-29T14:42:08").getMillis());
     }
 
-    public static void mockFileStoreAccess() throws Exception
-    {
+    public static void mockFileStoreAccess() throws Exception {
         final FileStoreAccess fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
         new Data().setFileStoreAccess(fileStoreAccess);
 
@@ -104,8 +99,7 @@ public class MockUtil
     }
 
     @SuppressWarnings("unchecked")
-    public static void mockItemService() throws Exception
-    {
+    public static void mockItemService() throws Exception {
         final ItemService itemService = EasyMock.createMock(ItemService.class);
         getServices().setItemService(itemService);
 
@@ -146,15 +140,13 @@ public class MockUtil
         EasyMock.replay(itemService);
     }
 
-    private static Services getServices()
-    {
+    private static Services getServices() {
         if (services == null)
             services = new Services();
         return services;
     }
 
-    public static void mockDatasetService() throws Exception
-    {
+    public static void mockDatasetService() throws Exception {
         // no increment of countDatasets as it makes the test results
         // unpredictable
         final Dataset dataset = new DatasetImpl("mock:" + (countDatasets), MetadataFormat.SOCIOLOGY);
@@ -180,8 +172,7 @@ public class MockUtil
 
     private static Data data = new Data();
 
-    public static void mockUser() throws Exception
-    {
+    public static void mockUser() throws Exception {
         final EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
         final UserService userService = EasyMock.createMock(UserService.class);
 
@@ -208,13 +199,11 @@ public class MockUtil
         EasyMock.replay(userRepo, userService);
     }
 
-    public static void mockDisciplineService() throws Exception
-    {
+    public static void mockDisciplineService() throws Exception {
 
         final DmoStoreId disciplineId = new DmoStoreId("easy-discipline:2");
         final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId.getId());
-        final DisciplineCollectionService disciplineService = EasyMock.createMock(DisciplineCollectionService.class);
-        ;
+        final DisciplineCollectionService disciplineService = EasyMock.createMock(DisciplineCollectionService.class);;
         getServices().setDisciplineService(disciplineService);
         discipline.setName("Humanities");
 
@@ -222,8 +211,7 @@ public class MockUtil
         EasyMock.replay(disciplineService);
     }
 
-    private static EasyUserImpl createSomeBody()
-    {
+    private static EasyUserImpl createSomeBody() {
         final EasyUserImpl user = new EasyUserImpl();
         user.setId(VALID_USER_ID);
         user.setPassword(PASSWORD);
@@ -235,8 +223,7 @@ public class MockUtil
         return user;
     }
 
-    private static EasyUserImpl createArchivist()
-    {
+    private static EasyUserImpl createArchivist() {
         final Set<Role> roles = new HashSet<Role>();
         roles.add(Role.ARCHIVIST);
         final EasyUserImpl archivist = new EasyUserImpl();

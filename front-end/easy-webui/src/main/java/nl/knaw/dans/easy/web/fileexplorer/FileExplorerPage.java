@@ -10,17 +10,14 @@ import org.apache.wicket.protocol.https.RequireHttps;
  * FileExplorePage displays FileExplorer Panel.
  */
 @RequireHttps
-public class FileExplorerPage extends AbstractEasyPage
-{
-    public FileExplorerPage(DatasetModel model)
-    {
+public class FileExplorerPage extends AbstractEasyPage {
+    public FileExplorerPage(DatasetModel model) {
         super(model);
         add(new Label("message", ""));
         addContent(model);
     }
 
-    private void addContent(DatasetModel model)
-    {
+    private void addContent(DatasetModel model) {
         add(new FileExplorer("fe", model));
     }
 }

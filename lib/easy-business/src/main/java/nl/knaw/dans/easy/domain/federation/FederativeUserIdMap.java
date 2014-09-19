@@ -5,8 +5,7 @@ import nl.knaw.dans.common.lang.annotations.ldap.LdapObject;
 import nl.knaw.dans.common.lang.user.RepoEntry;
 
 @LdapObject(objectClasses = {"dansFedIdMap"})
-public class FederativeUserIdMap implements RepoEntry
-{
+public class FederativeUserIdMap implements RepoEntry {
     private static final long serialVersionUID = 8717750427759928766L;
 
     @LdapAttribute(id = "fedUserId")
@@ -15,30 +14,25 @@ public class FederativeUserIdMap implements RepoEntry
     @LdapAttribute(id = "dansUserId")
     private String dansUserId;
 
-    public FederativeUserIdMap()
-    {
+    public FederativeUserIdMap() {
         // needed for unmarshalling
     }
 
-    public FederativeUserIdMap(String fedUserId, String dansUserId)
-    {
+    public FederativeUserIdMap(String fedUserId, String dansUserId) {
         this.fedUserId = fedUserId;
         this.dansUserId = dansUserId;
     }
 
     @Override
-    public String getId()
-    {
+    public String getId() {
         return fedUserId;
     }
 
-    public String getFedUserId()
-    {
+    public String getFedUserId() {
         return fedUserId;
     }
 
-    public String getDansUserId()
-    {
+    public String getDansUserId() {
         return dansUserId;
     }
 

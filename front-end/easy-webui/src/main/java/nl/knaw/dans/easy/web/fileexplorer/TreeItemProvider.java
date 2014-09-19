@@ -37,8 +37,7 @@ import org.slf4j.LoggerFactory;
 import wickettree.ITreeProvider;
 import wickettree.util.IntermediateTreeProvider;
 
-public class TreeItemProvider implements ITreeProvider<ITreeItem>
-{
+public class TreeItemProvider implements ITreeProvider<ITreeItem> {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(TreeItemProvider.class);
 
@@ -57,18 +56,15 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
     @SpringBean(name = "itemService")
     private ItemService itemService;
 
-    public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters)
-    {
+    public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters) {
         InjectorHolder.getInjector().inject(this);
         // this(false);
         this.filters = filters;
         sessionUser = EasySession.getSessionUser();
-        try
-        {
+        try {
             dataset = datasetService.getDataset(sessionUser, datasetSid);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Unable to load dataset: ", e);
             throw new InternalWebError();
         }
@@ -77,10 +73,8 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
         reload();
     }
 
-    public void reload()
-    {
-        try
-        {
+    public void reload() {
+        try {
             roots.clear();
             FolderItemVO rootFolder = new FolderItemVO();
             rootFolder.setName("Dataset contents");
@@ -88,11 +82,9 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
             ITreeItem root = new TreeItem(rootFolder, null);
 
             List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
-            for (ItemVO item : items)
-            {
+            for (ItemVO item : items) {
                 AuthzStrategy strategy = item.getAuthzStrategy();
-                if (item instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE"))
-                {
+                if (item instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {
                     FileItemVO file = (FileItemVO) item;
                     if (filters.get(file.getVisibleTo()) != null && filters.get(file.getAccessibleTo()) != null && filters.get(file.getCreatorRole()) != null
                             && filters.get(file.getVisibleTo()).getModelObject() && filters.get(file.getAccessibleTo()).getModelObject()
@@ -100,48 +92,36 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
                     {
                         root.addChild(new TreeItem(item, root));
                     }
-                }
-                else if (item instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE))
-                {
+                } else if (item instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE)) {
                     FolderItemVO folder = (FolderItemVO) item;
                     boolean vision = false;
                     boolean access = false;
                     boolean creator = false;
-                    if (folder.getVisibleToList() != null)
-                    {
-                        for (FolderItemVisibleTo v : folder.getVisibleToList())
-                        {
-                            if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject())
-                            {
+                    if (folder.getVisibleToList() != null) {
+                        for (FolderItemVisibleTo v : folder.getVisibleToList()) {
+                            if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject()) {
                                 vision = true;
                                 break;
                             }
                         }
                     }
-                    if (folder.getAccessibleToList() != null)
-                    {
-                        for (FolderItemAccessibleTo a : folder.getAccessibleToList())
-                        {
-                            if (a.getAccessibleTo() != null && filters.get(a.getAccessibleTo()) != null && filters.get(a.getAccessibleTo()).getModelObject())
-                            {
+                    if (folder.getAccessibleToList() != null) {
+                        for (FolderItemAccessibleTo a : folder.getAccessibleToList()) {
+                            if (a.getAccessibleTo() != null && filters.get(a.getAccessibleTo()) != null && filters.get(a.getAccessibleTo()).getModelObject()) {
                                 access = true;
                                 break;
                             }
                         }
                     }
-                    if (folder.getCreatorRoles() != null)
-                    {
-                        for (FolderItemCreatorRole c : folder.getCreatorRoles())
-                        {
-                            if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject())
-                            {
+                    if (folder.getCreatorRoles() != null) {
+                        for (FolderItemCreatorRole c : folder.getCreatorRoles()) {
+                            if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject()) {
                                 creator = true;
                                 break;
                             }
                         }
                     }
-                    if (vision && access && creator)
-                    {
+                    if (vision && access && creator) {
                         root.addChild(new TreeItem(item, root));
                     }
                 }
@@ -149,62 +129,49 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
             Collections.sort(root.getChildren());
             roots.add(root);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Error while trying to load TreeItemProvider.", e);
         }
     }
 
-    public TreeItemProvider(boolean intermediate)
-    {
+    public TreeItemProvider(boolean intermediate) {
         InjectorHolder.getInjector().inject(this);
         this.intermediate = intermediate;
         sessionUser = EasySession.getSessionUser();
         dataset = null;
     }
 
-    public void detach()
-    {
+    public void detach() {
         // nothing to do
     }
 
-    public Iterator<ITreeItem> getRoots()
-    {
+    public Iterator<ITreeItem> getRoots() {
         return roots.iterator();
     }
 
-    public ITreeItem getRoot()
-    {
+    public ITreeItem getRoot() {
         return roots.get(0);
     }
 
-    public boolean hasChildren(ITreeItem item)
-    {
+    public boolean hasChildren(ITreeItem item) {
         boolean result = false;
-        try
-        {
+        try {
             result = item.getParent() == null || !item.getChildren().isEmpty() || itemService.hasChildItems(new DmoStoreId(item.getId()));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Error while fetching children.", e);
         }
         return result;
     }
 
-    public Iterator<ITreeItem> getChildren(final ITreeItem item)
-    {
+    public Iterator<ITreeItem> getChildren(final ITreeItem item) {
         DmoStoreId itemId = new DmoStoreId(item.getId());
-        try
-        {
-            if (itemService.hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty())
-            {
+        try {
+            if (itemService.hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty()) {
                 List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, itemId, -1, -1, null, null);
-                for (ItemVO child : items)
-                {
+                for (ItemVO child : items) {
                     AuthzStrategy strategy = child.getAuthzStrategy();
-                    if (child instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE"))
-                    {
+                    if (child instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {
                         FileItemVO file = (FileItemVO) child;
                         if (filters.get(file.getVisibleTo()) != null && filters.get(file.getAccessibleTo()) != null
                                 && filters.get(file.getCreatorRole()) != null && filters.get(file.getVisibleTo()).getModelObject()
@@ -212,28 +179,21 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
                         {
                             item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
-                    }
-                    else if (child instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE))
-                    {
+                    } else if (child instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE)) {
                         FolderItemVO folder = (FolderItemVO) child;
                         boolean vision = false;
                         boolean access = false;
                         boolean creator = false;
-                        if (folder.getVisibleToList() != null)
-                        {
-                            for (FolderItemVisibleTo v : folder.getVisibleToList())
-                            {
-                                if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject())
-                                {
+                        if (folder.getVisibleToList() != null) {
+                            for (FolderItemVisibleTo v : folder.getVisibleToList()) {
+                                if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject()) {
                                     vision = true;
                                     break;
                                 }
                             }
                         }
-                        if (folder.getAccessibleToList() != null)
-                        {
-                            for (FolderItemAccessibleTo a : folder.getAccessibleToList())
-                            {
+                        if (folder.getAccessibleToList() != null) {
+                            for (FolderItemAccessibleTo a : folder.getAccessibleToList()) {
                                 if (a.getAccessibleTo() != null && filters.get(a.getAccessibleTo()) != null
                                         && filters.get(a.getAccessibleTo()).getModelObject())
                                 {
@@ -242,38 +202,29 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
                                 }
                             }
                         }
-                        if (folder.getCreatorRoles() != null)
-                        {
-                            for (FolderItemCreatorRole c : folder.getCreatorRoles())
-                            {
-                                if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject())
-                                {
+                        if (folder.getCreatorRoles() != null) {
+                            for (FolderItemCreatorRole c : folder.getCreatorRoles()) {
+                                if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject()) {
                                     creator = true;
                                     break;
                                 }
                             }
                         }
-                        if (vision && access && creator)
-                        {
+                        if (vision && access && creator) {
                             item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
                     }
                 }
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Error while fetching children.", e);
         }
 
-        if (intermediate)
-        {
-            if (!item.isLoaded())
-            {
-                asynchronuous(new Runnable()
-                {
-                    public void run()
-                    {
+        if (intermediate) {
+            if (!item.isLoaded()) {
+                asynchronuous(new Runnable() {
+                    public void run() {
                         item.setLoaded(true);
                     }
                 });
@@ -292,25 +243,20 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
     /**
      * We're cheating here - the given runnable is run immediately.
      */
-    private void asynchronuous(Runnable runnable)
-    {
+    private void asynchronuous(Runnable runnable) {
         runnable.run();
     }
 
-    public void resetLoaded()
-    {
-        for (ITreeItem item : roots)
-        {
+    public void resetLoaded() {
+        for (ITreeItem item : roots) {
             resetLoaded(item);
         }
     }
 
-    private static void resetLoaded(ITreeItem item)
-    {
+    private static void resetLoaded(ITreeItem item) {
         item.setLoaded(false);
 
-        for (Object child : item.getChildren())
-        {
+        for (Object child : item.getChildren()) {
             resetLoaded((ITreeItem) child);
         }
     }
@@ -318,31 +264,25 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
     /**
      * Creates a {@link FooModel}.
      */
-    public IModel<ITreeItem> model(ITreeItem item)
-    {
+    public IModel<ITreeItem> model(ITreeItem item) {
         return new ItemModel(item);
     }
 
     /**
      * Get a {@link Foo} by its id.
      */
-    public ITreeItem get(String id)
-    {
+    public ITreeItem get(String id) {
         return get(roots, id);
     }
 
-    private static ITreeItem get(List<ITreeItem> items, String id)
-    {
-        for (ITreeItem item : items)
-        {
-            if (item.getId().equals(id))
-            {
+    private static ITreeItem get(List<ITreeItem> items, String id) {
+        for (ITreeItem item : items) {
+            if (item.getId().equals(id)) {
                 return item;
             }
 
             ITreeItem temp = get(item.getChildren(), id);
-            if (temp != null)
-            {
+            if (temp != null) {
                 return temp;
             }
         }
@@ -351,28 +291,24 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
     }
 
     /**
-     * A {@link Model} which uses an id to load its {@link Foo}. If {@link Foo}s were
-     * {@link Serializable} you could just use a standard {@link Model}.
+     * A {@link Model} which uses an id to load its {@link Foo}. If {@link Foo}s were {@link Serializable} you could just use a standard {@link Model}.
      * 
      * @see #equals(Object)
      * @see #hashCode()
      */
-    private class ItemModel extends LoadableDetachableModel<ITreeItem>
-    {
+    private class ItemModel extends LoadableDetachableModel<ITreeItem> {
         private static final long serialVersionUID = 1L;
 
         private String id;
 
-        public ItemModel(ITreeItem item)
-        {
+        public ItemModel(ITreeItem item) {
             super(item);
 
             id = item.getId();
         }
 
         @Override
-        protected ITreeItem load()
-        {
+        protected ITreeItem load() {
             return get(id);
         }
 
@@ -380,10 +316,8 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
          * Important! Models must be identifyable by their contained object.
          */
         @Override
-        public boolean equals(Object obj)
-        {
-            if (obj instanceof ItemModel)
-            {
+        public boolean equals(Object obj) {
+            if (obj instanceof ItemModel) {
                 return ((ItemModel) obj).id.equals(this.id);
             }
             return false;
@@ -393,19 +327,16 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
          * Important! Models must be identifyable by their contained object.
          */
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return id.hashCode();
         }
     }
 
-    public HashMap<Enum<?>, CheckBox> getFilters()
-    {
+    public HashMap<Enum<?>, CheckBox> getFilters() {
         return filters;
     }
 
-    public void setFilters(HashMap<Enum<?>, CheckBox> filters)
-    {
+    public void setFilters(HashMap<Enum<?>, CheckBox> filters) {
         this.filters = filters;
     }
 }

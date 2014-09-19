@@ -14,8 +14,7 @@ import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 
-public class DisciplineCollectionImpl extends AbstractDmoCollection implements DisciplineCollection
-{
+public class DisciplineCollectionImpl extends AbstractDmoCollection implements DisciplineCollection {
     public static final String EASY_DISCIPLINE_ROOT = "easy-discipline:root";
 
     public static final DmoStoreId EASY_DISCIPLINE_ROOT_DMO_STORE_ID = new DmoStoreId(EASY_DISCIPLINE_ROOT);
@@ -32,13 +31,11 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
 
     private DisciplineContainer rootDiscipline;
 
-    public static DisciplineCollectionImpl getInstance()
-    {
+    public static DisciplineCollectionImpl getInstance() {
         return INSTANCE;
     }
 
-    private DisciplineCollectionImpl()
-    {
+    private DisciplineCollectionImpl() {
         super(DISCIPLINE_COLLECTION_SID);
 
         classes = new HashSet<Class<? extends DmoCollectionMember>>();
@@ -49,24 +46,20 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         addRelationConstraint(1, DisciplineContainerImpl.class, Integer.MAX_VALUE, DatasetImpl.class);
     }
 
-    public Set<Class<? extends DmoCollectionMember>> getMemberClasses()
-    {
+    public Set<Class<? extends DmoCollectionMember>> getMemberClasses() {
         return classes;
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAME_SPACE;
     }
 
     @Override
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return DISCIPLINE_COLLECTION_SID;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return false;
     }
 
@@ -74,34 +67,26 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getRootDiscipline()
      */
-    public DisciplineContainer getRootDiscipline() throws DomainException, ObjectNotFoundException
-    {
-        try
-        {
-            if (rootDiscipline == null || rootDiscipline.isInvalidated())
-            {
+    public DisciplineContainer getRootDiscipline() throws DomainException, ObjectNotFoundException {
+        try {
+            if (rootDiscipline == null || rootDiscipline.isInvalidated()) {
                 rootDiscipline = (DisciplineContainer) Data.getEasyStore().retrieve(EASY_DISCIPLINE_ROOT_DMO_STORE_ID);
             }
             return rootDiscipline;
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             throw new ObjectNotFoundException("Root discipline not found in store", e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainException(e);
         }
     }
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineById(java
-     * .lang.String)
+     * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineById(java .lang.String)
      */
-    public DisciplineContainer getDisciplineBySid(DmoStoreId disciplineId) throws ObjectNotFoundException, DomainException
-    {
+    public DisciplineContainer getDisciplineBySid(DmoStoreId disciplineId) throws ObjectNotFoundException, DomainException {
         DisciplineContainer d = null;
         d = getSubDisciplineById(getRootDiscipline(), disciplineId);
         if (d == null)
@@ -109,10 +94,8 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         return d;
     }
 
-    private DisciplineContainer getSubDisciplineById(DisciplineContainer discipline, DmoStoreId disciplineId) throws DomainException
-    {
-        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines())
-        {
+    private DisciplineContainer getSubDisciplineById(DisciplineContainer discipline, DmoStoreId disciplineId) throws DomainException {
+        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines()) {
             if (subDiscipline.getDmoStoreId().equals(disciplineId))
                 return subDiscipline;
             DisciplineContainer result = getSubDisciplineById(subDiscipline, disciplineId);
@@ -124,12 +107,9 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineByName(
-     * java.lang.String)
+     * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineByName( java.lang.String)
      */
-    public DisciplineContainer getDisciplineByName(String disciplineName) throws ObjectNotFoundException, DomainException
-    {
+    public DisciplineContainer getDisciplineByName(String disciplineName) throws ObjectNotFoundException, DomainException {
         DisciplineContainer d = null;
         d = getSubDisciplineByName(getRootDiscipline(), disciplineName);
         if (d == null)
@@ -137,10 +117,8 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         return d;
     }
 
-    private DisciplineContainer getSubDisciplineByName(DisciplineContainer discipline, String disciplineName) throws DomainException
-    {
-        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines())
-        {
+    private DisciplineContainer getSubDisciplineByName(DisciplineContainer discipline, String disciplineName) throws DomainException {
+        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines()) {
             if (subDiscipline.getLabel().equalsIgnoreCase(disciplineName))
                 return subDiscipline;
             DisciplineContainer result = getSubDisciplineByName(subDiscipline, disciplineName);

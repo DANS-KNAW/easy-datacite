@@ -8,8 +8,7 @@ package nl.knaw.dans.common.fedora.fox;
  * 
  * @author ecco
  */
-public enum DobState
-{
+public enum DobState {
     /**
      * Indicates a Digital Object is <i>Active</i>.
      */
@@ -25,28 +24,19 @@ public enum DobState
 
     public final String fedoraQuirck;
 
-    private DobState(String fedoraQuirck)
-    {
+    private DobState(String fedoraQuirck) {
         this.fedoraQuirck = fedoraQuirck;
     }
 
     // Fedora uses 'Active' and 'A' in unpredictable ways.
-    public static DobState valueFor(String s)
-    {
-        if ("Active".equalsIgnoreCase(s) || "A".equalsIgnoreCase(s))
-        {
+    public static DobState valueFor(String s) {
+        if ("Active".equalsIgnoreCase(s) || "A".equalsIgnoreCase(s)) {
             return Active;
-        }
-        else if ("Inactive".equalsIgnoreCase(s) || "I".equalsIgnoreCase(s))
-        {
+        } else if ("Inactive".equalsIgnoreCase(s) || "I".equalsIgnoreCase(s)) {
             return Inactive;
-        }
-        else if ("Deleted".equalsIgnoreCase(s) || "D".equalsIgnoreCase(s))
-        {
+        } else if ("Deleted".equalsIgnoreCase(s) || "D".equalsIgnoreCase(s)) {
             return Deleted;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }

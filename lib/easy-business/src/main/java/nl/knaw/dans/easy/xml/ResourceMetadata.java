@@ -4,8 +4,7 @@ import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.FileItem;
 
-public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
-{
+public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata> {
 
     private static final long serialVersionUID = -6682322311713437593L;
 
@@ -18,105 +17,83 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
 
     private AdditionalMetadata additionalMetadata;
 
-    public ResourceMetadata()
-    {
+    public ResourceMetadata() {
 
     }
 
-    public ResourceMetadata(String identifier)
-    {
+    public ResourceMetadata(String identifier) {
         identifier = identifier.trim();
-        if (identifier.startsWith(FileItem.NAMESPACE.getValue()))
-        {
+        if (identifier.startsWith(FileItem.NAMESPACE.getValue())) {
             this.sid = identifier;
-        }
-        else
-        {
+        } else {
             this.path = identifier;
         }
     }
 
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return sid == null ? path : sid;
     }
 
-    public void setPath(String path)
-    {
+    public void setPath(String path) {
         this.path = path == null ? null : path.trim();
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public void setSid(String sid)
-    {
+    public void setSid(String sid) {
         this.sid = sid == null ? null : sid.trim();
     }
 
-    public String getSid()
-    {
+    public String getSid() {
         return sid;
     }
 
-    public AccessCategory getCategoryDiscover()
-    {
+    public AccessCategory getCategoryDiscover() {
         return categoryDiscover;
     }
 
-    public void setCategoryDiscover(AccessCategory categoryDiscover)
-    {
+    public void setCategoryDiscover(AccessCategory categoryDiscover) {
         this.categoryDiscover = categoryDiscover;
     }
 
-    public AccessCategory getCategoryRead()
-    {
+    public AccessCategory getCategoryRead() {
         return categoryRead;
     }
 
-    public void setCategoryRead(AccessCategory categoryRead)
-    {
+    public void setCategoryRead(AccessCategory categoryRead) {
         this.categoryRead = categoryRead;
     }
 
-    public AccessCategory getCategoryWrite()
-    {
+    public AccessCategory getCategoryWrite() {
         return categoryWrite;
     }
 
-    public void setCategoryWrite(AccessCategory categoryWrite)
-    {
+    public void setCategoryWrite(AccessCategory categoryWrite) {
         this.categoryWrite = categoryWrite;
     }
 
-    public AccessCategory getCategoryDelete()
-    {
+    public AccessCategory getCategoryDelete() {
         return categoryDelete;
     }
 
-    public void setCategoryDelete(AccessCategory categoryDelete)
-    {
+    public void setCategoryDelete(AccessCategory categoryDelete) {
         this.categoryDelete = categoryDelete;
     }
 
-    public boolean hasAdditionalMetadata()
-    {
+    public boolean hasAdditionalMetadata() {
         return additionalMetadata != null;
     }
 
-    public AdditionalMetadata getAdditionalMetadata()
-    {
-        if (additionalMetadata == null)
-        {
+    public AdditionalMetadata getAdditionalMetadata() {
+        if (additionalMetadata == null) {
             additionalMetadata = new AdditionalMetadata();
         }
         return additionalMetadata;
     }
 
-    public void setAdditionalMetadata(AdditionalMetadata additionalMetadata)
-    {
+    public void setAdditionalMetadata(AdditionalMetadata additionalMetadata) {
         this.additionalMetadata = additionalMetadata;
     }
 

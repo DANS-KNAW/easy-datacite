@@ -21,21 +21,15 @@ import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
-public class JiBXCollectionConverter
-{
+public class JiBXCollectionConverter {
 
-    public static JiBXCollection convert(DmoCollection collection, boolean isRoot)
-    {
+    public static JiBXCollection convert(DmoCollection collection, boolean isRoot) {
         JiBXCollection jibxCollection = new JiBXCollection();
         jibxCollection.setNamespace(collection.getDmoNamespace().getValue());
-        if (isRoot)
-        {
+        if (isRoot) {
             jibxCollection.setId(DmoCollection.ROOT_ID);
-        }
-        else
-        {
-            if (collection.getDmoStoreId() != null)
-            {
+        } else {
+            if (collection.getDmoStoreId() != null) {
                 jibxCollection.setId(collection.getDmoStoreId().getId());
             }
         }
@@ -53,8 +47,7 @@ public class JiBXCollectionConverter
         DmoCollectionImpl root = new DmoCollectionImpl(getRootId(jibRoot));
         root.setLabel("Root of " + root.getDmoNamespace().getValue());
         root.setShortName(jibRoot.getShortName());
-        if (jibRoot.isPublishedAsOAISet())
-        {
+        if (jibRoot.isPublishedAsOAISet()) {
             root.publishAsOAISet();
         }
         setDcMetadata(jibRoot, root);
@@ -65,39 +58,31 @@ public class JiBXCollectionConverter
     public static DmoCollectionImpl convert(URL url, boolean idFromStore) throws IOException, XMLDeserializationException, RepositoryException,
             CollectionsException
     {
-        if (url == null)
-        {
+        if (url == null) {
             throw new IOException("Not found. url == null.");
         }
         XMLErrorHandler handler = validateXml(url);
-        if (!handler.passed())
-        {
+        if (!handler.passed()) {
             throw new XMLDeserializationException(handler.getMessages());
         }
         JiBXCollection jibRoot;
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = url.openStream();
             jibRoot = (JiBXCollection) JiBXObjectFactory.unmarshal(JiBXCollection.class, inStream);
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }
         return convert(jibRoot, idFromStore);
     }
 
-    private static void addChildrenToJiBX(JiBXCollection jibxParent, DmoCollection dmoParent)
-    {
-        for (DmoCollection dmoKid : dmoParent.getChildren())
-        {
+    private static void addChildrenToJiBX(JiBXCollection jibxParent, DmoCollection dmoParent) {
+        for (DmoCollection dmoKid : dmoParent.getChildren()) {
             JiBXCollection jibxKid = new JiBXCollection();
-            if (dmoKid.getDmoStoreId() != null)
-            {
+            if (dmoKid.getDmoStoreId() != null) {
                 jibxKid.setId(dmoKid.getDmoStoreId().getId());
             }
             jibxKid.setLabel(dmoKid.getLabel());
@@ -112,25 +97,21 @@ public class JiBXCollectionConverter
     private static void addChildrenToDmo(DmoCollectionImpl dmoParent, JiBXCollection jibxParent, boolean idFromStore) throws RepositoryException,
             XMLDeserializationException, CollectionsException
     {
-        for (JiBXCollection jibKid : jibxParent.getChildren())
-        {
+        for (JiBXCollection jibKid : jibxParent.getChildren()) {
             DmoStoreId dmoStoreId = getDmoStoreId(dmoParent.getDmoNamespace(), jibKid.getId(), idFromStore);
             DmoCollectionImpl dmoKid = new DmoCollectionImpl(dmoStoreId);
             dmoParent.addChild(dmoKid);
             setDcMetadata(jibKid, dmoKid);
 
-            if (StringUtils.isBlank(jibKid.getLabel()))
-            {
+            if (StringUtils.isBlank(jibKid.getLabel())) {
                 throw new XMLDeserializationException("Element label cannot be blank: " + jibKid.getId() + " " + jibKid.getShortName());
             }
             dmoKid.setLabel(jibKid.getLabel());
-            if (StringUtils.isBlank(jibKid.getShortName()))
-            {
+            if (StringUtils.isBlank(jibKid.getShortName())) {
                 throw new XMLDeserializationException("Element short-name cannot be blank: " + jibKid.getId() + " " + jibKid.getLabel());
             }
             dmoKid.setShortName(jibKid.getShortName());
-            if (jibKid.isPublishedAsOAISet())
-            {
+            if (jibKid.isPublishedAsOAISet()) {
                 dmoKid.publishAsOAISet();
             }
 
@@ -138,70 +119,54 @@ public class JiBXCollectionConverter
         }
     }
 
-    private static void setDcMetadata(JiBXCollection jibCol, DmoCollectionImpl dmoCol)
-    {
+    private static void setDcMetadata(JiBXCollection jibCol, DmoCollectionImpl dmoCol) {
         JiBXDublinCoreMetadata dcMetadata = jibCol.getDcMetadata();
-        if (dcMetadata != null)
-        {
+        if (dcMetadata != null) {
             dmoCol.setDcMetadata(dcMetadata);
         }
     }
 
-    private static DmoStoreId getRootId(JiBXCollection jibRoot) throws XMLDeserializationException
-    {
+    private static DmoStoreId getRootId(JiBXCollection jibRoot) throws XMLDeserializationException {
         String namespace = jibRoot.getNamespace();
-        if (StringUtils.isBlank(namespace))
-        {
+        if (StringUtils.isBlank(namespace)) {
             throw new XMLDeserializationException("Attribute dmo-namespace of root-element cannot be blank.");
         }
         DmoStoreId rootId = new DmoStoreId(new DmoNamespace(namespace), DmoCollection.ROOT_ID);
         return rootId;
     }
 
-    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id, boolean idFromStore) throws RepositoryException, XMLDeserializationException
-    {
+    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id, boolean idFromStore) throws RepositoryException, XMLDeserializationException {
         DmoStoreId dmoStoreId;
-        if (idFromStore)
-        {
+        if (idFromStore) {
             dmoStoreId = Store.getStoreManager().nextDmoStoreId(dmoNamespace);
-        }
-        else
-        {
+        } else {
             dmoStoreId = getDmoStoreId(dmoNamespace, id);
         }
         return dmoStoreId;
     }
 
-    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id) throws XMLDeserializationException
-    {
-        if (StringUtils.isBlank(id))
-        {
+    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id) throws XMLDeserializationException {
+        if (StringUtils.isBlank(id)) {
             throw new XMLDeserializationException("Attribute id of element dmo-collections is blank and idFromStore is false.");
         }
         return new DmoStoreId(dmoNamespace, id);
     }
 
-    private static XMLErrorHandler validateXml(URL url) throws XMLDeserializationException
-    {
+    private static XMLErrorHandler validateXml(URL url) throws XMLDeserializationException {
         XMLErrorHandler handler;
-        try
-        {
+        try {
             handler = CollectionTreeValidator.instance().validate(url.openStream(), null);
         }
-        catch (ValidatorException e)
-        {
+        catch (ValidatorException e) {
             throw new XMLDeserializationException(e);
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             throw new XMLDeserializationException(e);
         }
-        catch (SchemaCreationException e)
-        {
+        catch (SchemaCreationException e) {
             throw new XMLDeserializationException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new XMLDeserializationException(e);
         }
         return handler;

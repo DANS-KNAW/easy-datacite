@@ -6,20 +6,16 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 
-public abstract class CommonWicketApplication extends WebApplication
-{
-    public CommonWicketApplication()
-    {
+public abstract class CommonWicketApplication extends WebApplication {
+    public CommonWicketApplication() {
         super();
     }
 
-    public boolean isInDevelopmentMode()
-    {
+    public boolean isInDevelopmentMode() {
         return DEVELOPMENT.equalsIgnoreCase(getConfigurationType());
     }
 
-    public static String getUserIpAddress()
-    {
+    public static String getUserIpAddress() {
         RequestCycle r = RequestCycle.get();
         // there might not be a requestcycle
         if (r == null)
@@ -32,8 +28,7 @@ public abstract class CommonWicketApplication extends WebApplication
         return ((WebRequest) req).getHttpServletRequest().getRemoteAddr();
     }
 
-    public static String getProperty(String key)
-    {
+    public static String getProperty(String key) {
         return (String) new ResourceModel(key).getObject();
     }
 

@@ -39,8 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class TransformPakbonPostProcess extends UploadSingleFilePostProcess
-{
+public class TransformPakbonPostProcess extends UploadSingleFilePostProcess {
     private static final Logger log = LoggerFactory.getLogger(TransformPakbonPostProcess.class);
 
     private final UploadStatus status = new UploadStatus("Initializing pakbon transform process");
@@ -54,15 +53,13 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess
     @SpringBean(name = "datasetService")
     private DatasetService datasetService;
 
-    public TransformPakbonPostProcess(DatasetModel datasetModel)
-    {
+    public TransformPakbonPostProcess(DatasetModel datasetModel) {
         super(datasetModel);
         InjectorHolder.getInjector().inject(this);
     }
 
     @Override
-    protected void processUploadedFile(File pakbon) throws UploadPostProcessException
-    {
+    protected void processUploadedFile(File pakbon) throws UploadPostProcessException {
         log.info("Performing Pakbon to EMD transformation on {}", pakbon.getName());
         status.setMessage("Initializing ...");
         validate(pakbon);
@@ -73,16 +70,13 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess
         status.setMessage("Pakbon import complete.");
     }
 
-    private void validate(File pakbon) throws UploadPostProcessException
-    {
+    private void validate(File pakbon) throws UploadPostProcessException {
         PakbonValidator validator = new PakbonValidator(validatorCredentials);
         ValidateXmlResponse response;
-        try
-        {
+        try {
             response = validator.validateXml(getPakbonInputStream(pakbon));
             Validation v = response.getValidation();
-            if (!v.getValidXml())
-            {
+            if (!v.getValidXml()) {
                 int errors = v.getErrorCount();
                 int warnings = v.getWarningCount();
                 String msg1 = errors + warnings > 0 ? v.getMessages()[0].getMessage() : "";
@@ -90,130 +84,103 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess
                         + " warnings. First message: " + msg1);
             }
         }
-        catch (ValidatorException e)
-        {
+        catch (ValidatorException e) {
             error("Unable to validate Pakbon file", e);
         }
-        catch (SOAPException e)
-        {
+        catch (SOAPException e) {
             error("Unable to communicate with validation service", e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             error("Unable to read Pakbon file to validate", e);
         }
     }
 
-    private InputStream getPakbonInputStream(File pakbon) throws UploadPostProcessException
-    {
-        try
-        {
+    private InputStream getPakbonInputStream(File pakbon) throws UploadPostProcessException {
+        try {
             return FileUtils.openInputStream(pakbon);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             error("Could not open uploaded Pakbon file", e);
         }
         return null;
     }
 
-    private String transform(File pakbon) throws UploadPostProcessException
-    {
-        try
-        {
+    private String transform(File pakbon) throws UploadPostProcessException {
+        try {
             byte[] result = new Pakbon2EmdTransformer().transform(FileUtils.openInputStream(pakbon));
             return new String(result, "UTF-8");
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             error("Could not open uploaded Pakbon for transformation", e);
         }
-        catch (TransformerException e)
-        {
+        catch (TransformerException e) {
             error("Error during Pakbon to EASY metadata tranformation process", e);
         }
         return null;
     }
 
-    private void updateEasyMetadata(String emdXml) throws UploadPostProcessException
-    {
-        try
-        {
+    private void updateEasyMetadata(String emdXml) throws UploadPostProcessException {
+        try {
             getDataset().replaceEasyMetadata(emdXml);
         }
-        catch (DomainException e)
-        {
+        catch (DomainException e) {
             error("Error saving EASY metadata", e);
         }
     }
 
-    private void ingest(final File pakbon) throws UploadPostProcessException
-    {
+    private void ingest(final File pakbon) throws UploadPostProcessException {
         List<File> files = new ArrayList<File>();
         files.add(pakbon);
-        try
-        {
+        try {
             DmoStoreId parentDmoStoreId = getDataset().getDmoStoreId();
             itemService.addDirectoryContents(EasySession.get().getUser(), getDataset(), parentDmoStoreId, pakbon.getParentFile(), files);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             error("Could not ingest Pakbon file", e);
         }
-        finally
-        {
+        finally {
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(getDataset()), new UploadFileStatistics(files));
         }
     }
 
-    private void updatePakbonImportedStatus()
-    {
+    private void updatePakbonImportedStatus() {
         getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().setPakbonStatus(PakbonStatus.IMPORTED);
     }
 
-    private void saveEasyMetadata() throws UploadPostProcessException
-    {
-        try
-        {
+    private void saveEasyMetadata() throws UploadPostProcessException {
+        try {
             datasetService.saveEasyMetadata(EasySession.getSessionUser(), getDataset());
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             error("Could not save IMPORTED status to Easy metadata", e);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             error("Could not save IMPORTED status to Easy metadata", e);
         }
     }
 
-    private void error(String msg, Throwable t) throws UploadPostProcessException
-    {
+    private void error(String msg, Throwable t) throws UploadPostProcessException {
         status.setError(true);
         status.setMessage(msg);
         throw new UploadPostProcessException(msg);
     }
 
-    private void error(String msg) throws UploadPostProcessException
-    {
+    private void error(String msg) throws UploadPostProcessException {
         error(msg, null);
     }
 
-    public void cancel()
-    {
+    public void cancel() {
         /*
-         * Disabled cancel. It will not really cancel the action, as there is no rollback. Neither is
-         * this a long-running process, so there is really no good reason to have a kind of semi-cancel.
+         * Disabled cancel. It will not really cancel the action, as there is no rollback. Neither is this a long-running process, so there is really no good
+         * reason to have a kind of semi-cancel.
          */
     }
 
-    public UploadStatus getStatus()
-    {
+    public UploadStatus getStatus() {
         return status;
     }
 
-    public boolean needsProcessing(List<File> files)
-    {
+    public boolean needsProcessing(List<File> files) {
         return true;
     }
 }

@@ -15,23 +15,19 @@ import nl.knaw.dans.easy.web.HomePage;
 
 import org.junit.Test;
 
-public class TestUserInfoPage extends UserInfoFixture
-{
-    static public class UserInfoPageWrapper extends UserInfoPage
-    {
+public class TestUserInfoPage extends UserInfoFixture {
+    static public class UserInfoPageWrapper extends UserInfoPage {
         static boolean inEditMode;
         static boolean enableModeSwith;
         static String userId;
 
-        public UserInfoPageWrapper()
-        {
+        public UserInfoPageWrapper() {
             super(userId, inEditMode, enableModeSwith);
         }
     }
 
     @Test
-    public void viewSmokeTest() throws Exception
-    {
+    public void viewSmokeTest() throws Exception {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = applicationContext.expectAuthenticatedAsVisitor().getId();
@@ -49,8 +45,7 @@ public class TestUserInfoPage extends UserInfoFixture
     }
 
     @Test
-    public void clickEdit() throws Exception
-    {
+    public void clickEdit() throws Exception {
         applicationContext.expectAuthenticatedAsVisitor();
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
@@ -61,8 +56,7 @@ public class TestUserInfoPage extends UserInfoFixture
     }
 
     @Test
-    public void notLoggedIn() throws Exception
-    {
+    public void notLoggedIn() throws Exception {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = shownUser.getId();
@@ -71,8 +65,7 @@ public class TestUserInfoPage extends UserInfoFixture
     }
 
     @Test
-    public void deleteFederationUsers() throws Exception
-    {
+    public void deleteFederationUsers() throws Exception {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
@@ -98,8 +91,7 @@ public class TestUserInfoPage extends UserInfoFixture
     }
 
     @Test
-    public void popupStyle() throws Exception
-    {
+    public void popupStyle() throws Exception {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
@@ -112,8 +104,7 @@ public class TestUserInfoPage extends UserInfoFixture
         tester.dumpPage();
     }
 
-    private EasyUser mockUserWithFederationLinks() throws ServiceException, ObjectNotAvailableException
-    {
+    private EasyUser mockUserWithFederationLinks() throws ServiceException, ObjectNotAvailableException {
         final FederativeUserService federativeUserServiceMock = createMock(FederativeUserService.class);
         applicationContext.putBean("federativeUserServiceMock", federativeUserServiceMock);
 

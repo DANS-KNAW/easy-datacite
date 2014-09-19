@@ -13,8 +13,7 @@ import nl.knaw.dans.common.lang.user.User;
  * 
  * @author ecco
  */
-public interface UserRepo<T extends User> extends GenericRepo<T>
-{
+public interface UserRepo<T extends User> extends GenericRepo<T> {
 
     /**
      * Authenticate with userId and password.
@@ -43,9 +42,8 @@ public interface UserRepo<T extends User> extends GenericRepo<T>
     Map<String, String> findByCommonNameStub(String stub, long maxCount) throws RepositoryException;
 
     /**
-     * Determine if there is a password stored for the user with the given uid. Some users might not need
-     * a password stored in this user repository, for instance when authenticated by an external system
-     * (federation).
+     * Determine if there is a password stored for the user with the given uid. Some users might not need a password stored in this user repository, for
+     * instance when authenticated by an external system (federation).
      * 
      * @param userId
      *        username

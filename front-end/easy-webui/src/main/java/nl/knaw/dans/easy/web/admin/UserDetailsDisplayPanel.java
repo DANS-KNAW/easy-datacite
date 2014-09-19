@@ -23,8 +23,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyResources
-{
+public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyResources {
     private static Logger logger = LoggerFactory.getLogger(UserDetailsDisplayPanel.class);
 
     private static final long serialVersionUID = 227752819073521342L;
@@ -35,16 +34,14 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
     @SpringBean(name = "userService")
     private UserService userService;
 
-    public UserDetailsDisplayPanel(final SwitchPanel parent, final IModel model, final boolean enableModeSwitch)
-    {
+    public UserDetailsDisplayPanel(final SwitchPanel parent, final IModel model, final boolean enableModeSwitch) {
         super(SwitchPanel.SWITCH_PANEL_WI, model);
         this.parent = parent;
         this.enableModeSwitch = enableModeSwitch;
         constructPanel();
     }
 
-    private void constructPanel()
-    {
+    private void constructPanel() {
         EasyUser user = (EasyUser) getDefaultModel().getObject();
 
         add(new Label(UserProperties.USER_ID));
@@ -77,12 +74,10 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         DateTime lastLogin = user.getLastLoginDate();
 
         OperationalAttributes opa;
-        try
-        {
+        try {
             opa = userService.getOperationalAttributes(user);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
@@ -93,36 +88,31 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         add(DateLabel.forDatePattern("createTime", new Model(cDate == null ? null : cDate.toDate()), "yyyy-MM-dd HH:mm"));
         add(DateLabel.forDatePattern("lastLogin", new Model(lastLogin == null ? null : lastLogin.toDate()), "yyyy-MM-dd HH:mm"));
 
-        Link modeSwitch = new Link(EDIT_LINK)
-        {
+        Link modeSwitch = new Link(EDIT_LINK) {
 
             private static final long serialVersionUID = -6746681373982634187L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 parent.switchMode();
             }
         };
         modeSwitch.setVisible(enableModeSwitch);
         add(modeSwitch);
 
-        Link doneLink = new Link(DONE_LINK)
-        {
+        Link doneLink = new Link(DONE_LINK) {
 
             private static final long serialVersionUID = -9021249896478173151L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(UsersOverviewPage.class);
             }
         };
         add(doneLink);
     }
 
-    private String getDisciplineString(String id)
-    {
+    private String getDisciplineString(String id) {
         KeyValuePair result = DisciplineUtils.getDisciplineItemById(id);
 
         return result == null ? "" : result.getValue();

@@ -7,8 +7,7 @@ import java.io.StringWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OS
-{
+public class OS {
 
     public static final String PROP_OSNAME = "os.name";
 
@@ -20,23 +19,19 @@ public class OS
 
     private static final Logger logger = LoggerFactory.getLogger(OS.class);
 
-    public static boolean isLinux()
-    {
+    public static boolean isLinux() {
         return OS_LINUX.equals(System.getProperty(PROP_OSNAME));
     }
 
-    public static boolean isMac()
-    {
+    public static boolean isMac() {
         return OS_MAC.equals(System.getProperty(PROP_OSNAME));
     }
 
-    public static int setAllRWX(File file) throws IOException
-    {
+    public static int setAllRWX(File file) throws IOException {
         return setAllRWX(file.getAbsolutePath());
     }
 
-    public static int setAllRWX(String filename) throws IOException
-    {
+    public static int setAllRWX(String filename) throws IOException {
         StringWriter out = new StringWriter();
         StringWriter err = new StringWriter();
         int exitValue = getStrategy().setAllRWX(filename, out, err);
@@ -46,26 +41,22 @@ public class OS
             logger.info(outStr);
         if (errStr.length() > 0)
             logger.error(errStr);
-        if (exitValue != 0)
-        {
+        if (exitValue != 0) {
             throw new IOException("Setting file rights returned with exit value " + exitValue);
         }
         return exitValue;
     }
 
-    public static int setAllRWX(File file, Appendable out, Appendable err) throws IOException
-    {
+    public static int setAllRWX(File file, Appendable out, Appendable err) throws IOException {
         return getStrategy().setAllRWX(file, out, err);
     }
 
-    public static int setAllRWX(String filename, Appendable out, Appendable err) throws IOException
-    {
+    public static int setAllRWX(String filename, Appendable out, Appendable err) throws IOException {
         return getStrategy().setAllRWX(filename, out, err);
     }
 
     /**
-     * Executes the command and waits until the process has finished. No guarantee is given that the
-     * <code>cmd</code> will be executable on the current OS.
+     * Executes the command and waits until the process has finished. No guarantee is given that the <code>cmd</code> will be executable on the current OS.
      * 
      * @param cmd
      *        command to execute
@@ -77,8 +68,7 @@ public class OS
      * @throws IOException
      *         if something goes wrong
      */
-    public static int execAndWait(String cmd, Appendable out, Appendable err) throws IOException
-    {
+    public static int execAndWait(String cmd, Appendable out, Appendable err) throws IOException {
         int exitValue = -1;
         Runtime rt = Runtime.getRuntime();
         Process process = rt.exec(cmd);
@@ -86,20 +76,17 @@ public class OS
         StreamCatcher outCatcher = new StreamCatcher(process.getInputStream(), out);
         errorCatcher.start();
         outCatcher.start();
-        try
-        {
+        try {
             exitValue = process.waitFor();
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
             throw new IOException("Interrupted: ", e);
         }
         return exitValue;
     }
 
     /**
-     * Executes the command and returns immediately. No guarantee is given that the <code>cmd</code> will
-     * be executable on the current OS.
+     * Executes the command and returns immediately. No guarantee is given that the <code>cmd</code> will be executable on the current OS.
      * <p/>
      * 
      * @param cmd
@@ -107,8 +94,7 @@ public class OS
      * @param err
      * @throws IOException
      */
-    public static void exec(String cmd, Appendable out, Appendable err) throws IOException
-    {
+    public static void exec(String cmd, Appendable out, Appendable err) throws IOException {
         Runtime rt = Runtime.getRuntime();
         Process process = rt.exec(cmd);
         StreamCatcher errorCatcher = new StreamCatcher(process.getErrorStream(), err);
@@ -117,23 +103,17 @@ public class OS
         outCatcher.start();
     }
 
-    private static OsStrategy getStrategy()
-    {
-        if (OS_STRATEGY == null)
-        {
+    private static OsStrategy getStrategy() {
+        if (OS_STRATEGY == null) {
             initStrategy();
         }
         return OS_STRATEGY;
     }
 
-    private static void initStrategy()
-    {
-        if (isLinux() || isMac())
-        {
+    private static void initStrategy() {
+        if (isLinux() || isMac()) {
             OS_STRATEGY = new LinuxOsStrategy();
-        }
-        else
-        {
+        } else {
             throw new IllegalStateException("No strategy for os " + System.getProperty(PROP_OSNAME));
         }
     }

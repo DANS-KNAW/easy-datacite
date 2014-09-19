@@ -20,14 +20,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Displays EasyMetadata in a metadata-format-specific way. How and what is displayed is governed by the
- * formDefinition with id 'emd-view-definition' in the form-description xml of the metadata format.
+ * Displays EasyMetadata in a metadata-format-specific way. How and what is displayed is governed by the formDefinition with id 'emd-view-definition' in the
+ * form-description xml of the metadata format.
  * 
  * @see src/main/resources/conf/discipline/emd/form-description/
  * @author ecco Feb 26, 2010
  */
-public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
-{
+public class EasyMetadataViewPanel extends AbstractDatasetModelPanel {
     private static final long serialVersionUID = 2726623144989585861L;
 
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataViewPanel.class);
@@ -37,12 +36,10 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
     @SpringBean(name = "depositService")
     private DepositService depositService;
 
-    public EasyMetadataViewPanel(String wicketId, DatasetModel datasetModel)
-    {
+    public EasyMetadataViewPanel(String wicketId, DatasetModel datasetModel) {
         super(wicketId, datasetModel);
         MetadataFormat emdFormat = getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-        try
-        {
+        try {
             DepositDiscipline depoDiscipline = depositService.getDiscipline(emdFormat);
             FormDescriptor formDescriptor = depoDiscipline.getEmdFormDescriptor();
 
@@ -52,18 +49,15 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
             recursivePanel.setHeadVisible(false);
             add(recursivePanel);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             new PropertiesMessage("EasyMetadataViewPanel").errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error("Unable to display easyMetadata: ", e);
             throw new InternalWebError();
         }
     }
 
-    private EmdPanelFactory getPanelFactory()
-    {
-        if (panelFactory == null)
-        {
+    private EmdPanelFactory getPanelFactory() {
+        if (panelFactory == null) {
             panelFactory = new EmdPanelFactory(RecursivePanel.PANEL_WICKET_ID, this, getDatasetModel());
             logger.debug("Created transient panelFactory.");
         }

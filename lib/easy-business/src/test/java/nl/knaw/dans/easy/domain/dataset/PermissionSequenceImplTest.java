@@ -16,16 +16,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PermissionSequenceImplTest
-{
+public class PermissionSequenceImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionSequenceImplTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testMarshalAndUnmarshalRequest() throws XMLException
-    {
+    public void testMarshalAndUnmarshalRequest() throws XMLException {
         PermissionSequence sequence = getRequestSequence("karel1");
 
         if (verbose)
@@ -38,8 +36,7 @@ public class PermissionSequenceImplTest
     }
 
     @Test
-    public void testMarshalAndUnmarshalReply() throws XMLException
-    {
+    public void testMarshalAndUnmarshalReply() throws XMLException {
         PermissionSequence sequence = getReplySequence("Alphons2");
 
         if (verbose)
@@ -50,8 +47,7 @@ public class PermissionSequenceImplTest
         assertEquals(sequence.asXMLString(), sequence2.asXMLString());
     }
 
-    public static PermissionSequenceImpl getRequestSequence(String requesterId)
-    {
+    public static PermissionSequenceImpl getRequestSequence(String requesterId) {
         EasyUser requester = new EasyUserImpl(requesterId);
         PermissionSequenceImpl sequence = new PermissionSequenceImpl(requester);
         PermissionRequestModel request = sequence.getRequestModel();
@@ -62,8 +58,7 @@ public class PermissionSequenceImplTest
         return sequence;
     }
 
-    public static PermissionSequence getReplySequence(String requesterId)
-    {
+    public static PermissionSequence getReplySequence(String requesterId) {
         PermissionSequenceImpl sequence = getRequestSequence(requesterId);
         PermissionReplyModel reply = sequence.getReplyModel();
         reply.setExplanation("This is the explanation or reply text");
@@ -73,8 +68,7 @@ public class PermissionSequenceImplTest
     }
 
     @Test
-    public void testDirty()
-    {
+    public void testDirty() {
         PermissionSequenceImpl sequence = new PermissionSequenceImpl("requester");
         sequence.setDirty(false);
         sequence.setReplyText("replyText");

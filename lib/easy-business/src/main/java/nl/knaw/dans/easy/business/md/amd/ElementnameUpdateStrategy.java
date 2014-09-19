@@ -9,63 +9,49 @@ import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 
 /**
- * Replace or add {@link AdditionalContent} with a certain id. Implementation of
- * {@link AdditionalMetadataUpdateStrategy} that adds or replaces additional metadata contained in a flat
- * list of name-value pairs where element-name is name. This type of additional FileItem metadata is used
- * by archaeologists.
+ * Replace or add {@link AdditionalContent} with a certain id. Implementation of {@link AdditionalMetadataUpdateStrategy} that adds or replaces additional
+ * metadata contained in a flat list of name-value pairs where element-name is name. This type of additional FileItem metadata is used by archaeologists.
  */
-public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrategy
-{
+public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrategy {
     private final String additionalId;
 
-    public ElementnameUpdateStrategy(String additionalId)
-    {
+    public ElementnameUpdateStrategy(String additionalId) {
         this.additionalId = additionalId;
     }
 
     @Override
-    public void update(AdditionalMetadataOwner owner, AdditionalMetadata additionalMetadata)
-    {
+    public void update(AdditionalMetadataOwner owner, AdditionalMetadata additionalMetadata) {
         AdditionalContent newAdditionalContent = additionalMetadata.getAdditionalContent(additionalId);
-        if (newAdditionalContent == null)
-        {
+        if (newAdditionalContent == null) {
             return; // nothing to add or replace
         }
 
         AdditionalMetadata originalAddMd = owner.getAdditionalMetadata();
         AdditionalContent oldAdditionalContent = originalAddMd.getAdditionalContent(additionalId);
-        if (oldAdditionalContent == null)
-        {
+        if (oldAdditionalContent == null) {
             originalAddMd.addAdditionalContent(newAdditionalContent); // add everything, nothing to
                                                                       // replace
-        }
-        else
-        {
+        } else {
             replaceOrAdd(oldAdditionalContent, newAdditionalContent, originalAddMd);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void replaceOrAdd(AdditionalContent oldAdditionalContent, AdditionalContent newAdditionalContent, AdditionalMetadata originalAddMd)
-    {
+    private void replaceOrAdd(AdditionalContent oldAdditionalContent, AdditionalContent newAdditionalContent, AdditionalMetadata originalAddMd) {
         Element oldContent = oldAdditionalContent.getContent();
         Element newContent = newAdditionalContent.getContent();
 
         Iterator<Element> iter = newContent.elementIterator();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             Element newElement = iter.next();
             String elementName = newElement.getName();
 
             Element oldElement = oldContent.element(elementName);
-            if (oldElement == null)
-            {
+            if (oldElement == null) {
                 Element el = new DefaultElement(newElement.getName());
                 el.setText(newElement.getText());
                 oldContent.add(el);
-            }
-            else
-            {
+            } else {
                 oldElement.setText(newElement.getText());
             }
         }

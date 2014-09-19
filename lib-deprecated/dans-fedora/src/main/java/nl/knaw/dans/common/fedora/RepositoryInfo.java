@@ -3,120 +3,92 @@ package nl.knaw.dans.common.fedora;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class RepositoryInfo
-{
+public class RepositoryInfo {
     private final fedora.server.types.gen.RepositoryInfo info;
 
-    public RepositoryInfo(fedora.server.types.gen.RepositoryInfo info)
-    {
+    public RepositoryInfo(fedora.server.types.gen.RepositoryInfo info) {
         this.info = info;
     }
 
-    public String[] getAdminEmailList()
-    {
+    public String[] getAdminEmailList() {
         return info.getAdminEmailList();
     }
 
-    public String getDefaultExportFormat()
-    {
+    public String getDefaultExportFormat() {
         return info.getDefaultExportFormat();
     }
 
-    public String getOAINamespace()
-    {
+    public String getOAINamespace() {
         return info.getOAINamespace();
     }
 
-    public String getRepositoryBaseURL()
-    {
+    public String getRepositoryBaseURL() {
         return info.getRepositoryBaseURL();
     }
 
-    public String getRepositoryName()
-    {
+    public String getRepositoryName() {
         return info.getRepositoryName();
     }
 
-    public String getRepositoryPIDNamespace()
-    {
+    public String getRepositoryPIDNamespace() {
         return info.getRepositoryPIDNamespace();
     }
 
-    public String getRepositoryVersion()
-    {
+    public String getRepositoryVersion() {
         return info.getRepositoryVersion();
     }
 
-    public String[] getRetainPIDs()
-    {
+    public String[] getRetainPIDs() {
         return info.getRetainPIDs();
     }
 
-    public String getSampleAccessURL()
-    {
+    public String getSampleAccessURL() {
         return info.getSampleAccessURL();
     }
 
-    public String getSampleOAIIdentifier()
-    {
+    public String getSampleOAIIdentifier() {
         return info.getSampleOAIIdentifier();
     }
 
-    public String getSampleOAIURL()
-    {
+    public String getSampleOAIURL() {
         return info.getSampleOAIURL();
     }
 
-    public String getSamplePID()
-    {
+    public String getSamplePID() {
         return info.getSamplePID();
     }
 
-    public String getSampleSearchURL()
-    {
+    public String getSampleSearchURL() {
         return info.getSampleSearchURL();
     }
 
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder builder = new StringBuilder();
-        for (Method method : this.getClass().getDeclaredMethods())
-        {
-            if (!"toString".equals(method.getName()))
-            {
-                try
-                {
+        for (Method method : this.getClass().getDeclaredMethods()) {
+            if (!"toString".equals(method.getName())) {
+                try {
                     builder.append("\n" + method.getName().substring(3));
                     final Object value = method.invoke(this);
-                    if (value == null)
-                    {
+                    if (value == null) {
                         builder.append("=null");
-                    }
-                    else if (value.getClass().isArray())
-                    {
+                    } else if (value.getClass().isArray()) {
                         builder.append(":");
                         final String[] values = (String[]) value;
-                        for (String v : values)
-                        {
+                        for (String v : values) {
                             builder.append("\n\t" + v);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         builder.append("=" + value);
                     }
 
                 }
-                catch (final IllegalArgumentException e)
-                {
+                catch (final IllegalArgumentException e) {
                     throw new RuntimeException(e);
                 }
-                catch (final IllegalAccessException e)
-                {
+                catch (final IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
-                catch (final InvocationTargetException e)
-                {
+                catch (final InvocationTargetException e) {
                     throw new RuntimeException(e);
                 }
             }

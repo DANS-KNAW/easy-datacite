@@ -15,14 +15,12 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class TestResourceTest extends RestTest
-{
+public class TestResourceTest extends RestTest {
     private final EasyUser user = new EasyUserImpl();
     private final String firstname = "Dennis";
 
     @Test
-    public void helloWorld()
-    {
+    public void helloWorld() {
         WebResource webResource = resource().path("hello/world");
         String responseMsg = webResource.get(String.class);
 
@@ -31,8 +29,7 @@ public class TestResourceTest extends RestTest
     }
 
     @Test
-    public void helloUser()
-    {
+    public void helloUser() {
         setUpUserService();
 
         ClientResponse response = resource().path("hello").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
@@ -43,15 +40,12 @@ public class TestResourceTest extends RestTest
         assertEquals("hello, " + firstname, entity);
     }
 
-    private void setUpUserService()
-    {
+    private void setUpUserService() {
         Services services = new Services();
 
-        UserService userService = new EasyUserService()
-        {
+        UserService userService = new EasyUserService() {
             @Override
-            public void authenticate(Authentication authentication) throws ServiceException
-            {
+            public void authenticate(Authentication authentication) throws ServiceException {
                 user.setFirstname(firstname);
                 authentication.setUser(user);
             }
@@ -61,8 +55,7 @@ public class TestResourceTest extends RestTest
     }
 
     @Test
-    public void helloAnonymousUser()
-    {
+    public void helloAnonymousUser() {
         setUpAnonymousUserException();
 
         ClientResponse response = resource().path("hello").get(ClientResponse.class);
@@ -70,15 +63,12 @@ public class TestResourceTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpAnonymousUserException()
-    {
+    private void setUpAnonymousUserException() {
         Services services = new Services();
 
-        UserService userService = new EasyUserService()
-        {
+        UserService userService = new EasyUserService() {
             @Override
-            public void authenticate(Authentication authentication) throws ServiceException
-            {
+            public void authenticate(Authentication authentication) throws ServiceException {
                 throw (new AnonymousUserException("WTF"));
             }
         };
@@ -87,8 +77,7 @@ public class TestResourceTest extends RestTest
     }
 
     @Test
-    public void helloUserServiceException()
-    {
+    public void helloUserServiceException() {
         setUpUserException();
 
         ClientResponse response = resource().path("hello").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
@@ -96,15 +85,12 @@ public class TestResourceTest extends RestTest
         assertEquals(500, response.getStatus());
     }
 
-    private void setUpUserException()
-    {
+    private void setUpUserException() {
         Services services = new Services();
 
-        UserService userService = new EasyUserService()
-        {
+        UserService userService = new EasyUserService() {
             @Override
-            public void authenticate(Authentication authentication) throws ServiceException
-            {
+            public void authenticate(Authentication authentication) throws ServiceException {
                 throw (new ServiceException("WTF"));
             }
         };

@@ -18,8 +18,7 @@ import org.joda.time.DateTime;
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
  * @author ecco
  */
-public class EmdDate extends AbstractEmdContainer
-{
+public class EmdDate extends AbstractEmdContainer {
 
     private static final long serialVersionUID = -3009080247290017998L;
 
@@ -72,10 +71,8 @@ public class EmdDate extends AbstractEmdContainer
     public static final String DATE_COPYRIGHTED = "dateCopyrighted";
     public static final String DATE_SUBMITTED = "dateSubmitted";
 
-    public static List<String> getQualifierList()
-    {
-        if (QUALIFIER_LIST == null)
-        {
+    public static List<String> getQualifierList() {
+        if (QUALIFIER_LIST == null) {
             QUALIFIER_LIST = new ArrayList<String>();
             QUALIFIER_LIST.add(DATE);
             QUALIFIER_LIST.add(CREATED);
@@ -90,8 +87,7 @@ public class EmdDate extends AbstractEmdContainer
         return Collections.unmodifiableList(QUALIFIER_LIST);
     }
 
-    public Map<String, List<IsoDate>> getIsoDateMap()
-    {
+    public Map<String, List<IsoDate>> getIsoDateMap() {
         // application critic date types (created, available, submitted) are set separately
         // and cannot be in drop down gui widgets.
         Map<String, List<IsoDate>> map = new HashMap<String, List<IsoDate>>();
@@ -105,8 +101,7 @@ public class EmdDate extends AbstractEmdContainer
         return map;
     }
 
-    public Map<String, List<IsoDate>> getAllIsoDates()
-    {
+    public Map<String, List<IsoDate>> getAllIsoDates() {
         Map<String, List<IsoDate>> map = new HashMap<String, List<IsoDate>>();
         map.put(DATE, this.getEasDate());
         map.put(CREATED, getEasCreated());
@@ -121,8 +116,7 @@ public class EmdDate extends AbstractEmdContainer
         return map;
     }
 
-    public Map<String, List<BasicDate>> getBasicDateMap()
-    {
+    public Map<String, List<BasicDate>> getBasicDateMap() {
         // application critic date types (created, available, submitted) are set separately
         // and cannot be in drop down gui widgets.
         // above all: Basic Dates are Strings and cannot be used in date calculations.
@@ -137,8 +131,7 @@ public class EmdDate extends AbstractEmdContainer
         return map;
     }
 
-    public Map<String, List<BasicDate>> getAllBasicDates()
-    {
+    public Map<String, List<BasicDate>> getAllBasicDates() {
         Map<String, List<BasicDate>> map = new HashMap<String, List<BasicDate>>();
         map.put(DATE, this.getDcDate());
         map.put(CREATED, this.getTermsCreated());
@@ -160,108 +153,87 @@ public class EmdDate extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
-    public DateTime getDateCreated()
-    {
+    public DateTime getDateCreated() {
         DateTime dt = null;
-        if (easCreated != null && easCreated.size() > 0)
-        {
+        if (easCreated != null && easCreated.size() > 0) {
             dt = easCreated.get(0).getValue();
         }
         return dt;
     }
 
-    public String getFormattedDateCreated()
-    {
+    public String getFormattedDateCreated() {
         String fdt = null;
-        if (easCreated != null && easCreated.size() > 0)
-        {
+        if (easCreated != null && easCreated.size() > 0) {
             fdt = easCreated.get(0).toString();
         }
         return fdt;
     }
 
-    public DateTime getDateAvailable()
-    {
+    public DateTime getDateAvailable() {
         DateTime dt = null;
-        if (easAvailable != null && easAvailable.size() > 0)
-        {
+        if (easAvailable != null && easAvailable.size() > 0) {
             dt = easAvailable.get(0).getValue();
         }
         return dt;
     }
 
-    public String getFormattedDateAvailable()
-    {
+    public String getFormattedDateAvailable() {
         String fdt = null;
-        if (easAvailable != null && easAvailable.size() > 0)
-        {
+        if (easAvailable != null && easAvailable.size() > 0) {
             fdt = easAvailable.get(0).toString();
         }
         return fdt;
     }
 
     /**
-     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getDcDate()
-    {
-        if (dcDate == null)
-        {
+    public List<BasicDate> getDcDate() {
+        if (dcDate == null) {
             dcDate = new ArrayList<BasicDate>();
         }
         return dcDate;
     }
 
     /**
-     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @param dcDate
      *        a list of resource properties
      */
-    public void setDcDate(final List<BasicDate> dcDate)
-    {
+    public void setDcDate(final List<BasicDate> dcDate) {
         this.dcDate = dcDate;
     }
 
     /**
-     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsCreated()
-    {
-        if (termsCreated == null)
-        {
+    public List<BasicDate> getTermsCreated() {
+        if (termsCreated == null) {
             termsCreated = new ArrayList<BasicDate>();
         }
         return termsCreated;
     }
 
     /**
-     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @param termsCreated
      *        a list of resource properties
      */
-    public void setTermsCreated(final List<BasicDate> termsCreated)
-    {
+    public void setTermsCreated(final List<BasicDate> termsCreated) {
         this.termsCreated = termsCreated;
     }
 
@@ -271,10 +243,8 @@ public class EmdDate extends AbstractEmdContainer
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsValid()
-    {
-        if (termsValid == null)
-        {
+    public List<BasicDate> getTermsValid() {
+        if (termsValid == null) {
             termsValid = new ArrayList<BasicDate>();
         }
         return termsValid;
@@ -287,53 +257,42 @@ public class EmdDate extends AbstractEmdContainer
      * @param termsValid
      *        a list of resource properties
      */
-    public void setTermsValid(final List<BasicDate> termsValid)
-    {
+    public void setTermsValid(final List<BasicDate> termsValid) {
         this.termsValid = termsValid;
     }
 
     /**
-     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsAvailable()
-    {
-        if (termsAvailable == null)
-        {
+    public List<BasicDate> getTermsAvailable() {
+        if (termsAvailable == null) {
             termsAvailable = new ArrayList<BasicDate>();
         }
         return termsAvailable;
     }
 
     /**
-     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @param termsAvailable
      *        a list of resource properties
      */
-    public void setTermsAvailable(final List<BasicDate> termsAvailable)
-    {
+    public void setTermsAvailable(final List<BasicDate> termsAvailable) {
         this.termsAvailable = termsAvailable;
     }
 
     /**
      * Get a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsIssued()
-    {
-        if (termsIssued == null)
-        {
+    public List<BasicDate> getTermsIssued() {
+        if (termsIssued == null) {
             termsIssued = new ArrayList<BasicDate>();
         }
         return termsIssued;
@@ -342,197 +301,155 @@ public class EmdDate extends AbstractEmdContainer
     /**
      * Set a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @param termsIssued
      *        a list of resource properties
      */
-    public void setTermsIssued(final List<BasicDate> termsIssued)
-    {
+    public void setTermsIssued(final List<BasicDate> termsIssued) {
         this.termsIssued = termsIssued;
     }
 
     /**
-     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsModified()
-    {
-        if (termsModified == null)
-        {
+    public List<BasicDate> getTermsModified() {
+        if (termsModified == null) {
             termsModified = new ArrayList<BasicDate>();
         }
         return termsModified;
     }
 
     /**
-     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @param termsModified
      *        a list of resource properties
      */
-    public void setTermsModified(final List<BasicDate> termsModified)
-    {
+    public void setTermsModified(final List<BasicDate> termsModified) {
         this.termsModified = termsModified;
     }
 
     /**
-     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsDateAccepted()
-    {
-        if (termsDateAccepted == null)
-        {
+    public List<BasicDate> getTermsDateAccepted() {
+        if (termsDateAccepted == null) {
             termsDateAccepted = new ArrayList<BasicDate>();
         }
         return termsDateAccepted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @param termsDateAccepted
      *        a list of resource properties
      */
-    public void setTermsDateAccepted(final List<BasicDate> termsDateAccepted)
-    {
+    public void setTermsDateAccepted(final List<BasicDate> termsDateAccepted) {
         this.termsDateAccepted = termsDateAccepted;
     }
 
     /**
-     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsDateCopyrighted()
-    {
-        if (termsDateCopyrighted == null)
-        {
+    public List<BasicDate> getTermsDateCopyrighted() {
+        if (termsDateCopyrighted == null) {
             termsDateCopyrighted = new ArrayList<BasicDate>();
         }
         return termsDateCopyrighted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @param termsDateCopyrighted
      *        a list of resource properties
      */
-    public void setTermsDateCopyrighted(final List<BasicDate> termsDateCopyrighted)
-    {
+    public void setTermsDateCopyrighted(final List<BasicDate> termsDateCopyrighted) {
         this.termsDateCopyrighted = termsDateCopyrighted;
     }
 
     /**
-     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @return a list of resource properties
      */
-    public List<BasicDate> getTermsDateSubmitted()
-    {
-        if (termsDateSubmitted == null)
-        {
+    public List<BasicDate> getTermsDateSubmitted() {
+        if (termsDateSubmitted == null) {
             termsDateSubmitted = new ArrayList<BasicDate>();
         }
         return termsDateSubmitted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @param termsDateSubmitted
      *        a list of resource properties
      */
-    public void setTermsDateSubmitted(final List<BasicDate> termsDateSubmitted)
-    {
+    public void setTermsDateSubmitted(final List<BasicDate> termsDateSubmitted) {
         this.termsDateSubmitted = termsDateSubmitted;
     }
 
     /**
-     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasDate()
-    {
-        if (easDate == null)
-        {
+    public List<IsoDate> getEasDate() {
+        if (easDate == null) {
             easDate = new ArrayList<IsoDate>();
         }
         return easDate;
     }
 
     /**
-     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @param easDate
      *        a list of resource properties
      */
-    public void setEasDate(final List<IsoDate> easDate)
-    {
+    public void setEasDate(final List<IsoDate> easDate) {
         this.easDate = easDate;
     }
 
     /**
-     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasCreated()
-    {
-        if (easCreated == null)
-        {
+    public List<IsoDate> getEasCreated() {
+        if (easCreated == null) {
             easCreated = new ArrayList<IsoDate>();
         }
         return easCreated;
     }
 
     /**
-     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @param easCreated
      *        a list of resource properties
      */
-    public void setEasCreated(final List<IsoDate> easCreated)
-    {
+    public void setEasCreated(final List<IsoDate> easCreated) {
         this.easCreated = easCreated;
     }
 
@@ -542,10 +459,8 @@ public class EmdDate extends AbstractEmdContainer
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasValid()
-    {
-        if (easValid == null)
-        {
+    public List<IsoDate> getEasValid() {
+        if (easValid == null) {
             easValid = new ArrayList<IsoDate>();
         }
         return easValid;
@@ -558,53 +473,42 @@ public class EmdDate extends AbstractEmdContainer
      * @param easValid
      *        a list of resource properties
      */
-    public void setEasValid(final List<IsoDate> easValid)
-    {
+    public void setEasValid(final List<IsoDate> easValid) {
         this.easValid = easValid;
     }
 
     /**
-     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasAvailable()
-    {
-        if (easAvailable == null)
-        {
+    public List<IsoDate> getEasAvailable() {
+        if (easAvailable == null) {
             easAvailable = new ArrayList<IsoDate>();
         }
         return easAvailable;
     }
 
     /**
-     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @param easAvailable
      *        a list of resource properties
      */
-    public void setEasAvailable(final List<IsoDate> easAvailable)
-    {
+    public void setEasAvailable(final List<IsoDate> easAvailable) {
         this.easAvailable = easAvailable;
     }
 
     /**
      * Get a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasIssued()
-    {
-        if (easIssued == null)
-        {
+    public List<IsoDate> getEasIssued() {
+        if (easIssued == null) {
             easIssued = new ArrayList<IsoDate>();
         }
         return easIssued;
@@ -613,137 +517,107 @@ public class EmdDate extends AbstractEmdContainer
     /**
      * Set a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @param easIssued
      *        a list of resource properties
      */
-    public void setEasIssued(final List<IsoDate> easIssued)
-    {
+    public void setEasIssued(final List<IsoDate> easIssued) {
         this.easIssued = easIssued;
     }
 
     /**
-     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasModified()
-    {
-        if (easModified == null)
-        {
+    public List<IsoDate> getEasModified() {
+        if (easModified == null) {
             easModified = new ArrayList<IsoDate>();
         }
         return easModified;
     }
 
     /**
-     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @param easModified
      *        a list of resource properties
      */
-    public void setEasModified(final List<IsoDate> easModified)
-    {
+    public void setEasModified(final List<IsoDate> easModified) {
         this.easModified = easModified;
     }
 
     /**
-     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasDateAccepted()
-    {
-        if (easDateAccepted == null)
-        {
+    public List<IsoDate> getEasDateAccepted() {
+        if (easDateAccepted == null) {
             easDateAccepted = new ArrayList<IsoDate>();
         }
         return easDateAccepted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @param easDateAccepted
      *        a list of resource properties
      */
-    public void setEasDateAccepted(final List<IsoDate> easDateAccepted)
-    {
+    public void setEasDateAccepted(final List<IsoDate> easDateAccepted) {
         this.easDateAccepted = easDateAccepted;
     }
 
     /**
-     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasDateCopyrighted()
-    {
-        if (easDateCopyrighted == null)
-        {
+    public List<IsoDate> getEasDateCopyrighted() {
+        if (easDateCopyrighted == null) {
             easDateCopyrighted = new ArrayList<IsoDate>();
         }
         return easDateCopyrighted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @param easDateCopyrighted
      *        a list of resource properties
      */
-    public void setEasDateCopyrighted(final List<IsoDate> easDateCopyrighted)
-    {
+    public void setEasDateCopyrighted(final List<IsoDate> easDateCopyrighted) {
         this.easDateCopyrighted = easDateCopyrighted;
     }
 
     /**
-     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @return a list of resource properties
      */
-    public List<IsoDate> getEasDateSubmitted()
-    {
-        if (easDateSubmitted == null)
-        {
+    public List<IsoDate> getEasDateSubmitted() {
+        if (easDateSubmitted == null) {
             easDateSubmitted = new ArrayList<IsoDate>();
         }
         return easDateSubmitted;
     }
 
     /**
-     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @param easDateSubmitted
      *        a list of resource properties
      */
-    public void setEasDateSubmitted(final List<IsoDate> easDateSubmitted)
-    {
+    public void setEasDateSubmitted(final List<IsoDate> easDateSubmitted) {
         this.easDateSubmitted = easDateSubmitted;
     }
 

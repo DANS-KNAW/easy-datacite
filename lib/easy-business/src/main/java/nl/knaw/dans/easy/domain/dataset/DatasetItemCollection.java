@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember;
 
-public class DatasetItemCollection extends AbstractDmoCollection
-{
+public class DatasetItemCollection extends AbstractDmoCollection {
     private static final long serialVersionUID = -3829949809753365029L;
 
     private static final String DATASET_ITEM_COLLECTION_SID = "dataset-item-collection:1";
@@ -17,13 +16,11 @@ public class DatasetItemCollection extends AbstractDmoCollection
 
     private static final DatasetItemCollection INSTANCE = new DatasetItemCollection();
 
-    public static DatasetItemCollection getInstance()
-    {
+    public static DatasetItemCollection getInstance() {
         return INSTANCE;
     }
 
-    public DatasetItemCollection()
-    {
+    public DatasetItemCollection() {
         super(DATASET_ITEM_COLLECTION_SID);
 
         classes = new HashSet<Class<? extends DmoCollectionMember>>();
@@ -36,24 +33,20 @@ public class DatasetItemCollection extends AbstractDmoCollection
         addRelationConstraint(1, FolderItemImpl.class, Integer.MAX_VALUE, FileItemImpl.class);
     }
 
-    public Set<Class<? extends DmoCollectionMember>> getMemberClasses()
-    {
+    public Set<Class<? extends DmoCollectionMember>> getMemberClasses() {
         return classes;
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return new DmoNamespace("dataset-item-collection");
     }
 
     @Override
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return DATASET_ITEM_COLLECTION_SID;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return false;
     }
 

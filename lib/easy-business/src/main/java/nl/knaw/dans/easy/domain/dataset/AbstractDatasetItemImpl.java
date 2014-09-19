@@ -17,61 +17,50 @@ import nl.knaw.dans.easy.domain.exceptions.DomainRuntimeException;
 import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 
-public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem implements DatasetItem, DmoContainerItem
-{
+public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem implements DatasetItem, DmoContainerItem {
     private static final long serialVersionUID = -7007411478967909724L;
 
-    public AbstractDatasetItemImpl(String storeId)
-    {
+    public AbstractDatasetItemImpl(String storeId) {
         super(storeId);
         getDatasetItemMetadata().setDmoStoreId(new DmoStoreId(storeId));
     }
 
-    public Set<DmoCollection> getCollections()
-    {
+    public Set<DmoCollection> getCollections() {
         HashSet<DmoCollection> c = new HashSet<DmoCollection>();
         c.add(DatasetItemCollection.getInstance());
         return c;
     }
 
-    public DmoStoreId getDatasetId()
-    {
+    public DmoStoreId getDatasetId() {
         return getDatasetItemMetadata().getDatasetDmoStoreId();
     }
 
-    public void setDatasetId(DmoStoreId datasetId)
-    {
+    public void setDatasetId(DmoStoreId datasetId) {
         getDatasetItemMetadata().setDatasetDmoStoreId(datasetId);
         // add relation to dataset.
         DmoContainerItemRelations relations = (DmoContainerItemRelations) getRelations();
         relations.setSubordinateTo(datasetId);
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         String path = getDatasetItemMetadata().getPath();
         return path == null ? getLabel() : path;
     }
 
-    public void setParent(DatasetItemContainer parent) throws DomainException
-    {
-        try
-        {
+    public void setParent(DatasetItemContainer parent) throws DomainException {
+        try {
             super.setParent((DmoContainer) parent);
 
             onParentChanged(parent);
 
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainException(e);
         }
     }
 
-    public void onParentChanged(DatasetItemContainer parent) throws NoUnitOfWorkAttachedException, RepositoryException
-    {
-        if (parent instanceof DatasetItem)
-        {
+    public void onParentChanged(DatasetItemContainer parent) throws NoUnitOfWorkAttachedException, RepositoryException {
+        if (parent instanceof DatasetItem) {
             DatasetItem datasetItem = (DatasetItem) parent;
             getDatasetItemMetadata().setPath(datasetItem.getPath() + "/" + getLabel());
         }
@@ -80,43 +69,35 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
     }
 
     @Override
-    public boolean isDescendantOf(DmoStoreId dmoStoreId)
-    {
+    public boolean isDescendantOf(DmoStoreId dmoStoreId) {
         return dmoStoreId != null
                 && (dmoStoreId.equals(getDatasetItemMetadata().getDatasetDmoStoreId()) || dmoStoreId.equals(getDatasetItemMetadata().getParentDmoStoreId()));
     }
 
     @Override
-    public boolean isDescendantOf(DataModelObject dmo)
-    {
+    public boolean isDescendantOf(DataModelObject dmo) {
         return dmo != null && isDescendantOf(dmo.getDmoStoreId());
     }
 
     @Override
-    public void registerDeleted()
-    {
+    public void registerDeleted() {
         boolean wasRegisterDeleted = isRegisteredDeleted();
         super.registerDeleted();
 
-        if (!wasRegisterDeleted)
-        {
+        if (!wasRegisterDeleted) {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null)
-            {
+            if (parent != null) {
                 parent.onChildRemoved(this);
             }
         }
     }
 
     @Override
-    public DmoContainer getParent()
-    {
-        try
-        {
+    public DmoContainer getParent() {
+        try {
             return super.getParent();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainRuntimeException(e);
         }
     }

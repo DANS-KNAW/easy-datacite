@@ -2,10 +2,8 @@ package nl.knaw.dans.common.fedora.fox;
 
 import java.net.URI;
 
-public class ContentLocation
-{
-    public enum Type
-    {
+public class ContentLocation {
+    public enum Type {
         // @formatter:off
         INTERNAL_ID, URL
         // @formatter:on
@@ -14,33 +12,26 @@ public class ContentLocation
     private Type type;
     private URI ref;
 
-    protected ContentLocation()
-    {
-    }
+    protected ContentLocation() {}
 
-    public ContentLocation(Type type, URI ref)
-    {
+    public ContentLocation(Type type, URI ref) {
         this.type = type;
         this.ref = ref;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Type type)
-    {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public URI getRef()
-    {
+    public URI getRef() {
         return ref;
     }
 
-    public void setRef(URI ref)
-    {
+    public void setRef(URI ref) {
         this.ref = ref;
     }
 

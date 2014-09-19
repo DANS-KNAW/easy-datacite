@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.ldap;
 
 import org.joda.time.DateTime;
 
-public interface OperationalAttributes
-{
+public interface OperationalAttributes {
 
     DateTime getCreateTimestamp();
 

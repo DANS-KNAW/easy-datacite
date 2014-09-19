@@ -21,8 +21,7 @@ import fedora.services.oaiprovider.FedoraSetInfoIterator;
 import fedora.services.oaiprovider.InvocationSpec;
 import fedora.services.oaiprovider.QueryFactory;
 
-public class SparqlQueryFactory implements QueryFactory
-{
+public class SparqlQueryFactory implements QueryFactory {
 
     private static final Logger logger = Logger.getLogger(SparqlQueryFactory.class);
 
@@ -33,26 +32,21 @@ public class SparqlQueryFactory implements QueryFactory
     private RiConnector riConnector;
 
     @Override
-    public void init(FedoraClient client, FedoraClient queryClient, Properties props)
-    {
+    public void init(FedoraClient client, FedoraClient queryClient, Properties props) {
         m_fedora = client;
         composer = new SparqlQueryComposer(props);
         riConnector = new RiConnector(queryClient);
     }
 
-    protected SparqlQueryComposer getComposer()
-    {
-        if (composer == null)
-        {
+    protected SparqlQueryComposer getComposer() {
+        if (composer == null) {
             throw new IllegalStateException(this.getClass().getName() + " was not properly initialized");
         }
         return composer;
     }
 
-    protected RiConnector getRiConnector()
-    {
-        if (riConnector == null)
-        {
+    protected RiConnector getRiConnector() {
+        if (riConnector == null) {
             throw new IllegalStateException(this.getClass().getName() + " was not properly initialized");
         }
         return riConnector;
@@ -65,66 +59,54 @@ public class SparqlQueryFactory implements QueryFactory
      *        iterator over all FedoraMetadataFormats
      * @return current date according to Fedora
      */
-    public Date latestRecordDate(Iterator<? extends MetadataFormat> formats) throws RepositoryException
-    {
+    public Date latestRecordDate(Iterator<? extends MetadataFormat> formats) throws RepositoryException {
         Date current = new Date();
         logger.info("Latest last-modified date not queried. Current date in UTC is " + DateUtility.convertDateToString(current));
         return current;
     }
 
     /**
-     * Value of property driver.fedora.setSpec.desc.dissType is ignored and assumed to be:
-     * info:fedora/{star}/SetInfo.xml
+     * Value of property driver.fedora.setSpec.desc.dissType is ignored and assumed to be: info:fedora/{star}/SetInfo.xml
      */
     @Override
-    public RemoteIterator<SetInfo> listSetInfo(InvocationSpec setInfoSpec)
-    {
+    public RemoteIterator<SetInfo> listSetInfo(InvocationSpec setInfoSpec) {
         FedoraSetInfoIterator setInfoIterator;
-        if (composer.isQueryingForSetInfo())
-        {
+        if (composer.isQueryingForSetInfo()) {
             logger.info("Starting setInfoQuery. <=== ");
             String listSetInfoQuery = getComposer().getListSetInfoQuery();
             logger.debug("Calling RiConnector.getTuples() with query:\n" + listSetInfoQuery + "\n");
             TupleIterator tuples = getRiConnector().getTuples(listSetInfoQuery);
             setInfoIterator = new FedoraSetInfoIterator(m_fedora, tuples);
-        }
-        else
-        {
+        } else {
             setInfoIterator = new FedoraSetInfoIterator();
         }
         return setInfoIterator;
     }
 
     @Override
-    public RemoteIterator<FedoraRecord> listRecords(Date from, Date until, FedoraMetadataFormat format)
-    {
+    public RemoteIterator<FedoraRecord> listRecords(Date from, Date until, FedoraMetadataFormat format) {
         String fromUTC = getDateString(from);
         String untilUTC = getDateString(until);
         String primaryQuery = getComposer().getListRecordsPrimaryQuery(fromUTC, untilUTC, format);
         logger.info("Starting primaryQuery. <=== " + format.getPrefix() + " " + fromUTC + " - " + untilUTC);
         ListRecordIterator remoteIterator;
-        try
-        {
+        try {
             File primaryFile = getRiConnector().getCSVResults(primaryQuery);
             remoteIterator = new ListRecordIterator(getComposer(), getRiConnector(), primaryFile, format);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Could not list records: ", e);
             remoteIterator = new ListRecordIterator(null, null, null, null);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Could not close tempFile: ", e);
             remoteIterator = new ListRecordIterator(null, null, null, null);
         }
         return remoteIterator;
     }
 
-    protected String getDateString(Date date)
-    {
-        if (date == null)
-        {
+    protected String getDateString(Date date) {
+        if (date == null) {
             return null;
         }
         return DateUtility.convertDateToString(date);

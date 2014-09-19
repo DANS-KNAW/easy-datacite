@@ -4,24 +4,20 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-public class DmoNamespaceTest
-{
+public class DmoNamespaceTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void newNull()
-    {
+    public void newNull() {
         new DmoNamespace(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void newEmpty()
-    {
+    public void newEmpty() {
         new DmoNamespace("");
     }
 
     @Test
-    public void newMatch()
-    {
+    public void newMatch() {
         new DmoNamespace("foo");
         new DmoNamespace("foo-bar");
         new DmoNamespace("foo-123");
@@ -29,8 +25,7 @@ public class DmoNamespaceTest
     }
 
     @Test
-    public void nonMatch()
-    {
+    public void nonMatch() {
         assertFalse(isPassingMatch(" "));
         assertFalse(isPassingMatch("abc#"));
         assertFalse(isPassingMatch("\""));
@@ -40,14 +35,11 @@ public class DmoNamespaceTest
         assertFalse(isPassingMatch("@"));
     }
 
-    private boolean isPassingMatch(String value)
-    {
-        try
-        {
+    private boolean isPassingMatch(String value) {
+        try {
             new DmoNamespace(value);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return false;
         }
         return true;

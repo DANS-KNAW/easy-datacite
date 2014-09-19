@@ -27,8 +27,7 @@ import org.slf4j.LoggerFactory;
  * @author Herman Suijs
  */
 @RequireHttps
-public class RegistrationValidationPage extends AbstractAuthenticationPage
-{
+public class RegistrationValidationPage extends AbstractAuthenticationPage {
     /**
      * Serial version uid.
      */
@@ -68,8 +67,7 @@ public class RegistrationValidationPage extends AbstractAuthenticationPage
      * @param parameters
      *        pageParameters.
      */
-    public RegistrationValidationPage(final PageParameters parameters)
-    {
+    public RegistrationValidationPage(final PageParameters parameters) {
         super(parameters);
         init(parameters);
     }
@@ -82,8 +80,7 @@ public class RegistrationValidationPage extends AbstractAuthenticationPage
      * @param parameters
      *        pageParameters
      */
-    public RegistrationValidationPage(final IPageMap pageMap, final PageParameters parameters)
-    {
+    public RegistrationValidationPage(final IPageMap pageMap, final PageParameters parameters) {
         super(pageMap, parameters);
         init(parameters);
     }
@@ -94,8 +91,7 @@ public class RegistrationValidationPage extends AbstractAuthenticationPage
      * @param parameters
      *        pageParameters
      */
-    private void init(final PageParameters parameters)
-    {
+    private void init(final PageParameters parameters) {
         // Make this page stateless.
         this.setStatelessHint(true);
 
@@ -103,35 +99,29 @@ public class RegistrationValidationPage extends AbstractAuthenticationPage
         String requestTime = parameters.getString(PARAM_NAME_DATE_TIME);
         String requestToken = parameters.getString(PARAM_NAME_TOKEN);
 
-        if (StringUtils.isBlank(userId) || StringUtils.isBlank(requestTime) || StringUtils.isBlank(requestToken))
-        {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(requestTime) || StringUtils.isBlank(requestToken)) {
             final String message = errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
             logger.error(message);
             throw new InternalWebError();
         }
 
         RegistrationMailAuthentication authentication;
-        try
-        {
+        try {
             authentication = Services.getUserService().newRegistrationMailAuthentication(userId, requestTime, requestToken);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
         }
 
-        if (signIn(authentication))
-        {
-            try
-            {
+        if (signIn(authentication)) {
+            try {
                 EasyUser user = EasySession.getSessionUser();
                 user.setState(State.ACTIVE);
                 Services.getUserService().update(user, user);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                 logger.error(message, e);
                 throw new InternalWebError();
@@ -139,9 +129,7 @@ public class RegistrationValidationPage extends AbstractAuthenticationPage
 
             WicketUtil.commonMessage(this, EasyResources.REGISTRATION_ACCOUNT_VALIDATED, FeedbackMessage.INFO);
             setResponsePage(new InfoPage(EasyWicketApplication.getProperty(EasyResources.REGISTRATION_ACCOUNT_VALIDATED_TITLE)));
-        }
-        else
-        {
+        } else {
             errorMessage(EasyResources.URL_AUTHENTICATION);
             logger.error("An invalid URL is tried for validating a registration: " + authentication.toString());
             this.setResponsePage(ErrorPage.class);

@@ -20,12 +20,10 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
  * @author Roshan Timal
  */
 @Path("search")
-public class SearchResource extends AuthenticatedResource
-{
+public class SearchResource extends AuthenticatedResource {
 
     /**
-     * Executes a simple search on the metadata using the query parameter 'q' as input for the search
-     * term.
+     * Executes a simple search on the metadata using the query parameter 'q' as input for the search term.
      * 
      * @param searchTerm
      *        Search term taken from the query parameter 'q'
@@ -36,24 +34,17 @@ public class SearchResource extends AuthenticatedResource
      * @return Response containing the hits to the search query.
      */
     @GET
-    public Response search(@DefaultValue("")
-    @QueryParam(value = "q")
-    String searchTerm, @DefaultValue("0")
-    @QueryParam(value = "offset")
-    int offset, @DefaultValue("10")
-    @QueryParam(value = "limit")
-    int limit)
+    public Response search(@DefaultValue("") @QueryParam(value = "q") String searchTerm, @DefaultValue("0") @QueryParam(value = "offset") int offset,
+            @DefaultValue("10") @QueryParam(value = "limit") int limit)
     {
-        try
-        {
+        try {
             SimpleSearchRequest request = new SimpleSearchRequest(searchTerm);
             request.setOffset(offset);
             request.setLimit(limit);
             List<?> hits = Services.getSearchService().searchPublished(request, authenticate()).getHits();
             return responseXmlOrJson(SearchHitConverter.convert(hits));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }

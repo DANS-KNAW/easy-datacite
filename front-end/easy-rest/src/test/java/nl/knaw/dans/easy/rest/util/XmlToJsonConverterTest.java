@@ -10,18 +10,15 @@ import org.junit.Test;
 
 import com.ctc.wstx.exc.WstxParsingException;
 
-public class XmlToJsonConverterTest
-{
+public class XmlToJsonConverterTest {
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new XmlToJsonConverter();
     }
 
     @Test
-    public void simpleXmlToJson() throws IOException, XMLStreamException
-    {
+    public void simpleXmlToJson() throws IOException, XMLStreamException {
         byte[] xml = "<root>text</root>".getBytes();
         String json = XmlToJsonConverter.convert(xml);
         String expectedJson = "{\n\t\"root\" : \"text\"\n}";
@@ -29,8 +26,7 @@ public class XmlToJsonConverterTest
     }
 
     @Test
-    public void nestedXmlToJson() throws IOException, XMLStreamException
-    {
+    public void nestedXmlToJson() throws IOException, XMLStreamException {
         byte[] xml = "<parent><child>text</child></parent>".getBytes();
         String json = XmlToJsonConverter.convert(xml);
         String expectedJson = "{\n\t\"parent\" : {\n\t\t\"child\" : \"text\"\n\t}\n}";
@@ -38,8 +34,7 @@ public class XmlToJsonConverterTest
     }
 
     @Test(expected = WstxParsingException.class)
-    public void incorrectXml() throws IOException, XMLStreamException
-    {
+    public void incorrectXml() throws IOException, XMLStreamException {
         String xml = "<root>text</roo>";
         XmlToJsonConverter.convert(xml);
     }

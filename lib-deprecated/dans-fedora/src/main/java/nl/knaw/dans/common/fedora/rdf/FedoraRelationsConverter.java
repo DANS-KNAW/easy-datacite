@@ -24,36 +24,28 @@ import org.trippi.RDFFormat;
 import org.trippi.TripleIterator;
 import org.trippi.TrippiException;
 
-public class FedoraRelationsConverter
-{
+public class FedoraRelationsConverter {
 
     // WARNING: will return an empty String ("") if no relations are present in the dmo (anymore).
     // Fedora ignores the empty String when calling modifyDatastreamByValue, leaving already persisted
     // relations intact.
-    public static String generateRdf(DataModelObject dataModelObject) throws ObjectSerializationException
-    {
+    public static String generateRdf(DataModelObject dataModelObject) throws ObjectSerializationException {
         AbstractRelations<?> dmoRelations = (AbstractRelations<?>) dataModelObject.getRelations();
         List<Relation> relationList = new ArrayList<Relation>();
 
         Set<String> contentModels = dataModelObject.getContentModels();
-        if (contentModels != null)
-        {
-            for (String contentModel : contentModels)
-            {
-                if (dmoRelations == null)
-                {
+        if (contentModels != null) {
+            for (String contentModel : contentModels) {
+                if (dmoRelations == null) {
                     Relation t = new Relation(dataModelObject.getStoreId(), FoxConstants.MODEL_ONTOLOGY.HAS_MODEL.toString(), contentModel, false, null);
                     relationList.add(t);
-                }
-                else
-                {
+                } else {
                     dmoRelations.addRelation(FoxConstants.MODEL_ONTOLOGY.HAS_MODEL.toString(), RelsConstants.getObjectURI(contentModel));
                 }
             }
         }
 
-        if (dmoRelations != null)
-        {
+        if (dmoRelations != null) {
             // make shallow copy of the relations
             relationList.addAll(dmoRelations.getRelation(null, null));
         }
@@ -61,66 +53,54 @@ public class FedoraRelationsConverter
         return relationsToRdf(relationList);
     }
 
-    public static String relationsToRdf(Relations relations) throws ObjectSerializationException
-    {
+    public static String relationsToRdf(Relations relations) throws ObjectSerializationException {
         List<Relation> relList = new ArrayList<Relation>(relations.getRelation(null, null));
         return relationsToRdf(relList);
     }
 
-    public static String relationsToRdf(List<Relation> relationList) throws ObjectSerializationException
-    {
+    public static String relationsToRdf(List<Relation> relationList) throws ObjectSerializationException {
         String rdf = "";
-        if (relationList.size() > 0)
-        {
-            try
-            {
+        if (relationList.size() > 0) {
+            try {
                 RelationsFedoraTripleIterator iter = new RelationsFedoraTripleIterator(relationList);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
 
                 iter.toStream(os, RDFFormat.RDF_XML, false);
                 rdf = new String(os.toByteArray());
             }
-            catch (TrippiException e)
-            {
+            catch (TrippiException e) {
                 throw new ObjectSerializationException(e);
             }
         }
         return rdf;
     }
 
-    public static Set<Relation> rdfToRelations(String rdf) throws ObjectDeserializationException
-    {
+    public static Set<Relation> rdfToRelations(String rdf) throws ObjectDeserializationException {
         ByteArrayInputStream xmlContentsStream = new ByteArrayInputStream(rdf.getBytes());
 
         Set<Relation> result = new HashSet<Relation>();
-        try
-        {
+        try {
             TripleIterator iter = TripleIterator.fromStream(xmlContentsStream, RDFFormat.RDF_XML);
 
-            for (int i = 0; iter.hasNext(); i++)
-            {
+            for (int i = 0; iter.hasNext(); i++) {
                 Triple triple = iter.next();
 
                 ObjectNode oNode = triple.getObject();
                 String subject = FedoraURIReference.strip(triple.getSubject().toString());
                 String predicate = triple.getPredicate().toString();
-                if (oNode instanceof Literal)
-                {
+                if (oNode instanceof Literal) {
                     Literal literal = (Literal) oNode;
                     URI typeURI = literal.getDatatypeURI();
                     String datatype = typeURI == null ? RelsConstants.RDF_LITERAL : typeURI.toString();
                     Object object = literal.getValue();
                     result.add(new Relation(subject, predicate, (String) object, true, datatype));
-                }
-                else
-                {
+                } else {
                     String object = oNode.toString();
                     result.add(new Relation(FedoraURIReference.strip(subject), predicate, FedoraURIReference.strip(object), false, null));
                 }
             }
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             throw new ObjectDeserializationException(e);
         }
         return result;

@@ -7,20 +7,17 @@ import javax.activation.FileDataSource;
 import javax.mail.util.ByteArrayDataSource;
 
 /** Immutable object */
-public class Attachement
-{
+public class Attachement {
     public final String fileName;
     final DataSource dataSource;
 
-    public Attachement(final String fileName, final File file)
-    {
+    public Attachement(final String fileName, final File file) {
         // TODO don't we need a content type?
         dataSource = new FileDataSource(file);
         this.fileName = fileName;
     }
 
-    public Attachement(final String fileName, final String mimeType, final byte[] content)
-    {
+    public Attachement(final String fileName, final String mimeType, final byte[] content) {
         dataSource = new ByteArrayDataSource(content, mimeType);
         this.fileName = fileName;
     }

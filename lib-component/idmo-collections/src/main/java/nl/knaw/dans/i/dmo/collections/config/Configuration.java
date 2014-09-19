@@ -8,12 +8,11 @@ import nl.knaw.dans.i.dmo.collections.CollectionManager;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.security.SecurityAgent;
 
-public interface Configuration
-{
+public interface Configuration {
 
     /**
-     * Get the list of DmoNamespaces that will be managed by the {@link CollectionManager}. These are the
-     * DmoNamespaces used by the various collections. F.i. 'easy-collection', easy-discipline' etc.
+     * Get the list of DmoNamespaces that will be managed by the {@link CollectionManager}. These are the DmoNamespaces used by the various collections. F.i.
+     * 'easy-collection', easy-discipline' etc.
      * <p/>
      * A {@link DmoCollection} who's DmoNamespace is not in the list <b>cannot be managed</b>.
      * 

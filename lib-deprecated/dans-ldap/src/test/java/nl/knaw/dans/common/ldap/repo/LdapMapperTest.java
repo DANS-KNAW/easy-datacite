@@ -24,12 +24,10 @@ import nl.knaw.dans.common.lang.user.PersonVO;
 import org.junit.Test;
 
 @SuppressWarnings("unused")
-public class LdapMapperTest
-{
+public class LdapMapperTest {
 
     @Test
-    public void mapPerson() throws MissingAttributeException, LdapMappingException, NamingException
-    {
+    public void mapPerson() throws MissingAttributeException, LdapMappingException, NamingException {
         LdapMapper<Person> mapper = new LdapMapper<Person>(PersonVO.class);
         Person sophie = new PersonVO();
         sophie.setAddress("Sophiastraat 21");
@@ -63,8 +61,7 @@ public class LdapMapperTest
     }
 
     @Test
-    public void getAnnotatedFields() throws SecurityException, NoSuchFieldException
-    {
+    public void getAnnotatedFields() throws SecurityException, NoSuchFieldException {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         List<Field> annotatedFields = mapper.getAnnotatedFields();
         assertEquals(12, annotatedFields.size());
@@ -75,8 +72,7 @@ public class LdapMapperTest
     }
 
     @Test
-    public void getAnnotatedMethods()
-    {
+    public void getAnnotatedMethods() {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         List<Method> getMethods = mapper.getAnnotatedGetMetods();
         List<Method> setMethods = mapper.getAnnotatedSetMethods();
@@ -85,8 +81,7 @@ public class LdapMapperTest
     }
 
     @Test
-    public void unmarshalNoInstance() throws LdapMappingException
-    {
+    public void unmarshalNoInstance() throws LdapMappingException {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         Attributes attrs = new BasicAttributes();
         Clazz clazz = mapper.unmarshal(attrs);
@@ -95,22 +90,19 @@ public class LdapMapperTest
     }
 
     @Test
-    public void getObjectClasses()
-    {
+    public void getObjectClasses() {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         LinkedHashSet<String> objectClasses = (LinkedHashSet<String>) mapper.getObjectClasses();
         String[] check = {"inetOrgPerson", "organizationalPerson", "person", "foo", "bar", "top"};
         assertEquals(check.length, objectClasses.size());
         Iterator<String> iter = objectClasses.iterator();
-        for (int i = 0; i < check.length; i++)
-        {
+        for (int i = 0; i < check.length; i++) {
             assertEquals(check[i], iter.next());
         }
     }
 
     @Test(expected = MissingAttributeException.class)
-    public void requiredField() throws LdapMappingException
-    {
+    public void requiredField() throws LdapMappingException {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         Clazz instance = new Clazz();
         instance.setRequiredString("this string cannot be null");
@@ -118,8 +110,7 @@ public class LdapMapperTest
     }
 
     @Test(expected = MissingAttributeException.class)
-    public void requiredMethod() throws LdapMappingException
-    {
+    public void requiredMethod() throws LdapMappingException {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         Clazz instance = new Clazz();
         instance.setTitle("must have title");
@@ -133,8 +124,7 @@ public class LdapMapperTest
      * @throws NamingException
      */
     @Test
-    public void mapWithTranslation() throws LdapMappingException, NamingException
-    {
+    public void mapWithTranslation() throws LdapMappingException, NamingException {
 
         LdapMapper<ObjectWithTranslationMapping> mapper = new LdapMapper<ObjectWithTranslationMapping>(ObjectWithTranslationMapping.class);
         ObjectWithTranslationMapping objectMappedToLdap = new ObjectWithTranslationMapping();
@@ -167,8 +157,7 @@ public class LdapMapperTest
     }
 
     @LdapObject(objectClasses = {"foo", "bar"})
-    private static class SuperClazz
-    {
+    private static class SuperClazz {
         @LdapAttribute(id = "title", required = true)
         private String title;
         private String notAnnotated;
@@ -195,193 +184,157 @@ public class LdapMapperTest
         private String password;
         private String requiredString;
 
-        public String getTitle()
-        {
+        public String getTitle() {
             return title;
         }
 
-        public void setTitle(String title)
-        {
+        public void setTitle(String title) {
             this.title = title;
         }
 
-        public String getNotAnnotated()
-        {
+        public String getNotAnnotated() {
             return notAnnotated;
         }
 
-        public void setNotAnnotated(String notAnnotated)
-        {
+        public void setNotAnnotated(String notAnnotated) {
             this.notAnnotated = notAnnotated;
         }
 
-        public Object getObject()
-        {
+        public Object getObject() {
             return object;
         }
 
-        public void setObject(Object object)
-        {
+        public void setObject(Object object) {
             this.object = object;
         }
 
         @LdapAttribute(id = "calculatedInt")
-        public int getCalculated()
-        {
+        public int getCalculated() {
             return calculated * 2;
         }
 
         @LdapAttribute(id = "calculatedInt")
-        public void setCalculated(int calculated)
-        {
+        public void setCalculated(int calculated) {
             this.calculated = calculated + 3;
         }
 
-        public int getJustAnInt()
-        {
+        public int getJustAnInt() {
             return justAnInt;
         }
 
-        public void setJustAnInt(int justAnInt)
-        {
+        public void setJustAnInt(int justAnInt) {
             this.justAnInt = justAnInt;
         }
 
-        public boolean isJustABoolean()
-        {
+        public boolean isJustABoolean() {
             return justABoolean;
         }
 
-        public void setJustABoolean(boolean justABoolean)
-        {
+        public void setJustABoolean(boolean justABoolean) {
             this.justABoolean = justABoolean;
         }
 
-        public byte getJustAByte()
-        {
+        public byte getJustAByte() {
             return justAByte;
         }
 
-        public void setJustAByte(byte justAByte)
-        {
+        public void setJustAByte(byte justAByte) {
             this.justAByte = justAByte;
         }
 
-        public char getJustAChar()
-        {
+        public char getJustAChar() {
             return justAChar;
         }
 
-        public void setJustAChar(char justAChar)
-        {
+        public void setJustAChar(char justAChar) {
             this.justAChar = justAChar;
         }
 
-        public short getJustAShort()
-        {
+        public short getJustAShort() {
             return justAShort;
         }
 
-        public void setJustAShort(short justAShort)
-        {
+        public void setJustAShort(short justAShort) {
             this.justAShort = justAShort;
         }
 
-        public long getJustALong()
-        {
+        public long getJustALong() {
             return justALong;
         }
 
-        public void setJustALong(long justALong)
-        {
+        public void setJustALong(long justALong) {
             this.justALong = justALong;
         }
 
-        public float getJustAFloat()
-        {
+        public float getJustAFloat() {
             return justAFloat;
         }
 
-        public void setJustAFloat(float justAFloat)
-        {
+        public void setJustAFloat(float justAFloat) {
             this.justAFloat = justAFloat;
         }
 
-        public double getJustADouble()
-        {
+        public double getJustADouble() {
             return justADouble;
         }
 
-        public void setJustADouble(double justADouble)
-        {
+        public void setJustADouble(double justADouble) {
             this.justADouble = justADouble;
         }
 
-        public String getPassword()
-        {
+        public String getPassword() {
             return password;
         }
 
-        public void setPassword(String password)
-        {
+        public void setPassword(String password) {
             this.password = password;
         }
 
         @LdapAttribute(id = "requiredString", required = true)
-        public String getRequiredString()
-        {
+        public String getRequiredString() {
             return requiredString;
         }
 
-        public void setRequiredString(String requiredString)
-        {
+        public void setRequiredString(String requiredString) {
             this.requiredString = requiredString;
         }
 
     }
 
     @LdapObject(objectClasses = {"inetOrgPerson", "organizationalPerson", "person"})
-    private static class Clazz extends SuperClazz
-    {
+    private static class Clazz extends SuperClazz {
         @LdapAttribute(id = "integer")
         private Integer integer;
         private String notMapped;
         private boolean reversedBoolean;
 
-        public Clazz()
-        {
+        public Clazz() {
 
         }
 
-        public Integer getInteger()
-        {
+        public Integer getInteger() {
             return integer;
         }
 
-        public void setInteger(Integer integer)
-        {
+        public void setInteger(Integer integer) {
             this.integer = integer;
         }
 
-        public String getNotMapped()
-        {
+        public String getNotMapped() {
             return notMapped;
         }
 
-        public void setNotMapped(String notMapped)
-        {
+        public void setNotMapped(String notMapped) {
             this.notMapped = notMapped;
         }
 
         @LdapAttribute(id = "reversed")
-        public boolean isReversedBoolean()
-        {
+        public boolean isReversedBoolean() {
             return !reversedBoolean;
         }
 
         @LdapAttribute(id = "reversed")
-        public void setReversedBoolean(boolean reversedBoolean)
-        {
+        public void setReversedBoolean(boolean reversedBoolean) {
             this.reversedBoolean = reversedBoolean;
         }
 
@@ -389,56 +342,43 @@ public class LdapMapperTest
 
     // Implementation for testing mapping with translation
     @LdapObject(objectClasses = {"foo", "bar"})
-    private static class ObjectWithTranslationMapping
-    {
+    private static class ObjectWithTranslationMapping {
         @LdapAttribute(id = "translateField", valueTranslator = AppendXTranslator.class)
         public String stringInField;
 
         private String stringFromMethod;
 
         @LdapAttribute(id = "translateMethod", valueTranslator = AppendXTranslator.class)
-        public String getStringFromMethod()
-        {
+        public String getStringFromMethod() {
             return stringFromMethod;
         }
 
         @LdapAttribute(id = "translateMethod", valueTranslator = AppendXTranslator.class)
-        public void setStringFromMethod(String stringFromMethod)
-        {
+        public void setStringFromMethod(String stringFromMethod) {
             this.stringFromMethod = stringFromMethod;
         }
 
         // the mapper needs this constructor
-        public ObjectWithTranslationMapping()
-        {
+        public ObjectWithTranslationMapping() {
             super();
         }
     }
 
     // Appends an 'F' on fromLdap and 'T' on toLdap,
     // for checking that both mappings actually take place
-    public static class AppendXTranslator implements LdapAttributeValueTranslator<Object>
-    {
-        public Object fromLdap(Object value)
-        {
-            if (value instanceof String)
-            {
+    public static class AppendXTranslator implements LdapAttributeValueTranslator<Object> {
+        public Object fromLdap(Object value) {
+            if (value instanceof String) {
                 return (String) value + "F";
-            }
-            else
-            {
+            } else {
                 return value;
             }
         }
 
-        public Object toLdap(Object value)
-        {
-            if (value instanceof String)
-            {
+        public Object toLdap(Object value) {
+            if (value instanceof String) {
                 return (String) value + "T";
-            }
-            else
-            {
+            } else {
                 return value;
             }
         }

@@ -20,8 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class DepositPage extends AbstractEasyNavPage
-{
+public class DepositPage extends AbstractEasyNavPage {
     private static final Logger logger = LoggerFactory.getLogger(DepositPage.class);
 
     public static final String PM_DATASET_ID = "datasetId";
@@ -34,19 +33,15 @@ public class DepositPage extends AbstractEasyNavPage
      * 
      * @param discipline
      * @param formDefinitionId
-     *        see formDefintions in src/main/resources/conf/discipline/emd/form-description and
-     *        DepositDiscipline.EMD_DEPOSITFORM_...
+     *        see formDefintions in src/main/resources/conf/discipline/emd/form-description and DepositDiscipline.EMD_DEPOSITFORM_...
      */
-    public DepositPage(final DepositDiscipline discipline, final String formDefinitionId)
-    {
+    public DepositPage(final DepositDiscipline discipline, final String formDefinitionId) {
         Dataset dataset;
-        try
-        {
+        try {
             dataset = Services.getDatasetService().newDataset(discipline.getMetadataFormat());
             super.setDefaultModel(new DatasetModel(dataset));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.DATASET_CREATION);
             logger.error(message, e);
             throw new RestartResponseException(new ErrorPage());
@@ -61,26 +56,21 @@ public class DepositPage extends AbstractEasyNavPage
         DatasetSpecification.completeEasyMetadata(dataset.getEasyMetadata());
 
         init(discipline, formDefinitionId);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Created new EasyMetadata for MetadataFormat " + discipline.getMetadataFormat());
         }
     }
 
-    public DepositPage(final String datasetId)
-    {
+    public DepositPage(final String datasetId) {
         this(datasetId, null);
     }
 
-    public DepositPage(final String datasetId, final String formDefinitionId)
-    {
-        try
-        {
+    public DepositPage(final String datasetId, final String formDefinitionId) {
+        try {
             DatasetModel model = new DatasetModel(datasetId);
             super.setDefaultModel(model);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.DATASET_RETRIEVAL, datasetId);
             logger.error(message, e);
             throw new RestartResponseException(new ErrorPage());
@@ -90,31 +80,26 @@ public class DepositPage extends AbstractEasyNavPage
         init(discipline, formDefinitionId);
     }
 
-    public DepositPage(DatasetModel datasetModel, final String formDefinitionId)
-    {
+    public DepositPage(DatasetModel datasetModel, final String formDefinitionId) {
         super(new DatasetModel(datasetModel));
         DepositDiscipline discipline = getDiscipline();
         init(discipline, formDefinitionId);
     }
 
-    public DepositPage(DatasetModel datasetModel)
-    {
+    public DepositPage(DatasetModel datasetModel) {
         super(new DatasetModel(datasetModel));
         DepositDiscipline discipline = getDiscipline();
         init(discipline, null);
     }
 
-    private DepositDiscipline getDiscipline()
-    {
+    private DepositDiscipline getDiscipline() {
         EasyMetadata easyMetadata = getDataset().getEasyMetadata();
         MetadataFormat emdFormat = easyMetadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         DepositDiscipline discipline;
-        try
-        {
+        try {
             discipline = Services.getDepositService().getDiscipline(emdFormat);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.DISCIPLINE_RETRIEVAL, getDataset().getStoreId());
             logger.error(message, e);
             throw new RestartResponseException(new ErrorPage());
@@ -122,17 +107,14 @@ public class DepositPage extends AbstractEasyNavPage
         return discipline;
     }
 
-    private Dataset getDataset()
-    {
+    private Dataset getDataset() {
         return (Dataset) getDefaultModelObject();
     }
 
-    private void init(DepositDiscipline discipline, String formDefinitionId)
-    {
+    private void init(DepositDiscipline discipline, String formDefinitionId) {
         add(Style.DEPOSIT_HEADER_CONTRIBUTION);
         String definitionId = formDefinitionId;
-        if (definitionId == null)
-        {
+        if (definitionId == null) {
             definitionId = DepositDiscipline.EMD_DEPOSITFORM_WIZARD;
         }
         depositPanel = new DepositPanel("depositPanel", discipline, definitionId, (DatasetModel) getDefaultModel());
@@ -143,8 +125,7 @@ public class DepositPage extends AbstractEasyNavPage
         getDatasetModel().setDynamicReload(false);
     }
 
-    protected DatasetModel getDatasetModel()
-    {
+    protected DatasetModel getDatasetModel() {
         return ((DatasetModel) getDefaultModel());
     }
 

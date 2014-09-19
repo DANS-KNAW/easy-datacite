@@ -13,8 +13,7 @@ import nl.knaw.dans.pf.language.emd.types.EmdScheme;
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
  * @author ecco
  */
-public class EmdSubject extends AbstractEmdContainer
-{
+public class EmdSubject extends AbstractEmdContainer {
     /**
      * Terms contained.
      */
@@ -30,53 +29,42 @@ public class EmdSubject extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcSubject()
-    {
+    public List<BasicString> getDcSubject() {
         return dcSubject;
     }
 
     /**
-     * Set a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
      * @param dcSubject
      *        a list of resource properties
      */
-    public void setDcSubject(final List<BasicString> dcSubject)
-    {
+    public void setDcSubject(final List<BasicString> dcSubject) {
         this.dcSubject = dcSubject;
     }
 
-    public List<String> getDcSubjectValues(String schemeId)
-    {
+    public List<String> getDcSubjectValues(String schemeId) {
         List<String> dcSubjectValues = new ArrayList<String>();
-        for (BasicString bs : dcSubject)
-        {
-            if (schemeId.equals(bs.getSchemeId()))
-            {
+        for (BasicString bs : dcSubject) {
+            if (schemeId.equals(bs.getSchemeId())) {
                 dcSubjectValues.add(bs.getValue());
             }
         }
         return dcSubjectValues;
     }
 
-    public List<String> getArchaeologyDcSubjectValues()
-    {
+    public List<String> getArchaeologyDcSubjectValues() {
         return getDcSubjectValues(EmdScheme.ARCHAEOLOGY_DC_SUBJECT.getId());
     }
 

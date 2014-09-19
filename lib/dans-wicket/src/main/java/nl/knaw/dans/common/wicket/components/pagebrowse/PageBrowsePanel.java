@@ -25,8 +25,7 @@ import org.apache.wicket.model.ResourceModel;
  * 
  * @author ecco
  */
-public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
-{
+public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
     private static final long serialVersionUID = 4385883898867962693L;
 
     public static final String DEFAULT_SEPARATOR = "|";
@@ -37,24 +36,20 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
 
     private Set<PageBrowseLinkListener> linkListeners = new HashSet<PageBrowseLinkListener>();
 
-    public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model)
-    {
+    public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model) {
         this(wicketId, model, null);
     }
 
-    public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model, PageBrowseLinkListener listener)
-    {
+    public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model, PageBrowseLinkListener listener) {
         super(wicketId, model);
 
         if (listener != null)
             linkListeners.add(listener);
 
-        ListView<PageBrowseLink> pageBrowse = new ListView<PageBrowseLink>("pages", new AbstractReadOnlyModel<List<PageBrowseLink>>()
-        {
+        ListView<PageBrowseLink> pageBrowse = new ListView<PageBrowseLink>("pages", new AbstractReadOnlyModel<List<PageBrowseLink>>() {
             private static final long serialVersionUID = -7716849873494368548L;
 
-            public List<PageBrowseLink> getObject()
-            {
+            public List<PageBrowseLink> getObject() {
                 return computeLinks();
             }
         })
@@ -62,15 +57,11 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
             private static final long serialVersionUID = 0L;
 
             @Override
-            protected void populateItem(ListItem<PageBrowseLink> item)
-            {
+            protected void populateItem(ListItem<PageBrowseLink> item) {
                 final int page = item.getIndex();
-                if (page > 0)
-                {
+                if (page > 0) {
                     item.add(new Label("separator", DEFAULT_SEPARATOR));
-                }
-                else
-                {
+                } else {
                     // no separator
                     item.add(new Label("separator", ""));
                 }
@@ -82,93 +73,74 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         add(pageBrowse);
     }
 
-    public void addPageLinkListener(PageBrowseLinkListener listener)
-    {
+    public void addPageLinkListener(PageBrowseLinkListener listener) {
         linkListeners.add(listener);
     }
 
-    public boolean removePageLinkListener(PageBrowseLinkListener listener)
-    {
+    public boolean removePageLinkListener(PageBrowseLinkListener listener) {
         return linkListeners.remove(listener);
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return !(getCurrentPage() == 1 && getLastPage() == 1);
     }
 
-    public int getCurrentPage()
-    {
+    public int getCurrentPage() {
         return getModelObject().getCurrentPage();
     }
 
-    public int getLastPage()
-    {
+    public int getLastPage() {
         return getModelObject().getLastPage();
     }
 
-    public int getWindowSize()
-    {
+    public int getWindowSize() {
         return getModelObject().getWindowSize();
     }
 
-    public int getWindowStart()
-    {
+    public int getWindowStart() {
         return getModelObject().getWindowStart();
     }
 
-    public int getWindowEnd()
-    {
+    public int getWindowEnd() {
         return getModelObject().getWindowEnd();
     }
 
-    List<PageBrowseLink> computeLinks()
-    {
+    List<PageBrowseLink> computeLinks() {
         PageBrowseData model = getModelObject();
         List<PageBrowseLink> links = new ArrayList<PageBrowseLink>();
-        if (model.hasPrevious())
-        {
+        if (model.hasPrevious()) {
             links.add(new PageBrowseLink(getCurrentPage() - 1, getPageSize(), new ResourceModel(RK_PREVIOUS, "previous"), true, linkListeners));
         }
-        if (getWindowStart() > 1)
-        {
+        if (getWindowStart() > 1) {
             links.add(new PageBrowseLink(1, getPageSize(), new Model<String>("" + 1), true, linkListeners));
         }
-        if (getWindowStart() > 1 + 1)
-        {
+        if (getWindowStart() > 1 + 1) {
             links.add(new PageBrowseLink(-1, getPageSize(), new Model<String>("..."), false, linkListeners));
         }
-        for (int i = getWindowStart(); i <= getWindowEnd(); i++)
-        {
+        for (int i = getWindowStart(); i <= getWindowEnd(); i++) {
             links.add(new PageBrowseLink(i, getPageSize(), new Model<String>("" + i), i != getCurrentPage(), linkListeners));
         }
-        if (getWindowEnd() < getLastPage() - 1)
-        {
+        if (getWindowEnd() < getLastPage() - 1) {
             links.add(new PageBrowseLink(-1, getPageSize(), new Model<String>("..."), false, linkListeners));
         }
-        if (getWindowEnd() < getLastPage())
-        {
+        if (getWindowEnd() < getLastPage()) {
             links.add(new PageBrowseLink(getLastPage(), getPageSize(), new Model<String>("" + getLastPage()), true, linkListeners));
         }
-        if (model.hasNext())
-        {
+        if (model.hasNext()) {
             links.add(new PageBrowseLink(getCurrentPage() + 1, getPageSize(), new ResourceModel(RK_NEXT, "next"), true, linkListeners));
         }
         return links;
     }
 
-    private int getPageSize()
-    {
+    private int getPageSize() {
         return getModelObject().getPageSize();
     }
 
     // method for testing
-    String printLinks()
-    {
+    String printLinks() {
         StringBuilder sb = new StringBuilder();
-        for (PageBrowseLink link : computeLinks())
-        {
+        for (PageBrowseLink link : computeLinks()) {
             sb.append(link.printLink());
             sb.append(DEFAULT_SEPARATOR);
         }
@@ -180,8 +152,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
      * 
      * @author ecco
      */
-    public class PageBrowseLink extends Link<String>
-    {
+    public class PageBrowseLink extends Link<String> {
 
         public static final String WI_PAGELINK = "pageLink";
 
@@ -194,8 +165,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         private final boolean enabled;
         private final Set<PageBrowseLinkListener> listeners;
 
-        PageBrowseLink(int targetPage, int pageSize, IModel<String> labelModel, boolean enabled, Set<PageBrowseLinkListener> listeners)
-        {
+        PageBrowseLink(int targetPage, int pageSize, IModel<String> labelModel, boolean enabled, Set<PageBrowseLinkListener> listeners) {
             super(WI_PAGELINK);
             this.pageSize = pageSize;
             this.targetPage = targetPage;
@@ -205,45 +175,37 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
             add(new Label(WI_PAGELINKTEXT, labelModel));
         }
 
-        public int getTargetPage()
-        {
+        public int getTargetPage() {
             return targetPage;
         }
 
-        public int getTargetItemStart()
-        {
+        public int getTargetItemStart() {
             return ((targetPage * pageSize) - pageSize) + 1;
         }
 
-        public IModel<String> getLabelModel()
-        {
+        public IModel<String> getLabelModel() {
             return labelModel;
         }
 
-        public boolean isEnabled()
-        {
+        public boolean isEnabled() {
             return enabled;
         }
 
         @Override
-        protected boolean getStatelessHint()
-        {
+        protected boolean getStatelessHint() {
             return false;
         }
 
         @Override
-        public void onClick()
-        {
+        public void onClick() {
             PageBrowseData pbModel = PageBrowsePanel.this.getModelObject();
             pbModel.setCurrentPage(targetPage);
-            for (PageBrowseLinkListener listener : listeners)
-            {
+            for (PageBrowseLinkListener listener : listeners) {
                 listener.onClick(this);
             }
         }
 
-        String printLink()
-        {
+        String printLink() {
             return targetPage + " " + enabled + " " + labelModel.getObject();
         }
 

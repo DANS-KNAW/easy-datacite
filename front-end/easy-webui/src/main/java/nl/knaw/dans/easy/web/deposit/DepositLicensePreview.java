@@ -34,11 +34,9 @@ import com.lowagie.text.pdf.PdfWriter;
  * http://localhost:8081/resources/easy/deposit_license_preview.pdf?id=easy-dataset:999
  * </pre>
  * 
- * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/
- * {@link #RESOURCE_NAME}
+ * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/ {@link #RESOURCE_NAME}
  */
-public class DepositLicensePreview extends DynamicWebResource
-{
+public class DepositLicensePreview extends DynamicWebResource {
 
     private static final Logger logger = LoggerFactory.getLogger(DepositLicensePreview.class);
 
@@ -47,30 +45,25 @@ public class DepositLicensePreview extends DynamicWebResource
     public static final String RESOURCE_NAME = "deposit_license_preview.pdf";
 
     @Override
-    protected ResourceState getResourceState()
-    {
+    protected ResourceState getResourceState() {
         logger.debug(RequestCycle.get().getRequest().getURL());
-        return new DynamicWebResource.ResourceState()
-        {
+        return new DynamicWebResource.ResourceState() {
             @Override
-            public byte[] getData()
-            {
+            public byte[] getData() {
                 setCacheable(false);
                 DmoStoreId dmoStoreId = new DmoStoreId(getParameters().getString("id"));
                 return createContent(dmoStoreId);
             }
 
             @Override
-            public String getContentType()
-            {
+            public String getContentType() {
                 return LicenseUnit.MIME_TYPE;
             }
 
         };
     }
 
-    private static byte[] createContent(final DmoStoreId storeId)
-    {
+    private static byte[] createContent(final DmoStoreId storeId) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         if (storeId != null && !storeId.equals(""))
             createLicenseContent(outputStream, storeId);
@@ -79,8 +72,7 @@ public class DepositLicensePreview extends DynamicWebResource
         return outputStream.toByteArray();
     }
 
-    private static void createLicenseContent(final ByteArrayOutputStream outputStream, final DmoStoreId storeId)
-    {
+    private static void createLicenseContent(final ByteArrayOutputStream outputStream, final DmoStoreId storeId) {
         final EasySession easySession = (EasySession) Session.get();
         final EasyUser user = easySession.getUser();
         final Dataset dataset = getDataset(storeId);
@@ -88,47 +80,37 @@ public class DepositLicensePreview extends DynamicWebResource
             return;
         if (!dataset.getAdministrativeState().equals(DatasetState.DRAFT))
             return;
-        try
-        {
+        try {
             new LicenseComposer(user, dataset, true).createPdf(outputStream);
         }
-        catch (final LicenseComposerException exception)
-        {
+        catch (final LicenseComposerException exception) {
             logger.error(MessageFormat.format("could not create license for dataset {0} of user {0}", user.getId(), storeId), exception);
         }
     }
 
-    private static void createErrorContent(final DmoStoreId storeId, final ByteArrayOutputStream outputStream)
-    {
+    private static void createErrorContent(final DmoStoreId storeId, final ByteArrayOutputStream outputStream) {
         final Document document = new Document();
-        try
-        {
+        try {
             PdfWriter.getInstance(document, outputStream);
             document.open();
-            try
-            {
+            try {
                 document.add(new Paragraph("You requested a preview of the depositors license document for " + storeId));
                 document.add(new Paragraph("You might not be the owner of the dataset or you have submitted it."));
             }
-            finally
-            {
+            finally {
                 document.close();
             }
         }
-        catch (final DocumentException exception)
-        {
+        catch (final DocumentException exception) {
             logger.error("could not create error content", exception);
         }
     }
 
-    private static Dataset getDataset(final DmoStoreId storeId)
-    {
-        try
-        {
+    private static Dataset getDataset(final DmoStoreId storeId) {
+        try {
             return Services.getDatasetService().getDataset(EasySession.get().getUser(), storeId);
         }
-        catch (final ServiceException exception)
-        {
+        catch (final ServiceException exception) {
             logger.error(MessageFormat.format("could not get dataset {0}", storeId), exception);
         }
         // ????????????????????????? HB

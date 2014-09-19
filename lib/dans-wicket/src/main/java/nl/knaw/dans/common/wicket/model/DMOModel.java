@@ -11,8 +11,7 @@ import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
-{
+public abstract class DMOModel<T extends DataModelObject> implements IModel<T> {
 
     private static final long serialVersionUID = -8410446576640508341L;
 
@@ -24,55 +23,44 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     private DmoStoreId dmoStoreId;
 
     /**
-     * Dynamic reloading of a DMO means that when the DMO gets invalidated the DMO held in memory is
-     * reloaded.
+     * Dynamic reloading of a DMO means that when the DMO gets invalidated the DMO held in memory is reloaded.
      */
     private boolean dynamicReload = true;
 
-    public DMOModel(String storeId)
-    {
+    public DMOModel(String storeId) {
         this.storeId = storeId;
         this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
     }
 
-    public DMOModel(T dmo)
-    {
+    public DMOModel(T dmo) {
         this.dmo = dmo;
         this.storeId = dmo.getStoreId();
         this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
     }
 
-    public DMOModel(DMOModel<T> model)
-    {
+    public DMOModel(DMOModel<T> model) {
         this.storeId = model.getStoreId();
         this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
         this.dmo = model.getCachedObject();
         this.dynamicReload = model.isDynamicReloadEnabled();
     }
 
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return storeId;
     }
 
-    public DmoStoreId getDmoStoreId()
-    {
-        if (dmoStoreId == null && !StringUtils.isBlank(storeId))
-        {
+    public DmoStoreId getDmoStoreId() {
+        if (dmoStoreId == null && !StringUtils.isBlank(storeId)) {
             dmoStoreId = new DmoStoreId(storeId);
         }
         return dmoStoreId;
     }
 
     @Override
-    public T getObject() throws ServiceRuntimeException
-    {
-        if (dmo == null)
-        {
+    public T getObject() throws ServiceRuntimeException {
+        if (dmo == null) {
             dmo = loadDmo();
-        }
-        else if (dynamicReload && isInvalidated())
-        {
+        } else if (dynamicReload && isInvalidated()) {
             logger.debug("Reloading " + dmo.toString());
             dmo = loadDmo();
         }
@@ -80,16 +68,13 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
         return dmo;
     }
 
-    public T getCachedObject()
-    {
+    public T getCachedObject() {
         return dmo;
     }
 
     @Override
-    public void setObject(T object)
-    {
-        if (!this.storeId.equals(object.getStoreId()))
-        {
+    public void setObject(T object) {
+        if (!this.storeId.equals(object.getStoreId())) {
             throw new IllegalArgumentException("Trying to set a dmo which does not have the same storeId. this.storeId=" + storeId + " other dmo.storeId="
                     + object.getStoreId());
         }
@@ -97,38 +82,31 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     }
 
     @Override
-    public void detach()
-    {
+    public void detach() {
         // not in use.
     }
 
     protected abstract T loadDmo();
 
-    public boolean isInvalidated()
-    {
-        try
-        {
+    public boolean isInvalidated() {
+        try {
             return dmo != null && dynamicReload && dmo.isInvalidated();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new WicketRuntimeException("Could not determine if the Data Model Object was invalidated. storeId=" + storeId, e);
         }
     }
 
     /**
-     * Enable or disable dynamic reloading. Dynamic reloading of a DMO means that when the DMO gets
-     * invalidated the DMO held in memory is reloaded.
+     * Enable or disable dynamic reloading. Dynamic reloading of a DMO means that when the DMO gets invalidated the DMO held in memory is reloaded.
      * 
      * @param enable
      */
-    public void setDynamicReload(boolean enable)
-    {
+    public void setDynamicReload(boolean enable) {
         this.dynamicReload = enable;
     }
 
-    public boolean isDynamicReloadEnabled()
-    {
+    public boolean isDynamicReloadEnabled() {
         return dynamicReload;
     }
 }

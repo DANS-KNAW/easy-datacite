@@ -19,8 +19,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class CommonForm<T> extends Form<T>
-{
+public class CommonForm<T> extends Form<T> {
     private static final long serialVersionUID = 3289096671803030890L;
 
     public final List<String> myComponentsWithFeedBack = new ArrayList<String>();
@@ -44,13 +43,11 @@ public class CommonForm<T> extends Form<T>
      */
     public static final String COMPONENT_FEEDBACK = "componentFeedback";
 
-    public CommonForm(String id)
-    {
+    public CommonForm(String id) {
         super(id);
     }
 
-    public CommonForm(String id, IModel<T> model)
-    {
+    public CommonForm(String id, IModel<T> model) {
         super(id, model);
     }
 
@@ -66,53 +63,43 @@ public class CommonForm<T> extends Form<T>
      * @return the common feedback panel
      * @see #addWithComponentFeedback(FormComponent, IModel)
      */
-    protected FeedbackPanel addCommonFeedbackPanel()
-    {
+    protected FeedbackPanel addCommonFeedbackPanel() {
         return WicketUtil.addCommonFeedbackPanel(this, new CommonLevelFeedbackFilter());
     }
 
-    protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
-    {
+    protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter) {
         return WicketUtil.addCommonFeedbackPanel(this, filter);
     }
 
-    public String infoMessage(final String messageKey)
-    {
+    public String infoMessage(final String messageKey) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
     }
 
-    public String infoMessage(final String messageKey, final String... param)
-    {
+    public String infoMessage(final String messageKey, final String... param) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
     }
 
-    public String warningMessage(final String messageKey)
-    {
+    public String warningMessage(final String messageKey) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
     }
 
-    public String warningMessage(final String messageKey, final String param)
-    {
+    public String warningMessage(final String messageKey, final String param) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
     }
 
-    public String errorMessage(final String messageKey)
-    {
+    public String errorMessage(final String messageKey) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
     }
 
-    public String errorMessage(final String messageKey, final String... param)
-    {
+    public String errorMessage(final String messageKey, final String... param) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
 
-    public String fatalMessage(final String messageKey)
-    {
+    public String fatalMessage(final String messageKey) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
     }
 
-    public String fatalMessage(final String messageKey, final String... param)
-    {
+    public String fatalMessage(final String messageKey, final String... param) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
     }
 
@@ -122,21 +109,15 @@ public class CommonForm<T> extends Form<T>
      * @param enableComponents
      *        list of all components
      */
-    protected void disableForm(final String[] enableComponents)
-    {
+    protected void disableForm(final String[] enableComponents) {
         // Disable all components.
         final AttributeModifier disabler = new AttributeModifier("disabled", true, new Model<String>("true"));
-        this.visitChildren(FormComponent.class, new IVisitor<Component>()
-        {
-            public Object component(final Component component)
-            {
+        this.visitChildren(FormComponent.class, new IVisitor<Component>() {
+            public Object component(final Component component) {
                 // Submitlinks and buttons are removed.
-                if (SubmitLink.class.isAssignableFrom(component.getClass()) || Button.class.isAssignableFrom(component.getClass()))
-                {
+                if (SubmitLink.class.isAssignableFrom(component.getClass()) || Button.class.isAssignableFrom(component.getClass())) {
                     component.setVisible(false);
-                }
-                else
-                {
+                } else {
                     // Others disabled.
                     component.add(disabler);
                 }
@@ -148,8 +129,7 @@ public class CommonForm<T> extends Form<T>
         this.setEnabled(false);
 
         // Enable some specific components
-        for (String componentName : enableComponents)
-        {
+        for (String componentName : enableComponents) {
             this.get(componentName).setVisible(true);
         }
     }
@@ -174,8 +154,7 @@ public class CommonForm<T> extends Form<T>
      * @param label
      *        label used in feedback messages
      */
-    protected void add(final FormComponent<String> formComponent, final IModel<String> label)
-    {
+    protected void add(final FormComponent<String> formComponent, final IModel<String> label) {
         // Add the component to the form
         super.add(formComponent);
 
@@ -213,17 +192,14 @@ public class CommonForm<T> extends Form<T>
      *        label used in feedback messages
      * @return the feedbackPanel set on the given formComponent
      */
-    protected FeedbackPanel addWithComponentFeedback(final FormComponent<?> formComponent, final IModel<String> labelModel)
-    {
+    protected FeedbackPanel addWithComponentFeedback(final FormComponent<?> formComponent, final IModel<String> labelModel) {
         ComponentFeedbackMessageFilter filter = new ComponentFeedbackMessageFilter(formComponent);
 
-        FeedbackPanel feedBackPanel = new FeedbackPanel(formComponent.getId() + SEPARATOR + COMPONENT_FEEDBACK, filter)
-        {
+        FeedbackPanel feedBackPanel = new FeedbackPanel(formComponent.getId() + SEPARATOR + COMPONENT_FEEDBACK, filter) {
             private static final long serialVersionUID = -521216440119152641L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return this.anyMessage();
             }
 
@@ -242,19 +218,16 @@ public class CommonForm<T> extends Form<T>
      * 
      * @author ecco Feb 25, 2009
      */
-    public class CommonLevelFeedbackFilter implements IFeedbackMessageFilter
-    {
+    public class CommonLevelFeedbackFilter implements IFeedbackMessageFilter {
 
         private static final long serialVersionUID = -4625910785421379795L;
 
-        public boolean accept(FeedbackMessage message)
-        {
+        public boolean accept(FeedbackMessage message) {
             return !myComponentsWithFeedBack.contains(message.getReporter().getId());
         }
     }
 
-    public void hide(String wicketId)
-    {
+    public void hide(String wicketId) {
         WicketUtil.hide(this, wicketId);
     }
 }

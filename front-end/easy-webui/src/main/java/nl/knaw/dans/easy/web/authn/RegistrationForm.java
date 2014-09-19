@@ -43,8 +43,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
-{
+public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser> {
     private static final long serialVersionUID = 3036525128056985280L;
     private static final Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
     private static final String INFO_PAGE = "registrationpage.header";
@@ -61,8 +60,7 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
     private String institute;
     private String easyUserId;
 
-    public RegistrationForm(final String wicketId)
-    {
+    public RegistrationForm(final String wicketId) {
         this(wicketId, new ApplicationUser(), null, null, null);
     }
 
@@ -124,13 +122,11 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         add(new DropDownChoice<KeyValuePair>(ApplicationUser.DISCIPLINE3, new PropertyModel<KeyValuePair>(appUser, ApplicationUser.DISCIPLINE3),
                 DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()));
 
-        addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI)
-        {
+        addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI) {
 
             private static final long serialVersionUID = 1L;
 
-            protected boolean shouldTrimInput()
-            {
+            protected boolean shouldTrimInput() {
                 return true;
             };
 
@@ -161,14 +157,12 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         registerLink.setEnabled(false);
         add(registerLink);
 
-        SubmitLink cancelLink = new SubmitLink(RegistrationPage.CANCEL_LINK)
-        {
+        SubmitLink cancelLink = new SubmitLink(RegistrationPage.CANCEL_LINK) {
 
             private static final long serialVersionUID = -1205869652104297953L;
 
             @Override
-            public void onSubmit()
-            {
+            public void onSubmit() {
                 setResponsePage(HomePage.class);
             }
         };
@@ -176,32 +170,27 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         add(cancelLink);
     }
 
-    public class AcceptConditions extends CheckBox
-    {
+    public class AcceptConditions extends CheckBox {
         private static final long serialVersionUID = 5303251895855641726L;
 
-        public AcceptConditions(String id)
-        {
+        public AcceptConditions(String id) {
             super(id);
         }
 
         @Override
-        protected boolean wantOnSelectionChangedNotifications()
-        {
+        protected boolean wantOnSelectionChangedNotifications() {
             return true;
         }
 
         @Override
-        protected void onSelectionChanged(Object newSelection)
-        {
+        protected void onSelectionChanged(Object newSelection) {
             boolean accept = new Boolean(true).equals(newSelection);
             registerLink.setEnabled(accept);
         }
     }
 
     @Override
-    protected void onError()
-    {
+    protected void onError() {
         super.onError();
     }
 
@@ -209,8 +198,7 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
      * Execution after submit of the form.
      */
     @Override
-    public void onSubmit()
-    {
+    public void onSubmit() {
         final ApplicationUser appUser = (ApplicationUser) getModelObject();
 
         Registration registration = new Registration(appUser.getBusinessUser());
@@ -226,24 +214,20 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         registration.setValidationUrl(validationUrl);
 
         // do all the work: read the returned registration object. Tests can be swap registrations.
-        try
-        {
+        try {
             registration = Services.getUserService().handleRegistrationRequest(registration);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             RegistrationForm.logger.error(message, e);
             throw new InternalWebError();
         }
 
-        if (registration.isCompleted())
-        {
+        if (registration.isCompleted()) {
             disableForm(new String[] {});
             infoMessage(RegistrationPage.REGISTRATION_COMPLETE, appUser.getEmail());
 
-            if (federationUserId != null)
-            {
+            if (federationUserId != null) {
                 easyUserId = registration.getUserId();
                 createLinkBetweenCurrentEasyUserAndFederationUser();
                 infoMessage("register-and-link.link-created", federationUserDescription, institute, easyUserId);
@@ -252,11 +236,8 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_REGISTRATION);
             setResponsePage(new InfoPage(getString(RegistrationForm.INFO_PAGE)));
-        }
-        else
-        {
-            for (String stateKey : registration.getAccumulatedStateKeys())
-            {
+        } else {
+            for (String stateKey : registration.getAccumulatedStateKeys()) {
                 final String message = errorMessage(stateKey);
                 RegistrationForm.logger.error(message);
             }
@@ -264,14 +245,11 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         RegistrationForm.logger.debug("End onSubmit: " + registration.toString());
     }
 
-    private void createLinkBetweenCurrentEasyUserAndFederationUser()
-    {
-        try
-        {
+    private void createLinkBetweenCurrentEasyUserAndFederationUser() {
+        try {
             Services.getFederativeUserService().addFedUserToEasyUserIdCoupling(federationUserId, easyUserId);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = warningMessage("register-and-link.link-not-created");
             logger.warn(message, e);
         }

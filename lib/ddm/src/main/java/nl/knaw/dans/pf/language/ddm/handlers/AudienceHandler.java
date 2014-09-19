@@ -11,20 +11,15 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.xml.sax.SAXException;
 
-public class AudienceHandler extends BasicStringHandler
-{
-    public AudienceHandler()
-    {
-    }
+public class AudienceHandler extends BasicStringHandler {
+    public AudienceHandler() {}
 
-    public AudienceHandler(final Map<String, String> vocabulary, final String SchemeId)
-    {
+    public AudienceHandler(final Map<String, String> vocabulary, final String SchemeId) {
         super(vocabulary, SchemeId);
     }
 
     @Override
-    protected void finishElement(final String uri, final String localName) throws SAXException
-    {
+    protected void finishElement(final String uri, final String localName) throws SAXException {
         final BasicString basicString = createBasicString(uri, localName);
         if (basicString == null)
             return;
@@ -32,8 +27,7 @@ public class AudienceHandler extends BasicStringHandler
         audienceList.add(basicString);
 
         // EMD-format based on the first audience
-        if (audienceList.size() == 1)
-        {
+        if (audienceList.size() == 1) {
             final MetadataFormat format = AudienceFormatMap.get(basicString);
             final EasyMetadataImpl emd = (EasyMetadataImpl) getTarget();
             emd.getEmdOther().getEasApplicationSpecific().setMetadataFormat(format);

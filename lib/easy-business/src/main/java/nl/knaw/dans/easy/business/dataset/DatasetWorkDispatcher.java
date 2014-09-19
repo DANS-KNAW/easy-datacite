@@ -38,27 +38,22 @@ import nl.knaw.dans.pf.language.xml.exc.XMLException;
 
 import org.joda.time.DateTime;
 
-public class DatasetWorkDispatcher
-{
+public class DatasetWorkDispatcher {
 
-    public DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ServiceException
-    {
+    public DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ServiceException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         return worker.getDataModelObject(dmoStoreId);
     }
 
-    public byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ServiceException
-    {
+    public byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ServiceException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         return worker.getObjectXml(dataset.getDmoStoreId());
     }
 
-    public Dataset cloneDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException
-    {
+    public Dataset cloneDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException {
         DatasetImpl clonedDataset = null;
         EasyMetadata emd = dataset.getEasyMetadata();
-        try
-        {
+        try {
             EasyMetadata clonedEmd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(new EmdMarshaller(emd).getXmlByteArray());
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_PID);
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
@@ -80,20 +75,17 @@ public class DatasetWorkDispatcher
             clonedDataset.setEasyMetadata(clonedEmd);
             clonedDataset.getAdministrativeMetadata().setDepositor(sessionUser);
         }
-        catch (XMLException e)
-        {
+        catch (XMLException e) {
             throw new ServiceException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return clonedDataset;
     }
 
     @MutatesDataset
-    public void saveEasyMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException, DataIntegrityException
-    {
+    public void saveEasyMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.addWorkListeners(workListeners);
         worker.workSave(dataset);
@@ -118,12 +110,10 @@ public class DatasetWorkDispatcher
     }
 
     @MutatesDataset
-    public void unsubmitDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException
-    {
+    public void unsubmitDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.storeInState(dataset, DatasetState.DRAFT);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new UnsubmitNotification(dataset).sendMail();
         }
     }
@@ -134,8 +124,7 @@ public class DatasetWorkDispatcher
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.publishDataset(dataset, mustIncludeLicense);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new PublishNotification(dataset).sendMail(mustIncludeLicense);
         }
     }
@@ -146,44 +135,37 @@ public class DatasetWorkDispatcher
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.republishDataset(dataset, mustIncludeLicense);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new RepublishNotification(dataset).sendMail(mustIncludeLicense);
         }
     }
 
     @MutatesDataset
-    public void unpublishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException
-    {
+    public void unpublishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.unPublishDataset(dataset);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new UnpublishNotification(dataset).sendMail();
         }
     }
 
     @MutatesDataset
-    public void maintainDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException
-    {
+    public void maintainDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.maintainDataset(dataset);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new MaintenanceNotification(dataset).sendMail();
         }
     }
 
     @MutatesDataset
-    public void deleteDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException, DataIntegrityException
-    {
+    public void deleteDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.deleteDataset(dataset);
     }
 
     @MutatesDataset
-    public void restoreDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException, DataIntegrityException
-    {
+    public void restoreDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException, DataIntegrityException {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.restoreDataset(dataset);
     }
@@ -195,12 +177,10 @@ public class DatasetWorkDispatcher
         DatasetWorker worker = new DatasetWorker(sessionUser);
         EasyUser oldDepositor = dataset.getDepositor();
         worker.changeDepositor(dataset, newDepositor);
-        if (mustNotifyDepositor)
-        {
+        if (mustNotifyDepositor) {
             new OldDepositorNotification(dataset, oldDepositor, newDepositor).sendMail();
         }
-        if (mustNotifyNewDepositor)
-        {
+        if (mustNotifyNewDepositor) {
             new NewDepositorNotification(dataset, oldDepositor, newDepositor).sendMail();
         }
     }
@@ -223,33 +203,27 @@ public class DatasetWorkDispatcher
         worker.saveReply(dataset, sessionUser, replyModel);
     }
 
-    public DownloadHistory getDownloadHistoryFor(EasyUser sessionUser, Dataset dataset, DateTime date) throws ServiceException
-    {
+    public DownloadHistory getDownloadHistoryFor(EasyUser sessionUser, Dataset dataset, DateTime date) throws ServiceException {
         String period = DownloadList.printPeriod(DownloadHistory.LIST_TYPE_DATASET, date);
         DownloadHistory dlh = null;
-        try
-        {
+        try {
             dlh = Data.getEasyStore().findDownloadHistoryFor(dataset, period);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return dlh;
     }
 
-    public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException
-    {
+    public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException {
         URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
         return url;
     }
 
     /*
-     * This method currentyl has not security! TODO: FIX IT. And then un-ignore
-     * nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcherTest.testSecurity()
+     * This method currentyl has not security! TODO: FIX IT. And then un-ignore nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcherTest.testSecurity()
      */
-    public URL getAdditionalLicenseURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException
-    {
+    public URL getAdditionalLicenseURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException {
         URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
         return url;
     }
@@ -257,12 +231,10 @@ public class DatasetWorkDispatcher
     public void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate, String logMessage)
             throws ServiceException
     {
-        try
-        {
+        try {
             Data.getEasyStore().purgeUnit(storeId, unitId, creationDate, logMessage);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }

@@ -7,11 +7,10 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 /**
- * For users that have a federative account. So not a normal UserService because the authentication is
- * done elsewhere. User information specific for EASY is stored in an EasyUser object
+ * For users that have a federative account. So not a normal UserService because the authentication is done elsewhere. User information specific for EASY is
+ * stored in an EasyUser object
  */
-public interface FederativeUserService
-{
+public interface FederativeUserService {
     EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException;
 
     // TODO support adding a federative user, given an EasyUser object and a federative user id

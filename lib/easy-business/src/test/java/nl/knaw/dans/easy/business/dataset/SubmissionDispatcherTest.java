@@ -18,21 +18,18 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SubmissionDispatcherTest extends TestHelper
-{
+public class SubmissionDispatcherTest extends TestHelper {
 
     private static EasyDepositService SERVICE;
 
     @BeforeClass
-    public static void beforeClass() throws ServiceException
-    {
+    public static void beforeClass() throws ServiceException {
         SERVICE = new EasyDepositService();
         SERVICE.doBeanPostProcessing();
     }
 
     @Test
-    public void testMetadataValidator() throws ServiceException
-    { // FIXME sometimes the test fails: race condition?
+    public void testMetadataValidator() throws ServiceException { // FIXME sometimes the test fails: race condition?
         SubmissionDispatcher dispatcher = new SubmissionDispatcher();
         List<SubmissionProcessor> processors = new ArrayList<SubmissionProcessor>();
         processors.add(new WebDepositFormMetadataValidator());
@@ -40,20 +37,17 @@ public class SubmissionDispatcherTest extends TestHelper
 
         MetadataFormat[] formats = MetadataFormat.values();
 
-        for (MetadataFormat format : formats)
-        {
+        for (MetadataFormat format : formats) {
             DepositDiscipline discipline = SERVICE.getDiscipline(format);
             FormDefinition definition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             Dataset dataset = new DatasetImpl("dummy-dataset:1", format);
 
             DatasetSubmissionImpl submission = new DatasetSubmissionImpl(definition, dataset, null);
 
-            try
-            {
+            try {
                 dispatcher.process(submission);
             }
-            catch (NoSuchTermException e)
-            {
+            catch (NoSuchTermException e) {
                 System.out.println(format + " " + e.getMessage());
             }
             assertNotNull(submission.getFirstErrorPage());

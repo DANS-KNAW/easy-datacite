@@ -10,8 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HTMLValidatorTest
-{
+public class HTMLValidatorTest {
 
     private static HtmlValidator validator;
     private static final Logger logger = LoggerFactory.getLogger(HTMLValidatorTest.class);
@@ -19,20 +18,17 @@ public class HTMLValidatorTest
     private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         validator = new HtmlValidator();
     }
 
     @Test
-    public void tidyPartialHtml()
-    {
+    public void tidyPartialHtml() {
         String markup = "bla";
         String tidied = validator.tidyPartialHtml(markup);
         if (verbose)
             logger.debug("\n" + tidied + "\n");
-        for (String msg : validator.getMessages())
-        {
+        for (String msg : validator.getMessages()) {
             if (verbose)
                 System.out.println(msg);
         }
@@ -42,14 +38,12 @@ public class HTMLValidatorTest
     }
 
     @Test
-    public void tidyPartialHtml2()
-    {
+    public void tidyPartialHtml2() {
         String markup = "bla<br>bla<div><div>hop</div>bla\n<hr/>";
         String tidied = validator.tidyPartialHtml(markup, false);
         if (verbose)
             logger.debug("\n" + tidied + "\n");
-        for (String msg : validator.getWarningMessages())
-        {
+        for (String msg : validator.getWarningMessages()) {
             if (verbose)
                 System.out.println(msg);
         }
@@ -59,20 +53,17 @@ public class HTMLValidatorTest
     }
 
     @Test
-    public void tidyPartialHtml3()
-    {
+    public void tidyPartialHtml3() {
         String markup = "<div foo</div>bla<foo>bar</foo>";
         String tidied = validator.tidyPartialHtml(markup, false);
         // if (verbose)
         {
             logger.debug("\n" + tidied + "\n");
 
-            for (String msg : validator.getErrorMessages())
-            {
+            for (String msg : validator.getErrorMessages()) {
                 System.out.println(msg);
             }
-            for (String msg : validator.getWarningMessages())
-            {
+            for (String msg : validator.getWarningMessages()) {
                 System.out.println(msg);
             }
         }
@@ -84,15 +75,12 @@ public class HTMLValidatorTest
     }
 
     @Test
-    public void tidyPartialHtml4()
-    {
+    public void tidyPartialHtml4() {
         String markup = "<DIV>foo</DIV><div>bar</DIV>";
         String tidied = validator.tidyPartialHtml(markup, true);
-        if (verbose)
-        {
+        if (verbose) {
             logger.debug("\n" + tidied + "\n");
-            for (String msg : validator.getWarningMessages())
-            {
+            for (String msg : validator.getWarningMessages()) {
                 System.out.println(msg);
             }
         }

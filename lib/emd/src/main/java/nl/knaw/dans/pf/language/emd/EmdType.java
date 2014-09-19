@@ -13,8 +13,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
  * @author ecco
  */
-public class EmdType extends AbstractEmdContainer
-{
+public class EmdType extends AbstractEmdContainer {
     /**
      * Terms contained.
      */
@@ -27,42 +26,35 @@ public class EmdType extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Get a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcType()
-    {
+    public List<BasicString> getDcType() {
         return dcType;
     }
 
     /**
-     * Set a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Set a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
      * @param dcType
      *        a list of resource properties
      */
-    public void setDcType(final List<BasicString> dcType)
-    {
+    public void setDcType(final List<BasicString> dcType) {
         this.dcType = dcType;
     }
 
-    public boolean contains(BasicString bs)
-    {
+    public boolean contains(BasicString bs) {
         boolean found = false;
         Iterator<BasicString> iter = dcType.iterator();
-        while (iter.hasNext() && !found)
-        {
+        while (iter.hasNext() && !found) {
             found = iter.next().shallowEquals(bs);
         }
         return found;

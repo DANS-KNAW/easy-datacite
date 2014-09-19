@@ -9,14 +9,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-public class Spar
-{
+public class Spar {
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         DefaultHttpClient httpclient = new DefaultHttpClient();
-        try
-        {
+        try {
             httpclient.getCredentialsProvider().setCredentials(new AuthScope("tools.sikb.nl", 80), new UsernamePasswordCredentials("bergh", "cC!XzlKK"));
 
             HttpGet httpget = new HttpGet("https://tools.sikb.nl/sikb0102/Validation/Validate");
@@ -27,15 +24,13 @@ public class Spar
 
             System.out.println("----------------------------------------");
             System.out.println(response.getStatusLine());
-            if (entity != null)
-            {
+            if (entity != null) {
                 System.out.println("Response content length: " + entity.getContentLength());
                 System.out.println(IOUtils.toString(entity.getContent()));
             }
             EntityUtils.consume(entity);
         }
-        finally
-        {
+        finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
             // immediate deallocation of all system resources

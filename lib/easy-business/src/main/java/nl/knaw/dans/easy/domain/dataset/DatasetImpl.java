@@ -65,8 +65,7 @@ import nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException;
 
 import org.joda.time.DateTime;
 
-public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, HasSearchBeans
-{
+public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, HasSearchBeans {
     private static final long serialVersionUID = -343629864711069451L;
 
     private AdministrativeMetadata administrativeMetadata;
@@ -83,37 +82,30 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     private AdditionalLicenseUnit additionalLicenseUnit;
 
-    public DatasetImpl(String storeId)
-    {
+    public DatasetImpl(String storeId) {
         super(storeId);
     }
 
-    public DatasetImpl(String storeId, MetadataFormat metadataFormat)
-    {
+    public DatasetImpl(String storeId, MetadataFormat metadataFormat) {
         super(storeId);
         easyMetadata = EasyMetadataFactory.newEasyMetadata(metadataFormat);
     }
 
-    public DatasetImpl(String storeId, EasyMetadata easyMetadata)
-    {
+    public DatasetImpl(String storeId, EasyMetadata easyMetadata) {
         super(storeId);
         this.easyMetadata = easyMetadata;
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
-    public DatasetState getAdministrativeState()
-    {
+    public DatasetState getAdministrativeState() {
         return getAdministrativeMetadata().getAdministrativeState();
     }
 
-    public AdministrativeMetadata getAdministrativeMetadata()
-    {
-        if (administrativeMetadata == null)
-        {
+    public AdministrativeMetadata getAdministrativeMetadata() {
+        if (administrativeMetadata == null) {
             administrativeMetadata = new AdministrativeMetadataImpl();
         }
         return administrativeMetadata;
@@ -125,128 +117,104 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * @param administrativeMetadata
      *        the thing to set
      */
-    public void setAdministrativeMetadata(AdministrativeMetadata administrativeMetadata)
-    {
+    public void setAdministrativeMetadata(AdministrativeMetadata administrativeMetadata) {
         this.administrativeMetadata = administrativeMetadata;
     }
 
     @Override
-    public List<BinaryUnit> getBinaryUnits()
-    {
+    public List<BinaryUnit> getBinaryUnits() {
         List<BinaryUnit> binUnits = super.getBinaryUnits();
-        if (licenseUnit != null)
-        {
+        if (licenseUnit != null) {
             binUnits.add(licenseUnit);
         }
-        if (additionalLicenseUnit != null)
-        {
+        if (additionalLicenseUnit != null) {
             binUnits.add(additionalLicenseUnit);
         }
         return binUnits;
     }
 
-    public IsoDate getDateSubmitted()
-    {
+    public IsoDate getDateSubmitted() {
         List<IsoDate> list = getEasyMetadata().getEmdDate().getEasDateSubmitted();
-        if (list.size() == 0)
-        {
+        if (list.size() == 0) {
             list.add(new IsoDate());
         }
         return list.get(0);
     }
 
-    public void setLicenseContent(byte[] content)
-    {
+    public void setLicenseContent(byte[] content) {
         if (content == null)
             licenseUnit = null;
         else
             licenseUnit = new LicenseUnit(content);
     }
 
-    public void setAdditionalLicenseContent(File file)
-    {
+    public void setAdditionalLicenseContent(File file) {
         additionalLicenseUnit = new AdditionalLicenseUnit(file);
     }
 
-    public AccessCategory getAccessCategory()
-    {
+    public AccessCategory getAccessCategory() {
         AccessCategory accessCategory = getEasyMetadata().getEmdRights().getAccessCategory();
-        if (accessCategory == null)
-        {
+        if (accessCategory == null) {
             accessCategory = DEFAULT_ACCESS_CATEGORY;
             getEasyMetadata().getEmdRights().setAccessCategory(accessCategory);
         }
         return accessCategory;
     }
 
-    public DateTime getDateAvailable()
-    {
+    public DateTime getDateAvailable() {
         DateTime dateAvailable = null;
         List<IsoDate> lda = getEasyMetadata().getEmdDate().getEasAvailable();
-        if (lda.size() > 0)
-        {
+        if (lda.size() > 0) {
             dateAvailable = lda.get(0).getValue();
         }
         return dateAvailable;
     }
 
-    public boolean isUnderEmbargo(DateTime atDate)
-    {
+    public boolean isUnderEmbargo(DateTime atDate) {
         boolean underEmbargo = false;
         DateTime dateAvailable = getDateAvailable();
-        if (dateAvailable != null)
-        {
+        if (dateAvailable != null) {
             underEmbargo = atDate.isBefore(dateAvailable);
         }
         return underEmbargo;
     }
 
-    public boolean isUnderEmbargo()
-    {
+    public boolean isUnderEmbargo() {
         return isUnderEmbargo(new DateTime().plusMinutes(1));
     }
 
-    public Set<Group> getGroups()
-    {
-        if (groups == null)
-        {
+    public Set<Group> getGroups() {
+        if (groups == null) {
             groups = new HashSet<Group>(RepoAccess.getDelegator().getGroups(getAdministrativeMetadata().getGroupIds()));
         }
         return groups;
     }
 
-    public boolean addGroup(Group group)
-    {
+    public boolean addGroup(Group group) {
         return getAdministrativeMetadata().addGroupId(group.getId());
     }
 
-    public boolean removeGroup(Group group)
-    {
+    public boolean removeGroup(Group group) {
         return getAdministrativeMetadata().removeGroupId(group.getId());
     }
 
-    public MetadataFormat getMetadataFormat()
-    {
+    public MetadataFormat getMetadataFormat() {
         return getEasyMetadata().getEmdOther().getEasApplicationSpecific().getMetadataFormat();
     }
 
-    public List<AccessCategory> getChildVisibility()
-    {
+    public List<AccessCategory> getChildVisibility() {
         return getDatasetItemContainerMetadata().getChildVisibility();
     }
 
-    public List<AccessCategory> getChildAccessibility()
-    {
+    public List<AccessCategory> getChildAccessibility() {
         return getDatasetItemContainerMetadata().getChildAccessibility();
     }
 
-    public boolean hasPermissionRestrictedItems()
-    {
+    public boolean hasPermissionRestrictedItems() {
         return getChildAccessibility().contains(AccessCategory.REQUEST_PERMISSION);
     }
 
-    public boolean hasGroupRestrictedItems()
-    {
+    public boolean hasGroupRestrictedItems() {
         return getChildAccessibility().contains(AccessCategory.GROUP_ACCESS);
     }
 
@@ -261,21 +229,16 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * 15 = dataset is published and user is known and was granted permission and is member of one or more dataset-specific groups
      */
     //@formatter:on
-    public int getAccessProfileFor(EasyUser user)
-    {
+    public int getAccessProfileFor(EasyUser user) {
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
-        if (DatasetState.PUBLISHED.equals(getAdministrativeState()))
-        {
+        if (DatasetState.PUBLISHED.equals(getAdministrativeState())) {
             categories.add(AccessCategory.ANONYMOUS_ACCESS); // 1 published dataset
-            if (user != null && user.isActive() && !user.isAnonymous())
-            {
+            if (user != null && user.isActive() && !user.isAnonymous()) {
                 categories.add(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS); // 2 known users
-                if (user.isMemberOfGroup(getGroupIds()))
-                {
+                if (user.isMemberOfGroup(getGroupIds())) {
                     categories.add(AccessCategory.GROUP_ACCESS); // 4 member of group
                 }
-                if (isPermissionGrantedTo(user))
-                {
+                if (isPermissionGrantedTo(user)) {
                     categories.add(AccessCategory.REQUEST_PERMISSION); // 8 granted permission
                 }
             }
@@ -284,27 +247,22 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return AccessCategory.UTIL.getBitMask(categories);
     }
 
-    public Set<String> getGroupIds()
-    {
+    public Set<String> getGroupIds() {
         return getAdministrativeMetadata().getGroupIds();
     }
 
-    public boolean isPermissionGrantedTo(EasyUser user)
-    {
+    public boolean isPermissionGrantedTo(EasyUser user) {
         boolean anonymous = user == null || user.isAnonymous();
         return !anonymous && getPermissionSequenceList().isGrantedTo(user);
     }
 
-    public boolean isGroupAccessGrantedTo(EasyUser user)
-    {
+    public boolean isGroupAccessGrantedTo(EasyUser user) {
         boolean anonymous = user == null || user.isAnonymous();
         return !anonymous && user.isMemberOfGroup(getAdministrativeMetadata().getGroupIds());
     }
 
-    public EasyMetadata getEasyMetadata()
-    {
-        if (easyMetadata == null)
-        {
+    public EasyMetadata getEasyMetadata() {
+        if (easyMetadata == null) {
             easyMetadata = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
         }
         return easyMetadata;
@@ -316,28 +274,22 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * @param emd
      *        the thing to set
      */
-    public void setEasyMetadata(final EasyMetadata emd)
-    {
+    public void setEasyMetadata(final EasyMetadata emd) {
         this.easyMetadata = emd;
     }
 
     @Override
-    public void setEasyMetadata(final String xml)
-    {
-        try
-        {
+    public void setEasyMetadata(final String xml) {
+        try {
             easyMetadata = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new DeserializationException("Could not deserialize EASY Metadata");
         }
     }
 
-    public PermissionSequenceList getPermissionSequenceList()
-    {
-        if (permissionSequenceList == null)
-        {
+    public PermissionSequenceList getPermissionSequenceList() {
+        if (permissionSequenceList == null) {
             permissionSequenceList = new PermissionSequenceListImpl();
         }
         return permissionSequenceList;
@@ -349,17 +301,14 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * @param sequenceList
      *        the thing to set
      */
-    public void setPermissionSequenceList(final PermissionSequenceList sequenceList)
-    {
+    public void setPermissionSequenceList(final PermissionSequenceList sequenceList) {
         this.permissionSequenceList = sequenceList;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         String label = super.getLabel();
-        if (label == null || EmdTitle.NO_TITLE.equals(label))
-        {
+        if (label == null || EmdTitle.NO_TITLE.equals(label)) {
             label = getPreferredTitle();
             super.setLabel(label);
         }
@@ -367,51 +316,42 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     }
 
     @Override
-    public String getOwnerId()
-    {
+    public String getOwnerId() {
         return getAdministrativeMetadata().getDepositorId();
     }
 
     @Override
-    public void setOwnerId(String ownerId)
-    {
+    public void setOwnerId(String ownerId) {
         getAdministrativeMetadata().setDepositorId(ownerId);
         super.setOwnerId(ownerId);
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return getTotalFileCount() == 0 && getTotalFolderCount() == 0 && DatasetState.DELETED.equals(getAdministrativeMetadata().getAdministrativeState());
     }
 
-    public String getPreferredTitle()
-    {
+    public String getPreferredTitle() {
         return getEasyMetadata().getPreferredTitle();
     }
 
-    public boolean hasDepositor(EasyUser user)
-    {
+    public boolean hasDepositor(EasyUser user) {
         boolean anonymous = user == null || user.isAnonymous();
         return !anonymous && hasDepositor(user.getId());
     }
 
-    public boolean hasDepositor(String userId)
-    {
+    public boolean hasDepositor(String userId) {
         boolean userIsDepositor = false;
-        if (userId != null)
-        {
+        if (userId != null) {
             userIsDepositor = userId.equals(getAdministrativeMetadata().getDepositorId());
         }
         return userIsDepositor;
     }
 
-    public EasyUser getDepositor()
-    {
+    public EasyUser getDepositor() {
         return getAdministrativeMetadata().getDepositor();
     }
 
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> metadataUnits = super.getMetadataUnits();
 
         EasyMetadata emd = getEasyMetadata();
@@ -426,20 +366,16 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return metadataUnits;
     }
 
-    public DublinCoreMetadata getDublinCoreMetadata()
-    {
+    public DublinCoreMetadata getDublinCoreMetadata() {
         return getEasyMetadata().getDublinCoreMetadata();
     }
 
-    public DatasetItemMetadata getDatasetItemMetadata()
-    {
+    public DatasetItemMetadata getDatasetItemMetadata() {
         return getDatasetItemContainerMetadata();
     }
 
-    public ItemContainerMetadataImpl getDatasetItemContainerMetadata()
-    {
-        if (itemContainerMetadata == null)
-        {
+    public ItemContainerMetadataImpl getDatasetItemContainerMetadata() {
+        if (itemContainerMetadata == null) {
             itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
         }
 
@@ -455,101 +391,83 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * @param itemContainerMetadata
      *        the thing to set
      */
-    public void setItemContainerMetadata(ItemContainerMetadataImpl itemContainerMetadata)
-    {
+    public void setItemContainerMetadata(ItemContainerMetadataImpl itemContainerMetadata) {
         this.itemContainerMetadata = itemContainerMetadata;
     }
 
     @Override
-    public void addChild(DmoContainerItem containerItem) throws RepositoryException
-    {
+    public void addChild(DmoContainerItem containerItem) throws RepositoryException {
         super.addChild(containerItem);
 
         onChildAdded((DatasetItem) containerItem);
     }
 
-    public void onChildAdded(DatasetItem item)
-    {
+    public void onChildAdded(DatasetItem item) {
         getDatasetItemContainerMetadata().onChildAdded(item);
     }
 
     @Override
-    public void removeChild(DmoContainerItem containerItem) throws RepositoryException
-    {
+    public void removeChild(DmoContainerItem containerItem) throws RepositoryException {
         super.removeChild(containerItem);
 
         onChildRemoved((DatasetItem) containerItem);
     }
 
-    public void onChildRemoved(DatasetItem item)
-    {
+    public void onChildRemoved(DatasetItem item) {
         getDatasetItemContainerMetadata().onChildRemoved(item);
     }
 
-    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole)
-    {
+    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole) {
         getDatasetItemContainerMetadata().onChildStateChange(oldCreatorRole, newCreatorRole);
     }
 
-    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath)
-    {
+    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath) {
         getDatasetItemContainerMetadata().onChildStateChange(oldStreamingPath, newStreamingPath);
     }
 
-    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo)
-    {
+    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo) {
         getDatasetItemContainerMetadata().onChildStateChange(oldVisibleTo, newVisibleTo);
     }
 
-    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo)
-    {
+    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo) {
         getDatasetItemContainerMetadata().onChildStateChange(oldAccessibleTo, newAccessibleTo);
     }
 
-    public int getChildFileCount()
-    {
+    public int getChildFileCount() {
         return getDatasetItemContainerMetadata().getChildFileCount();
     }
 
-    public int getChildFolderCount()
-    {
+    public int getChildFolderCount() {
         return getDatasetItemContainerMetadata().getChildFolderCount();
     }
 
-    public int getTotalFileCount()
-    {
+    public int getTotalFileCount() {
         return getDatasetItemContainerMetadata().getTotalFileCount();
     }
 
-    public int getTotalFolderCount()
-    {
+    public int getTotalFolderCount() {
         return getDatasetItemContainerMetadata().getTotalFolderCount();
     }
 
-    public int getCreatorRoleFileCount(CreatorRole creatorRole)
-    {
+    public int getCreatorRoleFileCount(CreatorRole creatorRole) {
         return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
     }
 
-    public int getVisibleToFileCount(VisibleTo visibleTo)
-    {
+    public int getVisibleToFileCount(VisibleTo visibleTo) {
         return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
     }
 
-    public int getAccessibleToFileCount(AccessibleTo accessibleTo)
-    {
+    public int getAccessibleToFileCount(AccessibleTo accessibleTo) {
         return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
     }
 
     // ??
-    public Collection<IndexDocument> getIndexDocuments()
-    {
+    public Collection<IndexDocument> getIndexDocuments() {
         return null;
     }
 
     @SuppressWarnings("serial")
-    public Collection<Object> getSearchBeans()
-    {
+    public Collection<Object> getSearchBeans() {
         final EasyDatasetSB searchBean = new EasyDatasetSB();
         EasyMetadata emd = getEasyMetadata();
         AdministrativeMetadata amd = getAdministrativeMetadata();
@@ -575,8 +493,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         searchBean.setDateDeleted(amd.getDateOfLastChangeTo(DatasetState.DELETED));
         searchBean.setDatePublished(amd.getDateOfLastChangeTo(DatasetState.PUBLISHED));
         searchBean.setDateSubmitted(amd.getDateOfLastChangeTo(DatasetState.SUBMITTED));
-        if (amd.getAdministrativeState().equals(DatasetState.DRAFT))
-        {
+        if (amd.getAdministrativeState().equals(DatasetState.DRAFT)) {
             searchBean.setDateDraftSaved(this.getLastModified());
         }
 
@@ -593,8 +510,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         collectionMemberships.addAll(DmoStoreId.asStrings(getRelations().getCollectionMemberships(ECollection.EasyCollection.namespace)));
         searchBean.setCollections(collectionMemberships);
 
-        return new ArrayList<Object>(1)
-        {
+        return new ArrayList<Object>(1) {
             {
                 add(searchBean);
             }
@@ -602,45 +518,37 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     }
 
     @Override
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         Set<String> contentModels = super.getContentModels();
         contentModels.add(Constants.CM_DATASET_1);
         contentModels.add(Constants.CM_OAI_ITEM_1);
         return contentModels;
     }
 
-    public boolean isHierarchical()
-    {
+    public boolean isHierarchical() {
         return true;
     }
 
-    public void onDescendantAdded(DatasetItem item)
-    {
+    public void onDescendantAdded(DatasetItem item) {
         getDatasetItemContainerMetadata().addDescendant(item);
     }
 
-    public void onDescendantRemoved(DatasetItem item)
-    {
+    public void onDescendantRemoved(DatasetItem item) {
         getDatasetItemContainerMetadata().onDescendantRemoved(item);
     }
 
-    public Set<DmoCollection> getCollections()
-    {
+    public Set<DmoCollection> getCollections() {
         HashSet<DmoCollection> c = new HashSet<DmoCollection>();
         c.add(DisciplineCollectionImpl.getInstance());
         c.add(DatasetItemCollection.getInstance());
         return c;
     }
 
-    public void addFileOrFolder(DatasetItem item) throws DomainException
-    {
-        try
-        {
+    public void addFileOrFolder(DatasetItem item) throws DomainException {
+        try {
             super.addChild((DmoContainerItem) item);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainException(e);
         }
     }
@@ -651,15 +559,13 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * @throws DomainException
      * @throws ObjectNotFoundException
      */
-    public List<DisciplineContainer> getParentDisciplines() throws ObjectNotFoundException, DomainException
-    {
+    public List<DisciplineContainer> getParentDisciplines() throws ObjectNotFoundException, DomainException {
         if (easyMetadata == null)
             return Collections.emptyList();
 
         List<BasicString> audienceList = easyMetadata.getEmdAudience().getTermsAudience();
         List<DisciplineContainer> disciplines = new ArrayList<DisciplineContainer>(audienceList.size());
-        for (BasicString audience : audienceList)
-        {
+        for (BasicString audience : audienceList) {
             DisciplineContainer discipline;
             discipline = DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
             if (discipline == null)
@@ -669,34 +575,27 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return disciplines;
     }
 
-    public List<DisciplineContainer> getLeafDisciplines() throws ObjectNotFoundException, DomainException
-    {
+    public List<DisciplineContainer> getLeafDisciplines() throws ObjectNotFoundException, DomainException {
         List<DisciplineContainer> allDisciplines = getParentDisciplines();
         List<DisciplineContainer> leafDisciplines = new ArrayList<DisciplineContainer>();
 
-        for (DisciplineContainer dc : allDisciplines)
-        {
-            if (!isRepresentedByChild(dc, allDisciplines))
-            {
+        for (DisciplineContainer dc : allDisciplines) {
+            if (!isRepresentedByChild(dc, allDisciplines)) {
                 leafDisciplines.add(dc);
             }
         }
         return leafDisciplines;
     }
 
-    private boolean isRepresentedByChild(DisciplineContainer dc, List<DisciplineContainer> dcList) throws DomainException
-    {
+    private boolean isRepresentedByChild(DisciplineContainer dc, List<DisciplineContainer> dcList) throws DomainException {
         boolean represented = false;
-        for (DisciplineContainer dcChild : dc.getSubDisciplines())
-        {
+        for (DisciplineContainer dcChild : dc.getSubDisciplines()) {
             // cannot trust dcList.contains(dcChild). equals on DisciplineContainer not fully
             // implemented.
             boolean dcListContainsChild = false;
             String childId = dcChild.getStoreId();
-            for (DisciplineContainer dcL : dcList)
-            {
-                if (childId.equals(dcL.getStoreId()))
-                {
+            for (DisciplineContainer dcL : dcList) {
+                if (childId.equals(dcL.getStoreId())) {
                     dcListContainsChild = true;
                     break;
                 }
@@ -710,20 +609,17 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     }
 
     @Override
-    protected Relations newRelationsObject()
-    {
+    protected Relations newRelationsObject() {
         return new DatasetRelations(this);
     }
 
     // Awaiting generics in relations, which is awaiting clearing discipline multi-inheritance obstacles.
     @Override
-    public DatasetRelations getRelations()
-    {
+    public DatasetRelations getRelations() {
         return (DatasetRelations) super.getRelations();
     }
 
-    public boolean hasVisibleItems(final EasyUser user)
-    {
+    public boolean hasVisibleItems(final EasyUser user) {
         List<AccessCategory> childVisibility = getChildVisibility();
         if (user == null || user.isAnonymous())
             return childVisibility.contains(ANONYMOUS_ACCESS);
@@ -737,46 +633,37 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return false;
     }
 
-    public String getPersistentIdentifier()
-    {
+    public String getPersistentIdentifier() {
         return getPid();
     }
 
     @Override
-    public String getEncodedPersistentIdentifier()
-    {
-        try
-        {
+    public String getEncodedPersistentIdentifier() {
+        try {
             return URLEncoder.encode(getPid(), "UTF-8");
         }
-        catch (UnsupportedEncodingException e)
-        {
+        catch (UnsupportedEncodingException e) {
             // happens either never or always
             return getPid();
         }
     }
 
-    private String getPid()
-    {
+    private String getPid() {
         BasicIdentifier biPid = getEasyMetadata().getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_PID);
         return biPid == null ? null : biPid.getValue();
     }
 
     @Override
-    public String getAutzStrategyName()
-    {
+    public String getAutzStrategyName() {
         return "nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy";
     }
 
     @Override
-    public void replaceEasyMetadata(String xml) throws DomainException
-    {
-        try
-        {
+    public void replaceEasyMetadata(String xml) throws DomainException {
+        try {
             easyMetadata = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new DomainException("desarialisation problem of Easy Metadata: " + e.getMessage(), e);
         }
     }

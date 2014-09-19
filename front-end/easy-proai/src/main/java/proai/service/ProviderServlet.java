@@ -25,8 +25,7 @@ import proai.error.ProtocolException;
 import proai.error.ServerException;
 import proai.util.StreamUtil;
 
-public class ProviderServlet extends HttpServlet
-{
+public class ProviderServlet extends HttpServlet {
     static final long serialVersionUID = 1;
 
     private static final Logger logger = Logger.getLogger(ProviderServlet.class.getName());
@@ -48,17 +47,14 @@ public class ProviderServlet extends HttpServlet
      * Entry point for handling OAI requests.
      */
     @SuppressWarnings("unchecked")
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-    {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             StringBuffer buf = new StringBuffer();
             buf.append("Started servicing request ( ");
             Map map = request.getParameterMap();
             Iterator nameIter = map.keySet().iterator();
-            while (nameIter.hasNext())
-            {
+            while (nameIter.hasNext()) {
                 String parmName = (String) nameIter.next();
                 String[] parmVals = (String[]) map.get(parmName);
                 buf.append(parmName + "=" + parmVals[0] + " ");
@@ -75,8 +71,7 @@ public class ProviderServlet extends HttpServlet
         String metadataPrefix = null;
         String set = null;
         String resumptionToken = null;
-        try
-        {
+        try {
             url = request.getRequestURL().toString();
             verb = request.getParameter("verb");
             if (verb == null)
@@ -93,8 +88,7 @@ public class ProviderServlet extends HttpServlet
             Set argKeys = request.getParameterMap().keySet();
             int argCount = argKeys.size() - 1;
             Iterator names = argKeys.iterator();
-            while (names.hasNext())
-            {
+            while (names.hasNext()) {
                 String n = (String) names.next();
                 if (!n.equals("verb") && !n.equals("identifier") && !n.equals("from") && !n.equals("until") && !n.equals("metadataPrefix") && !n.equals("set")
                         && !n.equals("resumptionToken"))
@@ -104,46 +98,32 @@ public class ProviderServlet extends HttpServlet
             }
 
             ResponseData data = null;
-            try
-            {
-                if (verb.equals("GetRecord"))
-                {
+            try {
+                if (verb.equals("GetRecord")) {
                     if (argCount != 2)
                         throw new BadArgumentException("two arguments needed, got " + argCount);
                     data = m_responder.getRecord(identifier, metadataPrefix);
-                }
-                else if (verb.equals("Identify"))
-                {
+                } else if (verb.equals("Identify")) {
                     if (argCount != 0)
                         throw new BadArgumentException("zero arguments needed, got " + argCount);
                     data = m_responder.identify();
-                }
-                else if (verb.equals("ListIdentifiers"))
-                {
+                } else if (verb.equals("ListIdentifiers")) {
                     if (identifier != null)
                         throw new BadArgumentException("identifier argument is not valid for this verb");
                     data = m_responder.listIdentifiers(from, until, metadataPrefix, set, resumptionToken);
-                }
-                else if (verb.equals("ListMetadataFormats"))
-                {
+                } else if (verb.equals("ListMetadataFormats")) {
                     if (argCount > 1)
                         throw new BadArgumentException("one or zero arguments needed, got " + argCount);
                     data = m_responder.listMetadataFormats(identifier);
-                }
-                else if (verb.equals("ListRecords"))
-                {
+                } else if (verb.equals("ListRecords")) {
                     if (identifier != null)
                         throw new BadArgumentException("identifier argument is not valid for this verb");
                     data = m_responder.listRecords(from, until, metadataPrefix, set, resumptionToken);
-                }
-                else if (verb.equals("ListSets"))
-                {
+                } else if (verb.equals("ListSets")) {
                     if (argCount > 1)
                         throw new BadArgumentException("one or zero arguments needed, got " + argCount);
                     data = m_responder.listSets(resumptionToken);
-                }
-                else
-                {
+                } else {
                     throw new BadVerbException("bad verb: " + verb);
                 }
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -155,63 +135,48 @@ public class ProviderServlet extends HttpServlet
                 writer.flush();
                 writer.close();
             }
-            finally
-            {
-                if (data != null)
-                {
-                    try
-                    {
+            finally {
+                if (data != null) {
+                    try {
                         data.release();
                     }
-                    catch (ServerException e)
-                    {
+                    catch (ServerException e) {
                         logger.warn("Could not release response data", e);
                     }
                 }
             }
         }
-        catch (ProtocolException e)
-        {
+        catch (ProtocolException e) {
             sendProtocolException(getResponseStart(url, verb, identifier, from, until, metadataPrefix, set, resumptionToken, e), e, response);
         }
-        catch (ServerException e)
-        {
-            try
-            {
+        catch (ServerException e) {
+            try {
                 logger.warn("OAI Service Error", e);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "OAI Service Error");
             }
-            catch (IOException ioe)
-            {
+            catch (IOException ioe) {
                 logger.warn("Could not send error to client", ioe);
             }
         }
-        catch (Throwable th)
-        {
-            try
-            {
+        catch (Throwable th) {
+            try {
                 logger.warn("Unexpected Error", th);
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unexpected error");
             }
-            catch (IOException ioe)
-            {
+            catch (IOException ioe) {
                 logger.warn("Could not send error to client", ioe);
             }
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Finished servicing request from " + request.getRemoteAddr());
             }
         }
     }
 
-    private String getXmlStart()
-    {
+    private String getXmlStart() {
         StringBuilder sb = new StringBuilder().append(_XMLSTART);
-        if (xsltPath != null && !"".equals(xsltPath))
-        {
+        if (xsltPath != null && !"".equals(xsltPath)) {
             sb.append(_STYLESHEET_START).append(xsltPath).append(_STYLESHEET_END);
         }
         sb.append(_OAI_PMH_ROOT);
@@ -232,8 +197,7 @@ public class ProviderServlet extends HttpServlet
         buf.append(StreamUtil.nowUTCString());
         buf.append("</responseDate>\n");
         buf.append("  <request");
-        if (doParams)
-        {
+        if (doParams) {
             appendAttribute("verb", verb, buf);
             appendAttribute("identifier", identifier, buf);
             appendAttribute("from", from, buf);
@@ -246,20 +210,16 @@ public class ProviderServlet extends HttpServlet
         return buf.toString();
     }
 
-    private static void appendAttribute(String name, String value, StringBuffer buf)
-    {
-        if (value != null)
-        {
+    private static void appendAttribute(String name, String value, StringBuffer buf) {
+        if (value != null) {
             buf.append(" " + name + "=\"");
             buf.append(StreamUtil.xmlEncode(value));
             buf.append("\"");
         }
     }
 
-    private void sendProtocolException(String responseStart, ProtocolException e, HttpServletResponse response)
-    {
-        try
-        {
+    private void sendProtocolException(String responseStart, ProtocolException e, HttpServletResponse response) {
+        try {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("text/xml; charset=UTF-8");
             PrintWriter writer = response.getWriter();
@@ -272,27 +232,22 @@ public class ProviderServlet extends HttpServlet
             writer.flush();
             writer.close();
         }
-        catch (Throwable th)
-        {
+        catch (Throwable th) {
             logger.warn("Error while sending a protocol exception (" + e.getClass().getName() + ") response", th);
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-    {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         doGet(request, response);
     }
 
     private Responder m_responder;
 
-    public void init() throws ServletException
-    {
-        try
-        {
+    public void init() throws ServletException {
+        try {
             String homeDir = System.getenv("EASY_PROAI_HOME");
             File propFile = new File(homeDir + "/cfg/proai.properties");
-            if (!propFile.exists())
-            {
+            if (!propFile.exists()) {
                 throw new IOException(String.format("Error loading configuration: %s not found", propFile.getAbsolutePath()));
             }
             InputStream propStream = new FileInputStream(propFile);
@@ -301,31 +256,26 @@ public class ProviderServlet extends HttpServlet
             init(props);
             new LogBackConfigLoader(new File(homeDir + "/cfg/logback.xml"));
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new ServletException("Unable to initialize ProviderServlet", e);
         }
     }
 
-    public void init(Properties props) throws ServerException
-    {
+    public void init(Properties props) throws ServerException {
         xsltPath = props.getProperty(PROP_XSLT_PATH);
         logger.info("The property " + PROP_XSLT_PATH + " is set to " + xsltPath);
         m_responder = new Responder(props);
     }
 
     /**
-     * Close the Responder at shutdown-time. This makes a best-effort attempt to properly close any
-     * resources (db connections, threads, etc) that are being held.
+     * Close the Responder at shutdown-time. This makes a best-effort attempt to properly close any resources (db connections, threads, etc) that are being
+     * held.
      */
-    public void destroy()
-    {
-        try
-        {
+    public void destroy() {
+        try {
             m_responder.close();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             logger.warn("Error trying to close Responder", e);
         }
     }

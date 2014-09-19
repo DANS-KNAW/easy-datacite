@@ -9,8 +9,7 @@ import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 
 import org.apache.wicket.model.IModel;
 
-public interface IModelFactory extends Serializable
-{
+public interface IModelFactory extends Serializable {
 
     IModel createModel(StandardPanelDefinition panelDefinition) throws ModelFactoryException;
 

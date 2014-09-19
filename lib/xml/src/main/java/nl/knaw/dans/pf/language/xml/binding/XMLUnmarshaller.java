@@ -17,8 +17,7 @@ import org.dom4j.Element;
  * @param <T>
  *        the unmarshalled object
  */
-public interface XMLUnmarshaller<T>
-{
+public interface XMLUnmarshaller<T> {
     /**
      * Set the expected encoding of the source xml.
      * <p/>

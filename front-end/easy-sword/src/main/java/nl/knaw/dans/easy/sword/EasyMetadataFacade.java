@@ -31,20 +31,16 @@ import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 import org.xml.sax.SAXException;
 
-public class EasyMetadataFacade
-{
+public class EasyMetadataFacade {
     private static final String DEFAULT_SYNTAX_VERSION = EMDValidator.VERSION_0_1;
 
     /** Just a wrapper for exceptions. */
-    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
-    {
+    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException {
         final EasyMetadata metadata;
-        try
-        {
+        try {
             metadata = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, data);
         }
-        catch (final XMLDeserializationException exception)
-        {
+        catch (final XMLDeserializationException exception) {
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("EASY metadata unmarshall exception: " + exception.getMessage()));
         }
         return metadata;
@@ -57,59 +53,49 @@ public class EasyMetadataFacade
      * @throws SWORDErrorException
      * @throws SWORDException
      */
-    public static EasyMetadata validate(final byte[] easyMetaData) throws SWORDErrorException, SWORDException
-    {
+    public static EasyMetadata validate(final byte[] easyMetaData) throws SWORDErrorException, SWORDException {
         validateSyntax(easyMetaData);
         final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
         validateControlledVocabulairies(unmarshalled);
         validateMandatoryFields(unmarshalled);
         for (BasicString audience : unmarshalled.getEmdAudience().getTermsAudience())
-            try
-            {
+            try {
                 DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
             }
-            catch (ObjectNotFoundException e)
-            {
+            catch (ObjectNotFoundException e) {
                 throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString() + " not found " + e.getMessage());
             }
-            catch (DomainException e)
-            {
+            catch (DomainException e) {
                 throw new SWORDException("discipline validation problem: " + e.getMessage(), e);
             }
         return unmarshalled;
     }
 
     /** Just a wrapper for exceptions. To be replaced by implicit validation by the crosswalker. */
-    static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
-    {
+    static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(metadata);
         final List<String> messages = new ArrayList<String>();
         for (final FormPage formPage : formDefinition.getFormPages())
             validatePanels(metadata, formPage.getPanelDefinitions(), messages);
-        if (!messages.isEmpty())
-        {
+        if (!messages.isEmpty()) {
             final String message = "invalid meta data\n" + Arrays.toString(messages.toArray());
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
         }
     }
 
-    private static void validatePanels(final EasyMetadata emd, final List<PanelDefinition> panelDefinitions, final List<String> messages)
-    {
+    private static void validatePanels(final EasyMetadata emd, final List<PanelDefinition> panelDefinitions, final List<String> messages) {
         // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.iteratePanels()
-        for (final PanelDefinition pDef : panelDefinitions)
-        {
+        for (final PanelDefinition pDef : panelDefinitions) {
             if (pDef instanceof TermPanelDefinition)
                 validateSinglePanel(emd, (TermPanelDefinition) pDef, messages);
-            if (pDef instanceof SubHeadingDefinition)
-            {
+            if (pDef instanceof SubHeadingDefinition) {
                 final SubHeadingDefinition shDef = (SubHeadingDefinition) pDef;
                 validatePanels(emd, shDef.getPanelDefinitions(), messages);
             }
         }
     }
 
-    private static void validateSinglePanel(final EasyMetadata emd, final TermPanelDefinition tpDef, final List<String> messages)
-    {
+    private static void validateSinglePanel(final EasyMetadata emd, final TermPanelDefinition tpDef, final List<String> messages) {
         final Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
         final List<MetadataItem> items = emd.getTerm(term);
 
@@ -117,8 +103,7 @@ public class EasyMetadataFacade
         final boolean required = tpDef.isRequired() && !tpDef.getId().equals("eas.creator");
         if (required && items.isEmpty())
             messages.add("Missing required field " + tpDef.getId());
-        for (int index = 0; index < items.size(); index++)
-        {
+        for (int index = 0; index < items.size(); index++) {
             final MetadataItem item = items.get(index);
             if (!item.isComplete())
                 messages.add("Incomplete value " + tpDef.getId() + " index=" + index);
@@ -126,8 +111,7 @@ public class EasyMetadataFacade
     }
 
     /** Just a wrapper for exceptions. */
-    static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
-    {
+    static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.validateSemantics()
         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
         FormatValidator.instance().validate(metadata, validationReporter);
@@ -136,27 +120,21 @@ public class EasyMetadataFacade
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException
-    {
+    private static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
-        try
-        {
+        try {
             EMDValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_SYNTAX_VERSION);
         }
-        catch (final UnsupportedEncodingException exception)
-        {
+        catch (final UnsupportedEncodingException exception) {
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata encoding exception: " + exception.getMessage());
         }
-        catch (final SAXException exception)
-        {
+        catch (final SAXException exception) {
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata parse exception: " + exception.getMessage());
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.ValidatorException exception)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.ValidatorException exception) {
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata validation exception: " + exception.getMessage());
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.SchemaCreationException exception)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.SchemaCreationException exception) {
             throw new SWORDException("EASY metadata schema creation problem", exception);
         }
         if (!handler.passed())

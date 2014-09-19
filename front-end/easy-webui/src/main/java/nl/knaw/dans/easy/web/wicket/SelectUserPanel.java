@@ -19,8 +19,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SelectUserPanel extends AbstractEasyPanel
-{
+public class SelectUserPanel extends AbstractEasyPanel {
     private static final long serialVersionUID = 5428378223455873788L;
 
     private static final Logger logger = LoggerFactory.getLogger(AdministrationPanel.class);
@@ -30,49 +29,38 @@ public class SelectUserPanel extends AbstractEasyPanel
     private IModel labelModel;
     private boolean initiated;
 
-    public SelectUserPanel(String wicketId)
-    {
+    public SelectUserPanel(String wicketId) {
         super(wicketId);
         model = new IdModel();
     }
 
-    public IModel getLabelModel()
-    {
+    public IModel getLabelModel() {
         return labelModel;
     }
 
-    public void setLabelModel(IModel labelModel)
-    {
+    public void setLabelModel(IModel labelModel) {
         this.labelModel = labelModel;
     }
 
-    public String getSelectedId()
-    {
+    public String getSelectedId() {
         return model.getSelectedId();
     }
 
-    public EasyUser getSelectedUser()
-    {
+    public EasyUser getSelectedUser() {
         String userId = getSelectedId();
         EasyUser user = null;
-        if (userId == null)
-        {
+        if (userId == null) {
             final String message = errorMessage(EasyResources.NO_USER_SELECTED);
             logger.error(message);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 user = Services.getUserService().getUserById(getSessionUser(), userId);
             }
-            catch (ObjectNotAvailableException e)
-            {
+            catch (ObjectNotAvailableException e) {
                 final String message = errorMessage(EasyResources.NONVALID_USER, userId);
                 logger.error(message, e);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                 logger.error(message, e);
                 throw new InternalWebError();
@@ -82,25 +70,20 @@ public class SelectUserPanel extends AbstractEasyPanel
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         add(Style.USER_SELECTOR_HEADER_CONTRIBUTION);
-        add(new FeedbackPanel("supFeedback", new IFeedbackMessageFilter()
-        {
+        add(new FeedbackPanel("supFeedback", new IFeedbackMessageFilter() {
             private static final long serialVersionUID = 3253987728694803331L;
 
-            public boolean accept(FeedbackMessage message)
-            {
+            public boolean accept(FeedbackMessage message) {
                 return message.getReporter().getId().equals(SelectUserPanel.this.getId());
             }
 

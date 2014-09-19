@@ -19,11 +19,9 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.apache.commons.io.IOUtils;
 
 /**
- * This is an example of a class using easy-business classes. Its purpose to show the usage of the
- * {@link BusinessMocker}.
+ * This is an example of a class using easy-business classes. Its purpose to show the usage of the {@link BusinessMocker}.
  */
-class ClassUnderTest
-{
+class ClassUnderTest {
     /**
      * Removes files from a dataset.
      * 
@@ -32,12 +30,9 @@ class ClassUnderTest
      * @param pattern
      *        files with a path that match this pattern are removed
      */
-    static void cleanUp(final String datasetId, final String pattern) throws Exception
-    {
-        for (final FileItemVO fileItemVO : Data.getFileStoreAccess().getDatasetFiles(new DmoStoreId(datasetId)))
-        {
-            if (fileItemVO.getPath().toLowerCase().matches(pattern))
-            {
+    static void cleanUp(final String datasetId, final String pattern) throws Exception {
+        for (final FileItemVO fileItemVO : Data.getFileStoreAccess().getDatasetFiles(new DmoStoreId(datasetId))) {
+            if (fileItemVO.getPath().toLowerCase().matches(pattern)) {
                 final DataModelObject fileItem = Data.getEasyStore().retrieve(new DmoStoreId(fileItemVO.getSid()));
                 Data.getEasyStore().purge(fileItem, true, " purged ");
             }
@@ -56,8 +51,7 @@ class ClassUnderTest
      * @return the content of the file
      * @throws Exception
      */
-    static String readFile(final String userId, final String datasetId, final String fileId) throws Exception
-    {
+    static String readFile(final String userId, final String datasetId, final String fileId) throws Exception {
         final Dataset dataset = (Dataset) Data.getEasyStore().retrieve(new DmoStoreId(datasetId));
         final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(fileId));
         final EasyUser user = Data.getUserRepo().findById(userId);
@@ -65,8 +59,7 @@ class ClassUnderTest
         return IOUtils.toString(fileContentURL.openConnection().getInputStream(), "UTF-8");
     }
 
-    static int getNrOfFilesAndFolders(final String storeId) throws StoreAccessException
-    {
+    static int getNrOfFilesAndFolders(final String storeId) throws StoreAccessException {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final List<ItemVO> filesAndFolders = fsa.getFilesAndFolders(new DmoStoreId(storeId), 0, 0, null, null);
         return filesAndFolders.size();

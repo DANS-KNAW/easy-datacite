@@ -65,8 +65,7 @@ import org.slf4j.LoggerFactory;
 
 import wickettree.ITreeProvider;
 
-public class FileExplorer extends AbstractDatasetModelPanel
-{
+public class FileExplorer extends AbstractDatasetModelPanel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(FileExplorer.class);
@@ -86,19 +85,15 @@ public class FileExplorer extends AbstractDatasetModelPanel
     @SpringBean(name = "itemService")
     private ItemService itemService;
 
-    public FileExplorer(String id, final DatasetModel datasetModel)
-    {
+    public FileExplorer(String id, final DatasetModel datasetModel) {
         super(id, datasetModel);
 
         add(Style.FILE_EXPLORER_HEADER_CONTRIBUTION);
 
         // check if archivist or depsitor view should be enabled
-        if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST))
-        {
+        if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST)) {
             archivistView = true;
-        }
-        else if (datasetModel.getObject().hasDepositor(EasySession.getSessionUser()))
-        {
+        } else if (datasetModel.getObject().hasDepositor(EasySession.getSessionUser())) {
             depositorView = true;
         }
         showTools = archivistView || (depositorView && datasetModel.getObject().getAdministrativeState().equals(DatasetState.DRAFT));
@@ -149,18 +144,13 @@ public class FileExplorer extends AbstractDatasetModelPanel
         // initialize columns, archivist has 6 columns, depositor has 5 columns, normal user has 4
         // columns
         IColumn<?>[] columns;
-        if (archivistView)
-        {
+        if (archivistView) {
             columns = new IColumn[6];
-        }
-        else if (depositorView)
-        {
+        } else if (depositorView) {
             columns = new IColumn[5];
             // also show legend in depositor's case
             legend.setVisible(true);
-        }
-        else
-        {
+        } else {
             columns = new IColumn[4];
         }
 
@@ -172,19 +162,14 @@ public class FileExplorer extends AbstractDatasetModelPanel
         columns[1] = createNameColumn(datasetModel, modalDownloadWindow, hasAdditionalLicense);
         columns[2] = createSizeColumn();
 
-        if (archivistView)
-        {
+        if (archivistView) {
             columns[3] = new PropertyColumn<Void>(new Model<String>("Creator"), "creator", "creator");
             columns[4] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
             columns[5] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
-        }
-        else if (depositorView)
-        {
+        } else if (depositorView) {
             columns[3] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
             columns[4] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
-        }
-        else
-        {
+        } else {
             columns[3] = createAccessibleToColumn(datasetModel);
         }
         explorer.setColumns(columns);
@@ -226,15 +211,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
 
     }
 
-    private AjaxSubmitLink createFilterSubmitLink(final HashMap<Enum<?>, CheckBox> filterMap)
-    {
-        return new AjaxSubmitLink("filtersSubmitLink")
-        {
+    private AjaxSubmitLink createFilterSubmitLink(final HashMap<Enum<?>, CheckBox> filterMap) {
+        return new AjaxSubmitLink("filtersSubmitLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-            {
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 // in filterMap we can lookup wich filters are enabled/disabled
                 // we reload the treeProvider, clear the tableProvider
                 // and update the explorer
@@ -253,33 +235,25 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private ExplorerPanel createExplorerPanel()
-    {
-        return new ExplorerPanel("explorer", null, treeProvider)
-        {
+    private ExplorerPanel createExplorerPanel() {
+        return new ExplorerPanel("explorer", null, treeProvider) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void selectedFolderChanged(IModel<ITreeItem> selected)
-            {
+            public void selectedFolderChanged(IModel<ITreeItem> selected) {
                 selectedFiles.clear();
                 selectedFolders.clear();
             }
 
             @Override
-            public void selectAllClicked(AjaxRequestTarget target)
-            {
+            public void selectAllClicked(AjaxRequestTarget target) {
                 selectedFiles.clear();
                 selectedFolders.clear();
                 ArrayList<ITreeItem> items = this.getContent().getSelected().getObject().getChildrenWithFiles();
-                for (ITreeItem item : items)
-                {
-                    if (item.getType().equals(Type.FILE))
-                    {
+                for (ITreeItem item : items) {
+                    if (item.getType().equals(Type.FILE)) {
                         selectedFiles.add(item);
-                    }
-                    else
-                    {
+                    } else {
                         selectedFolders.add(item);
                     }
                 }
@@ -287,8 +261,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
 
             @Override
-            public void selectNoneClicked(AjaxRequestTarget target)
-            {
+            public void selectNoneClicked(AjaxRequestTarget target) {
                 selectedFiles.clear();
                 selectedFolders.clear();
                 target.addComponent(this);
@@ -297,14 +270,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private AbstractColumn<Void> createFileFolderColumn()
-    {
-        return new AbstractColumn<Void>(new Model<String>(""))
-        {
+    private AbstractColumn<Void> createFileFolderColumn() {
+        return new AbstractColumn<Void>(new Model<String>("")) {
             private static final long serialVersionUID = 1L;
 
-            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-            {
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel) {
                 final ITreeItem item = ((ITreeItem) (rowModel.getObject()));
                 Model<Boolean> checked = new Model<Boolean>();
                 checked.setObject(selectedFiles.contains(item) || selectedFolders.contains(item)); // selection
@@ -314,68 +284,50 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private CheckboxPanel createFileCheckBoxPanel(String componentId, final ITreeItem item, Model<Boolean> checked)
-    {
-        return new CheckboxPanel(componentId, checked)
-        {
+    private CheckboxPanel createFileCheckBoxPanel(String componentId, final ITreeItem item, Model<Boolean> checked) {
+        return new CheckboxPanel(componentId, checked) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSelectionChange(AjaxRequestTarget target)
-            {
+            public void onSelectionChange(AjaxRequestTarget target) {
                 ArrayList<ITreeItem> list;
-                if (item.getType().equals(Type.FILE))
-                {
+                if (item.getType().equals(Type.FILE)) {
                     list = selectedFiles;
-                }
-                else
-                {
+                } else {
                     list = selectedFolders;
                 }
-                if (list.contains(item))
-                {
+                if (list.contains(item)) {
                     list.remove(item);
-                }
-                else
-                {
+                } else {
                     list.add(item);
                 }
             }
         };
     }
 
-    private AbstractColumn<Void> createSizeColumn()
-    {
-        return new AbstractColumn<Void>(new Model<String>("Size"), "size")
-        {
+    private AbstractColumn<Void> createSizeColumn() {
+        return new AbstractColumn<Void>(new Model<String>("Size"), "size") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-            {
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel) {
                 cellItem.add(new SizePanel(componentId, ((TreeItem) (rowModel.getObject())).getSizeAsString()));
             }
         };
     }
 
-    private AbstractColumn<Void> createNameColumn(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense)
-    {
-        return new AbstractColumn<Void>(new Model<String>("Name"), "name")
-        {
+    private AbstractColumn<Void> createNameColumn(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense) {
+        return new AbstractColumn<Void>(new Model<String>("Name"), "name") {
             private static final long serialVersionUID = 1L;
 
-            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-            {
-                try
-                {
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel) {
+                try {
                     cellItem.add(cerateNamePanel(datasetModel, modalDownloadWindow, hasAdditionalLicense, componentId, rowModel));
                 }
-                catch (ServiceRuntimeException e)
-                {
+                catch (ServiceRuntimeException e) {
                     logger.error("Error creating direct download link for single file.", e);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     logger.error("Error creating direct download link for single file.", e);
                 }
             }
@@ -386,12 +338,10 @@ public class FileExplorer extends AbstractDatasetModelPanel
     private NamePanel cerateNamePanel(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense,
             String componentId, final IModel rowModel) throws ServiceException
     {
-        return new NamePanel(componentId, rowModel, explorer.getTree(), datasetModel, explorer.getContent(), hasAdditionalLicense, new AjaxLink<Void>("link")
-        {
+        return new NamePanel(componentId, rowModel, explorer.getTree(), datasetModel, explorer.getContent(), hasAdditionalLicense, new AjaxLink<Void>("link") {
             private static final long serialVersionUID = 1L;
 
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 // show download popup
                 ITreeItem treeItem = (ITreeItem) rowModel.getObject();
                 modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, treeItem, datasetModel));
@@ -400,15 +350,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
         });
     }
 
-    private Form<Void> createRightsForm()
-    {
-        return new Form<Void>("rightsForm")
-        {
+    private Form<Void> createRightsForm() {
+        return new Form<Void>("rightsForm") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return archivistView && !published;
             }
         };
@@ -417,34 +364,28 @@ public class FileExplorer extends AbstractDatasetModelPanel
     private IndicatingAjaxLink<Void> createApplyFileRightsLink(final DatasetModel datasetModel, final DropDownChoice<VisibleTo> viewRights,
             final DropDownChoice<AccessibleTo> accessRights)
     {
-        return new IndicatingAjaxLink<Void>("applyFileRightsLink")
-        {
+        return new IndicatingAjaxLink<Void>("applyFileRightsLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 List<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
                 List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
-                for (ITreeItem item : items)
-                {
+                for (ITreeItem item : items) {
                     sidList.add(new DmoStoreId(item.getId()));
                 }
-                try
-                {
+                try {
                     VisibleTo newVisibleTo = viewRights.getModelObject();
                     AccessibleTo newAccessibleTo = accessRights.getModelObject();
                     itemService.updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sidList, new UpdateInfo(newVisibleTo, newAccessibleTo,
                             null, false), null);
                 }
-                catch (ServiceRuntimeException e)
-                {
+                catch (ServiceRuntimeException e) {
                     logger.error("Error applying file rights.", e);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     logger.error("Error applying file rights: ", e);
                 }
                 IModel<ITreeItem> selected = explorer.getContent().getSelected();
@@ -454,45 +395,35 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return archivistView && !published;
             }
         };
     }
 
-    private AbstractColumn<Void> createAccessibleToColumn(final DatasetModel datasetModel)
-    {
-        return new AbstractColumn<Void>(new Model<String>("Accessible"), "accessibleTo")
-        {
+    private AbstractColumn<Void> createAccessibleToColumn(final DatasetModel datasetModel) {
+        return new AbstractColumn<Void>(new Model<String>("Accessible"), "accessibleTo") {
             private static final long serialVersionUID = 1L;
 
-            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-            {
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel) {
                 TreeItem item = (TreeItem) (rowModel.getObject());
                 AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
-                if (item.getType().equals(Type.FILE))
-                {
+                if (item.getType().equals(Type.FILE)) {
                     AuthzMessage message = strategy.getSingleReadMessage();
                     cellItem.add(new Label(componentId, new StringResourceModel(message.getMessageCode(), datasetModel)));
-                }
-                else
-                {
+                } else {
                     cellItem.add(new Label(componentId, new ResourceModel(strategy.canChildrenBeRead().toString())));
                 }
             }
         };
     }
 
-    private IndicatingAjaxLink<Void> createDeleteLink(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow)
-    {
-        return new IndicatingAjaxLink<Void>("deleteLink")
-        {
+    private IndicatingAjaxLink<Void> createDeleteLink(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow) {
+        return new IndicatingAjaxLink<Void>("deleteLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
@@ -501,29 +432,23 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return showTools && !published;
             }
         };
     }
 
-    private ModalDelete cerateModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items)
-    {
-        return new ModalDelete(modalDeleteWindow, items, datasetModel)
-        {
+    private ModalDelete cerateModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items) {
+        return new ModalDelete(modalDeleteWindow, items, datasetModel) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void updateAfterDelete(AjaxRequestTarget target)
-            {
+            public void updateAfterDelete(AjaxRequestTarget target) {
                 ITreeItem currentFolder = (ITreeItem) explorer.getContent().getSelected().getObject();
-                for (ITreeItem file : selectedFiles)
-                {
+                for (ITreeItem file : selectedFiles) {
                     currentFolder.removeChild(file);
                 }
-                for (ITreeItem folder : selectedFolders)
-                {
+                for (ITreeItem folder : selectedFolders) {
                     currentFolder.removeChild(folder);
                 }
                 selectedFiles.clear();
@@ -533,71 +458,57 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private AjaxLink<Void> createImportLink(final DatasetModel datasetModel, final ModalWindow modalImportWindow)
-    {
-        return new AjaxLink<Void>("importLink")
-        {
+    private AjaxLink<Void> createImportLink(final DatasetModel datasetModel, final ModalWindow modalImportWindow) {
+        return new AjaxLink<Void>("importLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 modalImportWindow.setContent(new ModalImport(modalImportWindow, datasetModel));
                 modalImportWindow.show(target);
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return archivistView && !published;
             }
         };
     }
 
-    private IndicatingAjaxLink<Void> createUploadLink(final DatasetModel datasetModel, final ModalWindow modalUploadWindow)
-    {
-        return new IndicatingAjaxLink<Void>("uploadLink")
-        {
+    private IndicatingAjaxLink<Void> createUploadLink(final DatasetModel datasetModel, final ModalWindow modalUploadWindow) {
+        return new IndicatingAjaxLink<Void>("uploadLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 modalUploadWindow.setContent(createModalUploadContent(datasetModel, modalUploadWindow));
                 modalUploadWindow.show(target);
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return showTools && !published;
             }
         };
     }
 
-    private ModalUpload createModalUploadContent(final DatasetModel datasetModel, final ModalWindow modalUploadWindow)
-    {
-        return new ModalUpload(modalUploadWindow, datasetModel, explorer.getContent().getSelected().getObject())
-        {
+    private ModalUpload createModalUploadContent(final DatasetModel datasetModel, final ModalWindow modalUploadWindow) {
+        return new ModalUpload(modalUploadWindow, datasetModel, explorer.getContent().getSelected().getObject()) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void onCustomCloseButtonClick(AjaxRequestTarget target)
-            {
+            protected void onCustomCloseButtonClick(AjaxRequestTarget target) {
                 refreshCurrentFolder(target);
             }
         };
     }
 
-    private IndicatingAjaxLink<Void> creatFileDetailsLinks(final DatasetModel datasetModel, final ModalWindow modalFileDetailsWindow)
-    {
-        return new IndicatingAjaxLink<Void>("fileDetailsLink")
-        {
+    private IndicatingAjaxLink<Void> creatFileDetailsLinks(final DatasetModel datasetModel, final ModalWindow modalFileDetailsWindow) {
+        return new IndicatingAjaxLink<Void>("fileDetailsLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 modalFileDetailsWindow.setContent(new ModalFileDetails(modalFileDetailsWindow, selectedFiles, datasetModel));
                 modalFileDetailsWindow.show(target);
             }
@@ -607,13 +518,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
     private IndicatingAjaxLink<Void> createDownloadLink(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow,
             final ModalWindow modalMessageWindow, final boolean hasAdditionalLicense)
     {
-        return new IndicatingAjaxLink<Void>("downloadLink")
-        {
+        return new IndicatingAjaxLink<Void>("downloadLink") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 // check if we should stream download directly or open a popup
                 ArrayList<RequestedItem> requestedItems = getSelectionAsRequestedItems();
                 Dataset dataset = datasetModel.getObject();
@@ -624,27 +533,21 @@ public class FileExplorer extends AbstractDatasetModelPanel
                         && sessionUser.hasAcceptedGeneralConditions())
                 {
                     streamDownloadDirectly(modalMessageWindow, target, requestedItems, dataset, sessionUser);
-                }
-                else
-                {
+                } else {
                     showDownloadPopup(datasetModel, modalDownloadWindow, target);
                 }
             }
         };
     }
 
-    private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target)
-    {
+    private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target) {
         ArrayList<ITreeItem> items;
-        if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
-        {
+        if (selectedFiles.size() > 0 || selectedFolders.size() > 0) {
             // download whatever is selected
             items = new ArrayList<ITreeItem>();
             items.addAll(selectedFiles);
             items.addAll(selectedFolders);
-        }
-        else
-        {
+        } else {
             // nothing is selected so download everything in current dataset
             items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
         }
@@ -655,8 +558,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
     private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems,
             Dataset dataset, EasyUser sessionUser)
     {
-        try
-        {
+        try {
             final ZipFileContentWrapper zfcw = itemService.getZippedContent(sessionUser, dataset, requestedItems);
             final AJAXDownload download = AJAXDownload.create(zfcw);
             add(download);
@@ -666,75 +568,59 @@ public class FileExplorer extends AbstractDatasetModelPanel
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
                     new DisciplineStatistics(dataset));
         }
-        catch (TooManyFilesException e)
-        {
+        catch (TooManyFilesException e) {
             logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
             // download can't be handled so show a message
             modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_TOO_MANY_FILES, this,
                     new Model<TooManyFilesException>(e)).getObject()));
             modalMessageWindow.show(target);
         }
-        catch (ZipFileLengthException e)
-        {
+        catch (ZipFileLengthException e) {
             logger.info("File size too large for download!", e.getMessage());
             // download can't be handled so show a message
             modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
                     new Model<ZipFileLengthException>(e)).getObject()));
             modalMessageWindow.show(target);
         }
-        catch (ServiceRuntimeException e)
-        {
+        catch (ServiceRuntimeException e) {
             logger.error("Error creating direct download link for zip file.", e);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Error creating direct download link for zip file.", e);
         }
     }
 
     // returns the current selection as a List of RequestedItems
     // if nothing is selected the complete dataset will be offered
-    private ArrayList<RequestedItem> getSelectionAsRequestedItems()
-    {
+    private ArrayList<RequestedItem> getSelectionAsRequestedItems() {
         ArrayList<RequestedItem> result = new ArrayList<RequestedItem>();
 
-        if (selectedFiles.isEmpty() && selectedFolders.isEmpty())
-        {
+        if (selectedFiles.isEmpty() && selectedFolders.isEmpty()) {
             // prepare complete dataset
             ArrayList<ITreeItem> items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
-            for (ITreeItem item : items)
-            {
+            for (ITreeItem item : items) {
                 TreeItem concreteItem = (TreeItem) item;
                 AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
-                if (item.getType().equals(Type.FILE) && strategy.canUnitBeRead(EasyFile.UNIT_ID))
-                {
+                if (item.getType().equals(Type.FILE) && strategy.canUnitBeRead(EasyFile.UNIT_ID)) {
                     result.add(new RequestedItem(item.getId()));
-                }
-                else if (item.getType().equals(Type.FOLDER) && !strategy.canChildrenBeRead().equals(TriState.NONE))
-                {
+                } else if (item.getType().equals(Type.FOLDER) && !strategy.canChildrenBeRead().equals(TriState.NONE)) {
                     result.add(new RequestedItem(item.getId()));
                 }
             }
-        }
-        else
-        {
+        } else {
             // prepare selected items
-            for (ITreeItem file : selectedFiles)
-            {
+            for (ITreeItem file : selectedFiles) {
                 TreeItem concreteItem = (TreeItem) file;
                 AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
-                if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
-                {
+                if (strategy.canUnitBeRead(EasyFile.UNIT_ID)) {
                     result.add(new RequestedItem(file.getId()));
                 }
             }
 
-            for (ITreeItem folder : selectedFolders)
-            {
+            for (ITreeItem folder : selectedFolders) {
                 TreeItem concreteItem = (TreeItem) folder;
                 AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
-                if (!strategy.canChildrenBeRead().equals(TriState.NONE))
-                {
+                if (!strategy.canChildrenBeRead().equals(TriState.NONE)) {
                     result.add(new RequestedItem(folder.getId()));
                 }
             }
@@ -743,15 +629,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
         return result;
     }
 
-    private CloseButtonCallback createCloseButtonCallback()
-    {
-        return new CloseButtonCallback()
-        {
+    private CloseButtonCallback createCloseButtonCallback() {
+        return new CloseButtonCallback() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean onCloseButtonClicked(AjaxRequestTarget target)
-            {
+            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
                 // refresh fileExplorer when upload modal is closed by user
                 refreshCurrentFolder(target);
                 return true;
@@ -759,38 +642,29 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private void refreshCurrentFolder(AjaxRequestTarget target)
-    {
+    private void refreshCurrentFolder(AjaxRequestTarget target) {
         explorer.getContent().getSelected().getObject().getChildren().clear();
         explorer.getContent().getSelected().getObject().getChildrenWithFiles().clear();
         explorer.getContent().setSelectedAndUpdate(explorer.getContent().getSelected(), explorer.getTree(), target);
     }
 
-    private void createFilterCheckboxes(Form<Void> form, HashMap<Enum<?>, CheckBox> map, Enum<?>[] values, String idPrefix)
-    {
-        for (Enum<?> access : values)
-        {
+    private void createFilterCheckboxes(Form<Void> form, HashMap<Enum<?>, CheckBox> map, Enum<?>[] values, String idPrefix) {
+        for (Enum<?> access : values) {
             CheckBox cb = new CheckBox(idPrefix + access, new Model<Boolean>(true));
             form.add(cb);
             map.put(access, cb);
         }
     }
 
-    private AjaxFormSubmitBehavior getAjaxFormSubmitBehavior(Form<Void> form)
-    {
-        return new AjaxFormSubmitBehavior(form, "onchange")
-        {
+    private AjaxFormSubmitBehavior getAjaxFormSubmitBehavior(Form<Void> form) {
+        return new AjaxFormSubmitBehavior(form, "onchange") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void onSubmit(AjaxRequestTarget target)
-            {
-            }
+            protected void onSubmit(AjaxRequestTarget target) {}
 
             @Override
-            protected void onError(AjaxRequestTarget target)
-            {
-            }
+            protected void onError(AjaxRequestTarget target) {}
         };
     }
 }

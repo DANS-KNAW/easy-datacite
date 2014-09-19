@@ -12,18 +12,15 @@ import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.XMLLangString;
 
 /**
- * A java implementation of the Dublin Core element set. The Dublin Core Metadata Element Set is a
- * vocabulary of fifteen properties for use in resource description. The name "Dublin" is due to its
- * origin at a 1995 invitational workshop in Dublin, Ohio; "core" because its elements are broad and
- * generic, usable for describing a wide range of resources.
+ * A java implementation of the Dublin Core element set. The Dublin Core Metadata Element Set is a vocabulary of fifteen properties for use in resource
+ * description. The name "Dublin" is due to its origin at a 1995 invitational workshop in Dublin, Ohio; "core" because its elements are broad and generic,
+ * usable for describing a wide range of resources.
  * <p/>
- * This class is observable. However, if changes are made directly to the lists of values this class is
- * controlling, no notifications will be send.
+ * This class is observable. However, if changes are made directly to the lists of values this class is controlling, no notifications will be send.
  * 
  * @author ecco
  */
-public class JiBXDublinCoreMetadata extends AbstractTimestampedJiBXObject<DublinCoreMetadata> implements DublinCoreMetadata
-{
+public class JiBXDublinCoreMetadata extends AbstractTimestampedJiBXObject<DublinCoreMetadata> implements DublinCoreMetadata {
 
     private static final long serialVersionUID = -8608043922156674515L;
 
@@ -47,785 +44,630 @@ public class JiBXDublinCoreMetadata extends AbstractTimestampedJiBXObject<Dublin
     private List<XMLLangString> xlTitle = new ArrayList<XMLLangString>();
     private List<XMLLangString> xlType = new ArrayList<XMLLangString>();
 
-    public JiBXDublinCoreMetadata()
-    {
+    public JiBXDublinCoreMetadata() {
 
     }
 
-    public JiBXDublinCoreMetadata(String unitId)
-    {
+    public JiBXDublinCoreMetadata(String unitId) {
         this.unitId = unitId;
     }
 
-    public String getUnitFormat()
-    {
+    public String getUnitFormat() {
         return UNIT_FORMAT;
     }
 
-    public URI getUnitFormatURI()
-    {
+    public URI getUnitFormatURI() {
         return UNIT_FORMAT_URI;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return unitId == null ? UNIT_ID : unitId;
     }
 
-    public String getUnitLabel()
-    {
+    public String getUnitLabel() {
         return UNIT_LABEL;
     }
 
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return versionable;
     }
 
-    public void setVersionable(boolean versionable)
-    {
+    public void setVersionable(boolean versionable) {
         this.versionable = versionable;
         setModified();
     }
 
-    public void addContributor(String contributor)
-    {
+    public void addContributor(String contributor) {
         this.xlContributor.add(new JiBXLangString(contributor));
         setModified(PropertyName.Contributor);
     }
 
-    public void addCoverage(String coverage)
-    {
+    public void addCoverage(String coverage) {
         this.xlCoverage.add(new JiBXLangString(coverage));
         setModified(PropertyName.Coverage);
     }
 
-    public void addCreator(String creator)
-    {
+    public void addCreator(String creator) {
         this.xlCreator.add(new JiBXLangString(creator));
         setModified(PropertyName.Creator);
     }
 
-    public void addDate(String date)
-    {
+    public void addDate(String date) {
         this.xlDate.add(new JiBXLangString(date));
         setModified(PropertyName.Date);
     }
 
-    public void addDescription(String description)
-    {
+    public void addDescription(String description) {
         this.xlDescription.add(new JiBXLangString(description));
         setModified(PropertyName.Description);
     }
 
-    public void addFormat(String format)
-    {
+    public void addFormat(String format) {
         this.xlFormat.add(new JiBXLangString(format));
         setModified(PropertyName.Format);
     }
 
-    public void addIdentifier(String identifier)
-    {
+    public void addIdentifier(String identifier) {
         this.xlIdentifier.add(new JiBXLangString(identifier));
         setModified(PropertyName.Identifier);
     }
 
-    public void addLanguage(String language)
-    {
+    public void addLanguage(String language) {
         this.xlLanguage.add(new JiBXLangString(language));
         setModified(PropertyName.Language);
     }
 
-    public void addPublisher(String publisher)
-    {
+    public void addPublisher(String publisher) {
         this.xlPublisher.add(new JiBXLangString(publisher));
         setModified(PropertyName.Publisher);
     }
 
-    public void addRelation(String relation)
-    {
+    public void addRelation(String relation) {
         this.xlRelation.add(new JiBXLangString(relation));
         setModified(PropertyName.Relation);
     }
 
-    public void addRights(String rights)
-    {
+    public void addRights(String rights) {
         this.xlRights.add(new JiBXLangString(rights));
         setModified(PropertyName.Rights);
     }
 
-    public void addSource(String source)
-    {
+    public void addSource(String source) {
         this.xlSource.add(new JiBXLangString(source));
         setModified(PropertyName.Source);
     }
 
-    public void addSubject(String subject)
-    {
+    public void addSubject(String subject) {
         this.xlSubject.add(new JiBXLangString(subject));
         setModified(PropertyName.Subject);
     }
 
-    public void addTitle(String title)
-    {
+    public void addTitle(String title) {
         this.xlTitle.add(new JiBXLangString(title));
         setModified(PropertyName.Title);
     }
 
-    public void addType(String type)
-    {
+    public void addType(String type) {
         this.xlType.add(new JiBXLangString(type));
         setModified(PropertyName.Type);
     }
 
-    public List<String> getContributor()
-    {
+    public List<String> getContributor() {
         return convertToStringList(xlContributor);
     }
 
-    public List<String> getCoverage()
-    {
+    public List<String> getCoverage() {
         return convertToStringList(xlCoverage);
     }
 
-    public List<String> getCreator()
-    {
+    public List<String> getCreator() {
         return convertToStringList(xlCreator);
     }
 
-    public List<String> getDate()
-    {
+    public List<String> getDate() {
         return convertToStringList(xlDate);
     }
 
-    public List<String> getDescription()
-    {
+    public List<String> getDescription() {
         return convertToStringList(xlDescription);
     }
 
-    public List<String> getFormat()
-    {
+    public List<String> getFormat() {
         return convertToStringList(xlFormat);
     }
 
-    public List<String> getIdentifier()
-    {
+    public List<String> getIdentifier() {
         return convertToStringList(xlIdentifier);
     }
 
-    public List<String> getLanguage()
-    {
+    public List<String> getLanguage() {
         return convertToStringList(xlLanguage);
     }
 
-    public List<String> getPublisher()
-    {
+    public List<String> getPublisher() {
         return convertToStringList(xlPublisher);
     }
 
-    public List<String> getRelation()
-    {
+    public List<String> getRelation() {
         return convertToStringList(xlRelation);
     }
 
-    public List<String> getRights()
-    {
+    public List<String> getRights() {
         return convertToStringList(xlRights);
     }
 
-    public List<String> getSource()
-    {
+    public List<String> getSource() {
         return convertToStringList(xlSource);
     }
 
-    public List<String> getSubject()
-    {
+    public List<String> getSubject() {
         return convertToStringList(xlSubject);
     }
 
-    public List<String> getTitle()
-    {
+    public List<String> getTitle() {
         return convertToStringList(xlTitle);
     }
 
-    public List<String> getType()
-    {
+    public List<String> getType() {
         return convertToStringList(xlType);
     }
 
-    public void setContributor(List<String> contributor)
-    {
+    public void setContributor(List<String> contributor) {
         this.xlContributor = convertToXMLLangStringList(contributor);
         setModified(PropertyName.Contributor);
     }
 
-    public void setCoverage(List<String> coverage)
-    {
+    public void setCoverage(List<String> coverage) {
         this.xlCoverage = convertToXMLLangStringList(coverage);
         setModified(PropertyName.Coverage);
     }
 
-    public void setCreator(List<String> creator)
-    {
+    public void setCreator(List<String> creator) {
         this.xlCreator = convertToXMLLangStringList(creator);
         setModified(PropertyName.Creator);
     }
 
-    public void setDate(List<String> date)
-    {
+    public void setDate(List<String> date) {
         this.xlDate = convertToXMLLangStringList(date);
         setModified(PropertyName.Date);
     }
 
-    public void setDescription(List<String> description)
-    {
+    public void setDescription(List<String> description) {
         this.xlDescription = convertToXMLLangStringList(description);
         setModified(PropertyName.Description);
     }
 
-    public void setFormat(List<String> format)
-    {
+    public void setFormat(List<String> format) {
         this.xlFormat = convertToXMLLangStringList(format);
         setModified(PropertyName.Format);
     }
 
-    public void setIdentifier(List<String> identifier)
-    {
+    public void setIdentifier(List<String> identifier) {
         this.xlIdentifier = convertToXMLLangStringList(identifier);
         setModified(PropertyName.Identifier);
     }
 
-    public void setLanguage(List<String> language)
-    {
+    public void setLanguage(List<String> language) {
         this.xlLanguage = convertToXMLLangStringList(language);
         setModified(PropertyName.Language);
     }
 
-    public void setPublisher(List<String> publisher)
-    {
+    public void setPublisher(List<String> publisher) {
         this.xlPublisher = convertToXMLLangStringList(publisher);
         setModified(PropertyName.Publisher);
     }
 
-    public void setRelation(List<String> relation)
-    {
+    public void setRelation(List<String> relation) {
         this.xlRelation = convertToXMLLangStringList(relation);
         setModified(PropertyName.Relation);
     }
 
-    public void setRights(List<String> rights)
-    {
+    public void setRights(List<String> rights) {
         this.xlRights = convertToXMLLangStringList(rights);
         setModified(PropertyName.Rights);
     }
 
-    public void setSource(List<String> source)
-    {
+    public void setSource(List<String> source) {
         this.xlSource = convertToXMLLangStringList(source);
         setModified(PropertyName.Source);
     }
 
-    public void setSubject(List<String> subject)
-    {
+    public void setSubject(List<String> subject) {
         this.xlSubject = convertToXMLLangStringList(subject);
         setModified(PropertyName.Subject);
     }
 
-    public void setTitle(List<String> title)
-    {
+    public void setTitle(List<String> title) {
         this.xlTitle = convertToXMLLangStringList(title);
         setModified(PropertyName.Title);
     }
 
-    public void setType(List<String> type)
-    {
+    public void setType(List<String> type) {
         this.xlType = convertToXMLLangStringList(type);
         setModified(PropertyName.Type);
     }
 
-    public List<XMLLangString> getXlContributor()
-    {
+    public List<XMLLangString> getXlContributor() {
         return xlContributor;
     }
 
-    public void setXlContributor(List<XMLLangString> xlContributor)
-    {
+    public void setXlContributor(List<XMLLangString> xlContributor) {
         this.xlContributor = xlContributor;
         setModified(PropertyName.Contributor);
     }
 
-    public List<XMLLangString> getXlCoverage()
-    {
+    public List<XMLLangString> getXlCoverage() {
         return xlCoverage;
     }
 
-    public void setXlCoverage(List<XMLLangString> xlCoverage)
-    {
+    public void setXlCoverage(List<XMLLangString> xlCoverage) {
         this.xlCoverage = xlCoverage;
         setModified(PropertyName.Coverage);
     }
 
-    public List<XMLLangString> getXlCreator()
-    {
+    public List<XMLLangString> getXlCreator() {
         return xlCreator;
     }
 
-    public void setXlCreator(List<XMLLangString> xlCreator)
-    {
+    public void setXlCreator(List<XMLLangString> xlCreator) {
         this.xlCreator = xlCreator;
         setModified(PropertyName.Creator);
     }
 
-    public List<XMLLangString> getXlDate()
-    {
+    public List<XMLLangString> getXlDate() {
         return xlDate;
     }
 
-    public void setXlDate(List<XMLLangString> xlDate)
-    {
+    public void setXlDate(List<XMLLangString> xlDate) {
         this.xlDate = xlDate;
         setModified(PropertyName.Date);
     }
 
-    public List<XMLLangString> getXlDescription()
-    {
+    public List<XMLLangString> getXlDescription() {
         return xlDescription;
     }
 
-    public void setXlDescription(List<XMLLangString> xlDescription)
-    {
+    public void setXlDescription(List<XMLLangString> xlDescription) {
         this.xlDescription = xlDescription;
         setModified(PropertyName.Description);
     }
 
-    public List<XMLLangString> getXlFormat()
-    {
+    public List<XMLLangString> getXlFormat() {
         return xlFormat;
     }
 
-    public void setXlFormat(List<XMLLangString> xlFormat)
-    {
+    public void setXlFormat(List<XMLLangString> xlFormat) {
         this.xlFormat = xlFormat;
         setModified(PropertyName.Format);
     }
 
-    public List<XMLLangString> getXlIdentifier()
-    {
+    public List<XMLLangString> getXlIdentifier() {
         return xlIdentifier;
     }
 
-    public void setXlIdentifier(List<XMLLangString> xlIdentifier)
-    {
+    public void setXlIdentifier(List<XMLLangString> xlIdentifier) {
         this.xlIdentifier = xlIdentifier;
         setModified(PropertyName.Identifier);
     }
 
-    public List<XMLLangString> getXlLanguage()
-    {
+    public List<XMLLangString> getXlLanguage() {
         return xlLanguage;
     }
 
-    public void setXlLanguage(List<XMLLangString> xlLanguage)
-    {
+    public void setXlLanguage(List<XMLLangString> xlLanguage) {
         this.xlLanguage = xlLanguage;
         setModified(PropertyName.Language);
     }
 
-    public List<XMLLangString> getXlPublisher()
-    {
+    public List<XMLLangString> getXlPublisher() {
         return xlPublisher;
     }
 
-    public void setXlPublisher(List<XMLLangString> xlPublisher)
-    {
+    public void setXlPublisher(List<XMLLangString> xlPublisher) {
         this.xlPublisher = xlPublisher;
         setModified(PropertyName.Publisher);
     }
 
-    public List<XMLLangString> getXlRelation()
-    {
+    public List<XMLLangString> getXlRelation() {
         return xlRelation;
     }
 
-    public void setXlRelation(List<XMLLangString> xlRelation)
-    {
+    public void setXlRelation(List<XMLLangString> xlRelation) {
         this.xlRelation = xlRelation;
         setModified(PropertyName.Relation);
     }
 
-    public List<XMLLangString> getXlRights()
-    {
+    public List<XMLLangString> getXlRights() {
         return xlRights;
     }
 
-    public void setXlRights(List<XMLLangString> xlRights)
-    {
+    public void setXlRights(List<XMLLangString> xlRights) {
         this.xlRights = xlRights;
         setModified(PropertyName.Rights);
     }
 
-    public List<XMLLangString> getXlSource()
-    {
+    public List<XMLLangString> getXlSource() {
         return xlSource;
     }
 
-    public void setXlSource(List<XMLLangString> xlSource)
-    {
+    public void setXlSource(List<XMLLangString> xlSource) {
         this.xlSource = xlSource;
         setModified(PropertyName.Source);
     }
 
-    public List<XMLLangString> getXlSubject()
-    {
+    public List<XMLLangString> getXlSubject() {
         return xlSubject;
     }
 
-    public void setXlSubject(List<XMLLangString> xlSubject)
-    {
+    public void setXlSubject(List<XMLLangString> xlSubject) {
         this.xlSubject = xlSubject;
         setModified(PropertyName.Subject);
     }
 
-    public List<XMLLangString> getXlTitle()
-    {
+    public List<XMLLangString> getXlTitle() {
         return xlTitle;
     }
 
-    public void setXlTitle(List<XMLLangString> xlTitle)
-    {
+    public void setXlTitle(List<XMLLangString> xlTitle) {
         this.xlTitle = xlTitle;
         setModified(PropertyName.Title);
     }
 
-    public List<XMLLangString> getXlType()
-    {
+    public List<XMLLangString> getXlType() {
         return xlType;
     }
 
-    public void setXlType(List<XMLLangString> xlType)
-    {
+    public void setXlType(List<XMLLangString> xlType) {
         this.xlType = xlType;
         setModified(PropertyName.Type);
     }
 
     @Override
-    public void set(PropertyName name, String value)
-    {
+    public void set(PropertyName name, String value) {
         List<String> values = new ArrayList<String>();
-        if (value != null)
-        {
+        if (value != null) {
             values.add(value);
         }
         set(name, values);
     }
 
-    public void set(PropertyName name, List<String> values)
-    {
-        try
-        {
+    public void set(PropertyName name, List<String> values) {
+        try {
             final Method method = this.getClass().getMethod("set" + name.toString(), List.class);
             method.invoke(this, values);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void setXl(PropertyName name, List<XMLLangString> values)
-    {
-        try
-        {
+    public void setXl(PropertyName name, List<XMLLangString> values) {
+        try {
             final Method method = this.getClass().getMethod("setXl" + name.toString(), List.class);
             method.invoke(this, values);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<String> get(PropertyName name)
-    {
+    public List<String> get(PropertyName name) {
         List<String> values = null;
-        try
-        {
+        try {
             final Method method = this.getClass().getMethod("get" + name.toString());
             values = (List<String>) method.invoke(this);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return values;
     }
 
     @SuppressWarnings("unchecked")
-    public List<XMLLangString> getXl(PropertyName name)
-    {
+    public List<XMLLangString> getXl(PropertyName name) {
         List<XMLLangString> values = null;
-        try
-        {
+        try {
             final Method method = this.getClass().getMethod("getXl" + name.toString());
             values = (List<XMLLangString>) method.invoke(this);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return values;
     }
 
     @SuppressWarnings("unchecked")
-    public String getFirst(PropertyName name)
-    {
+    public String getFirst(PropertyName name) {
         String value = null;
-        try
-        {
+        try {
             final Method method = this.getClass().getMethod("get" + name.toString());
             List<String> values = (List<String>) method.invoke(this);
-            if (values != null && values.size() > 0)
-            {
+            if (values != null && values.size() > 0) {
                 value = values.get(0);
             }
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return value;
     }
 
     @SuppressWarnings("unchecked")
-    public XMLLangString getFirstXl(PropertyName name)
-    {
+    public XMLLangString getFirstXl(PropertyName name) {
         XMLLangString value = null;
-        try
-        {
+        try {
             final Method method = this.getClass().getMethod("getXl" + name.toString());
             List<XMLLangString> values = (List<XMLLangString>) method.invoke(this);
-            if (values != null && values.size() > 0)
-            {
+            if (values != null && values.size() > 0) {
                 value = values.get(0);
             }
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return value;
     }
 
-    public void add(PropertyName name, String value)
-    {
-        try
-        {
+    public void add(PropertyName name, String value) {
+        try {
             final Method method = this.getClass().getMethod("add" + name.toString(), String.class);
             method.invoke(this, value);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void add(PropertyName name, String value, String language)
-    {
+    public void add(PropertyName name, String value, String language) {
         add(name, new JiBXLangString(value, language));
     }
 
     @SuppressWarnings("unchecked")
-    public void add(PropertyName name, XMLLangString xmlLangString)
-    {
-        try
-        {
+    public void add(PropertyName name, XMLLangString xmlLangString) {
+        try {
             final Method listMethod = this.getClass().getMethod("getXl" + name.toString());
             List<XMLLangString> values = (List<XMLLangString>) listMethod.invoke(this);
             values.add(xmlLangString);
             setModified(name);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void add(PropertyName name, String value, Locale locale)
-    {
-        try
-        {
+    public void add(PropertyName name, String value, Locale locale) {
+        try {
             final Method listMethod = this.getClass().getMethod("getXl" + name.toString());
             List<XMLLangString> values = (List<XMLLangString>) listMethod.invoke(this);
             values.add(new JiBXLangString(value, locale));
             setModified(name);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static List<String> convertToStringList(List<XMLLangString> xmlLangList)
-    {
+    private static List<String> convertToStringList(List<XMLLangString> xmlLangList) {
         List<String> sl = new ArrayList<String>();
-        for (XMLLangString xls : xmlLangList)
-        {
+        for (XMLLangString xls : xmlLangList) {
             sl.add(xls.getValue());
         }
         return sl;
     }
 
-    private static List<XMLLangString> convertToXMLLangStringList(List<String> stringList)
-    {
+    private static List<XMLLangString> convertToXMLLangStringList(List<String> stringList) {
         List<XMLLangString> xls = new ArrayList<XMLLangString>();
-        for (String s : stringList)
-        {
+        for (String s : stringList) {
             xls.add(new JiBXLangString(s));
         }
         return xls;

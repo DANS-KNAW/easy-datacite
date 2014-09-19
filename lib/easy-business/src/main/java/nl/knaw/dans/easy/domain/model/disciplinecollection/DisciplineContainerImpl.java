@@ -13,104 +13,83 @@ import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollection;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
-public class DisciplineContainerImpl extends AbstractDmoRecursiveItem implements DisciplineContainer
-{
+public class DisciplineContainerImpl extends AbstractDmoRecursiveItem implements DisciplineContainer {
     private static final long serialVersionUID = -1773156502403047307L;
     private List<DisciplineContainer> childDisciplinesCache = null;
     private DisciplineMetadata metadata;
 
-    public DisciplineContainerImpl(String storeId)
-    {
+    public DisciplineContainerImpl(String storeId) {
         super(storeId);
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
     @Override
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         Set<String> contentModels = super.getContentModels();
         contentModels.add(DisciplineContainer.CONTENT_MODEL);
         return contentModels;
     }
 
     @Override
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> mdUnits = super.getMetadataUnits();
         mdUnits.add(getDisciplineMetadata());
         return mdUnits;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return true;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return getLabel();
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         setLabel(name);
     }
 
-    public Set<DmoCollection> getCollections()
-    {
+    public Set<DmoCollection> getCollections() {
         HashSet<DmoCollection> col = new HashSet<DmoCollection>(1);
         col.add(DisciplineCollectionImpl.getInstance());
         return null;
     }
 
-    public List<DisciplineContainer> getSubDisciplines() throws DomainException
-    {
-        try
-        {
+    public List<DisciplineContainer> getSubDisciplines() throws DomainException {
+        try {
             boolean childInvalidated = false;
-            if (childDisciplinesCache != null)
-            {
+            if (childDisciplinesCache != null) {
                 // check if one of the children has been invalidated
-                for (DisciplineContainer discipline : childDisciplinesCache)
-                {
-                    if (discipline.isInvalidated())
-                    {
+                for (DisciplineContainer discipline : childDisciplinesCache) {
+                    if (discipline.isInvalidated()) {
                         childInvalidated = true;
                         break;
                     }
                 }
             }
 
-            if (childDisciplinesCache == null || childInvalidated)
-            {
+            if (childDisciplinesCache == null || childInvalidated) {
                 List<DisciplineContainer> childDisciplines = new ArrayList<DisciplineContainer>();
 
                 // get all child disciplines from the store
                 Set<DmoStoreId> childSids = getChildSids();
-                for (DmoStoreId childSid : childSids)
-                {
+                for (DmoStoreId childSid : childSids) {
                     DmoNamespace namespace = childSid.getNamespace();
-                    if (namespace.equals(DisciplineContainer.NAMESPACE))
-                    {
+                    if (namespace.equals(DisciplineContainer.NAMESPACE)) {
                         // check if we still have a validated copy of the object in the old cache
-                        if (childDisciplinesCache != null)
-                        {
+                        if (childDisciplinesCache != null) {
                             DisciplineContainer validCachedChild = null;
-                            for (DisciplineContainer cachedChild : childDisciplinesCache)
-                            {
-                                if (!cachedChild.isInvalidated() && cachedChild.getDmoStoreId().equals(childSid))
-                                {
+                            for (DisciplineContainer cachedChild : childDisciplinesCache) {
+                                if (!cachedChild.isInvalidated() && cachedChild.getDmoStoreId().equals(childSid)) {
                                     validCachedChild = cachedChild;
                                     break;
                                 }
                             }
 
-                            if (validCachedChild != null)
-                            {
+                            if (validCachedChild != null) {
                                 childDisciplines.add(validCachedChild);
                                 continue;
                             }
@@ -125,23 +104,20 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem implements
                 childDisciplinesCache = childDisciplines;
             }
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainException(e);
         }
 
         return childDisciplinesCache;
     }
 
-    public DisciplineMetadata getDisciplineMetadata()
-    {
+    public DisciplineMetadata getDisciplineMetadata() {
         if (metadata == null)
             metadata = new DisciplineMetadataImpl();
         return metadata;
     }
 
-    public void setDisciplineMetadata(DisciplineMetadata dmd)
-    {
+    public void setDisciplineMetadata(DisciplineMetadata dmd) {
         metadata = dmd;
     }
 

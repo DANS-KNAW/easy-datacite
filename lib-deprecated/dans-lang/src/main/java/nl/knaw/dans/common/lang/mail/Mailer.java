@@ -5,24 +5,20 @@ import java.util.List;
 /**
  * @author joke
  */
-public interface Mailer
-{
+public interface Mailer {
 
     /** anyone can catch, only subclasses can throw. */
-    public final static class MailerException extends java.lang.Exception
-    {
+    public final static class MailerException extends java.lang.Exception {
         private static final long serialVersionUID = 1L;
 
         // TODO others classes in the same package can throw they but should not
-        protected MailerException(final String message, final Throwable cause)
-        {
+        protected MailerException(final String message, final Throwable cause) {
             super(message, cause);
         }
     }
 
     /**
-     * Send a plain text message to one or more receivers. Same as
-     * {@link #sendHtmlMail(String, String, String, String...)} with null as htmlContent.
+     * Send a plain text message to one or more receivers. Same as {@link #sendHtmlMail(String, String, String, String...)} with null as htmlContent.
      * 
      * @param subject
      *        Subject of the mail.
@@ -40,8 +36,8 @@ public interface Mailer
     public abstract void sendSimpleMail(final String subject, final String textContent, final List<String> recievers) throws MailerException;
 
     /**
-     * Send a plain text message with zero or more attachments to one or more receivers. Same as
-     * {@link #sendHtmlMail(String, String, String, String...)} with null as htmlContent.
+     * Send a plain text message with zero or more attachments to one or more receivers. Same as {@link #sendHtmlMail(String, String, String, String...)} with
+     * null as htmlContent.
      * 
      * @param subject
      *        Subject of the mail.

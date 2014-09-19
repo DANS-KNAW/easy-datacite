@@ -30,14 +30,12 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class FileTreeResourceTest extends RestTest
-{
+public class FileTreeResourceTest extends RestTest {
     private ItemService itemServiceMock;
     private DatasetService datasetServiceMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
         itemServiceMock = mock(ItemService.class);
         services.setItemService(itemServiceMock);
@@ -45,8 +43,7 @@ public class FileTreeResourceTest extends RestTest
         services.setDatasetService(datasetServiceMock);
     }
 
-    private void setUpServiceMethods() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpServiceMethods() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
         when(
@@ -56,8 +53,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getTreeRoots() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getTreeRoots() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpServiceMethods();
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree");
@@ -67,8 +63,7 @@ public class FileTreeResourceTest extends RestTest
         assertServiceMethods();
     }
 
-    private void assertServiceMethods() throws ServiceException
-    {
+    private void assertServiceMethods() throws ServiceException {
         verify(datasetServiceMock, times(1)).getDataset(isA(EasyUser.class), isA(DmoStoreId.class));
 
         verify(itemServiceMock, times(1)).getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class),
@@ -76,8 +71,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getTreeRootsNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getTreeRootsNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree");
@@ -87,14 +81,12 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @SuppressWarnings("unchecked")
-    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
     }
 
     @Test
-    public void getTreeRootsNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getTreeRootsNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(CommonSecurityException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree");
@@ -104,8 +96,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getTreeRootsInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getTreeRootsInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ServiceException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree");
@@ -115,8 +106,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getFolderSubTree() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFolderSubTree() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpServiceMethods();
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree/easy-folder:1");
@@ -127,8 +117,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getFolderSubTreeNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFolderSubTreeNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree/easy-folder:1");
@@ -138,8 +127,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getFolderSubTreeNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFolderSubTreeNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(CommonSecurityException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree/easy-folder:1");
@@ -149,8 +137,7 @@ public class FileTreeResourceTest extends RestTest
     }
 
     @Test
-    public void getFolderSubTreeInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFolderSubTreeInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ServiceException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/filetree/easy-folder:1");

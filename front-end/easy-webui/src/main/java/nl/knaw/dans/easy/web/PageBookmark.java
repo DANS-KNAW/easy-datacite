@@ -21,9 +21,8 @@ import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import org.apache.wicket.Page;
 
 /**
- * The instances are in fact entries of a cross reference between {@link Page} classes and URLs. A static
- * initializer guarantees a 1:1 relationship. The pages are automatically mounted by
- * {@link EasyWicketApplication}.
+ * The instances are in fact entries of a cross reference between {@link Page} classes and URLs. A static initializer guarantees a 1:1 relationship. The pages
+ * are automatically mounted by {@link EasyWicketApplication}.
  * <p/>
  * Note that other bookmarkedNames exist within and without this application. F.i.:
  * <ul>
@@ -35,8 +34,7 @@ import org.apache.wicket.Page;
  * <li>There may be others...</li>
  * </ul>
  */
-public enum PageBookmark implements AliasInterface<Page>
-{
+public enum PageBookmark implements AliasInterface<Page> {
     register(RegistrationPage.class, "register"), //
     registrationValidation(RegistrationValidationPage.class, "validate"), //
     login(LoginPage.class, "login"), //
@@ -59,31 +57,26 @@ public enum PageBookmark implements AliasInterface<Page>
     private final String bookmarkedName;
     private final Class<? extends Page> bookmarkedClass;
 
-    private PageBookmark(final Class<? extends Page> bookmarkedClass, final String bookmarkedName)
-    {
+    private PageBookmark(final Class<? extends Page> bookmarkedClass, final String bookmarkedName) {
         this.bookmarkedName = bookmarkedName;
         this.bookmarkedClass = bookmarkedClass;
     }
 
-    public static PageBookmark valueOf(final Class<? extends Page> bookmarkedClass)
-    {
+    public static PageBookmark valueOf(final Class<? extends Page> bookmarkedClass) {
         return (PageBookmark) delegate.valueOf(bookmarkedClass);
     }
 
-    public static PageBookmark valueOfAlias(final String alias)
-    {
+    public static PageBookmark valueOfAlias(final String alias) {
         return (PageBookmark) delegate.valueOfAlias(alias);
     }
 
     @Override
-    public Class<? extends Page> getAliasClass()
-    {
+    public Class<? extends Page> getAliasClass() {
         return bookmarkedClass;
     }
 
     @Override
-    public String getAlias()
-    {
+    public String getAlias() {
         return bookmarkedName;
     }
 }

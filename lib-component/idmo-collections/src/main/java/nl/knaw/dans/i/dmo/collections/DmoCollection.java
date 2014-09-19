@@ -12,8 +12,7 @@ import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
  * 
  * @author henkb
  */
-public interface DmoCollection extends DataModelObject
-{
+public interface DmoCollection extends DataModelObject {
 
     String CONTENT_MODEL = "easy-model:CM_DMO_COLLECTION_1";
 
@@ -30,8 +29,7 @@ public interface DmoCollection extends DataModelObject
      * <li>does not have a parent;</li>
      * <li>its storeId equals {@link #ROOT_ID}.</li>
      * 
-     * @return <code>true</code> if this DmoCollection is root of a collection tree, <code>false</code>
-     *         otherwise.
+     * @return <code>true</code> if this DmoCollection is root of a collection tree, <code>false</code> otherwise.
      */
     boolean isRoot();
 
@@ -62,8 +60,7 @@ public interface DmoCollection extends DataModelObject
     /**
      * Get the DmoStoreId of the parent of this DmoCollection.
      * 
-     * @return DmoStoreId of the parent of this DmoCollection or <code>null</code> if this DmoCollection
-     *         has no parent.
+     * @return DmoStoreId of the parent of this DmoCollection or <code>null</code> if this DmoCollection has no parent.
      */
     DmoStoreId getParentId();
 
@@ -105,14 +102,12 @@ public interface DmoCollection extends DataModelObject
     boolean isPublishedAsOAISet();
 
     /**
-     * Determine if there are any descendantIds in the given set of <code>memberIds</code> where
-     * descendant is published as OAI set. If none were found, than this DmoCollection is an OAI end node
-     * relative to the given set.
+     * Determine if there are any descendantIds in the given set of <code>memberIds</code> where descendant is published as OAI set. If none were found, than
+     * this DmoCollection is an OAI end node relative to the given set.
      * 
      * @param memberIds
      *        set of DmoStoreIds
-     * @return <code>true</code> if this DmoCollection is an OAI end node relative to the given set,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> if this DmoCollection is an OAI end node relative to the given set, <code>false</code> otherwise.
      */
     boolean isOAIendNode(Set<DmoStoreId> memberIds);
 

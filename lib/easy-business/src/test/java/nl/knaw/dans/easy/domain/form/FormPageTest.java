@@ -10,12 +10,10 @@ import org.jibx.runtime.JiBXException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class FormPageTest
-{
+public class FormPageTest {
 
     @Test
-    public void getPanelDefinition() throws JiBXException
-    {
+    public void getPanelDefinition() throws JiBXException {
         FormDescriptor fd = createFormdescriptor();
         FormDefinition fdef = fd.getFormDefinition("formDefinition.id");
         FormPage fpage = fdef.getFormPage("formPage.id");
@@ -37,8 +35,7 @@ public class FormPageTest
         assertEquals("formPage.helpFile", termPanel4.getHelpFile());
     }
 
-    private FormDescriptor createFormdescriptor()
-    {
+    private FormDescriptor createFormdescriptor() {
         FormDescriptor formDescriptor = new FormDescriptor("formDescriptor.id");
         formDescriptor.setHelpFile("formDescriptor.helpFile");
         formDescriptor.setHelpItem("formDescriptor.helpItem");

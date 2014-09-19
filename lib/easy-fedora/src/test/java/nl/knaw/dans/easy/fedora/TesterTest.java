@@ -5,11 +5,9 @@ import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.Test;
 
-public class TesterTest
-{
+public class TesterTest {
     @Test
-    public void getString()
-    {
+    public void getString() {
         assertEquals("testing nl.knaw.dans.easy.fedora", Tester.getString(Tester.KEY_TEST));
     }
 }

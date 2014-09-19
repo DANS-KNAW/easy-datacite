@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class Base64CoderTest
-{
+public class Base64CoderTest {
 
     @Test
-    public void encodeDecode()
-    {
+    public void encodeDecode() {
         String encoded = Base64Coder.encodeString("foo");
         assertEquals("Zm9v", encoded);
 

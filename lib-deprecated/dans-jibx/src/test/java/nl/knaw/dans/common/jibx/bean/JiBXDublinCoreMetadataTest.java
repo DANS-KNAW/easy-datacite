@@ -24,15 +24,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class JiBXDublinCoreMetadataTest
-{
+public class JiBXDublinCoreMetadataTest {
     private static final Logger logger = LoggerFactory.getLogger(JiBXDublinCoreMetadataTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws XMLException
-    {
+    public void serializeDeserializeEmpty() throws XMLException {
         DublinCoreMetadata dc = new JiBXDublinCoreMetadata();
         if (verbose)
             logger.debug("\n" + dc.asXMLString(4) + "\n");
@@ -42,8 +40,7 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws XMLException
-    {
+    public void serializeDeserializeFull() throws XMLException {
         DublinCoreMetadata dc = createFull();
         // if (verbose)
         logger.debug("\n" + dc.asXMLString(4) + "\n");
@@ -53,12 +50,10 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void serializeToFile() throws IOException, XMLException
-    {
+    public void serializeToFile() throws IOException, XMLException {
         DublinCoreMetadata dc = createFull();
         File tempFile = null;
-        try
-        {
+        try {
             tempFile = File.createTempFile("jibx-test-", null);
             dc.serializeTo(tempFile, 4);
             if (verbose)
@@ -67,10 +62,8 @@ public class JiBXDublinCoreMetadataTest
             DublinCoreMetadata dc2 = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, tempFile);
             assertEquals(dc.asXMLString(), dc2.asXMLString());
         }
-        finally
-        {
-            if (tempFile != null && !tempFile.delete())
-            {
+        finally {
+            if (tempFile != null && !tempFile.delete()) {
                 logger.warn("Could not remove temporary file: " + tempFile.getName());
                 tempFile.deleteOnExit();
             }
@@ -78,8 +71,7 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void serializeToInputStream() throws XMLException, IOException
-    {
+    public void serializeToInputStream() throws XMLException, IOException {
         DublinCoreMetadata dc = createFull();
         InputStream inStream = dc.asXMLInputStream();
 
@@ -89,16 +81,14 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void serializeToOutputStream() throws XMLSerializationException
-    {
+    public void serializeToOutputStream() throws XMLSerializationException {
         DublinCoreMetadata dc = createFull();
         if (verbose)
             dc.serializeTo(System.out, 4);
     }
 
     @Test
-    public void serializeToWriter() throws XMLSerializationException
-    {
+    public void serializeToWriter() throws XMLSerializationException {
         DublinCoreMetadata dc = createFull();
         dc.add(PropertyName.Type, "K\u2016jihu\u1234");
         PrintWriter out = new PrintWriter(System.out, true);
@@ -107,8 +97,7 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void deserializeFromFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException
-    {
+    public void deserializeFromFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException {
         DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, Tester.getFile("test-files/bean/oai_dc.xml"));
         // assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
         if (verbose)
@@ -116,8 +105,7 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void deserializeFromValidFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException
-    {
+    public void deserializeFromValidFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException {
         DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class,
                 Tester.getFile("test-files/bean/valid_oai_dc.xml"));
         // assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
@@ -128,19 +116,14 @@ public class JiBXDublinCoreMetadataTest
         assertEquals(4, dc.getXl(PropertyName.Source).size());
     }
 
-    public static DublinCoreMetadata createFull()
-    {
+    public static DublinCoreMetadata createFull() {
         DublinCoreMetadata dc = new JiBXDublinCoreMetadata();
         int i = 0;
-        for (PropertyName name : PropertyName.values())
-        {
-            if (i % 2 == 0)
-            {
+        for (PropertyName name : PropertyName.values()) {
+            if (i % 2 == 0) {
                 dc.add(name, name.toString() + " 1", "nl");
                 dc.add(name, name.toString() + " 2");
-            }
-            else
-            {
+            } else {
                 dc.add(name, name.toString() + " 1");
                 dc.add(name, name.toString() + " 2", "nld-NLD");
             }
@@ -150,49 +133,42 @@ public class JiBXDublinCoreMetadataTest
     }
 
     @Test
-    public void Observable() throws Exception
-    {
+    public void Observable() throws Exception {
         JiBXDublinCoreMetadata jdc = new JiBXDublinCoreMetadata();
         JDCObserver dcObserver = new JDCObserver();
         jdc.addObserver(dcObserver);
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.set(name, new ArrayList<String>());
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
         }
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.set(name, "foo");
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
         }
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.add(name, "bar");
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
         }
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.add(name, new JiBXLangString("jazz"));
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
         }
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.add(name, "beer", "nl");
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
         }
 
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             jdc.add(name, "drunk", new Locale("nl"));
             assertEquals(1, dcObserver.count);
             assertEquals(name, dcObserver.getLatestArgument());
@@ -202,21 +178,18 @@ public class JiBXDublinCoreMetadataTest
             logger.debug("\n" + jdc.asXMLString(4) + "\n");
     }
 
-    class JDCObserver implements Observer
-    {
+    class JDCObserver implements Observer {
 
         private Object latestArgument;
         private int count;
 
         @Override
-        public void update(java.util.Observable arg0, Object arg1)
-        {
+        public void update(java.util.Observable arg0, Object arg1) {
             count++;
             latestArgument = arg1;
         }
 
-        public Object getLatestArgument()
-        {
+        public Object getLatestArgument() {
             Object la = latestArgument;
             latestArgument = null;
             count = 0;

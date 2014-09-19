@@ -15,8 +15,7 @@ import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import nl.knaw.dans.i.store.StoreSession;
 
-public class CollectionsCache
-{
+public class CollectionsCache {
 
     private static CollectionsCache instance;
 
@@ -24,17 +23,14 @@ public class CollectionsCache
 
     private final Map<DmoStoreId, DmoCollection> cache = Collections.synchronizedMap(new HashMap<DmoStoreId, DmoCollection>());
 
-    public static CollectionsCache instance()
-    {
-        if (instance == null)
-        {
+    public static CollectionsCache instance() {
+        if (instance == null) {
             instance = new CollectionsCache();
         }
         return instance;
     }
 
-    private CollectionsCache()
-    {
+    private CollectionsCache() {
 
     }
 
@@ -43,18 +39,14 @@ public class CollectionsCache
      * @return could be <code>null</code>
      * @throws RepositoryException
      */
-    public DmoCollection getRoot(DmoNamespace namespace) throws RepositoryException
-    {
+    public DmoCollection getRoot(DmoNamespace namespace) throws RepositoryException {
         DmoStoreId rootId = new DmoStoreId(namespace, DmoCollection.ROOT_ID);
         DmoCollection root;
-        synchronized (cache)
-        {
+        synchronized (cache) {
             root = cache.get(rootId);
-            if (root == null)
-            {
+            if (root == null) {
                 root = getRootFromStore(rootId);
-                if (root != null)
-                {
+                if (root != null) {
                     addToCacheDescending(root);
                 }
             }
@@ -67,42 +59,32 @@ public class CollectionsCache
      * @return could be <code>null</code>
      * @throws RepositoryException
      */
-    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws RepositoryException
-    {
+    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws RepositoryException {
         DmoCollection dmoCollection;
-        synchronized (cache)
-        {
+        synchronized (cache) {
             dmoCollection = cache.get(dmoStoreId);
         }
-        if (dmoCollection == null)
-        {
+        if (dmoCollection == null) {
             getRoot(dmoStoreId.getNamespace());
-            synchronized (cache)
-            {
+            synchronized (cache) {
                 dmoCollection = cache.get(dmoStoreId);
             }
         }
         return dmoCollection;
     }
 
-    public boolean contains(DmoStoreId dmoStoreId)
-    {
-        synchronized (cache)
-        {
+    public boolean contains(DmoStoreId dmoStoreId) {
+        synchronized (cache) {
             return cache.containsKey(dmoStoreId);
         }
     }
 
-    public boolean checkContainsAllInstances(boolean throwException, DmoCollection... collections) throws CollectionsException
-    {
+    public boolean checkContainsAllInstances(boolean throwException, DmoCollection... collections) throws CollectionsException {
         boolean containsAllInstances = true;
-        synchronized (cache)
-        {
-            for (DmoCollection collection : collections)
-            {
+        synchronized (cache) {
+            for (DmoCollection collection : collections) {
                 containsAllInstances &= collection == cache.get(collection.getDmoStoreId());
-                if (throwException && !containsAllInstances)
-                {
+                if (throwException && !containsAllInstances) {
                     throw new CollectionsException("Not in cache: " + collection);
                 }
             }
@@ -110,138 +92,107 @@ public class CollectionsCache
         return containsAllInstances;
     }
 
-    public void invalidate()
-    {
-        synchronized (cache)
-        {
+    public void invalidate() {
+        synchronized (cache) {
             cache.clear();
         }
     }
 
-    public void invalidate(DmoNamespace namespace)
-    {
-        synchronized (cache)
-        {
+    public void invalidate(DmoNamespace namespace) {
+        synchronized (cache) {
             Iterator<DmoStoreId> iter = cache.keySet().iterator();
             List<DmoStoreId> invalidEntries = new ArrayList<DmoStoreId>();
-            while (iter.hasNext())
-            {
+            while (iter.hasNext()) {
                 DmoStoreId dmoStoreId = iter.next();
-                if (dmoStoreId.getNamespace().equals(namespace))
-                {
+                if (dmoStoreId.getNamespace().equals(namespace)) {
                     invalidEntries.add(dmoStoreId);
                 }
             }
-            for (DmoStoreId dmoStoreId : invalidEntries)
-            {
+            for (DmoStoreId dmoStoreId : invalidEntries) {
                 cache.remove(dmoStoreId);
             }
         }
     }
 
-    public int size()
-    {
+    public int size() {
         return cache.size();
     }
 
-    public int size(DmoNamespace namespace)
-    {
+    public int size(DmoNamespace namespace) {
         int size = 0;
-        for (DmoStoreId dmoStoreId : cache.keySet())
-        {
-            if (dmoStoreId.getNamespace().equals(namespace))
-            {
+        for (DmoStoreId dmoStoreId : cache.keySet()) {
+            if (dmoStoreId.getNamespace().equals(namespace)) {
                 size++;
             }
         }
         return size;
     }
 
-    public void putDescending(DmoCollection collection)
-    {
-        synchronized (cache)
-        {
+    public void putDescending(DmoCollection collection) {
+        synchronized (cache) {
             addToCacheDescending(collection);
         }
     }
 
-    private void addToCacheDescending(DmoCollection collection)
-    {
+    private void addToCacheDescending(DmoCollection collection) {
         cache.put(collection.getDmoStoreId(), collection);
-        for (DmoCollection kid : collection.getChildren())
-        {
+        for (DmoCollection kid : collection.getChildren()) {
             addToCacheDescending(kid);
         }
     }
 
-    public void put(DmoCollection collection)
-    {
-        synchronized (cache)
-        {
+    public void put(DmoCollection collection) {
+        synchronized (cache) {
             cache.put(collection.getDmoStoreId(), collection);
         }
     }
 
-    public void putAscending(DmoCollection collection)
-    {
-        synchronized (cache)
-        {
+    public void putAscending(DmoCollection collection) {
+        synchronized (cache) {
             DmoCollection parent = collection;
-            while (parent != null)
-            {
+            while (parent != null) {
                 cache.put(parent.getDmoStoreId(), parent);
                 parent = parent.getParent();
             }
         }
     }
 
-    public void remove(DmoStoreId dmoStoreId)
-    {
-        synchronized (cache)
-        {
+    public void remove(DmoStoreId dmoStoreId) {
+        synchronized (cache) {
             cache.remove(dmoStoreId);
         }
     }
 
-    private DmoCollection getRootFromStore(DmoStoreId rootId) throws RepositoryException
-    {
+    private DmoCollection getRootFromStore(DmoStoreId rootId) throws RepositoryException {
         StoreSession session = Store.newStoreSession(ownerId);
         DmoCollection root = null;
-        try
-        {
+        try {
             root = getRootFromStore(rootId, session);
-            if (root != null)
-            {
+            if (root != null) {
                 getChildrenFromStore(root);
             }
         }
-        finally
-        {
+        finally {
             session.close();
         }
 
         return root;
     }
 
-    protected DmoCollection getRootFromStore(DmoStoreId rootId, StoreSession session) throws RepositoryException
-    {
+    protected DmoCollection getRootFromStore(DmoStoreId rootId, StoreSession session) throws RepositoryException {
         DmoCollection root = null;
-        try
-        {
+        try {
             root = (DmoCollection) session.getDataModelObject(rootId);
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             // not found: root = null
         }
         return root;
     }
 
-    private void getChildrenFromStore(DmoCollection collection)
-    {
+    private void getChildrenFromStore(DmoCollection collection) {
         // datamodelobjects are in session.
-        for (DmoCollection kid : collection.getChildren())
-        {
+        for (DmoCollection kid : collection.getChildren()) {
             getChildrenFromStore(kid);
         }
     }

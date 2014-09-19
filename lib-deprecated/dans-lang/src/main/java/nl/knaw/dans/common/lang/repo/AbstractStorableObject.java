@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.repo;
 
 import org.joda.time.DateTime;
 
-public abstract class AbstractStorableObject extends AbstractTimestampedObject implements StorableObject
-{
+public abstract class AbstractStorableObject extends AbstractTimestampedObject implements StorableObject {
 
     private static final long serialVersionUID = 6450677170978355198L;
 
@@ -18,86 +17,70 @@ public abstract class AbstractStorableObject extends AbstractTimestampedObject i
 
     private long loadTime;
 
-    public AbstractStorableObject()
-    {
+    public AbstractStorableObject() {
 
     }
 
-    public AbstractStorableObject(String storeId)
-    {
+    public AbstractStorableObject(String storeId) {
         this.storeId = storeId;
     }
 
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(String storeId)
-    {
+    public void setStoreId(String storeId) {
         this.storeId = storeId;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         evaluateDirty(this.label, label);
         this.label = label;
     }
 
-    public String getOwnerId()
-    {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(String ownerId)
-    {
+    public void setOwnerId(String ownerId) {
         evaluateDirty(this.ownerId, ownerId);
         this.ownerId = ownerId;
     }
 
-    public String getState()
-    {
+    public String getState() {
         return state;
     }
 
-    public void setState(String state)
-    {
+    public void setState(String state) {
         evaluateDirty(this.state, state);
         this.state = state;
     }
 
-    public DateTime getDateCreated()
-    {
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTime dateCreated)
-    {
+    public void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public DateTime getLastModified()
-    {
+    public DateTime getLastModified() {
         return lastModified;
     }
 
-    public void setlastModified(DateTime lastModified)
-    {
+    public void setlastModified(DateTime lastModified) {
         this.lastModified = lastModified;
     }
 
-    public boolean isLoaded()
-    {
+    public boolean isLoaded() {
         return loaded;
     }
 
-    public void setLoaded(boolean loaded)
-    {
+    public void setLoaded(boolean loaded) {
         this.loaded = loaded;
         if (loaded)
             this.loadTime = System.nanoTime();
@@ -105,8 +88,7 @@ public abstract class AbstractStorableObject extends AbstractTimestampedObject i
             this.loadTime = 0;
     }
 
-    public long getloadTime()
-    {
+    public long getloadTime() {
         return loadTime;
     }
 

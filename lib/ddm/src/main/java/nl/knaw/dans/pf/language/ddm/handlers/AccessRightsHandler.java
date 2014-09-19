@@ -7,11 +7,9 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.xml.sax.SAXException;
 
-public class AccessRightsHandler extends BasicStringHandler
-{
+public class AccessRightsHandler extends BasicStringHandler {
     @Override
-    public final void finishElement(final String uri, final String localName) throws SAXException
-    {
+    public final void finishElement(final String uri, final String localName) throws SAXException {
         final List<BasicString> accessRightsList = getTarget().getEmdRights().getTermsAccessRights();
         final BasicString basicString = createBasicString(uri, localName);
         // skip access rights beyond the ddm:profile

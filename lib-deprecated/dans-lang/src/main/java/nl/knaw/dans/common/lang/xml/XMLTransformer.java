@@ -19,8 +19,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class XMLTransformer implements ErrorListener
-{
+public class XMLTransformer implements ErrorListener {
 
     public static final String PROP_TRANSFORMERFACTORY = "javax.xml.transform.TransformerFactory";
 
@@ -30,20 +29,16 @@ public class XMLTransformer implements ErrorListener
     private final Source xsltSource;
     private final List<TransformerException> errorList = new ArrayList<TransformerException>();
 
-    public XMLTransformer(String xsltFileName) throws TransformerConfigurationException, TransformerFactoryConfigurationError
-    {
+    public XMLTransformer(String xsltFileName) throws TransformerConfigurationException, TransformerFactoryConfigurationError {
         this(xsltFileName, TransformerFactory.newInstance());
     }
 
-    public XMLTransformer(File xsltFile) throws TransformerConfigurationException, TransformerFactoryConfigurationError
-    {
+    public XMLTransformer(File xsltFile) throws TransformerConfigurationException, TransformerFactoryConfigurationError {
         this(xsltFile, TransformerFactory.newInstance());
     }
 
-    public XMLTransformer(String xsltFileName, String transformerFactoryName) throws TransformerConfigurationException, TransformerFactoryConfigurationError
-    {
-        if (transformerFactoryName != null)
-        {
+    public XMLTransformer(String xsltFileName, String transformerFactoryName) throws TransformerConfigurationException, TransformerFactoryConfigurationError {
+        if (transformerFactoryName != null) {
             System.setProperty(XMLTransformer.PROP_TRANSFORMERFACTORY, transformerFactoryName);
         }
         transformerFactory = TransformerFactory.newInstance();
@@ -59,15 +54,11 @@ public class XMLTransformer implements ErrorListener
         this(new File(xsltFileName), transformerFactory);
     }
 
-    public XMLTransformer(File xsltFile, TransformerFactory transformerFactory) throws TransformerConfigurationException, TransformerFactoryConfigurationError
-    {
-        if (transformerFactory == null)
-        {
+    public XMLTransformer(File xsltFile, TransformerFactory transformerFactory) throws TransformerConfigurationException, TransformerFactoryConfigurationError {
+        if (transformerFactory == null) {
             // get a default one
             this.transformerFactory = TransformerFactory.newInstance();
-        }
-        else
-        {
+        } else {
             this.transformerFactory = transformerFactory;
         }
         xsltSource = new StreamSource(xsltFile);
@@ -75,20 +66,17 @@ public class XMLTransformer implements ErrorListener
         logger.info("Using TransformerFactory: " + this.transformerFactory.getClass().getName());
     }
 
-    public void transform(String xmlIn, String xmlOut) throws TransformerException, IOException
-    {
+    public void transform(String xmlIn, String xmlOut) throws TransformerException, IOException {
         Source xmlSource = new StreamSource(xmlIn);
         transform(xmlSource, new File(xmlOut));
     }
 
-    public void transform(File xmlIn, File xmlOut) throws TransformerException, IOException
-    {
+    public void transform(File xmlIn, File xmlOut) throws TransformerException, IOException {
         Source xmlSource = new StreamSource(xmlIn);
         transform(xmlSource, xmlOut);
     }
 
-    public void transform(Source xmlSource, File xmlOut) throws TransformerException, IOException
-    {
+    public void transform(Source xmlSource, File xmlOut) throws TransformerException, IOException {
         errorList.clear();
         // cannot reuse transformer. out of memory error after transforming 5286 documents.
         Transformer transformer = transformerFactory.newTransformer(xsltSource);
@@ -97,8 +85,7 @@ public class XMLTransformer implements ErrorListener
         transformer.transform(xmlSource, result);
     }
 
-    public void transform(File xmlIn, java.io.OutputStream out) throws TransformerException, IOException
-    {
+    public void transform(File xmlIn, java.io.OutputStream out) throws TransformerException, IOException {
         Source xmlSource = new StreamSource(xmlIn);
         errorList.clear();
         // cannot reuse transformer. out of memory error after transforming 5286 documents.
@@ -108,29 +95,24 @@ public class XMLTransformer implements ErrorListener
         transformer.transform(xmlSource, result);
     }
 
-    public void error(TransformerException exception) throws TransformerException
-    {
+    public void error(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public void fatalError(TransformerException exception) throws TransformerException
-    {
+    public void fatalError(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public void warning(TransformerException exception) throws TransformerException
-    {
+    public void warning(TransformerException exception) throws TransformerException {
         errorList.add(exception);
         logger.warn(exception.getMessageAndLocation());
     }
 
-    public String getErrors()
-    {
+    public String getErrors() {
         final StringBuilder builder = new StringBuilder();
-        for (TransformerException tex : errorList)
-        {
+        for (TransformerException tex : errorList) {
             builder.append(tex.getClass().getName());
             builder.append("\n\t");
             builder.append(tex.getMessage());

@@ -28,20 +28,18 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * Guide to interpret messages of exceptions thrown by {@link PowerMock}. The class provides some
- * examples of erroneous usage or unimplemented expectations of the the {@link BusinessMocker} library.
+ * Guide to interpret messages of exceptions thrown by {@link PowerMock}. The class provides some examples of erroneous usage or unimplemented expectations of
+ * the the {@link BusinessMocker} library.
  */
 @RunWith(PowerMockRunner.class)
-public class TroubleShootingTest
-{
+public class TroubleShootingTest {
     final static int EQUALS = 1;
     final static int CONTAINS = 2;
 
     /**
      * The test methods using an instance explain possible causes of a problem.
      */
-    static enum Message
-    {
+    static enum Message {
         NON_FIXED_COUNT_SET(EQUALS, "last method called on mock already has a non-fixed count set."), //
         UNEXPECTED_METHOD(CONTAINS, "Unexpected method call"), //
         RECORD_STATE(EQUALS, "calling verify is not allowed in record state"), //
@@ -51,16 +49,13 @@ public class TroubleShootingTest
         private final String value;
         private int type;
 
-        Message(final int type, final String value)
-        {
+        Message(final int type, final String value) {
             this.type = type;
             this.value = value;
         }
 
-        public void verify(final Throwable throwable)
-        {
-            switch (type)
-            {
+        public void verify(final Throwable throwable) {
+            switch (type) {
             case EQUALS:
                 assertThat(throwable.getMessage(), equalTo(value));
                 break;
@@ -75,8 +70,7 @@ public class TroubleShootingTest
     private BusinessMocker mock;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mock = new BusinessMocker();
     }
 
@@ -84,20 +78,17 @@ public class TroubleShootingTest
      * Not sure if the first stub or a random stub of the duplicates is used.
      */
     @Test
-    public void duplicateStubs() throws Exception
-    {
+    public void duplicateStubs() throws Exception {
         mock.dataset(mock.nextDmoStoreId(Dataset.NAMESPACE)).with(DatasetState.DRAFT).with(DatasetState.DELETED);
         PowerMock.replayAll();
         assertThat(mock.getDatasets().get(0).getAdministrativeState(), equalTo(DatasetState.DRAFT));
         PowerMock.verifyAll();
     }
 
-    private class InitialApproachMocker
-    {
+    private class InitialApproachMocker {
         final Dataset dataset = PowerMock.createMock(Dataset.class);
 
-        InitialApproachMocker with(DatasetState state)
-        {
+        InitialApproachMocker with(DatasetState state) {
             // the new approach is andStubReturn
             expect(dataset.getAdministrativeState()).andReturn(DatasetState.DELETED).anyTimes();
             return this;
@@ -106,14 +97,11 @@ public class TroubleShootingTest
 
     /** The initial approach would reveal mistakes. */
     @Test
-    public void duplicateExpectations() throws Exception
-    {
-        try
-        {
+    public void duplicateExpectations() throws Exception {
+        try {
             new InitialApproachMocker().with(DatasetState.DRAFT).with(DatasetState.DELETED);
         }
-        catch (final IllegalStateException e)
-        {
+        catch (final IllegalStateException e) {
             Message.NON_FIXED_COUNT_SET.verify(e);
             return;
         }
@@ -121,34 +109,28 @@ public class TroubleShootingTest
     }
 
     /**
-     * For the sake of the example {@link FileMocker#with(AccessibleTo)} is omitted. However, the mockers
-     * are written on a n as-needed basis. So In practice you might have to write or extend a method for
-     * some of the {@link AbstractMocker} implementations, or extend a constructor. Typically you need a
-     * call to some variant of {@link EasyMock#expect(Object)} or {@link PowerMock}. Naming conventions:
+     * For the sake of the example {@link FileMocker#with(AccessibleTo)} is omitted. However, the mockers are written on a n as-needed basis. So In practice you
+     * might have to write or extend a method for some of the {@link AbstractMocker} implementations, or extend a constructor. Typically you need a call to some
+     * variant of {@link EasyMock#expect(Object)} or {@link PowerMock}. Naming conventions:
      * <ul>
-     * <li>plain "with" for non ambiguous signatures and
-     * {@link IExpectationSetters#andStubReturn(Object)} which sets a default return value which is used
-     * as a fallback only when regular .andReturn() have been used up</li>
-     * <li>plain "withXxxx" to disambiguate a signatures and
-     * {@link IExpectationSetters#andStubReturn(Object)}</li>
+     * <li>plain "with" for non ambiguous signatures and {@link IExpectationSetters#andStubReturn(Object)} which sets a default return value which is used as a
+     * fallback only when regular .andReturn() have been used up</li>
+     * <li>plain "withXxxx" to disambiguate a signatures and {@link IExpectationSetters#andStubReturn(Object)}</li>
      * <li>plain "expectYyyy" for a more specific number of times</li>
      * </ul>
      * 
      * @throws Exception
      */
     @Test
-    public void missingExpectations() throws Exception
-    {
+    public void missingExpectations() throws Exception {
         String fileStoreId = mock.nextDmoStoreId(FileItem.NAMESPACE);
         mock.file("test.txt", fileStoreId);
         PowerMock.replayAll();
-        try
-        {
+        try {
             final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(fileStoreId));
             fileItem.getAccessibleTo();
         }
-        catch (final AssertionError e)
-        {
+        catch (final AssertionError e) {
             Message.UNEXPECTED_METHOD.verify(e);
             return;
         }
@@ -156,17 +138,14 @@ public class TroubleShootingTest
     }
 
     @Test
-    public void replayMissing() throws Exception
-    {
+    public void replayMissing() throws Exception {
         mock.file("test.txt").with(AccessibleTo.RESTRICTED_REQUEST, VisibleTo.ANONYMOUS);
         // replay should belong here
-        try
-        {
+        try {
             Data.getEasyStore().retrieve(new DmoStoreId("easyfile:1"));
             PowerMock.verifyAll();
         }
-        catch (final IllegalStateException e)
-        {
+        catch (final IllegalStateException e) {
             Message.RECORD_STATE.verify(e);
             return;
         }
@@ -174,8 +153,7 @@ public class TroubleShootingTest
     }
 
     @Test
-    public void noInline() throws Exception
-    {
+    public void noInline() throws Exception {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final DmoStoreId dmoStoreId = new DmoStoreId(mock.nextDmoStoreId(Dataset.NAMESPACE));
 
@@ -186,12 +164,10 @@ public class TroubleShootingTest
         expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), noItemOrder, noItermFilters))//
                 .andStubReturn(null);
         PowerMock.replayAll();
-        try
-        {
+        try {
             fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
         }
-        catch (final AssertionError e)
-        {
+        catch (final AssertionError e) {
             Message.UNEXPECTED.verify(e);
             return;
         }
@@ -200,8 +176,7 @@ public class TroubleShootingTest
 
     /** Proves the explaining comment in noInline() */
     @Test
-    public void inline() throws Exception
-    {
+    public void inline() throws Exception {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final DmoStoreId dmoStoreId = new DmoStoreId(mock.nextDmoStoreId(Dataset.NAMESPACE));
         expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), eq((ItemOrder) null), eq((ItemFilters) null)))//
@@ -213,19 +188,16 @@ public class TroubleShootingTest
 
     /** Proper solutions: {@link ExampleTest#emptyFolder()} and {@link ExampleTest#justAnEmptyFolder()} */
     @Test
-    public void incompleteEmptyFolder() throws Exception
-    {
+    public void incompleteEmptyFolder() throws Exception {
         final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.dataset(storeId).with(mock.folder("a"));
 
         PowerMock.replayAll();
 
-        try
-        {
+        try {
             ClassUnderTest.getNrOfFilesAndFolders(storeId);
         }
-        catch (final AssertionError e)
-        {
+        catch (final AssertionError e) {
             Message.UNEXPECTED.verify(e);
             return;
         }

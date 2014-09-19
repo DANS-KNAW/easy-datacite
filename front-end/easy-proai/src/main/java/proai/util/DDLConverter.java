@@ -11,8 +11,7 @@ import java.util.List;
  * Implementations must also have a public no-arg constructor.
  * </p>
  */
-public interface DDLConverter
-{
+public interface DDLConverter {
 
     public boolean supportsTableType();
 

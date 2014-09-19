@@ -3,28 +3,23 @@ package nl.knaw.dans.easy.security;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
-public class DmoNamespaceCheck extends AbstractCheck
-{
+public class DmoNamespaceCheck extends AbstractCheck {
 
     private final DmoNamespace[] allowedNamespaces;
     private final String proposition;
 
-    public DmoNamespaceCheck(DmoNamespace... namespaces)
-    {
+    public DmoNamespaceCheck(DmoNamespace... namespaces) {
         allowedNamespaces = namespaces;
         proposition = PropositionBuilder.buildOrProposition("storeId is within namespace", namespaces);
     }
 
     @Override
-    public boolean evaluate(ContextParameters ctxParameters)
-    {
+    public boolean evaluate(ContextParameters ctxParameters) {
         boolean conditionMet = false;
         DmoStoreId storeId = (DmoStoreId) ctxParameters.getObject(DmoStoreId.class, 0);
-        if (storeId != null)
-        {
+        if (storeId != null) {
             int i = 0;
-            while (!conditionMet && i < allowedNamespaces.length)
-            {
+            while (!conditionMet && i < allowedNamespaces.length) {
                 conditionMet = storeId.isInNamespace(allowedNamespaces[i++]);
             }
         }
@@ -32,8 +27,7 @@ public class DmoNamespaceCheck extends AbstractCheck
     }
 
     @Override
-    protected String explain(ContextParameters ctxParameters)
-    {
+    protected String explain(ContextParameters ctxParameters) {
         StringBuilder sb = super.startExplain(ctxParameters);
         sb.append("\n\tdmoStoreId = ");
         sb.append(ctxParameters.getObject(DmoStoreId.class, 0));
@@ -43,8 +37,7 @@ public class DmoNamespaceCheck extends AbstractCheck
     }
 
     @Override
-    public String getProposition()
-    {
+    public String getProposition() {
         return proposition;
     }
 

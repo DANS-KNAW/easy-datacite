@@ -16,8 +16,7 @@ import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.HasRoleCheck;
 import nl.knaw.dans.easy.security.IsDepositorOfDatasetCheck;
 
-public class DownloadFilter implements ItemFilter
-{
+public class DownloadFilter implements ItemFilter {
 
     private static final AbstractCheck isDepositorCheck = new IsDepositorOfDatasetCheck();
     private static final AbstractCheck isArchivistCheck = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
@@ -25,43 +24,34 @@ public class DownloadFilter implements ItemFilter
     private final Dataset dataset;
     private final EasyUser sessionUser;
 
-    public DownloadFilter(EasyUser sessionUser, Dataset dataset)
-    {
+    public DownloadFilter(EasyUser sessionUser, Dataset dataset) {
         this.dataset = dataset;
         this.sessionUser = sessionUser;
     }
 
-    public List<? extends ItemVO> apply(List<? extends ItemVO> itemList) throws DomainException
-    {
+    public List<? extends ItemVO> apply(List<? extends ItemVO> itemList) throws DomainException {
         int userProfile = getUserProfile();
         List<ItemVO> filteredItems = new ArrayList<ItemVO>();
-        for (ItemVO item : itemList)
-        {
-            if (item.isAccessibleFor(userProfile) && item.belongsTo(dataset))
-            {
+        for (ItemVO item : itemList) {
+            if (item.isAccessibleFor(userProfile) && item.belongsTo(dataset)) {
                 filteredItems.add(item);
             }
         }
         return filteredItems;
     }
 
-    public int getUserProfile()
-    {
+    public int getUserProfile() {
         int userProfile = 0;
         ContextParameters ctxParameters = new ContextParameters(sessionUser, dataset);
-        if (isDepositorCheck.evaluate(ctxParameters) || isArchivistCheck.evaluate(ctxParameters))
-        {
+        if (isDepositorCheck.evaluate(ctxParameters) || isArchivistCheck.evaluate(ctxParameters)) {
             userProfile = AccessCategory.MASK_ALL;
-        }
-        else
-        {
+        } else {
             userProfile = dataset.getAccessProfileFor(sessionUser);
         }
         return userProfile;
     }
 
-    public String explain()
-    {
+    public String explain() {
         StringBuilder sb = new StringBuilder();
         sb.append("User profile = ").append(Arrays.deepToString(AccessCategory.UTIL.getStates(getUserProfile()).toArray()));
         return sb.toString();

@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
-public interface ValidationReporter
-{
+public interface ValidationReporter {
 
     void setMetadataValid(boolean valid);
 

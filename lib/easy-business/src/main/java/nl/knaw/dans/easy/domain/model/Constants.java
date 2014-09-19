@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.domain.model;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
-public interface Constants
-{
+public interface Constants {
 
     /**
      * Content model for Datasets.

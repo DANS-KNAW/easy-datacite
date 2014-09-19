@@ -7,12 +7,10 @@ import nl.knaw.dans.i.store.StoreSession;
 
 import org.junit.Test;
 
-public class StoreManagerImplTest
-{
+public class StoreManagerImplTest {
 
     @Test
-    public void newStoreManager()
-    {
+    public void newStoreManager() {
         StoreManager storeManager = new StoreManagerImpl();
         StoreSession session1 = storeManager.newStoreSession("foo");
         StoreSession session2 = storeManager.newStoreSession("foo");

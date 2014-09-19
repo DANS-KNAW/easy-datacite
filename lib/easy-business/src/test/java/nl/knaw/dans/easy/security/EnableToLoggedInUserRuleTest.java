@@ -13,30 +13,26 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EnableToLoggedInUserRuleTest
-{
+public class EnableToLoggedInUserRuleTest {
     private static SecurityOfficer rule;
     private static EasyUser user;
     private static ContextParameters ctx;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         rule = new CodedAuthz().getEnableToLoggedInUserRule();
         user = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(user);
     }
 
     @Test
-    public void testProposition()
-    {
+    public void testProposition() {
         String proposition = "[SessionUser has role USER or ARCHIVIST or ADMIN]";
         assertEquals(proposition, rule.getProposition());
     }
 
     @Test
-    public void test000()
-    {
+    public void test000() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(false).times(2);
@@ -49,8 +45,7 @@ public class EnableToLoggedInUserRuleTest
     }
 
     @Test
-    public void test001()
-    {
+    public void test001() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(2);
@@ -63,8 +58,7 @@ public class EnableToLoggedInUserRuleTest
     }
 
     @Test
-    public void test1xx()
-    {
+    public void test1xx() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(2);
@@ -77,8 +71,7 @@ public class EnableToLoggedInUserRuleTest
     }
 
     @Test
-    public void testNull()
-    {
+    public void testNull() {
         ContextParameters ctxParameters = new ContextParameters();
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));

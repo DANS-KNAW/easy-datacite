@@ -8,13 +8,11 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 import org.junit.Test;
 
-public class ArchisCollectorOnlineTest
-{
+public class ArchisCollectorOnlineTest {
 
     // @Ignore("Archis server returns an errorpage (wich isn't even xhtml).")
     @Test
-    public void collectInfo() throws Exception
-    {
+    public void collectInfo() throws Exception {
         EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.ARCHAEOLOGY);
         ArchisCollector collector = new ArchisCollector(emd);
         collector.collectInfo(new BasicIdentifier("123"));

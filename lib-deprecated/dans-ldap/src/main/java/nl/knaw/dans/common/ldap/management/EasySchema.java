@@ -8,16 +8,14 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
-public class EasySchema extends AbstractSchema
-{
+public class EasySchema extends AbstractSchema {
 
     public static final String SCHEMA_NAME = "easy";
 
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
 
-    public EasySchema()
-    {
+    public EasySchema() {
         attributeTypes = new ArrayList<Attributes>();
 
         Attributes attrs = new BasicAttributes(true);
@@ -182,20 +180,17 @@ public class EasySchema extends AbstractSchema
     }
 
     @Override
-    public String getSchemaName()
-    {
+    public String getSchemaName() {
         return SCHEMA_NAME;
     }
 
     @Override
-    public List<Attributes> getAttributeTypes()
-    {
+    public List<Attributes> getAttributeTypes() {
         return attributeTypes;
     }
 
     @Override
-    public List<Attributes> getObjectClasses()
-    {
+    public List<Attributes> getObjectClasses() {
         return objectClasses;
     }
 

@@ -3,9 +3,8 @@ package nl.knaw.dans.common.wicket.components.pagebrowse;
 import java.io.Serializable;
 
 /**
- * A model for browsing through items on pages. In this model there is the notion of a window of pages
- * following the current page. In the next example the <code>currentPage</code> is page# 5, the
- * <code>windowSize</code> in this example is 2, and the <code>separator</code> is '|'.
+ * A model for browsing through items on pages. In this model there is the notion of a window of pages following the current page. In the next example the
+ * <code>currentPage</code> is page# 5, the <code>windowSize</code> in this example is 2, and the <code>separator</code> is '|'.
  * 
  * <pre>
  *                                                         currentPage
@@ -19,8 +18,7 @@ import java.io.Serializable;
  * @author ecco
  * @author lobo (refactored)
  */
-public class PageBrowseData implements Serializable
-{
+public class PageBrowseData implements Serializable {
     private static final long serialVersionUID = -9163020926411003131L;
 
     public static final int FIRSTPAGE = 1;
@@ -40,8 +38,7 @@ public class PageBrowseData implements Serializable
      * @param pageSize
      * @param totalItems
      */
-    public PageBrowseData(int itemStart, int pageSize, int totalItems)
-    {
+    public PageBrowseData(int itemStart, int pageSize, int totalItems) {
         init(itemStart, pageSize, totalItems);
     }
 
@@ -50,116 +47,93 @@ public class PageBrowseData implements Serializable
      * @param pageSize
      * @param totalItems
      */
-    public PageBrowseData(int itemStart, int pageSize, int totalItems, int windowSize)
-    {
+    public PageBrowseData(int itemStart, int pageSize, int totalItems, int windowSize) {
         init(itemStart, pageSize, totalItems, windowSize);
     }
 
-    public void init(int itemStart, int pageSize, int totalItems)
-    {
+    public void init(int itemStart, int pageSize, int totalItems) {
         init(itemStart, pageSize, totalItems, DEFAULT_WINDOWSIZE);
     }
 
-    public void init(int itemStart, int pageSize, int totalItems, int windowSize)
-    {
+    public void init(int itemStart, int pageSize, int totalItems, int windowSize) {
         this.pageSize = pageSize;
         this.windowSize = windowSize;
         this.totalItems = totalItems;
-        if (pageSize == 0 || itemStart == 0)
-        {
+        if (pageSize == 0 || itemStart == 0) {
             currentPage = 1;
             lastPage = 1;
             windowStart = 1;
             windowEnd = 1;
-        }
-        else
-        {
+        } else {
             currentPage = itemStart / pageSize + (itemStart % pageSize != 0 ? 1 : 0);
             lastPage = totalItems / pageSize + (totalItems % pageSize != 0 ? 1 : 0);
             calculateWindow();
         }
     }
 
-    public int getWindowSize()
-    {
+    public int getWindowSize() {
         return windowSize;
     }
 
-    public void setWindowSize(int windowSize)
-    {
+    public void setWindowSize(int windowSize) {
         this.windowSize = windowSize;
         calculateWindow();
     }
 
-    public boolean hasPrevious()
-    {
+    public boolean hasPrevious() {
         return currentPage > FIRSTPAGE;
     }
 
-    public boolean hasNext()
-    {
+    public boolean hasNext() {
         return currentPage < lastPage;
     }
 
-    public int getCurrentPage()
-    {
+    public int getCurrentPage() {
         return currentPage;
     }
 
-    public int getLastPage()
-    {
+    public int getLastPage() {
         return lastPage;
     }
 
-    public int getWindowStart()
-    {
+    public int getWindowStart() {
         return windowStart;
     }
 
-    public int getWindowEnd()
-    {
+    public int getWindowEnd() {
         return windowEnd;
     }
 
-    public int getPageSize()
-    {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setCurrentPage(int currentPage)
-    {
+    public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
 
-    private void calculateWindow()
-    {
+    private void calculateWindow() {
         windowStart = calcWindowStart();
         windowEnd = calcWindowEnd();
     }
 
-    private int calcWindowStart()
-    {
+    private int calcWindowStart() {
         int start = currentPage - windowSize;
-        if (start > lastPage - 2 * windowSize)
-        {
+        if (start > lastPage - 2 * windowSize) {
             start = lastPage - 2 * windowSize;
         }
-        if (start < FIRSTPAGE)
-        {
+        if (start < FIRSTPAGE) {
             start = FIRSTPAGE;
         }
-        if (start > currentPage)
-        {
+        if (start > currentPage) {
             start = currentPage;
         }
         return start;
     }
 
-    private int calcWindowEnd()
-    {
+    private int calcWindowEnd() {
         int end = windowStart + 2 * windowSize;
-        if (end > lastPage)
-        {
+        if (end > lastPage) {
             end = lastPage;
         }
         return end;

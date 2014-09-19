@@ -21,29 +21,25 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DisciplineConverterTest
-{
+public class DisciplineConverterTest {
     private DisciplineCollectionService disciplineServiceMock;
     private DisciplineContainer rootDiscipline;
 
     @Before
-    public void setUp() throws ServiceException, RepositoryException, DomainException
-    {
+    public void setUp() throws ServiceException, RepositoryException, DomainException {
         setUpServices();
 
         setUpDisciplines();
     }
 
-    private void setUpServices()
-    {
+    private void setUpServices() {
         Services services = new Services();
 
         disciplineServiceMock = mock(DisciplineCollectionService.class);
         services.setDisciplineService(disciplineServiceMock);
     }
 
-    private void setUpDisciplines() throws ServiceException, RepositoryException, DomainException
-    {
+    private void setUpDisciplines() throws ServiceException, RepositoryException, DomainException {
         DisciplineContainer child1 = setUpChildDiscipline1();
         DisciplineContainer child2 = setUpChildDiscipline2();
         DisciplineContainer parent = setUpParentDiscipline(child1, child2);
@@ -54,8 +50,7 @@ public class DisciplineConverterTest
         when(disciplineServiceMock.getRootDiscipline()).thenReturn(rootDiscipline);
     }
 
-    private DisciplineContainer setUpChildDiscipline1() throws DomainException, RepositoryException
-    {
+    private DisciplineContainer setUpChildDiscipline1() throws DomainException, RepositoryException {
         DisciplineContainer child = mock(DisciplineContainer.class);
         when(child.getStoreId()).thenReturn("easy-discipline:2");
         when(child.getName()).thenReturn("child name");
@@ -67,8 +62,7 @@ public class DisciplineConverterTest
         return child;
     }
 
-    private DisciplineContainer setUpChildDiscipline2() throws DomainException, RepositoryException
-    {
+    private DisciplineContainer setUpChildDiscipline2() throws DomainException, RepositoryException {
         DisciplineContainer child2 = mock(DisciplineContainer.class);
         when(child2.getStoreId()).thenReturn("easy-discipline:3");
         when(child2.getName()).thenReturn("child2 name");
@@ -78,8 +72,7 @@ public class DisciplineConverterTest
         return child2;
     }
 
-    private DisciplineContainer setUpParentDiscipline(DisciplineContainer child1, DisciplineContainer child2) throws DomainException, RepositoryException
-    {
+    private DisciplineContainer setUpParentDiscipline(DisciplineContainer child1, DisciplineContainer child2) throws DomainException, RepositoryException {
         DisciplineContainer parent = mock(DisciplineContainer.class);
         when(parent.getStoreId()).thenReturn("easy-discipline:1");
         when(parent.getName()).thenReturn("parent name");
@@ -100,14 +93,12 @@ public class DisciplineConverterTest
     }
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new DisciplineConverter();
     }
 
     @Test
-    public void getRootDisciplines() throws DomainException, ServiceException, RepositoryException
-    {
+    public void getRootDisciplines() throws DomainException, ServiceException, RepositoryException {
         String xml = DisciplineConverter.getDisciplineList(0);
         String expectedXml = "<disciplines>" + "<discipline>" + "<id>easy-discipline:1</id>" + "<name>parent name</name>" + "<collections>" + "<collection>"
                 + "<id>easy-collection:1</id>" + "<label>collection label</label>" + "</collection>" + "</collections>" + "</discipline>" + "</disciplines>";
@@ -115,8 +106,7 @@ public class DisciplineConverterTest
     }
 
     @Test
-    public void getDisciplineList() throws DomainException, ServiceException, RepositoryException
-    {
+    public void getDisciplineList() throws DomainException, ServiceException, RepositoryException {
         String xml = DisciplineConverter.getDisciplineList(2);
         String expectedXml = "<disciplines>" + "<discipline>" + "<id>easy-discipline:1</id>" + "<name>parent name</name>" + "<collections>" + "<collection>"
                 + "<id>easy-collection:1</id>" + "<label>collection label</label>" + "</collection>" + "</collections>" + "<subDisciplines>" + "<discipline>"

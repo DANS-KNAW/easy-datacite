@@ -7,8 +7,7 @@ import java.io.Serializable;
  * 
  * @author ecco
  */
-public class Spatial implements MetadataItem
-{
+public class Spatial implements MetadataItem {
 
     /**
      *
@@ -24,8 +23,7 @@ public class Spatial implements MetadataItem
     /**
      * Constructor.
      */
-    public Spatial()
-    {
+    public Spatial() {
         super();
     }
 
@@ -37,8 +35,7 @@ public class Spatial implements MetadataItem
      * @param point
      *        the spatial point
      */
-    public Spatial(final String place, final Point point)
-    {
+    public Spatial(final String place, final Point point) {
         super();
         this.place = new BasicString(place);
         this.point = point;
@@ -52,8 +49,7 @@ public class Spatial implements MetadataItem
      * @param box
      *        the spatial box
      */
-    public Spatial(final String place, final Box box)
-    {
+    public Spatial(final String place, final Box box) {
         super();
         this.place = new BasicString(place);
         this.box = box;
@@ -64,8 +60,7 @@ public class Spatial implements MetadataItem
      * 
      * @return the geographical name
      */
-    public BasicString getPlace()
-    {
+    public BasicString getPlace() {
         return place;
     }
 
@@ -75,8 +70,7 @@ public class Spatial implements MetadataItem
      * @param place
      *        the geographical name
      */
-    public void setPlace(final BasicString place)
-    {
+    public void setPlace(final BasicString place) {
         this.place = place;
     }
 
@@ -85,8 +79,7 @@ public class Spatial implements MetadataItem
      * 
      * @return geographical coordinates
      */
-    public Point getPoint()
-    {
+    public Point getPoint() {
         return point;
     }
 
@@ -98,14 +91,10 @@ public class Spatial implements MetadataItem
      * @throws IllegalStateException
      *         if this spatial expresses a box
      */
-    public void setPoint(final Point point) throws IllegalStateException
-    {
-        if (box != null)
-        {
+    public void setPoint(final Point point) throws IllegalStateException {
+        if (box != null) {
             throw new IllegalStateException("Only one of " + Point.class.getName() + " or " + Box.class.getName() + " is acceptable.");
-        }
-        else
-        {
+        } else {
             this.point = point;
         }
     }
@@ -115,8 +104,7 @@ public class Spatial implements MetadataItem
      * 
      * @return the spatial box
      */
-    public Box getBox()
-    {
+    public Box getBox() {
         return box;
     }
 
@@ -128,32 +116,22 @@ public class Spatial implements MetadataItem
      * @throws IllegalStateException
      *         if this spatial expresses a point
      */
-    public void setBox(final Box box) throws IllegalStateException
-    {
-        if (point != null)
-        {
+    public void setBox(final Box box) throws IllegalStateException {
+        if (point != null) {
             throw new IllegalStateException("Only one of " + Point.class.getName() + " or " + Box.class.getName() + " is acceptable.");
-        }
-        else
-        {
+        } else {
             this.box = box;
         }
     }
 
     @Override
-    public String getSchemeId()
-    {
+    public String getSchemeId() {
         // locator has schemeId in scheme instead of schemeId!
-        if (point != null)
-        {
+        if (point != null) {
             return point.getScheme();
-        }
-        else if (box != null)
-        {
+        } else if (box != null) {
             return box.getScheme();
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -164,33 +142,25 @@ public class Spatial implements MetadataItem
      * @return a string-representation
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder builder = new StringBuilder();
-        if (place != null)
-        {
+        if (place != null) {
             builder.append("name=" + place.toString() + " ");
         }
-        if (point != null)
-        {
+        if (point != null) {
             builder.append(point.toString());
         }
-        if (box != null)
-        {
+        if (box != null) {
             builder.append(box.toString());
         }
         return builder.toString();
     }
 
-    public boolean isComplete()
-    {
+    public boolean isComplete() {
         boolean complete = true;
-        if (point != null)
-        {
+        if (point != null) {
             complete = point.isComplete();
-        }
-        else if (box != null)
-        {
+        } else if (box != null) {
             complete = box.isComplete();
         }
         return complete;
@@ -201,8 +171,7 @@ public class Spatial implements MetadataItem
      * 
      * @author ecco
      */
-    public static class Locator implements Serializable
-    {
+    public static class Locator implements Serializable {
 
         private static final long serialVersionUID = 1359989050701264576L;
 
@@ -216,8 +185,7 @@ public class Spatial implements MetadataItem
         /**
          * Constructor.
          */
-        Locator()
-        {
+        Locator() {
             super();
         }
 
@@ -227,8 +195,7 @@ public class Spatial implements MetadataItem
          * @param scheme
          *        scheme for coordinates
          */
-        public Locator(final String scheme)
-        {
+        public Locator(final String scheme) {
             super();
             this.scheme = scheme;
         }
@@ -238,8 +205,7 @@ public class Spatial implements MetadataItem
          * 
          * @return scheme for coordinates
          */
-        public String getScheme()
-        {
+        public String getScheme() {
             return scheme;
         }
 
@@ -249,18 +215,15 @@ public class Spatial implements MetadataItem
          * @param scheme
          *        scheme for coordinates
          */
-        public void setScheme(final String scheme)
-        {
+        public void setScheme(final String scheme) {
             this.scheme = scheme;
         }
 
-        public String getSchemeId()
-        {
+        public String getSchemeId() {
             return schemeId;
         }
 
-        public void setSchemeId(String schemeId)
-        {
+        public void setSchemeId(String schemeId) {
             this.schemeId = schemeId;
         }
 
@@ -269,8 +232,7 @@ public class Spatial implements MetadataItem
          * 
          * @return a string-representation
          */
-        public String toString()
-        {
+        public String toString() {
             return "scheme=" + scheme;
         }
 
@@ -281,8 +243,7 @@ public class Spatial implements MetadataItem
      * 
      * @author ecco
      */
-    public static class Point extends Locator
-    {
+    public static class Point extends Locator {
 
         private static final long serialVersionUID = -3188779181045736655L;
 
@@ -293,8 +254,7 @@ public class Spatial implements MetadataItem
         /**
          * Constructor.
          */
-        Point()
-        {
+        Point() {
             super();
         }
 
@@ -308,8 +268,7 @@ public class Spatial implements MetadataItem
          * @param y
          *        y coordinate
          */
-        public Point(final String scheme, final String x, final String y)
-        {
+        public Point(final String scheme, final String x, final String y) {
             super(scheme);
             this.x = x;
             this.y = y;
@@ -320,8 +279,7 @@ public class Spatial implements MetadataItem
          * 
          * @return x coordinate
          */
-        public String getX()
-        {
+        public String getX() {
             return x;
         }
 
@@ -331,8 +289,7 @@ public class Spatial implements MetadataItem
          * @param x
          *        x coordinate
          */
-        public void setX(final String x)
-        {
+        public void setX(final String x) {
             this.x = x;
         }
 
@@ -341,8 +298,7 @@ public class Spatial implements MetadataItem
          * 
          * @return y coordinate
          */
-        public String getY()
-        {
+        public String getY() {
             return y;
         }
 
@@ -352,8 +308,7 @@ public class Spatial implements MetadataItem
          * @param y
          *        y coordinate
          */
-        public void setY(final String y)
-        {
+        public void setY(final String y) {
             this.y = y;
         }
 
@@ -362,13 +317,11 @@ public class Spatial implements MetadataItem
          * 
          * @return a string-representation
          */
-        public String toString()
-        {
+        public String toString() {
             return super.toString() + " x=" + x + " y=" + y;
         }
 
-        public boolean isComplete()
-        {
+        public boolean isComplete() {
             return getScheme() != null && getX() != null && getY() != null;
         }
 
@@ -379,8 +332,7 @@ public class Spatial implements MetadataItem
      * 
      * @author ecco
      */
-    public static class Box extends Locator
-    {
+    public static class Box extends Locator {
 
         private static final long serialVersionUID = -9058631387866597183L;
 
@@ -395,8 +347,7 @@ public class Spatial implements MetadataItem
         /**
          * Constructor.
          */
-        Box()
-        {
+        Box() {
             super();
         }
 
@@ -414,8 +365,7 @@ public class Spatial implements MetadataItem
          * @param west
          *        limit
          */
-        public Box(final String scheme, final String north, final String east, final String south, final String west)
-        {
+        public Box(final String scheme, final String north, final String east, final String south, final String west) {
             super(scheme);
             this.north = north;
             this.east = east;
@@ -428,8 +378,7 @@ public class Spatial implements MetadataItem
          * 
          * @return north limit
          */
-        public String getNorth()
-        {
+        public String getNorth() {
             return north;
         }
 
@@ -439,8 +388,7 @@ public class Spatial implements MetadataItem
          * @param north
          *        north limit
          */
-        public void setNorth(final String north)
-        {
+        public void setNorth(final String north) {
             this.north = north;
         }
 
@@ -449,8 +397,7 @@ public class Spatial implements MetadataItem
          * 
          * @return east limit
          */
-        public String getEast()
-        {
+        public String getEast() {
             return east;
         }
 
@@ -460,8 +407,7 @@ public class Spatial implements MetadataItem
          * @param east
          *        east limit
          */
-        public void setEast(final String east)
-        {
+        public void setEast(final String east) {
             this.east = east;
         }
 
@@ -470,8 +416,7 @@ public class Spatial implements MetadataItem
          * 
          * @return south limit
          */
-        public String getSouth()
-        {
+        public String getSouth() {
             return south;
         }
 
@@ -481,8 +426,7 @@ public class Spatial implements MetadataItem
          * @param south
          *        south limit
          */
-        public void setSouth(final String south)
-        {
+        public void setSouth(final String south) {
             this.south = south;
         }
 
@@ -491,8 +435,7 @@ public class Spatial implements MetadataItem
          * 
          * @return west limit
          */
-        public String getWest()
-        {
+        public String getWest() {
             return west;
         }
 
@@ -502,8 +445,7 @@ public class Spatial implements MetadataItem
          * @param west
          *        west limit
          */
-        public void setWest(final String west)
-        {
+        public void setWest(final String west) {
             this.west = west;
         }
 
@@ -512,13 +454,11 @@ public class Spatial implements MetadataItem
          * 
          * @return a string-representation
          */
-        public String toString()
-        {
+        public String toString() {
             return super.toString() + " north=" + north + " east=" + east + " south=" + south + " west=" + west;
         }
 
-        public boolean isComplete()
-        {
+        public boolean isComplete() {
             return getScheme() != null && getNorth() != null && getEast() != null && getSouth() != null && getWest() != null;
         }
 

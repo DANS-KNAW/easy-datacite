@@ -18,27 +18,22 @@ import nl.knaw.dans.easy.servicelayer.RequestNotification;
 
 import org.apache.commons.lang.StringUtils;
 
-public class PermissionWorker extends AbstractWorker
-{
+public class PermissionWorker extends AbstractWorker {
 
-    protected PermissionWorker(EasyUser sessionUser)
-    {
+    protected PermissionWorker(EasyUser sessionUser) {
         super(sessionUser);
     }
 
-    protected PermissionWorker(UnitOfWork uow)
-    {
+    protected PermissionWorker(UnitOfWork uow) {
         super(uow);
     }
 
-    protected void saveRequest(Dataset dataset, EasyUser requester, PermissionRequestModel requestModel) throws ServiceException
-    {
+    protected void saveRequest(Dataset dataset, EasyUser requester, PermissionRequestModel requestModel) throws ServiceException {
         validateRequest(requestModel);
 
         PermissionSequenceListImpl sequenceList = (PermissionSequenceListImpl) dataset.getPermissionSequenceList();
         PermissionSequenceImpl sequence = (PermissionSequenceImpl) sequenceList.getSequenceFor(requester);
-        if (sequence == null)
-        {
+        if (sequence == null) {
             sequence = new PermissionSequenceImpl(requester);
             sequenceList.addSequence(sequence);
         }
@@ -49,8 +44,7 @@ public class PermissionWorker extends AbstractWorker
         new RequestNotification(dataset, requester, requestModel).send();
     }
 
-    protected void saveReply(Dataset dataset, EasyUser depositor, PermissionReplyModel replyModel) throws ServiceException
-    {
+    protected void saveReply(Dataset dataset, EasyUser depositor, PermissionReplyModel replyModel) throws ServiceException {
         validateReply(replyModel);
 
         PermissionSequenceList sequenceList = dataset.getPermissionSequenceList();
@@ -62,47 +56,38 @@ public class PermissionWorker extends AbstractWorker
         new ReplyNotification(dataset, sequence, replyModel).send();
     }
 
-    private void validateReply(PermissionReplyModel replyModel) throws ServiceException
-    {
+    private void validateReply(PermissionReplyModel replyModel) throws ServiceException {
         boolean valid = !StringUtils.isBlank(replyModel.getExplanation());
         State state = replyModel.getState();
         valid &= state != null && !State.Submitted.equals(state);
-        if (!valid)
-        {
+        if (!valid) {
             throw new ServiceException("Insufficient data for PermissionReply");
         }
     }
 
-    private void validateRequest(PermissionRequestModel requestModel) throws ServiceException
-    {
+    private void validateRequest(PermissionRequestModel requestModel) throws ServiceException {
         boolean valid = !StringUtils.isBlank(requestModel.getRequestTheme());
         valid &= !StringUtils.isBlank(requestModel.getRequestTitle());
         valid &= requestModel.isAcceptingConditionsOfUse();
 
-        if (!valid)
-        {
+        if (!valid) {
             throw new ServiceException("Insufficient data for PermissionRequest");
         }
     }
 
-    private void saveSequenceList(Dataset dataset) throws ServiceException
-    {
-        try
-        {
+    private void saveSequenceList(Dataset dataset) throws ServiceException {
+        try {
             getUnitOfWork().attach(dataset);
             getUnitOfWork().commit();
         }
-        catch (UnitOfWorkInterruptException e)
-        {
+        catch (UnitOfWorkInterruptException e) {
             // rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             getUnitOfWork().close();
         }
 

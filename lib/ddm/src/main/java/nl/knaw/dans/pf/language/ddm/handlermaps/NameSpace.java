@@ -2,8 +2,7 @@ package nl.knaw.dans.pf.language.ddm.handlermaps;
 
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
-public enum NameSpace
-{
+public enum NameSpace {
     DC("dc", "http://purl.org/dc/elements/1.1/"), //
     DC_TERMS("dcterms", "http://purl.org/dc/terms/"), //
     DCMITYPE("dcmitype", "http://purl.org/dc/dcmitype/"), //
@@ -23,24 +22,21 @@ public enum NameSpace
     public final String xsd;
     public final String schemeId;
 
-    private NameSpace(final String prefix, final String uri)
-    {
+    private NameSpace(final String prefix, final String uri) {
         this.prefix = prefix;
         this.uri = uri;
         this.xsd = null;
         this.schemeId = null;
     }
 
-    private NameSpace(final String prefix, final String uri, final String xsd)
-    {
+    private NameSpace(final String prefix, final String uri, final String xsd) {
         this.prefix = prefix;
         this.uri = uri;
         this.xsd = xsd;
         this.schemeId = null;
     }
 
-    private NameSpace(final String prefix, final String uri, final String xsd, final String schemeId)
-    {
+    private NameSpace(final String prefix, final String uri, final String xsd, final String schemeId) {
         this.prefix = prefix;
         this.schemeId = schemeId;
         this.uri = uri;

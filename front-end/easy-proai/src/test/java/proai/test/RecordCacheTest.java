@@ -7,44 +7,35 @@ import junit.framework.*;
 import proai.cache.*;
 
 @Ignore
-public class RecordCacheTest extends TestCase
-{
+public class RecordCacheTest extends TestCase {
 
     private RecordCache m_cache;
 
-    public void setUp()
-    {
+    public void setUp() {
         m_cache = new RecordCache(System.getProperties());
     }
 
     // /////////////////////////////////////////////////////////////////////////
 
-    public void testUpdate() throws Exception
-    {
+    public void testUpdate() throws Exception {
         // m_cache.update();
-        try
-        {
+        try {
             Thread.sleep(2000);
         }
-        catch (Exception e)
-        {
-        }
+        catch (Exception e) {}
     }
 
     // /////////////////////////////////////////////////////////////////////////
 
-    public void tearDown()
-    {
+    public void tearDown() {
         m_cache.close();
     }
 
-    public RecordCacheTest(String name)
-    {
+    public RecordCacheTest(String name) {
         super(name);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.textui.TestRunner.run(RecordCacheTest.class);
     }
 

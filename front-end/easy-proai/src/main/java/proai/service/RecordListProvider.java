@@ -6,8 +6,7 @@ import proai.*;
 import proai.cache.*;
 import proai.error.*;
 
-public class RecordListProvider implements ListProvider<CachedContent>
-{
+public class RecordListProvider implements ListProvider<CachedContent> {
 
     private RecordCache m_cache;
     private int m_incompleteListSize;
@@ -18,8 +17,7 @@ public class RecordListProvider implements ListProvider<CachedContent>
     private String m_prefix;
     private String m_set;
 
-    public RecordListProvider(RecordCache cache, int incompleteListSize, boolean identifiers, Date from, Date until, String prefix, String set)
-    {
+    public RecordListProvider(RecordCache cache, int incompleteListSize, boolean identifiers, Date from, Date until, String prefix, String set) {
         m_cache = cache;
         m_incompleteListSize = incompleteListSize;
         m_identifiers = identifiers;
@@ -36,23 +34,17 @@ public class RecordListProvider implements ListProvider<CachedContent>
         if (iter.hasNext())
             return iter;
         // else figure out why and throw the right exception
-        if (!m_cache.formatExists(m_prefix))
-        {
+        if (!m_cache.formatExists(m_prefix)) {
             throw new CannotDisseminateFormatException(Responder.ERR_NO_SUCH_FORMAT);
         }
-        if (m_set != null)
-        {
+        if (m_set != null) {
             CloseableIterator<SetInfo> sic = m_cache.getSetInfoContent();
             boolean supportsSets = sic.hasNext();
-            try
-            {
+            try {
                 sic.close();
             }
-            catch (Exception e)
-            {
-            }
-            if (!supportsSets)
-            {
+            catch (Exception e) {}
+            if (!supportsSets) {
                 throw new NoSetHierarchyException(Responder.ERR_NO_SET_HIERARCHY);
             }
         }
@@ -65,47 +57,35 @@ public class RecordListProvider implements ListProvider<CachedContent>
         if (iter.hasNext())
             return iter;
         // else figure out why and throw the right exception
-        if (!m_cache.formatExists(m_prefix))
-        {
+        if (!m_cache.formatExists(m_prefix)) {
             throw new CannotDisseminateFormatException(Responder.ERR_NO_SUCH_FORMAT);
         }
-        if (m_set != null)
-        {
+        if (m_set != null) {
             CloseableIterator<SetInfo> sic = m_cache.getSetInfoContent();
             boolean supportsSets = sic.hasNext();
-            try
-            {
+            try {
                 sic.close();
             }
-            catch (Exception e)
-            {
-            }
-            if (!supportsSets)
-            {
+            catch (Exception e) {}
+            if (!supportsSets) {
                 throw new NoSetHierarchyException(Responder.ERR_NO_SET_HIERARCHY);
             }
         }
         throw new NoRecordsMatchException(Responder.ERR_NO_RECORDS_MATCH);
     }
 
-    public RecordCache getRecordCache()
-    {
+    public RecordCache getRecordCache() {
         return m_cache;
     }
 
-    public int getIncompleteListSize()
-    {
+    public int getIncompleteListSize() {
         return m_incompleteListSize;
     }
 
-    public String getVerb()
-    {
-        if (m_identifiers)
-        {
+    public String getVerb() {
+        if (m_identifiers) {
             return "ListIdentifiers";
-        }
-        else
-        {
+        } else {
             return "ListRecords";
         }
     }

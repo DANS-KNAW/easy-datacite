@@ -23,16 +23,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DownloadListTest
-{
+public class DownloadListTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DownloadListTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testMarshalAndUnmarshal() throws XMLException
-    {
+    public void testMarshalAndUnmarshal() throws XMLException {
         DownloadList list = new DownloadList();
         list.add(DownloadRecordTest.createRecord());
         list.add(DownloadRecordTest.createRecord());
@@ -47,8 +45,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void acceptsAll()
-    {
+    public void acceptsAll() {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_ALL, null, startDate);
 
@@ -57,15 +54,13 @@ public class DownloadListTest
         printPeriod(list);
     }
 
-    private void printPeriod(DownloadList list)
-    {
+    private void printPeriod(DownloadList list) {
         if (verbose)
             logger.debug(list.printPeriod());
     }
 
     @Test
-    public void acceptsYear()
-    {
+    public void acceptsYear() {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_YEAR, null, startDate);
 
@@ -75,8 +70,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void acceptsMonth()
-    {
+    public void acceptsMonth() {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_MONTH, null, startDate);
 
@@ -86,8 +80,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void acceptsWeek()
-    {
+    public void acceptsWeek() {
         DateTime startDate = new DateTime("2010-12-31");
         DownloadList list = new DownloadList(DownloadList.TYPE_WEEK, null, startDate);
 
@@ -104,8 +97,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void addDownloadLevelFileItem() throws XMLSerializationException
-    {
+    public void addDownloadLevelFileItem() throws XMLSerializationException {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_ALL, Level.FILE_ITEM, startDate);
         list.addDownload(getFileItemVO(), getUser(), new DateTime());
@@ -116,8 +108,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void addDownloadLevelDataset() throws XMLSerializationException
-    {
+    public void addDownloadLevelDataset() throws XMLSerializationException {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_YEAR, Level.DATASET, startDate);
         DateTime downloadTime = new DateTime("2010-04-05");
@@ -138,12 +129,10 @@ public class DownloadListTest
             logger.debug("\n" + list.asXMLString(4) + "\n");
 
         Throwable error = null;
-        try
-        {
+        try {
             list.addDownload(getFileItemVO(), getUser(), new DateTime("2011-01-01"));
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             error = e;
             if (verbose)
                 logger.debug(e.getMessage());
@@ -152,8 +141,7 @@ public class DownloadListTest
     }
 
     @Test
-    public void addDownloadLevelGlobal() throws XMLSerializationException
-    {
+    public void addDownloadLevelGlobal() throws XMLSerializationException {
         DateTime startDate = new DateTime("2010-03-04");
         DownloadList list = new DownloadList(DownloadList.TYPE_MONTH, Level.STORE, startDate);
         DateTime downloadTime = new DateTime("2010-03-05");
@@ -164,12 +152,10 @@ public class DownloadListTest
             logger.debug("\n" + list.asXMLString(4) + "\n");
 
         Throwable error = null;
-        try
-        {
+        try {
             list.addDownload(getFileItemVO(), getUser(), new DateTime("2010-04-01"));
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             error = e;
             if (verbose)
                 logger.debug(e.getMessage());
@@ -177,8 +163,7 @@ public class DownloadListTest
         assertNotNull(error);
     }
 
-    private FileItemVO getFileItemVO()
-    {
+    private FileItemVO getFileItemVO() {
         FileItemVO fivo = new FileItemVO();
         fivo.setDatasetSid("easy-dataset:456");
         fivo.setMimetype("text/html");
@@ -188,15 +173,12 @@ public class DownloadListTest
         return fivo;
     }
 
-    private User getUser()
-    {
-        User user = new EasyUserImpl()
-        {
+    private User getUser() {
+        User user = new EasyUserImpl() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String getId()
-            {
+            public String getId() {
                 return "jan_klaassen";
             }
 

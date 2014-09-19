@@ -17,27 +17,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class FileStoreAccessStubberTest
-{
+public class FileStoreAccessStubberTest {
     private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
 
     private BusinessMocker mock;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mock = new BusinessMocker();
     }
 
     @After
-    public void verifyAll()
-    {
+    public void verifyAll() {
         PowerMock.verifyAll();
     }
 
     @Test
-    public void purge() throws Exception
-    {
+    public void purge() throws Exception {
         final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         final String folderStoreId = mock.nextDmoStoreId(FolderItem.NAMESPACE);
         mock.dataset(datasetStoreId)//

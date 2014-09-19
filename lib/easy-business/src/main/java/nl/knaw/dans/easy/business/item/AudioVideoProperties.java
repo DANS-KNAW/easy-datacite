@@ -7,8 +7,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 /** Immutable properties for a FileItem with an external audio/video stream. */
-public class AudioVideoProperties
-{
+public class AudioVideoProperties {
     /** A required property, value should be "yes" */
     private static final String AUDIO_VIDEO_INSTRUCTIONS = "audio-video.ebiu-instructions";
 
@@ -28,36 +27,30 @@ public class AudioVideoProperties
      * @throws IngestFormatException
      * @throws URISyntaxException
      */
-    public AudioVideoProperties(final File file) throws IOException, IngestFormatException
-    {
+    public AudioVideoProperties(final File file) throws IOException, IngestFormatException {
         this.file = file;
-        if (isPropertiesFile())
-        {
+        if (isPropertiesFile()) {
             final Properties properties = readProperties(file);
             if (!hasAVInstructions(properties))
                 setStreamingPath(getPath(properties));
         }
     }
 
-    private String getPath(final Properties properties) throws IOException, IngestFormatException
-    {
+    private String getPath(final Properties properties) throws IOException, IngestFormatException {
         final String pathProperty = properties.getProperty(AUDIO_VIDEO_SPRINGFIELD_PATH);
         if (pathProperty.toString().trim().length() != 0)
             return pathProperty.trim();
         throw new IngestFormatException(String.format("property '%s' is missing in %s", AUDIO_VIDEO_SPRINGFIELD_PATH, file));
     }
 
-    private Properties readProperties(final File file) throws IOException
-    {
+    private Properties readProperties(final File file) throws IOException {
         final FileInputStream fileInputStream = new FileInputStream(file);
-        try
-        {
+        try {
             final Properties props = new Properties();
             props.load(fileInputStream);
             return props;
         }
-        finally
-        {
+        finally {
             fileInputStream.close();
         }
     }
@@ -68,8 +61,7 @@ public class AudioVideoProperties
      * @param value
      * @throws IOException
      */
-    private void setStreamingPath(final String value) throws IOException
-    {
+    private void setStreamingPath(final String value) throws IOException {
         // clean code: don't return null
         if (value == null)
             streamingPath = "";
@@ -78,21 +70,18 @@ public class AudioVideoProperties
         available = true;
     }
 
-    private boolean hasAVInstructions(final Properties properties)
-    {
+    private boolean hasAVInstructions(final Properties properties) {
         final String property = (String) properties.get(AUDIO_VIDEO_INSTRUCTIONS);
         return property == null || !property.trim().toLowerCase().equals("yes");
     }
 
     /** Checks the extension of the file. */
-    private boolean isPropertiesFile()
-    {
+    private boolean isPropertiesFile() {
         return file.getName().toLowerCase().endsWith(".properties");
     }
 
     /** @return the external location that streams the audio/video content */
-    public String getStreamingPath()
-    {
+    public String getStreamingPath() {
         if (available)
             return streamingPath;
         else
@@ -103,15 +92,12 @@ public class AudioVideoProperties
      * @return false if
      *         <ul>
      *         <li>the file has another extension than "properties" (case insensitive)</li>
-     *         <li>there is no property "audio-video.ebiu-instructions" with value yes (value is case
-     *         insensitive and ignores leading/trailing white space)</li>
-     *         <li>there is no property "audio-video.springfield-path" (leading/trailing white space is
-     *         ignored)</li>
+     *         <li>there is no property "audio-video.ebiu-instructions" with value yes (value is case insensitive and ignores leading/trailing white space)</li>
+     *         <li>there is no property "audio-video.springfield-path" (leading/trailing white space is ignored)</li>
      *         <li>the path and configured host do not combine into a valid URL</li>
      *         </ul>
      */
-    public boolean available()
-    {
+    public boolean available() {
         return available;
     }
 }

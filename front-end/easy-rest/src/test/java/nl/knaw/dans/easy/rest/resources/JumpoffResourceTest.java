@@ -27,21 +27,18 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 @SuppressWarnings("unchecked")
-public class JumpoffResourceTest extends RestTest
-{
+public class JumpoffResourceTest extends RestTest {
     private JumpoffService jumpoffServiceMock;
     private JumpoffDmo jumpoffMock;
 
     @Before
-    public void setUp() throws ServiceException
-    {
+    public void setUp() throws ServiceException {
         setUpServices();
 
         jumpoffMock = Mockito.mock(JumpoffDmo.class);
     }
 
-    private void setUpServices()
-    {
+    private void setUpServices() {
         Services services = new Services();
 
         jumpoffServiceMock = Mockito.mock(JumpoffService.class);
@@ -49,8 +46,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getJumpoff() throws ServiceException
-    {
+    public void getJumpoff() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(jumpoffMock);
         MarkupUnit markup = new MarkupUnit("", "");
         markup.setHtml("<html></html>");
@@ -64,8 +60,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getNonExistentJumpoff() throws ServiceException
-    {
+    public void getNonExistentJumpoff() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(null);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff").head();
@@ -74,8 +69,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getJumpoffInternalError() throws ServiceException
-    {
+    public void getJumpoffInternalError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff").head();
@@ -84,8 +78,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsJumpoff() throws ServiceException
-    {
+    public void optionsJumpoff() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(jumpoffMock);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff").options(ClientResponse.class);
@@ -97,8 +90,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsNonExistentJumpoff() throws ServiceException
-    {
+    public void optionsNonExistentJumpoff() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(null);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff").options(ClientResponse.class);
@@ -107,8 +99,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsJumpoffInternalServerError() throws ServiceException
-    {
+    public void optionsJumpoffInternalServerError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff").options(ClientResponse.class);
@@ -117,8 +108,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getJumpoffMetadata() throws ServiceException
-    {
+    public void getJumpoffMetadata() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(jumpoffMock);
         when(jumpoffMock.getJumpoffDmoMetadata()).thenReturn(new JiBXJumpoffDmoMetadata());
 
@@ -129,8 +119,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getNonExistentJumpoffMetadata() throws ServiceException
-    {
+    public void getNonExistentJumpoffMetadata() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(null);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").head();
@@ -139,8 +128,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getJumpoffMetadataInternalServerError() throws ServiceException
-    {
+    public void getJumpoffMetadataInternalServerError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").head();
@@ -149,8 +137,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void getJumpoffMetadataXmlSerializationError() throws ServiceException
-    {
+    public void getJumpoffMetadataXmlSerializationError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(XMLSerializationException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").head();
@@ -159,8 +146,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsJumpoffMetadata() throws ServiceException
-    {
+    public void optionsJumpoffMetadata() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(jumpoffMock);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").options(ClientResponse.class);
@@ -172,8 +158,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsNonExistentJumpoffMetadata() throws ServiceException
-    {
+    public void optionsNonExistentJumpoffMetadata() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(null);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").options(ClientResponse.class);
@@ -182,8 +167,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsJumpoffMetadataInternalServerError() throws ServiceException
-    {
+    public void optionsJumpoffMetadataInternalServerError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").options(ClientResponse.class);
@@ -192,8 +176,7 @@ public class JumpoffResourceTest extends RestTest
     }
 
     @Test
-    public void optionsJumpoffMetadataXmlSerializationError() throws ServiceException
-    {
+    public void optionsJumpoffMetadataXmlSerializationError() throws ServiceException {
         when(jumpoffServiceMock.getJumpoffDmoFor(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(XMLSerializationException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/jumpoff/metadata").options(ClientResponse.class);

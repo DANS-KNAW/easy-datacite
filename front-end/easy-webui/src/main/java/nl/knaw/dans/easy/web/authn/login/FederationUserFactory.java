@@ -14,34 +14,28 @@ import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.beans.BeanWrapperImpl;
 
-public class FederationUserFactory
-{
+public class FederationUserFactory {
     @SpringBean(name = "federationLoginDebugEnabled")
     private Boolean federationLoginDebugEnabled;
 
-    public FederationUserFactory()
-    {
+    public FederationUserFactory() {
         InjectorHolder.getInjector().inject(FederationUserFactory.this);
     }
 
-    public static interface Factory
-    {
+    public static interface Factory {
         FederationUser create(HttpServletRequest request);
     }
 
-    public static class DefaultFactory implements Factory
-    {
+    public static class DefaultFactory implements Factory {
         @SpringBean(name = "federativeUserService")
         private FederativeUserService federativeUserService;
 
-        public DefaultFactory()
-        {
+        public DefaultFactory() {
             InjectorHolder.getInjector().inject(DefaultFactory.this);
         }
 
         @Override
-        public FederationUser create(HttpServletRequest request)
-        {
+        public FederationUser create(HttpServletRequest request) {
             FederationUser appUser = new FederationUser();
             getMandatoryAttribute(request, federativeUserService.getPropertyNameShibSessionId());
             appUser.setUserId(getMandatoryAttribute(request, federativeUserService.getPropertyNameRemoteUser()));
@@ -52,16 +46,14 @@ public class FederationUserFactory
             return appUser;
         }
 
-        private String getAttribute(HttpServletRequest request, String popertyNameOrganization)
-        {
+        private String getAttribute(HttpServletRequest request, String popertyNameOrganization) {
             String attribute = (String) request.getAttribute(popertyNameOrganization);
             if (attribute != null && attribute.trim().length() == 0)
                 attribute = null;
             return attribute;
         }
 
-        private String getMandatoryAttribute(HttpServletRequest request, String attributeName)
-        {
+        private String getMandatoryAttribute(HttpServletRequest request, String attributeName) {
             String attributeValue = getAttribute(request, attributeName);
             if (attributeValue == null)
                 throw new IllegalArgumentException(String.format("Attribute %s must be present", attributeName));
@@ -69,37 +61,30 @@ public class FederationUserFactory
         }
     }
 
-    public static class DebugFactory implements Factory
-    {
+    public static class DebugFactory implements Factory {
         @SpringBean(name = "federationLoginDebugUserFile")
         private String federationLoginDebugUserFile;
 
-        public DebugFactory()
-        {
+        public DebugFactory() {
             InjectorHolder.getInjector().inject(DebugFactory.this);
         }
 
         @Override
-        public FederationUser create(HttpServletRequest request)
-        {
+        public FederationUser create(HttpServletRequest request) {
             FederationUser user = new FederationUser();
             new BeanWrapperImpl(user).setPropertyValues(loadProperties());
             return user;
         }
 
-        private Properties loadProperties()
-        {
+        private Properties loadProperties() {
             Properties properties = new Properties();
-            try
-            {
+            try {
                 properties.load(new FileInputStream(new File(federationLoginDebugUserFile)));
             }
-            catch (FileNotFoundException e)
-            {
+            catch (FileNotFoundException e) {
                 throw new RuntimeException("Could not find the FederationUser debug file", e);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 throw new RuntimeException("Could not read the FederationUser debug file", e);
             }
             return properties;
@@ -108,15 +93,12 @@ public class FederationUserFactory
 
     static Factory factory;
 
-    public static void setFactory(Factory factory)
-    {
+    public static void setFactory(Factory factory) {
         FederationUserFactory.factory = factory;
     }
 
-    public FederationUser create(HttpServletRequest request)
-    {
-        if (factory == null)
-        {
+    public FederationUser create(HttpServletRequest request) {
+        if (factory == null) {
             if (federationLoginDebugEnabled)
                 factory = new DebugFactory();
             else

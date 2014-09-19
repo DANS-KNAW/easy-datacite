@@ -26,97 +26,78 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class DmoCollectionsImpl implements DmoCollections
-{
+public class DmoCollectionsImpl implements DmoCollections {
 
     private static final Logger logger = LoggerFactory.getLogger(DmoCollectionsImpl.class);
 
-    public DmoCollectionsImpl()
-    {
+    public DmoCollectionsImpl() {
         logger.info("Instantiated " + this.getClass().getName());
     }
 
     @Override
-    public Set<String> getSecuredOperationIds()
-    {
+    public Set<String> getSecuredOperationIds() {
         Set<String> securityIds = new HashSet<String>(SecuredOperationUtil.getInterfaceSecurityIds(CollectionManagerImpl.class));
         return securityIds;
     }
 
     @Override
-    public void setConfiguration(Configuration configuration)
-    {
+    public void setConfiguration(Configuration configuration) {
         Settings.instance().configure(configuration);
     }
 
     @Override
-    public CollectionManager newManager(String ownerId)
-    {
+    public CollectionManager newManager(String ownerId) {
         return new CollectionManagerImpl(ownerId);
     }
 
     @Override
-    public XMLErrorHandler validateXml(URL xmlTreeUrl) throws ValidatorException
-    {
-        if (xmlTreeUrl == null)
-        {
+    public XMLErrorHandler validateXml(URL xmlTreeUrl) throws ValidatorException {
+        if (xmlTreeUrl == null) {
             throw new IllegalArgumentException("The given URL is null.");
         }
-        try
-        {
+        try {
             return CollectionTreeValidator.instance().validate(xmlTreeUrl.openStream(), null);
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             throw new ValidatorException(e);
         }
-        catch (SchemaCreationException e)
-        {
+        catch (SchemaCreationException e) {
             throw new ValidatorException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ValidatorException(e);
         }
     }
 
     @Override
-    public void registerNamespace(DmoNamespace namespace)
-    {
+    public void registerNamespace(DmoNamespace namespace) {
         Settings.instance().registerDmoNamespace(namespace);
     }
 
     @Override
-    public void setContentModelOAISet(DmoStoreId dmoStoreId)
-    {
+    public void setContentModelOAISet(DmoStoreId dmoStoreId) {
         Settings.instance().setContentModelOAISet(dmoStoreId);
     }
 
     @Override
-    public void setSecurityAgents(List<SecurityAgent> agents)
-    {
+    public void setSecurityAgents(List<SecurityAgent> agents) {
         Settings.instance().putSecurityAgents(agents);
     }
 
     @Override
-    public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws NoSuchCollectionException, CollectionsException
-    {
+    public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws NoSuchCollectionException, CollectionsException {
         Set<DmoStoreId> endNodes = new HashSet<DmoStoreId>();
         Set<DmoCollection> memberCollections = new HashSet<DmoCollection>();
         CollectionManager manager = newManager(null);
-        for (DmoStoreId storeId : memberIds)
-        {
+        for (DmoStoreId storeId : memberIds) {
             DmoCollection collection = manager.getCollection(storeId);
-            if (collection.isPublishedAsOAISet())
-            {
+            if (collection.isPublishedAsOAISet()) {
                 memberCollections.add(collection);
             }
         }
 
-        for (DmoCollection collection : memberCollections)
-        {
-            if (collection.isOAIendNode(memberIds))
-            {
+        for (DmoCollection collection : memberCollections) {
+            if (collection.isOAIendNode(memberIds)) {
                 endNodes.add(collection.getDmoStoreId());
             }
         }

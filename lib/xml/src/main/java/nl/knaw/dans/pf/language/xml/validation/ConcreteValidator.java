@@ -10,24 +10,20 @@ import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
  * 
  * @author ecco
  */
-public class ConcreteValidator extends AbstractValidator
-{
+public class ConcreteValidator extends AbstractValidator {
 
     private final URL schemaURL;
 
-    public ConcreteValidator(String schemaURLString) throws MalformedURLException
-    {
+    public ConcreteValidator(String schemaURLString) throws MalformedURLException {
         this(new URL(schemaURLString));
     }
 
-    public ConcreteValidator(URL schemaURL)
-    {
+    public ConcreteValidator(URL schemaURL) {
         this.schemaURL = schemaURL;
     }
 
     @Override
-    public URL getSchemaURL(String version) throws SchemaCreationException
-    {
+    public URL getSchemaURL(String version) throws SchemaCreationException {
         return schemaURL;
     }
 

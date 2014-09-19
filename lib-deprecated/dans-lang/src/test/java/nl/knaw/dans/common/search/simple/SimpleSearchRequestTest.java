@@ -11,12 +11,10 @@ import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 
 import org.junit.Test;
 
-public class SimpleSearchRequestTest
-{
+public class SimpleSearchRequestTest {
 
     @Test
-    public void testProperties()
-    {
+    public void testProperties() {
         SimpleSearchRequest r = new SimpleSearchRequest();
 
         assertFalse(r.isHighlightingEnabled());
@@ -26,17 +24,14 @@ public class SimpleSearchRequestTest
         assertEquals(0, r.getFilterQueries().size());
         assertEquals(0, r.getSortFields().size());
 
-        r.setIndex(new Index()
-        {
+        r.setIndex(new Index() {
             private static final long serialVersionUID = -8303451350218041805L;
 
-            public String getName()
-            {
+            public String getName() {
                 return "index1";
             }
 
-            public String getPrimaryKey()
-            {
+            public String getPrimaryKey() {
                 return "pkey";
             }
 

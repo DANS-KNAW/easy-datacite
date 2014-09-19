@@ -33,16 +33,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasySearchServiceTest extends TestHelper
-{
+public class EasySearchServiceTest extends TestHelper {
     private static DatasetSearch datasetSearch;
     private static EasySearchService service;
     private static EasyUserImpl normalUser;
     private static EasyUserImpl superUser;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         new Security(new CodedAuthz());
 
         datasetSearch = EasyMock.createMock(DatasetSearch.class);
@@ -63,8 +61,7 @@ public class EasySearchServiceTest extends TestHelper
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setDatasetSearch(null);
@@ -72,8 +69,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchPublishedTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchPublishedTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         SearchRequest request = new SimpleSearchRequest("test");
         FieldSet expected = new SimpleFieldSet();
 
@@ -90,8 +86,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchWorkTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchWorkTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         FieldSet expected = new SimpleFieldSet();
         SimpleSearchRequest request = new SimpleSearchRequest("test");
 
@@ -135,8 +130,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchTrashcanTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchTrashcanTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         SearchRequest request = new SimpleSearchRequest("test");
         FieldSet expected = new SimpleFieldSet();
 
@@ -153,8 +147,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchMyDatasetsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchMyDatasetsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         SearchRequest request = new SimpleSearchRequest("test");
         FieldSet expected = new SimpleFieldSet();
 
@@ -173,8 +166,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchMyDatasetsStateSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchMyDatasetsStateSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         SearchRequest request = new SimpleSearchRequest("test");
         FieldSet expected = new SimpleFieldSet();
 
@@ -197,8 +189,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchMyDatasetsStateInvalidSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchMyDatasetsStateInvalidSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         // prepare
         SearchRequest request = new SimpleSearchRequest("test");
         EasyMock.reset(datasetSearch);
@@ -224,8 +215,7 @@ public class EasySearchServiceTest extends TestHelper
 
     @Test
     @SuppressWarnings("unchecked")
-    public void searchMyRequestsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
-    {
+    public void searchMyRequestsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException {
         SearchRequest request = new SimpleSearchRequest("test");
         FieldSet expected = new SimpleFieldSet();
 
@@ -242,13 +232,10 @@ public class EasySearchServiceTest extends TestHelper
     }
 
     /**
-     * compares if the expected fields are in filterQueries. filterQueries should have the expected
-     * fields but may have more filter queries.
+     * compares if the expected fields are in filterQueries. filterQueries should have the expected fields but may have more filter queries.
      */
-    private void compareFieldQueries(FieldSet<?> expected, FieldSet<?> filterQueries)
-    {
-        for (Field<?> exField : expected)
-        {
+    private void compareFieldQueries(FieldSet<?> expected, FieldSet<?> filterQueries) {
+        for (Field<?> exField : expected) {
             Field<?> inField = filterQueries.getByFieldName(exField.getName());
             assertTrue("Expected field " + exField.toString() + " was not found.", inField != null);
             assertEquals(exField.getValue().toString(), inField.getValue().toString());

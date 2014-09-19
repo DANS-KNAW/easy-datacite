@@ -7,8 +7,7 @@ import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 
 import org.joda.time.DateTime;
 
-public class PermissionRequestSearchInfo implements Serializable
-{
+public class PermissionRequestSearchInfo implements Serializable {
     private static final long serialVersionUID = -6544742065836247081L;
 
     private static final String STR_SEPARATOR = " ";
@@ -19,13 +18,11 @@ public class PermissionRequestSearchInfo implements Serializable
 
     private DateTime stateLastModified;
 
-    public PermissionRequestSearchInfo()
-    {
+    public PermissionRequestSearchInfo() {
 
     }
 
-    public void fromString(String fromString) throws DomainException
-    {
+    public void fromString(String fromString) throws DomainException {
         int s1 = fromString.indexOf(STR_SEPARATOR);
         int s2 = fromString.indexOf(STR_SEPARATOR, s1 + 1);
 
@@ -40,38 +37,31 @@ public class PermissionRequestSearchInfo implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getRequesterId() + STR_SEPARATOR + getState() + STR_SEPARATOR + getStateLastModified();
     }
 
-    public void setStateLastModified(DateTime stateLastModified)
-    {
+    public void setStateLastModified(DateTime stateLastModified) {
         this.stateLastModified = stateLastModified;
     }
 
-    public DateTime getStateLastModified()
-    {
+    public DateTime getStateLastModified() {
         return stateLastModified;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         this.state = state;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state;
     }
 
-    public void setRequesterId(String requesterId)
-    {
+    public void setRequesterId(String requesterId) {
         this.requesterId = requesterId;
     }
 
-    public String getRequesterId()
-    {
+    public String getRequesterId() {
         return requesterId;
     }
 }

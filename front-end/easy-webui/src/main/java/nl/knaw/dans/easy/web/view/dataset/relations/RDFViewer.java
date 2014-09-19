@@ -12,39 +12,33 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
-public class RDFViewer extends Panel
-{
+public class RDFViewer extends Panel {
 
     private static final long serialVersionUID = 4619176404348033432L;
 
     private final MultiLineLabel rdfField;
 
-    public RDFViewer(String id, DMOModel<?> model)
-    {
+    public RDFViewer(String id, DMOModel<?> model) {
         super(id, model);
         setOutputMarkupId(true);
 
-        AjaxLink<String> toggleRDF = new AjaxLink<String>("toggleRDF")
-        {
+        AjaxLink<String> toggleRDF = new AjaxLink<String>("toggleRDF") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 rdfField.setVisible(!rdfField.isVisible());
                 target.addComponent(RDFViewer.this.getParent());
 
             }
 
         };
-        toggleRDF.add(new Label("toggleLabel", new Model<String>()
-        {
+        toggleRDF.add(new Label("toggleLabel", new Model<String>() {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return rdfField.isVisible() ? "hide RDF" : "view RDF";
             }
 
@@ -52,22 +46,18 @@ public class RDFViewer extends Panel
 
         add(toggleRDF);
 
-        rdfField = new MultiLineLabel("rdfField", new Model<String>()
-        {
+        rdfField = new MultiLineLabel("rdfField", new Model<String>() {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 DataModelObject dmo = (DataModelObject) RDFViewer.this.getDefaultModelObject();
                 Relations relations = dmo.getRelations();
-                try
-                {
+                try {
                     return relations == null ? null : relations.getRdf();
                 }
-                catch (ObjectSerializationException e)
-                {
+                catch (ObjectSerializationException e) {
                     return e.getMessage();
                 }
             }

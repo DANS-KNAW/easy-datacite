@@ -16,8 +16,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class RelationPanel extends AbstractChoicePanel<RelationModel>
-{
+public class RelationPanel extends AbstractChoicePanel<RelationModel> {
 
     private static final long serialVersionUID = -822413494904086019L;
     // private static Logger logger = LoggerFactory.getLogger(RelationPanel.class);
@@ -34,36 +33,28 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
      * @param choices
      *        a list of choices
      */
-    public RelationPanel(final String wicketId, final IModel<Relation> model, final ChoiceList choiceList)
-    {
+    public RelationPanel(final String wicketId, final IModel<Relation> model, final ChoiceList choiceList) {
         super(wicketId, model, choiceList);
     }
 
-    public void setUseRelationType(boolean useRelationType)
-    {
+    public void setUseRelationType(boolean useRelationType) {
         this.useRelationType = useRelationType;
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(final ListItem item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(final ListItem item) {
+        if (isInEditMode()) {
             return new RepeatingEditModePanel(item);
-        }
-        else
-        {
+        } else {
             return new RepeatingViewModePanel(item);
         }
     }
 
-    class RepeatingEditModePanel extends Panel
-    {
+    class RepeatingEditModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingEditModePanel(final ListItem<RelationModel> item)
-        {
+        RepeatingEditModePanel(final ListItem<RelationModel> item) {
             super(REPEATING_PANEL_ID);
 
             final PropertyModel<String> typeModel = createStringModel(item, "relationType");
@@ -90,13 +81,11 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
         }
     }
 
-    class RepeatingViewModePanel extends Panel
-    {
+    class RepeatingViewModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem<RelationModel> item)
-        {
+        RepeatingViewModePanel(final ListItem<RelationModel> item) {
             super(REPEATING_PANEL_ID);
 
             String title = createStringModel(item, "subjectTitle").getObject();
@@ -108,13 +97,11 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
         }
     }
 
-    private PropertyModel<String> createStringModel(final ListItem<RelationModel> item, String propertyName)
-    {
+    private PropertyModel<String> createStringModel(final ListItem<RelationModel> item, String propertyName) {
         return new PropertyModel<String>(item.getDefaultModelObject(), propertyName);
     }
 
-    private PropertyModel<Boolean> createBooleanModel(final ListItem<RelationModel> item, String propertyName)
-    {
+    private PropertyModel<Boolean> createBooleanModel(final ListItem<RelationModel> item, String propertyName) {
         return new PropertyModel<Boolean>(item.getDefaultModelObject(), propertyName);
     }
 }

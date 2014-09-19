@@ -21,8 +21,7 @@ import org.slf4j.LoggerFactory;
  * @see ResourceLocator
  * @author ecco Apr 30, 2009
  */
-public class ChoiceListCache extends AbstractListCache<ChoiceList>
-{
+public class ChoiceListCache extends AbstractListCache<ChoiceList> {
 
     public static final String BASE_FOLDER = "easy-business/discipline/emd/choicelist/";
 
@@ -30,8 +29,7 @@ public class ChoiceListCache extends AbstractListCache<ChoiceList>
 
     private static ChoiceListCache instance = new ChoiceListCache();
 
-    private ChoiceListCache()
-    {
+    private ChoiceListCache() {
         super();
     }
 
@@ -40,48 +38,39 @@ public class ChoiceListCache extends AbstractListCache<ChoiceList>
      * 
      * @return singleton instance of ChoiceListCache
      */
-    public static ChoiceListCache getInstance()
-    {
+    public static ChoiceListCache getInstance() {
         return instance;
     }
 
     @Override
-    protected String getBaseFolder()
-    {
+    protected String getBaseFolder() {
         return BASE_FOLDER;
     }
 
-    protected ChoiceList getObjectForCache(String key, Locale locale) throws CacheException, IOException
-    {
+    protected ChoiceList getObjectForCache(String key, Locale locale) throws CacheException, IOException {
         ChoiceList choiceList = null;
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = getInputStream(key, locale);
             choiceList = (ChoiceList) JiBXObjectFactory.unmarshal(ChoiceList.class, inStream);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             String msg = "Unable to get 'ChoiceList:" + key + "': ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        catch (ResourceNotFoundException e)
-        {
+        catch (ResourceNotFoundException e) {
             String msg = "Resource for 'ChoiceList:" + key + "' not found: ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             String msg = "Unable to unmarshal 'ChoiceList:" + key + "': ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }

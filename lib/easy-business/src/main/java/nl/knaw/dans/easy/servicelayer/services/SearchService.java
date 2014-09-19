@@ -9,8 +9,7 @@ import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public interface SearchService
-{
+public interface SearchService {
     SearchResult<? extends DatasetSB> searchPublished(SearchRequest request, EasyUser user) throws ServiceException;
 
     SearchResult<? extends DatasetSB> searchAll(SearchRequest request, EasyUser user) throws ServiceException;

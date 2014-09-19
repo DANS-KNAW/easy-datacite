@@ -25,8 +25,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
  * @author Roshan Timal
  */
 @Path("account")
-public class AccountResource extends AuthenticatedResource
-{
+public class AccountResource extends AuthenticatedResource {
 
     /**
      * Returns a response that contains the account information of the authenticated user.
@@ -34,18 +33,14 @@ public class AccountResource extends AuthenticatedResource
      * @return A response containing account information.
      */
     @GET
-    public Response getAccount()
-    {
-        try
-        {
+    public Response getAccount() {
+        try {
             return responseXmlOrJson(UserConverter.convert(authenticate()));
         }
-        catch (AnonymousUserException e)
-        {
+        catch (AnonymousUserException e) {
             return simpleResponse("Authorization failed.");
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -58,10 +53,8 @@ public class AccountResource extends AuthenticatedResource
     @SuppressWarnings({"rawtypes", "unchecked"})
     @GET
     @Path("/datasets")
-    public Response getDatasets()
-    {
-        try
-        {
+    public Response getDatasets() {
+        try {
             EasyUser user = authenticate();
             SearchRequest request = new SimpleSearchRequest();
             FieldSet fs = new SimpleFieldSet();
@@ -70,12 +63,10 @@ public class AccountResource extends AuthenticatedResource
             SearchResult<? extends DatasetSB> result = Services.getSearchService().searchPublished(request, user);
             return responseXmlOrJson(SearchHitConverter.convert(result.getHits()));
         }
-        catch (AnonymousUserException e)
-        {
+        catch (AnonymousUserException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }

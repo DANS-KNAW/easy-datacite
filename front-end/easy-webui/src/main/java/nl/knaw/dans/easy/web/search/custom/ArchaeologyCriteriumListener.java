@@ -12,8 +12,7 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.search.RecursiveListCache;
 
-public class ArchaeologyCriteriumListener implements CriteriumListener
-{
+public class ArchaeologyCriteriumListener implements CriteriumListener {
 
     public static final String TRIGGER_NAME = EasyDatasetSB.AUDIENCE_FIELD;
     public static final String TRIGGER_VALUE = "easy-discipline:2"; // i.e. archaeology
@@ -22,52 +21,41 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
 
     private static ArchaeologyCriteriumListener INSTANCE;
 
-    public static ArchaeologyCriteriumListener instance()
-    {
-        if (INSTANCE == null)
-        {
+    public static ArchaeologyCriteriumListener instance() {
+        if (INSTANCE == null) {
             INSTANCE = new ArchaeologyCriteriumListener();
         }
         return INSTANCE;
     }
 
-    private ArchaeologyCriteriumListener()
-    {
+    private ArchaeologyCriteriumListener() {
 
     }
 
     @Override
-    public void addFacets(List<FacetConfig> refineFacets, SearchRequestBuilder builder)
-    {
-        for (SearchCriterium searchCriterium : builder.getCriteria())
-        {
-            if (isTrigger(searchCriterium))
-            {
+    public void addFacets(List<FacetConfig> refineFacets, SearchRequestBuilder builder) {
+        for (SearchCriterium searchCriterium : builder.getCriteria()) {
+            if (isTrigger(searchCriterium)) {
                 refineFacets.addAll(0, getArchaeologyFacets());
             }
         }
     }
 
     @Override
-    public void onCriteriumAdded(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder)
-    {
-        if (isTrigger(searchCriterium))
-        {
+    public void onCriteriumAdded(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder) {
+        if (isTrigger(searchCriterium)) {
             searchRequestBuilder.getFacets().addAll(0, getArchaeologyFacets());
         }
     }
 
     @Override
-    public void onCriteriumRemoved(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder)
-    {
-        if (isTrigger(searchCriterium))
-        {
+    public void onCriteriumRemoved(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder) {
+        if (isTrigger(searchCriterium)) {
             removeArchaeologyFacets(searchRequestBuilder);
         }
     }
 
-    private List<FacetConfig> getArchaeologyFacets()
-    {
+    private List<FacetConfig> getArchaeologyFacets() {
         FacetConfig facetConfig;
         ArrayList<FacetConfig> refineFacets = new ArrayList<FacetConfig>();
 
@@ -86,29 +74,23 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
         return refineFacets;
     }
 
-    private void removeArchaeologyFacets(SearchRequestBuilder searchRequestBuilder)
-    {
+    private void removeArchaeologyFacets(SearchRequestBuilder searchRequestBuilder) {
         List<FacetConfig> facetsToRemove = new ArrayList<FacetConfig>();
-        for (FacetConfig facetConfig : searchRequestBuilder.getFacets())
-        {
-            if (isArchaeologyFacet(facetConfig.getFacetName()))
-            {
+        for (FacetConfig facetConfig : searchRequestBuilder.getFacets()) {
+            if (isArchaeologyFacet(facetConfig.getFacetName())) {
                 facetsToRemove.add(facetConfig);
             }
         }
         searchRequestBuilder.getFacets().removeAll(facetsToRemove);
     }
 
-    private boolean isArchaeologyFacet(String facetName)
-    {
+    private boolean isArchaeologyFacet(String facetName) {
         return EasyDatasetSB.ARCHAEOLOGY_DC_SUBJECT.equals(facetName) || EasyDatasetSB.ARCHAEOLOGY_DCTERMS_TEMPORAL.equals(facetName);
     }
 
-    private boolean isTrigger(SearchCriterium searchCriterium)
-    {
+    private boolean isTrigger(SearchCriterium searchCriterium) {
         boolean isTrigger = false;
-        if (searchCriterium instanceof FacetCriterium)
-        {
+        if (searchCriterium instanceof FacetCriterium) {
             FacetCriterium facetCriterium = (FacetCriterium) searchCriterium;
             String facetName = facetCriterium.getFacetName();
             Object value = facetCriterium.getFacetValue().getValue();

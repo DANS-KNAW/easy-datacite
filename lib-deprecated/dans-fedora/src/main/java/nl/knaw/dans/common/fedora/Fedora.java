@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Sep 22, 2009
  */
-public class Fedora
-{
+public class Fedora {
 
     private static final Logger logger = LoggerFactory.getLogger(Fedora.class);
 
@@ -29,12 +28,10 @@ public class Fedora
     private RelationshipManager relationshipManager;
 
     /**
-     * DO NOT USE - called by application context. The class we are going to proxy using CGLib has to
-     * provide a default constructor. Alternatively switch to JDK dynamic proxies (if that's configurable
-     * for annotations).
+     * DO NOT USE - called by application context. The class we are going to proxy using CGLib has to provide a default constructor. Alternatively switch to JDK
+     * dynamic proxies (if that's configurable for annotations).
      */
-    protected Fedora()
-    {
+    protected Fedora() {
 
     }
 
@@ -48,91 +45,72 @@ public class Fedora
      * @param userpass
      *        userpass on the repository
      */
-    public Fedora(String baseURL, String username, String userpass)
-    {
+    public Fedora(String baseURL, String username, String userpass) {
         this.baseURL = baseURL;
         repository = new Repository(baseURL, username, userpass);
         logger.info("Constructed new Fedora for baseURL " + baseURL);
     }
 
-    public void setRetryTimeOutSeconds(int seconds)
-    {
+    public void setRetryTimeOutSeconds(int seconds) {
         repository.setRetryTimeOutSeconds(seconds);
     }
 
-    public void setMaxRetryCount(int count)
-    {
+    public void setMaxRetryCount(int count) {
         repository.setMaxRetryCount(count);
     }
 
-    public String getBaseURL()
-    {
+    public String getBaseURL() {
         return baseURL;
     }
 
-    public Repository getRepository()
-    {
+    public Repository getRepository() {
         return repository;
     }
 
-    public DatastreamAccessor getDatastreamAccessor()
-    {
-        if (datastreamAccessor == null)
-        {
+    public DatastreamAccessor getDatastreamAccessor() {
+        if (datastreamAccessor == null) {
             datastreamAccessor = new DatastreamAccessor(repository);
         }
         return datastreamAccessor;
     }
 
-    public DatastreamManager getDatastreamManager()
-    {
-        if (datastreamManager == null)
-        {
+    public DatastreamManager getDatastreamManager() {
+        if (datastreamManager == null) {
             datastreamManager = new DatastreamManager(repository);
         }
         return datastreamManager;
     }
 
-    public DisseminationAccessor getDisseminationAccessor()
-    {
-        if (disseminationAccessor == null)
-        {
+    public DisseminationAccessor getDisseminationAccessor() {
+        if (disseminationAccessor == null) {
             disseminationAccessor = new DisseminationAccessor(repository);
         }
         return disseminationAccessor;
     }
 
-    public ObjectManager getObjectManager()
-    {
-        if (objectManager == null)
-        {
+    public ObjectManager getObjectManager() {
+        if (objectManager == null) {
             objectManager = new ObjectManager(repository);
         }
         return objectManager;
     }
 
-    public ObjectAccessor getObjectAccessor()
-    {
-        if (objectAccesor == null)
-        {
+    public ObjectAccessor getObjectAccessor() {
+        if (objectAccesor == null) {
             objectAccesor = new ObjectAccessor(repository);
         }
         return objectAccesor;
     }
 
-    public RepositoryAccessor getRepositoryAccessor()
-    {
-        if (repositoryAccessor == null)
-        {
+    public RepositoryAccessor getRepositoryAccessor() {
+        if (repositoryAccessor == null) {
             repositoryAccessor = new RepositoryAccessor(repository);
         }
         return repositoryAccessor;
     }
 
-    public RelationshipManager getRelationshipManager()
-    {
-        if (relationshipManager == null)
-        {
+    public RelationshipManager getRelationshipManager() {
+        if (relationshipManager == null) {
             relationshipManager = new RelationshipManager(repository);
         }
         return relationshipManager;
@@ -147,8 +125,7 @@ public class Fedora
      *         for sidListBufferSize < 1
      * @throws RepositoryException
      */
-    public void setSidListBufferSize(int sidListBufferSize) throws IllegalArgumentException
-    {
+    public void setSidListBufferSize(int sidListBufferSize) throws IllegalArgumentException {
         getObjectManager().setSidListBufferSize(sidListBufferSize);
     }
 
@@ -160,16 +137,13 @@ public class Fedora
      * @param bufferSize
      *        buffer size of the sidList for the given namespace
      */
-    public void setSidListBufferSize(String objectNamespace, int bufferSize)
-    {
+    public void setSidListBufferSize(String objectNamespace, int bufferSize) {
         getObjectManager().setSidListBufferSize(objectNamespace, bufferSize);
     }
 
-    public void setSidListBufferSizeMap(Map<String, Integer> namespaceBufferSizeMap)
-    {
+    public void setSidListBufferSizeMap(Map<String, Integer> namespaceBufferSizeMap) {
         Iterator<Map.Entry<String, Integer>> iterator = namespaceBufferSizeMap.entrySet().iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Map.Entry<String, Integer> entry = iterator.next();
             setSidListBufferSize(entry.getKey(), entry.getValue());
         }

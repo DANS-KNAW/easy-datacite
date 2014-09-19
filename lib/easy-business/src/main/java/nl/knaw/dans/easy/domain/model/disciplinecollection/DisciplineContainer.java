@@ -6,8 +6,7 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
-public interface DisciplineContainer extends DmoRecursiveItem
-{
+public interface DisciplineContainer extends DmoRecursiveItem {
     String CONTENT_MODEL = "easy-model:edm1-discipline";
 
     DmoNamespace NAMESPACE = new DmoNamespace("easy-discipline");

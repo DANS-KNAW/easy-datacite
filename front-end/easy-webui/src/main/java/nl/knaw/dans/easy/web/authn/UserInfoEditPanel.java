@@ -45,8 +45,7 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements EasyResources
-{
+public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements EasyResources {
 
     private static final String WI_USER_INFO_FORM = "userInfoForm";
 
@@ -64,39 +63,32 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
     @SpringBean(name = "federativeUserRepo")
     private FederativeUserRepo federativeUserRepo;
 
-    public UserInfoEditPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
-    {
+    public UserInfoEditPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch) {
         super(SwitchPanel.SWITCH_PANEL_WI);
         this.parent = parent;
         this.enableModeSwitch = enableModeSwitch;
         init(userId);
     }
 
-    private void init(final String userId)
-    {
+    private void init(final String userId) {
         EasyUser user = null;
-        try
-        {
+        try {
             user = userService.getUserById(getSessionUser(), userId);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(USER_NOT_FOUND, userId);
             logger.error(message, e);
         }
 
-        if (user == null)
-        {
+        if (user == null) {
             throw new RestartResponseException(new ErrorPage());
         }
 
         // check if user has a password, federative users might not have it.
-        try
-        {
+        try {
             hasPassword = userService.isUserWithStoredPassword(user);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
@@ -105,20 +97,17 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         constructPanel(user);
     }
 
-    private void constructPanel(final EasyUser user)
-    {
+    private void constructPanel(final EasyUser user) {
         UserInfoForm infoForm = new UserInfoForm(WI_USER_INFO_FORM, user);
         add(infoForm);
         // AjaxFormValidatingBehavior.addToAllFormComponents(infoForm, "onblur");
     }
 
-    class UserInfoForm extends AbstractEasyStatelessForm
-    {
+    class UserInfoForm extends AbstractEasyStatelessForm {
         private static final long serialVersionUID = 6429049682947798419L;
 
         @SuppressWarnings({"unchecked", "rawtypes"})
-        public UserInfoForm(final String wicketId, final EasyUser user)
-        {
+        public UserInfoForm(final String wicketId, final EasyUser user) {
             super(wicketId, new CompoundPropertyModel(user));
 
             addCommonFeedbackPanel();
@@ -167,88 +156,70 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             add(createCancelButton());
         }
 
-        private FormComponent createEmailField()
-        {
+        private FormComponent createEmailField() {
             return new RequiredTextField(UserProperties.EMAIL).add(EmailAddressValidator.getInstance());
         }
 
-        private FormComponent createTelephoneField()
-        {
+        private FormComponent createTelephoneField() {
             return new TextField(UserProperties.TELEPHONE).add(TelephoneNumberValidator.instance());
         }
 
-        private FormComponent<String> createDaiField()
-        {
-            return new TextField<String>(ApplicationUser.DAI)
-            {
+        private FormComponent<String> createDaiField() {
+            return new TextField<String>(ApplicationUser.DAI) {
                 private static final long serialVersionUID = 1L;
 
-                protected boolean shouldTrimInput()
-                {
+                protected boolean shouldTrimInput() {
                     return true;
                 };
             }.add(DAIValidator.instance());
         }
 
-        private AbstractSingleSelectChoice<KeyValuePair> createDisiplineDropDown(ApplicationUser proxy, String discipline)
-        {
+        private AbstractSingleSelectChoice<KeyValuePair> createDisiplineDropDown(ApplicationUser proxy, String discipline) {
             PropertyModel<KeyValuePair> propertyModel = new PropertyModel<KeyValuePair>(proxy, discipline);
             List<KeyValuePair> choices = DisciplineUtils.getDisciplinesChoiceList().getChoices();
             return new DropDownChoice<KeyValuePair>(discipline, propertyModel, choices, new KvpChoiceRenderer()).setNullValid(true);
         }
 
-        private List<FederativeUserIdMap> getLinkedFederationAccounts(EasyUser user)
-        {
-            try
-            {
+        private List<FederativeUserIdMap> getLinkedFederationAccounts(EasyUser user) {
+            try {
                 return federativeUserRepo.findByDansUserId(user.getId().toString());
             }
-            catch (RepositoryException e)
-            {
+            catch (RepositoryException e) {
                 logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
                 throw new InternalWebError();
             }
         }
 
-        private Component createCancelButton()
-        {
-            return new Link<String>(CANCEL_BUTTON)
-            {
+        private Component createCancelButton() {
+            return new Link<String>(CANCEL_BUTTON) {
                 private static final long serialVersionUID = -1205869652104297953L;
 
                 @Override
-                public void onClick()
-                {
+                public void onClick() {
                     handleCancelButtonClicked();
                 }
             };
         }
 
         @Override
-        protected void onSubmit()
-        {
+        protected void onSubmit() {
             handleUpdateButtonClicked();
         }
 
-        private void handleDeleteInstitutionAccountButtonClicked(final List<FederativeUserIdMap> list)
-        {
-            try
-            {
+        private void handleDeleteInstitutionAccountButtonClicked(final List<FederativeUserIdMap> list) {
+            try {
                 for (FederativeUserIdMap idMap : list)
                     federativeUserRepo.delete(idMap);
             }
-            catch (RepositoryException e)
-            {
+            catch (RepositoryException e) {
                 logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
                 throw new InternalWebError();
             }
         }
 
-        private void handleUpdateButtonClicked()
-        {
+        private void handleUpdateButtonClicked() {
             final EasyUser user = (EasyUser) getModelObject();
-            try
-            {
+            try {
                 EasyUser sessionUser = getSessionUser();
                 boolean firstLogin = sessionUser.isFirstLogin();
 
@@ -259,43 +230,34 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
                 // one we put in the CompoundPropertyModel (see constructor).
                 // If the sessionUser is updating her own info we need to synchronize
                 // the sessionUser on the updated user.
-                if (sessionUser.getId().equals(user.getId()))
-                {
+                if (sessionUser.getId().equals(user.getId())) {
                     sessionUser.synchronizeOn(user);
                     logger.debug("Session user updated. Synchronizing " + sessionUser + " on " + user);
                 }
 
-                if (firstLogin)
-                {
-                    if (!getPage().continueToOriginalDestination())
-                    {
+                if (firstLogin) {
+                    if (!getPage().continueToOriginalDestination()) {
                         setResponsePage(this.getApplication().getHomePage());
                     }
                 }
 
-                if (enableModeSwitch)
-                {
+                if (enableModeSwitch) {
                     parent.switchMode();
                 }
 
                 final String message = infoMessage(SUCCESFUL_UPDATE);
                 logger.info(message);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = fatalMessage(USER_UPDATE_FAILED);
                 logger.error(message, e);
             }
         }
 
-        private void handleCancelButtonClicked()
-        {
-            if (enableModeSwitch)
-            {
+        private void handleCancelButtonClicked() {
+            if (enableModeSwitch) {
                 parent.switchMode();
-            }
-            else
-            {
+            } else {
                 setResponsePage(HomePage.class);
             }
         }

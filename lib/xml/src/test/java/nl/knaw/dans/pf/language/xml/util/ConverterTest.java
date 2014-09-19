@@ -6,12 +6,10 @@ import static org.junit.Assert.*;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-public class ConverterTest
-{
+public class ConverterTest {
 
     @Test
-    public void dateTime() throws Exception
-    {
+    public void dateTime() throws Exception {
         DateTime dateTime = new DateTime();
         String date = Converter.serializeDateTime(dateTime);
         String utcDate = Converter.serializeToUTC(dateTime);

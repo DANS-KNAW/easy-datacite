@@ -19,8 +19,7 @@ import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 
-public class PermissionReplyViewPanel extends AbstractEasyPanel
-{
+public class PermissionReplyViewPanel extends AbstractEasyPanel {
     private static final long serialVersionUID = 7165279397951054593L;
 
     private static final String STATUS_RESOURCE_KEY = "permission.reply.status";
@@ -37,8 +36,7 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
     protected final AbstractEasyPage fromPage;
     private final PermissionReplyModel prmReply;
 
-    public PermissionReplyViewPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence)
-    {
+    public PermissionReplyViewPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence) {
         super(wicketId, datasetModel);
         this.fromPage = fromPage;
 
@@ -53,21 +51,18 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
         add(new Label("status", statusModel));
         add(new MultiLineLabel("explanation", explanationModel));
 
-        add(new Link(BACK_WID)
-        {
+        add(new Link(BACK_WID) {
             private static final long serialVersionUID = -6091186801938439734L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 pageBack();
             }
         });
     }
 
     // TODO put the personal info on a separate Panel
-    private void addPersonalInfo(final EasyUser requester)
-    {
+    private void addPersonalInfo(final EasyUser requester) {
 
         add(new Label("userId", requester.getId()));
         add(new Label("email", requester.getEmail()));
@@ -88,24 +83,21 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
         add(new Label("country", requester.getCountry()));
     }
 
-    private void addMotivation(final PermissionSequence sequence)
-    {
+    private void addMotivation(final PermissionSequence sequence) {
         final DateTime requestDate = sequence.getLastRequestDate();
         add(new Label("title", sequence.getRequestTitle()));
         add(new MultiLineLabel("theme", sequence.getRequestTheme()));
         add(new DateTimeLabel("date", getString(DATE_TIME_FORMAT), new Model(requestDate)));
     }
 
-    protected void pageBack() throws RestartResponseException
-    {
+    protected void pageBack() throws RestartResponseException {
         if (fromPage == null)
             throw new RestartResponseException(HomePage.class);
         fromPage.refresh(); // TODO just a refresh of the panel?
         setResponsePage(fromPage);
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return (Dataset) getModel().getObject();
     }
 }

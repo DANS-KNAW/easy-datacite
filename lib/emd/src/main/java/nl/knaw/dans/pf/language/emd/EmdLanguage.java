@@ -9,12 +9,10 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 /**
  * Container for resource properties of category language.
  * 
- * @see <a
- *      href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
+ * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
  * @author ecco
  */
-public class EmdLanguage extends AbstractEmdContainer
-{
+public class EmdLanguage extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -31,35 +29,28 @@ public class EmdLanguage extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'language' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'language' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcLanguage()
-    {
+    public List<BasicString> getDcLanguage() {
         return dcLanguage;
     }
 
     /**
-     * Set a list of resource properties known as 'language' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'language' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-language">dcmi-terms/#terms-language</a>
      * @param dcLanguage
      *        a list of resource properties
      */
-    public void setDcLanguage(final List<BasicString> dcLanguage)
-    {
+    public void setDcLanguage(final List<BasicString> dcLanguage) {
         this.dcLanguage = dcLanguage;
     }
 

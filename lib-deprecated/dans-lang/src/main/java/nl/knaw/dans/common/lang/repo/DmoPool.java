@@ -9,15 +9,12 @@ import nl.knaw.dans.common.lang.WeakObjectRefPool;
  * @param <T>
  *        an info object to keep with the dmos
  */
-public class DmoPool<T> extends WeakObjectRefPool<DmoStoreId, DataModelObject, T>
-{
-    public DmoPool(int initCapacity)
-    {
+public class DmoPool<T> extends WeakObjectRefPool<DmoStoreId, DataModelObject, T> {
+    public DmoPool(int initCapacity) {
         super(initCapacity);
     }
 
-    public void add(DataModelObject dmo, T dmoInfo)
-    {
+    public void add(DataModelObject dmo, T dmoInfo) {
         add(dmo.getDmoStoreId(), dmo, dmoInfo);
     }
 }

@@ -6,12 +6,10 @@ import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffMarkup;
 
 import org.junit.Test;
 
-public class JumpoffMarkupTest
-{
+public class JumpoffMarkupTest {
 
     @Test
-    public void markup()
-    {
+    public void markup() {
         JumpoffMarkup jom = new JumpoffMarkup();
         assertEquals("", jom.getMarkup());
         assertEquals("<jumpoff/>", new String(jom.asObjectXML()));

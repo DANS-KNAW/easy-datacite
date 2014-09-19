@@ -9,11 +9,9 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.Model;
 
 /**
- * @author lobo The upload is submitted to an iframe, which is a trick for not holding up the whole page
- *         while uploading.
+ * @author lobo The upload is submitted to an iframe, which is a trick for not holding up the whole page while uploading.
  */
-public class EasyUploadIFrame extends WebPage
-{
+public class EasyUploadIFrame extends WebPage {
     private UploadForm form;
 
     private EasyUpload easyUpload = null;
@@ -22,29 +20,25 @@ public class EasyUploadIFrame extends WebPage
 
     public static final String UPLOAD_FORM_ID = "uploadForm";
 
-    public EasyUploadIFrame(String componentId)
-    {
+    public EasyUploadIFrame(String componentId) {
         form = new UploadForm(UPLOAD_FORM_ID);
         add(form);
         add(HeaderContributor.forJavaScript(JS));
         form.setMarkupId(UPLOAD_FORM_ID + "_" + componentId);
     }
 
-    public void setEasyUpload(EasyUpload easyUpload)
-    {
+    public void setEasyUpload(EasyUpload easyUpload) {
         this.easyUpload = easyUpload;
     }
 
-    public class UploadForm extends Form
-    {
+    public class UploadForm extends Form {
         private static final long serialVersionUID = 48321765505919523L;
 
         private FileUploadField uploadField;
 
         private HiddenField uploadIdField;
 
-        public UploadForm(String id)
-        {
+        public UploadForm(String id) {
             super(id);
 
             uploadIdField = new HiddenField("uploadId");
@@ -54,8 +48,7 @@ public class EasyUploadIFrame extends WebPage
             add(uploadField);
         }
 
-        public EasyUpload getEasyUpload()
-        {
+        public EasyUpload getEasyUpload() {
             return easyUpload;
         }
 
@@ -63,15 +56,13 @@ public class EasyUploadIFrame extends WebPage
          * uploadId must be regenerated on each page load!
          */
         @Override
-        protected void onBeforeRender()
-        {
+        protected void onBeforeRender() {
             Integer uploadId = EasyUploadProcesses.getInstance().generateUploadId();
             uploadIdField.setModel(new Model(uploadId));
             super.onBeforeRender();
         }
 
-        public Integer getUploadId()
-        {
+        public Integer getUploadId() {
             Object uploadId = uploadIdField.getModelObject();
             if (uploadId instanceof String)
                 return Integer.valueOf((String) uploadId);

@@ -20,49 +20,40 @@ import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RESTfilesContentPage extends RESTdisseminationPage
-{
+public class RESTfilesContentPage extends RESTdisseminationPage {
 
     public static final String NAME = "content";
     public static final String RESOURCE_KEY = "rest.datasets.files.content";
 
     private static final Logger logger = LoggerFactory.getLogger(RESTfilesContentPage.class);
 
-    public RESTfilesContentPage(PageParameters parameters)
-    {
+    public RESTfilesContentPage(PageParameters parameters) {
         super(parameters);
     }
 
     @Override
-    protected void disseminate()
-    {
+    protected void disseminate() {
         Dataset dataset = (Dataset) getPageParameters().get(RESTdatasetsPage.PM_DATASET);
         FileItem fileItem = (FileItem) getPageParameters().get(RESTfilesPage.PM_FILE_ITEM);
         URL url;
-        try
-        {
+        try {
             url = Services.getItemService().getFileContentURL(EasySession.getSessionUser(), dataset, fileItem);
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_NOT_FOUND);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
-        try
-        {
+        try {
             write(fileItem, url.openStream());
             throw new AbortException();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Unable to disseminate: ", e);
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
@@ -70,14 +61,12 @@ public class RESTfilesContentPage extends RESTdisseminationPage
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return NAME;
     }
 
     @Override
-    public String getResourceKey()
-    {
+    public String getResourceKey() {
         return RESOURCE_KEY;
     }
 

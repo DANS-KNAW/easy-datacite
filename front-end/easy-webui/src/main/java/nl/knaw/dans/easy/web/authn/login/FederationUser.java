@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.web.authn.login;
 
 import java.io.Serializable;
 
-public class FederationUser implements Serializable
-{
+public class FederationUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String userId;
@@ -12,80 +11,62 @@ public class FederationUser implements Serializable
     private String surName;
     private String homeOrg;
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getGivenName()
-    {
+    public String getGivenName() {
         return givenName;
     }
 
-    public void setGivenName(String givenName)
-    {
+    public void setGivenName(String givenName) {
         this.givenName = givenName;
     }
 
-    public String getSurName()
-    {
+    public String getSurName() {
         return surName;
     }
 
-    public void setSurName(String surName)
-    {
+    public void setSurName(String surName) {
         this.surName = surName;
     }
 
-    public String getHomeOrg()
-    {
+    public String getHomeOrg() {
         return homeOrg;
     }
 
-    public void setHomeOrg(String homeOrg)
-    {
+    public void setHomeOrg(String homeOrg) {
         this.homeOrg = homeOrg;
     }
 
-    public String getUserId()
-    {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId)
-    {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    private static boolean isSet(String prop)
-    {
+    private static boolean isSet(String prop) {
         return !"".equals(prop) && prop != null;
     }
 
-    public String getUserDescription()
-    {
+    public String getUserDescription() {
         String n = "";
-        if (isSet(surName))
-        {
+        if (isSet(surName)) {
             n += surName;
         }
-        if (isSet(givenName))
-        {
+        if (isSet(givenName)) {
             n += ", " + givenName;
         }
-        if (isSet(email))
-        {
-            if (n.length() > 0)
-            {
+        if (isSet(email)) {
+            if (n.length() > 0) {
                 n += " (" + email + ")";
-            }
-            else
-            {
+            } else {
                 n += email;
             }
         }

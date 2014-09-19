@@ -10,8 +10,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 
-public abstract class AbstractSchema
-{
+public abstract class AbstractSchema {
 
     public abstract String getSchemaName();
 
@@ -19,43 +18,35 @@ public abstract class AbstractSchema
 
     public abstract List<Attributes> getObjectClasses();
 
-    public void exportForOpenLdap() throws IOException, NamingException
-    {
+    public void exportForOpenLdap() throws IOException, NamingException {
         String filename = "schema/" + getSchemaName() + ".schema";
         File file = new File(filename);
         file.delete();
         RandomAccessFile ram = null;
-        try
-        {
+        try {
             ram = new RandomAccessFile(filename, "rw");
             ram.writeBytes("# " + getSchemaName() + " schema\n");
             ram.writeBytes(listAttributesForOpenLdap());
             ram.writeBytes(listObjectsForOpenLdap());
         }
-        finally
-        {
-            if (ram != null)
-            {
+        finally {
+            if (ram != null) {
                 ram.close();
             }
         }
     }
 
-    public String listAttributesForOpenLdap() throws NamingException
-    {
+    public String listAttributesForOpenLdap() throws NamingException {
         StringBuilder sb = new StringBuilder();
-        for (Attributes attrs : getAttributeTypes())
-        {
+        for (Attributes attrs : getAttributeTypes()) {
             sb.append(printAttributeTypeForOpenLdap(attrs));
         }
         return sb.toString();
     }
 
-    public String listObjectsForOpenLdap() throws NamingException
-    {
+    public String listObjectsForOpenLdap() throws NamingException {
         StringBuilder sb = new StringBuilder();
-        for (Attributes attrs : getObjectClasses())
-        {
+        for (Attributes attrs : getObjectClasses()) {
             sb.append(printObjectForOpenLdap(attrs));
         }
         return sb.toString();
@@ -74,12 +65,10 @@ public abstract class AbstractSchema
      */
     // @formatter:on
     /*
-     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be
-     * followed by a blank line.
+     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be followed by a blank line.
      */
 
-    public String printAttributeTypeForOpenLdap(Attributes attrs) throws NamingException
-    {
+    public String printAttributeTypeForOpenLdap(Attributes attrs) throws NamingException {
         StringBuilder sb = new StringBuilder().append("\n").append("attributetype ( ").append(attrs.get("NUMERICOID").get()).append("\n\t")
 
         .append("NAME '" + attrs.get("NAME").get() + "'").append("\n\t")
@@ -89,8 +78,7 @@ public abstract class AbstractSchema
         .append("EQUALITY " + attrs.get("EQUALITY").get()).append("\n\t")
 
         .append("SYNTAX " + attrs.get("SYNTAX").get());
-        if (attrs.get("SINGLE-VALUE") != null && "true".equalsIgnoreCase((String) attrs.get("SINGLE-VALUE").get()))
-        {
+        if (attrs.get("SINGLE-VALUE") != null && "true".equalsIgnoreCase((String) attrs.get("SINGLE-VALUE").get())) {
             sb.append("\n\t");
             sb.append("SINGLE-VALUE");
         }
@@ -112,8 +100,7 @@ public abstract class AbstractSchema
      */
     // @formatter:on
 
-    public String printObjectForOpenLdap(Attributes attrs) throws NamingException
-    {
+    public String printObjectForOpenLdap(Attributes attrs) throws NamingException {
         StringBuilder sb = new StringBuilder().append("\n").append("objectclass ( ").append(attrs.get("NUMERICOID").get())
 
         .append("\n\t").append("NAME '" + attrs.get("NAME").get() + "'")
@@ -122,26 +109,22 @@ public abstract class AbstractSchema
 
         .append("\n\t").append("SUP " + attrs.get("SUP").get());
 
-        if (attrs.get("STRUCTURAL") != null && "true".equalsIgnoreCase((String) attrs.get("STRUCTURAL").get()))
-        {
+        if (attrs.get("STRUCTURAL") != null && "true".equalsIgnoreCase((String) attrs.get("STRUCTURAL").get())) {
             sb.append("\n\t");
             sb.append("STRUCTURAL");
         }
 
-        if (attrs.get("ABSTRACT") != null && "true".equalsIgnoreCase((String) attrs.get("ABSTRACT").get()))
-        {
+        if (attrs.get("ABSTRACT") != null && "true".equalsIgnoreCase((String) attrs.get("ABSTRACT").get())) {
             sb.append("\n\t");
             sb.append("ABSTRACT");
         }
 
         Attribute must = (Attribute) attrs.get("MUST");
-        if (must != null)
-        {
+        if (must != null) {
             sb.append("\n\t");
             sb.append("MUST ( ");
             NamingEnumeration<?> nenum = must.getAll();
-            while (nenum.hasMoreElements())
-            {
+            while (nenum.hasMoreElements()) {
                 sb.append(nenum.next());
                 sb.append(" $ ");
             }
@@ -150,13 +133,11 @@ public abstract class AbstractSchema
         }
 
         Attribute may = (Attribute) attrs.get("MAY");
-        if (may != null)
-        {
+        if (may != null) {
             sb.append("\n\t");
             sb.append("MAY ( ");
             NamingEnumeration<?> nenum = may.getAll();
-            while (nenum.hasMoreElements())
-            {
+            while (nenum.hasMoreElements()) {
                 sb.append(nenum.next());
                 sb.append(" $ ");
             }

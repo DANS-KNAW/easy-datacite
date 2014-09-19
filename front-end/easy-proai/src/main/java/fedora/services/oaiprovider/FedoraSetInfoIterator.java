@@ -15,8 +15,7 @@ import proai.driver.RemoteIterator;
 import proai.error.RepositoryException;
 import fedora.client.FedoraClient;
 
-public class FedoraSetInfoIterator implements RemoteIterator<SetInfo>
-{
+public class FedoraSetInfoIterator implements RemoteIterator<SetInfo> {
 
     private FedoraClient m_fedora;
 
@@ -29,9 +28,7 @@ public class FedoraSetInfoIterator implements RemoteIterator<SetInfo>
     /**
      * Initialize empty.
      */
-    public FedoraSetInfoIterator()
-    {
-    }
+    public FedoraSetInfoIterator() {}
 
     /**
      * Initialize with tuples. The tuples should look like:
@@ -47,59 +44,47 @@ public class FedoraSetInfoIterator implements RemoteIterator<SetInfo>
      * abovetwo     ,Above Two         ,info:fedora/demo:SetAboveTwo/SetInfo.xml
      * </pre>
      */
-    public FedoraSetInfoIterator(FedoraClient fedora, TupleIterator tuples) throws RepositoryException
-    {
+    public FedoraSetInfoIterator(FedoraClient fedora, TupleIterator tuples) throws RepositoryException {
         m_fedora = fedora;
         m_tuples = tuples;
         m_nextGroup = new ArrayList<String[]>();
         m_next = getNext();
     }
 
-    private SetInfo getNext() throws RepositoryException
-    {
-        try
-        {
+    private SetInfo getNext() throws RepositoryException {
+        try {
             List<String[]> group = getNextGroup();
             if (group.size() == 0)
                 return null;
             String[] values = (String[]) group.get(group.size() - 1);
             return new FedoraSetInfo(m_fedora, values[0], values[1], values[2], values[3], values[4]);
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             throw new RepositoryException("Error getting next tuple", e);
         }
     }
 
     /**
-     * Return the next group of value[]s that have the same value for the first element. The first
-     * element must not be null.
+     * Return the next group of value[]s that have the same value for the first element. The first element must not be null.
      */
-    private List<String[]> getNextGroup() throws RepositoryException, TrippiException
-    {
+    private List<String[]> getNextGroup() throws RepositoryException, TrippiException {
         List<String[]> group = m_nextGroup;
         m_nextGroup = new ArrayList<String[]>();
         String commonValue = null;
-        if (group.size() > 0)
-        {
+        if (group.size() > 0) {
             commonValue = ((String[]) group.get(0))[0];
         }
-        while (m_tuples.hasNext() && m_nextGroup.size() == 0)
-        {
+        while (m_tuples.hasNext() && m_nextGroup.size() == 0) {
             String[] values = getValues(m_tuples.next());
             String firstValue = values[0];
             if (firstValue == null)
                 throw new RepositoryException("Not allowed: First value in tuple was null");
-            if (commonValue == null)
-            {
+            if (commonValue == null) {
                 commonValue = firstValue;
             }
-            if (firstValue.equals(commonValue))
-            {
+            if (firstValue.equals(commonValue)) {
                 group.add(values);
-            }
-            else
-            {
+            } else {
                 m_nextGroup.add(values);
             }
         }
@@ -108,81 +93,61 @@ public class FedoraSetInfoIterator implements RemoteIterator<SetInfo>
 
     @SuppressWarnings("unchecked")
     /* trippi is not generic */
-    private String[] getValues(Map valueMap) throws RepositoryException
-    {
-        try
-        {
+    private String[] getValues(Map valueMap) throws RepositoryException {
+        try {
             String[] names = m_tuples.names();
             String[] values = new String[names.length];
-            for (int i = 0; i < names.length; i++)
-            {
+            for (int i = 0; i < names.length; i++) {
                 values[i] = getString((Node) valueMap.get(names[i]));
-                if (names[i].equals("setSpec"))
-                {
+                if (names[i].equals("setSpec")) {
                     values[i] = values[i].replace(' ', '_');
                 }
             }
             return values;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new RepositoryException("Error getting values from tuple", e);
         }
     }
 
-    private String getString(Node node) throws RepositoryException
-    {
+    private String getString(Node node) throws RepositoryException {
         if (node == null)
             return null;
-        if (node instanceof Literal)
-        {
+        if (node instanceof Literal) {
             return ((Literal) node).getLexicalForm();
-        }
-        else if (node instanceof URIReference)
-        {
+        } else if (node instanceof URIReference) {
             return ((URIReference) node).getURI().toString();
-        }
-        else
-        {
+        } else {
             throw new RepositoryException("Unhandled node type: " + node.getClass().getName());
         }
     }
 
-    public boolean hasNext() throws RepositoryException
-    {
+    public boolean hasNext() throws RepositoryException {
         return (m_next != null);
     }
 
-    public SetInfo next() throws RepositoryException
-    {
-        try
-        {
+    public SetInfo next() throws RepositoryException {
+        try {
             return m_next;
         }
-        finally
-        {
+        finally {
             if (m_next != null)
                 m_next = getNext();
         }
     }
 
-    public void close() throws RepositoryException
-    {
-        try
-        {
-            if (m_tuples != null)
-            {
+    public void close() throws RepositoryException {
+        try {
+            if (m_tuples != null) {
                 m_tuples.close();
             }
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             throw new RepositoryException("Unable to close tuple iterator", e);
         }
     }
 
-    public void remove() throws UnsupportedOperationException
-    {
+    public void remove() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("FedoraSetInfoIterator does not support remove().");
     }
 

@@ -17,45 +17,36 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
-public class SearchAllSearchResultPage extends AbstractSearchResultPage
-{
-    public SearchAllSearchResultPage()
-    {
+public class SearchAllSearchResultPage extends AbstractSearchResultPage {
+    public SearchAllSearchResultPage() {
         super(true);
     }
 
-    public SearchAllSearchResultPage(PageParameters pm)
-    {
+    public SearchAllSearchResultPage(PageParameters pm) {
         super(pm);
     }
 
-    public SearchAllSearchResultPage(SearchModel model)
-    {
+    public SearchAllSearchResultPage(SearchModel model) {
         super(model);
         model.getRequestBuilder().setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_CREATED_FIELD, SortOrder.DESC));
     }
 
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
         return Services.getSearchService().searchAll(request, getSessionUser());
     }
 
     @Override
-    protected IModel<String> getInitialCriteriumText()
-    {
+    protected IModel<String> getInitialCriteriumText() {
         return new ResourceModel("searchall.defaultbreadcrumbtext");
     }
 
     @Override
-    protected IModel<String> getSearchCriteriumText(final String searchText)
-    {
-        return new AbstractReadOnlyModel<String>()
-        {
+    protected IModel<String> getSearchCriteriumText(final String searchText) {
+        return new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 3254972701101566016L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return CriteriumLabel.createFilterText(getString("searchall.searchbreadcrumbtext"), searchText);
             }
         };

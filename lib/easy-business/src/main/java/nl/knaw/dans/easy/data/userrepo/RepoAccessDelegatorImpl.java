@@ -14,47 +14,37 @@ import nl.knaw.dans.easy.domain.model.user.RepoAccessDelegator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RepoAccessDelegatorImpl implements RepoAccessDelegator
-{
+public class RepoAccessDelegatorImpl implements RepoAccessDelegator {
 
     private static final Logger logger = LoggerFactory.getLogger(RepoAccessDelegatorImpl.class);
 
-    public RepoAccessDelegatorImpl()
-    {
+    public RepoAccessDelegatorImpl() {
         logger.debug("Constructed " + this.getClass().getName());
     }
 
-    public List<Group> getGroups(EasyUser user)
-    {
+    public List<Group> getGroups(EasyUser user) {
         return getGroups(user.getGroupIds());
     }
 
-    public List<Group> getGroups(Collection<String> groupIds)
-    {
-        try
-        {
+    public List<Group> getGroups(Collection<String> groupIds) {
+        try {
             return Data.getGroupRepo().findById(groupIds);
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             logger.error("Could not instaniate (all of) the groups in the collection: ", e);
             throw new ApplicationException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Could not instaniate (all of) the groups in the collection: ", e);
             throw new ApplicationException(e);
         }
     }
 
-    public EasyUser getUser(String userId)
-    {
-        try
-        {
+    public EasyUser getUser(String userId) {
+        try {
             return Data.getUserRepo().findById(userId);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Could not instantiate the User with userId '" + userId + "': ", e);
             throw new ApplicationException(e);
         }

@@ -31,8 +31,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class IntermediatePage extends AbstractEasyNavPage
-{
+public abstract class IntermediatePage extends AbstractEasyNavPage {
     private static final Logger logger = LoggerFactory.getLogger(IntermediatePage.class);
 
     private static final String ID_TITLE = "title";
@@ -50,45 +49,32 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     @SpringBean(name = "fileStoreAccess")
     FileStoreAccess fileStoreAccess;
 
-    public enum Mode
-    {
+    public enum Mode {
         UNSUBMIT, PUBLISH, UNPUBLISH, MAINTAIN, REPUBLISH, CHANGE_DEPOSITOR
     }
 
-    public IntermediatePage(DatasetModel datasetModel, Mode mode)
-    {
+    public IntermediatePage(DatasetModel datasetModel, Mode mode) {
         super();
         this.datasetModel = datasetModel;
 
         addCommonFeedbackPanel();
 
-        if (Mode.UNSUBMIT.equals(mode))
-        {
+        if (Mode.UNSUBMIT.equals(mode)) {
             add(new Label(ID_TITLE, "Unsubmit dataset"));
             add(new UnsubmitPanel());
-        }
-        else if (Mode.PUBLISH.equals(mode))
-        {
+        } else if (Mode.PUBLISH.equals(mode)) {
             add(new Label(ID_TITLE, "Publish dataset"));
             add(new PublishPanel());
-        }
-        else if (Mode.UNPUBLISH.equals(mode))
-        {
+        } else if (Mode.UNPUBLISH.equals(mode)) {
             add(new Label(ID_TITLE, "Unpublish dataset"));
             add(new UnpublishPanel());
-        }
-        else if (Mode.MAINTAIN.equals(mode))
-        {
+        } else if (Mode.MAINTAIN.equals(mode)) {
             add(new Label(ID_TITLE, "Maintain dataset"));
             add(new MaintainPanel());
-        }
-        else if (Mode.REPUBLISH.equals(mode))
-        {
+        } else if (Mode.REPUBLISH.equals(mode)) {
             add(new Label(ID_TITLE, "Republish dataset"));
             add(new RepublishPanel());
-        }
-        else if (Mode.CHANGE_DEPOSITOR.equals(mode))
-        {
+        } else if (Mode.CHANGE_DEPOSITOR.equals(mode)) {
             add(new Label(ID_TITLE, "Change depositor"));
             add(new ChangeDepositorPanel());
         }
@@ -96,45 +82,36 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
 
     abstract Page getReturnToPage();
 
-    public DatasetModel getDatasetModel()
-    {
+    public DatasetModel getDatasetModel() {
         return (DatasetModel) datasetModel;
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return datasetModel.getObject();
     }
 
-    protected String getDepositorName()
-    {
+    protected String getDepositorName() {
         return getDataset().getAdministrativeMetadata().getDepositor().getDisplayName();
     }
 
-    private void generatePrePublishWarnings()
-    {
-        try
-        {
-            if (!hasVisibleToAnonymousOrKnown())
-            {
+    private void generatePrePublishWarnings() {
+        try {
+            if (!hasVisibleToAnonymousOrKnown()) {
                 final String message = warningMessage(EasyResources.NO_PUBLISHED_DATAFILES);
                 logger.warn(message);
             }
         }
-        catch (StoreAccessException e)
-        {
+        catch (StoreAccessException e) {
             final String message = warningMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
         }
-        if (!getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow().areRequiredStepsCompleted())
-        {
+        if (!getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow().areRequiredStepsCompleted()) {
             final String message = warningMessage(EasyResources.WORKFLOW_NOT_COMPLETED);
             logger.warn(message);
         }
     }
 
-    private boolean hasVisibleToAnonymousOrKnown() throws StoreAccessException
-    {
+    private boolean hasVisibleToAnonymousOrKnown() throws StoreAccessException {
         // TODO implement multiple VisibleTo arguments? What about group or permission restricted items?
         DmoStoreId datasetStoreId = getDataset().getDmoStoreId();
         return fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS)
@@ -142,40 +119,33 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // UnsubmitPanel
-    protected class UnsubmitPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class UnsubmitPanel extends AbstractEasyPanel implements SubmitLinkListener {
         // UnpublishPanel
-        protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener
-        {
+        protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
 
             private static final long serialVersionUID = -6362817621826949894L;
 
             private final IntermediateForm form;
 
-            public UnpublishPanel()
-            {
+            public UnpublishPanel() {
                 super(ID_INTERMEDIATE_PANEL);
                 form = new IntermediateForm(this);
                 form.setShowNotifyDepositor(true, true);
                 add(form);
             }
 
-            public void onSubmit(SubmitLink submitLink)
-            {
-                try
-                {
+            public void onSubmit(SubmitLink submitLink) {
+                try {
                     Services.getDatasetService().unpublishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
                     final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.SUBMITTED.toString().toLowerCase());
                     logger.info(message);
                     setResponsePage(getReturnToPage());
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
                     logger.error(message, e);
                 }
-                catch (DataIntegrityException e)
-                {
+                catch (DataIntegrityException e) {
                     final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
                     logger.error(message, e);
                 }
@@ -186,30 +156,25 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
 
         private final IntermediateForm form;
 
-        public UnsubmitPanel()
-        {
+        public UnsubmitPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, true);
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
-            try
-            {
+        public void onSubmit(SubmitLink submitLink) {
+            try {
                 Services.getDatasetService().unsubmitDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
                 final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.DRAFT.toString().toLowerCase());
                 logger.info(message);
                 setResponsePage(getReturnToPage());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.UNSUBMIT_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
-            catch (DataIntegrityException e)
-            {
+            catch (DataIntegrityException e) {
                 final String message = errorMessage(EasyResources.UNSUBMIT_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
@@ -218,14 +183,12 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // PublishPanel
-    protected class PublishPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class PublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
         private static final long serialVersionUID = -78333439372508804L;
 
         private final IntermediateForm form;
 
-        public PublishPanel()
-        {
+        public PublishPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, true);
@@ -234,22 +197,18 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
-            try
-            {
+        public void onSubmit(SubmitLink submitLink) {
+            try {
                 Services.getDatasetService().publishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor(), form.getMustIncludeLicense());
                 final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.PUBLISHED.toString().toLowerCase());
                 logger.info(message);
                 setResponsePage(getReturnToPage());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_PUBLISH, getDataset().getStoreId());
                 logger.error(message, e);
             }
-            catch (DataIntegrityException e)
-            {
+            catch (DataIntegrityException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_PUBLISH, getDataset().getStoreId());
                 logger.error(message, e);
             }
@@ -258,37 +217,31 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // UnpublishPanel
-    protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
 
         private static final long serialVersionUID = -6362817621826949894L;
 
         private final IntermediateForm form;
 
-        public UnpublishPanel()
-        {
+        public UnpublishPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, true);
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
-            try
-            {
+        public void onSubmit(SubmitLink submitLink) {
+            try {
                 Services.getDatasetService().unpublishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
                 final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.SUBMITTED.toString().toLowerCase());
                 logger.info(message);
                 setResponsePage(getReturnToPage());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
                 logger.error(message, e);
             }
-            catch (DataIntegrityException e)
-            {
+            catch (DataIntegrityException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
                 logger.error(message, e);
             }
@@ -296,36 +249,30 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // MaintainPanel
-    protected class MaintainPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class MaintainPanel extends AbstractEasyPanel implements SubmitLinkListener {
         private static final long serialVersionUID = -1580189067742854756L;
 
         private final IntermediateForm form;
 
-        public MaintainPanel()
-        {
+        public MaintainPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, false);
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
-            try
-            {
+        public void onSubmit(SubmitLink submitLink) {
+            try {
                 Services.getDatasetService().maintainDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
                 final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.MAINTENANCE.toString().toLowerCase());
                 logger.info(message);
                 setResponsePage(getReturnToPage());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_MAINTAIN_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
-            catch (DataIntegrityException e)
-            {
+            catch (DataIntegrityException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_MAINTAIN_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
@@ -333,14 +280,12 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // RepublishPanel
-    protected class RepublishPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class RepublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
         private static final long serialVersionUID = -8958880253397322216L;
 
         private final IntermediateForm form;
 
-        public RepublishPanel()
-        {
+        public RepublishPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, false);
@@ -349,22 +294,18 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
-            try
-            {
+        public void onSubmit(SubmitLink submitLink) {
+            try {
                 Services.getDatasetService().republishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor(), form.getMustIncludeLicense());
                 final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.PUBLISHED.toString().toLowerCase());
                 logger.info(message);
                 setResponsePage(getReturnToPage());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_REPUBLISH_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
-            catch (DataIntegrityException e)
-            {
+            catch (DataIntegrityException e) {
                 final String message = errorMessage(EasyResources.UNABLE_TO_REPUBLISH_DATASET, getDataset().getStoreId());
                 logger.error(message, e);
             }
@@ -372,8 +313,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // ChangeDepositorPanel
-    protected class ChangeDepositorPanel extends AbstractEasyPanel implements SubmitLinkListener
-    {
+    protected class ChangeDepositorPanel extends AbstractEasyPanel implements SubmitLinkListener {
 
         private static final long serialVersionUID = 5992545250405060874L;
 
@@ -381,8 +321,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
         private final SelectUserPanel selectUserPanel;
         private final Input notifyNewDepositor = new Input();
 
-        public ChangeDepositorPanel()
-        {
+        public ChangeDepositorPanel() {
             super(ID_INTERMEDIATE_PANEL);
             form = new IntermediateForm(this);
             form.setShowNotifyDepositor(true, false);
@@ -397,26 +336,21 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
             add(form);
         }
 
-        public void onSubmit(SubmitLink submitLink)
-        {
+        public void onSubmit(SubmitLink submitLink) {
             EasyUser newDepositor = selectUserPanel.getSelectedUser();
-            if (newDepositor != null)
-            {
-                try
-                {
+            if (newDepositor != null) {
+                try {
                     Services.getDatasetService().changeDepositor(getSessionUser(), getDataset(), newDepositor, form.getMustNotifyDepositor(),
                             notifyNewDepositor.slavink);
                     final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
                     logger.info(message);
                     setResponsePage(getReturnToPage());
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.UNABLE_TO_CHANGE_DEPOSITOR, getDataset().getStoreId());
                     logger.error(message, e);
                 }
-                catch (DataIntegrityException e)
-                {
+                catch (DataIntegrityException e) {
                     final String message = errorMessage(EasyResources.UNABLE_TO_CHANGE_DEPOSITOR, getDataset().getStoreId());
                     logger.error(message, e);
                 }
@@ -425,8 +359,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     }
 
     // IntermediateForm
-    protected class IntermediateForm extends Form
-    {
+    protected class IntermediateForm extends Form {
 
         private static final long serialVersionUID = 8451362357786696012L;
 
@@ -439,39 +372,32 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
 
         private boolean initiated;
 
-        public IntermediateForm(SubmitLinkListener listener)
-        {
+        public IntermediateForm(SubmitLinkListener listener) {
             super(ID_INTERMEDIATE_FORM);
             this.listener = listener;
         }
 
-        public boolean getMustNotifyDepositor()
-        {
+        public boolean getMustNotifyDepositor() {
             return notifyDepositor.slavink;
         }
 
-        public boolean getMustIncludeLicense()
-        {
+        public boolean getMustIncludeLicense() {
             return includeLicense.slavink;
         }
 
-        public void setShowNotifyDepositor(boolean showNotifyDepositor, boolean initialState)
-        {
+        public void setShowNotifyDepositor(boolean showNotifyDepositor, boolean initialState) {
             this.showNotifyDepositor = showNotifyDepositor;
             notifyDepositor.slavink = initialState;
         }
 
-        public void setShowIncludeLicense(boolean showIncludeLicense, boolean initialState)
-        {
+        public void setShowIncludeLicense(boolean showIncludeLicense, boolean initialState) {
             this.showIncludeLicense = showIncludeLicense;
             includeLicense.slavink = initialState;
         }
 
         @Override
-        protected void onBeforeRender()
-        {
-            if (!initiated)
-            {
+        protected void onBeforeRender() {
+            if (!initiated) {
                 init();
                 initiated = true;
                 DatasetNotification.setDatasetUrlComposer(DatasetUrlComposerImpl.getInstance(getPageMap()));
@@ -479,31 +405,26 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
             super.onBeforeRender();
         }
 
-        private void init()
-        {
+        private void init() {
             add(new Label(ID_DATASET_TITLE, getDataset().getPreferredTitle()));
 
             final CheckBox includeLicenseCheckBox = new CheckBox(ID_INCLUDE_LICENSE, new PropertyModel<Boolean>(includeLicense, "checked"));
             includeLicenseCheckBox.setVisible(showIncludeLicense);
             add(includeLicenseCheckBox);
 
-            final CheckBox notifyDepositorCheckBox = new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked"))
-            {
+            final CheckBox notifyDepositorCheckBox = new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked")) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                protected boolean wantOnSelectionChangedNotifications()
-                {
+                protected boolean wantOnSelectionChangedNotifications() {
                     return true;
                 }
 
                 @Override
-                protected void onSelectionChanged(Object newSelection)
-                {
+                protected void onSelectionChanged(Object newSelection) {
                     boolean checked = new Boolean(true).equals(newSelection);
                     includeLicenseCheckBox.setEnabled(checked);
-                    if (!checked)
-                    {
+                    if (!checked) {
                         includeLicenseCheckBox.setModelValue(new String[] {""});
                     }
                 }
@@ -512,28 +433,24 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
             add(notifyDepositorCheckBox);
             add(new Label(ID_DEPOSITOR_NAME, getDepositorName()));
 
-            SubmitLink submit = new SubmitLink(ID_SUBMIT)
-            {
+            SubmitLink submit = new SubmitLink(ID_SUBMIT) {
 
                 private static final long serialVersionUID = 3347417451829990314L;
 
                 @Override
-                public void onSubmit()
-                {
+                public void onSubmit() {
                     listener.onSubmit(this);
                 }
 
             };
             add(submit);
 
-            SubmitLink cancel = new SubmitLink(ID_CANCEL)
-            {
+            SubmitLink cancel = new SubmitLink(ID_CANCEL) {
 
                 private static final long serialVersionUID = -145305839630590645L;
 
                 @Override
-                public void onSubmit()
-                {
+                public void onSubmit() {
                     setResponsePage(getReturnToPage());
                 }
             };
@@ -543,19 +460,16 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
         }
     }
 
-    protected class Input implements IClusterable
-    {
+    protected class Input implements IClusterable {
         private static final long serialVersionUID = -667029584818294155L;
 
         protected boolean slavink;
 
-        public Boolean getChecked()
-        {
+        public Boolean getChecked() {
             return new Boolean(slavink);
         }
 
-        public void setChecked(Boolean checked)
-        {
+        public void setChecked(Boolean checked) {
             this.slavink = checked.booleanValue();
         }
 

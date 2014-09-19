@@ -29,8 +29,7 @@ import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ZipDownloadHandler extends AbstractDownloadHandler
-{
+public class ZipDownloadHandler extends AbstractDownloadHandler {
 
     private static final long serialVersionUID = -6033391606229853640L;
 
@@ -43,51 +42,38 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
 
     private boolean hasSecurityException;
 
-    public ZipDownloadHandler(FileDownloadResponse fileDownloadResponse)
-    {
+    public ZipDownloadHandler(FileDownloadResponse fileDownloadResponse) {
         this.fileDownloadResponse = fileDownloadResponse;
         getContentWrapper();
     }
 
     @Override
-    public void setHeaders(WebResponse response)
-    {
+    public void setHeaders(WebResponse response) {
         String fileName = getContentWrapper().getFilename();
-        if (hasSecurityException)
-        {
+        if (hasSecurityException) {
             response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-        }
-        else
-        {
+        } else {
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         }
     }
 
-    public void close() throws IOException
-    {
-        if (inStream != null)
-        {
+    public void close() throws IOException {
+        if (inStream != null) {
             inStream.close();
         }
         deleteZipFile();
     }
 
-    public String getContentType()
-    {
-        if (hasSecurityException)
-        {
+    public String getContentType() {
+        if (hasSecurityException) {
             return "text/html";
-        }
-        else
-        {
+        } else {
             return "application/zip";
         }
     }
 
-    public InputStream getInputStream() throws ResourceStreamNotFoundException
-    {
-        try
-        {
+    public InputStream getInputStream() throws ResourceStreamNotFoundException {
+        try {
             inStream = new FileInputStream(getZipFile());
 
             // logging for statistics is badly placed code.
@@ -96,53 +82,43 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
                     new DownloadZipStatistics(contentWrapper), new DisciplineStatistics(dataset));
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
             throw new ResourceStreamNotFoundException(e);
         }
-        catch (DownloadException e)
-        {
+        catch (DownloadException e) {
             throw new ResourceStreamNotFoundException(e);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new ResourceStreamNotFoundException(e);
         }
         return inStream;
     }
 
-    public long length()
-    {
+    public long length() {
         return getZipFile().length();
     }
 
-    public Time lastModifiedTime()
-    {
+    public Time lastModifiedTime() {
         return Time.valueOf(getZipFile().lastModified());
     }
 
-    private ZipFileContentWrapper getContentWrapper()
-    {
-        if (contentWrapper == null)
-        {
+    private ZipFileContentWrapper getContentWrapper() {
+        if (contentWrapper == null) {
             List<RequestedItem> requestedItems = fileDownloadResponse.getDownloadRequestItems();
             EasySession session = EasySession.get();
-            try
-            {
+            try {
                 DmoStoreId datasetId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
                 Dataset dataset = (Dataset) session.getDataset(datasetId);
                 contentWrapper = Services.getItemService().getZippedContent(session.getUser(), dataset, requestedItems);
             }
-            catch (CommonSecurityException e)
-            {
+            catch (CommonSecurityException e) {
                 logger.warn("Insufficient rights on zip download: ", e);
                 hasSecurityException = true;
                 contentWrapper = new ZipFileContentWrapper();
                 contentWrapper.setFilename("insufficientRights.html");
                 contentWrapper.setZipFile(getMockFile());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 logger.error("Unable to get a zipped file for download: ", e);
                 fileDownloadResponse.setStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
@@ -150,17 +126,14 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
         return contentWrapper;
     }
 
-    private File getZipFile()
-    {
+    private File getZipFile() {
         ZipFileContentWrapper contentWrapper = getContentWrapper();
         return contentWrapper.getZipFile();
     }
 
-    private boolean deleteZipFile() throws IOException
-    {
+    private boolean deleteZipFile() throws IOException {
         boolean deleted = false;
-        if (contentWrapper != null && !hasSecurityException)
-        {
+        if (contentWrapper != null && !hasSecurityException) {
             deleted = contentWrapper.deleteZipFile();
         }
         return deleted;

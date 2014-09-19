@@ -17,27 +17,23 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPage
-{
+public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPage {
     private static final Logger logger = LoggerFactory.getLogger(FederationToEasyAccountLinkingPage.class);
 
     @SpringBean(name = "userService")
     private UserService userService;
 
-    public FederationToEasyAccountLinkingPage(final FederationUser user)
-    {
+    public FederationToEasyAccountLinkingPage(final FederationUser user) {
         add(Style.LOGIN_HEADER_CONTRIBUTION);
         add(new FederationUserInfoPanel("federationUserInfoPanel", user));
         final UsernamePasswordAuthentication authentication = createUsernamePasswordAuthentication();
         add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getHomeOrg())));
         final WebMarkupContainer registrationSection = new WebMarkupContainer("registration_and_linking");
         add(registrationSection);
-        final Link<Void> registrationLink = new Link<Void>("registration")
-        {
+        final Link<Void> registrationLink = new Link<Void>("registration") {
             private static final long serialVersionUID = 1L;
 
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(new RegistrationPage(user.getUserId(), user.getUserDescription(), user.getHomeOrg()));
             };
         };
@@ -47,15 +43,12 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
         registrationLink.add(registrationLinkLabel);
     }
 
-    private UsernamePasswordAuthentication createUsernamePasswordAuthentication()
-    {
+    private UsernamePasswordAuthentication createUsernamePasswordAuthentication() {
         UsernamePasswordAuthentication authentication;
-        try
-        {
+        try {
             authentication = userService.newUsernamePasswordAuthentication();
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();

@@ -5,8 +5,7 @@ package nl.knaw.dans.common.lang.search;
  * 
  * @author lobo
  */
-public enum SortOrder
-{
+public enum SortOrder {
     /**
      * sort in ascending order
      */
@@ -20,8 +19,7 @@ public enum SortOrder
     /**
      * @return the reverse of the currrent sort order
      */
-    public SortOrder getReverse()
-    {
+    public SortOrder getReverse() {
         if (this.equals(ASC))
             return SortOrder.DESC;
         else

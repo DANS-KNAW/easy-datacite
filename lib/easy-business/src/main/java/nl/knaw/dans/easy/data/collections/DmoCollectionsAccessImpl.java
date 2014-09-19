@@ -17,19 +17,16 @@ import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
-{
+public class DmoCollectionsAccessImpl implements DmoCollectionsAccess {
 
     private static final Logger logger = LoggerFactory.getLogger(DmoCollectionsAccessImpl.class);
 
     private final DmoCollections dmoCollections;
 
-    public DmoCollectionsAccessImpl(DmoCollections dmoCollections)
-    {
+    public DmoCollectionsAccessImpl(DmoCollections dmoCollections) {
         this.dmoCollections = dmoCollections;
         dmoCollections.setContentModelOAISet(new DmoStoreId(Constants.CM_OAI_SET_1));
-        for (ECollection eColl : ECollection.values())
-        {
+        for (ECollection eColl : ECollection.values()) {
             dmoCollections.registerNamespace(eColl.namespace);
         }
         logger.info("Completed initialization.");
@@ -37,13 +34,10 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#createRoot(nl.knaw.dans.easy.domain.model.user
-     * .EasyUser, java.lang.String)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#createRoot(nl.knaw.dans.easy.domain.model.user .EasyUser, java.lang.String)
      */
     @Override
-    public DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException
-    {
+    public DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException {
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         DmoCollection root = manager.createRoot(eColl.namespace);
         return root;
@@ -51,13 +45,10 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#getRoot(nl.knaw.dans.common.lang.repo.DmoNamespace
-     * )
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#getRoot(nl.knaw.dans.common.lang.repo.DmoNamespace )
      */
     @Override
-    public DmoCollection getRoot(ECollection eColl) throws CollectionsException
-    {
+    public DmoCollection getRoot(ECollection eColl) throws CollectionsException {
         CollectionManager manager = dmoCollections.newManager(null);
         DmoCollection root = manager.getRoot(eColl.namespace);
         return root;
@@ -65,13 +56,10 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#getCollection(nl.knaw.dans.common.lang.repo
-     * .DmoStoreId)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#getCollection(nl.knaw.dans.common.lang.repo .DmoStoreId)
      */
     @Override
-    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws CollectionsException
-    {
+    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws CollectionsException {
         assertECollection(dmoStoreId);
         CollectionManager manager = dmoCollections.newManager(null);
         DmoCollection collection = manager.getCollection(dmoStoreId);
@@ -80,13 +68,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#saveCollection(nl.knaw.dans.easy.domain.model
-     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#saveCollection(nl.knaw.dans.easy.domain.model .user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
-    public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
-    {
+    public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException {
         assertECollection(collection);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.update(collection);
@@ -94,13 +80,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#createCollection(nl.knaw.dans.easy.domain.model
-     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection, java.lang.String, java.lang.String)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#createCollection(nl.knaw.dans.easy.domain.model .user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection, java.lang.String, java.lang.String)
      */
     @Override
-    public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws CollectionsException
-    {
+    public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws CollectionsException {
         assertECollection(parent);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         DmoCollection collection = manager.createCollection(parent, label, shortName);
@@ -109,14 +93,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#attachCollection(nl.knaw.dans.easy.domain.model
-     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection,
-     * nl.knaw.dans.i.dmo.collections.DmoCollection)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#attachCollection(nl.knaw.dans.easy.domain.model .user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
-    public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws CollectionsException
-    {
+    public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws CollectionsException {
         assertECollection(parent);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.attachCollection(parent, child);
@@ -124,13 +105,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#detachCollection(nl.knaw.dans.easy.domain.model
-     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#detachCollection(nl.knaw.dans.easy.domain.model .user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
-    public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
-    {
+    public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException {
         assertECollection(collection);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.detachCollection(collection);
@@ -138,13 +117,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#publishAsOAISet(nl.knaw.dans.easy.domain.model
-     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#publishAsOAISet(nl.knaw.dans.easy.domain.model .user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
-    public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
-    {
+    public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException {
         assertECollection(collection);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.publishAsOAISet(collection);
@@ -152,34 +129,29 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.data.collections.EasyCollections#unpublishAsOAISet(nl.knaw.dans.easy.domain.
-     * model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+     * @see nl.knaw.dans.easy.data.collections.EasyCollections#unpublishAsOAISet(nl.knaw.dans.easy.domain. model.user.EasyUser,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
-    public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
-    {
+    public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException {
         assertECollection(collection);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.unpublishAsOAISet(collection);
     }
 
     @Override
-    public RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException
-    {
+    public RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException {
         return getRecursiveList(eColl.namespace);
     }
 
     @Override
-    public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException
-    {
+    public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException {
         CollectionManager manager = dmoCollections.newManager(null);
         return manager.getRecursiveList(namespace);
     }
 
     @Override
-    public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException
-    {
+    public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException {
         Set<DmoStoreId> filteredIds = dmoCollections.filterOAIEndNodes(memberIds);
         return filteredIds;
     }
@@ -222,24 +194,19 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
     // }
     // }
 
-    private String getOwnerId(EasyUser sessionUser)
-    {
+    private String getOwnerId(EasyUser sessionUser) {
         String ownerId = sessionUser.isAnonymous() ? null : sessionUser.getId();
         return ownerId;
     }
 
-    private void assertECollection(DmoStoreId dmoStoreId) throws CollectionsException
-    {
-        if (!ECollection.isECollection(dmoStoreId))
-        {
+    private void assertECollection(DmoStoreId dmoStoreId) throws CollectionsException {
+        if (!ECollection.isECollection(dmoStoreId)) {
             throw new CollectionsException("Not an ECollection: " + dmoStoreId);
         }
     }
 
-    private void assertECollection(DataModelObject dmo) throws CollectionsException
-    {
-        if (!ECollection.isECollection(dmo))
-        {
+    private void assertECollection(DataModelObject dmo) throws CollectionsException {
+        if (!ECollection.isECollection(dmo)) {
             throw new CollectionsException("Not an ECollection: " + dmo);
         }
     }

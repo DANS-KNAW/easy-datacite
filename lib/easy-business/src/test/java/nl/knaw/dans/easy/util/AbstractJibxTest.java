@@ -14,8 +14,7 @@ import org.jibx.runtime.JiBXException;
 
 // ecco: CHECKSTYLE: OFF
 
-public abstract class AbstractJibxTest<T> extends TestHelper
-{
+public abstract class AbstractJibxTest<T> extends TestHelper {
 
     private static final int INDENT = 4;
     private static final String TEMP = "src/test/resources/output/jibx/";
@@ -23,13 +22,11 @@ public abstract class AbstractJibxTest<T> extends TestHelper
     private Class<T> type;
     private IBindingFactory bindingFactory;
 
-    public AbstractJibxTest(Class<T> type)
-    {
+    public AbstractJibxTest(Class<T> type) {
         this.type = type;
     }
 
-    protected String marshal(T object) throws IOException, JiBXException
-    {
+    protected String marshal(T object) throws IOException, JiBXException {
         return marshal(object, "");
     }
 
@@ -46,43 +43,34 @@ public abstract class AbstractJibxTest<T> extends TestHelper
      * @throws JiBXException
      *         if you work too hard
      */
-    protected String marshal(T object, String postfix) throws IOException, JiBXException
-    {
+    protected String marshal(T object, String postfix) throws IOException, JiBXException {
         String fileName = TEMP + object.getClass().getSimpleName() + postfix + ".xml";
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream(fileName);
             marshal(object, fos);
         }
-        finally
-        {
-            if (fos != null)
-            {
+        finally {
+            if (fos != null) {
                 fos.close();
             }
         }
         return fileName;
     }
 
-    protected void marshal(T object, OutputStream outStream) throws JiBXException
-    {
+    protected void marshal(T object, OutputStream outStream) throws JiBXException {
         getMarshallingContext().marshalDocument(object, null, true, outStream);
     }
 
-    protected T unmarshal(String filename) throws IOException, JiBXException
-    {
+    protected T unmarshal(String filename) throws IOException, JiBXException {
         InputStream fis = null;
         T object = null;
-        try
-        {
+        try {
             fis = new FileInputStream(filename);
             object = unmarshal(fis);
         }
-        finally
-        {
-            if (fis != null)
-            {
+        finally {
+            if (fis != null) {
                 fis.close();
             }
         }
@@ -90,35 +78,30 @@ public abstract class AbstractJibxTest<T> extends TestHelper
     }
 
     @SuppressWarnings("unchecked")
-    protected T unmarshal(InputStream inStream) throws JiBXException
-    {
+    protected T unmarshal(InputStream inStream) throws JiBXException {
         T object = (T) getUnmarshallingContext().unmarshalDocument(inStream, null);
         return object;
     }
 
-    private IMarshallingContext getMarshallingContext() throws JiBXException
-    {
+    private IMarshallingContext getMarshallingContext() throws JiBXException {
         IMarshallingContext context = getBindingFactory().createMarshallingContext();
         context.setIndent(INDENT);
         return context;
     }
 
-    private IUnmarshallingContext getUnmarshallingContext() throws JiBXException
-    {
+    private IUnmarshallingContext getUnmarshallingContext() throws JiBXException {
         return getBindingFactory().createUnmarshallingContext();
     }
 
     /**
-     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory
-     * instances are guaranteed to be threadsafe and reusable.'
+     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory instances are guaranteed to be threadsafe and
+     * reusable.'
      * 
      * @return
      * @throws JiBXException
      */
-    private IBindingFactory getBindingFactory() throws JiBXException
-    {
-        if (bindingFactory == null)
-        {
+    private IBindingFactory getBindingFactory() throws JiBXException {
+        if (bindingFactory == null) {
             bindingFactory = BindingDirectory.getFactory(type);
         }
         return bindingFactory;

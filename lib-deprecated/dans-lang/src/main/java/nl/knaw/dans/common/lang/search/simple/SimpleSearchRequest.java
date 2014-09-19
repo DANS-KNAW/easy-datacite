@@ -13,8 +13,7 @@ import nl.knaw.dans.common.lang.search.SearchQuery;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SortField;
 
-public class SimpleSearchRequest implements SearchRequest
-{
+public class SimpleSearchRequest implements SearchRequest {
     private static final long serialVersionUID = -3624908538629551131L;
 
     @SuppressWarnings("unchecked")
@@ -39,178 +38,145 @@ public class SimpleSearchRequest implements SearchRequest
 
     private Set<String> facetFieldList;
 
-    public SimpleSearchRequest()
-    {
-    }
+    public SimpleSearchRequest() {}
 
-    public SimpleSearchRequest(SearchQuery query)
-    {
+    public SimpleSearchRequest(SearchQuery query) {
         this.query = query;
     }
 
-    public SimpleSearchRequest(SearchQuery query, Index index)
-    {
+    public SimpleSearchRequest(SearchQuery query, Index index) {
         this.index = index;
         this.query = query;
     }
 
-    public SimpleSearchRequest(String queryString)
-    {
+    public SimpleSearchRequest(String queryString) {
         this.query = new SimpleSearchQuery(queryString);
     }
 
-    public FieldSet<?> getFieldQueries()
-    {
+    public FieldSet<?> getFieldQueries() {
         return fieldQueries;
     }
 
-    public void setFieldQueries(FieldSet<?> fieldQueries)
-    {
+    public void setFieldQueries(FieldSet<?> fieldQueries) {
         this.fieldQueries = fieldQueries;
     }
 
-    public void clearFieldQueries()
-    {
+    public void clearFieldQueries() {
         fieldQueries.clear();
     }
 
     @SuppressWarnings("unchecked")
-    public void addFieldQuery(Field<?> query)
-    {
+    public void addFieldQuery(Field<?> query) {
         fieldQueries.add(query);
     }
 
-    public FieldSet<?> getFilterQueries()
-    {
+    public FieldSet<?> getFilterQueries() {
         return filterQueries;
     }
 
     @SuppressWarnings("unchecked")
-    public void addFilterQuery(Field<?> query)
-    {
+    public void addFilterQuery(Field<?> query) {
         if (filterQueries == null)
             filterQueries = new SimpleFieldSet();
         filterQueries.add(query);
     }
 
-    public void setFilterQueries(FieldSet<?> filterQueries)
-    {
+    public void setFilterQueries(FieldSet<?> filterQueries) {
         this.filterQueries = filterQueries;
     }
 
-    public void clearFilterQueries()
-    {
+    public void clearFilterQueries() {
         if (filterQueries != null)
             filterQueries.clear();
     }
 
-    public Index getIndex()
-    {
+    public Index getIndex() {
         return index;
     }
 
-    public SearchQuery getQuery()
-    {
+    public SearchQuery getQuery() {
         return query != null ? query : EmptySearchQuery.getInstance();
     }
 
-    public void setQuery(SearchQuery query)
-    {
+    public void setQuery(SearchQuery query) {
         this.query = query;
     }
 
-    public int getLimit()
-    {
+    public int getLimit() {
         return limit;
     }
 
-    public int getOffset()
-    {
+    public int getOffset() {
         return offset;
     }
 
-    public void setLimit(int limit)
-    {
+    public void setLimit(int limit) {
         this.limit = limit;
     }
 
-    public void setOffset(int offset)
-    {
+    public void setOffset(int offset) {
         this.offset = offset;
     }
 
-    public void addSortField(SortField orderField)
-    {
+    public void addSortField(SortField orderField) {
         if (sortFields == null)
             sortFields = new ArrayList<SortField>();
         sortFields.add(orderField);
     }
 
-    public void clearSortFields()
-    {
+    public void clearSortFields() {
         if (sortFields != null)
             sortFields.clear();
     }
 
     @SuppressWarnings("unchecked")
-    public List<SortField> getSortFields()
-    {
+    public List<SortField> getSortFields() {
         return (List<SortField>) (sortFields != null ? sortFields : Collections.emptyList());
     }
 
-    public void setSortFields(List<SortField> orderFields)
-    {
+    public void setSortFields(List<SortField> orderFields) {
         this.sortFields = orderFields;
     }
 
-    public void addFilterBean(Class<?> filterBean)
-    {
+    public void addFilterBean(Class<?> filterBean) {
         if (filterBeans == null)
             filterBeans = new HashSet<Class<?>>();
 
         filterBeans.add(filterBean);
     }
 
-    public void clearFilterBeans()
-    {
+    public void clearFilterBeans() {
         if (filterBeans != null)
             filterBeans.clear();
     }
 
     @SuppressWarnings("unchecked")
-    public Set<Class<?>> getFilterBeans()
-    {
+    public Set<Class<?>> getFilterBeans() {
         return filterBeans != null ? filterBeans : Collections.EMPTY_SET;
     }
 
-    public void setFilterBeans(Set<Class<?>> filterBeans)
-    {
+    public void setFilterBeans(Set<Class<?>> filterBeans) {
         this.filterBeans = filterBeans;
     }
 
-    public void setIndex(Index index)
-    {
+    public void setIndex(Index index) {
         this.index = index;
     }
 
-    public boolean isHighlightingEnabled()
-    {
+    public boolean isHighlightingEnabled() {
         return highlightEnabled;
     }
 
-    public void setHighlightingEnabled(boolean enabled)
-    {
+    public void setHighlightingEnabled(boolean enabled) {
         highlightEnabled = enabled;
     }
 
     @SuppressWarnings("unchecked")
-    public Set<String> getFacetFields()
-    {
+    public Set<String> getFacetFields() {
         return facetFieldList != null ? facetFieldList : Collections.EMPTY_SET;
     }
 
-    public void setFacetFields(Set<String> facetField)
-    {
+    public void setFacetFields(Set<String> facetField) {
         this.facetFieldList = facetField;
     }
 

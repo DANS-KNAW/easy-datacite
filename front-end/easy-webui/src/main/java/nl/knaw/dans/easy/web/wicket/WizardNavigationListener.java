@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import nl.knaw.dans.easy.domain.form.FormPage;
 
-public interface WizardNavigationListener extends Serializable
-{
+public interface WizardNavigationListener extends Serializable {
 
     void onPageClick(FormPage requestedFormPage);
 

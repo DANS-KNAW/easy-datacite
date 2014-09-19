@@ -9,8 +9,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileBasedAuditTrail implements AuditTrail
-{
+public class FileBasedAuditTrail implements AuditTrail {
 
     public static final long MAX_LENGTH = 5000000;
 
@@ -22,70 +21,54 @@ public class FileBasedAuditTrail implements AuditTrail
     private RandomAccessFile raf;
     private String currentFileName;
 
-    public FileBasedAuditTrail(String location) throws IOException
-    {
+    public FileBasedAuditTrail(String location) throws IOException {
         File auditFile = new File(location);
         auditFilename = auditFile.getName();
         auditDirectory = auditFile.getParentFile();
-        if (!auditDirectory.exists() && !auditDirectory.mkdirs())
-        {
+        if (!auditDirectory.exists() && !auditDirectory.mkdirs()) {
             throw new IOException("Could not create audit directory: " + auditDirectory.getAbsolutePath());
         }
     }
 
     @Override
-    public void store(AuditRecord<?> auditRecord)
-    {
-        try
-        {
+    public void store(AuditRecord<?> auditRecord) {
+        try {
             getRaf().writeBytes(auditRecord.getRecord() + "\n");
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Could not write audit record: ", e);
         }
 
     }
 
-    private RandomAccessFile getRaf() throws IOException
-    {
-        if (raf == null)
-        {
+    private RandomAccessFile getRaf() throws IOException {
+        if (raf == null) {
             createRaf();
-        }
-        else if (raf.length() > MAX_LENGTH)
-        {
+        } else if (raf.length() > MAX_LENGTH) {
             close();
             createRaf();
         }
         return raf;
     }
 
-    private void createRaf() throws FileNotFoundException
-    {
+    private void createRaf() throws FileNotFoundException {
         currentFileName = auditFilename + "_" + new DateTime().toString("yyyy-MM-dd_HH.mm.ss") + ".csv";
         raf = new RandomAccessFile(new File(auditDirectory, currentFileName), "rw");
         logger.info("Created audit file " + currentFileName);
     }
 
     @Override
-    public void close()
-    {
-        if (raf != null)
-        {
-            try
-            {
+    public void close() {
+        if (raf != null) {
+            try {
                 raf.close();
                 raf = null;
                 logger.info("Closed audit file " + currentFileName);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 logger.error("Could not close audit file: ", e);
             }
-        }
-        else
-        {
+        } else {
             logger.info("Nothing to close: no audit file was open.");
         }
 

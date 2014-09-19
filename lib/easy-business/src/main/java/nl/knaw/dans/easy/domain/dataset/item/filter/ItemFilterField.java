@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.domain.dataset.item.filter;
 
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 
-public enum ItemFilterField
-{
+public enum ItemFilterField {
 
     VISIBLETO(new Class[] {FileItemVO.class}, VisibleToFieldFilter.class, "visibleTo", "visibleToList"),
 
@@ -28,8 +27,7 @@ public enum ItemFilterField
     public String folderSetPropertyName;
 
     @SuppressWarnings("unchecked")
-    ItemFilterField(Class[] voTypes, Class<? extends ItemFieldFilter> fieldFilter, String propertyName, String folderSetPropertyName)
-    {
+    ItemFilterField(Class[] voTypes, Class<? extends ItemFieldFilter> fieldFilter, String propertyName, String folderSetPropertyName) {
         this.voTypes = voTypes;
         this.fieldFilter = fieldFilter;
         this.filePropertyName = propertyName;

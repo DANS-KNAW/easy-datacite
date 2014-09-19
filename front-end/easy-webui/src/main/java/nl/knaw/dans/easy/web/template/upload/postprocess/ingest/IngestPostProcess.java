@@ -27,8 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class IngestPostProcess implements IUploadPostProcess
-{
+public class IngestPostProcess implements IUploadPostProcess {
     private static Logger logger = LoggerFactory.getLogger(IngestPostProcess.class);
 
     private boolean canceled = false;
@@ -39,21 +38,17 @@ public class IngestPostProcess implements IUploadPostProcess
 
     private String parentSid = "";
 
-    public void cancel() throws UploadPostProcessException
-    {
+    public void cancel() throws UploadPostProcessException {
         canceled = true;
     }
 
-    private String dump(Object[] files)
-    {
+    private String dump(Object[] files) {
         String s = Arrays.deepToString(files);
         return s + Arrays.toString(s.toCharArray()) + Arrays.toString(s.getBytes());
     }
 
-    public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
-    {
-        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
-        {
+    public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException {
+        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0) {
             logger.debug("\nfiles:  " + dump(destPath.listFiles()));
             logger.debug("\nfilter: " + dump(fileList.toArray()));
             throw new UploadPostProcessException("Noting to ingest. The following files are allways skipped " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES));
@@ -62,38 +57,32 @@ public class IngestPostProcess implements IUploadPostProcess
         if ("".equals(parentSid) || parentSid == null)
             parentSid = clientParams.get("parentSid");
         final double totalSize = fileList.size();
-        try
-        {
+        try {
             DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);
-            Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentDmoStoreId, destPath, fileList, new WorkReporter()
-            {
+            Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentDmoStoreId, destPath, fileList, new WorkReporter() {
                 private double actionCount;
 
                 @Override
-                public boolean onIngest(DataModelObject dmo)
-                {
+                public boolean onIngest(DataModelObject dmo) {
                     super.onIngest(dmo);
                     updateStatus(dmo.getLabel());
                     return canceled;
                 }
 
                 @Override
-                public boolean onUpdate(DataModelObject dmo)
-                {
+                public boolean onUpdate(DataModelObject dmo) {
                     super.onUpdate(dmo);
                     updateStatus(dmo.getLabel());
                     return canceled;
                 }
 
-                public boolean onWorkStart()
-                {
+                public boolean onWorkStart() {
                     super.onWorkStart();
                     setStatus(0, "preparing ingest...");
                     return canceled;
                 }
 
-                private void updateStatus(String name)
-                {
+                private void updateStatus(String name) {
                     String nameToDisplay = StringUtils.abbreviate(name, 20);
                     actionCount++;
                     double percentage = actionCount / totalSize;
@@ -102,20 +91,17 @@ public class IngestPostProcess implements IUploadPostProcess
             });
 
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new UploadPostProcessException(e);
         }
-        finally
-        {
+        finally {
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(dataset), new UploadFileStatistics(fileList));
         }
         return fileList;
     }
 
-    public void setStatus(int percent, String filename)
-    {
+    public void setStatus(int percent, String filename) {
         if (percent < 0)
             percent = 0;
         if (percent > 100)
@@ -124,33 +110,27 @@ public class IngestPostProcess implements IUploadPostProcess
         status.setPercentComplete(percent);
     }
 
-    public UploadStatus getStatus()
-    {
+    public UploadStatus getStatus() {
         return status;
     }
 
-    public boolean needsProcessing(List<File> files)
-    {
+    public boolean needsProcessing(List<File> files) {
         return true;
     }
 
-    public void setModel(DatasetModel datasetModel)
-    {
+    public void setModel(DatasetModel datasetModel) {
         this.datasetModel = datasetModel;
     }
 
-    private Dataset getDataset() throws UploadPostProcessException
-    {
+    private Dataset getDataset() throws UploadPostProcessException {
         return datasetModel.getObject();
     }
 
-    public String getParentSid()
-    {
+    public String getParentSid() {
         return parentSid;
     }
 
-    public void setParentSid(String parentSid)
-    {
+    public void setParentSid(String parentSid) {
         this.parentSid = parentSid;
     }
 

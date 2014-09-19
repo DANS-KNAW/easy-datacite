@@ -20,59 +20,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
-{
+public class FederativeAuthenticationResultPage extends AbstractEasyNavPage {
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
 
     @SpringBean(name = "federativeUserService")
     private FederativeUserService federativeUserService;
 
-    public String getFederativeUserId()
-    {
+    public String getFederativeUserId() {
         return federativeUserId;
     }
 
     private FederationUser fedUser;
 
-    public FederativeAuthenticationResultPage()
-    {
+    public FederativeAuthenticationResultPage() {
         super();
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         setStatelessHint(true);
-        if (((AbstractEasyNavPage) getPage()).isAuthenticated())
-        {
+        if (((AbstractEasyNavPage) getPage()).isAuthenticated()) {
             setResponsePage(HomePage.class);
             return;
         }
         HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
-        try
-        {
+        try {
             fedUser = new FederationUserFactory().create(request);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             logger.error(e.getMessage());
             setInfoResponePage(e);
             return;
         }
         EasyUser easyUser;
-        try
-        {
+        try {
             easyUser = federativeUserService.getUserById(getSessionUser(), fedUser.getUserId());
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             logger.info("There is no mapping for the given federative user id: {}", fedUser.getUserId());
             setResponsePage(new FederationToEasyAccountLinkingPage(fedUser));
             return;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not get easy user with the given federative user id: {}", fedUser.getUserId(), e);
             setInfoResponePage(e);
             return;
@@ -80,17 +70,14 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         Authentication authentication = new Authentication();
         authentication.setState(Authentication.State.Authenticated);
         authentication.setUser(easyUser);
-        if (easyUser.isActive())
-        {
+        if (easyUser.isActive()) {
             getEasySession().setLoggedIn(authentication);
             // TODO why no statistics for a normal login?
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
             logger.info("login via the federation was succesfull");
             throw new RestartResponseAtInterceptPageException(HomePage.class);
-        }
-        else
-        {
+        } else {
             if (!easyUser.isBlocked())
                 warningMessage("state.NotBlocked");
             else
@@ -99,8 +86,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         }
     }
 
-    private void setInfoResponePage(Exception e)
-    {
+    private void setInfoResponePage(Exception e) {
         warningMessage("federative.error_during_federation_login");
         logger.debug(e.getMessage(), e);
         setResponsePage(new InfoPage("Error during federation login"));

@@ -5,28 +5,23 @@ package nl.knaw.dans.i.dmo.collections.exceptions;
  * 
  * @author henkb
  */
-public class SecurityViolationException extends CollectionsException
-{
+public class SecurityViolationException extends CollectionsException {
 
     private static final long serialVersionUID = -6641268251177810356L;
 
-    public SecurityViolationException()
-    {
+    public SecurityViolationException() {
 
     }
 
-    public SecurityViolationException(String msg)
-    {
+    public SecurityViolationException(String msg) {
         super(msg);
     }
 
-    public SecurityViolationException(Throwable e)
-    {
+    public SecurityViolationException(Throwable e) {
         super(e);
     }
 
-    public SecurityViolationException(String msg, Throwable e)
-    {
+    public SecurityViolationException(String msg, Throwable e) {
         super(msg, e);
     }
 

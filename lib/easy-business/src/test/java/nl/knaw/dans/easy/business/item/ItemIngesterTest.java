@@ -47,8 +47,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ItemIngester.class, Data.class})
-public class ItemIngesterTest
-{
+public class ItemIngesterTest {
     private static final String ACCENT_XML = // [m, e, t, -, a, c, c, é, n, t, ., x, m, l]
     new String(new byte[] {109, 101, 116, 45, 97, 99, 99, -61, -87, 110, 116, 46, 120, 109, 108});
     private static final String DIACRITIC_ACCENT_XML = // [m, e, t, -, a, c, c, e, ́, n, t, ., x, m, l]
@@ -65,8 +64,7 @@ public class ItemIngesterTest
     private FileItem fileItemMock;
 
     @BeforeClass
-    public static void createFolder() throws Exception
-    {
+    public static void createFolder() throws Exception {
         GREEK_FOLDER.mkdirs();
         boolean append = true;
         FileUtils.write(new File(GREEK_FOLDER_NAME + "/" + ACCENT_XML), "some random content", append);
@@ -77,15 +75,13 @@ public class ItemIngesterTest
     }
 
     @AfterClass
-    public static void destroyFolder() throws Exception
-    {
+    public static void destroyFolder() throws Exception {
         if (GREEK_FOLDER.exists())
             FileUtils.deleteDirectory(GREEK_FOLDER);
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         PowerMock.resetAll();
         datasetMock = PowerMock.createMock(Dataset.class);
         userMock = PowerMock.createMock(EasyUser.class);
@@ -103,31 +99,26 @@ public class ItemIngesterTest
         itemService.setMustProcessAudioVideoInstructions(false);
         new Services().setItemService(itemService);
 
-        AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>()
-        {
+        AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>() {
             @Override
-            public FileItem newDmo()
-            {
+            public FileItem newDmo() {
                 return fileItemMock;
             }
 
             @Override
-            public DmoNamespace getNamespace()
-            {
+            public DmoNamespace getNamespace() {
                 return null;
             }
 
             @Override
-            public FileItem createDmo(String storeId)
-            {
+            public FileItem createDmo(String storeId) {
                 return null;
             }
         });
     }
 
     @Test
-    public void creationOfIngesterForDepositorDoesNotCrash()
-    {
+    public void creationOfIngesterForDepositorDoesNotCrash() {
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
@@ -136,36 +127,30 @@ public class ItemIngesterTest
         new ItemIngester(datasetMock, userMock, null);
     }
 
-    private void normalUserLoggedIn()
-    {
+    private void normalUserLoggedIn() {
         expect(userMock.isAnonymous()).andReturn(false).anyTimes();
         expect(userMock.getId()).andReturn("normal").anyTimes();
     }
 
-    private void creatorRoleIsDepositor()
-    {
+    private void creatorRoleIsDepositor() {
         expectCreatorRole(CreatorRole.DEPOSITOR);
     }
 
-    private void datasetHasStoreId(String id)
-    {
+    private void datasetHasStoreId(String id) {
         expect(datasetMock.getStoreId()).andReturn(id).anyTimes();
         expect(datasetMock.getDmoStoreId()).andReturn(new DmoStoreId(id)).anyTimes();
     }
 
-    private void datasetHasAccessCategory(AccessCategory category)
-    {
+    private void datasetHasAccessCategory(AccessCategory category) {
         expect(datasetMock.getAccessCategory()).andReturn(category).anyTimes();
     }
 
-    private void expectCreatorRole(CreatorRole role)
-    {
+    private void expectCreatorRole(CreatorRole role) {
         expect(userMock.getCreatorRole()).andReturn(role).anyTimes();
     }
 
     @Test
-    public void issue700a() throws Exception
-    {
+    public void issue700a() throws Exception {
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
@@ -200,8 +185,7 @@ public class ItemIngesterTest
 
     @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
     @Test
-    public void issue700b()
-    {
+    public void issue700b() {
         File[] files1 = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
         File[] files2 = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
         assertThat(files1.length, not(equalTo(files2.length)));
@@ -209,22 +193,19 @@ public class ItemIngesterTest
 
     @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
     @Test
-    public void issue700c()
-    {
+    public void issue700c() {
         File[] files = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
         assertThat(files.length, not(equalTo(2)));
     }
 
     @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
     @Test
-    public void issue700d()
-    {
+    public void issue700d() {
         File[] files = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
         assertThat(files.length, equalTo(2));
     }
 
-    private ListFilter createFilter(String fileNameWithAccent)
-    {
+    private ListFilter createFilter(String fileNameWithAccent) {
         List<File> fileList = new ArrayList<File>();
         fileList.add(new File(GREEK_FOLDER_NAME + "/" + fileNameWithAccent));
         fileList.add(new File(GREEK_FOLDER_NAME + "/πῶϋ.xml"));
@@ -232,8 +213,7 @@ public class ItemIngesterTest
     }
 
     @Test
-    public void noItemsUnderParentContainerAndNoFilesInRootFolder() throws Exception
-    {
+    public void noItemsUnderParentContainerAndNoFilesInRootFolder() throws Exception {
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
@@ -253,36 +233,30 @@ public class ItemIngesterTest
         PowerMock.verifyAll();
     }
 
-    private void parentContainerHasStoreId()
-    {
+    private void parentContainerHasStoreId() {
         expect(parentContainerMock.getDmoStoreId()).andReturn(new DmoStoreId("easy-folder:1")).anyTimes();
         expect(parentContainerMock.getStoreId()).andReturn("easy-folder:1").anyTimes();
     }
 
-    private void rootFileIsCalled(String name)
-    {
+    private void rootFileIsCalled(String name) {
         expect(rootFileMock.getName()).andReturn(name).anyTimes();
     }
 
-    private void rootFileIsDirectory()
-    {
+    private void rootFileIsDirectory() {
         expect(rootFileMock.isDirectory()).andReturn(true).anyTimes();
     }
 
-    private void noFilesAndFoldersUnderParentContainer() throws Exception
-    {
+    private void noFilesAndFoldersUnderParentContainer() throws Exception {
         final List<ItemVO> empty = new LinkedList<ItemVO>();
         DmoStoreId folderId = new DmoStoreId("easy-folder:1");
         expect(fileStoreAccessMock.getFilesAndFolders(folderId, -1, -1, null, null)).andReturn(empty);
     }
 
-    private void noFilesUnderRootFolder() throws Exception
-    {
+    private void noFilesUnderRootFolder() throws Exception {
         expect(rootFileMock.listFiles(isA(FileFilter.class))).andReturn(new File[] {});
     }
 
-    private void uowMethodsCalled() throws Exception
-    {
+    private void uowMethodsCalled() throws Exception {
         unitOfWorkMock.attach(isA(DataModelObject.class));
         EasyMock.expectLastCall().anyTimes();
         unitOfWorkMock.commit();
@@ -292,8 +266,7 @@ public class ItemIngesterTest
     }
 
     @Test
-    public void noItemsUnderParentContainerAndOneFileInRootFolder() throws Exception
-    {
+    public void noItemsUnderParentContainerAndOneFileInRootFolder() throws Exception {
         // Set up preconditions
 
         normalUserLoggedIn();
@@ -326,20 +299,17 @@ public class ItemIngesterTest
 
     }
 
-    private void oneFileUnderRootFolder()
-    {
+    private void oneFileUnderRootFolder() {
         fileHasName("myOnlyFile");
         fileIsDirectory(false);
         expect(rootFileMock.listFiles(isA(FileFilter.class))).andReturn(new File[] {fileMock});
     }
 
-    private void fileHasName(String name)
-    {
+    private void fileHasName(String name) {
         expect(fileMock.getName()).andReturn(name).anyTimes();
     }
 
-    private void fileIsDirectory(boolean isDirectory)
-    {
+    private void fileIsDirectory(boolean isDirectory) {
         expect(fileMock.isDirectory()).andReturn(isDirectory).anyTimes();
     }
 }

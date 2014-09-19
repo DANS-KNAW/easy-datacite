@@ -8,8 +8,7 @@ import nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember;
 
-public class DummyDmoCollection extends AbstractDmoCollection implements DmoCollection
-{
+public class DummyDmoCollection extends AbstractDmoCollection implements DmoCollection {
     public static final DmoNamespace NAMESPACE = new DmoNamespace("dummy-collection");
 
     private static final long serialVersionUID = -3829949809753365029L;
@@ -20,13 +19,11 @@ public class DummyDmoCollection extends AbstractDmoCollection implements DmoColl
 
     private static final DummyDmoCollection INSTANCE = new DummyDmoCollection();
 
-    public static DummyDmoCollection getInstance()
-    {
+    public static DummyDmoCollection getInstance() {
         return INSTANCE;
     }
 
-    public DummyDmoCollection()
-    {
+    public DummyDmoCollection() {
         super(DATASET_ITEM_COLLECTION_SID);
         classes = new HashSet<Class<? extends DmoCollectionMember>>();
         classes.add(DummyDmoContainer.class);
@@ -34,24 +31,20 @@ public class DummyDmoCollection extends AbstractDmoCollection implements DmoColl
         classes.add(DummyDmoRecursiveItem.class);
     }
 
-    public Set<Class<? extends DmoCollectionMember>> getMemberClasses()
-    {
+    public Set<Class<? extends DmoCollectionMember>> getMemberClasses() {
         return classes;
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
     @Override
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return DATASET_ITEM_COLLECTION_SID;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return false;
     }
 

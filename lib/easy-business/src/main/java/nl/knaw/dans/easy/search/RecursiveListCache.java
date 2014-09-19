@@ -15,8 +15,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.AbstractListCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecursiveListCache extends AbstractListCache<RecursiveList>
-{
+public class RecursiveListCache extends AbstractListCache<RecursiveList> {
 
     public static final String BASE_FOLDER = "easy-business/search/recursivelist/";
 
@@ -30,53 +29,43 @@ public class RecursiveListCache extends AbstractListCache<RecursiveList>
 
     private static RecursiveListCache INSTANCE = new RecursiveListCache();
 
-    private RecursiveListCache()
-    {
+    private RecursiveListCache() {
         super();
     }
 
-    public static RecursiveListCache getInstance()
-    {
+    public static RecursiveListCache getInstance() {
         return INSTANCE;
     }
 
     @Override
-    protected String getBaseFolder()
-    {
+    protected String getBaseFolder() {
         return BASE_FOLDER;
     }
 
-    protected RecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException
-    {
+    protected RecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException {
         RecursiveList list = null;
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = getInputStream(key, locale);
             list = (JiBXRecursiveList) JiBXObjectFactory.unmarshal(JiBXRecursiveList.class, inStream);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             String msg = "Unable to get 'RecursiveList:" + key + "': ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        catch (ResourceNotFoundException e)
-        {
+        catch (ResourceNotFoundException e) {
             String msg = "Resource for 'RecursiveList:" + key + "' not found: ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             String msg = "Unable to unmarshal 'RecursiveList:" + key + "': ";
             logger.error(msg, e);
             throw new CacheException(msg, e);
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }

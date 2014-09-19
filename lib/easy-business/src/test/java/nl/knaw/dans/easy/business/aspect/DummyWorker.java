@@ -4,36 +4,29 @@ import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 
-public class DummyWorker extends AbstractWorker
-{
+public class DummyWorker extends AbstractWorker {
 
-    public DummyWorker(UnitOfWork uow)
-    {
+    public DummyWorker(UnitOfWork uow) {
         super(uow);
     }
 
-    protected void workFoo() throws ServiceException
-    {
+    protected void workFoo() throws ServiceException {
 
     }
 
-    protected void workAndThrowExceoption() throws Exception
-    {
+    protected void workAndThrowExceoption() throws Exception {
         throw new Exception();
     }
 
-    protected void workWithoutExceptions()
-    {
+    protected void workWithoutExceptions() {
 
     }
 
-    protected void workAndThrowRuntimeException()
-    {
+    protected void workAndThrowRuntimeException() {
         throw new RuntimeException();
     }
 
-    protected void workNotBecauseCanceled()
-    {
+    protected void workNotBecauseCanceled() {
         throw new RuntimeException("I'm not working because I'm supposed to be canceled.");
     }
 

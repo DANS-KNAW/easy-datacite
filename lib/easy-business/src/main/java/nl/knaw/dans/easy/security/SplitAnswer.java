@@ -7,15 +7,13 @@ import java.util.List;
  * 
  * @author ecco Aug 1, 2009
  */
-public class SplitAnswer implements SecurityOfficer
-{
+public class SplitAnswer implements SecurityOfficer {
 
     private final SecurityOfficer visibilityOfficer;
     private final SecurityOfficer enablingOfficer;
 
     /**
-     * Constructs a new SplitAnswer with the given <code>visibilityOfficer</code> and
-     * <code>enablingOfficer</code> as respondents.
+     * Constructs a new SplitAnswer with the given <code>visibilityOfficer</code> and <code>enablingOfficer</code> as respondents.
      * <p/>
      * This SecurityOfficer evaluates
      * 
@@ -32,14 +30,12 @@ public class SplitAnswer implements SecurityOfficer
      * @param enablingOfficer
      *        e
      */
-    public SplitAnswer(SecurityOfficer visibilityOfficer, SecurityOfficer enablingOfficer)
-    {
+    public SplitAnswer(SecurityOfficer visibilityOfficer, SecurityOfficer enablingOfficer) {
         this.visibilityOfficer = visibilityOfficer;
         this.enablingOfficer = enablingOfficer;
     }
 
-    public String getProposition()
-    {
+    public String getProposition() {
         StringBuilder sb = new StringBuilder("Split answer:");
         sb.append(" ComponentVisisble <== ");
         sb.append(visibilityOfficer.getProposition());
@@ -48,31 +44,26 @@ public class SplitAnswer implements SecurityOfficer
         return sb.toString();
     }
 
-    public boolean isComponentVisible(ContextParameters ctxParameters)
-    {
+    public boolean isComponentVisible(ContextParameters ctxParameters) {
         return visibilityOfficer.isComponentVisible(ctxParameters);
     }
 
-    public boolean isEnableAllowed(ContextParameters ctxParameters)
-    {
+    public boolean isEnableAllowed(ContextParameters ctxParameters) {
         return enablingOfficer.isEnableAllowed(ctxParameters);
     }
 
-    public String explainEnableAllowed(ContextParameters ctxParameters)
-    {
+    public String explainEnableAllowed(ContextParameters ctxParameters) {
         return new StringBuilder().append(enablingOfficer.explainEnableAllowed(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = ")
                 .append(ctxParameters.charFor(enablingOfficer)).append(" --> ").append(isEnableAllowed(ctxParameters)).append("\n").toString();
     }
 
-    public String explainComponentVisible(ContextParameters ctxParameters)
-    {
+    public String explainComponentVisible(ContextParameters ctxParameters) {
         return new StringBuilder().append(visibilityOfficer.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this))
                 .append(" = ").append(ctxParameters.charFor(visibilityOfficer)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n")
                 .toString();
     }
 
-    public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-    {
+    public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
         return enablingOfficer.getHints(ctxParameters, hints);
     }
 

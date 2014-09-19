@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.xml.AbstractXMLBeanValidator;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 
-public class AdministrativeMetadataValidator extends AbstractXMLBeanValidator<AdministrativeMetadata>
-{
+public class AdministrativeMetadataValidator extends AbstractXMLBeanValidator<AdministrativeMetadata> {
 
     /**
      * The version token for version {@value} .
@@ -22,19 +21,16 @@ public class AdministrativeMetadataValidator extends AbstractXMLBeanValidator<Ad
     private static final AdministrativeMetadataValidator instance = new AdministrativeMetadataValidator();
 
     // singleton
-    private AdministrativeMetadataValidator()
-    {
+    private AdministrativeMetadataValidator() {
 
     }
 
-    public static AdministrativeMetadataValidator instance()
-    {
+    public static AdministrativeMetadataValidator instance() {
         return instance;
     }
 
     @Override
-    public URL getSchemaURL(String version) throws SchemaCreationException
-    {
+    public URL getSchemaURL(String version) throws SchemaCreationException {
         final String name = SCHEMA_FOLDER + File.separator + version + File.separator + SCHEMA_FILENAME;
         final URL url = this.getClass().getResource(name);
         return url;

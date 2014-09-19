@@ -17,11 +17,9 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 
 import org.junit.Test;
 
-public class FileItemImplTest
-{
+public class FileItemImplTest {
     @Test
-    public void dirtyChecking()
-    {
+    public void dirtyChecking() {
         FileItemImpl fi = new FileItemImpl("dummy-file:1");
         assertTrue(fi.isDirty());
 
@@ -40,8 +38,7 @@ public class FileItemImplTest
     }
 
     @Test
-    public void setFile() throws ResourceNotFoundException, IOException
-    {
+    public void setFile() throws ResourceNotFoundException, IOException {
         FileItem fi = new FileItemImpl("dummy-file:1");
         File file = Tester.getFile("test-files/FileItemImpl/kubler.doc");
         fi.setFile(file);
@@ -52,8 +49,7 @@ public class FileItemImplTest
     }
 
     @Test
-    public void isAccessibleFor()
-    {
+    public void isAccessibleFor() {
         FileItem fi = new FileItemImpl("dummy-file:1");
         fi.setAccessibleTo(AccessibleTo.ANONYMOUS);
 

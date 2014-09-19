@@ -5,30 +5,25 @@ package nl.knaw.dans.pf.language.emd.types;
  * 
  * @author ecco
  */
-public class InvalidDateStringException extends EasyMetadataException
-{
+public class InvalidDateStringException extends EasyMetadataException {
 
     private static final long serialVersionUID = 5670941485794338819L;
 
     // ecco: CHECKSTYLE: OFF
 
-    public InvalidDateStringException()
-    {
+    public InvalidDateStringException() {
         super();
     }
 
-    public InvalidDateStringException(final String message)
-    {
+    public InvalidDateStringException(final String message) {
         super(message);
     }
 
-    public InvalidDateStringException(final Throwable cause)
-    {
+    public InvalidDateStringException(final Throwable cause) {
         super(cause);
     }
 
-    public InvalidDateStringException(final String message, final Throwable cause)
-    {
+    public InvalidDateStringException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

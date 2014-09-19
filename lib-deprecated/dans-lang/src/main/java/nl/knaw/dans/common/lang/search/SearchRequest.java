@@ -5,23 +5,20 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A search request object contains all information for the searchEngine.search* operation to be
- * performed properly.
+ * A search request object contains all information for the searchEngine.search* operation to be performed properly.
  * 
  * @author lobo
  */
-public interface SearchRequest extends Serializable
-{
+public interface SearchRequest extends Serializable {
     /**
-     * @return the index on which the search is to be performed or null if the search is to be performed
-     *         in single index mode.
+     * @return the index on which the search is to be performed or null if the search is to be performed in single index mode.
      * @see Index
      */
     Index getIndex();
 
     /**
-     * Set the index on which the search is to be performed. The default index is null, which means that
-     * the search engine is in single index mode (solr single core mode).
+     * Set the index on which the search is to be performed. The default index is null, which means that the search engine is in single index mode (solr single
+     * core mode).
      * 
      * @param index
      *        the index object.
@@ -68,8 +65,7 @@ public interface SearchRequest extends Serializable
     void clearFieldQueries();
 
     /**
-     * Field queries are searches for specific fields as opposed to the query parameter which searches
-     * for all fields.
+     * Field queries are searches for specific fields as opposed to the query parameter which searches for all fields.
      * 
      * @return all field queries
      */
@@ -98,11 +94,9 @@ public interface SearchRequest extends Serializable
     void clearFilterQueries();
 
     /**
-     * Filter queries are almost the same as field queries. They are just interpreted slightly different
-     * by the search engine. Field queries are used for searching values, like in an advanced search.
-     * While filter queries are only meant to make sure the search results include certain field values.
-     * Filter queries are more primitive: they do not return hit highlighting information and do not
-     * affect the hit relevance score.
+     * Filter queries are almost the same as field queries. They are just interpreted slightly different by the search engine. Field queries are used for
+     * searching values, like in an advanced search. While filter queries are only meant to make sure the search results include certain field values. Filter
+     * queries are more primitive: they do not return hit highlighting information and do not affect the hit relevance score.
      * 
      * @return the filter queries
      */
@@ -118,8 +112,8 @@ public interface SearchRequest extends Serializable
     void setSortFields(List<SortField> sortFields);
 
     /**
-     * A list of fields that need to be sorted by. This first sort field in the list is sorted on first,
-     * the second is a secondary sort field, etc, etc. the list of sort fields
+     * A list of fields that need to be sorted by. This first sort field in the list is sorted on first, the second is a secondary sort field, etc, etc. the
+     * list of sort fields
      * 
      * @return
      */
@@ -151,9 +145,8 @@ public interface SearchRequest extends Serializable
     void setFilterBeans(Set<Class<?>> filterBeans);
 
     /**
-     * A set of search bean classes to filter the search for. This means that if you add one or more
-     * search bean classes to this set the search operation will only return documents that can be
-     * converted to those search bean classes.
+     * A set of search bean classes to filter the search for. This means that if you add one or more search bean classes to this set the search operation will
+     * only return documents that can be converted to those search bean classes.
      * 
      * @return the filter set of search bean classes
      */
@@ -183,8 +176,7 @@ public interface SearchRequest extends Serializable
     int getOffset();
 
     /**
-     * Sets the offset of the paging mechanism. For paging use this in conjuction with the limit
-     * parameter.
+     * Sets the offset of the paging mechanism. For paging use this in conjuction with the limit parameter.
      * 
      * @param offset
      *        the offset starting from 0
@@ -193,8 +185,7 @@ public interface SearchRequest extends Serializable
     void setOffset(int offset);
 
     /**
-     * Sets the amount of hits to limit the search to. For paging use this in conjunction with the offset
-     * parameter.
+     * Sets the amount of hits to limit the search to. For paging use this in conjunction with the offset parameter.
      * 
      * @param limit
      * @see #setOffset(int)

@@ -6,12 +6,10 @@ import nl.knaw.dans.common.lang.search.simple.SimpleFieldSet;
 
 import org.junit.Test;
 
-public class SimpleFieldSetTest
-{
+public class SimpleFieldSetTest {
 
     @Test
-    public void testSet()
-    {
+    public void testSet() {
         SimpleFieldSet<String> t = new SimpleFieldSet<String>();
 
         assertEquals(0, t.size());

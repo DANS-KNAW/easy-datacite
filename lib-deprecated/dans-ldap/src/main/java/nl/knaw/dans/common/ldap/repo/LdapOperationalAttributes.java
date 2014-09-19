@@ -5,8 +5,7 @@ import nl.knaw.dans.common.lang.ldap.OperationalAttributes;
 
 import org.joda.time.DateTime;
 
-public class LdapOperationalAttributes implements OperationalAttributes
-{
+public class LdapOperationalAttributes implements OperationalAttributes {
 
     private static DateTimeTranslator TRANSLATOR = new DateTimeTranslator();
 
@@ -14,33 +13,27 @@ public class LdapOperationalAttributes implements OperationalAttributes
 
     private DateTime modifyTimestamp;
 
-    protected LdapOperationalAttributes()
-    {
+    protected LdapOperationalAttributes() {
 
     }
 
-    public DateTime getCreateTimestamp()
-    {
+    public DateTime getCreateTimestamp() {
         return createTimestamp;
     }
 
-    public DateTime getModifyTimestamp()
-    {
+    public DateTime getModifyTimestamp() {
         return modifyTimestamp;
     }
 
-    protected void setCreateTime(String creationTime)
-    {
+    protected void setCreateTime(String creationTime) {
         createTimestamp = parseDateTime(creationTime);
     }
 
-    protected void setModifyTime(String modifyTime)
-    {
+    protected void setModifyTime(String modifyTime) {
         modifyTimestamp = parseDateTime(modifyTime);
     }
 
-    protected static DateTime parseDateTime(String s)
-    {
+    protected static DateTime parseDateTime(String s) {
         return TRANSLATOR.fromLdap(s);
     }
 

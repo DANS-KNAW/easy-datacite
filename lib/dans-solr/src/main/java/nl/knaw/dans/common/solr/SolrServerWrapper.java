@@ -27,40 +27,32 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public class SolrServerWrapper
-{
+public class SolrServerWrapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolrServerWrapper.class);
 
     private SolrServer server;
 
-    public SolrServerWrapper(SolrServer server)
-    {
+    public SolrServerWrapper(SolrServer server) {
         this.server = server;
     }
 
-    public void index(Collection<IndexDocument> indexDocuments) throws SolrSearchEngineException
-    {
-        try
-        {
+    public void index(Collection<IndexDocument> indexDocuments) throws SolrSearchEngineException {
+        try {
             server.add(SolrDocumentConverter.convert(indexDocuments));
 
             LOGGER.info("Solr: Indexed " + indexDocuments.size() + " documents.");
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SolrSearchEngineException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public SimpleSearchResult search(SearchRequest request) throws SearchEngineException
-    {
-        try
-        {
+    public SimpleSearchResult search(SearchRequest request) throws SearchEngineException {
+        try {
             SolrQuery query = SolrQueryRequestConverter.convert(request);
             LOGGER.debug("Solr: searching with " + query.toString() + ".");
 
@@ -72,38 +64,30 @@ public class SolrServerWrapper
 
             return result;
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SearchEngineException(e);
         }
     }
 
-    public void deleteByQuery(SearchRequest request) throws SearchEngineException
-    {
-        try
-        {
+    public void deleteByQuery(SearchRequest request) throws SearchEngineException {
+        try {
             SolrQuery query = SolrQueryRequestConverter.convert(request);
             LOGGER.info("Solr: deleting by Query " + query.toString());
             server.deleteByQuery(query.getQuery());
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SearchEngineException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new SearchEngineException(e);
         }
     }
 
-    public void deleteByPrimaryKey(List<Field<?>> primaryKeys) throws SearchEngineException
-    {
-        try
-        {
+    public void deleteByPrimaryKey(List<Field<?>> primaryKeys) throws SearchEngineException {
+        try {
             List<String> ids = new ArrayList<String>(primaryKeys.size());
             String debugMessage = "";
-            for (Field<?> primaryKey : primaryKeys)
-            {
+            for (Field<?> primaryKey : primaryKeys) {
                 String keyStr = SolrUtil.toString(primaryKey.getValue());
                 ids.add(keyStr);
                 debugMessage += keyStr + ", ";
@@ -113,46 +97,36 @@ public class SolrServerWrapper
 
             server.deleteById(ids);
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SearchEngineException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new SearchEngineException(e);
         }
     }
 
-    public void commit() throws SearchEngineException
-    {
-        try
-        {
+    public void commit() throws SearchEngineException {
+        try {
             LOGGER.info("Solr: commit");
             server.commit();
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SearchEngineException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new SearchEngineException(e);
         }
     }
 
-    public void rollback() throws SearchEngineException
-    {
-        try
-        {
+    public void rollback() throws SearchEngineException {
+        try {
             LOGGER.info("Solr: rollback");
             server.rollback();
         }
-        catch (SolrServerException e)
-        {
+        catch (SolrServerException e) {
             throw new SearchEngineException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new SearchEngineException(e);
         }
     }

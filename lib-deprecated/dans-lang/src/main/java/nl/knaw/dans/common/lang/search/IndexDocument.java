@@ -5,7 +5,6 @@ package nl.knaw.dans.common.lang.search;
  * 
  * @author lobo
  */
-public interface IndexDocument extends Document, DocumentIdentifier
-{
+public interface IndexDocument extends Document, DocumentIdentifier {
 
 }

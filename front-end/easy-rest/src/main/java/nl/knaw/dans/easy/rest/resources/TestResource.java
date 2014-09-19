@@ -16,8 +16,7 @@ import nl.knaw.dans.easy.domain.exceptions.AnonymousUserException;
  * @author Roshan Timal
  */
 @Path("/hello")
-public class TestResource extends AuthenticatedResource
-{
+public class TestResource extends AuthenticatedResource {
 
     /**
      * The 'hello, world' method.
@@ -27,8 +26,7 @@ public class TestResource extends AuthenticatedResource
     @GET
     @Path("/world")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response hello()
-    {
+    public Response hello() {
         return simpleResponse("hello, world");
     }
 
@@ -39,18 +37,14 @@ public class TestResource extends AuthenticatedResource
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response helloUser()
-    {
-        try
-        {
+    public Response helloUser() {
+        try {
             return simpleResponse("hello, " + authenticate().getFirstname());
         }
-        catch (AnonymousUserException e)
-        {
+        catch (AnonymousUserException e) {
             return simpleResponse("hello, anonymous");
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }

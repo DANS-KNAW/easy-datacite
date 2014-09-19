@@ -9,19 +9,16 @@ import nl.knaw.dans.common.lang.TimestampedObject;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-public class TimestampedObjectTest
-{
+public class TimestampedObjectTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void testParameter()
-    {
+    public void testParameter() {
         TimestampedObject tso = new TSObject();
         tso.setTimestamp(1);
     }
 
     @Test
-    public void testTimestamp()
-    {
+    public void testTimestamp() {
         TimestampedObject tso = new TSObject();
 
         tso.setTimestamp("2012");
@@ -36,8 +33,7 @@ public class TimestampedObjectTest
         assertFalse(tso.isOlderThan("1"));
     }
 
-    private class TSObject extends AbstractTimestampedObject
-    {
+    private class TSObject extends AbstractTimestampedObject {
         private static final long serialVersionUID = 7928667274024259565L;
     }
 

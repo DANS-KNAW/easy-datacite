@@ -10,8 +10,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 
-public interface DmoCollectionsAccess
-{
+public interface DmoCollectionsAccess {
 
     DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException;
 

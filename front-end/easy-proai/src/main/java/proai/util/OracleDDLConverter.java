@@ -4,38 +4,30 @@ import java.util.*;
 import java.util.Iterator;
 import java.util.List;
 
-public class OracleDDLConverter implements DDLConverter
-{
+public class OracleDDLConverter implements DDLConverter {
 
-    public OracleDDLConverter()
-    {
-    }
+    public OracleDDLConverter() {}
 
-    public boolean supportsTableType()
-    {
+    public boolean supportsTableType() {
         return true;
     }
 
-    public String getDropDDL(String command)
-    {
+    public String getDropDDL(String command) {
         String[] parts = command.split(" ");
         String objectType = parts[1];
         String objectName = parts[2];
         return "DROP " + objectType + " " + objectName;
     }
 
-    public List<String> getDDL(TableSpec spec)
-    {
+    public List<String> getDDL(TableSpec spec) {
         ArrayList<String> l = new ArrayList<String>();
         StringBuffer out = new StringBuffer();
         StringBuffer end = new StringBuffer();
         out.append("CREATE TABLE " + spec.getName() + " (\n");
         Iterator<ColumnSpec> csi = spec.columnSpecIterator();
         int csNum = 0;
-        while (csi.hasNext())
-        {
-            if (csNum > 0)
-            {
+        while (csi.hasNext()) {
+            if (csNum > 0) {
                 out.append(",\n");
             }
             csNum++;
@@ -43,35 +35,23 @@ public class OracleDDLConverter implements DDLConverter
             out.append("  ");
             out.append(cs.getName());
             out.append(' ');
-            if (cs.getType().toLowerCase().indexOf("int(") == 0)
-            {
+            if (cs.getType().toLowerCase().indexOf("int(") == 0) {
                 // if precision was specified for int, use oracle's default int precision
                 out.append("int");
-            }
-            else
-            {
-                if (cs.getType().toLowerCase().indexOf("smallint(") == 0)
-                {
+            } else {
+                if (cs.getType().toLowerCase().indexOf("smallint(") == 0) {
                     out.append("smallint");
-                }
-                else
-                {
-                    if (cs.getType().toLowerCase().equals("bigint"))
-                    {
+                } else {
+                    if (cs.getType().toLowerCase().equals("bigint")) {
                         out.append("NUMBER(20,0)");
-                    }
-                    else if (cs.getType().toLowerCase().equals("text"))
-                    {
+                    } else if (cs.getType().toLowerCase().equals("text")) {
                         out.append("CLOB");
-                    }
-                    else
-                    {
+                    } else {
                         out.append(cs.getType());
                     }
                 }
             }
-            if (cs.isAutoIncremented())
-            {
+            if (cs.isAutoIncremented()) {
                 // oracle doesn't support auto-increment in a CREATE TABLE
                 // ... but it can be done by creating the table,
                 // creating a sequence, then creating a trigger that
@@ -107,20 +87,16 @@ public class OracleDDLConverter implements DDLConverter
                 createTrig.append("\n  END;");
                 l.add(createTrig.toString());
             }
-            if (cs.getDefaultValue() != null)
-            {
+            if (cs.getDefaultValue() != null) {
                 out.append(" DEFAULT '");
                 out.append(cs.getDefaultValue());
                 out.append("'");
             }
-            if (cs.isNotNull())
-            {
+            if (cs.isNotNull()) {
                 out.append(" NOT NULL");
             }
-            if (cs.isUnique())
-            {
-                if (!end.toString().equals(""))
-                {
+            if (cs.isUnique()) {
+                if (!end.toString().equals("")) {
                     end.append(",\n");
                 }
                 end.append("  UNIQUE ");
@@ -128,10 +104,8 @@ public class OracleDDLConverter implements DDLConverter
                 end.append(cs.getName());
                 end.append(")");
             }
-            if (cs.getForeignTableName() != null)
-            {
-                if (!end.toString().equals(""))
-                {
+            if (cs.getForeignTableName() != null) {
+                if (!end.toString().equals("")) {
                     end.append(",\n");
                 }
                 end.append("  FOREIGN KEY ");
@@ -143,21 +117,18 @@ public class OracleDDLConverter implements DDLConverter
                 end.append(" (");
                 end.append(cs.getForeignColumnName());
                 end.append(")");
-                if (cs.getOnDeleteAction() != null)
-                {
+                if (cs.getOnDeleteAction() != null) {
                     end.append(" ON DELETE ");
                     end.append(cs.getOnDeleteAction());
                 }
             }
         }
-        if (spec.getPrimaryColumnName() != null)
-        {
+        if (spec.getPrimaryColumnName() != null) {
             out.append(",\n  PRIMARY KEY (");
             out.append(spec.getPrimaryColumnName());
             out.append(")");
         }
-        if (!end.toString().equals(""))
-        {
+        if (!end.toString().equals("")) {
             out.append(",\n");
             out.append(end);
         }

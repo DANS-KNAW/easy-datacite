@@ -22,36 +22,29 @@ import org.slf4j.LoggerFactory;
 /**
  * Singleton WebResource for file download.
  */
-public class FileDownloadResource extends WebResource
-{
+public class FileDownloadResource extends WebResource {
 
     private static final long serialVersionUID = -8238946591987397379L;
 
     private static final Logger logger = LoggerFactory.getLogger(FileDownloadResource.class);
 
     @Override
-    public IResourceStream getResourceStream()
-    {
+    public IResourceStream getResourceStream() {
         FileDownloadResponse fileDownloadResponse = new FileDownloadResponse(getParameters());
         ((EasySession) Session.get()).put(FileDownloadResponse.class.getName(), fileDownloadResponse);
         return fileDownloadResponse.getResourceStream();
     }
 
     @Override
-    protected void setHeaders(WebResponse response)
-    {
-        try
-        {
+    protected void setHeaders(WebResponse response) {
+        try {
             FileDownloadResponse fileDownloadResponse = (FileDownloadResponse) ((EasySession) Session.get()).get(FileDownloadResponse.class.getName());
             // TODO Known issue: Wicket doesn't like us sending a response,
             // but has no method for sending failure to the client (that I know of).
-            if (fileDownloadResponse == null)
-            {
+            if (fileDownloadResponse == null) {
                 response.getHttpServletResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 return;
-            }
-            else if (fileDownloadResponse.hasStatusError())
-            {
+            } else if (fileDownloadResponse.hasStatusError()) {
                 response.getHttpServletResponse().sendError(fileDownloadResponse.getStatusCode());
                 return;
             }
@@ -59,8 +52,7 @@ public class FileDownloadResource extends WebResource
             fileDownloadResponse.getResourceStream().setHeaders(response);
 
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Unable to send an error response: ", e);
         }
     }

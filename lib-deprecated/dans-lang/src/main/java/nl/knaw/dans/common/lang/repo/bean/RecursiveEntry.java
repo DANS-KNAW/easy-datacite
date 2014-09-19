@@ -1,7 +1,6 @@
 package nl.knaw.dans.common.lang.repo.bean;
 
-public interface RecursiveEntry extends Comparable<RecursiveEntry>, RecursiveNode
-{
+public interface RecursiveEntry extends Comparable<RecursiveEntry>, RecursiveNode {
 
     String getKey();
 

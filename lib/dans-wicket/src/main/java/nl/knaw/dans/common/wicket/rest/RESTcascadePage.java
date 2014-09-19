@@ -26,41 +26,34 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-public abstract class RESTcascadePage extends RESTpage
-{
+public abstract class RESTcascadePage extends RESTpage {
 
     public static final String ID_NAVIGATION_PANEL = "navigationPanel";
 
     private String idValue;
     private String nextStep;
 
-    public RESTcascadePage()
-    {
+    public RESTcascadePage() {
         super();
     }
 
-    public RESTcascadePage(PageParameters parameters)
-    {
+    public RESTcascadePage(PageParameters parameters) {
         super(parameters);
     }
 
-    public String getIdValue()
-    {
+    public String getIdValue() {
         return idValue;
     }
 
-    public void setIdValue(String idValue)
-    {
+    public void setIdValue(String idValue) {
         this.idValue = idValue;
     }
 
-    public String getNextStep()
-    {
+    public String getNextStep() {
         return nextStep;
     }
 
-    public void setNextStep(String nextStep)
-    {
+    public void setNextStep(String nextStep) {
         this.nextStep = nextStep;
     }
 
@@ -72,14 +65,12 @@ public abstract class RESTcascadePage extends RESTpage
     public abstract Map<String, PageDescription> getChildren();
 
     /**
-     * Does nothing. Override this method if you want to contribute parameters for the children of this
-     * page.
+     * Does nothing. Override this method if you want to contribute parameters for the children of this page.
      * 
      * @param parameters
      *        the page parameters
      */
-    protected void contributeParameters(PageParameters parameters)
-    {
+    protected void contributeParameters(PageParameters parameters) {
         // do nothing
     }
 
@@ -87,14 +78,10 @@ public abstract class RESTcascadePage extends RESTpage
      * Redirect to the first child of this page. Pages that want to react different should override.
      */
     @Override
-    protected void doDefaultDissemination()
-    {
-        if (getChildren().isEmpty())
-        {
+    protected void doDefaultDissemination() {
+        if (getChildren().isEmpty()) {
             super.doDefaultDissemination();
-        }
-        else
-        {
+        } else {
             PageDescription description = getChildren().entrySet().iterator().next().getValue();
             String targetUrl = composeUrl(getLevel() + 1, description.getName());
             throw new RestartResponseException(new RedirectPage(targetUrl));
@@ -102,89 +89,69 @@ public abstract class RESTcascadePage extends RESTpage
     }
 
     @Override
-    protected void cascadeToChild()
-    {
+    protected void cascadeToChild() {
         int distance = getLevel() + (isStartPage() ? 0 : 1);
-        if (distance < getUrlFragments().length)
-        {
+        if (distance < getUrlFragments().length) {
             PageParameters parameters = getPageParameters();
-            if (parameters == null)
-            {
+            if (parameters == null) {
                 parameters = new PageParameters();
             }
             contributeParameters(parameters);
             String childName = getUrlFragment(distance);
             PageDescription description = getChildren().get(childName);
-            if (description != null)
-            {
+            if (description != null) {
                 throw new RestartResponseException(description.getPageClass(), parameters);
             }
-        }
-        else
-        {
+        } else {
             initPage();
         }
     }
 
     @Override
-    protected void initPage()
-    {
+    protected void initPage() {
         super.initPage();
-        if (isStartPage())
-        {
+        if (isStartPage()) {
             add(getNavigationPanel());
-        }
-        else
-        {
+        } else {
             add(getIdNavigationPanel());
         }
     }
 
-    protected Panel getIdNavigationPanel()
-    {
+    protected Panel getIdNavigationPanel() {
         return new IdNavigationPanel();
     }
 
-    protected Panel getNavigationPanel()
-    {
+    protected Panel getNavigationPanel() {
         return new NavigationPanel();
     }
 
-    protected String getMissingResourceMessage(String key)
-    {
+    protected String getMissingResourceMessage(String key) {
         return "Missing resource for '" + key + "' in " + this.getClass().getSimpleName();
     }
 
-    class IdNavigationPanel extends Panel
-    {
+    class IdNavigationPanel extends Panel {
 
         private static final long serialVersionUID = 7613175508890943159L;
 
-        protected IdNavigationPanel()
-        {
+        protected IdNavigationPanel() {
             super(RESTcascadePage.ID_NAVIGATION_PANEL);
-            final SubmitLink submitLink = new SubmitLink("submit")
-            {
+            final SubmitLink submitLink = new SubmitLink("submit") {
 
                 private static final long serialVersionUID = 4913648667116290496L;
 
                 @Override
-                public boolean isEnabled()
-                {
+                public boolean isEnabled() {
                     return (StringUtils.isNotBlank(getIdValue()));
                 }
             };
             submitLink.setOutputMarkupId(true);
 
-            Form<String> navigationForm = new Form<String>("navigationForm")
-            {
+            Form<String> navigationForm = new Form<String>("navigationForm") {
                 private static final long serialVersionUID = 4524604506262081812L;
 
                 @Override
-                protected void onSubmit()
-                {
-                    if (StringUtils.isNotBlank(getId()))
-                    {
+                protected void onSubmit() {
+                    if (StringUtils.isNotBlank(getId())) {
                         final String targetUrl = composeUrl(getLevel(), getIdValue(), getNextStep());
                         setResponsePage(new RedirectPage(targetUrl));
                     }
@@ -194,14 +161,12 @@ public abstract class RESTcascadePage extends RESTpage
             navigationForm.setOutputMarkupId(true);
 
             final TextField<String> idField = new TextField<String>("idField", new PropertyModel<String>(RESTcascadePage.this, "idValue"));
-            idField.add(new OnChangeAjaxBehavior()
-            {
+            idField.add(new OnChangeAjaxBehavior() {
 
                 private static final long serialVersionUID = 6255926118715512652L;
 
                 @Override
-                protected void onUpdate(AjaxRequestTarget target)
-                {
+                protected void onUpdate(AjaxRequestTarget target) {
                     target.addComponent(submitLink);
                 }
             });
@@ -214,14 +179,12 @@ public abstract class RESTcascadePage extends RESTpage
                 setNextStep(names.get(0));
             RadioGroup<String> group = new RadioGroup<String>("group", new PropertyModel<String>(RESTcascadePage.this, "nextStep"));
             navigationForm.add(group);
-            ListView<String> nextSteps = new ListView<String>("nextSteps", names)
-            {
+            ListView<String> nextSteps = new ListView<String>("nextSteps", names) {
 
                 private static final long serialVersionUID = -3965717042556385072L;
 
                 @Override
-                protected void populateItem(ListItem<String> item)
-                {
+                protected void populateItem(ListItem<String> item) {
                     PageDescription description = children.get(item.getModelObject());
                     item.add(new Radio<String>("radio", new Model<String>(description.getName())));
                     item.add(new Label("name", description.getName()));
@@ -237,24 +200,20 @@ public abstract class RESTcascadePage extends RESTpage
         }
     }
 
-    class NavigationPanel extends Panel
-    {
+    class NavigationPanel extends Panel {
 
         private static final long serialVersionUID = -9193954715825852225L;
 
-        public NavigationPanel()
-        {
+        public NavigationPanel() {
             super(RESTcascadePage.ID_NAVIGATION_PANEL);
             final Map<String, PageDescription> children = getChildren();
             List<String> names = new ArrayList<String>(children.keySet());
-            ListView<String> listView = new ListView<String>("collections", names)
-            {
+            ListView<String> listView = new ListView<String>("collections", names) {
 
                 private static final long serialVersionUID = -2450869630441848088L;
 
                 @Override
-                protected void populateItem(ListItem<String> item)
-                {
+                protected void populateItem(ListItem<String> item) {
                     PageDescription description = children.get(item.getModelObject());
                     final String targetUrl = composeUrl(getLevel(), description.getName());
                     ExternalLink eLink = new ExternalLink("collection", targetUrl, description.getName());

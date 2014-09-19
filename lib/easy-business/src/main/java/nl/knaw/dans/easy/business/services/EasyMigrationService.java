@@ -6,18 +6,14 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.servicelayer.services.MigrationService;
 
-public class EasyMigrationService extends AbstractEasyService implements MigrationService
-{
+public class EasyMigrationService extends AbstractEasyService implements MigrationService {
 
-    public IdMap getMostRecentByAipId(String aipId) throws ServiceException
-    {
+    public IdMap getMostRecentByAipId(String aipId) throws ServiceException {
         IdMap idMap = null;
-        try
-        {
+        try {
             idMap = Data.getMigrationRepo().getMostRecentByAipId(aipId);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return idMap;

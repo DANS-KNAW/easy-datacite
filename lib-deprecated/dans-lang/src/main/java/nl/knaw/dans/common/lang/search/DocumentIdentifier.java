@@ -5,8 +5,7 @@ package nl.knaw.dans.common.lang.search;
  * 
  * @author lobo
  */
-public interface DocumentIdentifier
-{
+public interface DocumentIdentifier {
     Index getIndex();
 
     Field<?> getPrimaryKey();

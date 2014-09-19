@@ -7,8 +7,7 @@ import java.util.List;
  * 
  * @author ecco Aug 1, 2009
  */
-public interface SecurityOfficer
-{
+public interface SecurityOfficer {
 
     /**
      * Is a component visible, given the context.
@@ -19,8 +18,7 @@ public interface SecurityOfficer
      * p &#8594; q
      * </pre>
      * 
-     * where p: the evaluation of this SecurityOfficer's proposition (as expressed in
-     * {@link #getProposition()}) against the given context;<br/>
+     * where p: the evaluation of this SecurityOfficer's proposition (as expressed in {@link #getProposition()}) against the given context;<br/>
      * and q: component is visible.
      * <p/>
      * 
@@ -39,8 +37,7 @@ public interface SecurityOfficer
      * p &#8594; q
      * </pre>
      * 
-     * where p: the evaluation of this SecurityOfficer's proposition (as expressed in
-     * {@link #getProposition()}) against the given context;<br/>
+     * where p: the evaluation of this SecurityOfficer's proposition (as expressed in {@link #getProposition()}) against the given context;<br/>
      * and q: action is allowed.
      * <p/>
      * 
@@ -76,9 +73,8 @@ public interface SecurityOfficer
     String explainComponentVisible(ContextParameters ctxParameters);
 
     /**
-     * This SecurityOfficer is given a chance to hint why she refuses to allow things - given the
-     * context. If a SecurityOfficer advises negative, she should add some object that hints the reason
-     * for negating.
+     * This SecurityOfficer is given a chance to hint why she refuses to allow things - given the context. If a SecurityOfficer advises negative, she should add
+     * some object that hints the reason for negating.
      * 
      * @param ctxParameters
      *        the given context

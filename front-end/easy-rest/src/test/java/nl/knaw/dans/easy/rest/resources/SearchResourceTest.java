@@ -20,14 +20,12 @@ import org.mockito.Mockito;
 import com.sun.jersey.api.client.WebResource;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class SearchResourceTest extends RestTest
-{
+public class SearchResourceTest extends RestTest {
     private SearchService searchServiceMock;
     private SearchResult searchResultMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
 
         searchServiceMock = Mockito.mock(SearchService.class);
@@ -38,8 +36,7 @@ public class SearchResourceTest extends RestTest
     }
 
     @Test
-    public void search() throws ServiceException
-    {
+    public void search() throws ServiceException {
         when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(searchResultMock);
 
         WebResource webResource = resource().path("search");
@@ -51,8 +48,7 @@ public class SearchResourceTest extends RestTest
     }
 
     @Test
-    public void searchInternalServerError() throws ServiceException
-    {
+    public void searchInternalServerError() throws ServiceException {
         when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenThrow(ServiceException.class);
 
         WebResource webResource = resource().path("search");

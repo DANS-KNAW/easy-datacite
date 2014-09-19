@@ -5,29 +5,23 @@ package nl.knaw.dans.common.lang.xml;
  * 
  * @author ecco Sep 27, 2009
  */
-public class XMLSerializationException extends XMLException
-{
+public class XMLSerializationException extends XMLException {
 
     private static final long serialVersionUID = 1286634981933080257L;
 
     // CHECKSTYLE: OFF
 
-    public XMLSerializationException()
-    {
-    }
+    public XMLSerializationException() {}
 
-    public XMLSerializationException(String message)
-    {
+    public XMLSerializationException(String message) {
         super(message);
     }
 
-    public XMLSerializationException(Throwable cause)
-    {
+    public XMLSerializationException(Throwable cause) {
         super(cause);
     }
 
-    public XMLSerializationException(String message, Throwable cause)
-    {
+    public XMLSerializationException(String message, Throwable cause) {
         super(message, cause);
     }
 

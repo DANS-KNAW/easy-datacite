@@ -5,11 +5,9 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.xml.sax.SAXException;
 
-public class EasDateSubmittedHandler extends IsoDateHandler
-{
+public class EasDateSubmittedHandler extends IsoDateHandler {
     @Override
-    public void finishElement(final String uri, final String localName) throws SAXException
-    {
+    public void finishElement(final String uri, final String localName) throws SAXException {
         final IsoDate date = createDate(uri, localName);
         if (date != null)
             getTarget().getEmdDate().getEasDateSubmitted().add(date);

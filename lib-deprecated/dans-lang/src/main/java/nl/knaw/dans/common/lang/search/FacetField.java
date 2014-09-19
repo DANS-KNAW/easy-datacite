@@ -7,6 +7,4 @@ import java.util.List;
  * 
  * @author lobo
  */
-public interface FacetField extends Field<List<FacetValue<?>>>
-{
-}
+public interface FacetField extends Field<List<FacetValue<?>>> {}

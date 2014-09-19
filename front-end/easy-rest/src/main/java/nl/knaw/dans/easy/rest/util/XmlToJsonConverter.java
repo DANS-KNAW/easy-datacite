@@ -20,14 +20,12 @@ import de.odysseus.staxon.json.JsonXMLOutputFactory;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class XmlToJsonConverter
-{
+public class XmlToJsonConverter {
 
     /**
      * Throw an AssertionError if this class or one of it's subclasses is ever instantiated.
      */
-    protected XmlToJsonConverter()
-    {
+    protected XmlToJsonConverter() {
         throw new AssertionError("Instantiating utility class...");
     }
 
@@ -42,8 +40,7 @@ public class XmlToJsonConverter
      * @throws XMLStreamException
      *         Thrown if XML parsing goes wrong.
      */
-    public static String convert(byte[] xml) throws IOException, XMLStreamException
-    {
+    public static String convert(byte[] xml) throws IOException, XMLStreamException {
         return convert(new String(xml));
     }
 
@@ -58,16 +55,14 @@ public class XmlToJsonConverter
      * @throws XMLStreamException
      *         Thrown if XML parsing goes wrong.
      */
-    public static String convert(String xml) throws IOException, XMLStreamException
-    {
+    public static String convert(String xml) throws IOException, XMLStreamException {
         String json = "";
 
         InputStream input = new ByteArrayInputStream(xml.getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         JsonXMLConfig config = new JsonXMLConfigBuilder().autoArray(true).prettyPrint(true).build();
-        try
-        {
+        try {
             XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(input);
 
             XMLEventWriter writer = new JsonXMLOutputFactory(config).createXMLEventWriter(output);
@@ -79,8 +74,7 @@ public class XmlToJsonConverter
 
             json = new String(output.toByteArray());
         }
-        finally
-        {
+        finally {
             output.close();
             input.close();
         }

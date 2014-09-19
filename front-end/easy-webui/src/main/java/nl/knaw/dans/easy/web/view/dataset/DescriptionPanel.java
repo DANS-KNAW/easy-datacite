@@ -15,15 +15,13 @@ import org.apache.wicket.markup.html.link.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DescriptionPanel extends AbstractDatasetModelPanel
-{
+public class DescriptionPanel extends AbstractDatasetModelPanel {
 
     private static final long serialVersionUID = 3936840351761057765L;
 
     private static final Logger logger = LoggerFactory.getLogger(DescriptionPanel.class);
 
-    public DescriptionPanel(String id, DatasetModel model)
-    {
+    public DescriptionPanel(String id, DatasetModel model) {
         super(id, model);
         final EasyMetadata emd = getDataset().getEasyMetadata();
 
@@ -31,14 +29,12 @@ public class DescriptionPanel extends AbstractDatasetModelPanel
 
         add(new DownloadPanel("downloadPanel", emd));
 
-        Link editLink = new Link("editLink")
-        {
+        Link editLink = new Link("editLink") {
 
             private static final long serialVersionUID = -475314441520496889L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("editLink clicked");
                 PageParameters pageParameters = new PageParameters();
                 pageParameters.add(DatasetViewPage.PM_DATASET_ID, getDataset().getStoreId());

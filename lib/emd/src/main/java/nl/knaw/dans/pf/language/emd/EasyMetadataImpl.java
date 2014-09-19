@@ -24,12 +24,10 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * @author ecco
  * @see <a href="package-summary.html#package_description">package description</a>
  */
-public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyMetadata
-{
+public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyMetadata {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an
-     * xml-stream might be obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String EMD_VERSION = "0.1";
 
@@ -68,8 +66,7 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * JiBX constructor.
      */
-    protected EasyMetadataImpl()
-    {
+    protected EasyMetadataImpl() {
 
     }
 
@@ -78,8 +75,7 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
      * 
      * @throws DomainException
      */
-    public EasyMetadataImpl(MetadataFormat metadataFormat)
-    {
+    public EasyMetadataImpl(MetadataFormat metadataFormat) {
         super();
         getEmdOther().getEasApplicationSpecific().setMetadataFormat(metadataFormat);
     }
@@ -87,66 +83,54 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public String getVersion()
-    {
-        if (version == null)
-        {
+    public String getVersion() {
+        if (version == null) {
             version = EMD_VERSION;
         }
         return version;
     }
 
-    public String getUnitFormat()
-    {
+    public String getUnitFormat() {
         return UNIT_FORMAT;
     }
 
-    public URI getUnitFormatURI()
-    {
+    public URI getUnitFormatURI() {
         return UNIT_FORMAT_URI;
     }
 
-    public String getUnitLabel()
-    {
+    public String getUnitLabel() {
         return UNIT_LABEL;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return UNIT_ID;
     }
 
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return versionable;
     }
 
-    public void setVersionable(boolean versionable)
-    {
+    public void setVersionable(boolean versionable) {
         this.versionable = versionable;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Map<Term, MDContainer> getTermsMap()
-    {
+    public Map<Term, MDContainer> getTermsMap() {
         return Collections.unmodifiableMap(getTermMDContainerMap());
     }
 
     /**
      * {@inheritDoc}
      */
-    public Set<Term> getTerms()
-    {
+    public Set<Term> getTerms() {
         return getTermsMap().keySet();
     }
 
     // Returns the TERMS_MAP. Instantiates and populates it if necessary.
-    private static synchronized Map<Term, MDContainer> getTermMDContainerMap()
-    {
-        if (TERMS_MAP == null)
-        {
+    private static synchronized Map<Term, MDContainer> getTermMDContainerMap() {
+        if (TERMS_MAP == null) {
             buidlMaps();
         }
         return TERMS_MAP;
@@ -154,53 +138,42 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
 
     // Returns the TERMS_NAMES_MAP. Instantiates and populates it if necessary.
     // The keys in this map only contain the term.name. So keep it private.
-    private static synchronized Map<Term, MDContainer> getTermNameMDContainerMap()
-    {
-        if (TERM_NAMES_MAP == null)
-        {
+    private static synchronized Map<Term, MDContainer> getTermNameMDContainerMap() {
+        if (TERM_NAMES_MAP == null) {
             buidlMaps();
         }
         return TERM_NAMES_MAP;
     }
 
     @SuppressWarnings("unchecked")
-    private static void buidlMaps()
-    {
+    private static void buidlMaps() {
         TERMS_MAP = Collections.synchronizedMap(new LinkedHashMap<Term, MDContainer>());
         TERM_NAMES_MAP = Collections.synchronizedMap(new LinkedHashMap<Term, MDContainer>());
-        for (MDContainer mdContainer : MDContainer.values())
-        {
-            try
-            {
+        for (MDContainer mdContainer : MDContainer.values()) {
+            try {
                 final Field classField = EasyMetadataImpl.class.getDeclaredField("emd" + mdContainer.name());
                 final Class<? extends EmdContainer> containerType = (Class<? extends EmdContainer>) classField.getType();
                 final Field termsField = containerType.getDeclaredField("TERMS");
                 final Term[] terms = (Term[]) termsField.get(containerType.newInstance());
-                for (Term term : terms)
-                {
+                for (Term term : terms) {
                     TERMS_MAP.put(term, mdContainer);
                     final Term termN = new Term(term.getName());
                     TERM_NAMES_MAP.put(termN, mdContainer);
                 }
             }
-            catch (final SecurityException e)
-            {
+            catch (final SecurityException e) {
                 throw new RuntimeException(e);
             }
-            catch (final NoSuchFieldException e)
-            {
+            catch (final NoSuchFieldException e) {
                 throw new RuntimeException(e);
             }
-            catch (final IllegalArgumentException e)
-            {
+            catch (final IllegalArgumentException e) {
                 throw new RuntimeException(e);
             }
-            catch (final IllegalAccessException e)
-            {
+            catch (final IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-            catch (final InstantiationException e)
-            {
+            catch (final InstantiationException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -209,14 +182,11 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         boolean empty = true;
-        for (MDContainer mdContainer : MDContainer.values())
-        {
+        for (MDContainer mdContainer : MDContainer.values()) {
             final EmdContainer container = getContainerByField(mdContainer);
-            if (container != null && !container.isEmpty())
-            {
+            if (container != null && !container.isEmpty()) {
                 empty = false;
                 break;
             }
@@ -227,24 +197,17 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public Object visitChildren(boolean includeEmpty, EmdVisitor visitor)
-    {
+    public Object visitChildren(boolean includeEmpty, EmdVisitor visitor) {
         Object object = null;
-        if (includeEmpty)
-        {
-            for (MDContainer mdContainer : MDContainer.values())
-            {
+        if (includeEmpty) {
+            for (MDContainer mdContainer : MDContainer.values()) {
                 final EmdContainer container = getContainerByMethod(mdContainer);
                 object = visitor.container(container);
             }
-        }
-        else
-        {
-            for (MDContainer mdContainer : MDContainer.values())
-            {
+        } else {
+            for (MDContainer mdContainer : MDContainer.values()) {
                 final EmdContainer container = getContainerByField(mdContainer);
-                if (container != null && !container.isEmpty())
-                {
+                if (container != null && !container.isEmpty()) {
                     object = visitor.container(container);
                 }
             }
@@ -255,14 +218,11 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public String toString(final String separator)
-    {
+    public String toString(final String separator) {
         final StringBuilder builder = new StringBuilder();
-        for (MDContainer mdContainer : MDContainer.values())
-        {
+        for (MDContainer mdContainer : MDContainer.values()) {
             final EmdContainer container = getContainerByField(mdContainer);
-            if (container != null)
-            {
+            if (container != null) {
                 builder.append(container.toString(separator, true));
             }
         }
@@ -273,46 +233,38 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public String toString(final String separator, final MDContainer mdContainer)
-    {
+    public String toString(final String separator, final MDContainer mdContainer) {
         return getContainerByMethod(mdContainer).toString(separator);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString(final String separator, final Term term) throws NoSuchTermException
-    {
+    public String toString(final String separator, final Term term) throws NoSuchTermException {
         return getContainerByMethod(term).toString(separator, term);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString(final String separator, final Term.Name termName) throws NoSuchTermException
-    {
+    public String toString(final String separator, final Term.Name termName) throws NoSuchTermException {
         return getContainerByMethod(new Term(termName)).toString(separator, termName);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getPreferredTitle()
-    {
+    public String getPreferredTitle() {
         return getEmdTitle().getPreferredTitle();
     }
 
     /**
      * {@inheritDoc}
      */
-    public EmdContainer getContainer(final MDContainer mdContainer, final boolean returnNull)
-    {
-        if (returnNull)
-        {
+    public EmdContainer getContainer(final MDContainer mdContainer, final boolean returnNull) {
+        if (returnNull) {
             return getContainerByField(mdContainer);
-        }
-        else
-        {
+        } else {
             return getContainerByMethod(mdContainer);
         }
     }
@@ -320,23 +272,19 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public List<MetadataItem> getTerm(final Term term) throws NoSuchTermException
-    {
+    public List<MetadataItem> getTerm(final Term term) throws NoSuchTermException {
         return getContainerByMethod(term).get(term);
     }
 
     /**
      * {@inheritDoc}
      */
-    public DublinCoreMetadata getDublinCoreMetadata()
-    {
+    public DublinCoreMetadata getDublinCoreMetadata() {
         // TODO emd component should not know about Dublibn Core
         final JiBXDublinCoreMetadata jdc = new JiBXDublinCoreMetadata();
-        for (PropertyName propertyName : PropertyName.values())
-        {
+        for (PropertyName propertyName : PropertyName.values()) {
             final EmdContainer emdContainer = getContainerByField(propertyName);
-            if (emdContainer != null)
-            {
+            if (emdContainer != null) {
                 jdc.set(propertyName, emdContainer.getValues());
             }
         }
@@ -344,71 +292,56 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     }
 
     // Get the container by field. May return null if container was not instantiated earlier.
-    private EmdContainer getContainerByField(final MDContainer mdContainer)
-    {
+    private EmdContainer getContainerByField(final MDContainer mdContainer) {
         EmdContainer container = null;
-        try
-        {
+        try {
             final Field classField = this.getClass().getDeclaredField("emd" + mdContainer.name());
             container = (EmdContainer) classField.get(this);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchFieldException e)
-        {
+        catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         return container;
     }
 
     // Get the container by field. May return null if container was not instantiated earlier.
-    private EmdContainer getContainerByField(final PropertyName propertyName)
-    {
+    private EmdContainer getContainerByField(final PropertyName propertyName) {
         EmdContainer container = null;
-        try
-        {
+        try {
             final Field classField = this.getClass().getDeclaredField("emd" + propertyName.name());
             container = (EmdContainer) classField.get(this);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchFieldException e)
-        {
+        catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         return container;
     }
 
     // Get container containing given term.
-    private EmdContainer getContainerByMethod(final Term term) throws NoSuchTermException
-    {
+    private EmdContainer getContainerByMethod(final Term term) throws NoSuchTermException {
         MDContainer mdContainer = getTermMDContainerMap().get(term); // first look for
                                                                      // term.name/term.namesoace
-        if (mdContainer == null)
-        {
+        if (mdContainer == null) {
             mdContainer = getTermNameMDContainerMap().get(term); // then look for term.name
-            if (mdContainer == null)
-            {
+            if (mdContainer == null) {
                 throw new NoSuchTermException("Requested term does not exist: " + (term == null ? "null" : term.toString()));
             }
         }
@@ -416,32 +349,25 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     }
 
     // Get the container by method. Never returns null.
-    private EmdContainer getContainerByMethod(final MDContainer mdContainer)
-    {
+    private EmdContainer getContainerByMethod(final MDContainer mdContainer) {
         EmdContainer container = null;
-        try
-        {
+        try {
             final Method method = this.getClass().getDeclaredMethod("getEmd" + mdContainer.name());
             container = (EmdContainer) method.invoke(this);
         }
-        catch (final SecurityException e)
-        {
+        catch (final SecurityException e) {
             throw new RuntimeException(e);
         }
-        catch (final NoSuchMethodException e)
-        {
+        catch (final NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalArgumentException e)
-        {
+        catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
-        catch (final IllegalAccessException e)
-        {
+        catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        catch (final InvocationTargetException e)
-        {
+        catch (final InvocationTargetException e) {
             throw new RuntimeException(e);
         }
         return container;
@@ -450,10 +376,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdTitle getEmdTitle()
-    {
-        if (emdTitle == null)
-        {
+    public EmdTitle getEmdTitle() {
+        if (emdTitle == null) {
             emdTitle = new EmdTitle();
         }
         return emdTitle;
@@ -462,10 +386,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdCreator getEmdCreator()
-    {
-        if (emdCreator == null)
-        {
+    public EmdCreator getEmdCreator() {
+        if (emdCreator == null) {
             emdCreator = new EmdCreator();
         }
         return emdCreator;
@@ -474,10 +396,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdSubject getEmdSubject()
-    {
-        if (emdSubject == null)
-        {
+    public EmdSubject getEmdSubject() {
+        if (emdSubject == null) {
             emdSubject = new EmdSubject();
         }
         return emdSubject;
@@ -486,10 +406,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdDescription getEmdDescription()
-    {
-        if (emdDescription == null)
-        {
+    public EmdDescription getEmdDescription() {
+        if (emdDescription == null) {
             emdDescription = new EmdDescription();
         }
         return emdDescription;
@@ -498,10 +416,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdPublisher getEmdPublisher()
-    {
-        if (emdPublisher == null)
-        {
+    public EmdPublisher getEmdPublisher() {
+        if (emdPublisher == null) {
             emdPublisher = new EmdPublisher();
         }
         return emdPublisher;
@@ -510,10 +426,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdContributor getEmdContributor()
-    {
-        if (emdContributor == null)
-        {
+    public EmdContributor getEmdContributor() {
+        if (emdContributor == null) {
             emdContributor = new EmdContributor();
         }
         return emdContributor;
@@ -522,10 +436,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdDate getEmdDate()
-    {
-        if (emdDate == null)
-        {
+    public EmdDate getEmdDate() {
+        if (emdDate == null) {
             emdDate = new EmdDate();
         }
         return emdDate;
@@ -534,10 +446,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdType getEmdType()
-    {
-        if (emdType == null)
-        {
+    public EmdType getEmdType() {
+        if (emdType == null) {
             emdType = new EmdType();
         }
         return emdType;
@@ -546,10 +456,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdFormat getEmdFormat()
-    {
-        if (emdFormat == null)
-        {
+    public EmdFormat getEmdFormat() {
+        if (emdFormat == null) {
             emdFormat = new EmdFormat();
         }
         return emdFormat;
@@ -558,10 +466,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdIdentifier getEmdIdentifier()
-    {
-        if (emdIdentifier == null)
-        {
+    public EmdIdentifier getEmdIdentifier() {
+        if (emdIdentifier == null) {
             emdIdentifier = new EmdIdentifier();
         }
         return emdIdentifier;
@@ -570,10 +476,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdSource getEmdSource()
-    {
-        if (emdSource == null)
-        {
+    public EmdSource getEmdSource() {
+        if (emdSource == null) {
             emdSource = new EmdSource();
         }
         return emdSource;
@@ -582,10 +486,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdLanguage getEmdLanguage()
-    {
-        if (emdLanguage == null)
-        {
+    public EmdLanguage getEmdLanguage() {
+        if (emdLanguage == null) {
             emdLanguage = new EmdLanguage();
         }
         return emdLanguage;
@@ -594,10 +496,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdRelation getEmdRelation()
-    {
-        if (emdRelation == null)
-        {
+    public EmdRelation getEmdRelation() {
+        if (emdRelation == null) {
             emdRelation = new EmdRelation();
         }
         return emdRelation;
@@ -606,10 +506,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdCoverage getEmdCoverage()
-    {
-        if (emdCoverage == null)
-        {
+    public EmdCoverage getEmdCoverage() {
+        if (emdCoverage == null) {
             emdCoverage = new EmdCoverage();
         }
         return emdCoverage;
@@ -618,10 +516,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdRights getEmdRights()
-    {
-        if (emdRights == null)
-        {
+    public EmdRights getEmdRights() {
+        if (emdRights == null) {
             emdRights = new EmdRights();
         }
         return emdRights;
@@ -630,10 +526,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdAudience getEmdAudience()
-    {
-        if (emdAudience == null)
-        {
+    public EmdAudience getEmdAudience() {
+        if (emdAudience == null) {
             emdAudience = new EmdAudience();
         }
         return emdAudience;
@@ -642,10 +536,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * {@inheritDoc}
      */
-    public EmdOther getEmdOther()
-    {
-        if (emdOther == null)
-        {
+    public EmdOther getEmdOther() {
+        if (emdOther == null) {
             emdOther = new EmdOther();
         }
         return emdOther;

@@ -15,28 +15,24 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class WorkflowDataImplTest
-{
+public class WorkflowDataImplTest {
 
     private static EasyUserRepo userRepo;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         userRepo = EasyMock.createMock(EasyUserRepo.class);
         new Data().setUserRepo(userRepo);
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setUserRepo(null);
     }
 
     @Test
-    public void getAssignee() throws ObjectNotInStoreException, RepositoryException
-    {
+    public void getAssignee() throws ObjectNotInStoreException, RepositoryException {
         EasyUser willem = new EasyUserImpl("willem");
         EasyUser jan = new EasyUserImpl("jan");
 

@@ -9,24 +9,19 @@ import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
-public class OtherFormatValidator implements Validator
-{
+public class OtherFormatValidator implements Validator {
 
     private static OtherFormatValidator INSTANCE;
 
     private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
 
-    private OtherFormatValidator()
-    {
+    private OtherFormatValidator() {
         VALIDATORS.addAll(CommonValidators.getList());
     }
 
-    public static OtherFormatValidator instance()
-    {
-        synchronized (VALIDATORS)
-        {
-            if (INSTANCE == null)
-            {
+    public static OtherFormatValidator instance() {
+        synchronized (VALIDATORS) {
+            if (INSTANCE == null) {
                 INSTANCE = new OtherFormatValidator();
             }
         }
@@ -34,10 +29,8 @@ public class OtherFormatValidator implements Validator
     }
 
     @Override
-    public void validate(EasyMetadata emd, ValidationReporter reporter)
-    {
-        for (Validator validator : VALIDATORS)
-        {
+    public void validate(EasyMetadata emd, ValidationReporter reporter) {
+        for (Validator validator : VALIDATORS) {
             validator.validate(emd, reporter);
         }
     }

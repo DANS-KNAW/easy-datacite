@@ -6,8 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractTokenList
-{
+public abstract class AbstractTokenList {
     private static final String TOKEN_SEPARATOR = ">";
 
     private static Logger logger = LoggerFactory.getLogger(AbstractTokenList.class);
@@ -26,10 +25,8 @@ public abstract class AbstractTokenList
      * @param requestToken
      *        generated token
      */
-    protected void putTokenInTokenList(final String userId, final String requestTime, final String requestToken)
-    {
-        synchronized (syncObject)
-        {
+    protected void putTokenInTokenList(final String userId, final String requestTime, final String requestToken) {
+        synchronized (syncObject) {
             Map<String, String> tokenMap = getTokenMap();
             final String tokenString = userId + TOKEN_SEPARATOR + requestTime + TOKEN_SEPARATOR + requestToken;
             tokenMap.put(userId, tokenString);
@@ -38,19 +35,14 @@ public abstract class AbstractTokenList
         }
     }
 
-    protected void removeTokenFromList(final String userId)
-    {
-        synchronized (syncObject)
-        {
+    protected void removeTokenFromList(final String userId) {
+        synchronized (syncObject) {
             Map<String, String> tokenMap = getTokenMap();
             final String removed = tokenMap.remove(userId);
-            if (removed != null)
-            {
+            if (removed != null) {
                 // TODO remove userId and token from persistent medium
                 logger.debug(this.getClass().getSimpleName() + ": Removed token for userId '" + userId + "'. Pending request count=" + tokenMap.size());
-            }
-            else
-            {
+            } else {
                 logger.debug(this.getClass().getSimpleName() + ": Token for userId '" + userId + "' not found" + ". Pending request count=" + tokenMap.size());
             }
         }
@@ -67,50 +59,39 @@ public abstract class AbstractTokenList
      *        Token
      * @return True if token exists for user and is valid.
      */
-    public boolean checkToken(final String userId, final String requestTime, final String requestToken)
-    {
+    public boolean checkToken(final String userId, final String requestTime, final String requestToken) {
         String checkTokenString = userId + TOKEN_SEPARATOR + requestTime + TOKEN_SEPARATOR + requestToken;
         logger.debug("Check token for " + checkTokenString);
         boolean validToken = false;
-        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(requestTime) || StringUtils.isEmpty(requestToken))
-        {
+        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(requestTime) || StringUtils.isEmpty(requestToken)) {
             logger.error(this.getClass().getSimpleName() + ": checkToken is called with invalid parameters: " + checkTokenString);
             return false;
         }
-        synchronized (syncObject)
-        {
+        synchronized (syncObject) {
             Map<String, String> tokenMap = getTokenMap();
-            if (tokenMap.containsKey(userId))
-            {
+            if (tokenMap.containsKey(userId)) {
                 String tokenString = tokenMap.get(userId);
 
-                if (tokenString.equals(checkTokenString))
-                {
+                if (tokenString.equals(checkTokenString)) {
                     validToken = true;
                 }
-            }
-            else
-            {
+            } else {
                 logger.debug(this.getClass().getSimpleName() + ": No request token found for userId '" + userId + "'");
             }
         }
         return validToken;
     }
 
-    public int pendingRequests()
-    {
+    public int pendingRequests() {
         int pendingRequests = 0;
-        synchronized (syncObject)
-        {
+        synchronized (syncObject) {
             pendingRequests = getTokenMap().size();
         }
         return pendingRequests;
     }
 
-    public void reset()
-    {
-        synchronized (syncObject)
-        {
+    public void reset() {
+        synchronized (syncObject) {
             getTokenMap().clear();
         }
     }

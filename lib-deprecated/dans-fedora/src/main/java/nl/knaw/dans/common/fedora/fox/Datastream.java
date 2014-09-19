@@ -10,13 +10,11 @@ import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 
 import org.joda.time.DateTime;
 
-public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
-{
+public class Datastream extends AbstractTimestampedJiBXObject<Datastream> {
 
     private static final long serialVersionUID = -8375891261757581210L;
 
-    public enum State
-    {
+    public enum State {
         /**
          * Indicates a Data Stream is <i>Active</i>.
          */
@@ -43,13 +41,11 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
     /**
      * Used by JiBX serialization.
      */
-    protected Datastream()
-    {
+    protected Datastream() {
 
     }
 
-    public Datastream(String streamId, ControlGroup controlGroup)
-    {
+    public Datastream(String streamId, ControlGroup controlGroup) {
         this.controlGroup = controlGroup;
         setStreamId(streamId);
     }
@@ -57,96 +53,74 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
     /**
      * Returns null. (Method inherited from AbstractJiBXObject.)
      */
-    public String getVersion()
-    {
+    public String getVersion() {
         return null;
     }
 
-    public String getStreamId()
-    {
+    public String getStreamId() {
         return streamId;
     }
 
-    public void setStreamId(String streamId)
-    {
-        if (streamId.length() <= MAX_ID_LENGTH)
-        {
+    public void setStreamId(String streamId) {
+        if (streamId.length() <= MAX_ID_LENGTH) {
             this.streamId = streamId;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("The string '" + streamId + "' is not allowed as Fedora Datastream id.");
         }
     }
 
-    public ControlGroup getControlGroup()
-    {
+    public ControlGroup getControlGroup() {
         return controlGroup;
     }
 
-    public void setControlGroup(ControlGroup controlGroup)
-    {
+    public void setControlGroup(ControlGroup controlGroup) {
         this.controlGroup = controlGroup;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state == null ? State.A : state;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         this.state = state;
     }
 
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return versionable;
     }
 
-    public void setVersionable(boolean versionable)
-    {
+    public void setVersionable(boolean versionable) {
         this.versionable = versionable;
     }
 
-    public URI getFedoraUri()
-    {
+    public URI getFedoraUri() {
         return fedoraUri;
     }
 
-    public void setFedoraUri(URI fedoraUri)
-    {
+    public void setFedoraUri(URI fedoraUri) {
         this.fedoraUri = fedoraUri;
     }
 
-    public DatastreamVersion putDatastreamVersion(final DatastreamVersion version)
-    {
+    public DatastreamVersion putDatastreamVersion(final DatastreamVersion version) {
         return versions.put(version.getVersionId(), version);
     }
 
-    public DatastreamVersion getDatastreamVersion(final String versionId)
-    {
+    public DatastreamVersion getDatastreamVersion(final String versionId) {
         return versions.get(versionId);
     }
 
-    public DatastreamVersion removeDatastreamVersion(String versionId)
-    {
+    public DatastreamVersion removeDatastreamVersion(String versionId) {
         return versions.remove(versionId);
     }
 
-    public DatastreamVersion getLatestVersion()
-    {
+    public DatastreamVersion getLatestVersion() {
         DatastreamVersion version = null;
         DateTime date = new DateTime(0L);
-        for (DatastreamVersion dsv : versions.values())
-        {
+        for (DatastreamVersion dsv : versions.values()) {
             DateTime created = dsv.getCreated();
-            if (created == null && version == null)
-            {
+            if (created == null && version == null) {
                 version = dsv;
-            }
-            else if (created != null && created.isAfter(date))
-            {
+            } else if (created != null && created.isAfter(date)) {
                 version = dsv;
                 date = created;
             }
@@ -154,14 +128,11 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
         return version;
     }
 
-    public DatastreamVersion addDatastreamVersion(String versionId, String mimeType)
-    {
-        if (versionId == null)
-        {
+    public DatastreamVersion addDatastreamVersion(String versionId, String mimeType) {
+        if (versionId == null) {
             versionId = nextVersionId();
         }
-        if (getDatastreamVersion(versionId) != null)
-        {
+        if (getDatastreamVersion(versionId) != null) {
             throw new IllegalArgumentException("A DatastreamVersion with the versionId '" + versionId + "' already exists!");
         }
         DatastreamVersion newVersion = new DatastreamVersion(versionId, mimeType);
@@ -169,8 +140,7 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
         return newVersion;
     }
 
-    public List<DatastreamVersion> getDatastreamVersions()
-    {
+    public List<DatastreamVersion> getDatastreamVersions() {
         return new ArrayList<DatastreamVersion>(versions.values());
     }
 
@@ -180,46 +150,36 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
      * @param list
      *        list with DatastreamVersions
      */
-    public void setDatastreamVersions(List<DatastreamVersion> list)
-    {
+    public void setDatastreamVersions(List<DatastreamVersion> list) {
         versions.clear();
-        if (list != null)
-        {
+        if (list != null) {
             // the last version in the list is the last created
             DatastreamVersion last = list.get(list.size() - 1);
             DateTime timestamp = last.getCreated();
             setTimestamp(timestamp);
-            for (DatastreamVersion version : list)
-            {
+            for (DatastreamVersion version : list) {
                 version.setTimestamp(timestamp);
                 versions.put(version.getVersionId(), version);
             }
         }
     }
 
-    public String nextVersionId()
-    {
+    public String nextVersionId() {
         return streamId + "." + (getHighestVersionNumber() + 1);
     }
 
-    private int getHighestVersionNumber()
-    {
+    private int getHighestVersionNumber() {
         int highestVersionNumber = -1;
-        for (String versionId : versions.keySet())
-        {
-            if (versionId.length() > streamId.length())
-            {
+        for (String versionId : versions.keySet()) {
+            if (versionId.length() > streamId.length()) {
                 final String versionNumberString = versionId.substring(streamId.length() + 1, versionId.length());
-                try
-                {
+                try {
                     final int versionNumber = Integer.parseInt(versionNumberString);
-                    if (highestVersionNumber < versionNumber)
-                    {
+                    if (highestVersionNumber < versionNumber) {
                         highestVersionNumber = versionNumber;
                     }
                 }
-                catch (final NumberFormatException e)
-                {
+                catch (final NumberFormatException e) {
                     // OK, not a number
                 }
             }

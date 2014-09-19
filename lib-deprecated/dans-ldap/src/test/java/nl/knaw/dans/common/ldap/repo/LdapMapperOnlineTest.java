@@ -21,31 +21,26 @@ import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class LdapMapperOnlineTest extends AbstractOnlineTest
-{
+public class LdapMapperOnlineTest extends AbstractOnlineTest {
 
     private static String contextPath;
 
     private static LdapClient client;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         client = getLdapClient();
         contextPath = Tester.getString("ldap.context.users");
     }
 
     @Test
-    public void testMapping() throws MissingAttributeException, LdapMappingException, NameAlreadyBoundException, NamingException
-    {
+    public void testMapping() throws MissingAttributeException, LdapMappingException, NameAlreadyBoundException, NamingException {
         String uid = "test Mapping";
         String rdn = "uid=" + uid;
-        try
-        {
+        try {
             client.deleteEntry(rdn, contextPath);
         }
-        catch (NameNotFoundException e)
-        {
+        catch (NameNotFoundException e) {
             //
         }
 
@@ -90,8 +85,7 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
     }
 
     @LdapObject(objectClasses = {"dansUser", "inetOrgPerson", "organizationalPerson", "person"})
-    private static class TestClass
-    {
+    private static class TestClass {
         @LdapAttribute(id = "uid")
         String uid;
         @LdapAttribute(id = "cn")
@@ -105,8 +99,7 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
         @LdapAttribute(id = "dansLastLogin", valueTranslator = DateTimeTranslator.class)
         DateTime lastLogin;
 
-        public TestClass()
-        {
+        public TestClass() {
             //
         }
 

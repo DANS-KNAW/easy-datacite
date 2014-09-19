@@ -43,8 +43,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Wrapper for the easy business API
  */
-public class EasyBusinessFacade
-{
+public class EasyBusinessFacade {
     private static int noOpSumbitCounter = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
@@ -64,13 +63,11 @@ public class EasyBusinessFacade
      * @throws SWORDException
      *         if required services are not available
      */
-    public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
-    {
+    public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException {
         if (userId == null || userId.length() == 0)
             throw newSWORDAuthenticationException("no credentials", null);
         final FederativeAuthentication federativeAuthentication = new FederativeAuthentication(userId, password);
-        if (!federativeAuthentication.canBeTraditionalAccount())
-        {
+        if (!federativeAuthentication.canBeTraditionalAccount()) {
             final String fedUserId = federativeAuthentication.getUserId();
             if (fedUserId == null)
                 throw newSWORDAuthenticationException("invalid credentials", null);
@@ -79,65 +76,52 @@ public class EasyBusinessFacade
 
         // not a federative user
         authenticate(userId, password);
-        try
-        {
+        try {
             return Data.getUserRepo().findById(userId);
         }
-        catch (final ObjectNotInStoreException exception)
-        {
+        catch (final ObjectNotInStoreException exception) {
             throw newSWORDAuthenticationException(userId + " not authenticed", exception);
         }
-        catch (final RepositoryException exception)
-        {
+        catch (final RepositoryException exception) {
             throw newSWORDException((userId + " authentication problem"), exception);
         }
     }
 
     // NO username/password authentication, that is allready done via the federation
-    private static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDAuthenticationException
-    {
+    private static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDAuthenticationException {
         FederativeUserIdMap userIdMap = null;
-        try
-        {
+        try {
             userIdMap = Data.getFederativeUserRepo().findById(fedUserId);
         }
-        catch (final ObjectNotInStoreException e)
-        {
+        catch (final ObjectNotInStoreException e) {
             throw newSWORDAuthenticationException(fedUserId + " authentication problem", e);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw newSWORDException(("Could not get user with fedUserId '" + fedUserId + "' :"), e);
         }
 
         final String userId = userIdMap.getDansUserId();
         logger.debug("Found easy user for federative user: fedUserId='" + fedUserId + "', userId='" + userId + "'");
-        try
-        {
+        try {
             return Data.getUserRepo().findById(userId);
         }
-        catch (final ObjectNotInStoreException exception)
-        {
+        catch (final ObjectNotInStoreException exception) {
             throw newSWORDAuthenticationException(userId + " authentication problem", exception);
         }
-        catch (final RepositoryException exception)
-        {
+        catch (final RepositoryException exception) {
             throw newSWORDException((userId + " authentication problem"), exception);
         }
     }
 
-    private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
-    {
-        try
-        {
+    private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException {
+        try {
             if (userId == null || password == null)
                 throw newBadRequestException("missing username [" + userId + "] or password");
             else if (!Data.getUserRepo().authenticate(userId, password))
                 throw newSWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
         }
-        catch (final RepositoryException exception)
-        {
+        catch (final RepositoryException exception) {
             throw newSWORDException((userId + " authentication problem"), exception);
         }
     }
@@ -179,13 +163,11 @@ public class EasyBusinessFacade
         ((DatasetImpl) dataset).setEasyMetadata(metadata);
         dataset.setOwnerId(user.getId());
         dataset.getAdministrativeMetadata().setDepositor(user);
-        try
-        {
+        try {
             ingestFiles(submission, folder, files);
             submit(submission);
         }
-        catch (final ServiceException exception)
-        {
+        catch (final ServiceException exception) {
             if (exception.getCause() instanceof ReadOnlyException)
                 throw READ_ONLY_EXCEPTION;
             throw newSWORDException(exception.getMessage(), exception);
@@ -201,29 +183,24 @@ public class EasyBusinessFacade
      *        the custom metadata
      * @return the custom metadata
      */
-    private static EasyMetadata enhanceWithDefaults(final EasyMetadata metadata)
-    {
+    private static EasyMetadata enhanceWithDefaults(final EasyMetadata metadata) {
         final List<BasicString> audienceList = metadata.getEmdAudience().getTermsAudience();
-        if (!audienceList.isEmpty())
-        {
+        if (!audienceList.isEmpty()) {
             metadata.getEmdAudience().getTermsAudience().add(audienceList.get(0));
         }
         return metadata;
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
-    private static void submit(final DatasetSubmissionImpl submission) throws SWORDException, ServiceException
-    {
+    private static void submit(final DatasetSubmissionImpl submission) throws SWORDException, ServiceException {
         final Dataset dataset = submission.getDataset();
         final EasyUser user = submission.getSessionUser();
         final String msg = dataset.getStoreId() + " is created with draft status, submission failed.";
         logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
-        try
-        {
+        try {
             Services.getDatasetService().submitDataset(submission);
         }
-        catch (final DataIntegrityException exception)
-        {
+        catch (final DataIntegrityException exception) {
             throw newSWORDException(msg, exception);
         }
         if (!submission.isSubmitted())
@@ -247,11 +224,9 @@ public class EasyBusinessFacade
             throw newSWORDException(message, null);
     }
 
-    private static void logIngest(final File directory, final List<File> fileList, final DmoStoreId dmoStoreId)
-    {
+    private static void logIngest(final File directory, final List<File> fileList, final DmoStoreId dmoStoreId) {
         /*
-         * ArraysdeepToString would cause a too long line which gets wrapped on a single line in the
-         * eclipse console
+         * ArraysdeepToString would cause a too long line which gets wrapped on a single line in the eclipse console
          */
         final StringBuffer sb = new StringBuffer();
         for (final File file : fileList)
@@ -260,26 +235,21 @@ public class EasyBusinessFacade
         logger.debug("ingesting files from " + directory + " into " + dmoStoreId + " " + string);
     }
 
-    public static String formatAudience(final EasyMetadata metadata) throws SWORDException
-    {
+    public static String formatAudience(final EasyMetadata metadata) throws SWORDException {
         final String msg = "can't get audience description ";
         final DisciplineCollectionService disciplineService = Services.getDisciplineService();
         if (disciplineService == null)
             throw newSWORDException(msg, null);
         final StringBuffer string = new StringBuffer();
-        for (final String sid : metadata.getEmdAudience().getValues())
-        {
+        for (final String sid : metadata.getEmdAudience().getValues()) {
             string.append(", ");
-            try
-            {
+            try {
                 string.append(disciplineService.getDisciplineById(new DmoStoreId(sid)).getName());
             }
-            catch (final ObjectNotFoundException e)
-            {
+            catch (final ObjectNotFoundException e) {
                 throw newSWORDException(msg, e);
             }
-            catch (final ServiceException e)
-            {
+            catch (final ServiceException e) {
                 throw newSWORDException(msg, e);
             }
         }
@@ -287,56 +257,46 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().newDataset(metadataFormat). */
-    private static Dataset createEmptyDataset(final MetadataFormat metadataFormat) throws SWORDException
-    {
+    private static Dataset createEmptyDataset(final MetadataFormat metadataFormat) throws SWORDException {
         final Dataset dataset;
-        try
-        {
+        try {
             dataset = Services.getDatasetService().newDataset(metadataFormat);
         }
-        catch (final ServiceException exception)
-        {
+        catch (final ServiceException exception) {
             throw newSWORDException("Can't create a new dataset with metadataFormat " + metadataFormat, exception);
         }
         return dataset;
     }
 
-    public static String composeDepositTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
-    {
+    public static String composeDepositTreatment(final EasyUser user, final Dataset dataset) throws SWORDException {
         final String depositTreatment = Context.getDepositTreatment();
-        try
-        {
+        try {
             final String html = new MailComposer(user, dataset).compose(depositTreatment, true);
             logger.debug(html);
             return html;
         }
-        catch (final MailComposerException exception)
-        {
+        catch (final MailComposerException exception) {
             throw newSWORDException("could not compose deposit treatment", exception);
         }
     }
 
-    public static String composeCollectionTreatment(final EasyUser user) throws SWORDException
-    {
+    public static String composeCollectionTreatment(final EasyUser user) throws SWORDException {
         final String collectionTreatment = Context.getCollectionTreatment();
         if (user == null)
             return collectionTreatment;
 
         final MailComposer mailComposer = new MailComposer(user);
-        try
-        {
+        try {
             final String html = mailComposer.compose(collectionTreatment, true);
             logger.debug(html);
             return html;
         }
-        catch (final MailComposerException exception)
-        {
+        catch (final MailComposerException exception) {
             throw newSWORDException("could not compose deposit treatment", exception);
         }
     }
 
-    public static String verboseInfo(final EasyUser user, final Dataset dataset)
-    {
+    public static String verboseInfo(final EasyUser user, final Dataset dataset) {
         /**
          * the example from the specification
          * 
@@ -355,34 +315,29 @@ public class EasyBusinessFacade
         sb.append(MessageFormat.format(format, "dataset owner: " + dataset.getOwnerId()));
         sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
         sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
-        try
-        {
+        try {
             final List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
             sb.append(MessageFormat.format(format, "archived file names: " + Arrays.deepToString(filenames.toArray())));
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             sb.append(MessageFormat.format(format, "problem retreiving file names: " + e.getMessage()));
             logger.error("problem retreiving file names of " + dataset.getStoreId(), e);
         }
         return sb.toString();
     }
 
-    public static void resetNoOpSubmitCounter()
-    {
+    public static void resetNoOpSubmitCounter() {
         // JUnit test execution order is unstable, a constant value makes results stable
         noOpSumbitCounter = 0;
     }
 
-    public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user) throws SWORDErrorException
-    {
+    public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user) throws SWORDErrorException {
         ++noOpSumbitCounter;
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
-        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl()
-        {
+        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl() {
             private static final long serialVersionUID = 1L;
         };
         administrativeMetadata.setDepositor(user);
@@ -402,36 +357,29 @@ public class EasyBusinessFacade
     }
 
     /** validates at least the disciplineID */
-    public static Dataset validateSubmission(final EasyUser depositor, final EasyMetadata metadata) throws SWORDErrorException, SWORDException
-    {
+    public static Dataset validateSubmission(final EasyUser depositor, final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         final Dataset dataset = mockSubmittedDataset(metadata, depositor);
-        try
-        {
+        try {
             DatasetSpecification.evaluate(dataset);
             return dataset;
         }
-        catch (final DataIntegrityException exception)
-        {
+        catch (final DataIntegrityException exception) {
             throw newBadRequestException(Arrays.deepToString(exception.getErrorMessages().toArray()));
         }
-        catch (final ServiceException exception)
-        {
+        catch (final ServiceException exception) {
             throw newSWORDException("could not validate metadata", exception);
         }
     }
 
-    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException, SWORDException
-    {
+    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException, SWORDException {
         final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         if (mdFormat == null)
             throw newBadRequestException("meta data format not specified.");
         final DepositDiscipline discipline;
-        try
-        {
+        try {
             discipline = Services.getDepositService().getDiscipline(mdFormat);
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             throw newSWORDException("Cannot get deposit discipline.", e);
         }
         if (discipline == null)
@@ -442,20 +390,17 @@ public class EasyBusinessFacade
         return formDefinition;
     }
 
-    private static SWORDErrorException newBadRequestException(String message)
-    {
+    private static SWORDErrorException newBadRequestException(String message) {
         logger.error(message);
         return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
-    private static SWORDAuthenticationException newSWORDAuthenticationException(final String message, final Exception cause)
-    {
+    private static SWORDAuthenticationException newSWORDAuthenticationException(final String message, final Exception cause) {
         logger.error(message, cause);
         return new SWORDAuthenticationException(message, cause);
     }
 
-    private static SWORDException newSWORDException(final String message, final Exception cause)
-    {
+    private static SWORDException newSWORDException(final String message, final Exception cause) {
         logger.error(message, cause);
         return new SWORDException(message, cause);
     }

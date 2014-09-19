@@ -9,8 +9,7 @@ import nl.knaw.dans.easy.util.Messenger;
  * 
  * @author ecco Feb 12, 2009
  */
-public class Registration extends Messenger<Registration.State>
-{
+public class Registration extends Messenger<Registration.State> {
     private static final long serialVersionUID = -4037234100764375061L;
 
     /**
@@ -18,8 +17,7 @@ public class Registration extends Messenger<Registration.State>
      * 
      * @author ecco Feb 17, 2009
      */
-    public enum State
-    {
+    public enum State {
         /**
          * Registration is not effectuated.
          */
@@ -51,53 +49,44 @@ public class Registration extends Messenger<Registration.State>
 
     private String validationUrl;
 
-    public Registration(final EasyUser user)
-    {
+    public Registration(final EasyUser user) {
         super(Registration.State.class);
         this.user = user;
         this.user.addRole(Role.USER);
         mailToken = super.createMailToken(user.getId());
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         super.setState(state);
     }
 
     @Override
-    public void setState(State state, Throwable e)
-    {
+    public void setState(State state, Throwable e) {
         super.setState(state, e);
     }
 
-    public EasyUser getUser()
-    {
+    public EasyUser getUser() {
         return user;
     }
 
-    public String getUserId()
-    {
+    public String getUserId() {
         return user.getId();
     }
 
-    public String getMailToken()
-    {
+    public String getMailToken() {
         return mailToken;
     }
 
-    public String getValidationUrl()
-    {
+    public String getValidationUrl() {
         return validationUrl;
     }
 
-    public void setValidationUrl(String validationUrl)
-    {
+    public void setValidationUrl(String validationUrl) {
         this.validationUrl = validationUrl;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + " [state=" + getState() + " user=" + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
     }
 

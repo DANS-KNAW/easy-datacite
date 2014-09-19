@@ -19,27 +19,23 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<AdministrativeMetadataImpl>
-{
+public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<AdministrativeMetadataImpl> {
 
     private static final Logger logger = LoggerFactory.getLogger(AdministrativeMetadataImplJibxTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
-    public static void testStartInformation()
-    {
+    public static void testStartInformation() {
         before(AdministrativeMetadataImplJibxTest.class);
     }
 
-    public AdministrativeMetadataImplJibxTest()
-    {
+    public AdministrativeMetadataImplJibxTest() {
         super(AdministrativeMetadataImpl.class);
     }
 
     @Test
-    public void testMarshalUnMarshalEmpty() throws IOException, JiBXException, XMLSerializationException
-    {
+    public void testMarshalUnMarshalEmpty() throws IOException, JiBXException, XMLSerializationException {
         AdministrativeMetadataImpl amd = new AdministrativeMetadataImpl();
 
         if (verbose)
@@ -51,8 +47,7 @@ public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<Adminis
     }
 
     @Test
-    public void testMarshalUnMarshal() throws JiBXException, IOException, XMLSerializationException
-    {
+    public void testMarshalUnMarshal() throws JiBXException, IOException, XMLSerializationException {
         AdministrativeMetadataImpl amd = new AdministrativeMetadataImpl();
         amd.setAdministrativeState(DatasetState.MAINTENANCE);
         amd.setAdministrativeState(DatasetState.DRAFT);
@@ -84,10 +79,8 @@ public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<Adminis
         assertEquals(amd.asXMLString(), amd2.asXMLString());
     }
 
-    private void fillSteps(List<WorkflowStep> steps)
-    {
-        for (WorkflowStep step : steps)
-        {
+    private void fillSteps(List<WorkflowStep> steps) {
+        for (WorkflowStep step : steps) {
             step.addRemark(new Remark("remark text", "remarkerId"));
             step.addRemark(new Remark("2e remark", "2eremarkerId"));
             step.setCompleted(true, "completerId");

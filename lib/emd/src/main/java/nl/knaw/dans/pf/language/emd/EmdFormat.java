@@ -12,8 +12,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
  * @author ecco
  */
-public class EmdFormat extends AbstractEmdContainer
-{
+public class EmdFormat extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -35,85 +34,70 @@ public class EmdFormat extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Get a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcFormat()
-    {
+    public List<BasicString> getDcFormat() {
         return dcFormat;
     }
 
     /**
-     * Set a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Set a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
      * @param dcFormat
      *        a list of resource properties
      */
-    public void setDcFormat(final List<BasicString> dcFormat)
-    {
+    public void setDcFormat(final List<BasicString> dcFormat) {
         this.dcFormat = dcFormat;
     }
 
     /**
      * Get a list of resource properties known as 'extent' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getTermsExtent()
-    {
+    public List<BasicString> getTermsExtent() {
         return termsExtent;
     }
 
     /**
      * Set a list of resource properties known as 'extent' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
      * @param termsExtent
      *        a list of resource properties
      */
-    public void setTermsExtent(final List<BasicString> termsExtent)
-    {
+    public void setTermsExtent(final List<BasicString> termsExtent) {
         this.termsExtent = termsExtent;
     }
 
     /**
      * Get a list of resource properties known as 'medium' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getTermsMedium()
-    {
+    public List<BasicString> getTermsMedium() {
         return termsMedium;
     }
 
     /**
      * Set a list of resource properties known as 'medium' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
      * @param termsMedium
      *        a list of resource properties
      */
-    public void setTermsMedium(final List<BasicString> termsMedium)
-    {
+    public void setTermsMedium(final List<BasicString> termsMedium) {
         this.termsMedium = termsMedium;
     }
 }

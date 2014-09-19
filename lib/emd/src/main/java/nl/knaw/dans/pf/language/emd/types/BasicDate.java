@@ -5,15 +5,13 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 /**
- * A date holder that is essentially a string. So the date can be anything from "march 28" to
- * "foo to bar". However, if the scheme of this BasicDate is said to be
- * {@link EmdConstants.DateScheme#W3CDTF}, the validity of the value in respect to the scheme is checked.
+ * A date holder that is essentially a string. So the date can be anything from "march 28" to "foo to bar". However, if the scheme of this BasicDate is said to
+ * be {@link EmdConstants.DateScheme#W3CDTF}, the validity of the value in respect to the scheme is checked.
  * 
  * @see IsoDate
  * @author ecco
  */
-public final class BasicDate extends LanguageTokenizedString
-{
+public final class BasicDate extends LanguageTokenizedString {
 
     /**
      * Serial version id.
@@ -33,8 +31,7 @@ public final class BasicDate extends LanguageTokenizedString
     /**
      * Constructs a BasicDate.
      */
-    public BasicDate()
-    {
+    public BasicDate() {
         super();
     }
 
@@ -45,8 +42,7 @@ public final class BasicDate extends LanguageTokenizedString
      *        the value of this BasicDate
      * @see #setValue(String)
      */
-    public BasicDate(final String value)
-    {
+    public BasicDate(final String value) {
         super(value);
     }
 
@@ -62,8 +58,7 @@ public final class BasicDate extends LanguageTokenizedString
      * @see #setValue(String)
      * @see #setLanguage(String)
      */
-    public BasicDate(final String value, final String language) throws InvalidLanguageTokenException
-    {
+    public BasicDate(final String value, final String language) throws InvalidLanguageTokenException {
         super(value, language);
     }
 
@@ -79,8 +74,7 @@ public final class BasicDate extends LanguageTokenizedString
      * @see #setValue(String)
      * @see #setLanguage(Locale)
      */
-    public BasicDate(final String value, final Locale locale) throws InvalidLanguageTokenException
-    {
+    public BasicDate(final String value, final Locale locale) throws InvalidLanguageTokenException {
         super(value, locale);
     }
 
@@ -96,8 +90,7 @@ public final class BasicDate extends LanguageTokenizedString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regular expression in {@link #LANGUAGE_TOKEN}
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
-     *         not in compliance with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance with ISO8601
      * @see #setValue(String)
      * @see #setLanguage(String)
      */
@@ -120,8 +113,7 @@ public final class BasicDate extends LanguageTokenizedString
      * @throws InvalidLanguageTokenException
      *         if a language token could not be parsed from the given locale
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
-     *         not in compliance with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance with ISO8601
      * @see #setValue(String)
      * @see #setLanguage(Locale)
      */
@@ -132,39 +124,30 @@ public final class BasicDate extends LanguageTokenizedString
     }
 
     /**
-     * Sets the inner value of this BasicDate to the given value. If the value is in compliance with
-     * ISO8601, the inner date field will be set. If the value is in compliance with ISO8601 and the
-     * scheme of this BasicDate is <code>null</code>, the scheme will be set to
-     * {@link EmdConstants.DateScheme#W3CDTF}.
+     * Sets the inner value of this BasicDate to the given value. If the value is in compliance with ISO8601, the inner date field will be set. If the value is
+     * in compliance with ISO8601 and the scheme of this BasicDate is <code>null</code>, the scheme will be set to {@link EmdConstants.DateScheme#W3CDTF}.
      * 
      * @param value
      *        the new value for this BasicDate
      */
     @Override
-    public void setValue(final String value)
-    {
+    public void setValue(final String value) {
         super.setValue(value == null ? null : value.trim());
         setDateTimeAndScheme();
     }
 
-    private void setDateTimeAndScheme()
-    {
+    private void setDateTimeAndScheme() {
         dateTime = null;
-        if (getValue() != null)
-        {
-            try
-            {
+        if (getValue() != null) {
+            try {
                 dateTime = new DateTime(getValue());
-                if (scheme == null)
-                {
+                if (scheme == null) {
                     scheme = EmdConstants.DateScheme.W3CDTF;
                 }
             }
             // ecco: CHECKSTYLE: OFF
-            catch (RuntimeException e)
-            {
-                if (EmdConstants.DateScheme.W3CDTF.equals(scheme))
-                {
+            catch (RuntimeException e) {
+                if (EmdConstants.DateScheme.W3CDTF.equals(scheme)) {
                     scheme = null;
                 }
             }
@@ -173,13 +156,11 @@ public final class BasicDate extends LanguageTokenizedString
     }
 
     /**
-     * Get the value of this BasicDate as a DateTime, or <code>null</code> if the value of this BasicDate
-     * is not in compliance with ISO8601.
+     * Get the value of this BasicDate as a DateTime, or <code>null</code> if the value of this BasicDate is not in compliance with ISO8601.
      * 
      * @return the DateTime or <code>null</code>
      */
-    public DateTime getDateTime()
-    {
+    public DateTime getDateTime() {
         return dateTime;
     }
 
@@ -188,8 +169,7 @@ public final class BasicDate extends LanguageTokenizedString
      * 
      * @return the scheme
      */
-    public EmdConstants.DateScheme getScheme()
-    {
+    public EmdConstants.DateScheme getScheme() {
         return scheme;
     }
 
@@ -199,17 +179,12 @@ public final class BasicDate extends LanguageTokenizedString
      * @param scheme
      *        the scheme for this BasicDate
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
-     *         not in compliance with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance with ISO8601
      */
-    public void setScheme(final EmdConstants.DateScheme scheme) throws IllegalStateException
-    {
-        if (isValidScheme(scheme, getValue()))
-        {
+    public void setScheme(final EmdConstants.DateScheme scheme) throws IllegalStateException {
+        if (isValidScheme(scheme, getValue())) {
             this.scheme = scheme;
-        }
-        else
-        {
+        } else {
             throw new IllegalStateException("The value '" + getValue() + "' is not in compliance with the scheme '" + scheme + "'");
         }
     }
@@ -223,11 +198,9 @@ public final class BasicDate extends LanguageTokenizedString
      *        the string to test
      * @return <code>true</code> if valid, <code>false </code> otherwise
      */
-    public static synchronized boolean isValidScheme(final EmdConstants.DateScheme schemeToTest, final String withValue)
-    {
+    public static synchronized boolean isValidScheme(final EmdConstants.DateScheme schemeToTest, final String withValue) {
         boolean isValid = true;
-        if (EmdConstants.DateScheme.W3CDTF.equals(schemeToTest))
-        {
+        if (EmdConstants.DateScheme.W3CDTF.equals(schemeToTest)) {
             isValid = isISODateString(withValue);
         }
         return isValid;
@@ -240,19 +213,15 @@ public final class BasicDate extends LanguageTokenizedString
      *        the string to test
      * @return <code>true</code> if valid, <code>false </code> otherwise
      */
-    public static synchronized boolean isISODateString(final String toTest)
-    {
+    public static synchronized boolean isISODateString(final String toTest) {
         boolean isIso = false;
-        if (toTest != null)
-        {
-            try
-            {
+        if (toTest != null) {
+            try {
                 new DateTime(toTest);
                 isIso = true;
             }
             // ecco: CHECKSTYLE: OFF
-            catch (final RuntimeException e)
-            {
+            catch (final RuntimeException e) {
                 isIso = false;
             }
             // ecco: CHECKSTYLE: ON
@@ -260,8 +229,7 @@ public final class BasicDate extends LanguageTokenizedString
         return isIso;
     }
 
-    public boolean isComplete()
-    {
+    public boolean isComplete() {
         return true;
     }
 

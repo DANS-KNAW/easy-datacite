@@ -16,18 +16,15 @@ import org.apache.wicket.model.Model;
  * add(new CheckBoxMultipleChoice(&quot;selectFoo&quot;, checkedValues, choiceList, renderer));
  * </pre>
  */
-public class EnumMultipleChoiceModel extends Model
-{
+public class EnumMultipleChoiceModel extends Model {
     private static final long serialVersionUID = 1L;
     private final List<Enum<?>> checkedValues;
 
-    public EnumMultipleChoiceModel(List<Enum<?>> checkedValues)
-    {
+    public EnumMultipleChoiceModel(List<Enum<?>> checkedValues) {
         this.checkedValues = checkedValues;
     }
 
-    public Serializable getObject()
-    {
+    public Serializable getObject() {
         return (Serializable) checkedValues;
     }
 }

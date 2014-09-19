@@ -10,16 +10,14 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class DummyWorkerTest
-{
+public class DummyWorkerTest {
 
     private static UnitOfWork unitOfWork = EasyMock.createMock(UnitOfWork.class);
     private static WorkListener workListener = EasyMock.createMock(WorkListener.class);
     private static DummyWorker worker = new DummyWorker(unitOfWork);
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         unitOfWork.addListener(workListener);
         EasyMock.expectLastCall().times(1);
         EasyMock.replay(unitOfWork, workListener);
@@ -29,8 +27,7 @@ public class DummyWorkerTest
 
     @Ignore("not sure why test is failing all of a sudden.")
     @Test
-    public void testAroundAdvice() throws ServiceException
-    {
+    public void testAroundAdvice() throws ServiceException {
         EasyMock.reset(unitOfWork, workListener);
         EasyMock.expect(workListener.onWorkStart()).andReturn(false).times(1);
         workListener.onWorkEnd();
@@ -43,8 +40,7 @@ public class DummyWorkerTest
 
     @Ignore("not sure why test is failing all of a sudden.")
     @Test
-    public void testAroundWithException()
-    {
+    public void testAroundWithException() {
         EasyMock.reset(unitOfWork, workListener);
         EasyMock.expect(workListener.onWorkStart()).andReturn(false).times(1);
         workListener.onException(EasyMock.isA(Throwable.class));
@@ -52,12 +48,10 @@ public class DummyWorkerTest
 
         EasyMock.replay(unitOfWork, workListener);
         int exceptionCount = 0;
-        try
-        {
+        try {
             worker.workAndThrowExceoption();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             // expected
             exceptionCount++;
         }
@@ -67,8 +61,7 @@ public class DummyWorkerTest
 
     @Ignore("not sure why test is failing all of a sudden.")
     @Test
-    public void testAroundWithRuntimeException()
-    {
+    public void testAroundWithRuntimeException() {
         EasyMock.reset(unitOfWork, workListener);
         EasyMock.expect(workListener.onWorkStart()).andReturn(false).times(1);
         workListener.onException(EasyMock.isA(Throwable.class));
@@ -76,12 +69,10 @@ public class DummyWorkerTest
 
         EasyMock.replay(unitOfWork, workListener);
         int exceptionCount = 0;
-        try
-        {
+        try {
             worker.workAndThrowRuntimeException();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             // expected
             exceptionCount++;
         }
@@ -91,8 +82,7 @@ public class DummyWorkerTest
 
     @Ignore("not sure why test is failing all of a sudden.")
     @Test
-    public void testAroundAndCancel()
-    {
+    public void testAroundAndCancel() {
         EasyMock.reset(unitOfWork, workListener);
         EasyMock.expect(workListener.onWorkStart()).andReturn(true).times(1);
 

@@ -12,8 +12,7 @@ import nl.knaw.dans.common.lang.search.simple.SimpleSearchQuery;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 
 @SuppressWarnings("serial")
-public class AdvSearchData implements Serializable
-{
+public class AdvSearchData implements Serializable {
     private static final long serialVersionUID = -5849253482755111398L;
 
     public String query = new String();
@@ -29,8 +28,7 @@ public class AdvSearchData implements Serializable
 
     public boolean scopeMyDatasets;
 
-    public ArrayList<DatasetState> states = new ArrayList<DatasetState>()
-    {
+    public ArrayList<DatasetState> states = new ArrayList<DatasetState>() {
         {
             // default state
             add(DatasetState.PUBLISHED);
@@ -38,8 +36,7 @@ public class AdvSearchData implements Serializable
     };
 
     @SuppressWarnings("unchecked")
-    public List<SimpleField> fields = new ArrayList<SimpleField>()
-    {
+    public List<SimpleField> fields = new ArrayList<SimpleField>() {
         {
             add(title);
             add(creator);
@@ -53,16 +50,13 @@ public class AdvSearchData implements Serializable
         }
     };
 
-    public List<Field<?>> getFields(boolean includeStates)
-    {
+    public List<Field<?>> getFields(boolean includeStates) {
         List<Field<?>> filterFields = new ArrayList<Field<?>>(fields.size());
-        for (SimpleField field : fields)
-        {
+        for (SimpleField field : fields) {
             if (field.getValue() != null)
                 filterFields.add(field);
         }
-        if (includeStates && states.size() > 0)
-        {
+        if (includeStates && states.size() > 0) {
             filterFields.add(new SimpleField<String>(DatasetSB.DS_STATE_FIELD, SimpleSearchQuery.OrValues(states.toArray())));
         }
         return filterFields;

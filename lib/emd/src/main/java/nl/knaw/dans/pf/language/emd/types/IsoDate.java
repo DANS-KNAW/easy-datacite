@@ -10,16 +10,14 @@ import org.joda.time.format.DateTimeFormat;
  * 
  * @author ecco
  */
-public class IsoDate extends SimpleElementImpl<DateTime>
-{
+public class IsoDate extends SimpleElementImpl<DateTime> {
 
     /**
      * The format to represent the wrapped DateTime as a string.
      * 
      * @author ecco
      */
-    public enum Format
-    {
+    public enum Format {
         /**
          * represent the date in a pattern "yyyy-MM-dd'T'HH:mm:ss.SSSZ".
          */
@@ -63,8 +61,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
          * @param pattern
          *        the pattern of this format
          */
-        private Format(final String pattern)
-        {
+        private Format(final String pattern) {
             this.pattern = pattern;
         }
     }
@@ -90,14 +87,11 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      *        string to create a date from
      * @return a new DateTime instance
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
-     *         with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
      */
-    public static synchronized DateTime convert(final String iso8601String) throws InvalidDateStringException
-    {
+    public static synchronized DateTime convert(final String iso8601String) throws InvalidDateStringException {
         DateTime dateTime;
-        try
-        {
+        try {
             dateTime = new DateTime(iso8601String.trim(), Converter.LOCAL_TIME_ZONE);
         }
         // ecco: CHECKSTYLE: OFF
@@ -115,14 +109,11 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * 
      * @param dateString
      *        the string to determine the format of.
-     * @return YEAR, MONTH, or DAY format for strings with lengths corresponding to said format's
-     *         patterns, MILLISECCOND format for all other strings
+     * @return YEAR, MONTH, or DAY format for strings with lengths corresponding to said format's patterns, MILLISECCOND format for all other strings
      */
-    private static synchronized Format forString(final String dateString)
-    {
+    private static synchronized Format forString(final String dateString) {
         Format format = null;
-        switch (dateString.trim().length())
-        {
+        switch (dateString.trim().length()) {
         case 4:
             format = Format.YEAR;
             break;
@@ -148,11 +139,9 @@ public class IsoDate extends SimpleElementImpl<DateTime>
     }
 
     /**
-     * Constructs a new ISODate with it's inner field <code>value</code> set to the current date and
-     * time.
+     * Constructs a new ISODate with it's inner field <code>value</code> set to the current date and time.
      */
-    public IsoDate()
-    {
+    public IsoDate() {
         super();
         value = new DateTime();
     }
@@ -163,39 +152,32 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * @param dateTime
      *        a DateTime
      */
-    public IsoDate(final DateTime dateTime)
-    {
+    public IsoDate(final DateTime dateTime) {
         this.value = dateTime;
     }
 
     /**
-     * Constructs a new ISODate with it's inner field <code>value</code> set to an instance of DateTime
-     * constructed with the given string.
+     * Constructs a new ISODate with it's inner field <code>value</code> set to an instance of DateTime constructed with the given string.
      * 
      * @param iso8601String
      *        string to create the date from
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
-     *         with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
      */
-    public IsoDate(final String iso8601String) throws InvalidDateStringException
-    {
+    public IsoDate(final String iso8601String) throws InvalidDateStringException {
         value = convert(iso8601String);
         format = forString(iso8601String);
     }
 
     /**
-     * Set inner field <code>value</code> set to an instance of DateTime constructed with the given
-     * string.
+     * Set inner field <code>value</code> set to an instance of DateTime constructed with the given string.
      * 
      * @param iso8601String
      *        string to create the date from
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
-     *         with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
      */
-    public void setValueAsString(final String iso8601String) throws InvalidDateStringException
-    {
+    public void setValueAsString(final String iso8601String) throws InvalidDateStringException {
         value = convert(iso8601String);
         format = forString(iso8601String);
     }
@@ -205,33 +187,23 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * 
      * @return a string representation of the inner field <code>value</code> in this ISODate's format
      */
-    public String toString()
-    {
-        if (getValue() == null)
-        {
+    public String toString() {
+        if (getValue() == null) {
             return "null";
-        }
-        else
-        {
+        } else {
             return value.toString(DateTimeFormat.forPattern(format.pattern));// .withZone(Converter.EASY_TIME_ZONE));
         }
     }
 
     /**
-     * Returns a string representation of the inner field <code>value</code> in
-     * {@link Format#MILLISECOND}.
+     * Returns a string representation of the inner field <code>value</code> in {@link Format#MILLISECOND}.
      * 
-     * @return a string representation of the inner field <code>value</code> in
-     *         {@link Format#MILLISECOND}
+     * @return a string representation of the inner field <code>value</code> in {@link Format#MILLISECOND}
      */
-    public String getValueAsString()
-    {
-        if (getValue() == null)
-        {
+    public String getValueAsString() {
+        if (getValue() == null) {
             return "null";
-        }
-        else
-        {
+        } else {
             return value.toString(DateTimeFormat.forPattern(Format.MILLISECOND.pattern).withZone(Converter.LOCAL_TIME_ZONE));
         }
     }
@@ -241,8 +213,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * 
      * @return the pattern of the format
      */
-    public String getPattern()
-    {
+    public String getPattern() {
         return format.pattern;
     }
 
@@ -251,8 +222,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * 
      * @return the format of this ISODate
      */
-    public Format getFormat()
-    {
+    public Format getFormat() {
         return format;
     }
 
@@ -262,8 +232,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * @param format
      *        the format for this ISODate
      */
-    public void setFormat(final Format format)
-    {
+    public void setFormat(final Format format) {
         this.format = format;
     }
 
@@ -272,8 +241,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      */
     @Override
     // needed for JiBX when using generic classes
-    public DateTime getValue()
-    {
+    public DateTime getValue() {
         return super.getValue();
     }
 
@@ -282,8 +250,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      */
     @Override
     // needed for JiBX when using generic classes
-    public void setValue(final DateTime value)
-    {
+    public void setValue(final DateTime value) {
         super.setValue(value);
     }
 
@@ -292,13 +259,11 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      * 
      * @return {@link EmdConstants.DateScheme#W3CDTF}
      */
-    public EmdConstants.DateScheme getScheme()
-    {
+    public EmdConstants.DateScheme getScheme() {
         return scheme;
     }
 
-    public boolean isComplete()
-    {
+    public boolean isComplete() {
         return true;
     }
 

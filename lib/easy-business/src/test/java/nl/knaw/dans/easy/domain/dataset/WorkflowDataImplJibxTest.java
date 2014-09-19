@@ -14,23 +14,19 @@ import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
-{
+public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl> {
 
     @BeforeClass
-    public static void testStartInformation()
-    {
+    public static void testStartInformation() {
         before(WorkflowDataImplJibxTest.class);
     }
 
-    public WorkflowDataImplJibxTest()
-    {
+    public WorkflowDataImplJibxTest() {
         super(WorkflowDataImpl.class);
     }
 
     @Test
-    public void testMarshalUnMarshalEmpty() throws JiBXException, IOException, XMLSerializationException
-    {
+    public void testMarshalUnMarshalEmpty() throws JiBXException, IOException, XMLSerializationException {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         String filename = marshal(wfd, "_empty");
         WorkflowDataImpl wfd2 = unmarshal(filename);
@@ -38,8 +34,7 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
     }
 
     @Test
-    public void testMarshalUnMarshal() throws IOException, JiBXException, XMLSerializationException
-    {
+    public void testMarshalUnMarshal() throws IOException, JiBXException, XMLSerializationException {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         wfd.setAssigneeId("willem");
         String filename = marshal(wfd, "_full");
@@ -48,8 +43,7 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
     }
 
     @Test
-    public void testWorkflowStep() throws JiBXException, IOException, XMLSerializationException
-    {
+    public void testWorkflowStep() throws JiBXException, IOException, XMLSerializationException {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         wfd.getWorkflow();
 
@@ -61,18 +55,15 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
     }
 
     @Test
-    public void testWorkflowDataFull() throws Exception
-    {
+    public void testWorkflowDataFull() throws Exception {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         fillSteps(wfd.getWorkflow().getSteps());
         log().debug("\n" + wfd.asXMLString(4));
 
     }
 
-    private void fillSteps(List<WorkflowStep> steps)
-    {
-        for (WorkflowStep step : steps)
-        {
+    private void fillSteps(List<WorkflowStep> steps) {
+        for (WorkflowStep step : steps) {
             step.addRemark(new Remark("remark text", "remarkerId"));
             step.addRemark(new Remark("2e remark", "2eremarkerId"));
             step.setCompleted(true, "completerId");

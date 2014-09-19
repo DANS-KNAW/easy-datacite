@@ -1,7 +1,6 @@
 package proai;
 
-public interface SetInfo extends Writable
-{
+public interface SetInfo extends Writable {
 
     public String getSetSpec();
 

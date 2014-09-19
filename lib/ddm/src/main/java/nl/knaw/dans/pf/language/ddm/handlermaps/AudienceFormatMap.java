@@ -9,33 +9,25 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
-public class AudienceFormatMap
-{
+public class AudienceFormatMap {
     private static Properties properties;
 
-    private static Properties getProps() throws IOException, ResourceNotFoundException
-    {
-        if (properties == null)
-        {
+    private static Properties getProps() throws IOException, ResourceNotFoundException {
+        if (properties == null) {
             properties = new Properties();
             properties.load(ResourceLocator.getInputStream("format.properties"));
         }
         return properties;
     }
 
-    public static MetadataFormat get(final BasicString audience)
-    {
-        try
-        {
-            if (EmdConstants.SCHEME_ID_DISCIPLINES.equals(audience.getSchemeId()))
-            {
+    public static MetadataFormat get(final BasicString audience) {
+        try {
+            if (EmdConstants.SCHEME_ID_DISCIPLINES.equals(audience.getSchemeId())) {
                 final String property = getProps().getProperty(audience.getValue(), MetadataFormat.UNSPECIFIED.name());
                 return MetadataFormat.valueOf(property);
             }
         }
-        catch (final Throwable e)
-        {
-        }
+        catch (final Throwable e) {}
         return MetadataFormat.UNSPECIFIED;
     }
 }

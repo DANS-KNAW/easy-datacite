@@ -38,8 +38,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public abstract class AbstractEasyPage extends CommonPage implements EasyResources
-{
+public abstract class AbstractEasyPage extends CommonPage implements EasyResources {
     /**
      * Serial version UID.
      */
@@ -56,8 +55,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
     /**
      * Default constructor.
      */
-    public AbstractEasyPage()
-    {
+    public AbstractEasyPage() {
         super();
         init();
     }
@@ -69,8 +67,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      *        Parameters for this page.
      * @see org.apache.wicket.markup.html.WebPage#WebPage()
      */
-    public AbstractEasyPage(final PageParameters parameters)
-    {
+    public AbstractEasyPage(final PageParameters parameters) {
         super(parameters);
         init();
     }
@@ -82,8 +79,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      *        Model attached to the page.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(IModel)
      */
-    public AbstractEasyPage(final IModel<?> model)
-    {
+    public AbstractEasyPage(final IModel<?> model) {
         super(model);
         init();
     }
@@ -95,8 +91,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      *        PageMap attached.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(PageMap)
      */
-    public AbstractEasyPage(final IPageMap map)
-    {
+    public AbstractEasyPage(final IPageMap map) {
         super(map);
         init();
     }
@@ -110,8 +105,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      *        Model attached.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(PageMap, IModel)
      */
-    public AbstractEasyPage(final IPageMap map, final IModel model)
-    {
+    public AbstractEasyPage(final IPageMap map, final IModel model) {
         super(map, model);
         init();
     }
@@ -124,8 +118,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      * @param parameters
      *        PageParameters
      */
-    public AbstractEasyPage(final IPageMap pageMap, final PageParameters parameters)
-    {
+    public AbstractEasyPage(final IPageMap pageMap, final PageParameters parameters) {
         super(pageMap, parameters);
         init();
     }
@@ -133,8 +126,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
     /**
      * Initialization for all constructors.
      */
-    private void init()
-    {
+    private void init() {
         logger.info("Init. page=" + this.getClass().getName() + " user=" + getSessionUser());
         add(new Label(PAGE_TITLE, getPageTitleModel()));
         add(Script.JQUERY_CONTRIBUTION);
@@ -145,76 +137,61 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
         HttpServletRequest hsr = ((WebRequest) getRequest()).getHttpServletRequest();
         String ref_url = hsr.getHeader("Referer");
         String hostname = hsr.getHeader("Host"); // niet mooi, maar hoe anders?
-        if (ref_url != null && !ref_url.contains(hostname))
-        {
+        if (ref_url != null && !ref_url.contains(hostname)) {
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_URL_REQUEST, new HttpRequestStatistics(hsr), new PageClassStatistics(this));
         }
 
     }
 
-    public boolean isAuthenticated()
-    {
+    public boolean isAuthenticated() {
         return !getSessionUser().isAnonymous();
     }
 
-    public static EasySession getEasySession()
-    {
+    public static EasySession getEasySession() {
         return EasySession.get();
     }
 
-    public static EasyUser getSessionUser()
-    {
+    public static EasyUser getSessionUser() {
         return getEasySession().getUser();
     }
 
     /**
-     * Gets the context parameters. Subclasses that use AuthorizationStrategy with more context than the
-     * sessionUser should override.
+     * Gets the context parameters. Subclasses that use AuthorizationStrategy with more context than the sessionUser should override.
      * 
      * @return the context parameters
      */
-    public ContextParameters getContextParameters()
-    {
+    public ContextParameters getContextParameters() {
         return new ContextParameters(getSessionUser());
     }
 
-    public void registerAjaxEventListener(String event, AjaxEventListener listener)
-    {
+    public void registerAjaxEventListener(String event, AjaxEventListener listener) {
         List<AjaxEventListener> listeners = getAjaxEventListenersMap().get(event);
-        if (listeners == null)
-        {
+        if (listeners == null) {
             listeners = new ArrayList<AjaxEventListener>();
             getAjaxEventListenersMap().put(event, listeners);
         }
         listeners.add(listener);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Registered AjaxEventListener. event= " + event + " listener=" + listener);
         }
     }
 
-    public List<AjaxEventListener> getAjaxEventListeners(String event)
-    {
+    public List<AjaxEventListener> getAjaxEventListeners(String event) {
         List<AjaxEventListener> listeners = getAjaxEventListenersMap().get(event);
-        if (listeners == null)
-        {
+        if (listeners == null) {
             listeners = Collections.emptyList();
         }
         return listeners;
     }
 
-    public void handleAjaxEvent(String event, AjaxRequestTarget target)
-    {
-        for (AjaxEventListener listener : getAjaxEventListeners(event))
-        {
+    public void handleAjaxEvent(String event, AjaxRequestTarget target) {
+        for (AjaxEventListener listener : getAjaxEventListeners(event)) {
             listener.handleAjaxEvent(target);
         }
     }
 
-    private Map<String, List<AjaxEventListener>> getAjaxEventListenersMap()
-    {
-        if (ajaxEventListenersMap == null)
-        {
+    private Map<String, List<AjaxEventListener>> getAjaxEventListenersMap() {
+        if (ajaxEventListenersMap == null) {
             ajaxEventListenersMap = new HashMap<String, List<AjaxEventListener>>();
         }
         return ajaxEventListenersMap;
@@ -225,27 +202,24 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      * 
      * @return the page title prefix
      */
-    public String getPageTitlePrefix()
-    {
+    public String getPageTitlePrefix() {
         return getLocalizer().getString("page.title.prefix", this);
     }
 
     /**
-     * Returns the postfix of the page's title. The postfix is automatically appended to the prefix
-     * separating the two with a dash. This is used in the <title> tag.
+     * Returns the postfix of the page's title. The postfix is automatically appended to the prefix separating the two with a dash. This is used in the <title>
+     * tag.
      * 
      * @return the page title prefix
      */
-    public String getPageTitlePostfix()
-    {
+    public String getPageTitlePostfix() {
         return getLocalizer().getString("page.title.postfix", this);
     }
 
     /**
      * Refresh the contents of the page. Subclasses may override.
      */
-    public void refresh()
-    {
+    public void refresh() {
         logger.warn("Refresh called on " + this.getClass().getName() + " while it is not implementing refresh!" + printStackTrace());
     }
 
@@ -255,13 +229,10 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
      * @return
      */
     @SuppressWarnings("serial")
-    public IModel getPageTitleModel()
-    {
-        return new AbstractReadOnlyModel()
-        {
+    public IModel getPageTitleModel() {
+        return new AbstractReadOnlyModel() {
 
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 String prefix = getPageTitlePrefix();
                 String postfix = getPageTitlePostfix();
                 // insert dash between prefix and postfix
@@ -273,13 +244,10 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
         };
     }
 
-    private String printStackTrace()
-    {
+    private String printStackTrace() {
         StringBuilder sb = new StringBuilder();
-        for (StackTraceElement ste : Thread.currentThread().getStackTrace())
-        {
-            if (ste.getClassName().startsWith("nl.knaw"))
-            {
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+            if (ste.getClassName().startsWith("nl.knaw")) {
                 sb.append("\n\t").append("at ").append(ste.getClassName()).append(" (").append(ste.getFileName()).append(":").append(ste.getLineNumber())
                         .append(")");
             }
@@ -287,8 +255,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
         return sb.toString();
     }
 
-    public static boolean isArchivistOrAdmin()
-    {
+    public static boolean isArchivistOrAdmin() {
         return getSessionUser().hasRole(Role.ARCHIVIST, Role.ADMIN);
     }
 

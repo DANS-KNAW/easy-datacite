@@ -16,8 +16,7 @@ import proai.error.RepositoryException;
 /**
  * SetInfo impl that includes setDescription elements for setDiss dissemination, if provided + available.
  */
-public class FedoraSetInfo implements SetInfo
-{
+public class FedoraSetInfo implements SetInfo {
 
     private FedoraClient m_fedora;
 
@@ -30,29 +29,23 @@ public class FedoraSetInfo implements SetInfo
     private final InvocationSpec m_setDiss;
 
     // if setDiss is null, descriptions don't exist, which is ok
-    public FedoraSetInfo(FedoraClient fedora, String setObjectPID, String setSpec, String setName, String setDiss, String setDissInfo)
-    {
+    public FedoraSetInfo(FedoraClient fedora, String setObjectPID, String setSpec, String setName, String setDiss, String setDissInfo) {
         m_fedora = fedora;
         m_setPID = PID.getInstance(setObjectPID);
         m_setSpec = setSpec.replace(' ', '_');
         m_setName = setName;
-        if (setDissInfo != null)
-        {
+        if (setDissInfo != null) {
             m_setDiss = InvocationSpec.getInstance(setDiss);
-        }
-        else
-        {
+        } else {
             m_setDiss = null;
         }
     }
 
-    public String getSetSpec()
-    {
+    public String getSetSpec() {
         return m_setSpec;
     }
 
-    public void write(PrintWriter out) throws RepositoryException
-    {
+    public void write(PrintWriter out) throws RepositoryException {
         out.println("<set>");
         out.println("  <setSpec>" + m_setSpec + "</setSpec>");
         out.println("  <setName>" + StreamUtility.enc(m_setName) + "</setName>");
@@ -60,19 +53,16 @@ public class FedoraSetInfo implements SetInfo
         out.println("</set>");
     }
 
-    private void writeDescriptions(PrintWriter out) throws RepositoryException
-    {
+    private void writeDescriptions(PrintWriter out) throws RepositoryException {
         if (m_setDiss == null)
             return;
         InputStream in = null;
-        try
-        {
+        try {
             in = m_setDiss.invoke(m_fedora, m_setPID);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuffer buf = new StringBuffer();
             String line = reader.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 buf.append(line + "\n");
                 line = reader.readLine();
             }
@@ -86,20 +76,15 @@ public class FedoraSetInfo implements SetInfo
                 throw new RepositoryException("Bad set description xml: closing </setDescrptions> not found");
             out.print(xml.substring(0, i));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("IO error reading " + m_setDiss, e);
         }
-        finally
-        {
+        finally {
             if (in != null)
-                try
-                {
+                try {
                     in.close();
                 }
-                catch (IOException e)
-                {
-                }
+                catch (IOException e) {}
         }
     }
 

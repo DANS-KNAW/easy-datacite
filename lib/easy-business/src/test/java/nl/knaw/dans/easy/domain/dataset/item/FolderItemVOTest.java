@@ -9,12 +9,10 @@ import nl.knaw.dans.easy.domain.model.AccessibleTo;
 
 import org.junit.Test;
 
-public class FolderItemVOTest
-{
+public class FolderItemVOTest {
 
     @Test
-    public void setAccessibleToes()
-    {
+    public void setAccessibleToes() {
         FolderItemVO fovo = new FolderItemVO();
         fovo.setSid("easy-folder:123");
         List<AccessibleTo> accessibleToes = new ArrayList<AccessibleTo>();

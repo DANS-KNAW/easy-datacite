@@ -22,15 +22,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ResourceMetadataListTest
-{
+public class ResourceMetadataListTest {
     private static final Logger logger = LoggerFactory.getLogger(ResourceMetadataListTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws Exception
-    {
+    public void serializeDeserializeEmpty() throws Exception {
         ResourceMetadataList rml = new ResourceMetadataList();
 
         if (verbose)
@@ -44,8 +42,7 @@ public class ResourceMetadataListTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws Exception
-    {
+    public void serializeDeserializeFull() throws Exception {
         ResourceMetadataList rml = new ResourceMetadataList();
 
         ResourceMetadata rm = new ResourceMetadata("foo/bar/test.txt");
@@ -75,15 +72,13 @@ public class ResourceMetadataListTest
         assertTrue(handler.passed());
     }
 
-    private Element getContent(String filename) throws DocumentException
-    {
+    private Element getContent(String filename) throws DocumentException {
         Dom4jReader reader = new Dom4jReader(filename);
         return (Element) reader.getNode("content");
     }
 
     @Test
-    public void deserializeFromFile() throws Exception
-    {
+    public void deserializeFromFile() throws Exception {
         ResourceMetadataList rml = (ResourceMetadataList) JiBXObjectFactory.unmarshal(ResourceMetadataList.class, new File(
                 "src/test/resources/test-files/resource-metadata-list.xml"));
         if (verbose)
@@ -91,19 +86,16 @@ public class ResourceMetadataListTest
     }
 
     @Test(expected = XMLDeserializationException.class)
-    public void deserializeFromWrongFile() throws Exception
-    {
+    public void deserializeFromWrongFile() throws Exception {
         JiBXObjectFactory.unmarshal(ResourceMetadataList.class, new File("src/test/resources/test-files/wrong-resource-metadata-list.xml"));
     }
 
     @Test
-    public void integrateWithFileItemMetadata() throws Exception
-    {
+    public void integrateWithFileItemMetadata() throws Exception {
         ResourceMetadataList rml = (ResourceMetadataList) JiBXObjectFactory.unmarshal(ResourceMetadataList.class, new File(
                 "src/test/resources/test-files/resource-metadata-list.xml"));
 
-        for (ResourceMetadata rmd : rml.getResourceMetadataAsList())
-        {
+        for (ResourceMetadata rmd : rml.getResourceMetadataAsList()) {
             FileItemMetadata fimd = new FileItemMetadataImpl(new DmoStoreId("test:1"));
             fimd.setAdditionalMetadata(rmd.getAdditionalMetadata());
             if (verbose)

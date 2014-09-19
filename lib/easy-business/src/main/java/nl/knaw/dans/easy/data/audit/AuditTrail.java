@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.data.audit;
 
-public interface AuditTrail
-{
+public interface AuditTrail {
 
     void store(AuditRecord<?> auditRecord);
 

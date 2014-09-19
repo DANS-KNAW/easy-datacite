@@ -15,8 +15,7 @@ import nl.knaw.dans.common.wicket.components.search.facets.FacetStrategy;
  * 
  * @author lobo
  */
-public class SearchResultConfig implements Serializable
-{
+public class SearchResultConfig implements Serializable {
     private static final long serialVersionUID = -9131907959762403710L;
 
     /**
@@ -46,98 +45,79 @@ public class SearchResultConfig implements Serializable
 
     private FacetStrategy facetStrategy;
 
-    public SearchResultConfig()
-    {
+    public SearchResultConfig() {
 
     }
 
-    public void setHitPanelFactory(SearchHitPanelFactory hitPanelFactory)
-    {
+    public void setHitPanelFactory(SearchHitPanelFactory hitPanelFactory) {
         this.hitPanelFactory = hitPanelFactory;
     }
 
-    public SearchHitPanelFactory getHitPanelFactory()
-    {
+    public SearchHitPanelFactory getHitPanelFactory() {
         return hitPanelFactory;
     }
 
-    public void setSortLinks(List<SortLinkConfig> sortLinks)
-    {
+    public void setSortLinks(List<SortLinkConfig> sortLinks) {
         this.sortLinks = sortLinks;
     }
 
     @SuppressWarnings("unchecked")
-    public List<SortLinkConfig> getSortLinks()
-    {
+    public List<SortLinkConfig> getSortLinks() {
         return (List<SortLinkConfig>) (sortLinks != null ? sortLinks : Collections.emptyList());
     }
 
-    public void setRefineFacets(List<FacetConfig> refineFacets)
-    {
+    public void setRefineFacets(List<FacetConfig> refineFacets) {
         this.refineFacets = refineFacets;
     }
 
-    public List<FacetConfig> getRefineFacets()
-    {
+    public List<FacetConfig> getRefineFacets() {
         return refineFacets;
     }
 
-    public void setResultCount(int resultCount)
-    {
+    public void setResultCount(int resultCount) {
         this.resultCount = resultCount;
     }
 
-    public int getResultCount()
-    {
+    public int getResultCount() {
         return resultCount;
     }
 
-    public void setShowBrowseMore(boolean showBrowseMore)
-    {
+    public void setShowBrowseMore(boolean showBrowseMore) {
         this.showBrowseMore = showBrowseMore;
     }
 
-    public boolean showBrowseMore()
-    {
+    public boolean showBrowseMore() {
         return showBrowseMore;
     }
 
-    public void setShowAdvancedSearch(boolean showAdvancedSearch)
-    {
+    public void setShowAdvancedSearch(boolean showAdvancedSearch) {
         this.showAdvancedSearch = showAdvancedSearch;
     }
 
-    public boolean showAdvancedSearch()
-    {
+    public boolean showAdvancedSearch() {
         return showAdvancedSearch;
     }
 
-    public void setInitialSortFields(List<SortField> initialSortFields)
-    {
+    public void setInitialSortFields(List<SortField> initialSortFields) {
         this.initialSortFields = initialSortFields;
     }
 
-    public List<SortField> getInitialSortFields()
-    {
+    public List<SortField> getInitialSortFields() {
         return initialSortFields;
     }
 
-    public void addInitialSortField(SortField sortField)
-    {
+    public void addInitialSortField(SortField sortField) {
         initialSortFields.add(sortField);
     }
 
-    public FacetStrategy getFacetStrategy()
-    {
-        if (facetStrategy == null)
-        {
+    public FacetStrategy getFacetStrategy() {
+        if (facetStrategy == null) {
             facetStrategy = new DefaultFacetStrategy();
         }
         return facetStrategy;
     }
 
-    public void setFacetStrategy(FacetStrategy facetStrategy)
-    {
+    public void setFacetStrategy(FacetStrategy facetStrategy) {
         this.facetStrategy = facetStrategy;
     }
 

@@ -12,8 +12,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class MarkupEditorPanel extends CommonPanel
-{
+public class MarkupEditorPanel extends CommonPanel {
 
     private static final long serialVersionUID = 4723045676949760270L;
 
@@ -21,31 +20,26 @@ public class MarkupEditorPanel extends CommonPanel
     private final IModel<Serializable> model;
     private Label outputFeed;
 
-    public MarkupEditorPanel(String id)
-    {
+    public MarkupEditorPanel(String id) {
         super(id);
         model = new Model<Serializable>("");
     }
 
-    public MarkupEditorPanel(String id, IModel<Serializable> model)
-    {
+    public MarkupEditorPanel(String id, IModel<Serializable> model) {
         super(id, model);
         this.model = model;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         add(new MarkupEditorForm("markupEditorForm", model));
         addCommonFeedbackPanel();
         outputFeed = new Label("outputFeed", new Model<Serializable>(""));
@@ -53,13 +47,11 @@ public class MarkupEditorPanel extends CommonPanel
         add(outputFeed);
     }
 
-    private void setOutPut(String output)
-    {
+    private void setOutPut(String output) {
         outputFeed.setDefaultModelObject(output);
     }
 
-    class MarkupEditorForm extends CommonForm<Serializable>
-    {
+    class MarkupEditorForm extends CommonForm<Serializable> {
 
         private static final long serialVersionUID = 892200475584026808L;
 
@@ -68,31 +60,26 @@ public class MarkupEditorPanel extends CommonPanel
         private transient HtmlValidator htmlValidator;
         private final IModel<Serializable> model;
 
-        public MarkupEditorForm(String id)
-        {
+        public MarkupEditorForm(String id) {
             super(id);
             model = new Model<Serializable>("");
         }
 
-        public MarkupEditorForm(String id, IModel<Serializable> model)
-        {
+        public MarkupEditorForm(String id, IModel<Serializable> model) {
             super(id, model);
             this.model = model;
         }
 
         @Override
-        protected void onBeforeRender()
-        {
-            if (!initiated)
-            {
+        protected void onBeforeRender() {
+            if (!initiated) {
                 init();
                 initiated = true;
             }
             super.onBeforeRender();
         }
 
-        private void init()
-        {
+        private void init() {
             markupTextArea = new TextArea<Serializable>("markupTextArea", model);
             markupTextArea.setEscapeModelStrings(false);
 
@@ -101,31 +88,25 @@ public class MarkupEditorPanel extends CommonPanel
         }
 
         @Override
-        protected void onSubmit()
-        {
+        protected void onSubmit() {
             HtmlValidator validator = getHtmlValidator();
             String markup = markupTextArea.getDefaultModelObjectAsString();
             String tidied = validator.tidyPartialHtml(markup);
             String escapedTidied = tidied.replaceAll("&", "&amp;");
             markupTextArea.getModel().setObject(escapedTidied);
-            if (validator.hasErrors() || validator.hasWarnings())
-            {
-                for (String error : validator.getErrorMessages())
-                {
+            if (validator.hasErrors() || validator.hasWarnings()) {
+                for (String error : validator.getErrorMessages()) {
                     error(error);
                 }
-                for (String warning : validator.getWarningMessages())
-                {
+                for (String warning : validator.getWarningMessages()) {
                     warn(warning);
                 }
             }
             setOutPut(tidied);
         }
 
-        private HtmlValidator getHtmlValidator()
-        {
-            if (htmlValidator == null)
-            {
+        private HtmlValidator getHtmlValidator() {
+            if (htmlValidator == null) {
                 htmlValidator = new HtmlValidator();
             }
             return htmlValidator;

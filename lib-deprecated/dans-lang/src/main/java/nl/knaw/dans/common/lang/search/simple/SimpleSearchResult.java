@@ -11,8 +11,7 @@ import nl.knaw.dans.common.lang.search.SearchHit;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.FieldNotFoundException;
 
-public class SimpleSearchResult<T> implements SearchResult<T>
-{
+public class SimpleSearchResult<T> implements SearchResult<T> {
     private static final long serialVersionUID = -2492083390296926152L;
 
     private List<SearchHit<T>> results;
@@ -23,54 +22,44 @@ public class SimpleSearchResult<T> implements SearchResult<T>
 
     private boolean useRelevanceScore;
 
-    public SimpleSearchResult()
-    {
-    }
+    public SimpleSearchResult() {}
 
     @SuppressWarnings("unchecked")
-    public List<SearchHit<T>> getHits()
-    {
+    public List<SearchHit<T>> getHits() {
         return results != null ? results : Collections.EMPTY_LIST;
     }
 
-    public void setHits(List<SearchHit<T>> results)
-    {
+    public void setHits(List<SearchHit<T>> results) {
         this.results = results;
     }
 
-    public void setNumFound(int numFound)
-    {
+    public void setNumFound(int numFound) {
         this.numFound = numFound;
     }
 
-    public int getTotalHits()
-    {
+    public int getTotalHits() {
         return this.numFound;
     }
 
-    public Collection<FacetField> getFacets()
-    {
+    public Collection<FacetField> getFacets() {
         if (facets == null)
             return Collections.emptySet();
         else
             return facets.values();
     }
 
-    public void setFacets(Collection<FacetField> facetList)
-    {
+    public void setFacets(Collection<FacetField> facetList) {
         facets = new HashMap<String, FacetField>(facetList.size());
         for (FacetField field : facetList)
             facets.put(field.getName(), field);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + "[numFound = '" + numFound + "' number of hits = '" + results.size() + "']";
     }
 
-    public FacetField getFacetByName(String facetFieldName) throws FieldNotFoundException
-    {
+    public FacetField getFacetByName(String facetFieldName) throws FieldNotFoundException {
         if (facets == null)
             throw new FieldNotFoundException(facetFieldName);
         FacetField result = facets.get(facetFieldName);
@@ -79,13 +68,11 @@ public class SimpleSearchResult<T> implements SearchResult<T>
         return result;
     }
 
-    public void setUseRelevanceScore(boolean useRelevanceScore)
-    {
+    public void setUseRelevanceScore(boolean useRelevanceScore) {
         this.useRelevanceScore = useRelevanceScore;
     }
 
-    public boolean useRelevanceScore()
-    {
+    public boolean useRelevanceScore() {
         return useRelevanceScore;
     }
 }

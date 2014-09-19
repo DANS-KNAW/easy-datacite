@@ -21,8 +21,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CrosswalkInlineTest
-{
+public class CrosswalkInlineTest {
     private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
     private static final String W3CDTF_TYPE = " xsi:type='dcterms:W3CDTF'";
 
@@ -37,19 +36,16 @@ public class CrosswalkInlineTest
     private static Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
 
     @Test
-    public void dais()
-    {
+    public void dais() {
         final String[] s = {"9876543210", "9876543211", "9876543212", "9876543213", "9876543214", "9876543215", "9876543216", "9876543217", "9876543218",
                 "9876543219", "987654321x"};
-        for (final String v : s)
-        {
+        for (final String v : s) {
             logger.debug(v + " " + DAI.isValid(v));
         }
     }
 
     @Test
-    public void invalidAccesRights() throws Exception
-    {
+    public void invalidAccesRights() throws Exception {
         final String value = "STUPID";
         final String content = newEl("dc:title", "", "t") + newEl("ddm:accessRights", "", value);
         final String xml = newRoot(newProfile(content));
@@ -58,8 +54,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void invalidSyntax() throws Exception
-    {
+    public void invalidSyntax() throws Exception {
         final String notTerminated = "<ddm:accessRights>";
         final String notTerminatedToo = "<this mistake='is not reported'>";
         final String content = newProfile(notTerminated) + notTerminatedToo;
@@ -67,16 +62,14 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void minimalInput() throws Exception
-    {
+    public void minimalInput() throws Exception {
         final String profile = newMiniProfile("");
         final EasyMetadata emd = runTest(new Exception(), newRoot(profile), 0);
         checkMiniProfile(emd);
     }
 
     @Test
-    public void cmdiCheckBoxForLanguageLiterature() throws Exception
-    {
+    public void cmdiCheckBoxForLanguageLiterature() throws Exception {
         // see also CMDIFormatChoiceWrapper.java
         final String cmdiMime = "application/x-cmdi+xml";
         final String fieldUnderTest = newEl("dc:format", "", cmdiMime);
@@ -86,8 +79,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void typedLanguage() throws Exception
-    {
+    public void typedLanguage() throws Exception {
         final String value = "XXXXXX";
         final String fieldUnderTest = newEl("dcterms:language", " xsi:type='dcterms:ISO639-3'", value);
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(fieldUnderTest)), 0);
@@ -96,8 +88,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void narcisTypeProperty() throws Exception
-    {
+    public void narcisTypeProperty() throws Exception {
         final String fieldUnderTest = newEl("dcterms:audience", NARCIS_TYPE, "D34500");
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(fieldUnderTest)), 0);
         checkMiniProfile(emd);
@@ -105,8 +96,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void plainAudience() throws Exception
-    {
+    public void plainAudience() throws Exception {
         final String value = "literal audience value";
         final String fieldUnderTest = newEl("dcterms:audience", "", value);
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(fieldUnderTest)), 0);
@@ -115,8 +105,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void narcisTypePropertyWithAlternativeNameSpace() throws Exception
-    {
+    public void narcisTypePropertyWithAlternativeNameSpace() throws Exception {
         final String audience = newEl("dcterms:audience", " xsi:type='xnarcis:DisciplineType'", "D34500");
         final String xml = newRoot(newMiniProfile("") + newDcmi(audience)).replace(" xmlns:narcis=", " xmlns:xnarcis=");
         final EasyMetadata emd = runTest(new Exception(), xml, 0);
@@ -124,15 +113,13 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void alternativeNameSpaces() throws Exception
-    {
+    public void alternativeNameSpaces() throws Exception {
         final EasyMetadata emd = runTest(new Exception(), readFile("NameSpacePrefixVariants.xml"), 0);
         checkMiniProfile(emd);
     }
 
     @Test
-    public void freeContentWithSchema() throws Exception
-    {
+    public void freeContentWithSchema() throws Exception {
         final String xml = newRootWithXhtml(newMiniProfile("") + newAdditional(FREE_CONTENT));
         final String xsd = "http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd";
         final String withXhtmlSchema = xml.replace("schemaLocation='", "schemaLocation='" + "http://www.w3.org/1999/xhtml" + " " + xsd + " ");
@@ -142,8 +129,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void freeContentWithoutSchema() throws Exception
-    {
+    public void freeContentWithoutSchema() throws Exception {
         final String xml = newRootWithXhtml(newMiniProfile("") + newAdditional(FREE_CONTENT));
         // warnings about skipped elements
         final EasyMetadata emd = runTest(new Exception(), xml, 2, " xhtml:body at level:3", " p at level:4");
@@ -151,8 +137,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void freeContentWithoutNS() throws Exception
-    {
+    public void freeContentWithoutNS() throws Exception {
         final String xml = newRoot(newMiniProfile("") + newAdditional("<body><p>Hello</p></body>"));
         // warnings about skipped elements
         final EasyMetadata emd = runTest(new Exception(), xml, 3, "Invalid content", "schemas");
@@ -160,16 +145,14 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void freeContentInProfile() throws Exception
-    {
+    public void freeContentInProfile() throws Exception {
         final String xml = newRootWithXhtml(newMiniProfile(FREE_CONTENT));
         final EasyMetadata emd = runTest(new Exception(), xml, 3, " xhtml:body at level:3", " p at level:4", "No child element is expected");
         assertThat(emd, nullValue());
     }
 
     @Test
-    public void daiCreator() throws Exception
-    {
+    public void daiCreator() throws Exception {
         final String name = "pipo de clown";
         final String id = "9876543216";
         final String sys = "info:eu-repo/dai/nl/";
@@ -183,8 +166,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void invalidDaiContributor() throws Exception
-    {
+    public void invalidDaiContributor() throws Exception {
         final String name = "pipo de clown";
         final String id = "123456789x";
         final String sys = "info:eu-repo/dai/nl/";
@@ -194,8 +176,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void spatialPoint() throws Exception
-    {
+    public void spatialPoint() throws Exception {
         final EasyMetadata emd = runTest(new Exception(), readFile("spatial.xml"), 0);
         checkMiniProfile(emd);
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
@@ -208,8 +189,7 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void abr() throws Exception
-    {
+    public void abr() throws Exception {
         final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 2, "skipped", "temporal", "subject");
         checkMiniProfile(emd);
     }
@@ -218,11 +198,9 @@ public class CrosswalkInlineTest
             "dcterms:modified", "dcterms:dateCopyrighted", "dcterms:dateSubmitted", "dcterms:date", "dc:date"};
 
     @Test
-    public void emptyDates() throws Exception
-    {
+    public void emptyDates() throws Exception {
         final StringBuffer sb = new StringBuffer();
-        for (final String field : dateFields)
-        {
+        for (final String field : dateFields) {
             sb.append(newEl(field, "", ""));
         }
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
@@ -232,23 +210,20 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void emptyW3cDates() throws Exception
-    {
+    public void emptyW3cDates() throws Exception {
         final String content = newEl("ddm:created", "", "") + newEl("ddm:available", "", "");
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(content)), 5, "available", "created", "must be valid");
         assertThat(emd, nullValue());
     }
 
     @Test
-    public void dates() throws Exception
-    {
+    public void dates() throws Exception {
         final StringBuffer sb = new StringBuffer();
         // ddm:created is in miniProfile
         sb.append(newEl("ddm:available", "", "1900"));
 
         int i = 0;
-        for (final String field : dateFields)
-        {
+        for (final String field : dateFields) {
             sb.append(newEl(field, W3CDTF_TYPE, "1900-04-" + pad(++i)));
             sb.append(newEl(field, "", pad(++i) + "-03-2013"));
         }
@@ -258,15 +233,13 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void relations() throws Exception
-    {
+    public void relations() throws Exception {
         final String fields[] = {"dc:relation", "dcterms:relation", "dcterms:conformsTo", "dcterms:isVersionOf", "dcterms:hasVersion", "dcterms:isReplacedBy",
                 "dcterms:replaces", "dcterms:isRequiredBy", "dcterms:requires", "dcterms:isPartOf", "dcterms:hasPart", "dcterms:isReferencedBy",
                 "dcterms:references", "dcterms:isFormatOf", "dcterms:hasFormat",};
         final StringBuffer sb = new StringBuffer();
         int i = 0;
-        for (final String field : fields)
-        {
+        for (final String field : fields) {
             sb.append(newEl(field, "", "relatie nummer " + pad(++i)));
             sb.append(newEl(field, "", ""));
         }
@@ -275,30 +248,25 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdRelation().getValues().size(), is(fields.length));
     }
 
-    private String pad(final int i)
-    {
+    private String pad(final int i) {
         final String s = "0" + i;
         return s.substring(s.length() - 2);
     }
 
-    private String readFile(final String string) throws Exception
-    {
+    private String readFile(final String string) throws Exception {
         final byte[] xml = StreamUtil.getBytes(new FileInputStream("src/test/resources/input/" + string));
         return new String(xml, Encoding.UTF8);
     }
 
-    private static String newEl(final String element, final String attributes, final String content)
-    {
+    private static String newEl(final String element, final String attributes, final String content) {
         return "<" + element + attributes + ">" + content + "</" + element + ">";
     }
 
-    private static String newProfile(final String content)
-    {
+    private static String newProfile(final String content) {
         return newEl("ddm:profile", "", content);
     }
 
-    private static String newMiniProfile(final String additionalContent)
-    {
+    private static String newMiniProfile(final String additionalContent) {
         final String defaultContent = ""//
                 + newEl("dc:title", "", "fabeltjeskrant") //
                 + newEl("dcterms:description", "", "tv serie") //
@@ -310,29 +278,24 @@ public class CrosswalkInlineTest
         return newEl("ddm:profile", "", defaultContent + additionalContent);
     }
 
-    private static String newDcmi(final String content)
-    {
+    private static String newDcmi(final String content) {
         return newEl("ddm:dcmiMetadata", "", content);
     }
 
-    private static String newAdditional(final String content)
-    {
+    private static String newAdditional(final String content) {
         return newEl("ddm:additional-xml", "", content);
     }
 
-    private static String newRoot(final String content)
-    {
+    private static String newRoot(final String content) {
         return "<?xml version='1.0' encoding='UTF-8'?>\n" + newEl("ddm:DDM", newRootAttrs(), content);
     }
 
-    private static String newRootWithXhtml(final String content)
-    {
+    private static String newRootWithXhtml(final String content) {
         final String attrs = newRootAttrs() + " " + "xmlns:xhtml='" + "http://www.w3.org/1999/xhtml" + "'";
         return "<?xml version='1.0' encoding='UTF-8'?>\n" + newEl("ddm:DDM", attrs, content);
     }
 
-    private static String newRootAttrs()
-    {
+    private static String newRootAttrs() {
         final StringBuffer attrs = new StringBuffer();
         for (final NameSpace ns : NameSpace.values())
             attrs.append(" xmlns:" + ns.prefix + "='" + ns.uri + "'");
@@ -340,8 +303,7 @@ public class CrosswalkInlineTest
         return attrs.toString();
     }
 
-    private static void checkMiniProfile(final EasyMetadata emd)
-    {
+    private static void checkMiniProfile(final EasyMetadata emd) {
         assertThat(emd.getEmdAudience().getDisciplines().get(0).getValue(), is(MINI_DISCIPLINE));
         assertThat(emd.getEmdTitle().getDcTitle().get(0).getValue(), is("fabeltjeskrant"));
         assertThat(emd.getEmdDescription().getDcDescription().get(0).getValue(), is("tv serie"));
@@ -350,18 +312,15 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdRights().getTermsAccessRights().get(0).getValue(), is("OPEN_ACCESS_FOR_REGISTERED_USERS"));
     }
 
-    private static EasyMetadata runTest(final Exception dummyException, final String xml, final int i, final String... messageContents)
-    {
+    private static EasyMetadata runTest(final Exception dummyException, final String xml, final int i, final String... messageContents) {
         final String methodName = dummyException.getStackTrace()[0].getMethodName();
         crosswalk.getXmlErrorHandler().reset();
         EasyMetadata emd = null;
         logger.debug(methodName + "\n" + xml);
-        try
-        {
+        try {
             emd = crosswalk.createFrom(xml);
         }
-        catch (final CrosswalkException e)
-        {
+        catch (final CrosswalkException e) {
             logger.info(methodName + " " + e.getMessage());
             assertThat(e.getMessage(), StringContains.containsString(messageContents[0]));
         }

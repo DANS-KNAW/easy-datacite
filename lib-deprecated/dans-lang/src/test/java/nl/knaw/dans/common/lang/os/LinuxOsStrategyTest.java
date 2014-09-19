@@ -8,12 +8,10 @@ import java.io.File;
 
 import org.junit.Test;
 
-public class LinuxOsStrategyTest
-{
+public class LinuxOsStrategyTest {
 
     @Test
-    public void chmodLegal() throws Exception
-    {
+    public void chmodLegal() throws Exception {
         LinuxOsStrategy los = new LinuxOsStrategy();
         File file = File.createTempFile("ostest", null);
         int exitValue = los.setAllRWX(file, System.out, System.err);
@@ -22,8 +20,7 @@ public class LinuxOsStrategyTest
     }
 
     @Test
-    public void chmodIllegal() throws Exception
-    {
+    public void chmodIllegal() throws Exception {
         LinuxOsStrategy los = new LinuxOsStrategy();
         File file = new File("/var/local/ostest");
         int exitValue = los.setAllRWX(file, System.out, System.err);

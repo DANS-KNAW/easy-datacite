@@ -16,85 +16,68 @@ import org.slf4j.LoggerFactory;
  * 
  * @author vincent ?
  */
-public class HbnEnumUserType<E extends Enum<E>> implements UserType
-{
+public class HbnEnumUserType<E extends Enum<E>> implements UserType {
     private static final Logger log = LoggerFactory.getLogger(HbnEnumUserType.class);
     private Class<E> clazz = null;
 
-    protected HbnEnumUserType(Class<E> c)
-    {
+    protected HbnEnumUserType(Class<E> c) {
         this.clazz = c;
         log.debug("Instantiated HbnEnumUserType with class {}", c);
     }
 
     private static final int[] SQL_TYPES = {Types.VARCHAR};
 
-    public int[] sqlTypes()
-    {
+    public int[] sqlTypes() {
         return SQL_TYPES;
     }
 
-    public Class<E> returnedClass()
-    {
+    public Class<E> returnedClass() {
         return clazz;
     }
 
-    public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner) throws HibernateException, SQLException
-    {
+    public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner) throws HibernateException, SQLException {
         String name = resultSet.getString(names[0]);
         E result = null;
-        if (!resultSet.wasNull())
-        {
+        if (!resultSet.wasNull()) {
             result = Enum.valueOf(clazz, name);
         }
         return result;
     }
 
-    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index) throws HibernateException, SQLException
-    {
+    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index) throws HibernateException, SQLException {
         log.debug("Calling nullSafeSet for {}, value = {}, index = {}", this, value, index);
-        if (null == value)
-        {
+        if (null == value) {
             preparedStatement.setNull(index, Types.VARCHAR);
-        }
-        else
-        {
+        } else {
             preparedStatement.setString(index, ((Enum) value).name());
         }
     }
 
-    public Object deepCopy(Object value) throws HibernateException
-    {
+    public Object deepCopy(Object value) throws HibernateException {
         return value;
     }
 
-    public boolean isMutable()
-    {
+    public boolean isMutable() {
         return false;
     }
 
-    public Object assemble(Serializable cached, Object owner) throws HibernateException
-    {
+    public Object assemble(Serializable cached, Object owner) throws HibernateException {
         return cached;
     }
 
-    public Serializable disassemble(Object value) throws HibernateException
-    {
+    public Serializable disassemble(Object value) throws HibernateException {
         return (Serializable) value;
     }
 
-    public Object replace(Object original, Object target, Object owner) throws HibernateException
-    {
+    public Object replace(Object original, Object target, Object owner) throws HibernateException {
         return original;
     }
 
-    public int hashCode(Object x) throws HibernateException
-    {
+    public int hashCode(Object x) throws HibernateException {
         return x.hashCode();
     }
 
-    public boolean equals(Object x, Object y) throws HibernateException
-    {
+    public boolean equals(Object x, Object y) throws HibernateException {
         if (x == y)
             return true;
         if (null == x || null == y)
@@ -103,8 +86,7 @@ public class HbnEnumUserType<E extends Enum<E>> implements UserType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("HbnEnumUserType for enum class %s", clazz.getName());
     }
 

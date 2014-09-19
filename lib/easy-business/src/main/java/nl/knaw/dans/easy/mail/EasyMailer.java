@@ -1,10 +1,8 @@
 package nl.knaw.dans.easy.mail;
 
-public interface EasyMailer
-{
+public interface EasyMailer {
     /**
-     * Sends an E-mail to one or more recipients. Throws an {@link EasyMailerException} if an error
-     * occurs in the attempt.
+     * Sends an E-mail to one or more recipients. Throws an {@link EasyMailerException} if an error occurs in the attempt.
      * 
      * @param subject
      *        subject of the E-mail

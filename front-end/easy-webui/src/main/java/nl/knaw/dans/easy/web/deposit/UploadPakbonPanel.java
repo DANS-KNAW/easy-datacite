@@ -14,14 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class UploadPakbonPanel extends AbstractCustomPanel
-{
+public class UploadPakbonPanel extends AbstractCustomPanel {
     private static final Logger log = LoggerFactory.getLogger(UploadPakbonPanel.class);
 
     private final DatasetModel datasetModel;
 
-    public UploadPakbonPanel(String id, DatasetModel datasetModel)
-    {
+    public UploadPakbonPanel(String id, DatasetModel datasetModel) {
         super(id);
         assert datasetModel != null : "DatasetModel argument may not be null";
         this.datasetModel = datasetModel;
@@ -29,37 +27,30 @@ public class UploadPakbonPanel extends AbstractCustomPanel
     }
 
     @Override
-    protected Panel getCustomComponentPanel()
-    {
+    protected Panel getCustomComponentPanel() {
         return isPakbonImported() ? new ViewModePanel() : new UploadModePanel();
     }
 
-    private boolean isPakbonImported()
-    {
+    private boolean isPakbonImported() {
         assert getDataset() != null : "Null datatset in UploadPakbonPanel";
         assert getDataset().getEasyMetadata() != null : "Null EMD in UploadPakbonPanel";
         EmdOther emdOther = getDataset().getEasyMetadata().getEmdOther();
-        if (emdOther == null)
-        {
+        if (emdOther == null) {
             return false;
         }
         ApplicationSpecific eas = emdOther.getEasApplicationSpecific();
-        if (eas == null)
-        {
+        if (eas == null) {
             return false;
         }
         return IMPORTED.equals(eas.getPakbonStatus());
     }
 
-    private Dataset getDataset()
-    {
+    private Dataset getDataset() {
         return datasetModel.getObject();
     }
 
-    private class UploadModePanel extends Panel
-    {
-        public UploadModePanel()
-        {
+    private class UploadModePanel extends Panel {
+        public UploadModePanel() {
             super(CUSTOM_PANEL_ID);
             log.debug("Creating UploadPakbonPanel.UploadModePanel");
             this.add(new DepositUploadPakbonPanel("uploadPanel", datasetModel));
@@ -67,10 +58,8 @@ public class UploadPakbonPanel extends AbstractCustomPanel
 
     }
 
-    private static class ViewModePanel extends Panel
-    {
-        public ViewModePanel()
-        {
+    private static class ViewModePanel extends Panel {
+        public ViewModePanel() {
             super(CUSTOM_PANEL_ID);
             log.debug("Creating UploadPakbonPanel.ViewModePanel");
             Label label = new Label("noneditable", "PAKBON IMPORTED");

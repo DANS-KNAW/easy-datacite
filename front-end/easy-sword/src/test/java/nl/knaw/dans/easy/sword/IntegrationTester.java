@@ -23,12 +23,10 @@ import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDException;
 
-public class IntegrationTester extends IntegrationFixture
-{
+public class IntegrationTester extends IntegrationFixture {
     private static final File VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
     private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
-    static
-    {
+    static {
         // mash up of SWORDErrorException for documentational reasons
         @SuppressWarnings("unused")
         int i;
@@ -59,24 +57,21 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void anonymousServiceDocument() throws Exception
-    {
+    public void anonymousServiceDocument() throws Exception {
         final GetMethod method = new GetMethod(URL + "servicedocument");
         getResponse(method, createClient(ANONYMOUS, null));
         assertResponseCode(method, HttpStatus.SC_OK);
     }
 
     @Test
-    public void athourisedServiceDocument() throws Exception
-    {
+    public void athourisedServiceDocument() throws Exception {
         final GetMethod method = new GetMethod(URL + "servicedocument");
         getResponse(method, createClient(DEPOSITOR, null));
         assertResponseCode(method, HttpStatus.SC_OK);
     }
 
     @Test
-    public void invalidServicedocumentPath() throws Exception
-    {
+    public void invalidServicedocumentPath() throws Exception {
         final GetMethod method = new GetMethod(URL + "xxx");
         getResponse(method, createClient(DEPOSITOR, null));
         // TODO Move to JMEter, might be different on EOF12/EOF13
@@ -84,8 +79,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void invalidDepositPath() throws Exception
-    {
+    public void invalidDepositPath() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = new PostMethod(URL + "xxx");
         method.setRequestEntity(request);
@@ -94,8 +88,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void delete() throws Exception
-    {
+    public void delete() throws Exception {
         final DeleteMethod method = new DeleteMethod(URL + "deposit");
         // TODO Move to JMEter, might be different on EOF12/EOF13
         getResponse(method, createClient(DEPOSITOR, null));
@@ -103,8 +96,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void mediatedServiceDocument() throws Exception
-    {
+    public void mediatedServiceDocument() throws Exception {
         final GetMethod method = new GetMethod(URL + "servicedocument");
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
         String response = getResponse(method, createClient(DEPOSITOR, null));
@@ -114,8 +106,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositWithInvalidDDM() throws Exception
-    {
+    public void depositWithInvalidDDM() throws Exception {
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-invalid-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -125,8 +116,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositWithMinimalDDM() throws Exception
-    {
+    public void depositWithMinimalDDM() throws Exception {
         final RequestEntity request = createRequest(SubmitFixture.getFile("minimal-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         String r = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -135,8 +125,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositWithDDM() throws Exception
-    {
+    public void depositWithDDM() throws Exception {
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -144,8 +133,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositAfterReadOnly() throws Exception
-    {
+    public void depositAfterReadOnly() throws Exception {
         Context.getSystemReadOnlyStatus().setReadOnly(true);
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
@@ -156,8 +144,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositWithEMD() throws Exception
-    {
+    public void depositWithEMD() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -167,8 +154,7 @@ public class IntegrationTester extends IntegrationFixture
     @Ignore
     // TODO shouldn't this one fail? check specs.
     @Test
-    public void depositInconsistentContentType() throws Exception
-    {
+    public void depositInconsistentContentType() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, null, null);
         method.addRequestHeader("Content-Type", "rqabarbera");
@@ -177,8 +163,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void noOpDeposit() throws Exception
-    {
+    public void noOpDeposit() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, true, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -186,8 +171,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void md5() throws Exception
-    {
+    public void md5() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, true, false);
         method.addRequestHeader("Content-MD5", "nonsense checksum");
@@ -196,8 +180,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void maxPathLength() throws Throwable
-    {
+    public void maxPathLength() throws Throwable {
         final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
@@ -205,8 +188,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void nonBoolean() throws Throwable
-    {
+    public void nonBoolean() throws Throwable {
         final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, null, null);
         method.addRequestHeader("X-No-Op", "fout");
@@ -215,8 +197,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void mediatedDeposit() throws Exception
-    {
+    public void mediatedDeposit() throws Exception {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
@@ -226,8 +207,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void invalidDisciplineDeposit() throws Exception
-    {
+    public void invalidDisciplineDeposit() throws Exception {
         final RequestEntity request = createRequest(SubmitFixture.getFile("invalidDisciplineId.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -237,8 +217,7 @@ public class IntegrationTester extends IntegrationFixture
     }
 
     @Test
-    public void depositInvalidZip() throws Exception
-    {
+    public void depositInvalidZip() throws Exception {
         final RequestEntity request = createRequest(SubmitFixture.getFile("metadata.xml"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));

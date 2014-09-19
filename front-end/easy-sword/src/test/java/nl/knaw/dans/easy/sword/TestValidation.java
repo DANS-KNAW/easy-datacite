@@ -28,39 +28,33 @@ import org.powermock.api.easymock.PowerMock;
 import org.purl.sword.base.SWORDErrorException;
 
 @RunWith(Parameterized.class)
-public class TestValidation extends Fixture
-{
+public class TestValidation extends Fixture {
     private final String metadataFileName;
     private final String messageContent;
 
-    public TestValidation(final String metadataFileName, final String messageContent)
-    {
+    public TestValidation(final String metadataFileName, final String messageContent) {
         this.metadataFileName = metadataFileName;
         this.messageContent = messageContent;
     }
 
     @BeforeClass
-    public static void mockNow()
-    {
+    public static void mockNow() {
         DateTimeUtils.setCurrentMillisFixed(new DateTime("2012-10-29T14:42:08").getMillis());
     }
 
     @BeforeClass
-    public static void mockService() throws Exception
-    {
+    public static void mockService() throws Exception {
         mockEasyStore(mockRootDiscipline(mockSubDisciplines()));
         PowerMock.replayAll();
     }
 
     /**
-     * Documents expected content of &lt;atom:summary type="text"> in the HTTP response 400 Bad Request.
-     * The metadata files won't cause a draft dataset when submitted. Input errors not detected by the
-     * validation (such as trailing or leading white space) will pass a NoOp submission but might cause a
-     * draft dataset when submitted for real.
+     * Documents expected content of &lt;atom:summary type="text"> in the HTTP response 400 Bad Request. The metadata files won't cause a draft dataset when
+     * submitted. Input errors not detected by the validation (such as trailing or leading white space) will pass a NoOp submission but might cause a draft
+     * dataset when submitted for real.
      */
     @Parameters
-    public static Collection<String[]> createParameters() throws Exception
-    {
+    public static Collection<String[]> createParameters() throws Exception {
         final List<String[]> constructorSignatureInstances = new ArrayList<String[]>();
 
         constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
@@ -97,23 +91,19 @@ public class TestValidation extends Fixture
     }
 
     @Test
-    public void executeValidation() throws Exception
-    {
+    public void executeValidation() throws Exception {
         final byte[] fileContent = FileUtil.readFile(new File("src/test/resources/input/" + metadataFileName));
-        try
-        {
+        try {
             EasyMetadataFacade.validate(fileContent);
         }
-        catch (final SWORDErrorException se)
-        {
+        catch (final SWORDErrorException se) {
             if (messageContent == null)
                 throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString(), se);
             if (!se.getMessage().contains(messageContent))
                 throw new Exception("\n" + metadataFileName + " expected a message containing " + messageContent + "\nbut got " + se.getMessage(), se);
             return;
         }
-        catch (final Exception se)
-        {
+        catch (final Exception se) {
             if (messageContent == null)
                 throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString());
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
@@ -124,23 +114,20 @@ public class TestValidation extends Fixture
                     + "\nbut got no exception");
     }
 
-    private static void mockEasyStore(final DisciplineContainerImpl value) throws ObjectNotInStoreException, RepositoryException
-    {
+    private static void mockEasyStore(final DisciplineContainerImpl value) throws ObjectNotInStoreException, RepositoryException {
         final EasyStore easyStore = PowerMock.createMock(EasyStore.class);
         new Data().setEasyStore(easyStore);
         EasyMock.expect(easyStore.retrieve(EasyMock.isA(DmoStoreId.class))).andStubReturn(value);
     }
 
-    private static DisciplineContainerImpl mockRootDiscipline(final List<DisciplineContainer> list) throws DomainException, RepositoryException
-    {
+    private static DisciplineContainerImpl mockRootDiscipline(final List<DisciplineContainer> list) throws DomainException, RepositoryException {
         final DisciplineContainerImpl value = PowerMock.createMock(DisciplineContainerImpl.class);
         EasyMock.expect(value.getSubDisciplines()).andStubReturn(list);
         EasyMock.expect(value.isInvalidated()).andStubReturn(true);
         return value;
     }
 
-    private static List<DisciplineContainer> mockSubDisciplines()
-    {
+    private static List<DisciplineContainer> mockSubDisciplines() {
         final List<DisciplineContainer> list = new ArrayList<DisciplineContainer>();
         list.add(new DisciplineContainerImpl("easy-discipline:2"));
         return list;

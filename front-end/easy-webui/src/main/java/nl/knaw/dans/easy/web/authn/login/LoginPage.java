@@ -21,8 +21,7 @@ import org.slf4j.LoggerFactory;
  * Page for logging into the application.
  */
 @RequireHttps
-public class LoginPage extends AbstractAuthenticationPage
-{
+public class LoginPage extends AbstractAuthenticationPage {
     private static Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private static final long serialVersionUID = 8501036308620025067L;
     private static final String LOGIN_PANEL_REGULAR = "loginPanelRegular";
@@ -35,23 +34,19 @@ public class LoginPage extends AbstractAuthenticationPage
     @SpringBean(name = "federativeUserService")
     private FederativeUserService federativeUserService;
 
-    private void init()
-    {
+    private void init() {
         add(Style.LOGIN_HEADER_CONTRIBUTION);
         setStatelessHint(true);
         UsernamePasswordAuthentication authentication;
-        try
-        {
+        try {
             authentication = userService.newUsernamePasswordAuthentication();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
         }
-        if (!isAuthenticated())
-        {
+        if (!isAuthenticated()) {
             add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(federativeUserService.isFederationLoginEnabled()));
             add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, new LoginForm("loginForm", authentication)));
         }
@@ -59,32 +54,26 @@ public class LoginPage extends AbstractAuthenticationPage
         add(createRegisterLink().setVisible(!isAuthenticated()));
     }
 
-    public LoginPage()
-    {
+    public LoginPage() {
         init();
     }
 
-    public LoginPage(PageParameters parameters)
-    {
+    public LoginPage(PageParameters parameters) {
         super(parameters);
         init();
     }
 
-    private Link<Void> createRegisterLink()
-    {
-        return new Link<Void>(REGISTRATION)
-        {
+    private Link<Void> createRegisterLink() {
+        return new Link<Void>(REGISTRATION) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(RegistrationPage.class);
             }
 
             @Override
-            public boolean getStatelessHint()
-            {
+            public boolean getStatelessHint() {
                 return true;
             }
         };

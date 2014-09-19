@@ -9,8 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
  * 
  * @author Herman Suijs
  */
-public final class LocaleLink extends Link
-{
+public final class LocaleLink extends Link {
     /**
      * Dummy serial version uid.
      */
@@ -29,8 +28,7 @@ public final class LocaleLink extends Link
      * @param localeString
      *        Locale to switch to
      */
-    public LocaleLink(final String wicketId, final String localeString)
-    {
+    public LocaleLink(final String wicketId, final String localeString) {
         super(wicketId);
         this.locale = new Locale(localeString);
     }
@@ -43,8 +41,7 @@ public final class LocaleLink extends Link
      * @param locale
      *        Locale to switch to
      */
-    public LocaleLink(final String wicketId, final Locale locale)
-    {
+    public LocaleLink(final String wicketId, final Locale locale) {
         super(wicketId);
         this.locale = locale;
     }
@@ -53,8 +50,7 @@ public final class LocaleLink extends Link
      * On click of a user.
      */
     @Override
-    public void onClick()
-    {
+    public void onClick() {
         this.getSession().setLocale(this.locale);
     }
 
@@ -64,8 +60,7 @@ public final class LocaleLink extends Link
      * @return True if locale for component is different from locale in session.
      */
     @Override
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return !this.getSession().getLocale().equals(this.locale);
     }
 

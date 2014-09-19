@@ -6,11 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SubmissionDispatcherFactory
-{
+public class SubmissionDispatcherFactory {
 
-    public enum Style
-    {
+    public enum Style {
         WEB, BATCH_INGEST, SWORD_INGEST
     }
 
@@ -22,8 +20,7 @@ public class SubmissionDispatcherFactory
 
     private Style style = DEFAULT_STYLE;
 
-    private SubmissionDispatcherFactory()
-    {
+    private SubmissionDispatcherFactory() {
         this(DEFAULT_STYLE);
     }
 
@@ -32,55 +29,43 @@ public class SubmissionDispatcherFactory
      * 
      * @param style
      */
-    public SubmissionDispatcherFactory(Style style)
-    {
+    public SubmissionDispatcherFactory(Style style) {
         this.style = style;
         INSTANCE = this;
         logger.info("Created " + this + " in style " + this.style);
     }
 
-    private static SubmissionDispatcherFactory getInstance()
-    {
-        if (INSTANCE == null)
-        {
+    private static SubmissionDispatcherFactory getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new SubmissionDispatcherFactory();
         }
         return INSTANCE;
     }
 
-    public static SubmissionDispatcher newSubmissionDispatcher()
-    {
+    public static SubmissionDispatcher newSubmissionDispatcher() {
         return getInstance().newDispatcher();
     }
 
-    private SubmissionDispatcher newDispatcher()
-    {
+    private SubmissionDispatcher newDispatcher() {
         List<SubmissionProcessor> processors = new ArrayList<SubmissionProcessor>();
         List<SubmissionProcessor> threadedProcessors = new ArrayList<SubmissionProcessor>();
 
-        if (Style.WEB.equals(style))
-        {
+        if (Style.WEB.equals(style)) {
             processors.add(new WebDepositFormMetadataValidator());
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             threadedProcessors.add(new DatasetIngester(true));
             threadedProcessors.add(new MailSender());
-        }
-        else if (Style.SWORD_INGEST.equals(style))
-        {
+        } else if (Style.SWORD_INGEST.equals(style)) {
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             processors.add(new DatasetIngester(true));
             processors.add(new MailSender());
-        }
-        else if (Style.BATCH_INGEST.equals(style))
-        {
+        } else if (Style.BATCH_INGEST.equals(style)) {
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             processors.add(new DatasetIngester(false));
-        }
-        else
-        {
+        } else {
             throw new IllegalStateException("No style defined for " + style);
         }
 

@@ -4,10 +4,8 @@ import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 
 import org.joda.time.DateTime;
 
-public interface PermissionConversation
-{
-    public enum Type
-    {
+public interface PermissionConversation {
+    public enum Type {
         REQUEST, REPLY
     }
 

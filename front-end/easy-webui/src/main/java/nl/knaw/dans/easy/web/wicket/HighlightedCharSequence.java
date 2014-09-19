@@ -7,9 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A {@link CharSequence} implementation that may contain HTML &lt;em&gt; tags. The tags are <i>not</i>
- * considered part of the char sequence. However, when getting a subsequence the &lt;em&gt; tags are
- * always properly closed. For instance:
+ * A {@link CharSequence} implementation that may contain HTML &lt;em&gt; tags. The tags are <i>not</i> considered part of the char sequence. However, when
+ * getting a subsequence the &lt;em&gt; tags are always properly closed. For instance:
  * 
  * <pre>
  * CharSequence hs = new HighlightedString("This is <em>important</em> so remember it")
@@ -18,24 +17,20 @@ import java.util.regex.Pattern;
  * assert hs.charAt(11) == 'o';
  * </pre>
  */
-public class HighlightedCharSequence implements CharSequence
-{
+public class HighlightedCharSequence implements CharSequence {
     private String markedUpString;
     private ArrayList<String> parts = new ArrayList<String>();
     private Map<Integer, Boolean> isEmPart = new HashMap<Integer, Boolean>();
 
-    public HighlightedCharSequence(String markedUpString)
-    {
+    public HighlightedCharSequence(String markedUpString) {
         this.markedUpString = markedUpString;
         final Pattern emElement = Pattern.compile("<em>(.*?)</em>");
         final Matcher emMatcher = emElement.matcher(markedUpString);
 
         int i = 0;
         int j = 0;
-        while (emMatcher.find(i) && i < markedUpString.length())
-        {
-            if (emMatcher.start() > i)
-            {
+        while (emMatcher.find(i) && i < markedUpString.length()) {
+            if (emMatcher.start() > i) {
                 String part = markedUpString.substring(i, emMatcher.start());
                 parts.add(part);
                 isEmPart.put(j++, false);
@@ -48,8 +43,7 @@ public class HighlightedCharSequence implements CharSequence
             i = emMatcher.end();
         }
 
-        if (i < markedUpString.length())
-        {
+        if (i < markedUpString.length()) {
             String part = markedUpString.substring(i);
             parts.add(part);
             isEmPart.put(j++, false);
@@ -57,8 +51,7 @@ public class HighlightedCharSequence implements CharSequence
     }
 
     @Override
-    public char charAt(int index)
-    {
+    public char charAt(int index) {
         int partIndex = charIndexToPartIndex(index);
         int offset = charIndexToOffsetInPart(index);
 
@@ -66,12 +59,10 @@ public class HighlightedCharSequence implements CharSequence
     }
 
     @Override
-    public int length()
-    {
+    public int length() {
         int length = 0;
 
-        for (String part : parts)
-        {
+        for (String part : parts) {
             length += part.length();
         }
 
@@ -79,15 +70,13 @@ public class HighlightedCharSequence implements CharSequence
     }
 
     @Override
-    public CharSequence subSequence(int begin, int end)
-    {
+    public CharSequence subSequence(int begin, int end) {
         int beginPartIndex = charIndexToPartIndex(begin);
         int offsetInBeginPart = charIndexToOffsetInPart(begin);
         int endPartIndex = charIndexToPartIndex(end - 1);
         int offsetInEndPart = charIndexToOffsetInPart(end - 1);
 
-        if (beginPartIndex == endPartIndex)
-        {
+        if (beginPartIndex == endPartIndex) {
             String result = parts.get(beginPartIndex).substring(offsetInBeginPart, offsetInEndPart + 1);
             return isEmPart.get(beginPartIndex) ? addEmTags(result) : result;
         }
@@ -97,8 +86,7 @@ public class HighlightedCharSequence implements CharSequence
 
         String result = isEmPart.get(beginPartIndex) ? addEmTags(beginPart) : beginPart;
 
-        for (int i = beginPartIndex + 1; i < endPartIndex; ++i)
-        {
+        for (int i = beginPartIndex + 1; i < endPartIndex; ++i) {
             result += isEmPart.get(i) ? addEmTags(parts.get(i)) : parts.get(i);
         }
 
@@ -107,20 +95,16 @@ public class HighlightedCharSequence implements CharSequence
         return result;
     }
 
-    private static String addEmTags(String content)
-    {
+    private static String addEmTags(String content) {
         return "<em>" + content + "</em>";
     }
 
-    private int charIndexToPartIndex(int charIndex)
-    {
+    private int charIndexToPartIndex(int charIndex) {
         int c = parts.get(0).length() - 1;
         int i = 0;
 
-        while (c < charIndex)
-        {
-            if (i == parts.size() - 1)
-            {
+        while (c < charIndex) {
+            if (i == parts.size() - 1) {
                 throw new IndexOutOfBoundsException();
             }
 
@@ -130,13 +114,11 @@ public class HighlightedCharSequence implements CharSequence
         return i;
     }
 
-    private int charIndexToOffsetInPart(int charIndex)
-    {
+    private int charIndexToOffsetInPart(int charIndex) {
         int c = charIndex;
         int i = 0;
 
-        while (i < parts.size() && c - parts.get(i).length() >= 0)
-        {
+        while (i < parts.size() && c - parts.get(i).length() >= 0) {
             c -= parts.get(i).length();
             ++i;
         }
@@ -145,8 +127,7 @@ public class HighlightedCharSequence implements CharSequence
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return markedUpString;
     }
 

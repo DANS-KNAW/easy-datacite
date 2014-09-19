@@ -13,23 +13,19 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OSTest
-{
+public class OSTest {
     private static final Logger logger = LoggerFactory.getLogger(OSTest.class);
 
     @Ignore("involves being on linux")
     @Test(expected = IOException.class)
-    public void setAllRWXFile() throws Exception
-    {
+    public void setAllRWXFile() throws Exception {
         File file = new File("/home/easy/batch/test/for/set/all/rwx");
         assertFalse(file.exists());
         // file.mkdirs();
-        try
-        {
+        try {
             OS.setAllRWX(file);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Caught error: ", e);
             throw (e);
         }
@@ -37,8 +33,7 @@ public class OSTest
 
     @Ignore("involves local environment")
     @Test
-    public void move() throws Exception
-    {
+    public void move() throws Exception {
         String testFolder = "/usr/local/vm-data/SVN/common/trunk/lang/src/test/resources/test-files/os/";
 
         File os = new File(testFolder);
@@ -53,8 +48,7 @@ public class OSTest
 
     @Ignore("involves local environment")
     @Test
-    public void execAndWait() throws Exception
-    {
+    public void execAndWait() throws Exception {
         String cmd = "/usr/local/vm-data/SVN/common/trunk/lang/src/test/resources/test-files/os/ostest1.sh";
         StringWriter out = new StringWriter();
         StringWriter err = new StringWriter();
@@ -72,8 +66,7 @@ public class OSTest
     // Keeps running, gives output as long as this vm is up.
     @Ignore("involves local environment")
     @Test
-    public void exec() throws Exception
-    {
+    public void exec() throws Exception {
         String cmd = "/usr/local/vm-data/SVN/common/trunk/lang/src/test/resources/test-files/os/ostest1.sh";
         OS.exec(cmd, System.out, System.err);
         Wait.minutes(1);
@@ -82,27 +75,22 @@ public class OSTest
     // Keeps running, gives output as long as this vm is up.
     @Ignore("involves local environment")
     @Test
-    public void execRunnable()
-    {
+    public void execRunnable() {
         Thread thread = new Thread(new ExecutableThread());
         thread.setDaemon(false);
         thread.start();
         Wait.minutes(1);
     }
 
-    class ExecutableThread implements Runnable
-    {
+    class ExecutableThread implements Runnable {
 
         @Override
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 String cmd = "/usr/local/vm-data/SVN/common/trunk/lang/src/test/resources/test-files/os/ostest1.sh";
                 OS.execAndWait(cmd, System.out, System.err);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

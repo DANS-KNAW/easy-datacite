@@ -24,38 +24,31 @@ import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
 /** Wraps mocked instances of a {@link FileItem} a {@link FileItemVO} */
-public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem>
-{
+public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem> {
     /**
-     * Creates mocked instances of a {@link FileItem} a {@link FileItemVO}. A fluent interface allows
-     * further configuration of possible/expected behavior of the objects, and how {@link EasyStore} and
-     * {@link ItemService} treat them.
+     * Creates mocked instances of a {@link FileItem} a {@link FileItemVO}. A fluent interface allows further configuration of possible/expected behavior of the
+     * objects, and how {@link EasyStore} and {@link ItemService} treat them.
      * 
      * @param path
      * @throws Exception
      */
-    FileMocker(final String path, final String storeId) throws Exception
-    {
+    FileMocker(final String path, final String storeId) throws Exception {
         super(path, storeId, PowerMock.createMock(FileItemVO.class), PowerMock.createMock(FileItem.class));
         expect(getItem().getFile()).andStubReturn(new File(path));
     }
 
-    public FileMocker expectPurgeAt(final DateTime dateTime) throws Exception
-    {
+    public FileMocker expectPurgeAt(final DateTime dateTime) throws Exception {
         super.expectPurgeAt(dateTime);
         return this;
     }
 
     /**
-     * Configures the {@link URL} returned by
-     * {@link ItemService#getFileContentURL(EasyUser, Dataset, FileItem)}. The arguments {@link Dataset}
-     * and {@link User} are ignored for the expectations. The URL should locate test data that mocks
-     * content of the repository.
+     * Configures the {@link URL} returned by {@link ItemService#getFileContentURL(EasyUser, Dataset, FileItem)}. The arguments {@link Dataset} and {@link User}
+     * are ignored for the expectations. The URL should locate test data that mocks content of the repository.
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileMocker with(final URL contentUrl) throws Exception
-    {
+    public FileMocker with(final URL contentUrl) throws Exception {
         expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(getItem()))).andStubReturn(contentUrl);
         expect(Data.getEasyStore().getFileURL(eq(new DmoStoreId(getStoreId())))).andStubReturn(contentUrl);
         return this;
@@ -66,8 +59,7 @@ public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem>
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileMocker with(final AccessibleTo accessibleTo, VisibleTo visibleTo)
-    {
+    public FileMocker with(final AccessibleTo accessibleTo, VisibleTo visibleTo) {
         expect(getItem().getVisibleTo()).andStubReturn(visibleTo);
         expect(getItem().getAccessibleTo()).andStubReturn(accessibleTo);
         expect(getItemVO().getVisibleTo()).andStubReturn(visibleTo);

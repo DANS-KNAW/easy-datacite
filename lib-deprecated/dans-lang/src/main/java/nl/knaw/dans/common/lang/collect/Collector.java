@@ -6,8 +6,7 @@ package nl.knaw.dans.common.lang.collect;
  * @param <T>
  *        the type or container type for collected things.
  */
-public interface Collector<T>
-{
+public interface Collector<T> {
 
     T collect() throws CollectorException;
 

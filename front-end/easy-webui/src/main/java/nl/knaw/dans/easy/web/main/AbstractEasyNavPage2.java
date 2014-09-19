@@ -51,8 +51,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
-{
+public abstract class AbstractEasyNavPage2 extends AbstractEasyPage {
 
     private static final long serialVersionUID = -5373290220504946463L;
     private static final Logger logger = LoggerFactory.getLogger(AbstractEasyNavPage.class);
@@ -91,8 +90,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     /**
      * Default constructor.
      */
-    public AbstractEasyNavPage2()
-    {
+    public AbstractEasyNavPage2() {
         super();
         init();
     }
@@ -104,8 +102,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      *        Parameters for this page.
      * @see org.apache.wicket.markup.html.WebPage#WebPage()
      */
-    public AbstractEasyNavPage2(final PageParameters parameters)
-    {
+    public AbstractEasyNavPage2(final PageParameters parameters) {
         super(parameters);
         init();
     }
@@ -117,8 +114,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      *        Model attached to the page.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(IModel)
      */
-    public AbstractEasyNavPage2(final IModel<?> model)
-    {
+    public AbstractEasyNavPage2(final IModel<?> model) {
         super(model);
         init();
     }
@@ -130,8 +126,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      *        PageMap attached.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(PageMap)
      */
-    public AbstractEasyNavPage2(final IPageMap map)
-    {
+    public AbstractEasyNavPage2(final IPageMap map) {
         super(map);
         init();
     }
@@ -145,8 +140,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      *        Model attached.
      * @see org.apache.wicket.markup.html.WebPage#WebPage(PageMap, IModel)
      */
-    public AbstractEasyNavPage2(final IPageMap map, final IModel<?> model)
-    {
+    public AbstractEasyNavPage2(final IPageMap map, final IModel<?> model) {
         super(map, model);
         init();
     }
@@ -159,8 +153,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      * @param parameters
      *        PageParameters
      */
-    public AbstractEasyNavPage2(final IPageMap pageMap, final PageParameters parameters)
-    {
+    public AbstractEasyNavPage2(final IPageMap pageMap, final PageParameters parameters) {
         super(pageMap, parameters);
         init();
     }
@@ -168,8 +161,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     /**
      * Initialization for all constructors.
      */
-    private void init()
-    {
+    private void init() {
         // logo
         add(new BookmarkablePageLink<HomePage>(EASY_LOGO_LINK, HomePage.class));
 
@@ -181,40 +173,32 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         add(new EasyEditablePanel("adminBanner", EDITABLE_ADMIN_BANNER_TEMPLATE));
 
         // personal bar
-        add(new PageLink<LoginPage>(LOGIN, LoginPage.class)
-        {
+        add(new PageLink<LoginPage>(LOGIN, LoginPage.class) {
             private static final long serialVersionUID = -2538869070667617524L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return getSessionUser().isAnonymous();
             }
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 // Enable redirection to this page which is viewed before login
                 ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
                 setResponsePage(LoginPage.class);
             }
 
         });
-        add(new SecureEasyPageLink(MY_DATASETS, MyDatasetsSearchResultPage.class)
-        {
+        add(new SecureEasyPageLink(MY_DATASETS, MyDatasetsSearchResultPage.class) {
             private static final long serialVersionUID = -69304959956597268L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 boolean visible = true;
 
-                if (getSessionUser().isAnonymous())
-                {
+                if (getSessionUser().isAnonymous()) {
                     visible = false;
-                }
-                else
-                {
+                } else {
                     // hide when the user has no datasets
                     if (!hasDatasets())
                         visible = false;
@@ -223,21 +207,16 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
                 return visible;
             }
         });
-        add(new SecureEasyPageLink(MY_REQUESTS, MyRequestsSearchResultPage.class)
-        {
+        add(new SecureEasyPageLink(MY_REQUESTS, MyRequestsSearchResultPage.class) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 boolean visible = true;
 
-                if (getSessionUser().isAnonymous())
-                {
+                if (getSessionUser().isAnonymous()) {
                     visible = false;
-                }
-                else
-                {
+                } else {
                     // hide when the user has no requests
                     if (!hasRequests())
                         visible = false;
@@ -248,33 +227,27 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         });
         add(new LogoffLink(LOGOFF));
 
-        if (!getSessionUser().isAnonymous())
-        {
+        if (!getSessionUser().isAnonymous()) {
             // user name
             Label displayNameLabel = new Label(DISPLAY_NAME, new PropertyModel(this, "displayNameLabelString"));
             add(displayNameLabel);
-            if (isDisplayNameToLong())
-            {
+            if (isDisplayNameToLong()) {
                 // add 'tooltip'
                 displayNameLabel.add(new AttributeModifier("title", true, new PropertyModel(this, "fullDisplayNameLabelString")));
             }
 
             // settings link
-            add(new Link(SETTINGS)
-            {
+            add(new Link(SETTINGS) {
                 private static final long serialVersionUID = 927863641840108643L;
 
                 @Override
-                public void onClick()
-                {
+                public void onClick() {
                     setResponsePage(new UserInfoPage(false, true));
                 }
             });
 
             hide(REGISTER);
-        }
-        else
-        {
+        } else {
             hide(DISPLAY_NAME);
             hide(SETTINGS);
 
@@ -303,15 +276,13 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     }
 
     @Override
-    public void refresh()
-    {
+    public void refresh() {
         // do my own refreshing?
         logger.debug(">>>> REFRESH called");
     }
 
     @Override
-    public void detachModels()
-    {
+    public void detachModels() {
         super.detachModels();
 
         // the value will be retrieved again next time it is needed
@@ -323,15 +294,12 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      * 
      * @return true if so, false otherwise
      */
-    private boolean hasRequests()
-    {
+    private boolean hasRequests() {
         boolean result = true;
 
-        if (!isNumRequestsRetrieved)
-        {
+        if (!isNumRequestsRetrieved) {
             // retrieve value
-            try
-            {
+            try {
                 numRequests = searchService.getNumberOfRequests(getSessionUser());
                 if (numRequests == 0)
                     result = false;
@@ -341,14 +309,11 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
                 logger.debug("The number of requests: " + numRequests);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 logger.error("Could not retrieve the number of requests.", e);
                 throw new InternalWebError();
             }
-        }
-        else
-        {
+        } else {
             // use previously retrieved value
 
             if (numRequests == 0)
@@ -363,16 +328,13 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
      * 
      * @return true if so, false otherwise
      */
-    private boolean hasDatasets()
-    {
+    private boolean hasDatasets() {
         boolean result = true;
 
-        if (!isNumDatasetsRetrieved)
-        {
+        if (!isNumDatasetsRetrieved) {
             // retrieve value
 
-            try
-            {
+            try {
                 numDatasets = searchService.getNumberOfDatasets(getSessionUser());
                 if (numDatasets == 0)
                     result = false;
@@ -382,14 +344,11 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
                 logger.debug("The number of datasets: " + numDatasets);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 logger.error("Could not retrieve the number of datasets.", e);
                 throw new InternalWebError();
             }
-        }
-        else
-        {
+        } else {
             // use previously retrieved value
             if (numDatasets == 0)
                 result = false;
@@ -398,8 +357,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         return result;
     }
 
-    public String getFullDisplayNameLabelString()
-    {
+    public String getFullDisplayNameLabelString() {
         final EasyUser user = getSessionUser();
 
         // user display name
@@ -413,8 +371,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     }
 
     // truncates name part if to long
-    public String getDisplayNameLabelString()
-    {
+    public String getDisplayNameLabelString() {
         final EasyUser user = getSessionUser();
 
         // user display name
@@ -423,8 +380,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         // and indicate truncation with ellipsis (...)
         String truncationIndicator = "...";
         displayName = displayName.trim();
-        if (displayName.length() > MAX_NAME_LENGTH)
-        {
+        if (displayName.length() > MAX_NAME_LENGTH) {
             displayName = displayName.substring(0, MAX_NAME_LENGTH - truncationIndicator.length()) + truncationIndicator;
         }
 
@@ -434,18 +390,15 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         return displayName;
     }
 
-    private String getDisplayRolesLabelString(final EasyUser user)
-    {
+    private String getDisplayRolesLabelString(final EasyUser user) {
         String displayRoles = "";
 
         Set<Role> roles = new HashSet<Role>(user.getRoles());
         roles.remove(Role.USER);
-        if (roles.size() > 0)
-        {
+        if (roles.size() > 0) {
             displayRoles += " (";
             Iterator<Role> roleIt = roles.iterator();
-            while (roleIt.hasNext())
-            {
+            while (roleIt.hasNext()) {
                 displayRoles += getString("role." + roleIt.next().toString());
                 if (roleIt.hasNext())
                     displayRoles += ", ";
@@ -456,8 +409,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         return displayRoles;
     }
 
-    private boolean isDisplayNameToLong()
-    {
+    private boolean isDisplayNameToLong() {
         final EasyUser user = getSessionUser();
 
         // user display name
@@ -471,15 +423,13 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
             return false;
     }
 
-    private ExternalLink createUsingEASYLink()
-    {
+    private ExternalLink createUsingEASYLink() {
         String usingEASYLinkText = getLocalizer().getString("page.dansRef", this);
         ExternalLink disclaimerLink = new ExternalLink("usingEASYLink", staticContentBaseUrl + "/" + "UsingEASY.html", usingEASYLinkText);
         return disclaimerLink;
     }
 
-    private ExternalLink createContactLink()
-    {
+    private ExternalLink createContactLink() {
         String contactLinkText = getLocalizer().getString("page.dansContact", this);
         ExternalLink disclaimerLink = new ExternalLink("contactLink", staticContentBaseUrl + "/" + "Contact.html", contactLinkText);
 
@@ -487,8 +437,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
     }
 
-    private ExternalLink createLegalInformationLink()
-    {
+    private ExternalLink createLegalInformationLink() {
         String legalInformationLinkText = getLocalizer().getString("page.legalInfoRef", this);
         ExternalLink disclaimerLink = new ExternalLink("legalInformationLink", staticContentBaseUrl + "/" + "LegalInformation.html", legalInformationLinkText);
 
@@ -496,15 +445,13 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
     }
 
-    private ExternalLink createDisclaimerLink()
-    {
+    private ExternalLink createDisclaimerLink() {
         String disclaimerLinkText = getLocalizer().getString("page.disclaimerLinkText", this);
         ExternalLink disclaimerLink = new ExternalLink("disclaimerLink", staticContentBaseUrl + "/" + "DisclaimerEASY.pdf", disclaimerLinkText);
         return disclaimerLink;
     }
 
-    private ExternalLink createPropertyRightStatementLink()
-    {
+    private ExternalLink createPropertyRightStatementLink() {
         String propertyRightStatementLinkText = getLocalizer().getString("page.propertyRightsRef", this);
         ExternalLink disclaimerLink = new ExternalLink("propertyRightStatementLink", staticContentBaseUrl + "/" + "PropertyRightStatement.html",
                 propertyRightStatementLinkText);

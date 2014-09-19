@@ -23,8 +23,7 @@ import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 
 // Note maybe a AbstractDatasetModelPanel is better?
 //
-public class PermissionRequestViewPanel extends AbstractEasyPanel
-{
+public class PermissionRequestViewPanel extends AbstractEasyPanel {
     private static final long serialVersionUID = -5400472018731834517L;
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionRequestViewPanel.class);
@@ -37,8 +36,7 @@ public class PermissionRequestViewPanel extends AbstractEasyPanel
 
     protected final AbstractEasyPage fromPage;
 
-    public PermissionRequestViewPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
-    {
+    public PermissionRequestViewPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel) {
         super(wicketId, datasetModel);
         this.fromPage = fromPage;
 
@@ -68,28 +66,24 @@ public class PermissionRequestViewPanel extends AbstractEasyPanel
         add(new PossiblyDisabledTextArea(THEME_WID, themeModel, editMode));
 
         // TODO make it into a back link
-        add(new Link(BACK_WID)
-        {
+        add(new Link(BACK_WID) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 pageBack();
             }
         });
     }
 
-    protected void pageBack() throws RestartResponseException
-    {
+    protected void pageBack() throws RestartResponseException {
         if (fromPage == null)
             throw new RestartResponseException(HomePage.class);
         fromPage.refresh(); // TODO just a refresh of the panel?
         setResponsePage(fromPage);
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return (Dataset) getModel().getObject();
     }
 }

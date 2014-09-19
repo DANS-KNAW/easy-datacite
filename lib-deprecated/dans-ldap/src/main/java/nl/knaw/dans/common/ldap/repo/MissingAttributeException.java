@@ -5,30 +5,24 @@ package nl.knaw.dans.common.ldap.repo;
  * 
  * @author ecco Feb 16, 2009
  */
-public class MissingAttributeException extends LdapMappingException
-{
+public class MissingAttributeException extends LdapMappingException {
 
     /**
      * 
      */
     private static final long serialVersionUID = 9158334870250287440L;
 
-    public MissingAttributeException()
-    {
-    }
+    public MissingAttributeException() {}
 
-    public MissingAttributeException(String message)
-    {
+    public MissingAttributeException(String message) {
         super(message);
     }
 
-    public MissingAttributeException(Throwable cause)
-    {
+    public MissingAttributeException(Throwable cause) {
         super(cause);
     }
 
-    public MissingAttributeException(String message, Throwable cause)
-    {
+    public MissingAttributeException(String message, Throwable cause) {
         super(message, cause);
     }
 

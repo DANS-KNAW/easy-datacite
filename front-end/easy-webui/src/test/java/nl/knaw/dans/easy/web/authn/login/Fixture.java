@@ -9,8 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.powermock.api.easymock.PowerMock;
 
-public class Fixture
-{
+public class Fixture {
     protected static final String FORGOTTEN_LINK = "loginPanelRegular:forgottenPassword";
     protected static final String TOKEN_FIELD = "loginPanelRegular:loginForm:token";
     protected static final String PASSWORD_FIELD = "loginPanelRegular:loginForm:credentials";
@@ -26,8 +25,7 @@ public class Fixture
     protected UsernamePasswordAuthentication authentication;
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         userService = PowerMock.createMock(UserService.class);
         authentication = new UsernamePasswordAuthentication();
         EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(authentication);
@@ -41,8 +39,7 @@ public class Fixture
     }
 
     @After
-    public void verify()
-    {
+    public void verify() {
         PowerMock.verifyAll();
         PowerMock.resetAll();
     }

@@ -7,8 +7,7 @@ import nl.knaw.dans.easy.util.Messenger;
 /**
  * Messenger object for user registration.
  */
-public class FederativeUserRegistration extends Messenger<FederativeUserRegistration.State>
-{
+public class FederativeUserRegistration extends Messenger<FederativeUserRegistration.State> {
     private static final long serialVersionUID = -3595285611084899377L;
 
     private String federativeUserId;
@@ -16,8 +15,7 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
     /**
      * Indicates the state of the registration.
      */
-    public enum State
-    {
+    public enum State {
         /**
          * Registration is not effectuated.
          */
@@ -42,43 +40,36 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
 
     private final EasyUser user;
 
-    public FederativeUserRegistration(final String federativeUserId, final EasyUser user)
-    {
+    public FederativeUserRegistration(final String federativeUserId, final EasyUser user) {
         super(FederativeUserRegistration.State.class);
         this.federativeUserId = federativeUserId;
         this.user = user;
         this.user.addRole(Role.USER);
     }
 
-    public String getFederativeUserId()
-    {
+    public String getFederativeUserId() {
         return federativeUserId;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         super.setState(state);
     }
 
     @Override
-    public void setState(State state, Throwable e)
-    {
+    public void setState(State state, Throwable e) {
         super.setState(state, e);
     }
 
-    public EasyUser getUser()
-    {
+    public EasyUser getUser() {
         return user;
     }
 
-    public String getUserId()
-    {
+    public String getUserId() {
         return user.getId();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + " [state=" + getState() + " user=" + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
     }
 

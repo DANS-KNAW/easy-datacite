@@ -15,8 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SearchBean(defaultIndex = DatasetsIndex.class, typeIdentifier = Dataset.NAME_SPACE_VALUE)
-public class EasyDatasetSB extends DatasetSB
-{
+public class EasyDatasetSB extends DatasetSB {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(EasyDatasetSB.class);
 
@@ -98,183 +97,147 @@ public class EasyDatasetSB extends DatasetSB
     @SearchField(name = PERMISSION_STATUS_FIELD, converter = PermissionRequestSearchInfoConverter.class)
     private List<PermissionRequestSearchInfo> permissionStatusList;
 
-    public String getDepositorId()
-    {
+    public String getDepositorId() {
         return depositorId;
     }
 
-    public void setDepositorId(String depositorId)
-    {
+    public void setDepositorId(String depositorId) {
         this.depositorId = depositorId;
     }
 
-    public Integer getWorkflowProgress()
-    {
+    public Integer getWorkflowProgress() {
         return workflowProgress;
     }
 
-    public void setWorkflowProgress(Integer workflowStepsCompleted)
-    {
+    public void setWorkflowProgress(Integer workflowStepsCompleted) {
         this.workflowProgress = workflowStepsCompleted;
     }
 
-    public void setAssigneeId(String assigneeId)
-    {
+    public void setAssigneeId(String assigneeId) {
         this.assigneeId = assigneeId;
     }
 
-    public String getAssigneeId()
-    {
+    public String getAssigneeId() {
         return assigneeId;
     }
 
-    public DateTime getDateDraftSaved()
-    {
+    public DateTime getDateDraftSaved() {
         return dateDraftSaved;
     }
 
-    public void setDateDraftSaved(DateTime dateDraftSaved)
-    {
+    public void setDateDraftSaved(DateTime dateDraftSaved) {
         this.dateDraftSaved = dateDraftSaved;
     }
 
-    public DateTime getDateCreated()
-    {
+    public DateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(DateTime dateCreated)
-    {
+    public void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public String getDateCreatedFormatted()
-    {
+    public String getDateCreatedFormatted() {
         return dateCreatedFormatted;
     }
 
-    public void setDateCreatedFormatted(String dateCreatedFormatted)
-    {
+    public void setDateCreatedFormatted(String dateCreatedFormatted) {
         this.dateCreatedFormatted = dateCreatedFormatted;
     }
 
-    public DateTime getDateAvailable()
-    {
+    public DateTime getDateAvailable() {
         return dateAvailable;
     }
 
-    public void setDateAvailable(DateTime dateAvailable)
-    {
+    public void setDateAvailable(DateTime dateAvailable) {
         this.dateAvailable = dateAvailable;
     }
 
-    public String getDateAvailableFormatted()
-    {
+    public String getDateAvailableFormatted() {
         return dateAvailableFormatted;
     }
 
-    public void setDateAvailableFormatted(String dateAvailableFormatted)
-    {
+    public void setDateAvailableFormatted(String dateAvailableFormatted) {
         this.dateAvailableFormatted = dateAvailableFormatted;
     }
 
-    public DateTime getDateSubmitted()
-    {
+    public DateTime getDateSubmitted() {
         return dateSubmitted;
     }
 
-    public void setDateSubmitted(DateTime dateSubmitted)
-    {
+    public void setDateSubmitted(DateTime dateSubmitted) {
         this.dateSubmitted = dateSubmitted;
     }
 
-    public DateTime getDatePublished()
-    {
+    public DateTime getDatePublished() {
         return datePublished;
     }
 
-    public void setDatePublished(DateTime datePublished)
-    {
+    public void setDatePublished(DateTime datePublished) {
         this.datePublished = datePublished;
     }
 
-    public DateTime getDateDeleted()
-    {
+    public DateTime getDateDeleted() {
         return dateDeleted;
     }
 
-    public void setDateDeleted(DateTime dateDeleted)
-    {
+    public void setDateDeleted(DateTime dateDeleted) {
         this.dateDeleted = dateDeleted;
     }
 
-    public void setAudience(List<String> audience)
-    {
+    public void setAudience(List<String> audience) {
         this.audience = audience;
     }
 
-    public List<String> getAudience()
-    {
+    public List<String> getAudience() {
         return audience;
     }
 
-    public List<String> getCollections()
-    {
+    public List<String> getCollections() {
         return collections;
     }
 
-    public void setCollections(List<String> collections)
-    {
+    public void setCollections(List<String> collections) {
         this.collections = collections;
     }
 
-    public List<PermissionRequestSearchInfo> getPermissionStatusList()
-    {
+    public List<PermissionRequestSearchInfo> getPermissionStatusList() {
         return permissionStatusList;
     }
 
-    public void setPermissionStatusList(List<PermissionRequestSearchInfo> permissionStatusList)
-    {
+    public void setPermissionStatusList(List<PermissionRequestSearchInfo> permissionStatusList) {
         this.permissionStatusList = permissionStatusList;
     }
 
-    public List<String> getArchaeologyDcSubject()
-    {
+    public List<String> getArchaeologyDcSubject() {
         return archaeologyDcSubject;
     }
 
-    public void setArchaeologyDcSubject(List<String> archaeologyDcSubject)
-    {
+    public void setArchaeologyDcSubject(List<String> archaeologyDcSubject) {
         this.archaeologyDcSubject = archaeologyDcSubject;
     }
 
-    public List<String> getArchaeologyDctermsTemporal()
-    {
+    public List<String> getArchaeologyDctermsTemporal() {
         return archaeologyDctermsTemporal;
     }
 
-    public void setArchaeologyDctermsTemporal(List<String> archaeologyDctermsTemporal)
-    {
+    public void setArchaeologyDctermsTemporal(List<String> archaeologyDctermsTemporal) {
         this.archaeologyDctermsTemporal = archaeologyDctermsTemporal;
     }
 
-    public List<String> getDaiCreators()
-    {
+    public List<String> getDaiCreators() {
         return daiCreators;
     }
 
-    public void setDaiCreators(List<String> daiCreators)
-    {
+    public void setDaiCreators(List<String> daiCreators) {
         this.daiCreators = daiCreators;
     }
 
-    public List<String> getDaiContributors()
-    {
+    public List<String> getDaiContributors() {
         return daiContributors;
     }
 
-    public void setDaiContributors(List<String> daiContributors)
-    {
+    public void setDaiContributors(List<String> daiContributors) {
         this.daiContributors = daiContributors;
     }
 }

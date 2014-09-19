@@ -4,8 +4,7 @@ import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
-public interface DatasetItemContainer extends DataModelObject
-{
+public interface DatasetItemContainer extends DataModelObject {
     DatasetItemContainerMetadata getDatasetItemContainerMetadata();
 
     int getTotalFileCount();

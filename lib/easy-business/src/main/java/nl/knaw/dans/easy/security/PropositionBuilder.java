@@ -3,8 +3,7 @@ package nl.knaw.dans.easy.security;
 import java.util.Arrays;
 import java.util.List;
 
-public final class PropositionBuilder
-{
+public final class PropositionBuilder {
 
     private static final String SMALL_OR = " or ";
 
@@ -12,54 +11,44 @@ public final class PropositionBuilder
 
     private static final String AND = " AND ";
 
-    private PropositionBuilder()
-    {
+    private PropositionBuilder() {
         // never instantiate
     }
 
-    public static String buildOrProposition(String prefix, Object[] objects)
-    {
+    public static String buildOrProposition(String prefix, Object[] objects) {
         return createProposition(prefix, Arrays.asList(objects), SMALL_OR);
     }
 
-    public static String buildOrProposition(String prefix, List<?> list)
-    {
+    public static String buildOrProposition(String prefix, List<?> list) {
         return createProposition(prefix, list, SMALL_OR);
     }
 
-    public static String buildOrProposition(SecurityOfficer... officers)
-    {
+    public static String buildOrProposition(SecurityOfficer... officers) {
         return createProposition(OR, officers);
     }
 
-    public static String buildAndProposition(SecurityOfficer... officers)
-    {
+    public static String buildAndProposition(SecurityOfficer... officers) {
         return createProposition(AND, officers);
     }
 
-    protected static String createProposition(String operatorString, SecurityOfficer... officers)
-    {
+    protected static String createProposition(String operatorString, SecurityOfficer... officers) {
         StringBuilder sb = new StringBuilder("(");
         int i;
-        for (i = 0; i < officers.length - 1; i++)
-        {
+        for (i = 0; i < officers.length - 1; i++) {
             sb.append(officers[i].getProposition()).append(operatorString);
         }
         sb.append(officers[i].getProposition()).append(")");
         return sb.toString();
     }
 
-    private static String createProposition(String prefix, List<?> list, String operatorString)
-    {
+    private static String createProposition(String prefix, List<?> list, String operatorString) {
         StringBuilder sb = new StringBuilder("[");
         sb.append(prefix);
         sb.append(" ");
         int l = list.size();
-        for (int i = 0; i < l; i++)
-        {
+        for (int i = 0; i < l; i++) {
             sb.append(list.get(i));
-            if (i < l - 1)
-            {
+            if (i < l - 1) {
                 sb.append(operatorString);
             }
         }
@@ -76,17 +65,14 @@ public final class PropositionBuilder
      *        the collection
      * @return formatted proposition
      */
-    public static String buildCollectionProposition(String prefix, List<?> list)
-    {
+    public static String buildCollectionProposition(String prefix, List<?> list) {
         StringBuilder sb = new StringBuilder("[");
         sb.append(prefix);
         sb.append(" { ");
         int l = list.size();
-        for (int i = 0; i < l; i++)
-        {
+        for (int i = 0; i < l; i++) {
             sb.append(list.get(i));
-            if (i < l - 1)
-            {
+            if (i < l - 1) {
                 sb.append(", ");
             }
         }

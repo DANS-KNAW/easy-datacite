@@ -3,8 +3,7 @@
  */
 package nl.knaw.dans.common.fedora.fox;
 
-public enum ControlGroup
-{
+public enum ControlGroup {
     /**
      * Indicates Externally Referenced Content.
      */

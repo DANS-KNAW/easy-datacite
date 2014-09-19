@@ -29,8 +29,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
  * 
  * @author ecco
  */
-public interface UserService
-{
+public interface UserService {
     UsernamePasswordAuthentication newUsernamePasswordAuthentication() throws ServiceException;
 
     RegistrationMailAuthentication newRegistrationMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
@@ -64,9 +63,8 @@ public interface UserService
     FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException;
 
     /**
-     * Determine if there is a password stored for the given user. This does not determine if a user is
-     * federative, because some federative users might have a password stored. This is the case for EASY
-     * accounts (with password) that have been coupled with a federative account.
+     * Determine if there is a password stored for the given user. This does not determine if a user is federative, because some federative users might have a
+     * password stored. This is the case for EASY accounts (with password) that have been coupled with a federative account.
      * 
      * @param user
      *        user

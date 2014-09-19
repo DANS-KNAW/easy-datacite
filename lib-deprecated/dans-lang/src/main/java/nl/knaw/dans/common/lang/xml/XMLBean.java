@@ -10,8 +10,7 @@ import javax.xml.transform.Source;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-public interface XMLBean extends MinimalXMLBean
-{
+public interface XMLBean extends MinimalXMLBean {
 
     /**
      * The return string for beans that are not versioned.
@@ -177,8 +176,7 @@ public interface XMLBean extends MinimalXMLBean
     Element asElement() throws XMLSerializationException;
 
     /**
-     * Get the version of this XMLBean or the string {@link #NOT_VERSIONED} if this XMLBean is not
-     * versioned.
+     * Get the version of this XMLBean or the string {@link #NOT_VERSIONED} if this XMLBean is not versioned.
      * 
      * @return the version of this XMLBean
      */

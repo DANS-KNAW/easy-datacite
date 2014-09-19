@@ -21,8 +21,7 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.pages.RedirectPage;
 import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 
-public class RESTdatasetsPage extends RESTcascadePage
-{
+public class RESTdatasetsPage extends RESTcascadePage {
 
     public static final String NAME = "datasets";
     public static final String RESOURCE_KEY = "rest.datasets";
@@ -33,16 +32,13 @@ public class RESTdatasetsPage extends RESTcascadePage
 
     private static Map<String, PageDescription> CHILDREN;
 
-    public RESTdatasetsPage(PageParameters parameters)
-    {
+    public RESTdatasetsPage(PageParameters parameters) {
         super(parameters);
     }
 
     @Override
-    public Map<String, PageDescription> getChildren()
-    {
-        if (CHILDREN == null)
-        {
+    public Map<String, PageDescription> getChildren() {
+        if (CHILDREN == null) {
             CHILDREN = new LinkedHashMap<String, PageDescription>();
 
             String name = RESTviewPage.NAME;
@@ -64,68 +60,54 @@ public class RESTdatasetsPage extends RESTcascadePage
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return NAME;
     }
 
     @Override
-    public String getResourceKey()
-    {
+    public String getResourceKey() {
         return RESOURCE_KEY;
     }
 
     @Override
-    public int getLevel()
-    {
+    public int getLevel() {
         return LEVEL;
     }
 
     @Override
-    protected void doDefaultDissemination()
-    {
+    protected void doDefaultDissemination() {
         String targetUrl = DatasetViewPage.urlFor(getDatasetId(), 0, false, this);
         throw new RestartResponseException(new RedirectPage(targetUrl));
     }
 
     @Override
-    protected void contributeParameters(PageParameters parameters)
-    {
+    protected void contributeParameters(PageParameters parameters) {
         parameters.put(PM_DATASET, getDataset());
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         Dataset dataset;
-        try
-        {
+        try {
             dataset = Services.getDatasetService().getDataset(EasySession.getSessionUser(), new DmoStoreId(getDatasetId()));
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_NOT_FOUND);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return dataset;
     }
 
-    protected String getDatasetId()
-    {
+    protected String getDatasetId() {
         String storeId;
         String itemId = getUrlFragments()[LEVEL];
-        if (itemId.startsWith(Dataset.NAMESPACE.getValue()))
-        {
+        if (itemId.startsWith(Dataset.NAMESPACE.getValue())) {
             storeId = itemId;
-        }
-        else
-        {
+        } else {
             storeId = Dataset.NAMESPACE.getValue() + ":" + itemId;
         }
         return storeId;

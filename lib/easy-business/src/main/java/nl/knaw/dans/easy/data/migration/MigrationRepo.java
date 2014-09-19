@@ -6,8 +6,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.ldap.GenericRepo;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 
-public interface MigrationRepo extends GenericRepo<IdMap>
-{
+public interface MigrationRepo extends GenericRepo<IdMap> {
 
     List<IdMap> findByAipId(String aipId) throws RepositoryException;
 

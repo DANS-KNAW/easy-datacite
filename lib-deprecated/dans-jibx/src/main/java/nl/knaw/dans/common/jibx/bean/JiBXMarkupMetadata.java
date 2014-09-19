@@ -6,8 +6,7 @@ import nl.knaw.dans.common.lang.repo.bean.MarkupMetadata;
 
 import org.joda.time.DateTime;
 
-public class JiBXMarkupMetadata extends AbstractJiBXObject<MarkupMetadata> implements MarkupMetadata
-{
+public class JiBXMarkupMetadata extends AbstractJiBXObject<MarkupMetadata> implements MarkupMetadata {
 
     private static final long serialVersionUID = -1156624217408639919L;
 
@@ -18,39 +17,32 @@ public class JiBXMarkupMetadata extends AbstractJiBXObject<MarkupMetadata> imple
     private MarkupVersionID markupVersionID;
 
     /* used by JiBX */
-    protected JiBXMarkupMetadata()
-    {
+    protected JiBXMarkupMetadata() {
 
     }
 
-    protected JiBXMarkupMetadata(MarkupVersionID markupVersionID)
-    {
+    protected JiBXMarkupMetadata(MarkupVersionID markupVersionID) {
         this.markupVersionID = markupVersionID;
     }
 
-    public MarkupVersionID getMarkupVersionID()
-    {
+    public MarkupVersionID getMarkupVersionID() {
         return markupVersionID;
     }
 
-    public String getLastEditedBy()
-    {
+    public String getLastEditedBy() {
         return lastEditedBy;
     }
 
-    public void setLastEditedBy(String lastEditedBy)
-    {
+    public void setLastEditedBy(String lastEditedBy) {
         this.lastEditedBy = lastEditedBy;
         setLastEdited(new DateTime());
     }
 
-    public DateTime getLastEdited()
-    {
+    public DateTime getLastEdited() {
         return lastEdited;
     }
 
-    public void setLastEdited(DateTime lastEdited)
-    {
+    public void setLastEdited(DateTime lastEdited) {
         this.lastEdited = lastEdited;
     }
 

@@ -42,8 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class DatasetPermissionTest
-{
+public class DatasetPermissionTest {
     private EasyApplicationContextMock applicationContext;
     private static DatasetImpl dataset;
     private boolean isDepositor;
@@ -52,16 +51,13 @@ public class DatasetPermissionTest
     private PermissionRequestModel permissionRequestModel;
     private InMemoryDatabase inMemoryDB;
 
-    static public class PageWrapper extends DatasetViewPage
-    {
-        public PageWrapper()
-        {
+    static public class PageWrapper extends DatasetViewPage {
+        public PageWrapper() {
             super(dataset, DatasetViewPage.Mode.VIEW);
         }
     }
 
-    public void mockDataset() throws Exception
-    {
+    public void mockDataset() throws Exception {
         permissionRequestModel = new PermissionRequestModel();
         permissionSequence = PowerMock.createMock(PermissionSequence.class);
         permissionSequenceList = PowerMock.createMock(PermissionSequenceList.class);
@@ -69,32 +65,27 @@ public class DatasetPermissionTest
         expect(permissionSequenceList.getPermissionRequest(isA(EasyUser.class))).andStubReturn(permissionRequestModel);
         expect(permissionSequenceList.isGrantedTo(isA(EasyUser.class))).andStubReturn(true);
 
-        dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId())
-        {
+        dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId()) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean hasDepositor(final EasyUser user)
-            {
+            public boolean hasDepositor(final EasyUser user) {
                 return isDepositor;
             }
 
             @Override
-            public boolean hasDepositor(final String userId)
-            {
+            public boolean hasDepositor(final String userId) {
                 return isDepositor;
             }
 
             @Override
-            public boolean hasPermissionRestrictedItems()
-            {
+            public boolean hasPermissionRestrictedItems() {
                 fail("replaced by a FileStoreAccessMethod");
                 return true;
             }
 
             @Override
-            public AccessCategory getAccessCategory()
-            {
+            public AccessCategory getAccessCategory() {
                 return AccessCategory.REQUEST_PERMISSION;
             }
         };
@@ -108,21 +99,18 @@ public class DatasetPermissionTest
         applicationContext.setDatasetService(datasetService);
     }
 
-    private void mockFileStoreAccess() throws Exception
-    {
+    private void mockFileStoreAccess() throws Exception {
         inMemoryDB = new InMemoryDatabase();
         final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
         inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
         inMemoryDB.flush();
         FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
         applicationContext.putBean("fileStoreAccess", fileStoreAccess);
-        new Data().setFileStoreAccess(fileStoreAccess);
-        ;
+        new Data().setFileStoreAccess(fileStoreAccess);;
     }
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
@@ -135,15 +123,13 @@ public class DatasetPermissionTest
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
         inMemoryDB.close();
     }
 
     @Test
-    public void hasNoSequence() throws Exception
-    {
+    public void hasNoSequence() throws Exception {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
@@ -153,8 +139,7 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void issuefirstRequest() throws Exception
-    {
+    public void issuefirstRequest() throws Exception {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
@@ -167,8 +152,7 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void permissionsTabVisible() throws Exception
-    {
+    public void permissionsTabVisible() throws Exception {
         mockPermissionSequenceList();
         isDepositor = true;
 
@@ -182,8 +166,7 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void permissionsTab() throws Exception
-    {
+    public void permissionsTab() throws Exception {
         preparePermissionTab();
         final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
         tester.dumpPage();
@@ -193,16 +176,14 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void fileExplorerTab() throws Exception
-    {
+    public void fileExplorerTab() throws Exception {
         preparePermissionTab();
         final EasyWicketTester tester = showTab(2, "Data files (1)");
         tester.dumpPage();
     }
 
     @Test
-    public void replyPermission() throws Exception
-    {
+    public void replyPermission() throws Exception {
         preparePermissionTab();
         expect(permissionSequenceList.getPermissionReply(isA(String.class))).andStubReturn(new PermissionReplyModel("id"));
         final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
@@ -212,8 +193,7 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void isDenied() throws Exception
-    {
+    public void isDenied() throws Exception {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
         expectLastStateChange("2014-04-14");
@@ -223,8 +203,7 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void viewDenied() throws Exception
-    {
+    public void viewDenied() throws Exception {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
         expectLastStateChange("2014-04-14");
@@ -240,8 +219,7 @@ public class DatasetPermissionTest
         tester.assertRenderedPage(PermissionRequestPage.class);
     }
 
-    private void preparePermissionTab()
-    {
+    private void preparePermissionTab() {
         final String date = "2014-04-14";
         final State state = State.Submitted;
         final EasyUserImpl requestor = createRequestor("R.E.", "Questor", "orga", "depa");
@@ -251,8 +229,7 @@ public class DatasetPermissionTest
         isDepositor = true;
     }
 
-    private List<PermissionSequence> mockPermissionSequenceList()
-    {
+    private List<PermissionSequence> mockPermissionSequenceList() {
         final List<PermissionSequence> list = new ArrayList<PermissionSequence>();
         expect(permissionSequenceList.getPermissionSequences(isA(State.class))).andStubReturn(list);
         expect(permissionSequenceList.getPermissionSequences()).andStubReturn(list);
@@ -272,8 +249,7 @@ public class DatasetPermissionTest
         return ps;
     }
 
-    private EasyUserImpl createRequestor(final String initials, final String surName, final String organisation, final String department)
-    {
+    private EasyUserImpl createRequestor(final String initials, final String surName, final String organisation, final String department) {
         final EasyUserImpl user = new EasyUserImpl("id");
         user.setInitials(initials);
         user.setSurname(surName);
@@ -282,30 +258,25 @@ public class DatasetPermissionTest
         return user;
     }
 
-    private void expectNoPermissionSequenceList()
-    {
+    private void expectNoPermissionSequenceList() {
         expect(permissionSequenceList.getPermissionSequences(isA(State.class))).andStubReturn(null);
     }
 
-    private void expectLastStateChange(final String string)
-    {
+    private void expectLastStateChange(final String string) {
         expectHasSequence(true);
         expect(permissionSequence.getLastStateChange()).andStubReturn(new DateTime(string));
     }
 
-    private void expectHasSequence(final boolean stubReturnValue)
-    {
+    private void expectHasSequence(final boolean stubReturnValue) {
         expect(permissionSequenceList.hasSequenceFor(isA(EasyUser.class))).andStubReturn(stubReturnValue);
     }
 
-    private void expectAuthzMessages(final String... authzMessages)
-    {
+    private void expectAuthzMessages(final String... authzMessages) {
         for (final String authzMessage : authzMessages)
             dataset.getAuthzStrategy().getReadMessages().add(new AuthzMessage(authzMessage));
     }
 
-    private EasyWicketTester showTab(final int number, final String title)
-    {
+    private EasyWicketTester showTab(final int number, final String title) {
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         PowerMock.replayAll();
         tester.startPage(PageWrapper.class);

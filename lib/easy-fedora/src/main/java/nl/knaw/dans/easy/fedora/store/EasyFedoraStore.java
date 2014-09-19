@@ -38,13 +38,11 @@ import org.trippi.TupleIterator;
 
 import fedora.server.types.gen.MIMETypedStream;
 
-public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
-{
+public class EasyFedoraStore extends FedoraDmoStore implements EasyStore {
 
     private static final long serialVersionUID = 1288905408847378535L;
 
-    public EasyFedoraStore(String name, final Fedora fedora)
-    {
+    public EasyFedoraStore(String name, final Fedora fedora) {
         super(name, fedora);
 
         AbstractDmoFactory.register(new DatasetFactory());
@@ -63,82 +61,66 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         addConverter(new DownloadHistoryConverter());
     }
 
-    public URL getFileURL(DmoStoreId dmoStoreId)
-    {
+    public URL getFileURL(DmoStoreId dmoStoreId) {
         return getStreamURL(dmoStoreId, EasyFile.UNIT_ID);
     }
 
     @Override
-    public URL getStreamURL(DmoStoreId dmoStoreId, String streamId)
-    {
+    public URL getStreamURL(DmoStoreId dmoStoreId, String streamId) {
         URL url = null;
         final String spec = getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + streamId;
-        try
-        {
+        try {
             url = new URL(spec);
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             throw new ApplicationException(e);
         }
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId)
-    {
+    public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId) {
         final String spec = getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + DescriptiveMetadataImpl.UNIT_ID;
-        try
-        {
+        try {
             return new URL(spec);
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             throw new ApplicationException(e);
         }
     }
 
-    public DownloadHistory findDownloadHistoryFor(DataModelObject objectDmo, String period) throws RepositoryException
-    {
+    public DownloadHistory findDownloadHistoryFor(DataModelObject objectDmo, String period) throws RepositoryException {
         return findDownloadHistoryFor(objectDmo.getDmoStoreId(), period);
     }
 
-    public DownloadHistory findDownloadHistoryFor(DmoStoreId dmoStoreId, String period) throws RepositoryException
-    {
+    public DownloadHistory findDownloadHistoryFor(DmoStoreId dmoStoreId, String period) throws RepositoryException {
         DownloadHistory dlh = null;
         String dmoObjectRef = FedoraURIReference.create(dmoStoreId.getStoreId());
         String query = createDownloadHistoryQuery(dmoObjectRef, period);
-        try
-        {
+        try {
             TupleIterator tupleIterator = execSparql(query);
-            if (tupleIterator.hasNext())
-            {
+            if (tupleIterator.hasNext()) {
                 Map<String, Node> row = tupleIterator.next();
                 String subject = row.get("s").toString();
                 String subjectStoreId = FedoraURIReference.strip(subject);
                 dlh = (DownloadHistory) retrieve(new DmoStoreId(subjectStoreId));
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException(e);
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             throw new RepositoryException(e);
         }
         return dlh;
     }
 
-    public List<DownloadHistory> findDownloadHistoryFor(DataModelObject dmo) throws RepositoryException
-    {
+    public List<DownloadHistory> findDownloadHistoryFor(DataModelObject dmo) throws RepositoryException {
         List<DownloadHistory> dlhList = new ArrayList<DownloadHistory>();
         String dmoObjectRef = FedoraURIReference.create(dmo.getStoreId());
         String query = createDownloadHistoryQuery(dmoObjectRef);
-        try
-        {
+        try {
             TupleIterator tupleIterator = execSparql(query);
-            while (tupleIterator.hasNext())
-            {
+            while (tupleIterator.hasNext()) {
                 Map<String, Node> row = tupleIterator.next();
                 String subject = row.get("s").toString();
                 String storeId = FedoraURIReference.strip(subject);
@@ -146,32 +128,26 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
                 dlhList.add(dlh);
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException(e);
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             throw new RepositoryException(e);
         }
         return dlhList;
     }
 
-    public EasyMetadata getEasyMetaData(DmoStoreId dmoStoreId, DateTime asOfDateTime) throws RepositoryException
-    {
+    public EasyMetadata getEasyMetaData(DmoStoreId dmoStoreId, DateTime asOfDateTime) throws RepositoryException {
         final MIMETypedStream mts = getFedora().getDatastreamAccessor().getDatastreamDissemination(dmoStoreId.getStoreId(), EasyMetadata.UNIT_ID, asOfDateTime);
-        try
-        {
+        try {
             return (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, mts.getStream());
         }
-        catch (final XMLDeserializationException e)
-        {
+        catch (final XMLDeserializationException e) {
             throw new ObjectDeserializationException(e);
         }
     }
 
-    protected static String createDownloadHistoryQuery(String dmoObjectRef, String period)
-    {
+    protected static String createDownloadHistoryQuery(String dmoObjectRef, String period) {
         return new StringBuilder("select ?s from <#ri> where {?s <")//
                 .append(RelsConstants.DANS_NS.HAS_DOWNLOAD_HISTORY_OF.stringValue())//
                 .append("> <")//
@@ -188,8 +164,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 
     }
 
-    protected static String createDownloadHistoryQuery(String dmoObject)
-    {
+    protected static String createDownloadHistoryQuery(String dmoObject) {
         return new StringBuilder("select ?s from <#ri> where {?s <")//
                 .append(RelsConstants.DANS_NS.HAS_DOWNLOAD_HISTORY_OF.stringValue())//
                 .append("> <")//

@@ -7,30 +7,25 @@ import nl.knaw.dans.common.lang.repo.exception.CouldNotGetStoreException;
 import nl.knaw.dans.common.lang.repo.exception.StoreNameNotUniqueException;
 
 /**
- * A singleton object that holds a list of uniquely named dmo stores. These dmo currently register
- * themselves during their creation process. Note: This class does not store the stores with weak
- * references, therefore once a store is created and registered it exists forever, because the singleton
- * will keep the references forever.
+ * A singleton object that holds a list of uniquely named dmo stores. These dmo currently register themselves during their creation process. Note: This class
+ * does not store the stores with weak references, therefore once a store is created and registered it exists forever, because the singleton will keep the
+ * references forever.
  * 
  * @author lobo
  */
-public class DmoStores implements Serializable
-{
+public class DmoStores implements Serializable {
     private static final long serialVersionUID = 1468152880397856857L;
 
     private static DmoStores INSTANCE = new DmoStores();
 
     private HashMap<String, DmoStore> stores = new HashMap<String, DmoStore>();
 
-    private DmoStores()
-    {
-    }
+    private DmoStores() {}
 
     /**
      * @return the DmoStores singleton that holds the list of dmo stores.
      */
-    public static DmoStores get()
-    {
+    public static DmoStores get() {
         return INSTANCE;
     }
 
@@ -40,8 +35,7 @@ public class DmoStores implements Serializable
      * @throws CouldNotGetStoreException
      *         if the store does not exist
      */
-    public DmoStore getStoreByName(String name) throws CouldNotGetStoreException
-    {
+    public DmoStore getStoreByName(String name) throws CouldNotGetStoreException {
         DmoStore store = stores.get(name);
         if (store == null)
             throw new CouldNotGetStoreException(name);
@@ -54,8 +48,7 @@ public class DmoStores implements Serializable
      * @param store
      *        the store
      */
-    public synchronized void register(DmoStore store)
-    {
+    public synchronized void register(DmoStore store) {
         String storeName = store.getName();
         stores.put(storeName, store);
     }

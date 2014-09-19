@@ -5,24 +5,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ Utility for making deep copies (vs.
- * clone()'s shallow copies) of objects. Objects are first serialized and then deserialized. Error
- * checking is fairly minimal in this implementation. If an object is encountered that cannot be
- * serialized (or that references an object that cannot be serialized) an error is printed and null is
- * returned. Depending on your specific application, it might make more sense to have copy(...) re-throw
- * the exception.
+ * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ Utility for making deep copies (vs. clone()'s shallow copies) of objects. Objects are
+ * first serialized and then deserialized. Error checking is fairly minimal in this implementation. If an object is encountered that cannot be serialized (or
+ * that references an object that cannot be serialized) an error is printed and null is returned. Depending on your specific application, it might make more
+ * sense to have copy(...) re-throw the exception.
  */
-public class DeepCopy
-{
+public class DeepCopy {
 
     /**
      * Returns a copy of the object, or null if the object cannot be serialized.
      */
-    public static Object copy(Object orig)
-    {
+    public static Object copy(Object orig) {
         Object obj = null;
-        try
-        {
+        try {
             // Write the object out to a byte array
             FastByteArrayOutputStream fbos = new FastByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(fbos);
@@ -35,12 +30,10 @@ public class DeepCopy
             ObjectInputStream in = new ObjectInputStream(fbos.getInputStream());
             obj = in.readObject();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
-        catch (ClassNotFoundException cnfe)
-        {
+        catch (ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         }
         return obj;

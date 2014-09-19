@@ -9,36 +9,28 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
-public final class DatasetStateCheck extends AbstractCheck
-{
+public final class DatasetStateCheck extends AbstractCheck {
 
     private final List<DatasetState> allowedStates;
 
-    public DatasetStateCheck(DatasetState... states)
-    {
+    public DatasetStateCheck(DatasetState... states) {
         super();
         allowedStates = Collections.synchronizedList(Arrays.asList(states));
     }
 
-    public String getProposition()
-    {
-        synchronized (allowedStates)
-        {
+    public String getProposition() {
+        synchronized (allowedStates) {
             return PropositionBuilder.buildOrProposition("Dataset state is", allowedStates);
         }
     }
 
-    public boolean evaluate(ContextParameters ctxParameters)
-    {
+    public boolean evaluate(ContextParameters ctxParameters) {
         boolean conditionMet = false;
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset != null)
-        {
-            synchronized (allowedStates)
-            {
+        if (dataset != null) {
+            synchronized (allowedStates) {
                 Iterator<DatasetState> iter = allowedStates.iterator();
-                while (!conditionMet && iter.hasNext())
-                {
+                while (!conditionMet && iter.hasNext()) {
                     conditionMet = iter.next().equals(dataset.getAdministrativeState());
                 }
             }
@@ -47,17 +39,13 @@ public final class DatasetStateCheck extends AbstractCheck
         return conditionMet;
     }
 
-    protected String explain(ContextParameters ctxParameters)
-    {
+    protected String explain(ContextParameters ctxParameters) {
         StringBuilder sb = super.startExplain(ctxParameters);
 
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset == null)
-        {
+        if (dataset == null) {
             sb.append("\n\tdataset = null");
-        }
-        else
-        {
+        } else {
             sb.append("\n\tdataset.state = " + dataset.getAdministrativeState());
         }
         sb.append("\n\tcondition met = ");
@@ -66,19 +54,14 @@ public final class DatasetStateCheck extends AbstractCheck
     }
 
     @Override
-    public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-    {
+    public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
         Dataset dataset = ctxParameters.getDataset();
         boolean conditionMet = false;
-        if (dataset == null)
-        {
+        if (dataset == null) {
             hints.add(CommonSecurityException.HINT_DATASET_NULL);
-        }
-        else
-        {
+        } else {
             conditionMet = evaluate(ctxParameters);
-            if (!conditionMet)
-            {
+            if (!conditionMet) {
                 hints.add(dataset.getAdministrativeState());
             }
         }

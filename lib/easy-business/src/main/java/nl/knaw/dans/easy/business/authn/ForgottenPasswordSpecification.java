@@ -14,22 +14,18 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ForgottenPasswordSpecification
-{
+public class ForgottenPasswordSpecification {
 
     private static Logger logger = LoggerFactory.getLogger(ForgottenPasswordSpecification.class);
 
-    public static boolean isSatisfiedBy(ForgottenPasswordMessenger messenger)
-    {
+    public static boolean isSatisfiedBy(ForgottenPasswordMessenger messenger) {
         boolean satisfied = hasSufficientData(messenger) && usersCanBeFound(messenger) && anyQualifiedUsers(messenger);
         return satisfied;
     }
 
-    private static boolean hasSufficientData(ForgottenPasswordMessenger messenger)
-    {
+    private static boolean hasSufficientData(ForgottenPasswordMessenger messenger) {
         boolean hasSufficientData = true;
-        if (StringUtils.isBlank(messenger.getUserId()) && StringUtils.isBlank(messenger.getEmail()))
-        {
+        if (StringUtils.isBlank(messenger.getUserId()) && StringUtils.isBlank(messenger.getEmail())) {
             hasSufficientData = false;
             logger.debug("Both userId and email are blank.");
             messenger.setState(State.InsufficientData);
@@ -38,40 +34,31 @@ public class ForgottenPasswordSpecification
     }
 
     // side effect: a list of users maybe loaded onto the messenger
-    private static boolean usersCanBeFound(ForgottenPasswordMessenger messenger)
-    {
+    private static boolean usersCanBeFound(ForgottenPasswordMessenger messenger) {
         boolean userFound = false;
-        if (StringUtils.isNotBlank(messenger.getUserId()))
-        {
+        if (StringUtils.isNotBlank(messenger.getUserId())) {
             userFound = findUserByUserId(messenger);
         }
-        if (!userFound && StringUtils.isNotBlank(messenger.getEmail()))
-        {
+        if (!userFound && StringUtils.isNotBlank(messenger.getEmail())) {
             userFound = findUserByEmail(messenger);
         }
         return userFound;
     }
 
     // side effect: a list of users maybe loaded onto the messenger
-    private static boolean findUserByEmail(ForgottenPasswordMessenger messenger)
-    {
+    private static boolean findUserByEmail(ForgottenPasswordMessenger messenger) {
         boolean userFound = false;
-        try
-        {
+        try {
             List<EasyUser> users = Data.getUserRepo().findByEmail(messenger.getEmail());
-            if (!users.isEmpty())
-            {
+            if (!users.isEmpty()) {
                 userFound = true;
                 messenger.getUsers().addAll(users);
-            }
-            else
-            {
+            } else {
                 logger.debug("User cannot be found by email: " + messenger.getEmail());
                 messenger.setState(State.UserNotFound);
             }
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Could not find user by email: ", e);
             messenger.setState(State.SystemError, e);
         }
@@ -79,45 +66,36 @@ public class ForgottenPasswordSpecification
     }
 
     // side effect: a list of users maybe loaded onto the messenger
-    private static boolean findUserByUserId(ForgottenPasswordMessenger messenger)
-    {
+    private static boolean findUserByUserId(ForgottenPasswordMessenger messenger) {
         boolean userFound = false;
-        try
-        {
+        try {
             EasyUser user = Data.getUserRepo().findById(messenger.getUserId());
-            if (user != null)
-            {
+            if (user != null) {
                 userFound = true;
                 messenger.addUser(user);
             }
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             logger.debug("User cannot be found by userId: " + messenger.getUserId());
             messenger.setState(State.UserNotFound, e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Could not find user by id: ", e);
             messenger.setState(State.SystemError, e);
         }
         return userFound;
     }
 
-    private static boolean anyQualifiedUsers(ForgottenPasswordMessenger messenger)
-    {
+    private static boolean anyQualifiedUsers(ForgottenPasswordMessenger messenger) {
         List<EasyUser> qualifiedUsers = new ArrayList<EasyUser>();
-        for (EasyUser user : messenger.getUsers())
-        {
-            if (user.isQualified())
-            {
+        for (EasyUser user : messenger.getUsers()) {
+            if (user.isQualified()) {
                 qualifiedUsers.add(user);
             }
         }
         messenger.getUsers().retainAll(qualifiedUsers);
         boolean anyUsersLeft = qualifiedUsers.size() > 0;
-        if (!anyUsersLeft)
-        {
+        if (!anyUsersLeft) {
             logger.debug("No qualified users. userId=" + messenger.getUserId() + " email=" + messenger.getEmail());
             messenger.setState(State.NoQualifiedUsers);
         }

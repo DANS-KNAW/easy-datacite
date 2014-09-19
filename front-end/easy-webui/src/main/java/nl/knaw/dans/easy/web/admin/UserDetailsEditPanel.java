@@ -42,8 +42,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResources
-{
+public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResources {
     private static Logger logger = LoggerFactory.getLogger(UserDetailsEditPanel.class);
 
     private static final String WI_USER_INFO_FORM = "userInfoForm";
@@ -56,30 +55,25 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
     @SpringBean(name = "userService")
     UserService userService;
 
-    public UserDetailsEditPanel(final SwitchPanel parent, final IModel<EasyUser> model, final boolean enableModeSwitch, final FormListener listener)
-    {
+    public UserDetailsEditPanel(final SwitchPanel parent, final IModel<EasyUser> model, final boolean enableModeSwitch, final FormListener listener) {
         super(SwitchPanel.SWITCH_PANEL_WI, model);
         this.parent = parent;
         this.enableModeSwitch = enableModeSwitch;
         constructPanel(listener);
     }
 
-    private void constructPanel(final FormListener listener)
-    {
+    private void constructPanel(final FormListener listener) {
         UserInfoForm infoForm = new UserInfoForm(this, WI_USER_INFO_FORM, (IModel<EasyUser>) getDefaultModel(), listener);
         add(infoForm);
         // AjaxFormValidatingBehavior.addToAllFormComponents(infoForm, "onblur");
     }
 
-    private List<String> getGroupIds()
-    {
+    private List<String> getGroupIds() {
         List<String> groups = null;
-        try
-        {
+        try {
             groups = userService.getAllGroupIds();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.ERROR_IN_GETTING_GROUPS);
             logger.error(message, e);
             throw new InternalWebError();
@@ -87,8 +81,7 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
         return groups;
     }
 
-    private static class UserInfoForm extends AbstractEasyStatelessForm<EasyUser>
-    {
+    private static class UserInfoForm extends AbstractEasyStatelessForm<EasyUser> {
         private final UserDetailsEditPanel userDetailsEditPanel;
         private final FormListener listener;
         private final boolean addMode;
@@ -97,8 +90,7 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
 
         private static final long serialVersionUID = -2318428687360947765L;
 
-        public UserInfoForm(UserDetailsEditPanel userDetailsEditPanel, final String wicketId, final IModel<EasyUser> model, final FormListener listener)
-        {
+        public UserInfoForm(UserDetailsEditPanel userDetailsEditPanel, final String wicketId, final IModel<EasyUser> model, final FormListener listener) {
             super(wicketId, model);
             this.userDetailsEditPanel = userDetailsEditPanel;
             this.listener = listener;
@@ -188,14 +180,12 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
             SubmitLink updateButton = new SubmitLink(UserDetailsEditPanel.UPDATE_BUTTON, new ResourceModel(buttonLabel));
             add(updateButton);
 
-            Link cancelButton = new Link(UserDetailsEditPanel.CANCEL_BUTTON)
-            {
+            Link cancelButton = new Link(UserDetailsEditPanel.CANCEL_BUTTON) {
 
                 private static final long serialVersionUID = -1205869652104297953L;
 
                 @Override
-                public void onClick()
-                {
+                public void onClick() {
                     handleCancelButtonClicked();
                 }
             };
@@ -204,40 +194,32 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
         }
 
         @Override
-        protected void onSubmit()
-        {
-            if (addMode)
-            {
+        protected void onSubmit() {
+            if (addMode) {
                 handleAddButtonClicked();
-            }
-            else
-            {
+            } else {
                 handleUpdateButtonClicked();
             }
         }
 
-        private void handleAddButtonClicked()
-        {
+        private void handleAddButtonClicked() {
             // final User user = (User) getModelObject();
             final String message = errorMessage(EasyResources.ADD_NOT_IMPLEMENTED);
             logger.error(message);
             throw new InternalWebError();
         }
 
-        private void handleUpdateButtonClicked()
-        {
+        private void handleUpdateButtonClicked() {
             final EasyUser user = getModelObject();
 
-            try
-            {
+            try {
                 EasyUser sessionUser = getSessionUser();
 
                 // update the user in persistence layer
                 this.userDetailsEditPanel.userService.update(sessionUser, user);
 
                 // inform listener
-                if (listener != null)
-                {
+                if (listener != null) {
                     listener.onUpdate(this, user);
                 }
 
@@ -245,34 +227,27 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
                 // one we put in the CompoundPropertyModel (see constructor).
                 // If the sessionUser is updating her own info we need to synchronize
                 // the sessionUser on the updated user.
-                if (sessionUser.getId().equals(user.getId()))
-                {
+                if (sessionUser.getId().equals(user.getId())) {
                     sessionUser.synchronizeOn(user);
                     logger.debug("Session user updated. Synchronizing " + sessionUser + " on " + user);
                 }
-                if (this.userDetailsEditPanel.enableModeSwitch)
-                {
+                if (this.userDetailsEditPanel.enableModeSwitch) {
                     this.userDetailsEditPanel.parent.switchMode();
                 }
 
                 final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
                 logger.info(message);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = fatalMessage(EasyResources.USER_UPDATE_ERROR);
                 logger.error(message, e);
             }
         }
 
-        private void handleCancelButtonClicked()
-        {
-            if (this.userDetailsEditPanel.enableModeSwitch && !addMode)
-            {
+        private void handleCancelButtonClicked() {
+            if (this.userDetailsEditPanel.enableModeSwitch && !addMode) {
                 this.userDetailsEditPanel.parent.switchMode();
-            }
-            else
-            {
+            } else {
                 setResponsePage(UsersOverviewPage.class);
             }
         }

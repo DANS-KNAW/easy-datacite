@@ -21,17 +21,14 @@ import static nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.PakbonStatu
 
 // ecco: CHECKSTYLE: OFF
 
-public class EmdHelper
-{
+public class EmdHelper {
     /**
      * Logger for this class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyMetadataImpl.class);
 
-    public static void populate(int repeatFill, EasyMetadata emd) throws URISyntaxException
-    {
-        for (MDContainer mdContainer : MDContainer.values())
-        {
+    public static void populate(int repeatFill, EasyMetadata emd) throws URISyntaxException {
+        for (MDContainer mdContainer : MDContainer.values()) {
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
 
             populate(repeatFill, emdContainer);
@@ -39,19 +36,15 @@ public class EmdHelper
 
     }
 
-    public static void populate(int repeatFill, EmdContainer emdContainer) throws URISyntaxException
-    {
-        for (Term term : emdContainer.getTerms())
-        {
+    public static void populate(int repeatFill, EmdContainer emdContainer) throws URISyntaxException {
+        for (Term term : emdContainer.getTerms()) {
             List<?> list = emdContainer.get(term);
             fill(list, term, repeatFill);
         }
-        if (emdContainer instanceof EmdOther)
-        {
+        if (emdContainer instanceof EmdOther) {
             EmdOther emdOther = (EmdOther) emdContainer;
 
-            for (int i = 0; i < repeatFill; i++)
-            {
+            for (int i = 0; i < repeatFill; i++) {
                 PropertyList propertyList = new PropertyList();
                 propertyList.setComment("PropertyList " + i);
                 propertyList.addProperty("key 1", "value 1");
@@ -64,26 +57,19 @@ public class EmdHelper
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void fill(List list, Term term, int times) throws URISyntaxException
-    {
-        if (term.getType() == null)
-        {
+    public static void fill(List list, Term term, int times) throws URISyntaxException {
+        if (term.getType() == null) {
             LOGGER.warn("No type set for " + term.toString());
             return;
         }
 
-        if (term.getType().equals(BasicString.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        if (term.getType().equals(BasicString.class)) {
+            for (int i = 0; i < times; i++) {
                 BasicString bs = getBasicString(term, i);
                 list.add(bs);
             }
-        }
-        else if (term.getType().equals(Author.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(Author.class)) {
+            for (int i = 0; i < times; i++) {
                 Author author = new Author();
                 author.setEntityId("123" + i);
                 author.setIdentificationSystem(new URI("http://author.org/sys" + i));
@@ -94,30 +80,21 @@ public class EmdHelper
                 author.setOrganization("DANS");
                 list.add(author);
             }
-        }
-        else if (term.getType().equals(BasicDate.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(BasicDate.class)) {
+            for (int i = 0; i < times; i++) {
                 BasicDate bdate = new BasicDate("maart '98");
                 bdate.setLanguage(new Locale("en", "US"));
                 bdate.setSchemeId("basic.date.bla" + i);
                 list.add(bdate);
             }
-        }
-        else if (term.getType().equals(BasicIdentifier.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(BasicIdentifier.class)) {
+            for (int i = 0; i < times; i++) {
                 BasicIdentifier bid = getBasicIdentifier(i);
                 bid.setSchemeId("basic.identifier.bla" + i);
                 list.add(bid);
             }
-        }
-        else if (term.getType().equals(BasicRemark.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(BasicRemark.class)) {
+            for (int i = 0; i < times; i++) {
                 BasicRemark remark = new BasicRemark(term.getName().termName + " " + i);
                 remark.setAuthor("Author von Bar");
                 remark.setLanguage("nl-NL");
@@ -125,42 +102,30 @@ public class EmdHelper
                 remark.setSchemeId("remark.bal.bal" + i);
                 list.add(remark);
             }
-        }
-        else if (term.getType().equals(IsoDate.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(IsoDate.class)) {
+            for (int i = 0; i < times; i++) {
                 IsoDate idate = new IsoDate();
                 idate.setSchemeId("iso.date.bla" + i);
                 list.add(idate);
             }
-        }
-        else if (term.getType().equals(Relation.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(Relation.class)) {
+            for (int i = 0; i < times; i++) {
                 Relation rel = new Relation(getBasicString(term, i));
                 rel.setEmphasis(i % 2 == 0);
                 rel.setSubjectIdentifier(getBasicIdentifier(i));
                 rel.setSubjectLink(new URI("http://relation.com/sys" + i));
                 list.add(rel);
             }
-        }
-        else if (term.getType().equals(Spatial.class))
-        {
-            for (int i = 0; i < times; i++)
-            {
+        } else if (term.getType().equals(Spatial.class)) {
+            for (int i = 0; i < times; i++) {
                 Spatial spat = new Spatial();
                 spat.setPlace(getBasicString(term, i));
-                if (i % 2 == 0)
-                {
+                if (i % 2 == 0) {
                     // Spatial.Point point = new Spatial.Point("POI" + i, 123.45, 456.78);
                     Spatial.Point point = new Spatial.Point("POI" + i, "123.45", "456.78");
                     point.setSchemeId("point.bla" + i);
                     spat.setPoint(point);
-                }
-                else
-                {
+                } else {
                     // Spatial.Box box = new Spatial.Box("BOX" + i, 12.3, 23.4, 34.5, 45.6);
                     Spatial.Box box = new Spatial.Box("BOX" + i, "12.3", "23.4", "34.5", "45.6");
                     box.setSchemeId("bax.bla" + i);
@@ -169,14 +134,12 @@ public class EmdHelper
                 list.add(spat);
             }
         }
-        if (list.isEmpty())
-        {
+        if (list.isEmpty()) {
             LOGGER.warn("No fill-method for " + term.getType());
         }
     }
 
-    private static BasicString getBasicString(Term term, int i)
-    {
+    private static BasicString getBasicString(Term term, int i) {
         BasicString bs = new BasicString(term.getName().termName + " " + i);
         bs.setLanguage(new Locale("nl", "NL"));
         bs.setScheme("BSS" + i);
@@ -184,8 +147,7 @@ public class EmdHelper
         return bs;
     }
 
-    private static BasicIdentifier getBasicIdentifier(int i) throws URISyntaxException
-    {
+    private static BasicIdentifier getBasicIdentifier(int i) throws URISyntaxException {
         BasicIdentifier bid = new BasicIdentifier("ABC" + i);
         bid.setIdentificationSystem(new URI("http://pid.org/sys" + i));
         bid.setLanguage(new Locale("de", "DE"));

@@ -23,14 +23,12 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ShowFilesPanel extends Panel
-{
+public class ShowFilesPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(ShowFilesPanel.class);
 
-    public ShowFilesPanel(final ModalWindow window, final DatasetModel datasetModel)
-    {
+    public ShowFilesPanel(final ModalWindow window, final DatasetModel datasetModel) {
         super(window.getContentId());
 
         Dataset dataset = datasetModel.getObject();
@@ -39,13 +37,11 @@ public class ShowFilesPanel extends Panel
 
         getFiles(dataset, dataset.getStoreId(), files);
 
-        ListView<ItemVO> fileList = new ListView<ItemVO>("fileList", files)
-        {
+        ListView<ItemVO> fileList = new ListView<ItemVO>("fileList", files) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void populateItem(ListItem<ItemVO> item)
-            {
+            protected void populateItem(ListItem<ItemVO> item) {
                 item.add(new Label("file", item.getModelObject().getPath()));
             }
 
@@ -53,38 +49,29 @@ public class ShowFilesPanel extends Panel
 
         add(fileList);
 
-        add(new IndicatingAjaxLink<Void>("close")
-        {
+        add(new IndicatingAjaxLink<Void>("close") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 window.close(target);
             }
         });
     }
 
-    private void getFiles(Dataset dataset, String sid, List<ItemVO> items)
-    {
+    private void getFiles(Dataset dataset, String sid, List<ItemVO> items) {
         List<ItemVO> newItems = new ArrayList<ItemVO>();
-        try
-        {
+        try {
             newItems = Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), dataset, new DmoStoreId(sid), -1, -1, null, null);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Something went wrong while trying to get files in ShowFilesPanel.java");
         }
 
-        for (ItemVO item : newItems)
-        {
-            if (item instanceof FolderItemVO)
-            {
+        for (ItemVO item : newItems) {
+            if (item instanceof FolderItemVO) {
                 getFiles(dataset, item.getSid(), items);
-            }
-            else if (item instanceof FileItemVO)
-            {
+            } else if (item instanceof FileItemVO) {
                 items.add(item);
             }
         }

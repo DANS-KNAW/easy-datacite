@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.domain.deposit.discipline;
 
 import java.util.List;
 
-public class KvpPrinter
-{
+public class KvpPrinter {
 
     /**
      * <pre>
@@ -17,11 +16,9 @@ public class KvpPrinter
      * @param kvpList
      * @return
      */
-    public String printXsEnumeration(List<KeyValuePair> kvpList)
-    {
+    public String printXsEnumeration(List<KeyValuePair> kvpList) {
         StringBuilder sb = new StringBuilder("\n");
-        for (KeyValuePair kvp : kvpList)
-        {
+        for (KeyValuePair kvp : kvpList) {
             sb.append("<xs:enumeration value=\"" + kvp.getKey() + "\">\n");
             sb.append("\t<xs:annotation>\n");
             sb.append("\t\t<xs:documentation xml:lang=\"nl\">\n\t\t\t" + kvp.getValue() + "\n\t\t</xs:documentation>\n");

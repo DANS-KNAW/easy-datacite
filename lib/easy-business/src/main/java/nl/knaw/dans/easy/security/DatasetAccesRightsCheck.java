@@ -9,35 +9,27 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
-public class DatasetAccesRightsCheck extends AbstractCheck
-{
+public class DatasetAccesRightsCheck extends AbstractCheck {
     private final List<AccessCategory> allowedRights;
 
-    public DatasetAccesRightsCheck(AccessCategory... states)
-    {
+    public DatasetAccesRightsCheck(AccessCategory... states) {
         super();
         allowedRights = Collections.synchronizedList(Arrays.asList(states));
     }
 
-    public String getProposition()
-    {
-        synchronized (allowedRights)
-        {
+    public String getProposition() {
+        synchronized (allowedRights) {
             return PropositionBuilder.buildOrProposition("Dataset accessCategory is", allowedRights);
         }
     }
 
-    public boolean evaluate(ContextParameters ctxParameters)
-    {
+    public boolean evaluate(ContextParameters ctxParameters) {
         boolean conditionMet = false;
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset != null)
-        {
-            synchronized (allowedRights)
-            {
+        if (dataset != null) {
+            synchronized (allowedRights) {
                 Iterator<AccessCategory> iter = allowedRights.iterator();
-                while (!conditionMet && iter.hasNext())
-                {
+                while (!conditionMet && iter.hasNext()) {
                     conditionMet = iter.next().equals(dataset.getAccessCategory());
                 }
             }
@@ -45,17 +37,13 @@ public class DatasetAccesRightsCheck extends AbstractCheck
         return conditionMet;
     }
 
-    protected String explain(ContextParameters ctxParameters)
-    {
+    protected String explain(ContextParameters ctxParameters) {
         StringBuilder sb = super.startExplain(ctxParameters);
 
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset == null)
-        {
+        if (dataset == null) {
             sb.append("\n\tdataset = null");
-        }
-        else
-        {
+        } else {
             sb.append("\n\tdataset.accessCategory = " + dataset.getAccessCategory());
         }
         sb.append("\n\tcondition met = ");
@@ -64,19 +52,14 @@ public class DatasetAccesRightsCheck extends AbstractCheck
     }
 
     @Override
-    public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-    {
+    public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
         Dataset dataset = ctxParameters.getDataset();
         boolean conditionMet = false;
-        if (dataset == null)
-        {
+        if (dataset == null) {
             hints.add(CommonSecurityException.HINT_DATASET_NULL);
-        }
-        else
-        {
+        } else {
             conditionMet = evaluate(ctxParameters);
-            if (!conditionMet)
-            {
+            if (!conditionMet) {
                 hints.add(dataset.getAccessCategory());
             }
         }

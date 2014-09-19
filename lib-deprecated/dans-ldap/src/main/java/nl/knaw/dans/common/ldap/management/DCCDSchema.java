@@ -8,16 +8,14 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
-public class DCCDSchema extends AbstractSchema
-{
+public class DCCDSchema extends AbstractSchema {
 
     public static final String SCHEMA_NAME = "dccd";
 
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
 
-    public DCCDSchema()
-    {
+    public DCCDSchema() {
         // attributetypes
         attributeTypes = new ArrayList<Attributes>();
 
@@ -78,20 +76,17 @@ public class DCCDSchema extends AbstractSchema
     }
 
     @Override
-    public String getSchemaName()
-    {
+    public String getSchemaName() {
         return SCHEMA_NAME;
     }
 
     @Override
-    public List<Attributes> getAttributeTypes()
-    {
+    public List<Attributes> getAttributeTypes() {
         return attributeTypes;
     }
 
     @Override
-    public List<Attributes> getObjectClasses()
-    {
+    public List<Attributes> getObjectClasses() {
         return objectClasses;
     }
 

@@ -13,34 +13,27 @@ import org.xml.sax.SAXParseException;
 
 // ecco: CHECKSTYLE: OFF
 
-public class XMLErrorHandlerTest
-{
+public class XMLErrorHandlerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(XMLErrorHandlerTest.class);
 
     @Test
-    public void testReporter() throws SAXException
-    {
-        Locator locator = new Locator()
-        {
+    public void testReporter() throws SAXException {
+        Locator locator = new Locator() {
 
-            public int getColumnNumber()
-            {
+            public int getColumnNumber() {
                 return 0;
             }
 
-            public int getLineNumber()
-            {
+            public int getLineNumber() {
                 return 0;
             }
 
-            public String getPublicId()
-            {
+            public String getPublicId() {
                 return null;
             }
 
-            public String getSystemId()
-            {
+            public String getSystemId() {
                 return null;
             }
 

@@ -4,11 +4,9 @@ import java.net.URI;
 
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 
-public interface JumpoffDmoMetadata extends MetadataUnitXMLBean
-{
+public interface JumpoffDmoMetadata extends MetadataUnitXMLBean {
 
-    public enum MarkupVersionID
-    {
+    public enum MarkupVersionID {
         HTML_MU, TEXT_MU
     }
 

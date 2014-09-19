@@ -16,23 +16,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor>
-{
+public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor> {
 
-    public FormDescriptorTest()
-    {
+    public FormDescriptorTest() {
         super(FormDescriptor.class);
     }
 
     @BeforeClass
-    public static void testStartInformation()
-    {
+    public static void testStartInformation() {
         before(FormDescriptorTest.class);
     }
 
     @Test
-    public void testClone()
-    {
+    public void testClone() {
         startOfTest("testClone");
         FormDescriptor formDescriptor = new FormDescriptor("formDescriptor.id");
         formDescriptor.setHelpFile("formDescriptor.helpFile");
@@ -76,8 +72,7 @@ public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor>
     }
 
     @Test
-    public void marshalAndUnmarshalEmpty() throws IOException, XMLException, ValidatorException, SAXException, SchemaCreationException, JiBXException
-    {
+    public void marshalAndUnmarshalEmpty() throws IOException, XMLException, ValidatorException, SAXException, SchemaCreationException, JiBXException {
         startOfTest("marshalAndUnmarshalEmpty");
         FormDescriptor description = new FormDescriptor("UNDECIDED");
 
@@ -100,8 +95,7 @@ public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor>
     }
 
     @Test
-    public void marshalAndUnmarshal() throws IOException, JiBXException, SAXException, SchemaCreationException, XMLException
-    {
+    public void marshalAndUnmarshal() throws IOException, JiBXException, SAXException, SchemaCreationException, XMLException {
         startOfTest("marshalAndUnmarshal");
         FormDescriptor desc = new FormDescriptor("SIMPLE");
         desc.setLabelResourceKey("discipline.simple");

@@ -12,63 +12,51 @@ import org.apache.wicket.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractSearchPage extends AbstractEasyNavPage
-{
+public abstract class AbstractSearchPage extends AbstractEasyNavPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchPage.class);
 
-    public AbstractSearchPage()
-    {
+    public AbstractSearchPage() {
         super();
     }
 
-    public AbstractSearchPage(SearchModel searchModel)
-    {
+    public AbstractSearchPage(SearchModel searchModel) {
         super(searchModel);
         enhanceModel(searchModel);
     }
 
-    public AbstractSearchPage(PageParameters parameters)
-    {
+    public AbstractSearchPage(PageParameters parameters) {
         super(parameters);
     }
 
-    public static AbstractSearchPage instantiate(Class<? extends AbstractSearchPage> searchPageClass, SearchModel searchModel)
-    {
-        try
-        {
+    public static AbstractSearchPage instantiate(Class<? extends AbstractSearchPage> searchPageClass, SearchModel searchModel) {
+        try {
             Constructor<? extends AbstractSearchPage> constructor = searchPageClass.getConstructor(SearchModel.class);
             return constructor.newInstance(searchModel);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             LOGGER.error("The constructor of AbstractSearchPage " + (searchPageClass == null ? "null" : searchPageClass.toString())
                     + " disappeared, got hidden or threw an exception.", e);
             throw new InternalWebError();
         }
     }
 
-    public SearchModel getSearchModel()
-    {
+    public SearchModel getSearchModel() {
         SearchModel searchModel = (SearchModel) getDefaultModel();
         return searchModel;
     }
 
-    public void setSearchModel(SearchModel searchModel)
-    {
+    public void setSearchModel(SearchModel searchModel) {
         enhanceModel(searchModel);
         this.setDefaultModel(searchModel);
     }
 
-    protected void enhanceModel(SearchModel searchModel)
-    {
-        if (searchModel != null)
-        {
+    protected void enhanceModel(SearchModel searchModel) {
+        if (searchModel != null) {
             searchModel.getRequestBuilder().addCriteriumListener(ArchaeologyCriteriumListener.instance());
         }
     }
 
-    public SearchData getSearchData()
-    {
+    public SearchData getSearchData() {
         SearchModel searchModel = getSearchModel();
         if (searchModel != null)
             return searchModel.getObject();

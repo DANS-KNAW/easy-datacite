@@ -16,30 +16,26 @@ import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Pakbon2EmdTransformer
-{
+public class Pakbon2EmdTransformer {
 
     private static final Logger logger = LoggerFactory.getLogger(Pakbon2EmdTransformer.class);
 
     private static final String XSL_PAKBON2EMD = "xslt-files/pakbon2emd.xslt";
 
-    public byte[] transform(InputStream pakbonByteStream) throws TransformerException
-    {
+    public byte[] transform(InputStream pakbonByteStream) throws TransformerException {
         XMLTransformer transformer = getTransformer();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         transformer.transform(pakbonByteStream, out);
         return out.toByteArray();
     }
 
-    public EasyMetadata transformToEmd(InputStream pakbonByteStream) throws XMLDeserializationException, TransformerException
-    {
+    public EasyMetadata transformToEmd(InputStream pakbonByteStream) throws XMLDeserializationException, TransformerException {
         EmdUnmarshaller<EasyMetadata> um = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class);
         EasyMetadata emd = um.unmarshal(transform(pakbonByteStream));
         return emd;
     }
 
-    private XMLTransformer getTransformer() throws TransformerException
-    {
+    private XMLTransformer getTransformer() throws TransformerException {
         // Xalan: "Branch target offset too large for short". Milco's style of writing stylesheets too
         // much for Xalan...
         XMLTransformer transformer = new XMLTransformer(getStylesheet(), XMLTransformer.TF_SAXON);
@@ -48,11 +44,9 @@ public class Pakbon2EmdTransformer
         return transformer;
     }
 
-    private URL getStylesheet()
-    {
+    private URL getStylesheet() {
         URL url = this.getClass().getClassLoader().getResource(XSL_PAKBON2EMD);
-        if (url == null)
-        {
+        if (url == null) {
             String msg = "Missing stylesheet on classpath '" + XSL_PAKBON2EMD + "'";
             logger.error(msg);
             throw new IllegalStateException(msg);

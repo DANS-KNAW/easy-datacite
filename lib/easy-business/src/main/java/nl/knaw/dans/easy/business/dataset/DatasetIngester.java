@@ -22,37 +22,31 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatasetIngester implements SubmissionProcessor
-{
+public class DatasetIngester implements SubmissionProcessor {
     private static final Logger logger = LoggerFactory.getLogger(DatasetIngester.class);
 
     private boolean updateFileRights;
 
-    public DatasetIngester(boolean updateFileRights)
-    {
+    public DatasetIngester(boolean updateFileRights) {
         this.updateFileRights = updateFileRights;
     }
 
-    public boolean continueAfterFailure()
-    {
+    public boolean continueAfterFailure() {
         return false;
     }
 
-    public boolean process(DatasetSubmissionImpl submission)
-    {
+    public boolean process(DatasetSubmissionImpl submission) {
         UnitOfWork uow = new EasyUnitOfWork(submission.getSessionUser());
         Dataset dataset = submission.getDataset();
         DatasetState previousState = dataset.getAdministrativeMetadata().getAdministrativeState();
-        try
-        {
+        try {
             uow.attach(dataset);
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
 
             addDatasetGroupByAccessRightsAndMetadataFormat(dataset);
 
-            if (updateFileRights)
-            {
+            if (updateFileRights) {
                 VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides
                                                     // differently.
                 AccessibleTo at = AccessibleTo.translate(dataset.getAccessCategory());
@@ -67,47 +61,37 @@ public class DatasetIngester implements SubmissionProcessor
             uow.commit();
             submission.setSubmitted(true);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             logger.error("Exception while submitting dataset " + dataset.getStoreId(), e);
             dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
         return submission.isSubmitted();
     }
 
     /*
-     * Provisional implementation of setting the group of the dataset. Currently the only supported group
-     * is archaeology and it is set on submission if: 1) de access category of the datase is GROUP_ACCESS
-     * and 2) the form used to submit the dataset is the archaeology form.
+     * Provisional implementation of setting the group of the dataset. Currently the only supported group is archaeology and it is set on submission if: 1) de
+     * access category of the datase is GROUP_ACCESS and 2) the form used to submit the dataset is the archaeology form.
      */
-    private void addDatasetGroupByAccessRightsAndMetadataFormat(Dataset dataset)
-    {
+    private void addDatasetGroupByAccessRightsAndMetadataFormat(Dataset dataset) {
         boolean hasMDFarchaeology = MetadataFormat.ARCHAEOLOGY.equals(dataset.getMetadataFormat());
-        if (AccessCategory.GROUP_ACCESS.equals(dataset.getAccessCategory()) && hasMDFarchaeology)
-        {
+        if (AccessCategory.GROUP_ACCESS.equals(dataset.getAccessCategory()) && hasMDFarchaeology) {
             dataset.addGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
             logger.info(">>>>>>>>>>> Provisional implementation of assigning groups to datasets. <<<<<<<<<<<<<<<");
-        }
-        else
-        {
+        } else {
             dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
         }
     }
 
-    private static class ItemWorkerProxy extends ItemWorker
-    {
+    private static class ItemWorkerProxy extends ItemWorker {
 
-        protected ItemWorkerProxy(UnitOfWork uow)
-        {
+        protected ItemWorkerProxy(UnitOfWork uow) {
             super(uow);
         }
 
-        protected void updateObjects(Dataset dataset, List<DmoStoreId> sids, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException
-        {
+        protected void updateObjects(Dataset dataset, List<DmoStoreId> sids, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException {
             super.workUpdateObjects(dataset, sids, updateInfo, itemFilters);
         }
     }

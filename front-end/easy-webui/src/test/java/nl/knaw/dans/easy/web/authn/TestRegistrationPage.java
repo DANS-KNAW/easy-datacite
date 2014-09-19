@@ -24,13 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class TestRegistrationPage
-{
+public class TestRegistrationPage {
     private EasyWicketTester tester;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.expectDefaultResources();
         ctx.expectStandardSecurity(false);
@@ -43,14 +41,12 @@ public class TestRegistrationPage
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
     }
 
     @Test
-    public void pageRenderedCorrectly()
-    {
+    public void pageRenderedCorrectly() {
         replayAll();
         tester.startPage(RegistrationPage.class);
         tester.assertRenderedPage(RegistrationPage.class);
@@ -67,8 +63,7 @@ public class TestRegistrationPage
         assertDisciplineDropdownsFilledInCorrectly();
     }
 
-    private void assertDisciplineDropdownsFilledInCorrectly()
-    {
+    private void assertDisciplineDropdownsFilledInCorrectly() {
         @SuppressWarnings("unchecked")
         DropDownChoice<KeyValuePair> choice = (DropDownChoice<KeyValuePair>) tester.getComponentFromLastRenderedPage("registrationForm:discipline1");
         assertEquals(4, choice.getChoices().size());
@@ -81,8 +76,7 @@ public class TestRegistrationPage
     }
 
     @Test
-    public void validationTestAllFieldsFilledCorrectly()
-    {
+    public void validationTestAllFieldsFilledCorrectly() {
         replayAll();
         tester.startPage(RegistrationPage.class);
         FormTester formTester = tester.newFormTester("registrationForm");
@@ -90,10 +84,8 @@ public class TestRegistrationPage
         formTester.setValue("acceptConditions", true);
 
         /*
-         * Hack alert. Cannot seem to get the Register button to become enabled otherwise; setting the
-         * value true on acceptConditions does not trigger the event handler that enables the Register
-         * button. See also:
-         * http://apache-wicket.1842946.n4.nabble.com/Testing-CheckBox-onSelectionChanged
+         * Hack alert. Cannot seem to get the Register button to become enabled otherwise; setting the value true on acceptConditions does not trigger the event
+         * handler that enables the Register button. See also: http://apache-wicket.1842946.n4.nabble.com/Testing-CheckBox-onSelectionChanged
          * -Object-newSelection-using-FormTester-td2272641.html
          */
         tester.getComponentFromLastRenderedPage("registrationForm:register").setEnabled(true);
@@ -106,8 +98,7 @@ public class TestRegistrationPage
         PowerMock.verifyAll();
     }
 
-    private void fillAllFieldsWithCorrectData(FormTester formTester)
-    {
+    private void fillAllFieldsWithCorrectData(FormTester formTester) {
         formTester.setValue("userId", "jan01");
         formTester.setValue("password", "secret");
         formTester.setValue("confirmPassword", "secret");

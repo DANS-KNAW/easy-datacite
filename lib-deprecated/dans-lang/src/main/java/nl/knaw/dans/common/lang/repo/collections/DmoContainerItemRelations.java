@@ -15,17 +15,14 @@ import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
  * 
  * @author lobo
  */
-public class DmoContainerItemRelations<T extends DataModelObject> extends AbstractRelations<T>
-{
+public class DmoContainerItemRelations<T extends DataModelObject> extends AbstractRelations<T> {
     private static final long serialVersionUID = 1045588410694179932L;
 
-    public DmoContainerItemRelations(T containerItem)
-    {
+    public DmoContainerItemRelations(T containerItem) {
         super(containerItem);
     }
 
-    public Set<DmoStoreId> getParents()
-    {
+    public Set<DmoStoreId> getParents() {
         Set<Relation> parents = getRelation(RelsConstants.DANS_NS.IS_MEMBER_OF.toString(), null);
         HashSet<DmoStoreId> result = new HashSet<DmoStoreId>(parents.size());
         for (Relation parent : parents)
@@ -33,42 +30,34 @@ public class DmoContainerItemRelations<T extends DataModelObject> extends Abstra
         return result;
     }
 
-    public void setParents(Collection<DmoStoreId> parentSids)
-    {
+    public void setParents(Collection<DmoStoreId> parentSids) {
         removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF.toString(), null);
-        for (DmoStoreId parentSid : parentSids)
-        {
+        for (DmoStoreId parentSid : parentSids) {
             addParent(parentSid);
         }
     }
 
-    public void addParent(DmoStoreId parentSid)
-    {
+    public void addParent(DmoStoreId parentSid) {
         addRelation(RelsConstants.DANS_NS.IS_MEMBER_OF.toString(), parentSid.getStoreId());
     }
 
-    public void removeParent(DmoStoreId parentSid)
-    {
+    public void removeParent(DmoStoreId parentSid) {
         removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF.toString(), parentSid.getStoreId());
     }
 
-    public void clearParents()
-    {
+    public void clearParents() {
         removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF.toString(), null);
     }
 
     /**
-     * Express single relation: this subject is under the authority or control of the object denoted by
-     * superiorId.
+     * Express single relation: this subject is under the authority or control of the object denoted by superiorId.
      * 
      * @param superiorId
      *        id of authority or control object
      */
-    public void setSubordinateTo(DmoStoreId superiorId)
-    {
+    public void setSubordinateTo(DmoStoreId superiorId) {
         removeRelation(RelsConstants.DANS_NS.IS_SUBORDINATE_TO.toString(), null);
-        if (superiorId != null)
-        {
+        if (superiorId != null) {
             addRelation(RelsConstants.DANS_NS.IS_SUBORDINATE_TO.toString(), superiorId.getStoreId());
         }
     }

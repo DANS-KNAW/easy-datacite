@@ -7,8 +7,7 @@ package nl.knaw.dans.pf.language.emd.types;
  * @param <T>
  *        the wrapped type
  */
-public abstract class SimpleElementImpl<T> implements SimpleElement<T>, MetadataItem
-{
+public abstract class SimpleElementImpl<T> implements SimpleElement<T>, MetadataItem {
 
     /**
      *
@@ -31,24 +30,21 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
     /**
      * {@inheritDoc}
      */
-    public T getValue()
-    {
+    public T getValue() {
         return value;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setValue(final T value)
-    {
+    public void setValue(final T value) {
         this.value = value;
     }
 
     /**
      * @return the schemeId
      */
-    public String getSchemeId()
-    {
+    public String getSchemeId() {
         return schemeId;
     }
 
@@ -56,8 +52,7 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
      * @param schemeId
      *        the schemeId to set
      */
-    public void setSchemeId(String schemeId)
-    {
+    public void setSchemeId(String schemeId) {
         this.schemeId = schemeId;
     }
 
@@ -67,8 +62,7 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
      * @return string-representation of the value
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return value == null ? "" : value.toString();
     }
 

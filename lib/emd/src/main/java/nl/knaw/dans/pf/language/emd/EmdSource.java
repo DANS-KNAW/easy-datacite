@@ -12,8 +12,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-source">dcmi-terms/#terms-source</a>
  * @author ecco
  */
-public class EmdSource extends AbstractEmdContainer
-{
+public class EmdSource extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -30,35 +29,28 @@ public class EmdSource extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'source' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Get a list of resource properties known as 'source' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-source">dcmi-terms/#terms-source</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-source">dcmi-terms/#terms-source</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getDcSource()
-    {
+    public List<BasicIdentifier> getDcSource() {
         return dcSource;
     }
 
     /**
-     * Set a list of resource properties known as 'source' in the "http://purl.org/dc/elements/1.1/" name
-     * space.
+     * Set a list of resource properties known as 'source' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-source">dcmi-terms/#terms-source</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-source">dcmi-terms/#terms-source</a>
      * @param dcSource
      *        a list of resource properties
      */
-    public void setDcSource(final List<BasicIdentifier> dcSource)
-    {
+    public void setDcSource(final List<BasicIdentifier> dcSource) {
         this.dcSource = dcSource;
     }
 

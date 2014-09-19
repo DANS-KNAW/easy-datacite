@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
  * 
  * @author ecco
  */
-public interface EasyService
-{
+public interface EasyService {
     /**
      * Get the fully qualified class name of this service.
      * 

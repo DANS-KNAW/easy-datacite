@@ -29,8 +29,7 @@ import wickettree.NestedTree;
 import wickettree.provider.InverseSet;
 import wickettree.provider.ProviderSubset;
 
-public class ExplorerPanel extends Panel
-{
+public class ExplorerPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private AbstractTree<ITreeItem> tree;
@@ -51,21 +50,17 @@ public class ExplorerPanel extends Panel
     private final ResourceReference style = new ExplorerTheme();
 
     @SuppressWarnings("serial")
-    public ExplorerPanel(String name, IModel<?> model, final ITreeProvider<ITreeItem> treeProvider)
-    {
+    public ExplorerPanel(String name, IModel<?> model, final ITreeProvider<ITreeItem> treeProvider) {
         super(name, model);
 
         this.treeProvider = treeProvider;
         treeState = new ProviderSubset<ITreeItem>(treeProvider);
 
-        content = new SelectableFolderContent(treeProvider)
-        {
+        content = new SelectableFolderContent(treeProvider) {
             @Override
-            protected void selectEvent(final AjaxRequestTarget target)
-            {
+            protected void selectEvent(final AjaxRequestTarget target) {
                 IModel<ITreeItem> selected = content.getSelected();
-                if (selected != null)
-                {
+                if (selected != null) {
                     tree.expand(selected.getObject());
                     List<ITreeItem> list = selected.getObject().getChildrenWithFiles();
                     tableProvider.setList(list);
@@ -77,11 +72,9 @@ public class ExplorerPanel extends Panel
         };
 
         tree = createTree(treeProvider, newStateModel());
-        tree.add(new AbstractBehavior()
-        {
+        tree.add(new AbstractBehavior() {
             @Override
-            public void renderHead(IHeaderResponse response)
-            {
+            public void renderHead(IHeaderResponse response) {
                 response.renderCSSReference(theme);
                 response.renderCSSReference(style);
             }
@@ -94,11 +87,9 @@ public class ExplorerPanel extends Panel
         final Model<IndicatingAjaxLink<Void>> collapseModel = new Model<IndicatingAjaxLink<Void>>();
 
         // expand all button
-        final IndicatingAjaxLink<Void> expand = new IndicatingAjaxLink<Void>("expandAll")
-        {
+        final IndicatingAjaxLink<Void> expand = new IndicatingAjaxLink<Void>("expandAll") {
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 ((IDetachable) treeState).detach();
                 treeState = new InverseSet<ITreeItem>(new ProviderSubset<ITreeItem>(treeProvider));
                 this.setVisible(false);
@@ -110,11 +101,9 @@ public class ExplorerPanel extends Panel
         add(expand);
 
         // collapse all button
-        final IndicatingAjaxLink<Void> collapse = new IndicatingAjaxLink<Void>("collapseAll")
-        {
+        final IndicatingAjaxLink<Void> collapse = new IndicatingAjaxLink<Void>("collapseAll") {
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 ((IDetachable) treeState).detach();
                 treeState = new ProviderSubset<ITreeItem>(treeProvider);
                 this.setVisible(false);
@@ -127,14 +116,11 @@ public class ExplorerPanel extends Panel
         add(collapse);
 
         // up button
-        add(new IndicatingAjaxLink<Void>("up")
-        {
+        add(new IndicatingAjaxLink<Void>("up") {
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 ITreeItem parentItem = content.getSelected().getObject().getParent();
-                if (parentItem != null)
-                {
+                if (parentItem != null) {
                     IModel<ITreeItem> parentModel = treeProvider.model(parentItem);
                     tree.expand(parentItem);
                     List<ITreeItem> list = parentItem.getChildrenWithFiles();
@@ -150,11 +136,9 @@ public class ExplorerPanel extends Panel
         final Model<IndicatingAjaxLink<Void>> selectNoneModel = new Model<IndicatingAjaxLink<Void>>();
 
         // select all button
-        IndicatingAjaxLink<Void> selectAll = new IndicatingAjaxLink<Void>("selectAll")
-        {
+        IndicatingAjaxLink<Void> selectAll = new IndicatingAjaxLink<Void>("selectAll") {
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 selectAllClicked(target);
                 this.setVisible(false);
                 target.addComponent(this);
@@ -166,11 +150,9 @@ public class ExplorerPanel extends Panel
         add(selectAll);
 
         // select none button
-        IndicatingAjaxLink<Void> selectNone = new IndicatingAjaxLink<Void>("selectNone")
-        {
+        IndicatingAjaxLink<Void> selectNone = new IndicatingAjaxLink<Void>("selectNone") {
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 selectNoneClicked(target);
                 this.setVisible(false);
                 target.addComponent(this);
@@ -198,40 +180,32 @@ public class ExplorerPanel extends Panel
 
     // recursively expands initially to a folder which has a file or more than one folder
     // override if this functionality is unwanted
-    public void initialExpand(ITreeItem root)
-    {
+    public void initialExpand(ITreeItem root) {
         content.setSelected(treeProvider.model(root));
         tree.expand(root);
         treeProvider.getChildren(root);
         List<ITreeItem> children = root.getChildrenWithFiles();
-        if (children.size() > 1 || children.size() > 0 && children.get(0).getType().equals(Type.FILE))
-        {
+        if (children.size() > 1 || children.size() > 0 && children.get(0).getType().equals(Type.FILE)) {
             tableProvider.setList(children);
             selectedFolderChanged(treeProvider.model(root));
-        }
-        else if (children.size() > 0)
-        {
+        } else if (children.size() > 0) {
             initialExpand(children.get(0));
         }
     }
 
-    public void selectedFolderChanged(IModel<ITreeItem> selected)
-    {
+    public void selectedFolderChanged(IModel<ITreeItem> selected) {
         // Override in case you want to do some extra work when the current selected folder has changed
     }
 
-    public void selectAllClicked(AjaxRequestTarget target)
-    {
+    public void selectAllClicked(AjaxRequestTarget target) {
         // Override this function and take appropriate actions to 'select all'
     }
 
-    public void selectNoneClicked(AjaxRequestTarget target)
-    {
+    public void selectNoneClicked(AjaxRequestTarget target) {
         // Override this function and take appropriate actions to 'deselect all'
     }
 
-    public void setColumns(IColumn[] columns)
-    {
+    public void setColumns(IColumn[] columns) {
         remove(table);
         table = new DefaultDataTable("datatable", columns, tableProvider, Integer.MAX_VALUE);
         table.setOutputMarkupId(true);
@@ -239,13 +213,10 @@ public class ExplorerPanel extends Panel
     }
 
     @SuppressWarnings("serial")
-    private IModel<Set<ITreeItem>> newStateModel()
-    {
-        return new AbstractReadOnlyModel<Set<ITreeItem>>()
-        {
+    private IModel<Set<ITreeItem>> newStateModel() {
+        return new AbstractReadOnlyModel<Set<ITreeItem>>() {
             @Override
-            public Set<ITreeItem> getObject()
-            {
+            public Set<ITreeItem> getObject() {
                 return treeState;
             }
 
@@ -253,55 +224,45 @@ public class ExplorerPanel extends Panel
              * Super class doesn't detach - would be nice though.
              */
             @Override
-            public void detach()
-            {
+            public void detach() {
                 ((IDetachable) treeState).detach();
             }
         };
     }
 
-    protected AbstractTree<ITreeItem> createTree(ITreeProvider<ITreeItem> provider, IModel<Set<ITreeItem>> state)
-    {
-        tree = new NestedTree<ITreeItem>("tree", provider, state)
-        {
+    protected AbstractTree<ITreeItem> createTree(ITreeProvider<ITreeItem> provider, IModel<Set<ITreeItem>> state) {
+        tree = new NestedTree<ITreeItem>("tree", provider, state) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Component newContentComponent(String id, IModel<ITreeItem> model)
-            {
+            protected Component newContentComponent(String id, IModel<ITreeItem> model) {
                 return ExplorerPanel.this.newContentComponent(id, model);
             }
         };
         return tree;
     }
 
-    protected Component newContentComponent(String id, IModel<ITreeItem> model)
-    {
+    protected Component newContentComponent(String id, IModel<ITreeItem> model) {
         return content.newContentComponent(id, tree, model);
     }
 
-    public SelectableFolderContent getContent()
-    {
+    public SelectableFolderContent getContent() {
         return content;
     }
 
-    public AbstractTree<ITreeItem> getTree()
-    {
+    public AbstractTree<ITreeItem> getTree() {
         return tree;
     }
 
-    public DefaultDataTable<?> getTable()
-    {
+    public DefaultDataTable<?> getTable() {
         return table;
     }
 
-    public TableProvider getTableProvider()
-    {
+    public TableProvider getTableProvider() {
         return tableProvider;
     }
 
-    public BreadcrumbPanel getBreadcrumbPanel()
-    {
+    public BreadcrumbPanel getBreadcrumbPanel() {
         return breadcrumbPanel;
     }
 }

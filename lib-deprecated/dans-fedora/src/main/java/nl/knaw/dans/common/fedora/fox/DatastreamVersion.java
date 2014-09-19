@@ -20,8 +20,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.joda.time.DateTime;
 
-public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamVersion>
-{
+public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamVersion> {
 
     public static String MIMETYPE_XML = "text/xml";
 
@@ -44,18 +43,15 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
     /**
      * Used by JiBX serialization.
      */
-    protected DatastreamVersion()
-    {
+    protected DatastreamVersion() {
 
     }
 
     /**
-     * Constructs a new DatastreamVersion. A DatastreamVersion can also be obtained by method
-     * {@link Datastream#addDatastreamVersion(String, String)}.
+     * Constructs a new DatastreamVersion. A DatastreamVersion can also be obtained by method {@link Datastream#addDatastreamVersion(String, String)}.
      * <p/>
-     * If a DatastreamVersion is not ingested as part of a DigitalObject, but is used stand-alone-wise to
-     * modify an existing Datastream, then the versionId will not be used entirely, only the streamId
-     * part of the versionId will be used, i.e the part of the versionId before the first period ('.').
+     * If a DatastreamVersion is not ingested as part of a DigitalObject, but is used stand-alone-wise to modify an existing Datastream, then the versionId will
+     * not be used entirely, only the streamId part of the versionId will be used, i.e the part of the versionId before the first period ('.').
      * 
      * @see Datastream#addDatastreamVersion(String, String)
      * @param versionId
@@ -63,51 +59,40 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
      * @param mimeType
      *        the mimeType, can be null
      */
-    public DatastreamVersion(final String versionId, final String mimeType)
-    {
+    public DatastreamVersion(final String versionId, final String mimeType) {
         setVersionId(versionId);
         this.mimeType = mimeType;
     }
 
-    public String getVersionId()
-    {
+    public String getVersionId() {
         return versionId;
     }
 
-    public void setVersionId(String versionId)
-    {
-        if (versionId == null || versionId.length() <= MAX_ID_LENGTH)
-        {
+    public void setVersionId(String versionId) {
+        if (versionId == null || versionId.length() <= MAX_ID_LENGTH) {
             this.versionId = versionId;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("The string '" + versionId + "' is not allowed as Fedora Datastream id.");
         }
     }
 
-    public String getStreamId()
-    {
+    public String getStreamId() {
         String streamId = null;
-        if (versionId != null)
-        {
+        if (versionId != null) {
             streamId = versionId.split("\\.")[0];
         }
         return streamId;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public DateTime getCreated()
-    {
+    public DateTime getCreated() {
         return created;
     }
 
@@ -122,57 +107,43 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
     // this.created = created;
     // }
 
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return mimeType;
     }
 
-    public void setMimeType(String mimeType)
-    {
+    public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
-    public Set<URI> getAltIds()
-    {
+    public Set<URI> getAltIds() {
         return altIds;
     }
 
-    void setAltIdString(String list)
-    {
+    void setAltIdString(String list) {
         altIds.clear();
-        if (list != null)
-        {
+        if (list != null) {
             String[] ids = list.split(" ");
-            for (String id : ids)
-            {
-                try
-                {
+            for (String id : ids) {
+                try {
                     URI uri = new URI(id);
                     altIds.add(uri);
                 }
-                catch (URISyntaxException e)
-                {
+                catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
     }
 
-    String getAltIdString()
-    {
-        if (altIds.isEmpty())
-        {
+    String getAltIdString() {
+        if (altIds.isEmpty()) {
             return null;
-        }
-        else
-        {
+        } else {
             StringBuilder builder = new StringBuilder();
             int count = 0;
-            for (URI uri : altIds)
-            {
+            for (URI uri : altIds) {
                 builder.append(uri.toString());
-                if (++count < altIds.size())
-                {
+                if (++count < altIds.size()) {
                     builder.append(" ");
                 }
             }
@@ -180,73 +151,58 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         }
     }
 
-    public List<String> getAltIdList()
-    {
+    public List<String> getAltIdList() {
         List<String> idList = new ArrayList<String>();
-        for (URI uri : altIds)
-        {
+        for (URI uri : altIds) {
             idList.add(uri.toString());
         }
         return idList;
     }
 
-    public String[] getAltIdArray()
-    {
+    public String[] getAltIdArray() {
         return getAltIdList().toArray(new String[altIds.size()]);
     }
 
-    public URI getFormatURI()
-    {
+    public URI getFormatURI() {
         return formatURI;
     }
 
-    public void setFormatURI(URI formatURI)
-    {
+    public void setFormatURI(URI formatURI) {
         this.formatURI = formatURI;
     }
 
-    public long getSize()
-    {
+    public long getSize() {
         return size;
     }
 
-    public String getChecksumType()
-    {
+    public String getChecksumType() {
         return contentDigest == null ? null : contentDigest.typeCode;
     }
 
-    public ContentDigestType getContentDigestType()
-    {
+    public ContentDigestType getContentDigestType() {
         return contentDigest == null ? null : ContentDigestType.forCode(contentDigest.typeCode);
     }
 
-    public String getContentDigest()
-    {
+    public String getContentDigest() {
         return contentDigest == null ? null : contentDigest.digest;
     }
 
-    public void setContentDigest(final ContentDigestType type, final String digest)
-    {
-        if (type == null || digest == null)
-        {
+    public void setContentDigest(final ContentDigestType type, final String digest) {
+        if (type == null || digest == null) {
             contentDigest = null;
-        }
-        else
-        {
+        } else {
             contentDigest = new ContentDigest(type.code, digest);
         }
     }
 
-    public XMLContent getXmlContent()
-    {
+    public XMLContent getXmlContent() {
         return xmlContent;
     }
 
     // TODO: here unnecessary of xml writing (and parsing) is taking place
     // this should be replaced for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
-    public String getXmlContentString()
-    {
+    public String getXmlContentString() {
         Element xmlEl = xmlContent.getElement();
         Document doc = xmlEl.getDocument();
         String encoding = "UTF-8";
@@ -256,28 +212,24 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         Writer osw = new StringWriter();
         OutputFormat opf = new OutputFormat("  ", true, encoding);
         XMLWriter writer = new XMLWriter(osw, opf);
-        try
-        {
+        try {
             writer.write(xmlEl);
             writer.close();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             return "";
         }
         return osw.toString();
     }
 
-    public void setXmlContent(XMLContent xmlContent)
-    {
+    public void setXmlContent(XMLContent xmlContent) {
         this.xmlContent = xmlContent;
     }
 
     // TODO: the parsing here is completely unnecessary and should be replaced
     // for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
-    public void setXmlContent(String xmlString) throws DocumentException
-    {
+    public void setXmlContent(String xmlString) throws DocumentException {
         Document document = DocumentHelper.parseText(xmlString);
         this.xmlContent = new XMLContent(document.getRootElement());
     }
@@ -285,48 +237,39 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
     // TODO: the parsing here is completely unnecessary and should be replaced
     // for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
-    public void setXmlContent(byte[] xmlContent) throws DocumentException
-    {
+    public void setXmlContent(byte[] xmlContent) throws DocumentException {
         setXmlContent(new String(xmlContent));
     }
 
-    public void setXmlContent(Element element)
-    {
+    public void setXmlContent(Element element) {
         setXmlContent(new XMLContent(element));
     }
 
-    public String getDsLocation()
-    {
+    public String getDsLocation() {
         return contentLocation == null ? null : contentLocation.getRef().toString();
     }
 
-    public ContentLocation getContentLocation()
-    {
+    public ContentLocation getContentLocation() {
         return contentLocation;
     }
 
-    public void setContentLocation(ContentLocation contentLocation)
-    {
+    public void setContentLocation(ContentLocation contentLocation) {
         this.contentLocation = contentLocation;
     }
 
-    public void setContentLocation(ContentLocation.Type type, URI ref)
-    {
+    public void setContentLocation(ContentLocation.Type type, URI ref) {
         setContentLocation(new ContentLocation(type, ref));
     }
 
-    public byte[] getBinaryContent()
-    {
+    public byte[] getBinaryContent() {
         return binaryContent;
     }
 
-    public void setBinaryContent(byte[] binaryContent)
-    {
+    public void setBinaryContent(byte[] binaryContent) {
         this.binaryContent = binaryContent;
     }
 
-    public Element getXmlContentElement()
-    {
+    public Element getXmlContentElement() {
         return xmlContent == null ? null : xmlContent.getElement();
     }
 
@@ -337,19 +280,16 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
      * 
      * @author ecco
      */
-    public static class ContentDigest
-    {
+    public static class ContentDigest {
 
         String typeCode;
         String digest;
 
-        ContentDigest()
-        {
+        ContentDigest() {
 
         }
 
-        ContentDigest(String typeCode, String digest)
-        {
+        ContentDigest(String typeCode, String digest) {
             this.typeCode = typeCode;
             this.digest = digest;
         }

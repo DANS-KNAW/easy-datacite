@@ -20,8 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
-{
+public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel {
     private static final Logger logger = LoggerFactory.getLogger(DepositUploadPakbonPanel.class);
     private MarkupContainer uploadPanelHolder;
 
@@ -33,8 +32,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
      * @param dataset
      *        the dataset that is to be the container of uploaded files and folders
      */
-    public DepositUploadPakbonPanel(final String id, final DatasetModel model)
-    {
+    public DepositUploadPakbonPanel(final String id, final DatasetModel model) {
         super(id, model);
         model.setDynamicReload(true);
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
@@ -45,13 +43,10 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
 
         int width = 600;
-        try
-        {
+        try {
             width = Integer.parseInt(new StringResourceModel("popup.width", this, null).getString());
         }
-        catch (NumberFormatException nfe)
-        {
-        }
+        catch (NumberFormatException nfe) {}
 
         final ModalWindow popup = new StyledModalWindow("popup", "Files", width);
         uploadPanelHolder.add(popup);
@@ -62,20 +57,16 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
             addUploadPanel("display: none");
     }
 
-    private void addUploadPanel(String value)
-    {
+    private void addUploadPanel(String value) {
         uploadPanelHolder.add(new SimpleAttributeModifier("style", value));
     }
 
-    private boolean hasDirectoriesOrFiles()
-    {
+    private boolean hasDirectoriesOrFiles() {
         DmoStoreId datasetId = getDataset().getDmoStoreId();
-        try
-        {
+        try {
             return Services.getItemService().hasChildItems(datasetId);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Error while trying to determine if dataset " + datasetId + " has child items.", e);
             throw new InternalWebError();
         }

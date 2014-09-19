@@ -15,51 +15,40 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
  * 
  * @author ecco Mar 31, 2009
  */
-public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<KeyValuePair, BasicString>
-{
+public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<KeyValuePair, BasicString> {
 
     private static final long serialVersionUID = 7976759517463796566L;
 
-    public SchemedBasicStringListWrapper(List<BasicString> wrappedList)
-    {
+    public SchemedBasicStringListWrapper(List<BasicString> wrappedList) {
         super(wrappedList);
     }
 
-    public SchemedBasicStringListWrapper(List<BasicString> wrappedList, String schemeName, String schemeId)
-    {
+    public SchemedBasicStringListWrapper(List<BasicString> wrappedList, String schemeName, String schemeId) {
         super(wrappedList, schemeName, schemeId);
 
     }
 
-    public List<KeyValuePair> getInitialItems()
-    {
+    public List<KeyValuePair> getInitialItems() {
         List<KeyValuePair> listItems = new ArrayList<KeyValuePair>();
-        for (BasicString bs : getWrappedList())
-        {
-            if (isSame(getSchemeName(), bs.getScheme()))
-            {
+        for (BasicString bs : getWrappedList()) {
+            if (isSame(getSchemeName(), bs.getScheme())) {
                 listItems.add(new KeyValuePair(bs.getValue(), null));
             }
         }
         return listItems;
     }
 
-    public int synchronize(List<KeyValuePair> listItems)
-    {
+    public int synchronize(List<KeyValuePair> listItems) {
         List<BasicString> filteredList = new ArrayList<BasicString>();
-        for (BasicString bs : getWrappedList())
-        {
-            if (isSame(getSchemeName(), bs.getScheme()))
-            {
+        for (BasicString bs : getWrappedList()) {
+            if (isSame(getSchemeName(), bs.getScheme())) {
                 filteredList.add(bs);
             }
         }
         getWrappedList().removeAll(filteredList);
 
-        for (KeyValuePair keyValuePair : listItems)
-        {
-            if (keyValuePair != null && keyValuePair.getKey() != null)
-            {
+        for (KeyValuePair keyValuePair : listItems) {
+            if (keyValuePair != null && keyValuePair.getKey() != null) {
                 final BasicString bs = new BasicString(keyValuePair.getKey());
                 bs.setScheme(getSchemeName());
                 bs.setSchemeId(getSchemeId());
@@ -70,14 +59,12 @@ public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<Ke
     }
 
     @Override
-    public ChoiceRenderer getChoiceRenderer()
-    {
+    public ChoiceRenderer getChoiceRenderer() {
         return new KvpChoiceRenderer();
     }
 
     @Override
-    public KeyValuePair getEmptyValue()
-    {
+    public KeyValuePair getEmptyValue() {
         return new KeyValuePair(null, null);
     }
 

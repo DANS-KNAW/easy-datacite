@@ -19,61 +19,50 @@ import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RESTfoxmlPage extends RESTdisseminationPage
-{
+public class RESTfoxmlPage extends RESTdisseminationPage {
 
     public static final String NAME = "foxml";
     public static final String RESOURCE_KEY = "rest.datasets.foxml";
 
     private static final Logger logger = LoggerFactory.getLogger(RESTfoxmlPage.class);
 
-    public RESTfoxmlPage(PageParameters parameters)
-    {
+    public RESTfoxmlPage(PageParameters parameters) {
         super(parameters);
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return NAME;
     }
 
     @Override
-    public String getResourceKey()
-    {
+    public String getResourceKey() {
         return RESOURCE_KEY;
     }
 
     @Override
-    protected void disseminate()
-    {
+    protected void disseminate() {
         Dataset dataset = (Dataset) getPageParameters().get(RESTdatasetsPage.PM_DATASET);
         byte[] xml;
-        try
-        {
+        try {
             xml = Services.getDatasetService().getObjectXml(EasySession.getSessionUser(), dataset);
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_NOT_FOUND);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         String filename = StringUtils.left(dataset.getLabel(), 10) + "_fo.xml";
-        try
-        {
+        try {
             writeXml(filename, xml);
             throw new AbortException();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Unable to disseminate: ", e);
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

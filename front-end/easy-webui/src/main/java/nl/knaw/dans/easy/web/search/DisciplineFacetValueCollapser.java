@@ -15,36 +15,30 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DisciplineFacetValueCollapser implements FacetValueCollapser<String>
-{
+public class DisciplineFacetValueCollapser implements FacetValueCollapser<String> {
     private static final long serialVersionUID = 7665921824841244218L;
     private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineFacetValueCollapser.class);
 
     private boolean showZeroCountFacets;
 
-    public DisciplineFacetValueCollapser(boolean showZeroCountFacets)
-    {
+    public DisciplineFacetValueCollapser(boolean showZeroCountFacets) {
         this.showZeroCountFacets = showZeroCountFacets;
     }
 
-    public List<CollapsedFacetValue<String>> collapse(List<FacetValue<String>> originalValues, FacetValue<String> selectedValue)
-    {
+    public List<CollapsedFacetValue<String>> collapse(List<FacetValue<String>> originalValues, FacetValue<String> selectedValue) {
         List<CollapsedFacetValue<String>> collapsedValues = new ArrayList<CollapsedFacetValue<String>>();
-        try
-        {
+        try {
             DisciplineContainer searchDiscipline = null;
             if (selectedValue == null)
                 searchDiscipline = Services.getDisciplineService().getRootDiscipline();
             else
                 searchDiscipline = Services.getDisciplineService().getDisciplineById(new DmoStoreId(selectedValue.getValue()));
 
-            for (DisciplineContainer subDiscipline : searchDiscipline.getSubDisciplines())
-            {
+            for (DisciplineContainer subDiscipline : searchDiscipline.getSubDisciplines()) {
                 List<FacetValue<String>> foundFacetValues = getFacetValuesOfDiscipline(subDiscipline, originalValues);
                 int facetCount = getSummedFacetCount(foundFacetValues);
 
-                if (facetCount > 0 || showZeroCountFacets)
-                {
+                if (facetCount > 0 || showZeroCountFacets) {
                     CollapsedFacetValue<String> cfv = new CollapsedFacetValue<String>();
                     cfv.setValue(subDiscipline.getStoreId());
                     cfv.setCount(facetCount);
@@ -54,8 +48,7 @@ public class DisciplineFacetValueCollapser implements FacetValueCollapser<String
                 }
             }
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             LOGGER.error("Unable to collapse facet values for disciplines", e);
             throw new InternalWebError();
         }
@@ -63,30 +56,25 @@ public class DisciplineFacetValueCollapser implements FacetValueCollapser<String
         return collapsedValues;
     }
 
-    private int getSummedFacetCount(List<FacetValue<String>> foundFacetValues)
-    {
+    private int getSummedFacetCount(List<FacetValue<String>> foundFacetValues) {
         int count = 0;
-        for (FacetValue<String> facetValue : foundFacetValues)
-        {
+        for (FacetValue<String> facetValue : foundFacetValues) {
             count += facetValue.getCount();
         }
         return count;
     }
 
-    private List<FacetValue<String>> getFacetValuesOfDiscipline(DisciplineContainer discipline, List<FacetValue<String>> facetValues) throws DomainException
-    {
+    private List<FacetValue<String>> getFacetValuesOfDiscipline(DisciplineContainer discipline, List<FacetValue<String>> facetValues) throws DomainException {
         List<FacetValue<String>> result = new ArrayList<FacetValue<String>>();
 
         // search on this level
-        for (FacetValue<String> facetValue : facetValues)
-        {
+        for (FacetValue<String> facetValue : facetValues) {
             if (facetValue.getValue().equals(discipline.getStoreId()))
                 result.add(facetValue);
         }
 
         // search on sub levels
-        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines())
-        {
+        for (DisciplineContainer subDiscipline : discipline.getSubDisciplines()) {
             result.addAll(getFacetValuesOfDiscipline(subDiscipline, facetValues));
         }
 

@@ -9,25 +9,20 @@ import nl.knaw.dans.common.lang.util.StateUtil;
 
 import org.junit.Test;
 
-public class AccessCategoryTest
-{
+public class AccessCategoryTest {
 
     @Test
-    public void getBitMask()
-    {
-        for (int i = 0; i < 64; i++)
-        {
+    public void getBitMask() {
+        for (int i = 0; i < 64; i++) {
             List<AccessCategory> categories = AccessCategory.UTIL.getStates(i);
             assertEquals(i, AccessCategory.UTIL.getBitMask(categories));
         }
     }
 
     @Test
-    public void stateUtil()
-    {
+    public void stateUtil() {
         StateUtil<AccessCategory> su = new StateUtil<AccessCategory>(AccessCategory.values());
-        for (int i = 0; i < 64; i++)
-        {
+        for (int i = 0; i < 64; i++) {
             List<AccessCategory> categories = su.getStates(i);
             assertEquals(i, su.getBitMask(categories));
         }

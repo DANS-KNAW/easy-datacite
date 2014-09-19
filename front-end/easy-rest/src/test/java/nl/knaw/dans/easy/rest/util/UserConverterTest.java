@@ -8,13 +8,11 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserConverterTest
-{
+public class UserConverterTest {
     EasyUser user;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         user = mock(EasyUser.class);
         when(user.getCommonName()).thenReturn("username");
         when(user.getDisplayName()).thenReturn("displayname");
@@ -38,14 +36,12 @@ public class UserConverterTest
     }
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new UserConverter();
     }
 
     @Test
-    public void conversion()
-    {
+    public void conversion() {
         String xml = UserConverter.convert(user);
         String expectedXml = "<account>" + "<username>username</username>" + "<displayName>displayname</displayName>" + "<email>email</email>"
                 + "<title>title</title>" + "<initials>initials</initials>" + "<prefix>prefix</prefix>" + "<surname>surname</surname>"

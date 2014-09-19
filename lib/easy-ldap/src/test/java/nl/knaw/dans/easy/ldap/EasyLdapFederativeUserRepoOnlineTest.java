@@ -15,8 +15,7 @@ import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
-{
+public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest {
     private static EasyLdapFederativeUserRepo repo;
 
     final String FAKE_FEDID = "some.fake.federatedUserId";
@@ -25,14 +24,12 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
     final String FAKE_DANSID_UPDATED = FAKE_DANSID + ".updated";
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         repo = new EasyLdapFederativeUserRepo(getLdapClient(), Tester.getString("ldap.context.federation"));
     }
 
     @Test
-    public void add_update_delete() throws Exception
-    {
+    public void add_update_delete() throws Exception {
         FederativeUserIdMap idm1 = new FederativeUserIdMap(FAKE_FEDID, FAKE_DANSID);
 
         // Add
@@ -55,15 +52,13 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findByDansUserIdNonExisting() throws Exception
-    {
+    public void findByDansUserIdNonExisting() throws Exception {
         List<FederativeUserIdMap> idMaps = repo.findByDansUserId("this.dansUserId.does.not.exist.in.the.federativeUserMap");
         assertTrue(idMaps.isEmpty());
     }
 
     @Test
-    public void findByDansUserId() throws Exception
-    {
+    public void findByDansUserId() throws Exception {
         // Add one mapping
         FederativeUserIdMap idm1 = new FederativeUserIdMap(FAKE_FEDID, FAKE_DANSID);
         String id1 = insertIdMap(idm1);
@@ -95,8 +90,7 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
         assertFalse(repo.exists(id2));
     }
 
-    private String insertIdMap(FederativeUserIdMap idm) throws RepositoryException, ObjectExistsException
-    {
+    private String insertIdMap(FederativeUserIdMap idm) throws RepositoryException, ObjectExistsException {
         // remove map if it already exists
         if (repo.exists(idm.getId()))
             repo.delete(idm);

@@ -1,39 +1,32 @@
 package nl.knaw.dans.easy.domain.form;
 
-public class CustomProperty
-{
+public class CustomProperty {
     private String name;
     private String value;
 
     // JiBX
-    protected CustomProperty()
-    {
+    protected CustomProperty() {
 
     }
 
-    public CustomProperty(String name, String value)
-    {
+    public CustomProperty(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 

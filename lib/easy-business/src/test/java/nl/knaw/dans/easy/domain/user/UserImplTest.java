@@ -9,12 +9,10 @@ import org.junit.Test;
 
 // ecco: CHECKSTYLE: OFF
 
-public class UserImplTest
-{
+public class UserImplTest {
 
     @Test
-    public void testEquals()
-    {
+    public void testEquals() {
         // equal userId, name and email should lead to equals = true and same hashcode
         EasyUser user1 = new EasyUserImpl();
         user1.setId("id");
@@ -32,8 +30,7 @@ public class UserImplTest
     }
 
     @Test
-    public void synchronizeOn()
-    {
+    public void synchronizeOn() {
         EasyUser user = new EasyUserImpl();
 
         // fields to synchronize

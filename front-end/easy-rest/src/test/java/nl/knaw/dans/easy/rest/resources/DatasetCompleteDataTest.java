@@ -36,14 +36,12 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 @SuppressWarnings("unchecked")
-public class DatasetCompleteDataTest extends RestTest
-{
+public class DatasetCompleteDataTest extends RestTest {
     private DatasetService datasetServiceMock;
     private ItemService itemServiceMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
 
         datasetServiceMock = mock(DatasetService.class);
@@ -53,8 +51,7 @@ public class DatasetCompleteDataTest extends RestTest
         services.setItemService(itemServiceMock);
     }
 
-    private void setUpServiceMethods() throws ServiceException
-    {
+    private void setUpServiceMethods() throws ServiceException {
         ArrayList<ItemVO> items = new ArrayList<ItemVO>();
         FileItemVO file = new FileItemVO();
         file.setSid("easy-file:1");
@@ -74,8 +71,7 @@ public class DatasetCompleteDataTest extends RestTest
     }
 
     @Test
-    public void getCompleteData() throws ServiceException
-    {
+    public void getCompleteData() throws ServiceException {
         setUpServiceMethods();
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/data");
@@ -91,8 +87,7 @@ public class DatasetCompleteDataTest extends RestTest
     }
 
     @Test
-    public void getCompleteDataObjectNotAvailable() throws ServiceException
-    {
+    public void getCompleteDataObjectNotAvailable() throws ServiceException {
         setException(ObjectNotAvailableException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
@@ -100,15 +95,13 @@ public class DatasetCompleteDataTest extends RestTest
         assertEquals(404, response.getStatus());
     }
 
-    private void setException(Class<? extends Throwable> t) throws ServiceException
-    {
+    private void setException(Class<? extends Throwable> t) throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
 
     }
 
     @Test
-    public void getCompleteDataNotAuthorized() throws ServiceException
-    {
+    public void getCompleteDataNotAuthorized() throws ServiceException {
         setException(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
@@ -117,8 +110,7 @@ public class DatasetCompleteDataTest extends RestTest
     }
 
     @Test
-    public void getCompleteDataIllegalArgument() throws ServiceException
-    {
+    public void getCompleteDataIllegalArgument() throws ServiceException {
         setException(IllegalArgumentException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
@@ -127,8 +119,7 @@ public class DatasetCompleteDataTest extends RestTest
     }
 
     @Test
-    public void getCompleteDataInternalServerError() throws ServiceException
-    {
+    public void getCompleteDataInternalServerError() throws ServiceException {
         setException(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);

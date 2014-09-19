@@ -6,56 +6,46 @@ import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
 /**
- * This session factory creates a maximum of one session for one thread. The session can thus easily be
- * reused by reusing this factory for getting the session. This makes it possible to share session
- * objects between objects and methods without having to send the session along.
+ * This session factory creates a maximum of one session for one thread. The session can thus easily be reused by reusing this factory for getting the session.
+ * This makes it possible to share session objects between objects and methods without having to send the session along.
  * 
  * @author lobo
  */
-public class ThreadLocalSessionFactory
-{
+public class ThreadLocalSessionFactory {
 
     private static ThreadLocalSessionFactory INSTANCE;
 
     private ThreadLocal<SessionInfo> localSessionInfo = new ThreadLocal<SessionInfo>();
 
-    private ThreadLocalSessionFactory()
-    {
+    private ThreadLocalSessionFactory() {
 
     }
 
-    public static ThreadLocalSessionFactory instance()
-    {
-        if (INSTANCE == null)
-        {
+    public static ThreadLocalSessionFactory instance() {
+        if (INSTANCE == null) {
             INSTANCE = new ThreadLocalSessionFactory();
         }
         return INSTANCE;
     }
 
     /**
-     * Get a new or existing Session object. If a session already was created by this factory for this
-     * thread this existing session is returned, otherwise a new session is created and returned.
+     * Get a new or existing Session object. If a session already was created by this factory for this thread this existing session is returned, otherwise a new
+     * session is created and returned.
      * 
      * @return a new or existing session object
      */
-    public Session openSession() throws HibernateException, DbException
-    {
+    public Session openSession() throws HibernateException, DbException {
         SessionInfo sessionInfo = localSessionInfo.get();
-        if (sessionInfo == null)
-        {
+        if (sessionInfo == null) {
             sessionInfo = new SessionInfo();
             localSessionInfo.set(sessionInfo);
         }
 
-        if (sessionInfo.useCount == 0)
-        {
-            try
-            {
+        if (sessionInfo.useCount == 0) {
+            try {
                 sessionInfo.session = DbUtil.getSessionFactory().openSession();
             }
-            finally
-            {
+            finally {
                 // if an error of some kind occurs do not store the session info
                 if (sessionInfo.session == null)
                     localSessionInfo.set(null);
@@ -71,8 +61,7 @@ public class ThreadLocalSessionFactory
     /**
      * Call this instead of calling Session.close().
      */
-    public void closeSession()
-    {
+    public void closeSession() {
         SessionInfo sessionInfo = localSessionInfo.get();
         if (sessionInfo == null)
             // this does not necessarily indicate a programmer error
@@ -85,15 +74,13 @@ public class ThreadLocalSessionFactory
             throw new RuntimeException("Session is null at close? " + "This should not happen");
 
         sessionInfo.useCount--;
-        if (sessionInfo.useCount == 0)
-        {
+        if (sessionInfo.useCount == 0) {
             sessionInfo.session.close();
             localSessionInfo.set(null);
         }
     }
 
-    private class SessionInfo
-    {
+    private class SessionInfo {
         public Session session = null;
         public int useCount = 0;
     }

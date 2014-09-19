@@ -31,8 +31,7 @@ import fedora.common.Constants;
  * 
  * @author ecco Sep 12, 2009
  */
-public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
-{
+public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject> {
 
     /**
      * Version of foxml.
@@ -63,13 +62,11 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     /**
      * Constructor used for JiBX serialization.
      */
-    protected DigitalObject()
-    {
+    protected DigitalObject() {
         // needed for JiBX serialization.
     }
 
-    public DigitalObject(final String objectNamespace)
-    {
+    public DigitalObject(final String objectNamespace) {
         this(DobState.Active, objectNamespace);
     }
 
@@ -81,8 +78,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param objectNamespace
      *        a namespace that matches one of the "retainPIDs" values configured for the repository
      */
-    public DigitalObject(final DobState state, final String objectNamespace)
-    {
+    public DigitalObject(final DobState state, final String objectNamespace) {
         setDigitalObjectState(state);
         this.objectNamespace = objectNamespace;
     }
@@ -90,19 +86,14 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     /**
      * Get the objectNamespace of this digital object.
      * 
-     * @return the objectNamespace or <code>null</code> if the objectNamespace is not set or cannot be
-     *         derived
+     * @return the objectNamespace or <code>null</code> if the objectNamespace is not set or cannot be derived
      */
-    public String getObjectNamespace()
-    {
-        if (objectNamespace == null && sid != null)
-        {
-            try
-            {
+    public String getObjectNamespace() {
+        if (objectNamespace == null && sid != null) {
+            try {
                 objectNamespace = RepoUtil.getNamespaceFromSid(sid);
             }
-            catch (InvalidSidException e)
-            {
+            catch (InvalidSidException e) {
                 objectNamespace = null;
             }
         }
@@ -117,10 +108,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws IllegalStateException
      *         if objectNamespace was set previously
      */
-    public void setObjectNamespace(String objectNamespace) throws IllegalStateException
-    {
-        if (this.objectNamespace != null)
-        {
+    public void setObjectNamespace(String objectNamespace) throws IllegalStateException {
+        if (this.objectNamespace != null) {
             throw new IllegalStateException("Object namespace already set: " + objectNamespace);
         }
         this.objectNamespace = objectNamespace;
@@ -129,10 +118,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     /**
      * Get the version number of this digital object.
      */
-    public String getVersion()
-    {
-        if (version == null)
-        {
+    public String getVersion() {
+        if (version == null) {
             version = DEFAULT_VERSION;
         }
         return version;
@@ -144,8 +131,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param version
      *        version number of this digital object
      */
-    public void setVersion(final String version)
-    {
+    public void setVersion(final String version) {
         this.version = version;
     }
 
@@ -154,8 +140,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return format of this digital object
      */
-    public String getFormat()
-    {
+    public String getFormat() {
         return FORMAT_FOXML_1_1;
     }
 
@@ -164,8 +149,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return the system id of this digital object
      */
-    public String getSid()
-    {
+    public String getSid() {
         return sid;
     }
 
@@ -183,18 +167,12 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws IllegalArgumentException
      *         if the given string does not comply to above mentioned restrictions
      */
-    public void setSid(final String sid) throws IllegalArgumentException
-    {
-        if (sid == null)
-        {
+    public void setSid(final String sid) throws IllegalArgumentException {
+        if (sid == null) {
             this.sid = null;
-        }
-        else if (Pattern.matches(SID_TOKEN, sid) && sid.length() <= MAX_SID_LENGTH)
-        {
+        } else if (Pattern.matches(SID_TOKEN, sid) && sid.length() <= MAX_SID_LENGTH) {
             this.sid = sid;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("The string '" + sid + "' is not a valid fedora sid.");
         }
     }
@@ -204,13 +182,11 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return Fedora URI of this digital object or <code>null</code> if it is not known
      */
-    public URI getFedoraURI()
-    {
+    public URI getFedoraURI() {
         return fedoraURI;
     }
 
-    void setFedoraURI(final URI uri)
-    {
+    void setFedoraURI(final URI uri) {
         fedoraURI = uri;
     }
 
@@ -219,8 +195,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return object properties for this digital object
      */
-    public DigitalObjectProperties getObjectProperties()
-    {
+    public DigitalObjectProperties getObjectProperties() {
         return objectProperties;
     }
 
@@ -230,8 +205,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param objectProperties
      *        object properties for this digital object
      */
-    public void setObjectProperties(DigitalObjectProperties objectProperties)
-    {
+    public void setObjectProperties(DigitalObjectProperties objectProperties) {
         this.objectProperties = objectProperties;
     }
 
@@ -241,8 +215,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param storable
      *        StorableObject to set properties on
      */
-    public void writeObjectProperties(StorableObject storable)
-    {
+    public void writeObjectProperties(StorableObject storable) {
         storable.setStoreId(getSid());
         storable.setLabel(objectProperties.getLabel());
         storable.setOwnerId(objectProperties.getOwnerId());
@@ -258,16 +231,12 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param storable
      *        StorableObject to get properties from
      */
-    public void readObjectProperties(StorableObject storable)
-    {
+    public void readObjectProperties(StorableObject storable) {
         objectProperties.setLabel(storable.getLabel());
         objectProperties.setOwnerId(storable.getOwnerId());
-        if (storable.getState() == null)
-        {
+        if (storable.getState() == null) {
             objectProperties.setDigitalObjectState(DobState.Inactive);
-        }
-        else
-        {
+        } else {
             objectProperties.setState(storable.getState());
         }
     }
@@ -277,8 +246,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return the state of this digital object or <code>null</code> if it is not known
      */
-    public DobState getDigitalObjectState()
-    {
+    public DobState getDigitalObjectState() {
         return objectProperties.getDigitalObjectState();
     }
 
@@ -288,8 +256,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param state
      *        the state of this digital object
      */
-    public void setDigitalObjectState(final DobState state)
-    {
+    public void setDigitalObjectState(final DobState state) {
         objectProperties.setDigitalObjectState(state);
     }
 
@@ -298,8 +265,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return the label of this digital object or <code>null</code> if it is not known
      */
-    public String getLabel()
-    {
+    public String getLabel() {
         return objectProperties.getLabel();
     }
 
@@ -309,8 +275,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param label
      *        the label of this digital object
      */
-    public void setLabel(final String label)
-    {
+    public void setLabel(final String label) {
         objectProperties.setLabel(label);
     }
 
@@ -319,8 +284,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return the ownerId of this digital object or <code>null</code> if it is not known
      */
-    public String getOwnerId()
-    {
+    public String getOwnerId() {
         return objectProperties.getOwnerId();
     }
 
@@ -330,8 +294,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param ownerId
      *        the ownerId of this digital object
      */
-    public void setOwnerId(final String ownerId)
-    {
+    public void setOwnerId(final String ownerId) {
         objectProperties.setOwnerId(ownerId);
     }
 
@@ -340,19 +303,16 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return the creation date of this digital object or <code>null</code> if it is not known
      */
-    public DateTime getCreatedDate()
-    {
+    public DateTime getCreatedDate() {
         return objectProperties.getDateCreated();
     }
 
     /**
      * Get the date of last modification of this digital object.
      * 
-     * @return the date of last modification of this digital object or <code>null</code> if it is not
-     *         known
+     * @return the date of last modification of this digital object or <code>null</code> if it is not known
      */
-    public DateTime getLastModifiedDate()
-    {
+    public DateTime getLastModifiedDate() {
         return objectProperties.getLastModified();
     }
 
@@ -363,8 +323,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      *        name of the property
      * @return value of the property or <code>null</code> if it is not known
      */
-    public String getExternalProperty(final String name)
-    {
+    public String getExternalProperty(final String name) {
         return objectProperties.getExtProperty(name);
     }
 
@@ -376,8 +335,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param value
      *        value of the property
      */
-    public void setExternalProperty(final String name, final String value)
-    {
+    public void setExternalProperty(final String name, final String value) {
         objectProperties.setExtProperty(name, value);
     }
 
@@ -386,11 +344,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param datastream
      *        a datastream
-     * @return previous datastream associated with the streamId of the given datastream, or null if there
-     *         was no mapping for the streamId
+     * @return previous datastream associated with the streamId of the given datastream, or null if there was no mapping for the streamId
      */
-    public Datastream putDatastream(final Datastream datastream)
-    {
+    public Datastream putDatastream(final Datastream datastream) {
         return datastreams.put(datastream.getStreamId(), datastream);
     }
 
@@ -399,11 +355,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return datastream associated with the given streamId, or null if there was no mapping for the
-     *         given streamId
+     * @return datastream associated with the given streamId, or null if there was no mapping for the given streamId
      */
-    public Datastream getDatastream(final String streamId)
-    {
+    public Datastream getDatastream(final String streamId) {
         return datastreams.get(streamId);
     }
 
@@ -412,11 +366,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return datastream associated with the given streamId, or null if there was no mapping for the
-     *         given streamId
+     * @return datastream associated with the given streamId, or null if there was no mapping for the given streamId
      */
-    public Datastream removeDatastream(final String streamId)
-    {
+    public Datastream removeDatastream(final String streamId) {
         return datastreams.remove(streamId);
     }
 
@@ -431,10 +383,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws IllegalStateException
      *         if a datastream associated with the given streamId already existed
      */
-    public Datastream addDatastream(String streamId, ControlGroup controlGroup) throws IllegalStateException
-    {
-        if (getDatastream(streamId) != null)
-        {
+    public Datastream addDatastream(String streamId, ControlGroup controlGroup) throws IllegalStateException {
+        if (getDatastream(streamId) != null) {
             throw new IllegalStateException("A Datastream with the streamId '" + streamId + "' already exists!");
         }
         Datastream stream = new Datastream(streamId, controlGroup);
@@ -447,8 +397,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @return a list of all the datastreams in this digital object
      */
-    public List<Datastream> getDatastreams()
-    {
+    public List<Datastream> getDatastreams() {
         return new ArrayList<Datastream>(datastreams.values());
     }
 
@@ -458,22 +407,18 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @param streams
      *        a list of datastreams
      */
-    public void setDatastreams(List<Datastream> streams)
-    {
+    public void setDatastreams(List<Datastream> streams) {
         datastreams.clear();
-        if (streams != null)
-        {
-            for (Datastream stream : streams)
-            {
+        if (streams != null) {
+            for (Datastream stream : streams) {
                 datastreams.put(stream.getStreamId(), stream);
             }
         }
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the root element of
-     * given document. If a datastream associated with the given streamId did not exist it will be
-     * created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the root element of given document. If a datastream associated with the
+     * given streamId did not exist it will be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param streamId
      *        streamId of the datastream
@@ -481,16 +426,14 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      *        the document to add as datastreamVersion
      * @return newly created datastreamVersion
      */
-    public DatastreamVersion addDatastreamVersion(final String streamId, final Document document)
-    {
+    public DatastreamVersion addDatastreamVersion(final String streamId, final Document document) {
         return addDatastreamVersion(streamId, document.getRootElement());
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the given element.
-     * If a datastream associated with the given streamId did not exist it will be created. The
-     * datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}. Namespaces and
-     * prefixes not declared on the element must be added.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the given element. If a datastream associated with the given streamId did
+     * not exist it will be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}. Namespaces and prefixes not declared
+     * on the element must be added.
      * 
      * @see Element#addNamespace(String, String)
      * @see Element#add(org.dom4j.Namespace)
@@ -500,11 +443,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      *        the element to add as datastreamVersion
      * @return newly created datastreamVersion
      */
-    public DatastreamVersion addDatastreamVersion(final String streamId, final Element element)
-    {
+    public DatastreamVersion addDatastreamVersion(final String streamId, final Element element) {
         Datastream datastream = datastreams.get(streamId);
-        if (datastream == null)
-        {
+        if (datastream == null) {
             datastream = addDatastream(streamId, ControlGroup.X);
             datastream.setState(Datastream.State.A);
         }
@@ -514,9 +455,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the serialization
-     * of the given JiBXObject. If a datastream associated with the given streamId did not exist it will
-     * be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the serialization of the given JiBXObject. If a datastream associated with
+     * the given streamId did not exist it will be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param streamId
      *        streamId of the datastream
@@ -526,30 +466,25 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws XMLSerializationException
      *         for exceptions during serialization
      */
-    public DatastreamVersion addDatastreamVersion(final String streamId, final MinimalXMLBean xmlBean) throws XMLSerializationException
-    {
+    public DatastreamVersion addDatastreamVersion(final String streamId, final MinimalXMLBean xmlBean) throws XMLSerializationException {
         Datastream datastream = datastreams.get(streamId);
-        if (datastream == null)
-        {
+        if (datastream == null) {
             datastream = addDatastream(streamId, ControlGroup.X);
             datastream.setState(Datastream.State.A);
         }
         final DatastreamVersion version = datastream.addDatastreamVersion(datastream.nextVersionId(), FoxConstants.MIMETYPE_XML);
-        try
-        {
+        try {
             version.setXmlContent(xmlBean.asObjectXML());
         }
-        catch (DocumentException e)
-        {
+        catch (DocumentException e) {
             throw new XMLSerializationException(e);
         }
         return version;
     }
 
     /**
-     * Add a datastreamVersion to the datastream "DC", consisting of the serialization of the given
-     * DublinCoreMetadata. If a datastream associated with the streamId "DC" did not exist it will be
-     * created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream "DC", consisting of the serialization of the given DublinCoreMetadata. If a datastream associated with the
+     * streamId "DC" did not exist it will be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param dcmd
      *        DublinCoreMetadata to add
@@ -557,8 +492,7 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws XMLSerializationException
      *         for exceptions during serialization
      */
-    public DatastreamVersion addDatastreamVersion(final DublinCoreMetadata dcmd) throws XMLSerializationException
-    {
+    public DatastreamVersion addDatastreamVersion(final DublinCoreMetadata dcmd) throws XMLSerializationException {
         final DatastreamVersion version = addDatastreamVersion(DublinCoreMetadata.UNIT_ID, dcmd);
         version.setFormatURI(DublinCoreMetadata.UNIT_FORMAT_URI);
         version.setLabel(DublinCoreMetadata.UNIT_LABEL);
@@ -570,15 +504,12 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return the latest datastreamVersion of the datastream associated with the given streamId or
-     *         <code>null</code> if the datastream does not exist
+     * @return the latest datastreamVersion of the datastream associated with the given streamId or <code>null</code> if the datastream does not exist
      */
-    public DatastreamVersion getLatestVersion(final String streamId)
-    {
+    public DatastreamVersion getLatestVersion(final String streamId) {
         DatastreamVersion version = null;
         final Datastream stream = datastreams.get(streamId);
-        if (stream != null)
-        {
+        if (stream != null) {
             version = stream.getLatestVersion();
         }
         return version;
@@ -589,15 +520,13 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return the latest datastreamVersion of the datastream associated with the given streamId as
-     *         element or <code>null</code> if the datastream does not exist
+     * @return the latest datastreamVersion of the datastream associated with the given streamId as element or <code>null</code> if the datastream does not
+     *         exist
      */
-    public Element getLatestVersionElement(final String streamId)
-    {
+    public Element getLatestVersionElement(final String streamId) {
         Element element = null;
         final DatastreamVersion version = getLatestVersion(streamId);
-        if (version != null)
-        {
+        if (version != null) {
             element = version.getXmlContentElement();
         }
         return element;
@@ -610,12 +539,10 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws XMLDeserializationException
      *         for exceptions during deserialization
      */
-    public DublinCoreMetadata getLatestDublinCoreMetadata() throws XMLDeserializationException
-    {
+    public DublinCoreMetadata getLatestDublinCoreMetadata() throws XMLDeserializationException {
         DublinCoreMetadata dcmd = null;
         final DatastreamVersion version = getLatestVersion(DublinCoreMetadata.UNIT_ID);
-        if (version != null)
-        {
+        if (version != null) {
             Element element = version.getXmlContentElement();
             dcmd = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, element);
             dcmd.setTimestamp(version.getTimestamp());
@@ -630,21 +557,17 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * @throws XMLDeserializationException
      *         for exceptions during deserialization
      */
-    public AuditTrail getAuditTrail() throws XMLDeserializationException
-    {
+    public AuditTrail getAuditTrail() throws XMLDeserializationException {
         AuditTrail auditTrail = null;
         Element atElement = getLatestVersionElement(AuditTrail.STREAM_ID);
-        if (atElement != null)
-        {
+        if (atElement != null) {
             auditTrail = (AuditTrail) JiBXObjectFactory.unmarshal(AuditTrail.class, atElement);
         }
         return auditTrail;
     }
 
-    protected void postJiBXDeserialization()
-    {
-        if (objectProperties != null)
-        {
+    protected void postJiBXDeserialization() {
+        if (objectProperties != null) {
             setTimestamp(objectProperties.getTimestamp());
         }
     }

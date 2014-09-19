@@ -8,33 +8,28 @@ import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
 
-public class ZipItem
-{
+public class ZipItem {
 
     private String virtualPath;
     private URL streamUrl;
     private File file;
     private String systemPath;
 
-    public ZipItem(String virtualPath)
-    {
+    public ZipItem(String virtualPath) {
         setVirtualPath(virtualPath);
     }
 
-    public ZipItem(String virtualPath, File file)
-    {
+    public ZipItem(String virtualPath, File file) {
         setVirtualPath(virtualPath);
         this.file = file;
     }
 
-    public ZipItem(String virtualPath, URL url)
-    {
+    public ZipItem(String virtualPath, URL url) {
         setVirtualPath(virtualPath);
         this.streamUrl = url;
     }
 
-    public ZipItem(String virtualPath, String systemPath)
-    {
+    public ZipItem(String virtualPath, String systemPath) {
         setVirtualPath(virtualPath);
         this.systemPath = systemPath;
     }
@@ -44,86 +39,65 @@ public class ZipItem
      * 
      * @param virtualPath
      */
-    public void setVirtualPath(String virtualPath)
-    {
-        if (StringUtils.isBlank(virtualPath))
-        {
+    public void setVirtualPath(String virtualPath) {
+        if (StringUtils.isBlank(virtualPath)) {
             throw new IllegalArgumentException("The virtual path cannot be null and cannot be empty.");
         }
         this.virtualPath = virtualPath;
     }
 
-    public String getVirtualPath()
-    {
+    public String getVirtualPath() {
         return virtualPath;
     }
 
-    public void setStreamUrl(URL streamUrl)
-    {
+    public void setStreamUrl(URL streamUrl) {
         this.streamUrl = streamUrl;
     }
 
-    public URL getStreamUrl()
-    {
+    public URL getStreamUrl() {
         return streamUrl;
     }
 
-    public boolean hasStreamUrl()
-    {
+    public boolean hasStreamUrl() {
         return streamUrl != null;
     }
 
-    public void setFile(File file)
-    {
+    public void setFile(File file) {
         this.file = file;
     }
 
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
-    public boolean hasFile()
-    {
+    public boolean hasFile() {
         return file != null;
     }
 
-    public String getSystemPath()
-    {
+    public String getSystemPath() {
         return systemPath;
     }
 
-    public void setSystemPath(String systemPath)
-    {
+    public void setSystemPath(String systemPath) {
         this.systemPath = systemPath;
     }
 
-    public boolean hasSystemPath()
-    {
+    public boolean hasSystemPath() {
         return systemPath != null;
     }
 
-    public boolean hasInputStream()
-    {
+    public boolean hasInputStream() {
         return hasStreamUrl() || hasFile() || hasSystemPath();
     }
 
-    public InputStream getInputStream() throws IOException
-    {
-        if (hasStreamUrl())
-        {
+    public InputStream getInputStream() throws IOException {
+        if (hasStreamUrl()) {
             return streamUrl.openStream();
-        }
-        else if (hasFile())
-        {
+        } else if (hasFile()) {
             return new FileInputStream(file);
-        }
-        else if (hasSystemPath())
-        {
+        } else if (hasSystemPath()) {
             return new FileInputStream(systemPath);
-        }
-        else
-        {
+        } else {
             throw new IOException("No file, url or systemPath specified for virtual path " + getVirtualPath());
         }
     }

@@ -31,8 +31,7 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EasyUserService extends AbstractEasyService implements UserService
-{
+public class EasyUserService extends AbstractEasyService implements UserService {
 
     private static Logger logger = LoggerFactory.getLogger(EasyUserService.class);
 
@@ -42,12 +41,9 @@ public class EasyUserService extends AbstractEasyService implements UserService
 
     private RegistrationService registrationService;
 
-    public EasyUserService()
-    {
-    }
+    public EasyUserService() {}
 
-    public UsernamePasswordAuthentication newUsernamePasswordAuthentication() throws ServiceException
-    {
+    public UsernamePasswordAuthentication newUsernamePasswordAuthentication() throws ServiceException {
         return loginService.newAuthentication();
     }
 
@@ -63,149 +59,115 @@ public class EasyUserService extends AbstractEasyService implements UserService
         return getPasswordService().newAuthentication(userId, returnedTime, returnedToken);
     }
 
-    public void authenticate(Authentication authentication) throws ServiceException
-    {
-        if (authentication instanceof UsernamePasswordAuthentication)
-        {
+    public void authenticate(Authentication authentication) throws ServiceException {
+        if (authentication instanceof UsernamePasswordAuthentication) {
             loginService.login((UsernamePasswordAuthentication) authentication);
             logAuthentication(authentication);
-        }
-        else if (authentication instanceof RegistrationMailAuthentication)
-        {
+        } else if (authentication instanceof RegistrationMailAuthentication) {
             registrationService.login((RegistrationMailAuthentication) authentication);
             logAuthentication(authentication);
-        }
-        else if (authentication instanceof ForgottenPasswordMailAuthentication)
-        {
+        } else if (authentication instanceof ForgottenPasswordMailAuthentication) {
             getPasswordService().login((ForgottenPasswordMailAuthentication) authentication);
             logAuthentication(authentication);
-        }
-        else
-        {
+        } else {
             final String msg = "No method for athentication: " + authentication;
             logger.error(msg);
             throw new IllegalArgumentException(msg);
         }
     }
 
-    private void logAuthentication(Authentication authentication)
-    {
-        if (authentication.isCompleted())
-        {
+    private void logAuthentication(Authentication authentication) {
+        if (authentication.isCompleted()) {
             if (logger.isDebugEnabled())
                 logger.debug("Authentication successful: " + authentication.toString());
-        }
-        else
-        {
+        } else {
             logger.warn("Authentication unsuccessful: " + authentication.toString());
         }
     }
 
-    public void logout(final EasyUser user) throws ServiceException
-    {
+    public void logout(final EasyUser user) throws ServiceException {
         // If everything from this point on is stateless than there's no need to do anything.
     }
 
-    public EasyUser getUserById(EasyUser sessionUser, final String uid) throws ObjectNotAvailableException, ServiceException
-    {
+    public EasyUser getUserById(EasyUser sessionUser, final String uid) throws ObjectNotAvailableException, ServiceException {
         EasyUser user = null;
-        try
-        {
+        try {
             user = Data.getUserRepo().findById(uid);
             logger.debug("Found user: " + user.toString());
         }
-        catch (final ObjectNotInStoreException e)
-        {
+        catch (final ObjectNotInStoreException e) {
             logger.debug("Object not found. userId='" + uid + "'");
             throw new ObjectNotAvailableException("Object not found. userId='" + uid + "' :", e);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             logger.debug("Could not get user with id '" + uid + "' :", e);
             throw new ServiceException("Could not get user with id '" + uid + "' :", e);
         }
         return user;
     }
 
-    public List<EasyUser> getUserByEmail(final String email) throws ServiceException
-    {
+    public List<EasyUser> getUserByEmail(final String email) throws ServiceException {
         List<EasyUser> users = null;
-        try
-        {
+        try {
             users = Data.getUserRepo().findByEmail(email);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not retrieve users by email: ", e);
             throw new ServiceException("Could not retrieve users by email: ", e);
         }
         return users;
     }
 
-    public List<EasyUser> getUsersByRole(Role role) throws ServiceException
-    {
+    public List<EasyUser> getUsersByRole(Role role) throws ServiceException {
         List<EasyUser> users = null;
-        try
-        {
+        try {
             users = Data.getUserRepo().findByRole(role);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not retrieve users by role: ", e);
             throw new ServiceException("Could not retrieve users by role: ", e);
         }
         return users;
     }
 
-    public List<EasyUser> getAllUsers() throws ServiceException
-    {
+    public List<EasyUser> getAllUsers() throws ServiceException {
         List<EasyUser> users = null;
-        try
-        {
+        try {
             users = Data.getUserRepo().findAll();
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             logger.debug("Could not retrieve users: ", e);
             throw new ServiceException("Could not retrieve users: ", e);
         }
         return users;
     }
 
-    public List<Group> getAllGroups() throws ServiceException
-    {
+    public List<Group> getAllGroups() throws ServiceException {
         List<Group> groups = null;
-        try
-        {
+        try {
             groups = Data.getGroupRepo().findAll();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not retrieve groups: ", e);
             throw new ServiceException("Could not retrieve groups: ", e);
         }
         return groups;
     }
 
-    public List<String> getAllGroupIds() throws ServiceException
-    {
+    public List<String> getAllGroupIds() throws ServiceException {
         List<String> groupIds = new ArrayList<String>();
-        for (Group group : getAllGroups())
-        {
+        for (Group group : getAllGroups()) {
             groupIds.add(group.getId());
         }
         return groupIds;
     }
 
-    public Map<String, String> getByCommonNameStub(String stub, long maxCount) throws ServiceException
-    {
+    public Map<String, String> getByCommonNameStub(String stub, long maxCount) throws ServiceException {
         Map<String, String> idNameMap = null;
-        try
-        {
+        try {
             idNameMap = Data.getUserRepo().findByCommonNameStub(stub, maxCount);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.debug("Could not retrieve users by common name stub: ", e);
             throw new ServiceException("Could not retrieve users by common name stub: ", e);
         }
@@ -213,29 +175,23 @@ public class EasyUserService extends AbstractEasyService implements UserService
     }
 
     @MutatesUser
-    public EasyUser update(final EasyUser sessionUser, final EasyUser user) throws ServiceException
-    {
+    public EasyUser update(final EasyUser sessionUser, final EasyUser user) throws ServiceException {
         // validate user
 
         // set state of user: active after first login and update personal info
         boolean updaterEqualsUser = sessionUser.equals(user) && EasyUser.State.CONFIRMED_REGISTRATION.equals(user.getState());
-        if (updaterEqualsUser)
-        {
+        if (updaterEqualsUser) {
             user.setState(EasyUser.State.ACTIVE);
         }
 
-        try
-        {
+        try {
             Data.getUserRepo().update(user);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
-            if (updaterEqualsUser)
-            {
+        finally {
+            if (updaterEqualsUser) {
                 sessionUser.setState(user.getState());
             }
         }
@@ -243,43 +199,36 @@ public class EasyUserService extends AbstractEasyService implements UserService
         return user;
     }
 
-    public Registration handleRegistrationRequest(final Registration registration) throws ServiceException
-    {
+    public Registration handleRegistrationRequest(final Registration registration) throws ServiceException {
         registrationService.handleRegistrationRequest(registration);
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
 
-    public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException
-    {
+    public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException {
         registrationService.handleRegistrationRequest(registration);
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
 
-    public boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException
-    {
+    public boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException {
         boolean hasPassword;
-        try
-        {
+        try {
             hasPassword = Data.getUserRepo().isPasswordStored(user.getId());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
 
         return hasPassword;
     }
 
-    public void changePassword(final ChangePasswordMessenger messenger) throws ServiceException
-    {
+    public void changePassword(final ChangePasswordMessenger messenger) throws ServiceException {
         // delegate to specialized service.
         getPasswordService().changePassword(messenger);
     }
 
-    public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) throws ServiceException
-    {
+    public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) throws ServiceException {
         // delegate to specialized service.
         // We can send a new password by mail:
         // passwordService.sendNewPassword(messenger);
@@ -289,52 +238,41 @@ public class EasyUserService extends AbstractEasyService implements UserService
         getPasswordService().sendUpdatePasswordLink(messenger);
     }
 
-    public OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException
-    {
-        try
-        {
+    public OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException {
+        try {
             return Data.getUserRepo().getOperationalAttributes(user.getId());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ApplicationException(e);
         }
     }
 
-    public OperationalAttributes getOperationalAttributes(Group group) throws ServiceException
-    {
-        try
-        {
+    public OperationalAttributes getOperationalAttributes(Group group) throws ServiceException {
+        try {
             return Data.getGroupRepo().getOperationalAttributes(group.getId());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ApplicationException(e);
         }
     }
 
-    public void setLoginService(LoginService loginService)
-    {
+    public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
     }
 
-    public RegistrationService getRegistrationService()
-    {
+    public RegistrationService getRegistrationService() {
         return registrationService;
     }
 
-    public PasswordService getPasswordService()
-    {
+    public PasswordService getPasswordService() {
         return passwordService;
     }
 
-    public void setPasswordService(PasswordService passwordService)
-    {
+    public void setPasswordService(PasswordService passwordService) {
         this.passwordService = passwordService;
     }
 
-    public void setRegistrationService(RegistrationService registrationService)
-    {
+    public void setRegistrationService(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 }

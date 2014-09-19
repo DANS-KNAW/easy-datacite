@@ -4,8 +4,7 @@ import java.net.URI;
 
 import fedora.common.Constants;
 
-public final class FoxConstants
-{
+public final class FoxConstants {
 
     /**
      * The xml-mimetype.
@@ -26,8 +25,7 @@ public final class FoxConstants
 
     public static FedoraNamespace FEDORA_NAMESPACE = new FedoraNamespace();
 
-    private FoxConstants()
-    {
+    private FoxConstants() {
 
     }
 }

@@ -8,8 +8,7 @@ import org.joda.time.DateTime;
  * 
  *
  */
-public interface StorableObject extends TimestampedObject
-{
+public interface StorableObject extends TimestampedObject {
 
     String getStoreId();
 

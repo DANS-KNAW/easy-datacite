@@ -11,17 +11,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DmoInvalidatorTest
-{
+public class DmoInvalidatorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DmoInvalidatorTest.class);
 
-    private DmoInvalidator invalidator = new DmoInvalidator()
-    {
+    private DmoInvalidator invalidator = new DmoInvalidator() {
 
         @Override
-        protected DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException
-        {
+        protected DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException {
             logger.debug("getLastModified called");
             return null;
         }
@@ -29,8 +26,7 @@ public class DmoInvalidatorTest
     };
 
     @Test
-    public void invalidate() throws RepositoryException
-    {
+    public void invalidate() throws RepositoryException {
         DummyDmo dmo = new DummyDmo("bla-bla:1");
 
         assertEquals("bla-bla:1", dmo.getStoreId());

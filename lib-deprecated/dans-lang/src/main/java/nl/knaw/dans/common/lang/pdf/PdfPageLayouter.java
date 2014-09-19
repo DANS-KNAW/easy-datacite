@@ -26,8 +26,7 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
-public class PdfPageLayouter extends PdfPageEventHelper
-{
+public class PdfPageLayouter extends PdfPageEventHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationMailer.class);
 
@@ -54,13 +53,11 @@ public class PdfPageLayouter extends PdfPageEventHelper
     private Phrase footerPhrase;
     private Image headerImage;
 
-    public class HeaderImageException extends Exception
-    {
+    public class HeaderImageException extends Exception {
         private static final long serialVersionUID = 1L;
 
         // anyone can catch, only owner can throw
-        private HeaderImageException(final String id, final Throwable cause)
-        {
+        private HeaderImageException(final String id, final Throwable cause) {
             super(id, cause);
         }
     }
@@ -82,15 +79,13 @@ public class PdfPageLayouter extends PdfPageEventHelper
      * @throws HeaderImageException
      *         in case of problems with the image
      */
-    public PdfPageLayouter(final Document document, final String footerText, final URL headerImage) throws HeaderImageException
-    {
+    public PdfPageLayouter(final Document document, final String footerText, final URL headerImage) throws HeaderImageException {
         setFooterText(footerText);
         document.setMargins(MARGIN_LEFT, MARGIN_RIGHT, MARGIN_TOP, MARGIN_BOTTOM);
         setHeaderImage(headerImage);
     }
 
-    public void onStartPage(final PdfWriter writer, final Document document)
-    {
+    public void onStartPage(final PdfWriter writer, final Document document) {
         if (headerImage == null)
             return;
 
@@ -101,19 +96,16 @@ public class PdfPageLayouter extends PdfPageEventHelper
         final float width = headerImage.getWidth() / resizeFactor;
         final float height = headerImage.getHeight() / resizeFactor;
 
-        try
-        {
+        try {
             canvas.addImage(headerImage, width, 0, 0, height, MARGIN_LEFT, top - HEADER_POSITION);
         }
-        catch (final Exception cause)
-        {
+        catch (final Exception cause) {
             logger.error("can't add header image to PDF page " + document.getPageNumber(), cause);
         }
 
     }
 
-    public void onEndPage(final PdfWriter writer, final Document document)
-    {
+    public void onEndPage(final PdfWriter writer, final Document document) {
         final float bottom = document.bottom();
         final float centerX = getCenterX(document);
         final PdfContentByte canvas = writer.getDirectContent();
@@ -136,48 +128,38 @@ public class PdfPageLayouter extends PdfPageEventHelper
         showTextAligned(canvas, Element.ALIGN_CENTER, new Phrase(footerPhrase), centerX, bottom - FOOTER_POSITION, rotation);
     }
 
-    public void setHeaderImage(final URL url) throws HeaderImageException
-    {
-        if (url == null)
-        {
+    public void setHeaderImage(final URL url) throws HeaderImageException {
+        if (url == null) {
             headerImage = null;
             return;
         }
-        try
-        {
+        try {
             headerImage = Image.getInstance(url);
         }
-        catch (final BadElementException e)
-        {
+        catch (final BadElementException e) {
             throw new HeaderImageException(url.toString(), e);
         }
-        catch (final MalformedURLException e)
-        {
+        catch (final MalformedURLException e) {
             throw new HeaderImageException(url.toString(), e);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new HeaderImageException(url.toString(), e);
         }
     }
 
-    public void setFooterText(final String value)
-    {
-        if (value == null)
-        {
+    public void setFooterText(final String value) {
+        if (value == null) {
             footerPhrase = null;
             return;
         }
         footerPhrase = new Phrase(new Chunk(value, FONT));
     }
 
-    private static Phrase createPageAction(final String caption, final int action)
-    {
+    private static Phrase createPageAction(final String caption, final int action) {
         return new Phrase(new Chunk(caption, AFONT).setAction(new PdfAction(action)));
     }
 
-    private float getCenterX(final Document document)
-    {
+    private float getCenterX(final Document document) {
         return (document.right() - document.left()) / 2 + document.leftMargin();
     }
 }

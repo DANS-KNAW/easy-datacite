@@ -1,7 +1,6 @@
 package proai.cache;
 
-public class QueueItem
-{
+public class QueueItem {
 
     private int _queueKey;
     private String _identifier;
@@ -14,8 +13,7 @@ public class QueueItem
     private String _failDate;
     private ParsedRecord _rec;
 
-    public QueueItem(int queueKey, String identifier, String mdPrefix, String sourceInfo, char queueSource)
-    {
+    public QueueItem(int queueKey, String identifier, String mdPrefix, String sourceInfo, char queueSource) {
         _queueKey = queueKey;
         _identifier = identifier;
         _mdPrefix = mdPrefix;
@@ -23,68 +21,55 @@ public class QueueItem
         _queueSource = queueSource;
     }
 
-    public int getQueueKey()
-    {
+    public int getQueueKey() {
         return _queueKey;
     }
 
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return _identifier;
     }
 
-    public String getMDPrefix()
-    {
+    public String getMDPrefix() {
         return _mdPrefix;
     }
 
-    public String getSourceInfo()
-    {
+    public String getSourceInfo() {
         return _sourceInfo;
     }
 
-    public char getQueueSource()
-    {
+    public char getQueueSource() {
         return _queueSource;
     }
 
-    public boolean succeeded()
-    {
+    public boolean succeeded() {
         return _succeeded;
     }
 
-    public void setSucceeded(boolean succeeded)
-    {
+    public void setSucceeded(boolean succeeded) {
         _succeeded = succeeded;
     }
 
-    public String getFailReason()
-    {
+    public String getFailReason() {
         return _failReason;
     }
 
-    public void setFailReason(String failReason)
-    {
+    public void setFailReason(String failReason) {
         _failReason = failReason;
     }
 
-    public String getFailDate()
-    {
+    public String getFailDate() {
         return _failDate;
     }
 
-    public void setFailDate(String failDate)
-    {
+    public void setFailDate(String failDate) {
         _failDate = failDate;
     }
 
-    public ParsedRecord getParsedRecord()
-    {
+    public ParsedRecord getParsedRecord() {
         return _rec;
     }
 
-    public void setParsedRecord(ParsedRecord rec)
-    {
+    public void setParsedRecord(ParsedRecord rec) {
         _rec = rec;
     }
 }

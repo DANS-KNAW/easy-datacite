@@ -43,8 +43,7 @@ import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
  * @author Roshan Timal
  */
 @Path("/dataset")
-public class DatasetResource extends AuthenticatedResource
-{
+public class DatasetResource extends AuthenticatedResource {
 
     /**
      * Returns metadata of the dataset if available.
@@ -55,33 +54,25 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/metadata")
-    public Response getMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getMetadata(@PathParam("sid") String sid) {
+        try {
             Dataset d = Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid));
             EasyMetadata emd = d.getEasyMetadata();
             return responseXmlOrJson(new EmdMarshaller(emd).getXmlString());
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return notFound("Not a valid id: " + sid);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
-        catch (XMLSerializationException e)
-        {
+        catch (XMLSerializationException e) {
             return internalServerError(e);
         }
     }
@@ -95,24 +86,18 @@ public class DatasetResource extends AuthenticatedResource
      */
     @OPTIONS
     @Path("/{sid}/metadata")
-    public Response optionsMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response optionsMetadata(@PathParam("sid") String sid) {
+        try {
             Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid));
             return optionsResponse();
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -126,32 +111,24 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/dc-metadata")
-    public Response getDcMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getDcMetadata(@PathParam("sid") String sid) {
+        try {
             Dataset d = Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid));
             return responseXmlOrJson(d.getEasyMetadata().getDublinCoreMetadata().asXMLString());
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return notFound("Not a valid id: " + sid);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
-        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e) {
             return internalServerError(e);
         }
     }
@@ -165,24 +142,18 @@ public class DatasetResource extends AuthenticatedResource
      */
     @OPTIONS
     @Path("/{sid}/dc-metadata")
-    public Response optionsDcMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response optionsDcMetadata(@PathParam("sid") String sid) {
+        try {
             Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid));
             return optionsResponse();
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -196,24 +167,18 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/date-modified")
-    public Response getDateModified(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getDateModified(@PathParam("sid") String sid) {
+        try {
             AdministrativeMetadata amd = Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid)).getAdministrativeMetadata();
             return simpleResponse(amd.getDateOfLastChangeTo(amd.getAdministrativeState()).toString());
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -228,23 +193,16 @@ public class DatasetResource extends AuthenticatedResource
     @GET
     @Path("/{sid}/jumpoff")
     @Produces("text/html")
-    public Response getJumpoff(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getJumpoff(@PathParam("sid") String sid) {
+        try {
             JumpoffDmo j = Services.getJumpoffService().getJumpoffDmoFor(authenticate(), new DmoStoreId(sid));
-            if (j != null)
-            {
+            if (j != null) {
                 return Response.ok(j.getHtmlMarkup().getHtml()).build();
-            }
-            else
-            {
+            } else {
                 return notFound("Jumpoff not available.");
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -258,23 +216,16 @@ public class DatasetResource extends AuthenticatedResource
      */
     @OPTIONS
     @Path("/{sid}/jumpoff")
-    public Response optionsJumpoff(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response optionsJumpoff(@PathParam("sid") String sid) {
+        try {
             JumpoffDmo j = Services.getJumpoffService().getJumpoffDmoFor(authenticate(), new DmoStoreId(sid));
-            if (j != null)
-            {
+            if (j != null) {
                 return optionsResponse();
-            }
-            else
-            {
+            } else {
                 return notFound("Jumpoff not available.");
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -288,27 +239,19 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/jumpoff/metadata")
-    public Response getJumpoffMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getJumpoffMetadata(@PathParam("sid") String sid) {
+        try {
             JumpoffDmo j = Services.getJumpoffService().getJumpoffDmoFor(authenticate(), new DmoStoreId(sid));
-            if (j != null)
-            {
+            if (j != null) {
                 return responseXmlOrJson(j.getJumpoffDmoMetadata().asXMLString());
-            }
-            else
-            {
+            } else {
                 return notFound("Jumpoff metadata not available.");
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
-        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e) {
             return internalServerError(e);
         }
     }
@@ -322,23 +265,16 @@ public class DatasetResource extends AuthenticatedResource
      */
     @OPTIONS
     @Path("/{sid}/jumpoff/metadata")
-    public Response optionsJumpoffMetadata(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response optionsJumpoffMetadata(@PathParam("sid") String sid) {
+        try {
             JumpoffDmo j = Services.getJumpoffService().getJumpoffDmoFor(authenticate(), new DmoStoreId(sid));
-            if (j != null)
-            {
+            if (j != null) {
                 return optionsResponse();
-            }
-            else
-            {
+            } else {
                 return notFound("Jumpoff metadata not available.");
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -354,10 +290,7 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/file-metadata/{path:[a-zA-Z0-9/\\.-]*}")
-    public Response getFileItemMetadataWithPath(@PathParam("sid")
-    String sid, @PathParam("path")
-    String path)
-    {
+    public Response getFileItemMetadataWithPath(@PathParam("sid") String sid, @PathParam("path") String path) {
         return getFileItemMetadata(sid, path, FileItemMetadata.UNIT_ID);
     }
 
@@ -372,44 +305,33 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/dc-file-metadata/{path:[a-zA-Z0-9/\\.-]*}")
-    public Response getDcFileItemMetadataWithPath(@PathParam("sid")
-    String sid, @PathParam("path")
-    String path)
-    {
+    public Response getDcFileItemMetadataWithPath(@PathParam("sid") String sid, @PathParam("path") String path) {
         return getFileItemMetadata(sid, path, DublinCoreMetadata.UNIT_ID);
     }
 
-    private Response getFileItemMetadata(String sid, String path, String unitId)
-    {
-        try
-        {
+    private Response getFileItemMetadata(String sid, String path, String unitId) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
 
             FileItem fileItem = Services.getItemService().getFileItemByPath(user, d, path);
-            for (MetadataUnit metadata : fileItem.getMetadataUnits())
-            {
-                if (metadata.getUnitId().equals(unitId))
-                {
+            for (MetadataUnit metadata : fileItem.getMetadataUnits()) {
+                if (metadata.getUnitId().equals(unitId)) {
                     return responseXmlOrJson(metadata.asObjectXML());
                 }
             }
             return notFound("File item metadata not available for: " + path);
         }
-        catch (ObjectNotAvailableException ex)
-        {
+        catch (ObjectNotAvailableException ex) {
             return notFound("Resource not available: " + path);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e) {
             return internalServerError(e);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -423,26 +345,20 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/filetree")
-    public Response getFileTreeRoots(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getFileTreeRoots(@PathParam("sid") String sid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId(), -1, -1, null, null);
             return responseXmlOrJson(ItemConverter.convert(items));
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -458,27 +374,20 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/filetree/" + FOLDER_SID_PREFIX + "{folderSid:[0-9]*}")
-    public Response getFolderSubTree(@PathParam("sid")
-    String sid, @PathParam("folderSid")
-    String folderSid)
-    {
-        try
-        {
+    public Response getFolderSubTree(@PathParam("sid") String sid, @PathParam("folderSid") String folderSid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(FOLDER_SID_PREFIX + folderSid), -1, -1, null, null);
             return responseXmlOrJson(ItemConverter.convert(items));
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -494,28 +403,21 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/filetree/{path:[a-zA-Z0-9/\\.-]*}")
-    public Response getFolderSubTreeWithPath(@PathParam("sid")
-    String sid, @PathParam("path")
-    String path)
-    {
-        try
-        {
+    public Response getFolderSubTreeWithPath(@PathParam("sid") String sid, @PathParam("path") String path) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             FolderItem folder = Services.getItemService().getFolderItemByPath(user, d, path);
             List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(folder.getStoreId()), -1, -1, null, null);
             return responseXmlOrJson(ItemConverter.convert(items));
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -529,24 +431,18 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/thumbnails")
-    public Response getThumbnailIds(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getThumbnailIds(@PathParam("sid") String sid) {
+        try {
             String xml = ThumbnailUtil.getThumbnailIdsXml(authenticate(), sid);
             return responseXmlOrJson(xml);
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -562,39 +458,28 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/thumbnails/{thumbnailSid}")
-    public Response getThumbnail(@PathParam("sid")
-    String sid, @PathParam("thumbnailSid")
-    String thumbnailSid)
-    {
-        try
-        {
+    public Response getThumbnail(@PathParam("sid") String sid, @PathParam("thumbnailSid") String thumbnailSid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             FileContentWrapper fcw = Services.getItemService().getContent(user, d, new DmoStoreId(thumbnailSid));
-            if (ThumbnailUtil.isThumbnail(user, d, fcw.getFileItemVO()))
-            {
+            if (ThumbnailUtil.isThumbnail(user, d, fcw.getFileItemVO())) {
                 byte[] bytes = UrlConverter.toByteArray(fcw.getURL(), fcw.getFileItemVO().getSize());
                 return Response.ok(bytes, fcw.getFileItemVO().getMimetype()).build();
-            }
-            else
-            {
+            } else {
                 return notAuthorized();
             }
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             return internalServerError(e);
         }
     }
@@ -609,36 +494,28 @@ public class DatasetResource extends AuthenticatedResource
     @GET
     @Path("/{sid}/data")
     @Produces("application/zip")
-    public Response getData(@PathParam("sid")
-    String sid)
-    {
-        try
-        {
+    public Response getData(@PathParam("sid") String sid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             List<ItemVO> rootItems = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId(), -1, -1, null, null);
             List<RequestedItem> requestedItems = new ArrayList<RequestedItem>();
-            for (ItemVO item : rootItems)
-            {
+            for (ItemVO item : rootItems) {
                 requestedItems.add(new RequestedItem(item.getSid()));
             }
             File zip = Services.getItemService().getZippedContent(user, d, requestedItems).getZipFile();
             return Response.ok(zip).build();
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             return notFound("Resource not available: " + sid);
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return notFound("Not a valid id: " + sid);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
@@ -654,49 +531,37 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/data/{path:[a-zA-Z0-9/\\.-]*}")
-    public Response getSpecificDataWithPath(@PathParam("sid")
-    String sid, @PathParam("path")
-    String path)
-    {
-        try
-        {
+    public Response getSpecificDataWithPath(@PathParam("sid") String sid, @PathParam("path") String path) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
-            try
-            {
+            try {
                 return Response.ok(tryToGetAsFolder(user, d, path), "application/zip").build();
             }
-            catch (ServiceException e)
-            {
-                try
-                {
+            catch (ServiceException e) {
+                try {
                     FileItem fileItem = Services.getItemService().getFileItemByPath(user, d, path);
                     FileContentWrapper fcw = Services.getItemService().getContent(user, d, fileItem.getDmoStoreId());
                     byte[] bytes = UrlConverter.toByteArray(fcw.getURL(), fileItem.getSize());
                     return Response.ok(bytes, fileItem.getMimeType()).build();
                 }
-                catch (ObjectNotAvailableException ex)
-                {
+                catch (ObjectNotAvailableException ex) {
                     return notFound("Resource not available: " + path);
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     return internalServerError(e);
                 }
             }
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }
 
-    private File tryToGetAsFolder(EasyUser user, Dataset d, String path) throws ServiceException
-    {
+    private File tryToGetAsFolder(EasyUser user, Dataset d, String path) throws ServiceException {
         FolderItem folderItem = Services.getItemService().getFolderItemByPath(user, d, path);
         List<RequestedItem> requestedItems = new ArrayList<RequestedItem>();
         requestedItems.add(new RequestedItem(folderItem.getStoreId()));
@@ -714,12 +579,8 @@ public class DatasetResource extends AuthenticatedResource
      */
     @GET
     @Path("/{sid}/data/" + FILE_SID_PREFIX + "{fileSid:[0-9]*}")
-    public Response getSpecificFileWithId(@PathParam("sid")
-    String sid, @PathParam("fileSid")
-    String fileSid)
-    {
-        try
-        {
+    public Response getSpecificFileWithId(@PathParam("sid") String sid, @PathParam("fileSid") String fileSid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             final FileContentWrapper fcw = Services.getItemService().getContent(user, d, new DmoStoreId(FILE_SID_PREFIX + fileSid));
@@ -727,16 +588,13 @@ public class DatasetResource extends AuthenticatedResource
 
             return Response.ok(bytes, fcw.getFileItemVO().getMimetype()).build();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             return internalServerError(e);
         }
     }
@@ -753,12 +611,8 @@ public class DatasetResource extends AuthenticatedResource
     @GET
     @Path("/{sid}/data/" + FOLDER_SID_PREFIX + "{folderSid:[0-9]*}")
     @Produces("application/zip")
-    public Response getSpecificFolderWithId(@PathParam("sid")
-    String sid, @PathParam("folderSid")
-    String folderSid)
-    {
-        try
-        {
+    public Response getSpecificFolderWithId(@PathParam("sid") String sid, @PathParam("folderSid") String folderSid) {
+        try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
 
@@ -767,12 +621,10 @@ public class DatasetResource extends AuthenticatedResource
             File zip = Services.getItemService().getZippedContent(user, d, requestedItems).getZipFile();
             return Response.ok(zip).build();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             return notAuthorized();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }

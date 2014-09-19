@@ -10,8 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DmoStoreId implements Serializable, Comparable<DmoStoreId>
-{
+public class DmoStoreId implements Serializable, Comparable<DmoStoreId> {
     private static final Logger log = LoggerFactory.getLogger(DmoStoreId.class);
     private static final long serialVersionUID = 7206006418091467783L;
 
@@ -26,124 +25,100 @@ public class DmoStoreId implements Serializable, Comparable<DmoStoreId>
 
     private final String storeId;
 
-    public static boolean isValidId(String value)
-    {
-        if (StringUtils.isBlank(value))
-        {
+    public static boolean isValidId(String value) {
+        if (StringUtils.isBlank(value)) {
             return false;
         }
         return PATTERN.matcher(value).matches();
     }
 
-    public static String[] split(String storeId)
-    {
-        if (StringUtils.isBlank(storeId))
-        {
+    public static String[] split(String storeId) {
+        if (StringUtils.isBlank(storeId)) {
             throw new IllegalArgumentException("StoreId cannot be blank.");
         }
         String[] split = storeId.trim().split(SEPARATOR);
-        if (split.length < 2)
-        {
+        if (split.length < 2) {
             throw new IllegalArgumentException("Not a valid storeId: " + storeId);
         }
-        if (!DmoNamespace.isValidNamespace(split[0]) || !isValidId(split[1]))
-        {
+        if (!DmoNamespace.isValidNamespace(split[0]) || !isValidId(split[1])) {
             throw new IllegalArgumentException("Not a valid storeId: " + storeId);
         }
         return split;
     }
 
-    public static String getStoreId(DmoNamespace namespace, String id)
-    {
-        if (!isValidId(id))
-        {
+    public static String getStoreId(DmoNamespace namespace, String id) {
+        if (!isValidId(id)) {
             throw new IllegalArgumentException("Not a valid id: " + id);
         }
         return new StringBuilder(namespace.getValue()).append(SEPARATOR).append(id).toString();
     }
 
-    public static List<String> asStrings(Collection<DmoStoreId> dmoStoreIds)
-    {
+    public static List<String> asStrings(Collection<DmoStoreId> dmoStoreIds) {
         List<String> storeIds = new ArrayList<String>();
-        for (DmoStoreId dmoStoreId : dmoStoreIds)
-        {
+        for (DmoStoreId dmoStoreId : dmoStoreIds) {
             storeIds.add(dmoStoreId.getStoreId());
         }
         return storeIds;
     }
 
-    public static DmoNamespace getDmoNamespace(String storeId)
-    {
+    public static DmoNamespace getDmoNamespace(String storeId) {
         return new DmoNamespace(split(storeId)[0]);
     }
 
     /**
-     * Return an instance of DmoStoreId if the given String <code>storeId</code> is a valid storeId,
-     * <code>null</code> otherwise.
+     * Return an instance of DmoStoreId if the given String <code>storeId</code> is a valid storeId, <code>null</code> otherwise.
      * 
      * @param storeId
      *        String-occurrence of storeId
      * @return new DmoStoreId if <code>storeId</code> is valid, <code>null</code> otherwise.
      */
-    public static DmoStoreId newDmoStoreId(String storeId)
-    {
+    public static DmoStoreId newDmoStoreId(String storeId) {
         DmoStoreId dmoStoreId = null;
-        try
-        {
+        try {
             dmoStoreId = new DmoStoreId(storeId);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             log.warn("Not a valid storeId: {}", storeId);
         }
         return dmoStoreId;
     }
 
-    public DmoStoreId(DmoNamespace namespace, String id)
-    {
+    public DmoStoreId(DmoNamespace namespace, String id) {
         this.namespace = namespace;
         this.id = id;
         this.storeId = getStoreId(this.namespace, this.id);
     }
 
-    public DmoStoreId(String storeId)
-    {
+    public DmoStoreId(String storeId) {
         String[] split = split(storeId);
         this.namespace = new DmoNamespace(split[0]);
         this.id = split[1];
         this.storeId = getStoreId(this.namespace, this.id);
     }
 
-    public DmoNamespace getNamespace()
-    {
+    public DmoNamespace getNamespace() {
         return namespace;
     }
 
-    public boolean isInNamespace(DmoNamespace namspace)
-    {
+    public boolean isInNamespace(DmoNamespace namspace) {
         return this.namespace.equals(namspace);
     }
 
-    public boolean hasSameNamespace(DmoStoreId other)
-    {
+    public boolean hasSameNamespace(DmoStoreId other) {
         return this.namespace.equals(other.namespace);
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return storeId;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (obj instanceof DmoStoreId)
-        {
+    public boolean equals(Object obj) {
+        if (obj instanceof DmoStoreId) {
             DmoStoreId other = (DmoStoreId) obj;
             return namespace.equals(other.namespace) && id.equals(other.id);
         }
@@ -151,23 +126,19 @@ public class DmoStoreId implements Serializable, Comparable<DmoStoreId>
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return namespace.hashCode() + id.length() + id.hashCode();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return storeId;
     }
 
     @Override
-    public int compareTo(DmoStoreId other)
-    {
+    public int compareTo(DmoStoreId other) {
         int compare = this.namespace.compareTo(other.namespace);
-        if (compare == 0)
-        {
+        if (compare == 0) {
             compare = this.id.compareTo(other.id);
         }
         return compare;

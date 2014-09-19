@@ -7,8 +7,7 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class WicketCommonTestBase implements Serializable
-{
+public abstract class WicketCommonTestBase implements Serializable {
     private static final long serialVersionUID = 7303398653319815055L;
 
     private static Logger logger = LoggerFactory.getLogger(WicketCommonTestBase.class);
@@ -18,13 +17,10 @@ public abstract class WicketCommonTestBase implements Serializable
     protected CommonWicketTester tester;
 
     @Before
-    public void before()
-    {
-        application = new CommonWicketApplication()
-        {
+    public void before() {
+        application = new CommonWicketApplication() {
             @Override
-            public Class<? extends Page> getHomePage()
-            {
+            public Class<? extends Page> getHomePage() {
                 return HomeTestPage.class;
             }
         };

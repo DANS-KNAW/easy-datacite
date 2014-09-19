@@ -16,8 +16,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.joda.time.DateTime;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<PermissionSequence> implements PermissionSequence
-{
+public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<PermissionSequence> implements PermissionSequence {
 
     private static final long serialVersionUID = 1826412349612885182L;
 
@@ -38,114 +37,92 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     private List<PermissionConversation> backLog = new ArrayList<PermissionConversation>();
 
     @SuppressWarnings("unused")
-    private PermissionSequenceImpl()
-    {
+    private PermissionSequenceImpl() {
         requesterId = null;
     }
 
-    public PermissionSequenceImpl(EasyUser requester)
-    {
+    public PermissionSequenceImpl(EasyUser requester) {
         this.requesterId = requester.getId();
         this.requester = requester;
     }
 
     /** only use for migration **/
-    public PermissionSequenceImpl(String requesterId)
-    {
+    public PermissionSequenceImpl(String requesterId) {
         this.requesterId = requesterId;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state;
     }
 
-    public void setState(State state)
-    {
-        if (evaluateDirty(this.state, state))
-        {
+    public void setState(State state) {
+        if (evaluateDirty(this.state, state)) {
             stateLastModified = new DateTime();
         }
         this.state = state;
     }
 
-    public DateTime getLastStateChange()
-    {
+    public DateTime getLastStateChange() {
         return stateLastModified;
     }
 
-    public boolean isAcceptingConditionsOfUse()
-    {
+    public boolean isAcceptingConditionsOfUse() {
         return acceptConditionsOfUse;
     }
 
-    public void setAcceptingConditionsOfUse(boolean acceptingConditionsOfUse)
-    {
+    public void setAcceptingConditionsOfUse(boolean acceptingConditionsOfUse) {
         this.acceptConditionsOfUse = acceptingConditionsOfUse;
     }
 
-    public String getRequesterId()
-    {
+    public String getRequesterId() {
         return requesterId;
     }
 
-    public EasyUser getRequester()
-    {
-        if (requester == null && requesterId != null)
-        {
+    public EasyUser getRequester() {
+        if (requester == null && requesterId != null) {
             requester = RepoAccess.getDelegator().getUser(requesterId);
         }
         return requester;
     }
 
-    public String getRequestTitle()
-    {
+    public String getRequestTitle() {
         return requestTitle;
     }
 
-    public void setRequestTitle(String requestTitle)
-    {
+    public void setRequestTitle(String requestTitle) {
         this.requestTitle = requestTitle;
 
     }
 
-    public String getRequestTheme()
-    {
+    public String getRequestTheme() {
         return requestTheme;
     }
 
-    public void setRequestTheme(String requestTheme)
-    {
+    public void setRequestTheme(String requestTheme) {
         this.requestTheme = requestTheme;
     }
 
-    public String getReplyText()
-    {
+    public String getReplyText() {
         return replyText;
     }
 
-    public void setReplyText(String replyText)
-    {
+    public void setReplyText(String replyText) {
         this.replyText = replyText;
     }
 
-    public DateTime getLastRequestDate()
-    {
+    public DateTime getLastRequestDate() {
         return lastRequestDate;
     }
 
-    public DateTime getLastReplyDate()
-    {
+    public DateTime getLastReplyDate() {
         return lastReplyDate;
     }
 
-    public boolean isGranted()
-    {
+    public boolean isGranted() {
         return State.Granted.equals(state);
     }
 
-    public PermissionRequestSearchInfo getSearchInfo()
-    {
+    public PermissionRequestSearchInfo getSearchInfo() {
         PermissionRequestSearchInfo result = new PermissionRequestSearchInfo();
         result.setRequesterId(requesterId);
         result.setState(state);
@@ -153,8 +130,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         return result;
     }
 
-    public PermissionRequestModel getRequestModel()
-    {
+    public PermissionRequestModel getRequestModel() {
         PermissionRequestModel request = new PermissionRequestModel();
         request.setAcceptingConditionsOfUse(acceptConditionsOfUse);
         request.setRequestTheme(requestTheme);
@@ -162,16 +138,14 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         return request;
     }
 
-    public PermissionReplyModel getReplyModel()
-    {
+    public PermissionReplyModel getReplyModel() {
         PermissionReplyModel reply = new PermissionReplyModel(requesterId);
         reply.setExplanation(replyText);
         reply.setState(state);
         return reply;
     }
 
-    public void updateRequest(PermissionRequestModel request)
-    {
+    public void updateRequest(PermissionRequestModel request) {
         logCurrentRequest();
         setAcceptingConditionsOfUse(request.isAcceptingConditionsOfUse());
         setRequestTitle(request.getRequestTitle());
@@ -181,10 +155,8 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         setState(State.Submitted);
     }
 
-    public void updateReply(PermissionReplyModel reply)
-    {
-        if (!requesterId.equals(reply.getRequesterId()))
-        {
+    public void updateReply(PermissionReplyModel reply) {
+        if (!requesterId.equals(reply.getRequesterId())) {
             throw new IllegalArgumentException("The reply model with requesterId " + reply.getRequesterId()
                     + " does not belong to the sequence with requesterId " + requesterId);
         }
@@ -194,15 +166,12 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         lastReplyDate = new DateTime();
     }
 
-    public List<PermissionConversation> getBackLog()
-    {
+    public List<PermissionConversation> getBackLog() {
         return backLog;
     }
 
-    private void logCurrentRequest()
-    {
-        if (lastRequestDate != null)
-        {
+    private void logCurrentRequest() {
+        if (lastRequestDate != null) {
             PermissionConversationImpl conversation = new PermissionConversationImpl(Type.REQUEST);
             conversation.setDate(lastRequestDate);
             conversation.setRequestTitle(requestTitle);
@@ -212,10 +181,8 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         }
     }
 
-    private void logCurrentReply()
-    {
-        if (lastReplyDate != null)
-        {
+    private void logCurrentReply() {
+        if (lastReplyDate != null) {
             PermissionConversationImpl conversation = new PermissionConversationImpl(Type.REPLY);
             conversation.setDate(lastReplyDate);
             conversation.setReplyText(replyText);
@@ -227,8 +194,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     /**
      * @see java.lang.Object#hashCode()
      */
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(-1670986549, 382131205).appendSuper(super.hashCode()).append(this.stateLastModified).append(this.requestTheme)
                 .append(this.lastReplyDate).append(this.backLog).append(this.requesterId).append(this.lastRequestDate).append(this.acceptConditionsOfUse)
                 .append(this.state).append(this.replyText).append(this.requestTitle).toHashCode();
@@ -236,12 +202,10 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
 
     // only use for Migration!!
     // TODO remove method after migration.
-    public void stripDates()
-    {
+    public void stripDates() {
         lastReplyDate = null;
         lastRequestDate = null;
-        for (PermissionConversation pc : backLog)
-        {
+        for (PermissionConversation pc : backLog) {
             ((PermissionConversationImpl) pc).setDate(null);
         }
     }

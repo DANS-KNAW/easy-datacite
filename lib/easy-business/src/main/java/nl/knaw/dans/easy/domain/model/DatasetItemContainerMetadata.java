@@ -6,8 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
-public interface DatasetItemContainerMetadata extends DatasetItemMetadata
-{
+public interface DatasetItemContainerMetadata extends DatasetItemMetadata {
 
     String UNIT_ID = "EASY_ITEM_CONTAINER_MD";
 

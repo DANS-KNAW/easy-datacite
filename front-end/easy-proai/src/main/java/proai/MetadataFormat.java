@@ -1,7 +1,6 @@
 package proai;
 
-public interface MetadataFormat
-{
+public interface MetadataFormat {
 
     public String getPrefix();
 

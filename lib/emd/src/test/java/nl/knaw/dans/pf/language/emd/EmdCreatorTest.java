@@ -11,11 +11,9 @@ import org.junit.Test;
 
 // ecco: CHECKSTYLE: OFF
 
-public class EmdCreatorTest
-{
+public class EmdCreatorTest {
     @Test
-    public void testToStringWithSeparator()
-    {
+    public void testToStringWithSeparator() {
         EmdCreator emdc = new EmdCreator();
         Assert.assertEquals("", emdc.toString("foo"));
 
@@ -36,8 +34,7 @@ public class EmdCreatorTest
     }
 
     @Test
-    public void testIsEmpty()
-    {
+    public void testIsEmpty() {
         List<?> list = new LinkedList<Object>();
         Assert.assertTrue(list.isEmpty());
         Assert.assertTrue(list.add(null));

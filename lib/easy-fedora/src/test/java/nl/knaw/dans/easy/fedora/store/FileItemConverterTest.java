@@ -19,8 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileItemConverterTest
-{
+public class FileItemConverterTest {
     private static final Logger logger = LoggerFactory.getLogger(FileItemConverterTest.class);
 
     private boolean verbose = Tester.isVerbose();

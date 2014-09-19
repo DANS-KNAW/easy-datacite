@@ -16,8 +16,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco May 5, 2009
  */
-public class JiBXWebResource extends WebResource
-{
+public class JiBXWebResource extends WebResource {
 
     public static final int INDENT = 4;
     public static final String CONTENT_TYPE = "text/xml";
@@ -37,24 +36,20 @@ public class JiBXWebResource extends WebResource
      * @param title
      *        title for the resource, without extension
      */
-    public JiBXWebResource(XMLBean xmlBean, String title)
-    {
+    public JiBXWebResource(XMLBean xmlBean, String title) {
         this.xmlBean = xmlBean;
         this.title = title;
         setCacheable(false);
     }
 
     @Override
-    public IResourceStream getResourceStream()
-    {
+    public IResourceStream getResourceStream() {
         StringResourceStream resourceStream = null;
-        try
-        {
+        try {
             String xml = xmlBean.asXMLString(INDENT);
             resourceStream = new StringResourceStream(xml, CONTENT_TYPE);
         }
-        catch (XMLSerializationException e)
-        {
+        catch (XMLSerializationException e) {
             logger.error("Could not stream " + xmlBean.getClass() + ": ", e);
             String errorMessage = "<error>" + e.toString() + "</error>";
             resourceStream = new StringResourceStream(errorMessage, CONTENT_TYPE);
@@ -64,8 +59,7 @@ public class JiBXWebResource extends WebResource
     }
 
     @Override
-    protected void setHeaders(WebResponse response)
-    {
+    protected void setHeaders(WebResponse response) {
         super.setHeaders(response);
         response.setAttachmentHeader(title + EXTENSION);
     }

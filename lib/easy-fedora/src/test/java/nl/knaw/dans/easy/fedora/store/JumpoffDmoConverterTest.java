@@ -14,8 +14,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JumpoffDmoConverterTest
-{
+public class JumpoffDmoConverterTest {
 
     private boolean verbose = Tester.isVerbose();
     private JumpoffDmoConverter converter = new JumpoffDmoConverter(null);
@@ -28,14 +27,12 @@ public class JumpoffDmoConverterTest
     private static final Logger logger = LoggerFactory.getLogger(JumpoffDmoConverterTest.class);
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         new BeanFactory(new JiBXBeanFactoryDelegator());
     }
 
     @Test
-    public void convertWithFileContent() throws Exception
-    {
+    public void convertWithFileContent() throws Exception {
         JumpoffDmo joDmo = new JumpoffDmo("dans-jumpoff:joDmo-test", null);
         MarkupUnit markup = joDmo.getHtmlMarkup();
         markup.setHtml(html);
@@ -54,8 +51,7 @@ public class JumpoffDmoConverterTest
     }
 
     @Test
-    public void convertWithBinaryContent() throws Exception
-    {
+    public void convertWithBinaryContent() throws Exception {
         JumpoffDmo joDmo = new JumpoffDmo("dans-jumpoff:joDmo-test", null);
         MarkupUnit markup = joDmo.getHtmlMarkup();
         markup.setHtml(html);

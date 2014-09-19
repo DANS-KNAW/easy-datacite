@@ -38,11 +38,10 @@ import org.dom4j.Element;
  * Service for items.
  * <p/>
  * WARNING <br/>
- * As some of the processes that can be initiated through services offered by this service affect
- * multiple objects, beware of stale objects in the presentation layer.
+ * As some of the processes that can be initiated through services offered by this service affect multiple objects, beware of stale objects in the presentation
+ * layer.
  */
-public interface ItemService extends EasyService
-{
+public interface ItemService extends EasyService {
     FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
@@ -62,21 +61,17 @@ public interface ItemService extends EasyService
             ServiceException;
 
     /**
-     * Add the contents of the given directory <code>rootFile</code> as {@link FolderItem}s and
-     * {@link FileItem}s to the {@link DatasetItemContainer} with the given <code>parentId</code>. This
-     * process can be used to ingest or to update a folder/file-structure.
+     * Add the contents of the given directory <code>rootFile</code> as {@link FolderItem}s and {@link FileItem}s to the {@link DatasetItemContainer} with the
+     * given <code>parentId</code>. This process can be used to ingest or to update a folder/file-structure.
      * <p/>
-     * If updating, the name of files and folders that are to be added, serve as identifier. If an Item
-     * with an identical name already exist under the same ItemContainer, the item is updated. If not, it
-     * is ingested. Note: If an existing FolderItem with name 'X' during an update is replaced by a file
-     * (not a directory) with name 'X' (or vice versa) a ServiceException will be thrown.
+     * If updating, the name of files and folders that are to be added, serve as identifier. If an Item with an identical name already exist under the same
+     * ItemContainer, the item is updated. If not, it is ingested. Note: If an existing FolderItem with name 'X' during an update is replaced by a file (not a
+     * directory) with name 'X' (or vice versa) a ServiceException will be thrown.
      * <p/>
-     * The given {@link WorkListener} can stop the ongoing process by returning <code>true</code> upon
-     * one of it's method calls. If so, a roll back is performed. Roll back only affects newly ingested
-     * files and folders.
+     * The given {@link WorkListener} can stop the ongoing process by returning <code>true</code> upon one of it's method calls. If so, a roll back is
+     * performed. Roll back only affects newly ingested files and folders.
      * <p/>
-     * Note that {@link DataModelObject}s that live elsewhere, and who's state is affected by this
-     * transaction will become stale.
+     * Note that {@link DataModelObject}s that live elsewhere, and who's state is affected by this transaction will become stale.
      * <p/>
      * If <code>parentId == null</code> the given dataset will be the parent.
      * 
@@ -103,8 +98,7 @@ public interface ItemService extends EasyService
             WorkListener... workListeners) throws ServiceException;
 
     /**
-     * Update the objects listed in sidList to the state specified in updateInfo, using the given
-     * itemFilters to filter affected items.
+     * Update the objects listed in sidList to the state specified in updateInfo, using the given itemFilters to filter affected items.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -125,9 +119,8 @@ public interface ItemService extends EasyService
             WorkListener... workListeners) throws ServiceException;
 
     /**
-     * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList
-     * contains sections of {@link ResourceMetadata} identified with the fileItemId or the relative path
-     * within the dataset.
+     * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList contains sections of {@link ResourceMetadata} identified
+     * with the fileItemId or the relative path within the dataset.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -146,9 +139,8 @@ public interface ItemService extends EasyService
             throws ServiceException;
 
     /**
-     * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList
-     * contains sections of {@link ResourceMetadata} identified with the fileItemId or the relative path
-     * within the dataset.
+     * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList contains sections of {@link ResourceMetadata} identified
+     * with the fileItemId or the relative path within the dataset.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -167,9 +159,8 @@ public interface ItemService extends EasyService
             WorkListener... workListeners) throws ServiceException;
 
     /**
-     * Gets a list of files from a folder or dataset (based on parentSid). Folders are listed first, the
-     * files after, unless sorting is applied to a field that both items (folder and file) have. Paging,
-     * filtering and ordering is applied optionally.
+     * Gets a list of files from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field that
+     * both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param sessionUser
      * @param dataset
@@ -190,9 +181,8 @@ public interface ItemService extends EasyService
             ItemFilters filters) throws ServiceException;
 
     /**
-     * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first,
-     * the files after, unless sorting is applied to a field that both items (folder and file) have.
-     * Paging, filtering and ordering is applied optionally.
+     * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field
+     * that both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param sessionUser
      * @param dataset
@@ -213,9 +203,8 @@ public interface ItemService extends EasyService
             ItemFilters filters) throws ServiceException;
 
     /**
-     * Gets a list of files and folders from a folder or dataset (based on parentSid). Folders are listed
-     * first, the files after, unless sorting is applied to a field that both items (folder and file)
-     * have. Paging, filtering and ordering is applied optionally.
+     * Gets a list of files and folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a
+     * field that both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param parentSid
      *        the system id of the parent object

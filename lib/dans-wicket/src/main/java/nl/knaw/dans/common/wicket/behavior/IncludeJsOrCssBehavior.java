@@ -7,11 +7,9 @@ import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 
 /**
  * <p>
- * Behavior that adds an included css or JS resource to component (e.g., a page). The scope is a class in
- * the same package as where the resource resides. Typically, the scope is the class object of a wicket
- * page or panel and the resource is CSS- or JavaScript file that is included in the source code in the
- * same package as the class. The HTML-template of the class can then refer to the resource without a
- * prefixed path.
+ * Behavior that adds an included css or JS resource to component (e.g., a page). The scope is a class in the same package as where the resource resides.
+ * Typically, the scope is the class object of a wicket page or panel and the resource is CSS- or JavaScript file that is included in the source code in the
+ * same package as the class. The HTML-template of the class can then refer to the resource without a prefixed path.
  * </p>
  * <p>
  * Example:
@@ -34,16 +32,13 @@ import org.apache.wicket.markup.html.resources.CompressedResourceReference;
  *      &lt;-- etc --&gt;
  * </pre>
  */
-public class IncludeJsOrCssBehavior extends AbstractBehavior
-{
+public class IncludeJsOrCssBehavior extends AbstractBehavior {
     private static final long serialVersionUID = 5261628952131156563L;
     private final Class<?> scope;
     private final String resource;
 
-    public IncludeJsOrCssBehavior(Class<?> scope, String resource)
-    {
-        if (!resource.endsWith(".js") && !resource.endsWith(".css"))
-        {
+    public IncludeJsOrCssBehavior(Class<?> scope, String resource) {
+        if (!resource.endsWith(".js") && !resource.endsWith(".css")) {
             throw new IllegalArgumentException("Only JavaScript or CSS resources can be rendered");
         }
 
@@ -52,19 +47,13 @@ public class IncludeJsOrCssBehavior extends AbstractBehavior
     }
 
     @Override
-    public void renderHead(IHeaderResponse response)
-    {
+    public void renderHead(IHeaderResponse response) {
         final ResourceReference ref = new CompressedResourceReference(scope, resource);
-        if (resource.endsWith(".js"))
-        {
+        if (resource.endsWith(".js")) {
             response.renderJavascriptReference(ref);
-        }
-        else if (resource.endsWith(".css"))
-        {
+        } else if (resource.endsWith(".css")) {
             response.renderCSSReference(ref);
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("Only know how to render JavaScript or CSS references");
         }
     }

@@ -10,25 +10,20 @@ import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 
-public class ArchaeologyFormatValidator implements Validator
-{
+public class ArchaeologyFormatValidator implements Validator {
 
     private static ArchaeologyFormatValidator INSTANCE;
 
     private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
 
-    private ArchaeologyFormatValidator()
-    {
+    private ArchaeologyFormatValidator() {
         VALIDATORS.add(new EasSpatialValidator());
         VALIDATORS.add(new RightsValidator(EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId()));
     }
 
-    public static ArchaeologyFormatValidator instance()
-    {
-        synchronized (VALIDATORS)
-        {
-            if (INSTANCE == null)
-            {
+    public static ArchaeologyFormatValidator instance() {
+        synchronized (VALIDATORS) {
+            if (INSTANCE == null) {
                 INSTANCE = new ArchaeologyFormatValidator();
             }
         }
@@ -36,10 +31,8 @@ public class ArchaeologyFormatValidator implements Validator
     }
 
     @Override
-    public void validate(EasyMetadata emd, ValidationReporter reporter)
-    {
-        for (Validator validator : VALIDATORS)
-        {
+    public void validate(EasyMetadata emd, ValidationReporter reporter) {
+        for (Validator validator : VALIDATORS) {
             validator.validate(emd, reporter);
         }
     }

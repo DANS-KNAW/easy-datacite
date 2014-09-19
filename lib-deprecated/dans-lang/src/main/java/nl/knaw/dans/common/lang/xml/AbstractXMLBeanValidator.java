@@ -6,16 +6,14 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * Abstract XMLValidator for XMLBeans and their serialized manifestations. Implementations of this
- * abstract class should present themselves as Singleton in order to make economic use of resources (the
- * internal versionMap is not static!).
+ * Abstract XMLValidator for XMLBeans and their serialized manifestations. Implementations of this abstract class should present themselves as Singleton in
+ * order to make economic use of resources (the internal versionMap is not static!).
  * 
  * @author ecco Apr 8, 2009
  * @param <T>
  *        object that is subject of validation
  */
-public abstract class AbstractXMLBeanValidator<T extends XMLBean> extends AbstractValidator
-{
+public abstract class AbstractXMLBeanValidator<T extends XMLBean> extends AbstractValidator {
 
     /**
      * Validate the given XMLBean against the schema of its version.
@@ -30,8 +28,7 @@ public abstract class AbstractXMLBeanValidator<T extends XMLBean> extends Abstra
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public XMLErrorHandler validate(final T bean) throws XMLException, SAXException, SchemaCreationException
-    {
+    public XMLErrorHandler validate(final T bean) throws XMLException, SAXException, SchemaCreationException {
         final InputStream xmlStream = bean.asXMLInputStream(0);
         return validate(xmlStream, bean.getVersion());
     }
@@ -50,8 +47,7 @@ public abstract class AbstractXMLBeanValidator<T extends XMLBean> extends Abstra
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public void validate(final ErrorHandler handler, final T bean) throws XMLException, SAXException, SchemaCreationException
-    {
+    public void validate(final ErrorHandler handler, final T bean) throws XMLException, SAXException, SchemaCreationException {
         final InputStream xmlStream = bean.asXMLInputStream(0);
         validate(handler, xmlStream, bean.getVersion());
     }

@@ -10,8 +10,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.joda.time.DateTime;
 
-public interface AdministrativeMetadata extends MetadataUnitXMLBean
-{
+public interface AdministrativeMetadata extends MetadataUnitXMLBean {
     String UNIT_ID = "AMD";
 
     String UNIT_LABEL = "Administrative metadata for this dataset";

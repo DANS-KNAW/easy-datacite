@@ -15,18 +15,15 @@ import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyDepositServiceTest extends TestHelper
-{
+public class EasyDepositServiceTest extends TestHelper {
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         before(EasyDepositServiceTest.class);
     }
 
     @Test
-    public void loadFormDescriptions() throws ServiceException, JiBXException
-    {
+    public void loadFormDescriptions() throws ServiceException, JiBXException {
         startOfTest("loadFormDescriptions");
         EasyDepositService eds = new EasyDepositService();
         eds.loadFormDescriptors();
@@ -45,8 +42,7 @@ public class EasyDepositServiceTest extends TestHelper
     }
 
     @Test(expected = ServiceException.class)
-    public void getUnknownDiscipline() throws ServiceException
-    {
+    public void getUnknownDiscipline() throws ServiceException {
         startOfTest("getUnknownDiscipline");
         DepositService eds = new EasyDepositService();
         eds.getDiscipline("foo");

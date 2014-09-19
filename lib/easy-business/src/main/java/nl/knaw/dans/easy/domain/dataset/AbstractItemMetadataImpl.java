@@ -6,8 +6,7 @@ import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.model.DatasetItemMetadata;
 
-public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> extends AbstractTimestampedJiBXObject<T> implements DatasetItemMetadata
-{
+public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> extends AbstractTimestampedJiBXObject<T> implements DatasetItemMetadata {
 
     private static final long serialVersionUID = -8632210202402645510L;
 
@@ -19,118 +18,98 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
 
     private boolean versionable;
 
-    protected AbstractItemMetadataImpl()
-    {
+    protected AbstractItemMetadataImpl() {
 
     }
 
-    public AbstractItemMetadataImpl(DmoStoreId dmoStoreId)
-    {
+    public AbstractItemMetadataImpl(DmoStoreId dmoStoreId) {
         this.dmoStoreId = dmoStoreId;
     }
 
-    public DmoStoreId getDmoStoreId()
-    {
+    public DmoStoreId getDmoStoreId() {
         return dmoStoreId;
     }
 
-    public void setDmoStoreId(DmoStoreId sid)
-    {
+    public void setDmoStoreId(DmoStoreId sid) {
         evaluateDirty(sid, this.dmoStoreId);
         this.dmoStoreId = sid;
     }
 
-    public DmoStoreId getParentDmoStoreId()
-    {
+    public DmoStoreId getParentDmoStoreId() {
         return parentDmoStoreId;
     }
 
-    public void setParentDmoStoreId(DmoStoreId parentSid)
-    {
+    public void setParentDmoStoreId(DmoStoreId parentSid) {
         evaluateDirty(parentSid, this.parentDmoStoreId);
         this.parentDmoStoreId = parentSid;
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(String path)
-    {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    public DmoStoreId getDatasetDmoStoreId()
-    {
+    public DmoStoreId getDatasetDmoStoreId() {
         return datasetDmoStoreId;
     }
 
-    public void setDatasetDmoStoreId(DmoStoreId datasetId)
-    {
+    public void setDatasetDmoStoreId(DmoStoreId datasetId) {
         evaluateDirty(datasetId, this.datasetDmoStoreId);
         this.datasetDmoStoreId = datasetId;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    protected void setName(String name)
-    {
+    protected void setName(String name) {
         evaluateDirty(name, this.name);
         this.name = name;
         if (path == null)
             path = name;
     }
 
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return versionable;
     }
 
-    public void setVersionable(boolean versionable)
-    {
+    public void setVersionable(boolean versionable) {
         this.versionable = versionable;
     }
 
     // methods for JiBX-serialization
-    protected void setSid(String sid)
-    {
+    protected void setSid(String sid) {
         if (!StringUtils.isBlank(sid))
             dmoStoreId = new DmoStoreId(sid);
     }
 
     // methods for JiBX-serialization
-    protected String getSid()
-    {
+    protected String getSid() {
         return dmoStoreId == null ? "" : dmoStoreId.getStoreId();
     }
 
     // methods for JiBX-serialization
-    protected void setParentSid(String parentSid)
-    {
+    protected void setParentSid(String parentSid) {
         if (!StringUtils.isBlank(parentSid))
             this.parentDmoStoreId = new DmoStoreId(parentSid);
     }
 
     // methods for JiBX-serialization
-    protected String getParentSid()
-    {
+    protected String getParentSid() {
         return parentDmoStoreId == null ? null : parentDmoStoreId.getStoreId();
     }
 
     // methods for JiBX-serialization
-    protected void setDatasetSid(String datasetSid)
-    {
+    protected void setDatasetSid(String datasetSid) {
         if (!StringUtils.isBlank(datasetSid))
             this.datasetDmoStoreId = new DmoStoreId(datasetSid);
     }
 
     // methods for JiBX-serialization
-    protected String getDatasetSid()
-    {
+    protected String getDatasetSid() {
         return datasetDmoStoreId == null ? null : datasetDmoStoreId.getStoreId();
     }
 

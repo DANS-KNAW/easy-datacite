@@ -7,8 +7,7 @@ import java.util.List;
  * 
  * @author ecco Aug 1, 2009
  */
-public class Not implements SecurityOfficer
-{
+public class Not implements SecurityOfficer {
 
     private final SecurityOfficer a;
 
@@ -24,43 +23,36 @@ public class Not implements SecurityOfficer
      * @param a
      *        SecurityOfficer a
      */
-    public Not(SecurityOfficer a)
-    {
+    public Not(SecurityOfficer a) {
         this.a = a;
     }
 
-    public String getProposition()
-    {
+    public String getProposition() {
         StringBuilder sb = new StringBuilder("NOT(");
         sb.append(a.getProposition());
         sb.append(")");
         return sb.toString();
     }
 
-    public boolean isComponentVisible(ContextParameters ctxParameters)
-    {
+    public boolean isComponentVisible(ContextParameters ctxParameters) {
         return !a.isComponentVisible(ctxParameters);
     }
 
-    public boolean isEnableAllowed(ContextParameters ctxParameters)
-    {
+    public boolean isEnableAllowed(ContextParameters ctxParameters) {
         return !a.isEnableAllowed(ctxParameters);
     }
 
-    public String explainEnableAllowed(ContextParameters ctxParameters)
-    {
+    public String explainEnableAllowed(ContextParameters ctxParameters) {
         return new StringBuilder().append(a.explainEnableAllowed(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = !")
                 .append(ctxParameters.charFor(a)).append(" --> ").append(isEnableAllowed(ctxParameters)).append("\n").toString();
     }
 
-    public String explainComponentVisible(ContextParameters ctxParameters)
-    {
+    public String explainComponentVisible(ContextParameters ctxParameters) {
         return new StringBuilder().append(a.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = !")
                 .append(ctxParameters.charFor(a)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n").toString();
     }
 
-    public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-    {
+    public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
         return !a.getHints(ctxParameters, hints);
     }
 }

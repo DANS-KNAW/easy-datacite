@@ -5,8 +5,7 @@ package nl.knaw.dans.common.lang.util;
  * <p>
  * This class is used to encode and decode data in Base64 format as described in RFC 1521.
  * <p>
- * This is "Open Source" software and released under the <a
- * href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a> license.<br>
+ * This is "Open Source" software and released under the <a href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a> license.<br>
  * It is provided "as is" without warranty of any kind.<br>
  * Copyright 2003: Christian d'Heureuse, Inventec Informatik AG, Switzerland.<br>
  * Home page: <a href="http://www.source-code.biz">www.source-code.biz</a><br>
@@ -21,15 +20,13 @@ package nl.knaw.dans.common.lang.util;
  * &nbsp; New method decode(String) added.<br>
  */
 
-public class Base64Coder
-{
+public class Base64Coder {
 
     // Mapping table from 6-bit nibbles to Base64 characters.
 
     protected static char[] map1 = new char[64];
 
-    static
-    {
+    static {
 
         int i = 0;
 
@@ -50,8 +47,7 @@ public class Base64Coder
 
     protected static byte[] map2 = new byte[128];
 
-    static
-    {
+    static {
 
         for (int i = 0; i < map2.length; i++)
             map2[i] = -1;
@@ -68,8 +64,7 @@ public class Base64Coder
      * @return A String with the Base64 encoded data.
      */
 
-    public static String encodeString(String s)
-    {
+    public static String encodeString(String s) {
         return new String(encode(s.getBytes()));
     }
 
@@ -81,8 +76,7 @@ public class Base64Coder
      * @return A character array with the Base64 encoded data.
      */
 
-    public static char[] encode(byte[] in)
-    {
+    public static char[] encode(byte[] in) {
         return encode(in, in.length);
     }
 
@@ -96,8 +90,7 @@ public class Base64Coder
      * @return A character array with the Base64 encoded data.
      */
 
-    public static char[] encode(byte[] in, int iLen)
-    {
+    public static char[] encode(byte[] in, int iLen) {
         int oDataLen = (iLen * 4 + 2) / 3; // output length without padding
 
         int oLen = ((iLen + 2) / 3) * 4; // output length including padding
@@ -108,8 +101,7 @@ public class Base64Coder
 
         int op = 0;
 
-        while (ip < iLen)
-        {
+        while (ip < iLen) {
             int i0 = in[ip++] & 0xff;
 
             int i1 = ip < iLen ? in[ip++] & 0xff : 0;
@@ -148,8 +140,7 @@ public class Base64Coder
      *         if the input is not valid Base64 encoded data.
      */
 
-    public static String decodeString(String s)
-    {
+    public static String decodeString(String s) {
         return new String(decode(s));
     }
 
@@ -163,14 +154,12 @@ public class Base64Coder
      *         if the input is not valid Base64 encoded data.
      */
 
-    public static byte[] decode(String s)
-    {
+    public static byte[] decode(String s) {
         return decode(s.toCharArray());
     }
 
     /**
-     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64
-     * encoded data.
+     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded data.
      * 
      * @param in
      *        a character array containing the Base64 encoded data.
@@ -179,8 +168,7 @@ public class Base64Coder
      *         if the input is not valid Base64 encoded data.
      */
 
-    public static byte[] decode(char[] in)
-    {
+    public static byte[] decode(char[] in) {
         int iLen = in.length;
 
         if (iLen % 4 != 0)
@@ -197,8 +185,7 @@ public class Base64Coder
 
         int op = 0;
 
-        while (ip < iLen)
-        {
+        while (ip < iLen) {
 
             int i0 = in[ip++];
 
@@ -244,8 +231,6 @@ public class Base64Coder
 
     // Dummy constructor.
 
-    private Base64Coder()
-    {
-    }
+    private Base64Coder() {}
 
 }

@@ -16,8 +16,7 @@ import nl.knaw.dans.common.lang.repo.bean.JumpoffDmoMetadata;
 import nl.knaw.dans.common.lang.repo.bean.JumpoffDmoMetadata.MarkupVersionID;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 
-public class JumpoffDmo extends AbstractDataModelObject
-{
+public class JumpoffDmo extends AbstractDataModelObject {
 
     public static final DmoNamespace NAMESPACE = new DmoNamespace("dans-jumpoff");
     public static final String UNIT_ID_PAGE = "JUMPOFF_PAGE";
@@ -39,96 +38,78 @@ public class JumpoffDmo extends AbstractDataModelObject
     /**
      * Only use for deserialization.
      */
-    public JumpoffDmo()
-    {
+    public JumpoffDmo() {
         super();
     }
 
-    public JumpoffDmo(String storeId)
-    {
+    public JumpoffDmo(String storeId) {
         super(storeId);
     }
 
-    public JumpoffDmo(String storeId, String objectId)
-    {
+    public JumpoffDmo(String storeId, String objectId) {
         super(storeId);
         this.objectId = objectId;
     }
 
-    public JumpoffDmo(DataModelObject targetDmo)
-    {
+    public JumpoffDmo(DataModelObject targetDmo) {
         super();
         this.objectId = targetDmo.getStoreId();
     }
 
-    public JumpoffDmoMetadata getJumpoffDmoMetadata()
-    {
-        if (jumpoffDmoMetadata == null)
-        {
+    public JumpoffDmoMetadata getJumpoffDmoMetadata() {
+        if (jumpoffDmoMetadata == null) {
             jumpoffDmoMetadata = BeanFactory.newJumpoffDmoMetadata();
         }
         return jumpoffDmoMetadata;
     }
 
-    public void setJumpoffDmoMetadata(JumpoffDmoMetadata jumpoffDmoMetadata)
-    {
+    public void setJumpoffDmoMetadata(JumpoffDmoMetadata jumpoffDmoMetadata) {
         this.jumpoffDmoMetadata = jumpoffDmoMetadata;
     }
 
-    public void toggleEditorMode()
-    {
+    public void toggleEditorMode() {
         getJumpoffDmoMetadata().toggleEditorMode();
     }
 
-    public boolean isInHtmlMode()
-    {
+    public boolean isInHtmlMode() {
         return getJumpoffDmoMetadata().isInHtmlMode();
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return true;
     }
 
-    public void addFile(File file)
-    {
+    public void addFile(File file) {
         JumpoffFile joFile = new JumpoffFile(file.getName().replaceAll(" ", "_"));
-        try
-        {
+        try {
             joFile.setFile(file);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         joFiles.add(joFile);
     }
 
     @Override
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> metadataUnits = super.getMetadataUnits();
         metadataUnits.add(getJumpoffDmoMetadata());
         return metadataUnits;
     }
 
     @Override
-    public List<BinaryUnit> getBinaryUnits()
-    {
+    public List<BinaryUnit> getBinaryUnits() {
         List<BinaryUnit> binaryUnits = super.getBinaryUnits();
         MarkupUnit htmlMU = getHtmlMarkup();
-        if (htmlMU.hasFile())
-        {
+        if (htmlMU.hasFile()) {
             binaryUnits.add(htmlMU);
         }
         MarkupUnit textMU = getTextMarkup();
-        if (textMU.hasFile())
-        {
+        if (textMU.hasFile()) {
             binaryUnits.add(textMU);
         }
         binaryUnits.addAll(joFiles);
@@ -136,69 +117,51 @@ public class JumpoffDmo extends AbstractDataModelObject
     }
 
     @Override
-    protected Relations newRelationsObject()
-    {
-        if (objectId == null)
-        {
+    protected Relations newRelationsObject() {
+        if (objectId == null) {
             return new JumpoffDmoRelations(this);
-        }
-        else
-        {
+        } else {
             return new JumpoffDmoRelations(this, objectId);
         }
     }
 
-    public String getObjectId()
-    {
-        if (objectId == null)
-        {
+    public String getObjectId() {
+        if (objectId == null) {
             JumpoffDmoRelations relations = (JumpoffDmoRelations) getRelations();
             return relations.getObjectId();
-        }
-        else
-        {
+        } else {
             return objectId;
         }
     }
 
-    public void setObjectId(String objectId)
-    {
+    public void setObjectId(String objectId) {
         this.objectId = objectId;
     }
 
-    public MarkupUnit getMarkupUnit()
-    {
-        if (MarkupVersionID.HTML_MU.equals(getJumpoffDmoMetadata().getDefaultMarkupVersionID()))
-        {
+    public MarkupUnit getMarkupUnit() {
+        if (MarkupVersionID.HTML_MU.equals(getJumpoffDmoMetadata().getDefaultMarkupVersionID())) {
             return getHtmlMarkup();
-        }
-        else
-        {
+        } else {
             return getTextMarkup();
         }
     }
 
-    public MarkupUnit getHtmlMarkup()
-    {
-        if (htmlMarkup == null)
-        {
+    public MarkupUnit getHtmlMarkup() {
+        if (htmlMarkup == null) {
             htmlMarkup = new MarkupUnit(UNIT_ID_HTML, LABEL_HTML);
         }
         return htmlMarkup;
     }
 
-    public MarkupUnit getTextMarkup()
-    {
-        if (textMarkup == null)
-        {
+    public MarkupUnit getTextMarkup() {
+        if (textMarkup == null) {
             textMarkup = new MarkupUnit(UNIT_ID_TEXT, LABEL_TEXT);
         }
         return textMarkup;
     }
 
     @Override
-    public boolean isInvalidated() throws RepositoryException
-    {
+    public boolean isInvalidated() throws RepositoryException {
         return false;
     }
 

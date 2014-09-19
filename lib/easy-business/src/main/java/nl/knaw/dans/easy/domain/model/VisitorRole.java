@@ -5,8 +5,7 @@ package nl.knaw.dans.easy.domain.model;
  * 
  * @author akmi
  */
-public enum VisitorRole
-{
+public enum VisitorRole {
     ARCHIVIST,
 
     DEPOSITOR,

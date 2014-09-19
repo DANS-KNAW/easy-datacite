@@ -35,27 +35,23 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Feb 6, 2009
  */
-public class LdapClientOnlineTest extends AbstractOnlineTest
-{
+public class LdapClientOnlineTest extends AbstractOnlineTest {
 
     private static LdapClient client;
 
     private static final Logger logger = LoggerFactory.getLogger(LdapClientOnlineTest.class);
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         client = getLdapClient();
     }
 
     @Test
-    public void logEnvironment() throws NamingException
-    {
+    public void logEnvironment() throws NamingException {
         DirContext ctx = client.getDirContextSupplier().getDirContext();
         Hashtable<?, ?> env = ctx.getEnvironment();
         StringBuilder sb = new StringBuilder(ctx + " environment:");
-        for (Entry<?, ?> entry : env.entrySet())
-        {
+        for (Entry<?, ?> entry : env.entrySet()) {
             sb.append("\n\t" + entry.getKey() + "=" + entry.getValue());
         }
         sb.append("\n\t-----------------------------------------------");
@@ -63,12 +59,10 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void listBindings() throws NamingException
-    {
+    public void listBindings() throws NamingException {
         NamingEnumeration<Binding> bindings = client.listBindings(Constants.DANS_CONTEXT);
         boolean testContextExists = false;
-        while (bindings.hasMore())
-        {
+        while (bindings.hasMore()) {
             String name = bindings.next().getName();
             testContextExists |= name.startsWith("ou=test");
         }
@@ -76,8 +70,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
 
         NamingEnumeration<Binding> easyBindings = client.listBindings(Constants.TEST_CONTEXT);
         boolean usersContextExists = false;
-        while (easyBindings.hasMore())
-        {
+        while (easyBindings.hasMore()) {
             String name = easyBindings.next().getName();
             usersContextExists |= name.startsWith("ou=users");
         }
@@ -85,8 +78,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void add_get_modify_delete() throws NameAlreadyBoundException, NamingException
-    {
+    public void add_get_modify_delete() throws NameAlreadyBoundException, NamingException {
         String subContext = Constants.TEST_USERS_CONTEXT;
         String rdn = "cn=common name of jan";
 
@@ -120,8 +112,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void search() throws NamingException
-    {
+    public void search() throws NamingException {
         String subContext = Constants.TEST_USERS_CONTEXT;
         String emailAddress = "jan.en.piet@foo.bar.com";
         String searchAddress = "Jan.en.Piet@FOO.BAR.com";
@@ -148,8 +139,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
 
         // and assert
         List<Object> list = new ArrayList<Object>();
-        while (resultEnum.hasMore())
-        {
+        while (resultEnum.hasMore()) {
             SearchResult result = resultEnum.next();
             Attributes attrs = result.getAttributes();
             Object obj = attrs.get("cn").get();
@@ -167,37 +157,30 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
     }
 
     @SuppressWarnings("unused")
-    private void printSearchResults(NamingEnumeration<SearchResult> resultEnum) throws NamingException
-    {
-        while (resultEnum.hasMore())
-        {
+    private void printSearchResults(NamingEnumeration<SearchResult> resultEnum) throws NamingException {
+        while (resultEnum.hasMore()) {
             SearchResult result = resultEnum.next();
             printSearchResult(result);
         }
     }
 
-    private void printSearchResult(SearchResult result) throws NamingException
-    {
+    private void printSearchResult(SearchResult result) throws NamingException {
         Attributes attrs = result.getAttributes();
         printAttributes(attrs);
     }
 
-    private void printAttributes(Attributes attrs) throws NamingException
-    {
+    private void printAttributes(Attributes attrs) throws NamingException {
         NamingEnumeration<? extends Attribute> attrEnum = attrs.getAll();
-        while (attrEnum.hasMore())
-        {
+        while (attrEnum.hasMore()) {
             Attribute attr = attrEnum.next();
-            for (int i = 0; i < attr.size(); i++)
-            {
+            for (int i = 0; i < attr.size(); i++) {
                 System.out.println(attr.getID() + "=" + attr.get(i));
             }
         }
     }
 
     @Test
-    public void authenticate() throws NamingException
-    {
+    public void authenticate() throws NamingException {
         String passSix = "secret42";
         String encryptedPassSix = passSix;
 
@@ -208,8 +191,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void authenticateOneWayEncrypted() throws NameAlreadyBoundException, NamingException, NoSuchAlgorithmException
-    {
+    public void authenticateOneWayEncrypted() throws NameAlreadyBoundException, NamingException, NoSuchAlgorithmException {
         String passSix = "secret42";
         String encryptedPassSix = hashPassword(passSix, "SHA");
 
@@ -267,20 +249,16 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         client.deleteEntry(rdnOne, subContext);
     }
 
-    private void deleteEntryIfExists(String rdn, String subContext) throws NamingException
-    {
-        try
-        {
+    private void deleteEntryIfExists(String rdn, String subContext) throws NamingException {
+        try {
             client.deleteEntry(rdn, subContext);
         }
-        catch (NameNotFoundException e)
-        {
+        catch (NameNotFoundException e) {
             //
         }
     }
 
-    private Attributes createUser(String uid, String pass, String cn, String sn)
-    {
+    private Attributes createUser(String uid, String pass, String cn, String sn) {
         Attributes attrs = new BasicAttributes();
         Attribute oc = new BasicAttribute("objectclass");
         oc.add("inetOrgPerson");
@@ -297,15 +275,13 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         return attrs;
     }
 
-    private Attributes createUser(String uid, String pass, String cn, String sn, String mail)
-    {
+    private Attributes createUser(String uid, String pass, String cn, String sn, String mail) {
         Attributes attrs = createUser(uid, pass, cn, sn);
         attrs.put("mail", mail);
         return attrs;
     }
 
-    private static String hashPassword(final String password, final String algorithm) throws NoSuchAlgorithmException
-    {
+    private static String hashPassword(final String password, final String algorithm) throws NoSuchAlgorithmException {
         // Calculate hash value
         MessageDigest md = MessageDigest.getInstance(algorithm);
         md.update(password.getBytes());

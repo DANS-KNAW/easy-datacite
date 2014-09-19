@@ -5,24 +5,20 @@ import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.model.FileItem;
 
-public class FileItemFactory extends AbstractDmoFactory<FileItem>
-{
+public class FileItemFactory extends AbstractDmoFactory<FileItem> {
 
     @Override
-    public FileItem newDmo() throws RepositoryException
-    {
+    public FileItem newDmo() throws RepositoryException {
         return createDmo(nextSid());
     }
 
     @Override
-    public FileItem createDmo(String storeId)
-    {
+    public FileItem createDmo(String storeId) {
         return new FileItemImpl(storeId);
     }
 
     @Override
-    public DmoNamespace getNamespace()
-    {
+    public DmoNamespace getNamespace() {
         return FileItem.NAMESPACE;
     }
 

@@ -33,14 +33,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings("unchecked")
-public class ThumbnailUtilTest
-{
+public class ThumbnailUtilTest {
     private ItemService itemServiceMock;
     private DatasetService datasetServiceMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         itemServiceMock = mock(ItemService.class);
         datasetServiceMock = mock(DatasetService.class);
 
@@ -50,14 +48,12 @@ public class ThumbnailUtilTest
     }
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new ThumbnailUtil();
     }
 
     @Test
-    public void isThumbnailFalse() throws ServiceException
-    {
+    public void isThumbnailFalse() throws ServiceException {
         when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ArrayList<ItemVO>());
 
         FileItemVO f = new FileItemVO();
@@ -68,8 +64,7 @@ public class ThumbnailUtilTest
     }
 
     @Test
-    public void isThumbnailTrue() throws ServiceException
-    {
+    public void isThumbnailTrue() throws ServiceException {
         ArrayList<ItemVO> items = new ArrayList<ItemVO>();
         FolderItemVO folder = new FolderItemVO();
         folder.setName(ThumbnailUtil.THUMBNAILS);
@@ -85,16 +80,14 @@ public class ThumbnailUtilTest
     }
 
     @Test
-    public void getThumbnailsEmpty() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getThumbnailsEmpty() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpMocks(new ArrayList<ItemVO>());
 
         String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(), "easy-dataset:1");
         assertEquals("<thumbnails></thumbnails>", xml);
     }
 
-    private void setUpMocks(List<ItemVO> returnList) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpMocks(List<ItemVO> returnList) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
         when(
@@ -103,8 +96,7 @@ public class ThumbnailUtilTest
     }
 
     @Test
-    public void getThumbnails() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getThumbnails() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpMocks(setUpReturnList());
 
         String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(), "easy-dataset:1");
@@ -112,8 +104,7 @@ public class ThumbnailUtilTest
         assertEquals("<thumbnails><sid>easy-file:1</sid></thumbnails>", xml);
     }
 
-    private ArrayList<ItemVO> setUpReturnList()
-    {
+    private ArrayList<ItemVO> setUpReturnList() {
         ArrayList<ItemVO> returnList = new ArrayList<ItemVO>();
         FolderItemVO folder = new FolderItemVO();
         folder.setName("thumbnails");

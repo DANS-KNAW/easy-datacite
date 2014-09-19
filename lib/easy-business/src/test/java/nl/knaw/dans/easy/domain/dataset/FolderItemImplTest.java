@@ -6,14 +6,12 @@ import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.Test;
 
-public class FolderItemImplTest
-{
+public class FolderItemImplTest {
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void dirtyChecking()
-    {
+    public void dirtyChecking() {
         if (verbose)
             Tester.printClassAndFieldHierarchy(FolderItemImpl.class);
 

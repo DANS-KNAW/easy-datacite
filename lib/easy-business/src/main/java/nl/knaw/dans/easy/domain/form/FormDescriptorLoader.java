@@ -13,8 +13,7 @@ import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FormDescriptorLoader
-{
+public class FormDescriptorLoader {
     public static final String FORM_DESCRIPTIONS_FULL_PATH = "easy-business/discipline/emd/form-description/";
     public static final String FORM_DESCRIPTIONS = "form-descriptions/";
 
@@ -23,27 +22,20 @@ public class FormDescriptorLoader
 
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptorLoader.class);
 
-    public static void loadFormDescriptors(Map<String, FormDescriptor> formDescriptorMap) throws ResourceNotFoundException
-    {
+    public static void loadFormDescriptors(Map<String, FormDescriptor> formDescriptorMap) throws ResourceNotFoundException {
         List<FormDescriptor> formDescriptorList;
-        try
-        {
+        try {
             formDescriptorList = loadDescriptors();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ResourceNotFoundException(e);
         }
 
         formDescriptorMap.clear();
-        for (FormDescriptor descriptor : formDescriptorList)
-        {
-            if (formDescriptorMap.get(descriptor.getId()) != null)
-            {
+        for (FormDescriptor descriptor : formDescriptorList) {
+            if (formDescriptorMap.get(descriptor.getId()) != null) {
                 logger.warn("The id FormDescription:" + descriptor.getId() + " is not unique!");
-            }
-            else
-            {
+            } else {
                 formDescriptorMap.put(descriptor.getId(), descriptor);
             }
         }
@@ -51,22 +43,16 @@ public class FormDescriptorLoader
         logger.info("Loaded " + formDescriptorMap.size() + " FormDescriptors");
     }
 
-    private static List<FormDescriptor> loadDescriptors() throws IOException, ResourceNotFoundException
-    {
+    private static List<FormDescriptor> loadDescriptors() throws IOException, ResourceNotFoundException {
         List<FormDescriptor> formDescriptorList = new ArrayList<FormDescriptor>();
-        for (String location : LOCATIONS)
-        {
+        for (String location : LOCATIONS) {
             URL url = FormDescriptorLoader.class.getResource(location);
-            if (url == null)
-            {
+            if (url == null) {
                 final String msg = "Could not load FormDescription at " + location;
                 logger.error(msg);
-            }
-            else
-            {
+            } else {
                 FormDescriptor formDescriptor = loadDescription(url);
-                if (formDescriptor != null)
-                {
+                if (formDescriptor != null) {
                     formDescriptorList.add(formDescriptor);
                 }
             }
@@ -74,16 +60,13 @@ public class FormDescriptorLoader
         return formDescriptorList;
     }
 
-    private static FormDescriptor loadDescription(URL url) throws IOException
-    {
+    private static FormDescriptor loadDescription(URL url) throws IOException {
         FormDescriptor descriptor = null;
-        try
-        {
+        try {
             descriptor = (FormDescriptor) JiBXObjectFactory.unmarshal(FormDescriptor.class, url.openStream());
             logger.debug("Loaded FormDescription:" + descriptor.getId() + " from " + url.toString());
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             final String msg = "Could not load FormDescription at " + url.toString();
             logger.error(msg, e);
         }

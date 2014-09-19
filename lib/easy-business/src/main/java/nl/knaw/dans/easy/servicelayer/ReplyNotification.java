@@ -6,8 +6,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 
-public class ReplyNotification extends DatasetNotification implements Serializable
-{
+public class ReplyNotification extends DatasetNotification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final String TEMPLATE_LOCATION = "permission/%sReplyNotification";
@@ -15,8 +14,7 @@ public class ReplyNotification extends DatasetNotification implements Serializab
     private final PermissionSequence sequence;
     private final String templateLocation;
 
-    public ReplyNotification(final Dataset dataset, final PermissionSequence sequence, final PermissionReplyModel replyModel)
-    {
+    public ReplyNotification(final Dataset dataset, final PermissionSequence sequence, final PermissionReplyModel replyModel) {
         super(dataset, sequence.getRequester(), sequence, replyModel);
         this.sequence = sequence;
         this.replyModel = replyModel;
@@ -24,43 +22,35 @@ public class ReplyNotification extends DatasetNotification implements Serializab
     }
 
     @Override
-    String getTemplateLocation()
-    {
+    String getTemplateLocation() {
         return templateLocation;
     }
 
-    public String getRequesterName()
-    {
+    public String getRequesterName() {
         return sequence.getRequester().getDisplayName();
     }
 
-    public String getDepositorName()
-    {
+    public String getDepositorName() {
         return getDataset().getDepositor().getDisplayName();
     }
 
-    public String getDepositorId()
-    {
+    public String getDepositorId() {
         return getDataset().getDepositor().getId();
     }
 
-    public String getDatasetTitle()
-    {
+    public String getDatasetTitle() {
         return getDataset().getPreferredTitle();
     }
 
-    public String getRequestLink()
-    {
+    public String getRequestLink() {
         return replyModel.getRequestLink();
     }
 
-    public String getExplanation()
-    {
+    public String getExplanation() {
         return replyModel.getExplanation();
     }
 
-    public String getDatasetLink()
-    {
+    public String getDatasetLink() {
         return replyModel.getDatasetLink();
     }
 

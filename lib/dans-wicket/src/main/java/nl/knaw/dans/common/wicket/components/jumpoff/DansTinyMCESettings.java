@@ -16,13 +16,11 @@ import wicket.contrib.tinymce.settings.SearchReplacePlugin;
 import wicket.contrib.tinymce.settings.TablePlugin;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
-public class DansTinyMCESettings extends TinyMCESettings
-{
+public class DansTinyMCESettings extends TinyMCESettings {
     public static final String JUMPOFF_MARKUP_CSS = "JUMPOFF_MARKUP_CSS";
     private static final long serialVersionUID = -5469817405455196606L;
 
-    public DansTinyMCESettings()
-    {
+    public DansTinyMCESettings() {
         super(TinyMCESettings.Theme.advanced);
 
         initDefaultSettings();
@@ -86,8 +84,7 @@ public class DansTinyMCESettings extends TinyMCESettings
     /**
      * Called from constructor. Subclasses may override.
      */
-    protected void initDefaultSettings()
-    {
+    protected void initDefaultSettings() {
         setToolbarAlign(TinyMCESettings.Align.left);
         setToolbarLocation(TinyMCESettings.Location.top);
         setStatusbarLocation(TinyMCESettings.Location.bottom);

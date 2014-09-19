@@ -25,8 +25,7 @@ import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
 import org.dom4j.Element;
 
-public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
-{
+public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
 
     private static final long serialVersionUID = -1213485923457997519L;
 
@@ -36,75 +35,60 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 
     private DublinCoreMetadata dc;
 
-    public FileItemImpl(String storeId)
-    {
+    public FileItemImpl(String storeId) {
         super(storeId);
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         String label = super.getLabel();
-        if (label == null && easyFile != null)
-        {
+        if (label == null && easyFile != null) {
             label = easyFile.getUnitLabel();
             super.setLabel(label);
         }
         return label;
     }
 
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         // evaluateDirty(label, getLabel());
         super.setLabel(label);
         getFileItemMetadataImpl().setName(label);
     }
 
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return getFileItemMetadata().getMimeType();
     }
 
-    public void setMimeType(String mimeType)
-    {
+    public void setMimeType(String mimeType) {
         getFileItemMetadataImpl().setMimeType(mimeType);
     }
 
-    public long getSize()
-    {
+    public long getSize() {
         return getFileItemMetadata().getSize();
     }
 
-    public void setSize(long size)
-    {
+    public void setSize(long size) {
         getFileItemMetadataImpl().setSize(size);
     }
 
-    public File getFile()
-    {
+    public File getFile() {
         File file = null;
-        if (easyFile != null)
-        {
+        if (easyFile != null) {
             file = easyFile.getFile();
         }
         return file;
     }
 
-    public void setFile(File file) throws IOException
-    {
-        if (file == null)
-        {
+    public void setFile(File file) throws IOException {
+        if (file == null) {
             this.easyFile = null;
             setMimeType(null);
             setSize(0);
-        }
-        else
-        {
+        } else {
             easyFile = new EasyFile();
             easyFile.setFile(file);
             setMimeType(easyFile.getMimeType());
@@ -114,10 +98,8 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
     }
 
-    public DublinCoreMetadata getDublinCoreMetadata()
-    {
-        if (dc == null)
-        {
+    public DublinCoreMetadata getDublinCoreMetadata() {
+        if (dc == null) {
             dc = new JiBXDublinCoreMetadata();
         }
         List<String> label = new ArrayList<String>(1);
@@ -131,32 +113,26 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         return dc;
     }
 
-    public DatasetItemMetadata getDatasetItemMetadata()
-    {
+    public DatasetItemMetadata getDatasetItemMetadata() {
         return getFileItemMetadataImpl();
     }
 
-    public FileItemMetadata getFileItemMetadata()
-    {
+    public FileItemMetadata getFileItemMetadata() {
         return getFileItemMetadataImpl();
     }
 
     @Override
-    public AdditionalMetadata getAdditionalMetadata()
-    {
+    public AdditionalMetadata getAdditionalMetadata() {
         return getFileItemMetadata().getAdditionalMetadata();
     }
 
     @Override
-    public void setAdditionalMetadata(AdditionalMetadata additionalMetadata)
-    {
+    public void setAdditionalMetadata(AdditionalMetadata additionalMetadata) {
         getFileItemMetadata().setAdditionalMetadata(additionalMetadata);
     }
 
-    private FileItemMetadataImpl getFileItemMetadataImpl()
-    {
-        if (fileItemMetadata == null)
-        {
+    private FileItemMetadataImpl getFileItemMetadataImpl() {
+        if (fileItemMetadata == null) {
             fileItemMetadata = new FileItemMetadataImpl(getDmoStoreId());
         }
         fileItemMetadata.setDmoStoreId(getDmoStoreId());
@@ -169,185 +145,151 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
      * @param fileItemMetadata
      *        FileItemMetadataImpl
      */
-    public void setFileItemMetadata(FileItemMetadataImpl fileItemMetadata)
-    {
+    public void setFileItemMetadata(FileItemMetadataImpl fileItemMetadata) {
         this.fileItemMetadata = fileItemMetadata;
         setLabel(fileItemMetadata.getName());
         setDirty(false);
     }
 
     @Override
-    public List<BinaryUnit> getBinaryUnits()
-    {
+    public List<BinaryUnit> getBinaryUnits() {
         List<BinaryUnit> binaryUnits = super.getBinaryUnits();
-        if (easyFile != null)
-        {
+        if (easyFile != null) {
             binaryUnits.add(easyFile);
         }
         return binaryUnits;
     }
 
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> metadataUnits = super.getMetadataUnits();
 
         metadataUnits.add(getDublinCoreMetadata());
         metadataUnits.add(getFileItemMetadata());
-        if (hasDescriptiveMetadata())
-        {
+        if (hasDescriptiveMetadata()) {
             metadataUnits.add(getDescriptiveMetadata());
         }
         return metadataUnits;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return true;
     }
 
-    public CreatorRole getCreatorRole()
-    {
+    public CreatorRole getCreatorRole() {
         return getFileItemMetadata().getCreatorRole();
     }
 
-    public void setCreatorRole(CreatorRole creatorRole)
-    {
+    public void setCreatorRole(CreatorRole creatorRole) {
         CreatorRole previous = getFileItemMetadata().getCreatorRole();
         boolean changed = getFileItemMetadata().setCreatorRole(creatorRole);
-        if (changed)
-        {
+        if (changed) {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null)
-            {
+            if (parent != null) {
                 parent.onDescendantStateChange(previous, creatorRole);
             }
         }
     }
 
-    public String getStreamingPath()
-    {
+    public String getStreamingPath() {
         return getFileItemMetadata().getStreamingPath();
     }
 
-    public void setStreamingPath(String streamingPath)
-    {
+    public void setStreamingPath(String streamingPath) {
         String previous = getFileItemMetadata().getStreamingPath();
         boolean changed = getFileItemMetadata().setStreamingPath(streamingPath);
-        if (changed)
-        {
+        if (changed) {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null)
-            {
+            if (parent != null) {
                 parent.onDescendantStateChange(previous, streamingPath);
             }
         }
     }
 
-    public boolean isCreatedByArchivist()
-    {
+    public boolean isCreatedByArchivist() {
         return CreatorRole.ARCHIVIST.equals(getFileItemMetadata().getCreatorRole());
     }
 
     @Override
-    public boolean isCreatedByDepositor()
-    {
+    public boolean isCreatedByDepositor() {
         return CreatorRole.DEPOSITOR.equals(getFileItemMetadata().getCreatorRole());
     }
 
-    public VisibleTo getVisibleTo()
-    {
+    public VisibleTo getVisibleTo() {
         return getFileItemMetadata().getVisibleTo();
     }
 
-    public void setVisibleTo(VisibleTo visibleTo)
-    {
+    public void setVisibleTo(VisibleTo visibleTo) {
         VisibleTo previous = getFileItemMetadata().getVisibleTo();
         boolean changed = getFileItemMetadata().setVisibleTo(visibleTo);
-        if (changed)
-        {
+        if (changed) {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null)
-            {
+            if (parent != null) {
                 parent.onDescendantStateChange(previous, visibleTo);
             }
         }
     }
 
-    public AccessibleTo getAccessibleTo()
-    {
+    public AccessibleTo getAccessibleTo() {
         return getFileItemMetadata().getAccessibleTo();
     }
 
-    public void setAccessibleTo(AccessibleTo accessibleTo)
-    {
+    public void setAccessibleTo(AccessibleTo accessibleTo) {
         AccessibleTo previous = getFileItemMetadata().getAccessibleTo();
         boolean changed = getFileItemMetadata().setAccessibleTo(accessibleTo);
-        if (changed)
-        {
+        if (changed) {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null)
-            {
+            if (parent != null) {
                 parent.onDescendantStateChange(previous, accessibleTo);
             }
         }
     }
 
-    public boolean isAccessibleFor(int userProfile)
-    {
+    public boolean isAccessibleFor(int userProfile) {
         int mask = AccessCategory.UTIL.getBitMask(getReadAccessCategory());
         return ((mask & userProfile) > 0);
     }
 
-    public int getAccessProfile(int userProfile)
-    {
+    public int getAccessProfile(int userProfile) {
         int mask = AccessCategory.UTIL.getBitMask(getReadAccessCategory());
         return mask & userProfile;
     }
 
     /**
-     * Hack needed because there is no unification of key abstractions in the DANS software development
-     * process.
+     * Hack needed because there is no unification of key abstractions in the DANS software development process.
      * 
      * @return the AccessCategory of the file item in respect to this 'AccessibleTo'.
      */
-    public AccessCategory getReadAccessCategory()
-    {
+    public AccessCategory getReadAccessCategory() {
         return AccessibleTo.translate(getAccessibleTo());
     }
 
     @Override
-    public AccessCategory getViewAccessCategory()
-    {
+    public AccessCategory getViewAccessCategory() {
         return VisibleTo.translate(getVisibleTo());
     }
 
     @Override
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         Set<String> contentModels = super.getContentModels();
         contentModels.add(Constants.CM_FILE_ITEM_1);
         return contentModels;
     }
 
     @Override
-    public void setDescriptiveMetadata(Element content)
-    {
+    public void setDescriptiveMetadata(Element content) {
         descriptiveMetadata = new DescriptiveMetadataImpl(content);
     }
 
-    public boolean hasDescriptiveMetadata()
-    {
+    public boolean hasDescriptiveMetadata() {
         return descriptiveMetadata != null;
     }
 
-    public DescriptiveMetadata getDescriptiveMetadata()
-    {
+    public DescriptiveMetadata getDescriptiveMetadata() {
         return descriptiveMetadata;
     }
 
     @Override
-    public String getAutzStrategyName()
-    {
+    public String getAutzStrategyName() {
         return "nl.knaw.dans.easy.security.authz.EasyFileItemAuthzStrategy";
     }
 

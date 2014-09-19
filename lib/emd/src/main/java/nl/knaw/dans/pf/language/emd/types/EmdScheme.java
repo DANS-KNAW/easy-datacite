@@ -1,7 +1,6 @@
 package nl.knaw.dans.pf.language.emd.types;
 
-public enum EmdScheme
-{
+public enum EmdScheme {
     ARCHAEOLOGY_DC_IDENTIFIER /* choicelist + */, ARCHAEOLOGY_DC_SUBJECT /* choicelist + recursivelist */, ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS, ARCHAEOLOGY_DCTERMS_DATE /*
                                                                                                                                                                        * choicelist
                                                                                                                                                                        * +
@@ -43,8 +42,7 @@ public enum EmdScheme
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * choicelist
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * +
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */, ;
-    public String getId()
-    {
+    public String getId() {
         return name().toLowerCase().replaceAll("_", ".");
     }
 }

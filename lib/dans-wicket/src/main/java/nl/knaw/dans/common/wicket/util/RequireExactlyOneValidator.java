@@ -12,8 +12,7 @@ import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
  * 
  * @author Vesa Åkerman
  */
-public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidator
-{
+public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidator {
     /**
      * Serial version uid.
      */
@@ -25,8 +24,7 @@ public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidat
      * @param components
      *        FormComponents of which just one must be filled.
      */
-    public RequireExactlyOneValidator(final FormComponent... components)
-    {
+    public RequireExactlyOneValidator(final FormComponent... components) {
         super(components);
     }
 
@@ -37,20 +35,16 @@ public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidat
      *        The form to validate.
      * @see org.apache.wicket.markup.html.form.validation.IFormValidator#validate(org.apache.wicket.markup.html.form.Form)
      */
-    public void validate(Form form)
-    {
+    public void validate(Form form) {
         int nrFilledFields = 0;
 
-        for (FormComponent component : this.dependentComponents)
-        {
-            if (component.getValue().trim().length() > 0)
-            {
+        for (FormComponent component : this.dependentComponents) {
+            if (component.getValue().trim().length() > 0) {
                 nrFilledFields++;
             }
         }
 
-        if (nrFilledFields != 1)
-        {
+        if (nrFilledFields != 1) {
             error(this.dependentComponents[0]);
         }
     }

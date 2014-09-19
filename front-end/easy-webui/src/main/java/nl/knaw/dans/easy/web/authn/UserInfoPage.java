@@ -16,8 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class UserInfoPage extends AbstractEasyNavPage
-{
+public class UserInfoPage extends AbstractEasyNavPage {
     /**
      * The key for parameter 'userId'.
      */
@@ -52,11 +51,9 @@ public class UserInfoPage extends AbstractEasyNavPage
     private static Logger logger = LoggerFactory.getLogger(UserInfoPage.class);
 
     /**
-     * No-argument constructor for displaying information on the current user, switch to edit-mode is
-     * enabled.
+     * No-argument constructor for displaying information on the current user, switch to edit-mode is enabled.
      */
-    public UserInfoPage()
-    {
+    public UserInfoPage() {
         this(true, true);
     }
 
@@ -66,14 +63,11 @@ public class UserInfoPage extends AbstractEasyNavPage
      * @param inEditMode
      *        start in edit-mode (<code>true</code>) or in display-mode (<code>false</code>)
      * @param enableModeSwitch
-     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the
-     *        switch, <code>false</code> otherwise
+     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the switch, <code>false</code> otherwise
      */
-    public UserInfoPage(boolean inEditMode, boolean enableModeSwitch)
-    {
+    public UserInfoPage(boolean inEditMode, boolean enableModeSwitch) {
         super();
-        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous)
-        {
+        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous) {
             logger.error(this.getClass().getName() + " called without the user being logged in. Redirecting to HomePage.");
             throw new RestartResponseException(HomePage.class);
         }
@@ -92,8 +86,7 @@ public class UserInfoPage extends AbstractEasyNavPage
      * @see #PM_ENABLE_MODESWITCH
      * @see #UserInfoPage(String, boolean, boolean)
      */
-    public UserInfoPage(PageParameters params)
-    {
+    public UserInfoPage(PageParameters params) {
         super();
         displayedUserId = params.getKey(PM_USERID);
         isFirstLogin = false;
@@ -110,14 +103,11 @@ public class UserInfoPage extends AbstractEasyNavPage
      * @param inEditMode
      *        start in edit-mode (<code>true</code>) or in display-mode (<code>false</code>)
      * @param enableModeSwitch
-     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the
-     *        switch, <code>false</code> otherwise
+     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the switch, <code>false</code> otherwise
      */
-    public UserInfoPage(String userId, boolean inEditMode, boolean enableModeSwitch)
-    {
+    public UserInfoPage(String userId, boolean inEditMode, boolean enableModeSwitch) {
         super();
-        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous)
-        {
+        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous) {
             logger.error(this.getClass().getName() + " called without the user being logged in. Redirecting to HomePage.");
             throw new RestartResponseException(HomePage.class);
         }
@@ -130,50 +120,40 @@ public class UserInfoPage extends AbstractEasyNavPage
      * Get 'personal information' or 'user information' as title postfix, depending on displayed user.
      */
     @Override
-    public String getPageTitlePostfix()
-    {
+    public String getPageTitlePostfix() {
         String pageTitlePostfix = "";
         final EasyUser user = getSessionUser();
-        if (user.getId().equals(displayedUserId))
-        {
+        if (user.getId().equals(displayedUserId)) {
             pageTitlePostfix = getLocalizer().getString(RI_PERSONAL_POSTFIX, this);
-        }
-        else
-        {
+        } else {
             pageTitlePostfix = getLocalizer().getString(RI_USER_POSTFIX, this);
         }
         return pageTitlePostfix;
     }
 
     // same for all constructors.
-    private void init(final boolean inEditMode, final boolean enableModeSwitch)
-    {
+    private void init(final boolean inEditMode, final boolean enableModeSwitch) {
         add(new Label(WI_PAGE_HEADER, getPageTitlePostfix()));
-        add(new Label(WR_FIRSTLOGIN, new ResourceModel(WR_FIRSTLOGIN))
-        {
+        add(new Label(WR_FIRSTLOGIN, new ResourceModel(WR_FIRSTLOGIN)) {
             private static final long serialVersionUID = 5400998016143701384L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return isFirstLogin;
             }
         });
 
-        add(new SwitchPanel(WI_USER_INFO_PANEL, inEditMode)
-        {
+        add(new SwitchPanel(WI_USER_INFO_PANEL, inEditMode) {
 
             private static final long serialVersionUID = -5561111015378292565L;
 
             @Override
-            public Panel getDisplayPanel()
-            {
+            public Panel getDisplayPanel() {
                 return new UserInfoDisplayPanel(this, displayedUserId, enableModeSwitch);
             }
 
             @Override
-            public Panel getEditPanel()
-            {
+            public Panel getEditPanel() {
                 return new UserInfoEditPanel(this, displayedUserId, enableModeSwitch);
             }
 

@@ -10,19 +10,15 @@ import org.joda.time.DateTime;
 /**
  * Interface for the business user object.
  */
-public interface User extends Person, RepoEntry
-{
+public interface User extends Person, RepoEntry {
 
-    public enum State
-    {
+    public enum State {
         /**
-         * The user has successfully registered, but has not validated the registration; the account
-         * cannot be used (yet).
+         * The user has successfully registered, but has not validated the registration; the account cannot be used (yet).
          */
         REGISTERED,
         /**
-         * The user has confirmed the registration and the confirmation was valid; the user has not
-         * logged in for the first time.
+         * The user has confirmed the registration and the confirmation was valid; the user has not logged in for the first time.
          */
         CONFIRMED_REGISTRATION,
         /**
@@ -59,8 +55,7 @@ public interface User extends Person, RepoEntry
     void setPassword(final String password);
 
     /**
-     * Setter for ENCRYPTED password (userPassword). Use only when the password is already encrypted
-     * !!!!!
+     * Setter for ENCRYPTED password (userPassword). Use only when the password is already encrypted !!!!!
      * 
      * @param encryptedPassword
      *        the ENCRYPTED password to set
@@ -97,8 +92,7 @@ public interface User extends Person, RepoEntry
     DateTime getLastLoginDate();
 
     /**
-     * Is this user fully qualified to partake in actions. A qualified user has state
-     * {@link State#ACTIVE} or {@link State#CONFIRMED_REGISTRATION}.
+     * Is this user fully qualified to partake in actions. A qualified user has state {@link State#ACTIVE} or {@link State#CONFIRMED_REGISTRATION}.
      * 
      * @see User.State
      * @return <code>true</code> if qualified, <code>false</code> otherwise

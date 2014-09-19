@@ -32,22 +32,18 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.joda.time.DateTime;
 
-public class EasyDatasetHitPanel extends AbstractEasyPanel
-{
+public class EasyDatasetHitPanel extends AbstractEasyPanel {
     private static final long serialVersionUID = 1765295909790138569L;
 
-    public EasyDatasetHitPanel(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel)
-    {
+    public EasyDatasetHitPanel(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel) {
         super(wicketId, model);
         add(new DatasetLink("showDataset", model, svModel));
     }
 
-    private class DatasetLink extends AbstractDatasetLink<SearchHit<EasyDatasetSB>>
-    {
+    private class DatasetLink extends AbstractDatasetLink<SearchHit<EasyDatasetSB>> {
         private static final long serialVersionUID = -2898309546692290393L;
 
-        DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel)
-        {
+        DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel) {
             super(wicketId, model);
 
             SearchHit<EasyDatasetSB> hit = model.getObject();
@@ -75,8 +71,7 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             status.setDepositor(userIdToDisplayName(datasetHit.getDepositorId()));
             status.setAssignee(assigneeIdToDisplayName(datasetHit.getAssigneeId()));
             status.setWorkflowProgress(datasetHit.getWorkflowProgress() == null ? 0 : datasetHit.getWorkflowProgress());
-            switch (datasetHit.getState())
-            {
+            switch (datasetHit.getState()) {
             case DRAFT:
                 status.setDate(datasetHit.getDateDraftSaved());
                 break;
@@ -100,11 +95,9 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
 
             // ------ the number of new requests for this dataset
             int numReq = 0;
-            if (datasetHit.getPermissionStatusList() != null)
-            {
+            if (datasetHit.getPermissionStatusList() != null) {
                 // count the number of submitted requests
-                for (PermissionRequestSearchInfo info : datasetHit.getPermissionStatusList())
-                {
+                for (PermissionRequestSearchInfo info : datasetHit.getPermissionStatusList()) {
                     if (info.getState().equals(State.Submitted))
                         numReq++;
                 }
@@ -114,13 +107,10 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             // ------- permission request
             PermissionRequestSearchInfo pmInfo = getPermissionRequestInfo(datasetHit, sessionUserId);
             Label pmStatus = new Label("permissionRequestStatus");
-            if (pmInfo != null)
-            {
+            if (pmInfo != null) {
                 pmStatus.setDefaultModel(new ResourceModel("fieldvalue." + pmInfo.getState()));
                 add(new EasyDateLabel("permissionRequestDate", pmInfo.getStateLastModified()));
-            }
-            else
-            {
+            } else {
                 pmStatus.setVisible(false);
                 WicketUtil.hide(this, "permissionRequestDate");
             }
@@ -136,13 +126,11 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             String emdAudience = audienceList == null || audienceList.size() <= 1 ? "fieldname.emd_audience" : "fieldname.emd_audiences";
             add(new Label("audienceLabel", new ResourceModel(emdAudience)));
 
-            add(new ListView<String>("disciplines", audienceList)
-            {
+            add(new ListView<String>("disciplines", audienceList) {
                 private static final long serialVersionUID = 1540669253501482128L;
 
                 @Override
-                protected void populateItem(ListItem<String> item)
-                {
+                protected void populateItem(ListItem<String> item) {
                     item.add(new Label("disciplineName", new DisciplineModel(item.getModelObject())));
                     Label disciplineSeparator = new Label("disciplineSeparator", ", ");
                     disciplineSeparator.setVisible(item.getIndex() + 1 < audienceList.size());
@@ -158,13 +146,11 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)),
                     !StringUtils.isBlank(svModel.getObject().getRequestBuilder().getRequest().getQuery().getQueryString()));
             List<SnippetField> remainingSnippets = getRemainingSnippets();
-            add(new ListView<SnippetField>("snippets", remainingSnippets)
-            {
+            add(new ListView<SnippetField>("snippets", remainingSnippets) {
                 private static final long serialVersionUID = 6092057488401837474L;
 
                 @Override
-                protected void populateItem(ListItem<SnippetField> item)
-                {
+                protected void populateItem(ListItem<SnippetField> item) {
                     final SnippetField snippetField = item.getModelObject();
                     String snippet = "";
                     for (String snip : snippetField.getValue())
@@ -175,8 +161,7 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             }.setVisible(remainingSnippets.size() > 0));
         }
 
-        private PermissionRequestSearchInfo getPermissionRequestInfo(EasyDatasetSB datasetHit, String userId)
-        {
+        private PermissionRequestSearchInfo getPermissionRequestInfo(EasyDatasetSB datasetHit, String userId) {
             if (userId == null)
                 return null;
 
@@ -184,10 +169,8 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             if (permissionStatusList == null)
                 return null;
 
-            for (PermissionRequestSearchInfo pmInfo : permissionStatusList)
-            {
-                if (pmInfo.getRequesterId().equals(userId))
-                {
+            for (PermissionRequestSearchInfo pmInfo : permissionStatusList) {
+                if (pmInfo.getRequesterId().equals(userId)) {
                     return pmInfo;
                 }
             }
@@ -196,13 +179,11 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
         }
 
         // TODO: implement this function
-        private String userIdToDisplayName(String userId)
-        {
+        private String userIdToDisplayName(String userId) {
             return userId;
         }
 
-        private String assigneeIdToDisplayName(String userId)
-        {
+        private String assigneeIdToDisplayName(String userId) {
             if (userId == null || userId.equals(WorkflowData.NOT_ASSIGNED))
                 return "Not Assigned";
             else
@@ -210,8 +191,7 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
         }
 
         @Override
-        public void onClick()
-        {
+        public void onClick() {
             SearchHit<? extends DatasetSB> hit = (SearchHit<? extends DatasetSB>) getModelObject();
             DatasetSB datasetHit = hit.getData();
 

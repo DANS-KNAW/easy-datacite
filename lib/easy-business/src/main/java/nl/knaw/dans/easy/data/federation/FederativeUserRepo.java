@@ -7,7 +7,6 @@ import nl.knaw.dans.common.lang.ldap.GenericRepo;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 
-public interface FederativeUserRepo extends GenericRepo<FederativeUserIdMap>
-{
+public interface FederativeUserRepo extends GenericRepo<FederativeUserIdMap> {
     List<FederativeUserIdMap> findByDansUserId(String dansUserId) throws RepositoryException;
 }

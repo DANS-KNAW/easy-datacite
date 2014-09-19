@@ -6,25 +6,21 @@ import java.io.PrintWriter;
 import proai.SetInfo;
 import proai.error.RepositoryException;
 
-public class SetInfoImpl implements SetInfo
-{
+public class SetInfoImpl implements SetInfo {
 
     private String m_setSpec;
     private File m_file;
 
-    public SetInfoImpl(String setSpec, File file)
-    {
+    public SetInfoImpl(String setSpec, File file) {
         m_setSpec = setSpec;
         m_file = file;
     }
 
-    public String getSetSpec()
-    {
+    public String getSetSpec() {
         return m_setSpec;
     }
 
-    public void write(PrintWriter out) throws RepositoryException
-    {
+    public void write(PrintWriter out) throws RepositoryException {
         OAIDriverImpl.writeFromFile(m_file, out);
     }
 

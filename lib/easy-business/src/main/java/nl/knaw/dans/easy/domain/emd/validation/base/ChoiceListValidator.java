@@ -15,33 +15,26 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
-public abstract class ChoiceListValidator implements Validator
-{
+public abstract class ChoiceListValidator implements Validator {
 
-    public static final class RightsValidator extends ChoiceListValidator
-    {
-        public RightsValidator(final String listId)
-        {
+    public static final class RightsValidator extends ChoiceListValidator {
+        public RightsValidator(final String listId) {
             super(listId, RIGHTS.getXPath());
         }
 
         @Override
-        public List<String> getValidatedValue(final EasyMetadata emd)
-        {
+        public List<String> getValidatedValue(final EasyMetadata emd) {
             return emd.getEmdRights().getValues();
         }
     }
 
-    public static final class RelationsValidator extends ChoiceListValidator
-    {
-        public RelationsValidator(final String listId)
-        {
+    public static final class RelationsValidator extends ChoiceListValidator {
+        public RelationsValidator(final String listId) {
             super(listId, RELATION.getXPath());
         }
 
         @Override
-        public List<String> getValidatedValue(final EasyMetadata emd)
-        {
+        public List<String> getValidatedValue(final EasyMetadata emd) {
             return emd.getEmdRelation().getValues();
         }
     }
@@ -50,8 +43,7 @@ public abstract class ChoiceListValidator implements Validator
     private final String xPathStub;
     private ChoiceList choiceList;
 
-    public ChoiceListValidator(final String listId, final String xPathStub)
-    {
+    public ChoiceListValidator(final String listId, final String xPathStub) {
         this.listId = listId;
         this.xPathStub = xPathStub;
 
@@ -60,8 +52,7 @@ public abstract class ChoiceListValidator implements Validator
     abstract List<String> getValidatedValue(EasyMetadata emd);
 
     @Override
-    public synchronized void validate(final EasyMetadata emd, final ValidationReporter reporter)
-    {
+    public synchronized void validate(final EasyMetadata emd, final ValidationReporter reporter) {
         // TODO why is there a second value 'accept'?
         // controlled vocabularies are not mandatory, so null values are OK
         final List<String> values = getValidatedValue(emd);
@@ -71,8 +62,7 @@ public abstract class ChoiceListValidator implements Validator
         if (value == null)
             return;
 
-        if (!choiceListContains(value))
-        {
+        if (!choiceListContains(value)) {
             reporter.setMetadataValid(false);
             final String msg = "The value '" + value + "' of " + xPathStub + " is not a valid key in the list '" + listId + "'";
 
@@ -80,34 +70,26 @@ public abstract class ChoiceListValidator implements Validator
         }
     }
 
-    private boolean choiceListContains(final String key)
-    {
+    private boolean choiceListContains(final String key) {
         final KeyValuePair keyValuePair = new KeyValuePair(key, null);
         return getChoiceList().getChoices().contains(keyValuePair);
     }
 
-    private ChoiceList getChoiceList()
-    {
-        if (choiceList == null)
-        {
-            try
-            {
+    private ChoiceList getChoiceList() {
+        if (choiceList == null) {
+            try {
                 choiceList = ChoiceListGetter.getInstance().getChoiceList(listId, null);
             }
-            catch (final ObjectNotFoundException e)
-            {
+            catch (final ObjectNotFoundException e) {
                 throw new ApplicationException(e);
             }
-            catch (final CacheException e)
-            {
+            catch (final CacheException e) {
                 throw new ApplicationException(e);
             }
-            catch (final ResourceNotFoundException e)
-            {
+            catch (final ResourceNotFoundException e) {
                 throw new ApplicationException(e);
             }
-            catch (final DomainException e)
-            {
+            catch (final DomainException e) {
                 throw new ApplicationException(e);
             }
         }

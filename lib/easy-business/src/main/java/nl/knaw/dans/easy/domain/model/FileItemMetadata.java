@@ -5,8 +5,7 @@ import java.net.URI;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
-public interface FileItemMetadata extends DatasetItemMetadata
-{
+public interface FileItemMetadata extends DatasetItemMetadata {
 
     String UNIT_ID = "EASY_FILE_METADATA";
 

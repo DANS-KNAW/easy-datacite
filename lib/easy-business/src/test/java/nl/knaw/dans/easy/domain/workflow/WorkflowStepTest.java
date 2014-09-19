@@ -15,38 +15,31 @@ import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
-{
+public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep> {
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         before(WorkflowStepTest.class);
     }
 
-    public WorkflowStepTest()
-    {
+    public WorkflowStepTest() {
         super(WorkflowStep.class);
     }
 
     @Test
-    public void getRequiredSteps()
-    {
+    public void getRequiredSteps() {
         WorkflowStep root = WorkflowFactory.newDatasetWorkflow();
-        for (WorkflowStep step : root.getRequiredSteps())
-        {
+        for (WorkflowStep step : root.getRequiredSteps()) {
             assertTrue(step.isRequired());
         }
     }
 
     @Test
-    public void testCompleted()
-    {
+    public void testCompleted() {
         WorkflowStep root = WorkflowFactory.newDatasetWorkflow();
         assertFalse(root.areRequiredStepsCompleted());
         assertFalse(root.isCompleted());
 
-        for (WorkflowStep requiredStep : root.getRequiredSteps())
-        {
+        for (WorkflowStep requiredStep : root.getRequiredSteps()) {
             requiredStep.setCompleted(true);
         }
         assertTrue(root.areRequiredStepsCompleted());
@@ -61,8 +54,7 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
     }
 
     @Test
-    public void testCompletionTime() throws IOException, JiBXException, XMLSerializationException
-    {
+    public void testCompletionTime() throws IOException, JiBXException, XMLSerializationException {
         WorkflowStep root = WorkflowFactory.newDatasetWorkflow();
         assertNull(root.getCompletionTimeRequiredSteps());
         assertNull(root.getCompletionTimeAllSteps());

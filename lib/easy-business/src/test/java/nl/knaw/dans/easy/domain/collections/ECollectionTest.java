@@ -10,12 +10,10 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
 import org.junit.Test;
 
-public class ECollectionTest
-{
+public class ECollectionTest {
 
     @Test
-    public void iterator()
-    {
+    public void iterator() {
         Iterator<ECollection> iter = ECollection.iterator();
 
         assertTrue(iter.hasNext());
@@ -31,18 +29,15 @@ public class ECollectionTest
     }
 
     @Test
-    public void isECollection()
-    {
+    public void isECollection() {
         String[] validNs = {"easy-collection", "easy-interest-area", "easy-research-area"};
         String[] inValidNs = {"easy-dataset", "easy-file"};
 
-        for (String s : validNs)
-        {
+        for (String s : validNs) {
             assertTrue(ECollection.isECollection(new DmoNamespace(s)));
         }
 
-        for (String s : inValidNs)
-        {
+        for (String s : inValidNs) {
             assertFalse(ECollection.isECollection(new DmoNamespace(s)));
         }
     }

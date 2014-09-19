@@ -15,54 +15,43 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class Archis2ViewPanel extends AbstractCustomPanel
-{
+public class Archis2ViewPanel extends AbstractCustomPanel {
 
     private static final long serialVersionUID = -9039579510082841556L;
     private final EasyMetadata easyMetadata;
 
-    public Archis2ViewPanel(final String id, final EasyMetadata easyMetadata)
-    {
+    public Archis2ViewPanel(final String id, final EasyMetadata easyMetadata) {
         this(id, new Model<EasyMetadata>(easyMetadata));
     }
 
-    public Archis2ViewPanel(final String id, final IModel<EasyMetadata> model)
-    {
+    public Archis2ViewPanel(final String id, final IModel<EasyMetadata> model) {
         super(id, model);
         easyMetadata = (EasyMetadata) model.getObject();
         setOutputMarkupId(true);
     }
 
     @Override
-    protected Panel getCustomComponentPanel()
-    {
-        if (isInEditMode())
-        {
+    protected Panel getCustomComponentPanel() {
+        if (isInEditMode()) {
             throw new UnsupportedOperationException("EditMode not supported.");
-        }
-        else
-        {
+        } else {
             return new ViewPanel();
         }
     }
 
-    class ViewPanel extends Panel
-    {
+    class ViewPanel extends Panel {
         private static final long serialVersionUID = -3441453142983333780L;
 
-        public ViewPanel()
-        {
+        public ViewPanel() {
             super(CUSTOM_PANEL_ID);
             final List<BasicIdentifier> identfiers = easyMetadata.getEmdIdentifier().getAllIdentfiers(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
             add(new SeparatedListView("list", "separator", createArchisLinks(identfiers)));
             setVisible(!identfiers.isEmpty());
         }
 
-        private List<Component> createArchisLinks(List<BasicIdentifier> identfiers)
-        {
+        private List<Component> createArchisLinks(List<BasicIdentifier> identfiers) {
             final List<Component> links = new ArrayList<Component>();
-            for (final BasicIdentifier basicId : identfiers)
-            {
+            for (final BasicIdentifier basicId : identfiers) {
                 final String digits = ArchisCollector.getDigits(basicId.getValue());
                 links.add(new ArchisLink("link", "label", digits));
             }

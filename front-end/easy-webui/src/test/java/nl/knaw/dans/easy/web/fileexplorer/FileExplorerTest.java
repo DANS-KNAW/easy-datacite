@@ -54,8 +54,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class FileExplorerTest
-{
+public class FileExplorerTest {
     private static final AuthzStrategyTestImpl AUTHZ_STRATEGY = new AuthzStrategyTestImpl();
     private static final String MESSAGE = "tabs:panel:fe:modalDownload:content:message";
     private static final String MESSAGE2 = "tabs:panel:fe:modalMessage:content:message";
@@ -70,8 +69,7 @@ public class FileExplorerTest
     private final Dataset datasetMockWithTooManyFiles = createDatasetMock(2);
     private EasyApplicationContextMock ctx;
 
-    private static Dataset createDatasetImpl(final int id)
-    {
+    private static Dataset createDatasetImpl(final int id) {
         final DmoStoreId dmoStoreId = new DmoStoreId(Dataset.NAMESPACE, "" + id);
         final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         final DatasetImpl dataset = new DatasetImpl(dmoStoreId.getStoreId(), emd);
@@ -80,8 +78,7 @@ public class FileExplorerTest
         return dataset;
     }
 
-    private Dataset createDatasetMock(final int id)
-    {
+    private Dataset createDatasetMock(final int id) {
         final DmoStoreId dmoStoreId = new DmoStoreId(Dataset.NAMESPACE, "" + id);
         final AdministrativeMetadata amd = PowerMock.createMock(AdministrativeMetadata.class);
         expect(amd.getStateChangeDates()).andStubReturn(new ArrayList<StateChangeDate>());
@@ -106,34 +103,25 @@ public class FileExplorerTest
         expect(datasetMock.isUnderEmbargo()).andStubReturn(false);
         expect(datasetMock.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(false);
         expect(datasetMock.isGroupAccessGrantedTo(isA(EasyUser.class))).andStubReturn(false);
-        try
-        {
+        try {
             expect(datasetMock.isInvalidated()).andStubReturn(false);
             expect(datasetMock.getParentDisciplines()).andStubReturn(new ArrayList<DisciplineContainer>());
         }
-        catch (final RepositoryException canNotHappen)
-        {
-        }
-        catch (final ObjectNotFoundException canNotHappen)
-        {
-        }
-        catch (final DomainException canNotHappen)
-        {
-        }
+        catch (final RepositoryException canNotHappen) {}
+        catch (final ObjectNotFoundException canNotHappen) {}
+        catch (final DomainException canNotHappen) {}
 
         return datasetMock;
     }
 
     @BeforeClass
-    public static void mockFileStoreAccess() throws Exception
-    {
+    public static void mockFileStoreAccess() throws Exception {
         inMemoryDB = new InMemoryDatabase();
 
         // size = Integer.MAXVALUE
         // can't use a mocked dataset here but rendering fails with an Impl
         inMemoryDB.insertFile(1, datasetImplWithLargeFile, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-        for (int i = 2; i < 404; i++)
-        {
+        for (int i = 2; i < 404; i++) {
             inMemoryDB.insertFile(i, datasetImplWithTooManyFiles, i + "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
         }
 
@@ -143,14 +131,12 @@ public class FileExplorerTest
     }
 
     @AfterClass
-    public static void cleanUp()
-    {
+    public static void cleanUp() {
         inMemoryDB.close();
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         ctx = new EasyApplicationContextMock();
         ctx.setSearchService(mockSearchService());
         ctx.setDatasetService(mockDatasetService());
@@ -161,8 +147,7 @@ public class FileExplorerTest
         ctx.putBean("fileStoreAccess", fileStoreAccess);
     }
 
-    private DatasetService mockDatasetService() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private DatasetService mockDatasetService() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         final DatasetService datasetServiceMock = PowerMock.createMock(DatasetService.class);
         expect(datasetServiceMock.getDataset(isA(EasyUser.class), EasyMock.eq(datasetImplWithLargeFile.getDmoStoreId()))).andStubReturn(
                 datasetMockWithLargeFile);
@@ -172,8 +157,7 @@ public class FileExplorerTest
         return datasetServiceMock;
     }
 
-    private SearchService mockSearchService() throws ServiceException
-    {
+    private SearchService mockSearchService() throws ServiceException {
         final SearchService searchServiceMock = PowerMock.createMock(SearchService.class);
 
         expect(searchServiceMock.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(1);
@@ -186,13 +170,11 @@ public class FileExplorerTest
         return searchServiceMock;
     }
 
-    private static class EasyUserTestImpl extends EasyUserImpl
-    {
+    private static class EasyUserTestImpl extends EasyUserImpl {
         private static final long serialVersionUID = 1L;
         boolean hasAcceptedGeneralConditions;
 
-        public EasyUserTestImpl(final String userId, final boolean hasAcceptedGeneralConditions)
-        {
+        public EasyUserTestImpl(final String userId, final boolean hasAcceptedGeneralConditions) {
             super(userId);
             this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
             setFirstname("Norman");
@@ -201,25 +183,21 @@ public class FileExplorerTest
             setState(State.ACTIVE);
         }
 
-        public void setHasAcceptedGeneralConditions(final boolean hasAcceptedGeneralConditions)
-        {
+        public void setHasAcceptedGeneralConditions(final boolean hasAcceptedGeneralConditions) {
             this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
         }
 
-        public Set<Group> getGroups()
-        {
+        public Set<Group> getGroups() {
             return new HashSet<Group>();
         }
 
         @Override
-        public boolean hasAcceptedGeneralConditions()
-        {
+        public boolean hasAcceptedGeneralConditions() {
             return hasAcceptedGeneralConditions;
         }
     }
 
-    private EasyWicketTester renderPage(final String datasetStoreId)
-    {
+    private EasyWicketTester renderPage(final String datasetStoreId) {
         final EasyWicketTester tester = EasyWicketTester.create(ctx);
         replayAll();
         final PageParameters parameters = new PageParameters();
@@ -231,8 +209,7 @@ public class FileExplorerTest
     }
 
     @Test
-    public void testDownloadSizeTooLargeHasAcceptedConditions() throws ServiceException
-    {
+    public void testDownloadSizeTooLargeHasAcceptedConditions() throws ServiceException {
         expectFileLengthException();
         sessionUser.setHasAcceptedGeneralConditions(true);
         final EasyWicketTester tester = renderPage(datasetImplWithLargeFile.getStoreId());
@@ -244,8 +221,7 @@ public class FileExplorerTest
     }
 
     @Test
-    public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions() throws ServiceException
-    {
+    public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions() throws ServiceException {
         expectFileLengthException();
         sessionUser.setHasAcceptedGeneralConditions(false);
         final EasyWicketTester tester = renderPage(datasetImplWithLargeFile.getStoreId());
@@ -257,8 +233,7 @@ public class FileExplorerTest
     }
 
     @Test
-    public void testDownloadTooManyFilesHasAcceptedGeneralConditions() throws ServiceException
-    {
+    public void testDownloadTooManyFilesHasAcceptedGeneralConditions() throws ServiceException {
         expectTooManyFilesException();
         sessionUser.setHasAcceptedGeneralConditions(true);
         expect(ctx.getDatasetService().getAdditionalLicense(isA(Dataset.class))).andStubReturn(null);
@@ -272,8 +247,7 @@ public class FileExplorerTest
     }
 
     @Test
-    public void testDownloadTooManyFilesHasntAcceptedGeneralConditions() throws Exception
-    {
+    public void testDownloadTooManyFilesHasntAcceptedGeneralConditions() throws Exception {
         expectTooManyFilesException();
         sessionUser.setHasAcceptedGeneralConditions(false);
         final EasyWicketTester tester = renderPage(datasetImplWithTooManyFiles.getStoreId());
@@ -285,22 +259,19 @@ public class FileExplorerTest
     }
 
     @SuppressWarnings("unchecked")
-    private void expectFileLengthException() throws ServiceException
-    {
+    private void expectFileLengthException() throws ServiceException {
         expect(ctx.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
                 .andThrow(new ZipFileLengthException(datasetImplWithLargeFile.getStoreId())).once();
     }
 
     @SuppressWarnings("unchecked")
-    private void expectTooManyFilesException() throws ServiceException
-    {
+    private void expectTooManyFilesException() throws ServiceException {
         expect(ctx.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
                 .andThrow(new TooManyFilesException(datasetImplWithTooManyFiles.getStoreId())).once();
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         resetAll();
     }
 }

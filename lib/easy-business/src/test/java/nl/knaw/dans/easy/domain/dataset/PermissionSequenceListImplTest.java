@@ -13,16 +13,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PermissionSequenceListImplTest
-{
+public class PermissionSequenceListImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionSequenceListImplTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testMarshalAndUnmarshal() throws XMLException
-    {
+    public void testMarshalAndUnmarshal() throws XMLException {
         PermissionSequenceListImpl psl = new PermissionSequenceListImpl();
         psl.addSequence(PermissionSequenceImplTest.getRequestSequence("Piet II"));
         psl.addSequence(PermissionSequenceImplTest.getReplySequence("Magdalena III"));
@@ -39,15 +37,13 @@ public class PermissionSequenceListImplTest
         assertEquals(psl.asXMLString(), psl2.asXMLString());
     }
 
-    private void requestAgain(PermissionSequence sequence)
-    {
+    private void requestAgain(PermissionSequence sequence) {
         PermissionRequestModel request = sequence.getRequestModel();
         request.setRequestTheme("I am pleeing. Please grant me permission.");
         ((PermissionSequenceImpl) sequence).updateRequest(request);
     }
 
-    private void replyAgain(PermissionSequence sequence)
-    {
+    private void replyAgain(PermissionSequence sequence) {
         PermissionReplyModel reply = sequence.getReplyModel();
         reply.setExplanation("No. You cannot have my data!");
         ((PermissionSequenceImpl) sequence).updateReply(reply);

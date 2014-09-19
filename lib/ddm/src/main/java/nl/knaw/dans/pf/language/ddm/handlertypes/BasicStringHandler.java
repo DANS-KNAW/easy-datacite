@@ -10,25 +10,21 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkHandler;
 
 import org.xml.sax.SAXException;
 
-public abstract class BasicStringHandler extends CrosswalkHandler<EasyMetadata>
-{
+public abstract class BasicStringHandler extends CrosswalkHandler<EasyMetadata> {
     private final Map<String, String> vocabulary;
     private final String schemeId;
 
-    public BasicStringHandler(final Map<String, String> vocabulary, final String schemeId)
-    {
+    public BasicStringHandler(final Map<String, String> vocabulary, final String schemeId) {
         this.vocabulary = vocabulary;
         this.schemeId = schemeId;
     }
 
-    public BasicStringHandler()
-    {
+    public BasicStringHandler() {
         this.vocabulary = null;
         this.schemeId = null;
     }
 
-    protected BasicString createBasicString(final String uri, final String localName) throws SAXException
-    {
+    protected BasicString createBasicString(final String uri, final String localName) throws SAXException {
         final String value = getCharsSinceStart().trim();
         if (value.length() == 0)
             return null;
@@ -40,14 +36,11 @@ public abstract class BasicStringHandler extends CrosswalkHandler<EasyMetadata>
             basicString.setSchemeId(schemeId);
         if (vocabulary == null)
             basicString.setValue(value);
-        else
-        {
-            try
-            {
+        else {
+            try {
                 basicString.setValue(vocabulary.get(value));
             }
-            catch (final IllegalArgumentException e)
-            {
+            catch (final IllegalArgumentException e) {
                 error(e.getMessage());
             }
         }

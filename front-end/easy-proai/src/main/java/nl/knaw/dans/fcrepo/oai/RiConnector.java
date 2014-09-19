@@ -15,8 +15,7 @@ import org.trippi.TupleIterator;
 import proai.error.RepositoryException;
 import fedora.client.FedoraClient;
 
-public class RiConnector
-{
+public class RiConnector {
     public static final String QL_SPARQL = "sparql";
     public static final String QL_ITQL = "itql";
 
@@ -26,27 +25,22 @@ public class RiConnector
 
     private final FedoraClient m_queryClient;
 
-    public RiConnector(FedoraClient queryClient)
-    {
+    public RiConnector(FedoraClient queryClient) {
         this.m_queryClient = queryClient;
     }
 
-    public String getQueryLanguage()
-    {
-        if (queryLanguage == null)
-        {
+    public String getQueryLanguage() {
+        if (queryLanguage == null) {
             queryLanguage = QL_SPARQL;
         }
         return queryLanguage;
     }
 
-    public void setQueryLanguage(String queryLanguage)
-    {
+    public void setQueryLanguage(String queryLanguage) {
         this.queryLanguage = queryLanguage;
     }
 
-    public TupleIterator getTuples(String query) throws RepositoryException
-    {
+    public TupleIterator getTuples(String query) throws RepositoryException {
         TupleIterator tupleIterator = null;
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("lang", getQueryLanguage());
@@ -54,12 +48,10 @@ public class RiConnector
         parameters.put("stream", "true"); // stream immediately from server
         logger.debug("Start performing query ...");
         long start = System.currentTimeMillis();
-        try
-        {
+        try {
             tupleIterator = m_queryClient.getTuples(parameters);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("Error getting tuples from Fedora: " + e.getMessage(), e);
         }
         long end = System.currentTimeMillis();
@@ -75,42 +67,34 @@ public class RiConnector
      * @throws RepositoryException
      * @throws IOException
      */
-    public File getCSVResults(String query) throws RepositoryException, IOException
-    {
+    public File getCSVResults(String query) throws RepositoryException, IOException {
         File tempFile = null;
         OutputStream out = null;
-        try
-        {
+        try {
             tempFile = File.createTempFile("dans-oai-riconnector", ".csv");
             tempFile.deleteOnExit(); // just in case
             out = new FileOutputStream(tempFile);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("Error creating tempFile for query result.", e);
         }
 
-        try
-        {
+        try {
             logger.debug("Calling RiConnector.getTuples() with query:\n" + query);
             TupleIterator tuples = getTuples(query);
             logger.debug("Saving query results to disk...");
             tuples.toStream(out, RDFFormat.CSV);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             tempFile.delete();
             throw new RepositoryException("Error getting tuples from Fedora: ", e);
         }
-        catch (TrippiException e)
-        {
+        catch (TrippiException e) {
             tempFile.delete();
             throw new RepositoryException("Error streaming result to tempFile: ", e);
         }
-        finally
-        {
-            if (out != null)
-            {
+        finally {
+            if (out != null) {
                 out.close();
             }
         }

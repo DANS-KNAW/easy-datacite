@@ -28,8 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Page with a form allowing a depositor of a data set to (re)view or reply to a permission request.
  */
-public class PermissionReplyPage extends AbstractEasyNavPage
-{
+public class PermissionReplyPage extends AbstractEasyNavPage {
     public static final String PM_DATASET_ID = "dsid";
     public static final String PM_REQUESTER_ID = "rqid";
 
@@ -40,13 +39,11 @@ public class PermissionReplyPage extends AbstractEasyNavPage
     private final AbstractEasyPage fromPage;
     private final PermissionSequence sequence;
 
-    public static String urlFor(Dataset dataset, EasyUser requester, Component component)
-    {
+    public static String urlFor(Dataset dataset, EasyUser requester, Component component) {
         return urlFor(dataset.getStoreId(), requester.getId(), component);
     }
 
-    public static String urlFor(String datasetId, String requesterId, Component component)
-    {
+    public static String urlFor(String datasetId, String requesterId, Component component) {
         PageParameters parameters = new PageParameters();
         parameters.add(PM_DATASET_ID, datasetId);
         parameters.add(PM_REQUESTER_ID, requesterId);
@@ -56,21 +53,18 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         return bookmarkableLink;
     }
 
-    public PermissionReplyPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage, final PermissionSequence sequence)
-    {
+    public PermissionReplyPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage, final PermissionSequence sequence) {
         super(new DatasetModel(datasetModel));
         this.fromPage = fromPage;
         this.sequence = sequence;
         user = ((EasySession) getSession()).getUser();
-        if (user.isAnonymous() || datasetModel == null)
-        {
+        if (user.isAnonymous() || datasetModel == null) {
             LOGGER.error("No user or no dataset for permission reply.");
             pageBack();
 
         }
         // hack ! security
-        if (!datasetModel.getObject().hasDepositor(user))
-        {
+        if (!datasetModel.getObject().hasDepositor(user)) {
             pageBack();
         }
 
@@ -79,24 +73,20 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         getDatasetModel().setDynamicReload(false);
     }
 
-    protected DatasetModel getDatasetModel()
-    {
+    protected DatasetModel getDatasetModel() {
         return (DatasetModel) getDefaultModel();
     }
 
-    public PermissionReplyPage(PageParameters parameters)
-    {
+    public PermissionReplyPage(PageParameters parameters) {
         super(parameters);
         LOGGER.debug("Instantiating PermissionReplyPage with PageParameters");
         DatasetModel datasetModel;
         String datasetId = parameters.getString(PM_DATASET_ID);
-        try
-        {
+        try {
             datasetModel = new DatasetModel(datasetId);
             setDefaultModelObject(datasetModel);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             errorMessage(EasyResources.DATASET_LOAD, datasetId);
             LOGGER.error("Unable to load model object: ", e);
             throw new InternalWebError();
@@ -106,22 +96,18 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         sequence = getDataset().getPermissionSequenceList().getSequenceFor(requesterId);
         user = getSessionUser();
         // hack ! security
-        if (!getDataset().hasDepositor(user))
-        {
+        if (!getDataset().hasDepositor(user)) {
             pageBack();
         }
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return (Dataset) getDefaultModelObject();
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             setOutputMarkupId(true);
             addComponents();
             DatasetNotification.setDatasetUrlComposer(DatasetUrlComposerImpl.getInstance(getPageMap()));
@@ -131,8 +117,7 @@ public class PermissionReplyPage extends AbstractEasyNavPage
     }
 
     @Override
-    public String getPageTitlePostfix()
-    {
+    public String getPageTitlePostfix() {
         // TODO Get from resource, use Wicket StringResourceModel
         String format = getString(TITLE_KEY);
         if (sequence.getState().equals(PermissionSequence.State.Submitted))
@@ -143,31 +128,23 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         return new MessageFormat(format).format(strings);
     }
 
-    private void addComponents()
-    {
+    private void addComponents() {
         add(new Label("title", new Model<String>(getPageTitlePostfix())));
 
-        if (sequence.getState().equals(PermissionSequence.State.Submitted))
-        {
+        if (sequence.getState().equals(PermissionSequence.State.Submitted)) {
             LOGGER.debug("Edit panel");
             add(new PermissionReplyEditPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));
-        }
-        else
-        {
+        } else {
             LOGGER.debug("View panel");
             add(new PermissionReplyViewPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));
         }
 
     }
 
-    protected void pageBack() throws RestartResponseException
-    {
-        if (fromPage == null)
-        {
+    protected void pageBack() throws RestartResponseException {
+        if (fromPage == null) {
             setResponsePage(HomePage.class);
-        }
-        else
-        {
+        } else {
             fromPage.refresh();
             setResponsePage(fromPage);
         }

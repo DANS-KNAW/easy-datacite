@@ -21,16 +21,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileItemMetadataImplTest
-{
+public class FileItemMetadataImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FileItemMetadataImplTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws XMLException
-    {
+    public void serializeDeserializeEmpty() throws XMLException {
         DmoStoreId fileItemId = new DmoStoreId("foo:123");
         FileItemMetadata fimd = new FileItemMetadataImpl(fileItemId);
 
@@ -42,8 +40,7 @@ public class FileItemMetadataImplTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws Exception
-    {
+    public void serializeDeserializeFull() throws Exception {
         DmoStoreId fileItemId = new DmoStoreId("foo:123");
         DmoStoreId datasetId = new DmoStoreId("dataset:123");
         DmoStoreId folderId = new DmoStoreId("folder:123");
@@ -81,15 +78,13 @@ public class FileItemMetadataImplTest
         assertTrue("streaming path not serialized", fimd.asXMLString().contains(streamingPath));
     }
 
-    private Element getContent(String filename) throws DocumentException
-    {
+    private Element getContent(String filename) throws DocumentException {
         Dom4jReader reader = new Dom4jReader(filename);
         return (Element) reader.getNode("content");
     }
 
     @Test
-    public void testDirty()
-    {
+    public void testDirty() {
         if (verbose)
             Tester.printClassAndFieldHierarchy(FileItemMetadataImpl.class);
 

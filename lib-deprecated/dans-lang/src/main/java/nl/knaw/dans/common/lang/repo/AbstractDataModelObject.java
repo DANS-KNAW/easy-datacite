@@ -17,8 +17,7 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
  * 
  * @author lobo
  */
-public abstract class AbstractDataModelObject extends AbstractStorableObject implements DataModelObject
-{
+public abstract class AbstractDataModelObject extends AbstractStorableObject implements DataModelObject {
     private static final long serialVersionUID = 8229662231033470296L;
 
     private boolean registerDeleted;
@@ -33,103 +32,86 @@ public abstract class AbstractDataModelObject extends AbstractStorableObject imp
 
     private AuthzStrategy authzStrategy;
 
-    public AbstractDataModelObject()
-    {
+    public AbstractDataModelObject() {
 
     }
 
-    public AbstractDataModelObject(String storeId)
-    {
+    public AbstractDataModelObject(String storeId) {
         super(storeId);
         dmoStoreId = DmoStoreId.newDmoStoreId(storeId);
     }
 
-    public AbstractDataModelObject(DmoStoreId dmoStoreId)
-    {
+    public AbstractDataModelObject(DmoStoreId dmoStoreId) {
         this.dmoStoreId = dmoStoreId;
         setStoreId(dmoStoreId.getStoreId());
     }
 
     @Override
-    public DmoStoreId getDmoStoreId()
-    {
-        if (dmoStoreId == null)
-        {
+    public DmoStoreId getDmoStoreId() {
+        if (dmoStoreId == null) {
             dmoStoreId = DmoStoreId.newDmoStoreId(getStoreId());
         }
         return dmoStoreId;
     }
 
     @Override
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return DmoStoreId.getDmoNamespace(getStoreId());
     }
 
     /**
      * Returns an empty list. Subclasses may override.
      */
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         return new ArrayList<MetadataUnit>();
     }
 
     /**
      * Returns an empty list. Subclasses may override.
      */
-    public List<BinaryUnit> getBinaryUnits()
-    {
+    public List<BinaryUnit> getBinaryUnits() {
         return new ArrayList<BinaryUnit>();
     }
 
-    public void setUnitOfWork(UnitOfWork uow)
-    {
+    public void setUnitOfWork(UnitOfWork uow) {
         this.uow = uow;
     }
 
-    public UnitOfWork getUnitOfWork() throws NoUnitOfWorkAttachedException
-    {
+    public UnitOfWork getUnitOfWork() throws NoUnitOfWorkAttachedException {
         if (uow == null)
             throw new NoUnitOfWorkAttachedException("No unit of work attached to " + this.toString());
         return uow;
     }
 
-    public void registerDeleted()
-    {
+    public void registerDeleted() {
         registerDeleted = true;
     }
 
-    public boolean isRegisteredDeleted()
-    {
+    public boolean isRegisteredDeleted() {
         return registerDeleted;
     }
 
     /**
-     * Creates a new relations object. Override this method if you want to be in complete control of the
-     * relations.
+     * Creates a new relations object. Override this method if you want to be in complete control of the relations.
      * 
      * @return a new relations object or null if no relations are specified
      */
-    protected Relations newRelationsObject()
-    {
+    protected Relations newRelationsObject() {
         return null;
     }
 
-    public Relations getRelations()
-    {
+    public Relations getRelations() {
         if (relations == null)
             relations = this.newRelationsObject();
         return relations;
     }
 
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         return new HashSet<String>();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         String params = "sid='" + getStoreId() + "' ";
         params += "label='" + getLabel() + "' ";
         params += "loaded='" + isLoaded() + "' ";
@@ -139,34 +121,27 @@ public abstract class AbstractDataModelObject extends AbstractStorableObject imp
         return super.toString() + " [ " + params + "]";
     }
 
-    public boolean isInvalidated() throws RepositoryException
-    {
-        if (isLoaded())
-        {
+    public boolean isInvalidated() throws RepositoryException {
+        if (isLoaded()) {
             // It is assumed that all DMO's go through a single store object
             // which thus knows the state of all objects and can determine
             // even without querying its backend (Fedora) if the object is
             // invalidated or not.
             return getStore().isInvalidated(this);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public DmoStore getStore() throws NoStoreAttachedException, CouldNotGetStoreException
-    {
+    public DmoStore getStore() throws NoStoreAttachedException, CouldNotGetStoreException {
         return DmoStores.get().getStoreByName(getStoreName());
     }
 
-    protected void setStoreName(String storeName)
-    {
+    protected void setStoreName(String storeName) {
         this.storeName = storeName;
     }
 
-    public String getStoreName() throws NoStoreAttachedException
-    {
+    public String getStoreName() throws NoStoreAttachedException {
         if (storeName == null)
             throw new NoStoreAttachedException();
         return storeName;
@@ -178,8 +153,7 @@ public abstract class AbstractDataModelObject extends AbstractStorableObject imp
      * @throws UnsupportedOperationException
      */
     @Override
-    public String getAutzStrategyName()
-    {
+    public String getAutzStrategyName() {
         throw new UnsupportedOperationException("Not implemented");
     }
 
@@ -188,18 +162,15 @@ public abstract class AbstractDataModelObject extends AbstractStorableObject imp
      *         if the authzStrategy was not set.
      */
     @Override
-    public AuthzStrategy getAuthzStrategy()
-    {
-        if (authzStrategy == null)
-        {
+    public AuthzStrategy getAuthzStrategy() {
+        if (authzStrategy == null) {
             throw new IllegalStateException("AuthzStrategy not set on " + this);
         }
         return authzStrategy;
     }
 
     @Override
-    public void setAuthzStrategy(AuthzStrategy authzStrategy)
-    {
+    public void setAuthzStrategy(AuthzStrategy authzStrategy) {
         this.authzStrategy = authzStrategy;
     }
 }

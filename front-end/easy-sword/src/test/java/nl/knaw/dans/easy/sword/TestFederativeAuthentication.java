@@ -6,8 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /** TODO rather test the public methods and make the other methods private */
-public class TestFederativeAuthentication
-{
+public class TestFederativeAuthentication {
 
     private static final String ILLEGAL_TRADITIONAL_ID = "...";
 
@@ -19,8 +18,7 @@ public class TestFederativeAuthentication
     private static final String EPPN = "richardzijdeman@SURFguest.nl";
 
     @Test
-    public void calculateHashTest() throws Exception
-    {
+    public void calculateHashTest() throws Exception {
         String hash = FederativeAuthentication.calculateHash(EPPN, HASH_KEY);
         System.out.println("Hash=" + hash);
         // compare with known value
@@ -29,8 +27,7 @@ public class TestFederativeAuthentication
     }
 
     @Test
-    public void extractUserIdTest() throws Exception
-    {
+    public void extractUserIdTest() throws Exception {
 
         String id = new FederativeAuthentication(ILLEGAL_TRADITIONAL_ID, EPPN + TOKEN).getUserId();
         System.out.println("Id=" + id);
@@ -38,8 +35,7 @@ public class TestFederativeAuthentication
     }
 
     @Test
-    public void extractUserIdWithWrongTokenTest() throws Exception
-    {
+    public void extractUserIdWithWrongTokenTest() throws Exception {
         String id = null;
 
         id = new FederativeAuthentication(ILLEGAL_TRADITIONAL_ID, "").getUserId();

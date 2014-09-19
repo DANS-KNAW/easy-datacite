@@ -7,26 +7,20 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-public class IdMutexProviderTest
-{
+public class IdMutexProviderTest {
 
     @Test
-    public void testNPE()
-    {
+    public void testNPE() {
         IdMutexProvider imp = new IdMutexProvider();
-        try
-        {
+        try {
             imp.getMutex(null);
             fail("Did not throw NullPointerException");
         }
-        catch (NullPointerException e)
-        {
-        }
+        catch (NullPointerException e) {}
     }
 
     @Test
-    public void testSynchObject()
-    {
+    public void testSynchObject() {
         IdMutexProvider imp = new IdMutexProvider();
         // an id
         String id1a = "id1";

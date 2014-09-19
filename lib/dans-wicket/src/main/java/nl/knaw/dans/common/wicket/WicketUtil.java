@@ -17,8 +17,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
-public class WicketUtil
-{
+public class WicketUtil {
     /**
      * Hides an element with a certain wicketId in a certain parent component.
      * 
@@ -27,28 +26,23 @@ public class WicketUtil
      * @param wicketId
      *        the id of the wicket element that needs to be hidden
      */
-    public static void hide(MarkupContainer parentComponent, String wicketId)
-    {
+    public static void hide(MarkupContainer parentComponent, String wicketId) {
         HiddenComponent hiddenComponent = new HiddenComponent(wicketId);
         parentComponent.addOrReplace(hiddenComponent);
     }
 
     public static final String COMMON_FEEDBACK_PANEL = "commonFeedbackPanel";
 
-    public static FeedbackPanel addCommonFeedbackPanel(MarkupContainer comp)
-    {
+    public static FeedbackPanel addCommonFeedbackPanel(MarkupContainer comp) {
         return addCommonFeedbackPanel(comp, (IFeedbackMessageFilter) null);
     }
 
-    public static FeedbackPanel addCommonFeedbackPanel(MarkupContainer comp, IFeedbackMessageFilter filter)
-    {
-        FeedbackPanel commonFeedBackPanel = new FeedbackPanel(COMMON_FEEDBACK_PANEL, filter)
-        {
+    public static FeedbackPanel addCommonFeedbackPanel(MarkupContainer comp, IFeedbackMessageFilter filter) {
+        FeedbackPanel commonFeedBackPanel = new FeedbackPanel(COMMON_FEEDBACK_PANEL, filter) {
             private static final long serialVersionUID = -8064284418808980432L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return this.anyMessage();
             }
         };
@@ -57,18 +51,15 @@ public class WicketUtil
         return commonFeedBackPanel;
     }
 
-    public static String commonMessage(Component reporter, final String messageKey, final int type, final String... param)
-    {
+    public static String commonMessage(Component reporter, final String messageKey, final int type, final String... param) {
         String propertyMessage;
         if (reporter != null)
             propertyMessage = reporter.getString(messageKey);
         else
             propertyMessage = (String) new ResourceModel(messageKey).getObject();
 
-        if (param != null && param.length > 0)
-        {
-            for (int i = 0; i < param.length; i++)
-            {
+        if (param != null && param.length > 0) {
+            for (int i = 0; i < param.length; i++) {
                 if (param[i] != null)
                     propertyMessage = propertyMessage.replace("$" + (i + 1), param[i]);
             }
@@ -82,17 +73,14 @@ public class WicketUtil
         return propertyMessage;
     }
 
-    public static void clearMessages()
-    {
+    public static void clearMessages() {
         Session.get().cleanupFeedbackMessages();
     }
 
-    private static String getDisplayedMessage(final String message, final int type)
-    {
+    private static String getDisplayedMessage(final String message, final int type) {
         String displayedMessage = "";
 
-        switch (type)
-        {
+        switch (type) {
         case FeedbackMessage.INFO:
         case FeedbackMessage.WARNING:
             displayedMessage = message;
@@ -105,23 +93,18 @@ public class WicketUtil
         return displayedMessage;
     }
 
-    private static String getMessageTime()
-    {
+    private static String getMessageTime() {
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final Date date = new Date();
         return "[" + dateFormat.format(date) + "]   ";
     }
 
-    public static boolean redirectToLastVisitedPage()
-    {
+    public static boolean redirectToLastVisitedPage() {
         String lastVisitedPageURL = CommonSession.get().getLastVisitedPageURL();
-        if (lastVisitedPageURL != null)
-        {
+        if (lastVisitedPageURL != null) {
             RequestCycle.get().setRequestTarget(new RedirectRequestTarget(lastVisitedPageURL));
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

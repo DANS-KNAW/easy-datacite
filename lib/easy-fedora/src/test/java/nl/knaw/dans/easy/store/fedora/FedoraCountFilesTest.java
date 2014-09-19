@@ -22,8 +22,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FedoraCountFilesTest
-{
+public class FedoraCountFilesTest {
     private static DmoStoreId fileStoreId;
     private static DmoStoreId folderStoreId;
     private static DmoStoreId datasetStoreId;
@@ -31,8 +30,7 @@ public class FedoraCountFilesTest
     private static InMemoryDatabase inMemoryDB;
 
     @BeforeClass
-    public static void initDB() throws Exception
-    {
+    public static void initDB() throws Exception {
         inMemoryDB = new InMemoryDatabase();
         final DatasetItemContainer dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId());
         final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
@@ -46,134 +44,115 @@ public class FedoraCountFilesTest
     }
 
     @AfterClass
-    public static void closeDB()
-    {
+    public static void closeDB() {
         inMemoryDB.close();
     }
 
     @Test
-    public void folderItemImpl_getChildCount() throws Exception
-    {
+    public void folderItemImpl_getChildCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class)
                 + fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void folderItemImpl_getChildFileCount() throws Exception
-    {
+    public void folderItemImpl_getChildFileCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void folderItemImpl_getChildFolderCount() throws Exception
-    {
+    public void folderItemImpl_getChildFolderCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);
         assertThat(count, equalTo(0));
     }
 
     @Test
-    public void folderItemImpl_getTotalFileCount() throws Exception
-    {
+    public void folderItemImpl_getTotalFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void folderItemImpl_getTotalFolderCount() throws Exception
-    {
+    public void folderItemImpl_getTotalFolderCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FolderItemVO.class);
         assertThat(count, equalTo(0));
     }
 
     @Test
-    public void folderItemImpl_getCreatorRoleFileCount() throws Exception
-    {
+    public void folderItemImpl_getCreatorRoleFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, CreatorRole.DEPOSITOR);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void folderItemImpl_getVisibleToFileCount() throws Exception
-    {
+    public void folderItemImpl_getVisibleToFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, VisibleTo.ANONYMOUS);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void folderItemImpl_getAccessibleToFileCount() throws Exception
-    {
+    public void folderItemImpl_getAccessibleToFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, AccessibleTo.KNOWN);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getChildFileCount() throws Exception
-    {
+    public void datasetImpl_getChildFileCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class);
         assertThat(count, equalTo(0));
     }
 
     @Test
-    public void datasetImpl_getChildFolderCount() throws Exception
-    {
+    public void datasetImpl_getChildFolderCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(datasetStoreId, FolderItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getTotalFileCount() throws Exception
-    {
+    public void datasetImpl_getTotalFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getTotalFolderCount() throws Exception
-    {
+    public void datasetImpl_getTotalFolderCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FolderItemVO.class);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getCreatorRoleFileCount() throws Exception
-    {
+    public void datasetImpl_getCreatorRoleFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, CreatorRole.DEPOSITOR);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getVisibleToFileCount() throws Exception
-    {
+    public void datasetImpl_getVisibleToFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_getAccessibleToFileCount() throws Exception
-    {
+    public void datasetImpl_getAccessibleToFileCount() throws Exception {
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, AccessibleTo.KNOWN);
         assertThat(count, equalTo(1));
     }
 
     @Test
-    public void datasetImpl_hasPermissionRestrictedItems() throws Exception
-    {
+    public void datasetImpl_hasPermissionRestrictedItems() throws Exception {
         final boolean count = fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, AccessibleTo.RESTRICTED_REQUEST);
         assertThat(count, equalTo(false));
     }
 
     @Test
-    public void datasetImpl_hasGroupRestrictedItems() throws Exception
-    {
+    public void datasetImpl_hasGroupRestrictedItems() throws Exception {
         final boolean count = fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, AccessibleTo.RESTRICTED_GROUP);
         assertThat(count, equalTo(false));
     }
 
     @Test
-    public void datasetImpl_hasVisibleItems() throws Exception
-    {
+    public void datasetImpl_hasVisibleItems() throws Exception {
         // TODO logic differs from counts in DatasetViewPage.createTitleModel() and
         // IntermediatePage.generatePrePublishWarnings
         // TODO a copy-paste typo might have slipped through in the above methods
@@ -221,16 +200,14 @@ public class FedoraCountFilesTest
     // @formatter:on
 
     @Test
-    public void itemService_hasChildItems() throws Exception
-    {
+    public void itemService_hasChildItems() throws Exception {
         // previously implemented with FedoraFileStoreAccess.getChildCount
         final boolean count = fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class) || fileStoreAccess.hasMember(datasetStoreId, FolderItemVO.class);
         assertThat(count, equalTo(true));
     }
 
     @Test
-    public void codeCoverage() throws Exception
-    {
+    public void codeCoverage() throws Exception {
         final FileItemVOAttribute[] empty = {};
         assertThat(fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, (FileItemVOAttribute[]) null), equalTo(0));
         assertThat(fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, (FileItemVOAttribute[]) empty), equalTo(0));
@@ -238,26 +215,22 @@ public class FedoraCountFilesTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void hasVisibleForFolder() throws Exception
-    {
+    public void hasVisibleForFolder() throws Exception {
         fileStoreAccess.hasVisibleFiles(folderStoreId, true, true, true);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void noMembersForFiles() throws Exception
-    {
+    public void noMembersForFiles() throws Exception {
         fileStoreAccess.getDirectMemberCount(fileStoreId, FileItemVO.class);
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void noFolderPropertyFilters() throws Exception
-    {
+    public void noFolderPropertyFilters() throws Exception {
         fileStoreAccess.getDirectMemberCount(datasetStoreId, FolderItemVO.class, VisibleTo.ANONYMOUS);
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void atMostOnePropertyFilters() throws Exception
-    {
+    public void atMostOnePropertyFilters() throws Exception {
         fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS, VisibleTo.RESTRICTED_GROUP);
     }
 }

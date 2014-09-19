@@ -11,8 +11,7 @@ import nl.knaw.dans.common.lang.repo.types.CommonFileItem;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
-public interface FileItem extends DatasetItem, CommonFileItem
-{
+public interface FileItem extends DatasetItem, CommonFileItem {
     DmoNamespace NAMESPACE = new DmoNamespace("easy-file");
 
     void setFile(File file) throws IOException;

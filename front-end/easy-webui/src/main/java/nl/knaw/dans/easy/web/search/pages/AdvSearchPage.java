@@ -50,8 +50,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdvSearchPage extends AbstractSearchPage
-{
+public class AdvSearchPage extends AbstractSearchPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvSearchPage.class);
 
     private Class<? extends AbstractSearchResultPage> resultPage;
@@ -70,27 +69,23 @@ public class AdvSearchPage extends AbstractSearchPage
     // @formatter:on
     private boolean separateFilterCriteria = true;
 
-    public AdvSearchPage()
-    {
+    public AdvSearchPage() {
         this(PublicSearchResultPage.class);
     }
 
-    public AdvSearchPage(Class<? extends AbstractSearchResultPage> resultPage)
-    {
+    public AdvSearchPage(Class<? extends AbstractSearchResultPage> resultPage) {
         super(new SearchModel());
         this.resultPage = resultPage;
         init();
     }
 
-    public AdvSearchPage(SearchModel searchModel, Class<? extends AbstractSearchResultPage> resultPage)
-    {
+    public AdvSearchPage(SearchModel searchModel, Class<? extends AbstractSearchResultPage> resultPage) {
         super(searchModel);
         this.resultPage = resultPage;
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         add(Style.SEARCH_HEADER_CONTRIBUTION);
         add(Style.ADVANCED_SEARCH_HEADER_CONTRIBUTION);
         add(Style.USER_SELECTOR_HEADER_CONTRIBUTION);
@@ -101,8 +96,7 @@ public class AdvSearchPage extends AbstractSearchPage
         add(new AdvancedSearchForm("advancedSearchForm"));
     }
 
-    public boolean hasSeparateFilterCriteria()
-    {
+    public boolean hasSeparateFilterCriteria() {
         return separateFilterCriteria;
     }
 
@@ -126,48 +120,37 @@ public class AdvSearchPage extends AbstractSearchPage
      * @param separateFilterCriteria
      *        <code>true</code> for separate filter criteria, <code>false</code> for comma-separated list
      */
-    public void setSeparateFilterCriteria(boolean separateFilterCriteria)
-    {
+    public void setSeparateFilterCriteria(boolean separateFilterCriteria) {
         this.separateFilterCriteria = separateFilterCriteria;
     }
 
-    public void onAdvancedSearch(final AdvSearchData searchData)
-    {
+    public void onAdvancedSearch(final AdvSearchData searchData) {
         final List<Field<?>> fields = searchData.getFields(isArchivistOrAdmin());
 
-        if (fields.size() == 0 && StringUtils.isBlank(searchData.query))
-        {
+        if (fields.size() == 0 && StringUtils.isBlank(searchData.query)) {
             setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
             return;
-        }
-        else
-        {
+        } else {
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.ADVANCED_SEARCH_TERM, new AdvancedSearchStatistics(searchData));
         }
 
         // Any Field box
-        if (!StringUtils.isBlank(searchData.query))
-        {
-            getSearchModel().addCriterium(new TextSearchCriterium(searchData.query, new AbstractReadOnlyModel<String>()
-            {
+        if (!StringUtils.isBlank(searchData.query)) {
+            getSearchModel().addCriterium(new TextSearchCriterium(searchData.query, new AbstractReadOnlyModel<String>() {
                 private static final long serialVersionUID = 1114909631810523718L;
 
                 final String queryStr = searchData.query; // copy the value
 
-                public String getObject()
-                {
+                public String getObject() {
                     return CriteriumLabel.createFilterText(AdvSearchPage.this.getString(ADVSEARCH_ANYFIELD_CRITERIUM_PREFIX), queryStr);
                 }
             }));
         }
 
-        if (separateFilterCriteria)
-        {
+        if (separateFilterCriteria) {
             collectSeparateCriteria(fields);
-        }
-        else
-        {
+        } else {
             collectMultiCriterium(fields);
         }
 
@@ -176,24 +159,20 @@ public class AdvSearchPage extends AbstractSearchPage
         setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
     }
 
-    private void collectSeparateCriteria(List<Field<?>> fields)
-    {
+    private void collectSeparateCriteria(List<Field<?>> fields) {
         final FieldNameResourceTranslator translator = new FieldNameResourceTranslator();
-        for (final Field<?> field : fields)
-        {
+        for (final Field<?> field : fields) {
             // use a copy of the field
             final SimpleField newField = new SimpleField(field);
 
-            getSearchModel().addCriterium(new FilterCriterium(newField, new AbstractReadOnlyModel<String>()
-            {
+            getSearchModel().addCriterium(new FilterCriterium(newField, new AbstractReadOnlyModel<String>() {
                 private static final long serialVersionUID = 1L;
 
                 final String fieldValStr = newField.getValue().toString();
                 final String fieldName = newField.getName();
 
                 @Override
-                public String getObject()
-                {
+                public String getObject() {
                     IModel<String> translation = translator.getTranslation(fieldName, getLocale(), false);
                     String prefix = translation.getObject();
                     return CriteriumLabel.createFilterText(prefix, fieldValStr);
@@ -202,39 +181,30 @@ public class AdvSearchPage extends AbstractSearchPage
         }
     }
 
-    private void collectMultiCriterium(final List<Field<?>> fields)
-    {
+    private void collectMultiCriterium(final List<Field<?>> fields) {
         // produces Adv. Search: value1, value2
-        if (fields.size() > 0)
-        {
-            getSearchModel().addCriterium(new MultiFilterCriterium(fields, new AbstractReadOnlyModel<String>()
-            {
+        if (fields.size() > 0) {
+            getSearchModel().addCriterium(new MultiFilterCriterium(fields, new AbstractReadOnlyModel<String>() {
                 private static final long serialVersionUID = 6378460988292127479L;
 
                 @Override
-                public String getObject()
-                {
+                public String getObject() {
                     String prefix = "";
                     String fieldStr = "";
 
-                    if (fields.size() > 1)
-                    {
+                    if (fields.size() > 1) {
                         prefix = AdvSearchPage.this.getString(ADVSEARCH_CRITERIUM_PREFIX);
 
                         Iterator<Field<?>> fieldIt = fields.iterator();
-                        while (fieldIt.hasNext())
-                        {
+                        while (fieldIt.hasNext()) {
                             Field<?> field = fieldIt.next();
-                            if (field.getValue() != null)
-                            {
+                            if (field.getValue() != null) {
                                 fieldStr += field.getValue().toString();
                                 if (fieldIt.hasNext())
                                     fieldStr += ", ";
                             }
                         }
-                    }
-                    else if (fields.size() > 0)
-                    {
+                    } else if (fields.size() > 0) {
 
                         Field<?> field = fields.get(0);
 
@@ -252,26 +222,21 @@ public class AdvSearchPage extends AbstractSearchPage
     }
 
     /**
-     * The form with all input options. The markup for this form can currently be found in
-     * AdvancedSearchPage.html.
+     * The form with all input options. The markup for this form can currently be found in AdvancedSearchPage.html.
      * 
      * @author lobo
      */
-    class AdvancedSearchForm extends AbstractEasyForm<AdvSearchData>
-    {
+    class AdvancedSearchForm extends AbstractEasyForm<AdvSearchData> {
         private static final long serialVersionUID = -3768697914151647721L;
 
-        public AdvancedSearchForm(String wicketId)
-        {
+        public AdvancedSearchForm(String wicketId) {
             this(wicketId, new Model<AdvSearchData>(null));
         }
 
-        public AdvancedSearchForm(String wicketId, IModel<AdvSearchData> model)
-        {
+        public AdvancedSearchForm(String wicketId, IModel<AdvSearchData> model) {
             super(wicketId, model);
 
-            if (getModelObject() == null)
-            {
+            if (getModelObject() == null) {
                 model = new Model(new AdvSearchData());
                 setDefaultModel(model);
             }
@@ -295,8 +260,7 @@ public class AdvSearchPage extends AbstractSearchPage
             add(new CancelLink("cancelButton"));
         }
 
-        private void initArchivistOptions()
-        {
+        private void initArchivistOptions() {
             IModel model = getDefaultModel();
 
             WebMarkupContainer archivistOptions = new WebMarkupContainer("archivistOptions");
@@ -311,13 +275,11 @@ public class AdvSearchPage extends AbstractSearchPage
             for (DatasetState datasetState : datasetStates)
                 statusList.add(datasetState);
 
-            ListView<DatasetState> states = new ListView<DatasetState>("states", statusList)
-            {
+            ListView<DatasetState> states = new ListView<DatasetState>("states", statusList) {
                 private static final long serialVersionUID = 2127442878724476462L;
 
                 @Override
-                protected void populateItem(ListItem<DatasetState> item)
-                {
+                protected void populateItem(ListItem<DatasetState> item) {
                     DatasetState state = item.getModelObject();
                     item.add(new Check("checkbox", item.getDefaultModel()));
                     item.add(new Label("status", new ResourceModel("fieldvalue." + state.toString())));
@@ -329,13 +291,11 @@ public class AdvSearchPage extends AbstractSearchPage
             archivistOptions.add(statusGroup);
 
             // assigned to
-            try
-            {
+            try {
                 archivistOptions.add(AssignToDropChoiceList.getDropDownChoice("assignedToField",
                         new PropertyModel(new AssignModel((AdvSearchData) model.getObject()), "userId")));
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.ERROR_GETTING_ARCHIVISTS_LIST);
                 LOGGER.error(message, e);
                 throw new RestartResponseException(new ErrorPage());
@@ -343,29 +303,24 @@ public class AdvSearchPage extends AbstractSearchPage
         }
 
         @Override
-        protected void onSubmit()
-        {
+        protected void onSubmit() {
             onAdvancedSearch(getModelObject());
         }
 
-        class AssignModel implements Serializable
-        {
+        class AssignModel implements Serializable {
             private static final long serialVersionUID = -6033853618498949502L;
 
             private final AdvSearchData data;
 
-            protected AssignModel(AdvSearchData data)
-            {
+            protected AssignModel(AdvSearchData data) {
                 this.data = data;
             }
 
-            public KeyValuePair getUserId()
-            {
+            public KeyValuePair getUserId() {
                 return new KeyValuePair(data.assignedTo.getValue(), null);
             }
 
-            public void setUserId(KeyValuePair kvp)
-            {
+            public void setUserId(KeyValuePair kvp) {
                 if (kvp != null)
                     data.assignedTo.setValue(kvp.getKey());
                 else
@@ -373,31 +328,25 @@ public class AdvSearchPage extends AbstractSearchPage
             }
         }
 
-        class DepositorModel implements Serializable
-        {
+        class DepositorModel implements Serializable {
             private static final long serialVersionUID = -6033853668497949502L;
 
             private final AdvSearchData data;
 
-            protected DepositorModel(AdvSearchData data)
-            {
+            protected DepositorModel(AdvSearchData data) {
                 this.data = data;
             }
 
-            public String getUserId()
-            {
+            public String getUserId() {
                 return data.depositor.getValue();
             }
 
-            public void setUserId(String user)
-            {
-                if (user != null)
-                {
+            public void setUserId(String user) {
+                if (user != null) {
                     int index = user.indexOf(":");
                     if (index > -1)
                         data.depositor.setValue(user.substring(index + 2));
-                }
-                else
+                } else
                     data.depositor.setValue(null);
             }
         }

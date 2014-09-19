@@ -9,34 +9,27 @@ import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class DisciplineUtils
-{
+public class DisciplineUtils {
 
     @SpringBean(name = "depositService")
     private static DepositService depositService;
 
-    public static ChoiceList getDisciplinesChoiceList()
-    {
+    public static ChoiceList getDisciplinesChoiceList() {
         if (depositService == null)
             InjectorHolder.getInjector().inject(new DisciplineUtils());
-        try
-        {
+        try {
             return depositService.getChoices("custom.disciplines", null);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new InternalWebError();
         }
     }
 
-    public static KeyValuePair getDisciplineItemById(String disciplineId)
-    {
+    public static KeyValuePair getDisciplineItemById(String disciplineId) {
         final ChoiceList choices = getDisciplinesChoiceList();
 
-        for (KeyValuePair kvp : choices.getChoices())
-        {
-            if (kvp.getKey().equals(disciplineId))
-            {
+        for (KeyValuePair kvp : choices.getChoices()) {
+            if (kvp.getKey().equals(disciplineId)) {
                 return kvp;
             }
         }
@@ -44,8 +37,7 @@ public class DisciplineUtils
         return null;
     }
 
-    public void setDepositService(DepositService depositService)
-    {
+    public void setDepositService(DepositService depositService) {
         DisciplineUtils.depositService = depositService;
     }
 }

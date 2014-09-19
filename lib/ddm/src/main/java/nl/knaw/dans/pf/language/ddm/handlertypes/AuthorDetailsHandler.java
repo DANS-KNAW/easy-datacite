@@ -6,18 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public abstract class AuthorDetailsHandler extends DaiAuthorHandler
-{
+public abstract class AuthorDetailsHandler extends DaiAuthorHandler {
     private static final Logger logger = LoggerFactory.getLogger(AuthorDetailsHandler.class);
     protected Author author;
 
     @Override
-    public void finishElement(final String uri, final String localName) throws SAXException
-    {
+    public void finishElement(final String uri, final String localName) throws SAXException {
         if ("author".equals(localName))
             logger.debug("collected: " + author.toString());
-        else
-        {
+        else {
             final String value = getCharsSinceStart().trim();
             if (value.length() == 0)
                 return;

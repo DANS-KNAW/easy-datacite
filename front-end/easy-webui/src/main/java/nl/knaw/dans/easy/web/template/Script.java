@@ -4,8 +4,7 @@ import static org.apache.wicket.markup.html.JavascriptPackageResource.getHeaderC
 
 import org.apache.wicket.behavior.HeaderContributor;
 
-public class Script
-{
+public class Script {
     // @formatter:off
     public static final HeaderContributor
 

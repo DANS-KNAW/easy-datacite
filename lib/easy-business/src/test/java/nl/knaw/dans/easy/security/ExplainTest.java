@@ -19,14 +19,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ExplainTest
-{
+public class ExplainTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ExplainTest.class);
 
     @Test
-    public void explain()
-    {
+    public void explain() {
         Object[] args = null;
         ContextParameters ctxParameters = new ContextParameters(args);
 

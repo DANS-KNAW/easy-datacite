@@ -4,8 +4,7 @@ import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
-public interface DatasetItem extends DataModelObject
-{
+public interface DatasetItem extends DataModelObject {
     DmoStoreId getDatasetId();
 
     void setDatasetId(DmoStoreId datasetId);

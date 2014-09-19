@@ -1,7 +1,6 @@
 package nl.knaw.dans.commons.pid;
 
-public interface PidTableProperties
-{
+public interface PidTableProperties {
     static final String TABLE_NAME = "pid_counter";
 
     /** Long. Last and generated part of the URN. */
@@ -14,8 +13,7 @@ public interface PidTableProperties
     static final String URN_PREFIX = "urn:nbn:nl:ui:";
 
     /**
-     * Tail of the primary key. Center part of the URN. Used by
-     * {@link PidGenerator#PidGenerator(java.sql.Connection)} to call
+     * Tail of the primary key. Center part of the URN. Used by {@link PidGenerator#PidGenerator(java.sql.Connection)} to call
      * {@link PidGenerator#PidGenerator(java.sql.Connection, String)}
      */
     static final String DANS_PREFIX = "13-";

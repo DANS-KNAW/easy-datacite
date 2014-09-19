@@ -24,8 +24,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OverviewPanel extends AbstractEasyPanel
-{
+public class OverviewPanel extends AbstractEasyPanel {
 
     public static final String SUMMARY = "summary";
 
@@ -38,31 +37,25 @@ public class OverviewPanel extends AbstractEasyPanel
     @SpringBean(name = "jumpoffService")
     private JumpoffService jumpoffService;
 
-    public OverviewPanel(String wicketId, Dataset dataset)
-    {
+    public OverviewPanel(String wicketId, Dataset dataset) {
         super(wicketId);
         this.dataset = dataset;
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         add(new SummaryPanel(SUMMARY, dataset));
         add(new RelationInfoPanel("relationInfo", dataset.getEasyMetadata().getEmdRelation()));
-        add(new JumpoffPanel("jumpoffPanel", dataset, EasyWicketApplication.WICKET_APPLICATION_ALIAS)
-        {
+        add(new JumpoffPanel("jumpoffPanel", dataset, EasyWicketApplication.WICKET_APPLICATION_ALIAS) {
 
             private static final long serialVersionUID = -1007009673871749198L;
 
             @Override
-            public void deleteJumpoffDmo(DataModelObject targetDmo, JumpoffDmo jumpoffDmo)
-            {
-                try
-                {
+            public void deleteJumpoffDmo(DataModelObject targetDmo, JumpoffDmo jumpoffDmo) {
+                try {
                     Services.getJumpoffService().deleteJumpoff(getSessionUser(), targetDmo, jumpoffDmo);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
@@ -70,15 +63,12 @@ public class OverviewPanel extends AbstractEasyPanel
             }
 
             @Override
-            public void deleteResource(DataModelObject targetDmo, ResourceRef resourceRef)
-            {
-                try
-                {
+            public void deleteResource(DataModelObject targetDmo, ResourceRef resourceRef) {
+                try {
                     Services.getJumpoffService().deleteMetadataUnit(getSessionUser(), new DmoStoreId(resourceRef.getContainerId()),
                             new DsUnitId(resourceRef.getUnitId()));
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
@@ -86,14 +76,11 @@ public class OverviewPanel extends AbstractEasyPanel
             }
 
             @Override
-            public JumpoffDmo getJumpoffDmoFor(DataModelObject targetDmo)
-            {
-                try
-                {
+            public JumpoffDmo getJumpoffDmoFor(DataModelObject targetDmo) {
+                try {
                     return jumpoffService.getJumpoffDmoFor(getSessionUser(), targetDmo.getDmoStoreId());
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
@@ -101,14 +88,11 @@ public class OverviewPanel extends AbstractEasyPanel
             }
 
             @Override
-            public List<UnitMetadata> getUnitMetadata(JumpoffDmo jumpoffDmo)
-            {
-                try
-                {
+            public List<UnitMetadata> getUnitMetadata(JumpoffDmo jumpoffDmo) {
+                try {
                     return Services.getJumpoffService().getUnitMetadata(getSessionUser(), jumpoffDmo);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
@@ -116,14 +100,11 @@ public class OverviewPanel extends AbstractEasyPanel
             }
 
             @Override
-            public void saveJumpoffDmo(DataModelObject targetDmo, JumpoffDmo jumpoffDmo)
-            {
-                try
-                {
+            public void saveJumpoffDmo(DataModelObject targetDmo, JumpoffDmo jumpoffDmo) {
+                try {
                     Services.getJumpoffService().saveJumpoffDmo(getSessionUser(), targetDmo, jumpoffDmo);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
@@ -132,14 +113,11 @@ public class OverviewPanel extends AbstractEasyPanel
             }
 
             @Override
-            public void toggleEditorMode(JumpoffDmo jumpoffDmo)
-            {
-                try
-                {
+            public void toggleEditorMode(JumpoffDmo jumpoffDmo) {
+                try {
                     Services.getJumpoffService().toggleEditorMode(getSessionUser(), jumpoffDmo);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);

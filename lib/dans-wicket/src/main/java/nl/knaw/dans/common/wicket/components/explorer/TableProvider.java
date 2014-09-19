@@ -14,29 +14,21 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class TableProvider extends SortableDataProvider<ITreeItem>
-{
+public class TableProvider extends SortableDataProvider<ITreeItem> {
     private static final long serialVersionUID = 1L;
 
-    class SortableDataProviderComparator implements Comparator<ITreeItem>, Serializable
-    {
+    class SortableDataProviderComparator implements Comparator<ITreeItem>, Serializable {
         private static final long serialVersionUID = 1L;
 
-        public int compare(final ITreeItem o1, final ITreeItem o2)
-        {
+        public int compare(final ITreeItem o1, final ITreeItem o2) {
             PropertyModel<Comparable<Object>> model1 = new PropertyModel<Comparable<Object>>(o1, getSort().getProperty());
             PropertyModel<Comparable<Object>> model2 = new PropertyModel<Comparable<Object>>(o2, getSort().getProperty());
 
-            if (o1.getType().equals(Type.FOLDER) && !o2.getType().equals(Type.FOLDER))
-            {
+            if (o1.getType().equals(Type.FOLDER) && !o2.getType().equals(Type.FOLDER)) {
                 return -1;
-            }
-            else if (!o1.getType().equals(Type.FOLDER) && o2.getType().equals(Type.FOLDER))
-            {
+            } else if (!o1.getType().equals(Type.FOLDER) && o2.getType().equals(Type.FOLDER)) {
                 return 1;
-            }
-            else
-            {
+            } else {
                 int result = model1.getObject().compareTo(model2.getObject());
                 return getSort().isAscending() ? result : -result;
             }
@@ -46,14 +38,12 @@ public class TableProvider extends SortableDataProvider<ITreeItem>
     private List<ITreeItem> list = new ArrayList<ITreeItem>();
     private SortableDataProviderComparator comparator = new SortableDataProviderComparator();
 
-    public TableProvider()
-    {
+    public TableProvider() {
         // The default sorting
         setSort("name", true);
     }
 
-    public Iterator<ITreeItem> iterator(int first, int count)
-    {
+    public Iterator<ITreeItem> iterator(int first, int count) {
         // Get the data
         List<ITreeItem> newList = new ArrayList<ITreeItem>(list);
 
@@ -64,32 +54,26 @@ public class TableProvider extends SortableDataProvider<ITreeItem>
         return newList.subList(first, first + count).iterator();
     }
 
-    public int size()
-    {
+    public int size() {
         return list.size();
     }
 
-    public IModel<ITreeItem> model(final ITreeItem object)
-    {
-        return new AbstractReadOnlyModel<ITreeItem>()
-        {
+    public IModel<ITreeItem> model(final ITreeItem object) {
+        return new AbstractReadOnlyModel<ITreeItem>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public ITreeItem getObject()
-            {
+            public ITreeItem getObject() {
                 return object;
             }
         };
     }
 
-    public List<ITreeItem> getList()
-    {
+    public List<ITreeItem> getList() {
         return list;
     }
 
-    public void setList(List<ITreeItem> list)
-    {
+    public void setList(List<ITreeItem> list) {
         this.list = list;
     }
 }

@@ -15,18 +15,15 @@ import nl.knaw.dans.easy.domain.dataset.DatasetFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class DatasetRelationsTest
-{
+public class DatasetRelationsTest {
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         AbstractDmoFactory.register(Dataset.NAMESPACE, new DatasetFactory());
     }
 
     @Test
-    public void getOAISetMembershipsEmpty() throws Exception
-    {
+    public void getOAISetMembershipsEmpty() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         Set<DmoStoreId> storeIds = relations.getOAISetMemberships();
@@ -34,8 +31,7 @@ public class DatasetRelationsTest
     }
 
     @Test
-    public void getOAISetMemberships() throws Exception
-    {
+    public void getOAISetMemberships() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         relations.addOAISetMembership(new DmoStoreId("foo-bar:1"));
@@ -70,8 +66,7 @@ public class DatasetRelationsTest
     }
 
     @Test
-    public void getCollectionMembershipsEmpty() throws Exception
-    {
+    public void getCollectionMembershipsEmpty() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         Set<DmoStoreId> storeIds = relations.getCollectionMemberships();
@@ -79,8 +74,7 @@ public class DatasetRelationsTest
     }
 
     @Test
-    public void getCollectionMemberships() throws Exception
-    {
+    public void getCollectionMemberships() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         relations.addCollectionMembership(new DmoStoreId(ECollection.EasyCollection.namespace, "1"));
@@ -115,8 +109,7 @@ public class DatasetRelationsTest
     }
 
     @Test
-    public void isCollectionMember() throws Exception
-    {
+    public void isCollectionMember() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         relations.addCollectionMembership(new DmoStoreId(ECollection.EasyCollection.namespace, "1"));
@@ -128,8 +121,7 @@ public class DatasetRelationsTest
     }
 
     @Test
-    public void isOAISetMember() throws Exception
-    {
+    public void isOAISetMember() throws Exception {
         Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
         DatasetRelations relations = dataset.getRelations();
         relations.addOAISetMembership(new DmoStoreId("foo-bar:1"));

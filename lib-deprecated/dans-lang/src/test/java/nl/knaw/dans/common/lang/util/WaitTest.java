@@ -2,12 +2,10 @@ package nl.knaw.dans.common.lang.util;
 
 import org.junit.Test;
 
-public class WaitTest
-{
+public class WaitTest {
 
     @Test
-    public void waitAWhile()
-    {
+    public void waitAWhile() {
         Wait.milliSeconds(100);
     }
 

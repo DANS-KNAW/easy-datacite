@@ -12,8 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FolderItemConverterTest
-{
+public class FolderItemConverterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FolderItemConverterTest.class);
 
@@ -21,8 +20,7 @@ public class FolderItemConverterTest
     private FolderItemConverter converter = new FolderItemConverter();
 
     @Test
-    public void testConverter() throws XMLSerializationException, Exception
-    {
+    public void testConverter() throws XMLSerializationException, Exception {
 
         FolderItemImpl fo1 = new FolderItemImpl("easy-folder:1");
         FileItemImpl fi1 = new FileItemImpl("easy-file:1");

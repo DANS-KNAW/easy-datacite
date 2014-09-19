@@ -2,8 +2,7 @@ package nl.knaw.dans.common.wicket.util;
 
 import org.apache.wicket.validation.validator.PatternValidator;
 
-public class LettersAndDigitsValidator extends PatternValidator
-{
+public class LettersAndDigitsValidator extends PatternValidator {
 
     public static final String PATTERN = "([A-Za-z0-9]+)";
 
@@ -11,17 +10,14 @@ public class LettersAndDigitsValidator extends PatternValidator
 
     private static LettersAndDigitsValidator instance;
 
-    public static LettersAndDigitsValidator instance()
-    {
-        if (instance == null)
-        {
+    public static LettersAndDigitsValidator instance() {
+        if (instance == null) {
             instance = new LettersAndDigitsValidator();
         }
         return instance;
     }
 
-    private LettersAndDigitsValidator()
-    {
+    private LettersAndDigitsValidator() {
         super(PATTERN);
     }
 

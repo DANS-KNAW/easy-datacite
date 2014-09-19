@@ -23,171 +23,136 @@ import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import nl.knaw.dans.i.security.annotations.SecuredOperation;
 
-public class EasyCollectionService extends AbstractEasyService implements CollectionService
-{
+public class EasyCollectionService extends AbstractEasyService implements CollectionService {
 
     private DatasetRelationUpdater datasetRelationUpdater;
 
-    public EasyCollectionService()
-    {
+    public EasyCollectionService() {
 
     }
 
     @Override
-    public DmoCollection getRoot(ECollection eColl) throws ServiceException
-    {
+    public DmoCollection getRoot(ECollection eColl) throws ServiceException {
         DmoCollection collection;
-        try
-        {
+        try {
             collection = Data.getCollectionAccess().getRoot(eColl);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
         return collection;
     }
 
     @Override
-    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws ServiceException
-    {
+    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws ServiceException {
         DmoCollection collection;
-        try
-        {
+        try {
             collection = Data.getCollectionAccess().getCollection(dmoStoreId);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
         return collection;
     }
 
     @Override
-    public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException
-    {
-        try
-        {
+    public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException {
+        try {
             Data.getCollectionAccess().saveCollection(sessionUser, collection);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws ServiceException
-    {
+    public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws ServiceException {
         DmoCollection collection;
-        try
-        {
+        try {
             collection = Data.getCollectionAccess().createCollection(sessionUser, parent, label, shortName);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
         return collection;
     }
 
     @Override
-    public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws ServiceException
-    {
-        try
-        {
+    public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws ServiceException {
+        try {
             Data.getCollectionAccess().attachCollection(sessionUser, parent, child);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException
-    {
-        try
-        {
+    public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException {
+        try {
             Data.getCollectionAccess().detachCollection(sessionUser, collection);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException
-    {
-        try
-        {
+    public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException {
+        try {
             Data.getCollectionAccess().publishAsOAISet(sessionUser, collection);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException
-    {
-        try
-        {
+    public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException {
+        try {
             Data.getCollectionAccess().unpublishAsOAISet(sessionUser, collection);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Map<ECollection, List<ECollectionEntry>> getCollectionEntries() throws ServiceException
-    {
+    public Map<ECollection, List<ECollectionEntry>> getCollectionEntries() throws ServiceException {
         Map<ECollection, List<ECollectionEntry>> entryMap = new LinkedHashMap<ECollection, List<ECollectionEntry>>();
-        for (ECollection eColl : ECollection.values())
-        {
+        for (ECollection eColl : ECollection.values()) {
             entryMap.put(eColl, getCollectionEntries(eColl));
         }
         return entryMap;
     }
 
     @Override
-    public List<ECollectionEntry> getCollectionEntries(ECollection eColl) throws ServiceException
-    {
+    public List<ECollectionEntry> getCollectionEntries(ECollection eColl) throws ServiceException {
         List<ECollectionEntry> entries = new ArrayList<ECollectionEntry>();
         DmoCollection root = getRoot(eColl);
-        for (DmoCollection kid : root.getChildren())
-        {
+        for (DmoCollection kid : root.getChildren()) {
             collectEntries(entries, kid, 0);
         }
         return entries;
     }
 
-    private void collectEntries(List<ECollectionEntry> entries, DmoCollection collection, int level)
-    {
+    private void collectEntries(List<ECollectionEntry> entries, DmoCollection collection, int level) {
         level++;
         ECollectionEntry entry = new ECollectionEntry(collection, level);
         entries.add(entry);
-        for (DmoCollection kid : collection.getChildren())
-        {
+        for (DmoCollection kid : collection.getChildren()) {
             collectEntries(entries, kid, level);
         }
     }
 
     @Override
-    public Map<ECollection, List<ECollectionEntry>> getCollectionEntries(Dataset dataset) throws ServiceException
-    {
+    public Map<ECollection, List<ECollectionEntry>> getCollectionEntries(Dataset dataset) throws ServiceException {
         Map<ECollection, List<ECollectionEntry>> entryMap = new LinkedHashMap<ECollection, List<ECollectionEntry>>();
         DatasetRelations relations = dataset.getRelations();
-        for (ECollection eColl : ECollection.values())
-        {
+        for (ECollection eColl : ECollection.values()) {
             Set<DmoStoreId> ids = relations.getCollectionMemberships(eColl.namespace);
             List<ECollectionEntry> entries = new ArrayList<ECollectionEntry>();
-            for (DmoStoreId id : ids)
-            {
+            for (DmoStoreId id : ids) {
                 entries.add(new ECollectionEntry(getCollection(id), 0));
             }
             entryMap.put(eColl, entries);
@@ -197,54 +162,43 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
 
     @SecuredOperation(id = "nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships")
     @Override
-    public void updateCollectionMemberships(EasyUser sessionUser, Dataset dataset, Map<ECollection, List<ECollectionEntry>> entryMap) throws ServiceException
-    {
+    public void updateCollectionMemberships(EasyUser sessionUser, Dataset dataset, Map<ECollection, List<ECollectionEntry>> entryMap) throws ServiceException {
         getDatasetRelationUpdater().update(dataset, entryMap);
-        try
-        {
+        try {
             String id = sessionUser == null || sessionUser.isAnonymous() ? "anonymous" : sessionUser.getId();
             Data.getEasyStore().update(dataset, "relations updated by " + id);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public RecursiveList getRecursiveList(ECollection eColl) throws ServiceException
-    {
+    public RecursiveList getRecursiveList(ECollection eColl) throws ServiceException {
         RecursiveList recursiveList;
-        try
-        {
+        try {
             recursiveList = Data.getCollectionAccess().getRecursiveList(eColl);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
         return recursiveList;
     }
 
     @Override
-    public RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException
-    {
+    public RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException {
         RecursiveList recursiveList;
-        try
-        {
+        try {
             recursiveList = Data.getCollectionAccess().getRecursiveList(namespace);
         }
-        catch (CollectionsException e)
-        {
+        catch (CollectionsException e) {
             throw new ServiceException(e);
         }
         return recursiveList;
     }
 
-    private DatasetRelationUpdater getDatasetRelationUpdater()
-    {
-        if (datasetRelationUpdater == null)
-        {
+    private DatasetRelationUpdater getDatasetRelationUpdater() {
+        if (datasetRelationUpdater == null) {
             datasetRelationUpdater = new DatasetRelationUpdater();
         }
         return datasetRelationUpdater;

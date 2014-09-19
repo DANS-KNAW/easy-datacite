@@ -7,33 +7,26 @@ import nl.knaw.dans.common.lang.search.Field;
 import nl.knaw.dans.common.lang.search.FieldSet;
 
 @SuppressWarnings("unchecked")
-public class SimpleDocument implements Document
-{
+public class SimpleDocument implements Document {
     private static final long serialVersionUID = 1069145763060657857L;
 
     private SimpleFieldSet fields = new SimpleFieldSet();
 
-    public SimpleDocument()
-    {
-    }
+    public SimpleDocument() {}
 
-    public SimpleDocument(Document doc)
-    {
+    public SimpleDocument(Document doc) {
         this.setFields(doc.getFields());
     }
 
-    public void addField(Field<?> field)
-    {
+    public void addField(Field<?> field) {
         fields.add(field);
     }
 
-    public void clear()
-    {
+    public void clear() {
         fields.clear();
     }
 
-    public void setFields(FieldSet<?> fields)
-    {
+    public void setFields(FieldSet<?> fields) {
         clear();
         if (fields == null)
             return;
@@ -41,25 +34,21 @@ public class SimpleDocument implements Document
         this.fields = (SimpleFieldSet) fields;
     }
 
-    public Field<?> getFieldByName(String fieldName)
-    {
+    public Field<?> getFieldByName(String fieldName) {
         if (fieldName == null)
             return null;
         return fields.getByFieldName(fieldName);
     }
 
-    public FieldSet<?> getFields()
-    {
+    public FieldSet<?> getFields() {
         return fields;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         String t = super.toString() + "[fields = '";
         Iterator<Field<?>> it = fields.iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             t += it.next().toString();
         }
         t += "']";

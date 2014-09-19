@@ -22,8 +22,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Feb 10, 2009
  */
-public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements EasyUserRepo
-{
+public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements EasyUserRepo {
 
     private static Logger logger = LoggerFactory.getLogger(EasyLdapUserRepo.class);
 
@@ -33,29 +32,24 @@ public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements 
      * @param client
      *        the LdapClient this UserRepo talks to
      * @param context
-     *        the context where users are kept on the client, i.e.
-     *        "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
+     *        the context where users are kept on the client, i.e. "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
      */
-    public EasyLdapUserRepo(LdapClient client, String context)
-    {
+    public EasyLdapUserRepo(LdapClient client, String context) {
         super(client, context, new LdapMapper<EasyUser>(EasyUserImpl.class));
     }
 
     @Override
-    protected EasyUser unmarshal(Attributes attrs) throws LdapMappingException
-    {
+    protected EasyUser unmarshal(Attributes attrs) throws LdapMappingException {
         return getLdapMapper().unmarshal(new EasyUserImpl(), attrs);
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<EasyUser> findByRole(Role role) throws RepositoryException
-    {
+    public List<EasyUser> findByRole(Role role) throws RepositoryException {
         String filter = "(&(objectClass=" + getObjectClassName() + ")(easyRoles=" + role.toString() + "))";
         List<EasyUser> users = search(filter);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Find by role " + role + ", found " + users.size() + " users.");
         }
         return users;

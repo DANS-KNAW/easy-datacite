@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.business.dataset;
 
-public interface SubmissionProcessor
-{
+public interface SubmissionProcessor {
 
     boolean process(DatasetSubmissionImpl submission);
 

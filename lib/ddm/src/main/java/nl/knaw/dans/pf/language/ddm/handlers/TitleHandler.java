@@ -5,11 +5,9 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.xml.sax.SAXException;
 
-public class TitleHandler extends BasicStringHandler
-{
+public class TitleHandler extends BasicStringHandler {
     @Override
-    protected void finishElement(final String uri, final String localName) throws SAXException
-    {
+    protected void finishElement(final String uri, final String localName) throws SAXException {
         final BasicString basicString = createBasicString(uri, localName);
         if (basicString != null)
             getTarget().getEmdTitle().getDcTitle().add(basicString);

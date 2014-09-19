@@ -11,8 +11,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
  * 
  * @author lobo
  */
-public interface DmoContainerItem extends DmoCollectionMember
-{
+public interface DmoContainerItem extends DmoCollectionMember {
     DmoStoreId getParentSid() throws RepositoryException;
 
     Set<DmoStoreId> getParentSids() throws RepositoryException;

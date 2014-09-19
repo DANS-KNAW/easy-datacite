@@ -7,27 +7,21 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
  * 
  * @author ecco Apr 8, 2009
  */
-public class FormConfigurationException extends Exception
-{
+public class FormConfigurationException extends Exception {
 
     private static final long serialVersionUID = -2886161910444752248L;
 
-    public FormConfigurationException()
-    {
-    }
+    public FormConfigurationException() {}
 
-    public FormConfigurationException(String message)
-    {
+    public FormConfigurationException(String message) {
         super(message);
     }
 
-    public FormConfigurationException(Throwable cause)
-    {
+    public FormConfigurationException(Throwable cause) {
         super(cause);
     }
 
-    public FormConfigurationException(String message, Throwable cause)
-    {
+    public FormConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 

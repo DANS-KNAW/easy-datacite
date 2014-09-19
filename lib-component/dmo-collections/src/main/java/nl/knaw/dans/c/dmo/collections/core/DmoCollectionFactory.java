@@ -14,51 +14,41 @@ import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
 import org.dom4j.Element;
 
-public class DmoCollectionFactory extends AbstractDmoFactory<DmoCollection>
-{
+public class DmoCollectionFactory extends AbstractDmoFactory<DmoCollection> {
 
     private final DmoNamespace namespace;
 
-    public DmoCollectionFactory(DmoNamespace namespace)
-    {
+    public DmoCollectionFactory(DmoNamespace namespace) {
         this.namespace = namespace;
     }
 
     @Override
-    public DmoNamespace getNamespace()
-    {
+    public DmoNamespace getNamespace() {
         return namespace;
     }
 
     @Override
-    public DmoCollection newDmo() throws RepositoryException
-    {
+    public DmoCollection newDmo() throws RepositoryException {
         return createDmo(nextSid());
     }
 
     @Override
-    public DmoCollection createDmo(String storeId)
-    {
-        if (!namespace.equals(DmoStoreId.getDmoNamespace(storeId)))
-        {
+    public DmoCollection createDmo(String storeId) {
+        if (!namespace.equals(DmoStoreId.getDmoNamespace(storeId))) {
             throw new IllegalArgumentException("Wrong factory: storeId " + storeId + " is not in namespace " + namespace.getValue());
         }
         return new DmoCollectionImpl(new DmoStoreId(storeId));
     }
 
     @Override
-    public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException
-    {
-        if (DublinCoreMetadata.UNIT_ID.equals(unitId))
-        {
-            try
-            {
+    public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException {
+        if (DublinCoreMetadata.UNIT_ID.equals(unitId)) {
+            try {
                 DmoCollectionImpl collection = (DmoCollectionImpl) dmo;
                 JiBXDublinCoreMetadata jdc = (JiBXDublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, element);
                 collection.setDcMetadata(jdc);
             }
-            catch (XMLDeserializationException e)
-            {
+            catch (XMLDeserializationException e) {
                 throw new ObjectDeserializationException(e);
             }
         }

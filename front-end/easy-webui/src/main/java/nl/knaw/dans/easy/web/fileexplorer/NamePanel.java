@@ -46,8 +46,7 @@ import org.slf4j.LoggerFactory;
 
 import wickettree.AbstractTree;
 
-public class NamePanel extends Panel
-{
+public class NamePanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(NamePanel.class);
@@ -69,85 +68,62 @@ public class NamePanel extends Panel
         final TreeItem item = (TreeItem) model.getObject();
         AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
 
-        if (item.getType().equals(Type.FOLDER))
-        {
-            if (strategy.canChildrenBeRead().equals(TriState.ALL))
-            {
+        if (item.getType().equals(Type.FOLDER)) {
+            if (strategy.canChildrenBeRead().equals(TriState.ALL)) {
                 style = "AllAccessible";
-            }
-            else if (strategy.canChildrenBeRead().equals(TriState.SOME))
-            {
+            } else if (strategy.canChildrenBeRead().equals(TriState.SOME)) {
                 style = "SomeAccessible";
-            }
-            else
-            {
+            } else {
                 style = "NoneAccessible";
             }
 
-            link = new IndicatingAjaxLink<Void>("link")
-            {
+            link = new IndicatingAjaxLink<Void>("link") {
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void onClick(AjaxRequestTarget target)
-                {
+                public void onClick(AjaxRequestTarget target) {
                     tree.expand(content.getSelected().getObject());
                     tree.expand(model.getObject());
                     content.setSelectedAndUpdate(model, tree, target);
                 }
             };
-        }
-        else if (item.getType().equals(Type.FILE))
-        {
+        } else if (item.getType().equals(Type.FILE)) {
             boolean canUnitBeRead = strategy.canUnitBeRead(EasyFile.UNIT_ID);
-            if (canUnitBeRead)
-            {
+            if (canUnitBeRead) {
                 style = "AllAccessible";
-            }
-            else if (datasetModel.getObject().isUnderEmbargo())
-            {
+            } else if (datasetModel.getObject().isUnderEmbargo()) {
                 style = "EmbargoAccessible";
-            }
-            else
-            {
+            } else {
                 style = "NoneAccessible";
             }
 
-            if (canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions())
-            {
+            if (canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions()) {
                 // the user has already accepted general conditions and there are no additional
                 // conditions so create a direct download link
-                link = new IndicatingAjaxLink<Void>("link")
-                {
+                link = new IndicatingAjaxLink<Void>("link") {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public void onClick(AjaxRequestTarget target)
-                    {
+                    public void onClick(AjaxRequestTarget target) {
                         final Model<FileContentWrapper> fcwModel = new Model<FileContentWrapper>(null);
                         FileSizeException exception = new FileSizeException("");
 
-                        try
-                        {
+                        try {
                             fcwModel.setObject(Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(),
                                     new DmoStoreId(item.getId())));
                         }
-                        catch (FileSizeException e)
-                        {
+                        catch (FileSizeException e) {
                             exception = e;
                             logger.info("File size too large for download: " + item.getName() + "(" + item.getId() + ")");
                         }
-                        catch (ServiceRuntimeException e)
-                        {
+                        catch (ServiceRuntimeException e) {
                             logger.error("Encountered problem while preparing FileContentWrapper for direct download link.");
                         }
-                        catch (ServiceException e)
-                        {
+                        catch (ServiceException e) {
                             logger.error("Encountered problem while preparing FileContentWrapper for direct download link.");
                         }
 
-                        if (fcwModel.getObject() != null)
-                        {
+                        if (fcwModel.getObject() != null) {
                             // register this download action
                             List<ItemVO> downloadList = new ArrayList<ItemVO>();
                             final FileContentWrapper fcw = fcwModel.getObject();
@@ -159,9 +135,7 @@ public class NamePanel extends Panel
                             download.initiate(target);
                             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(datasetModel.getObject()),
                                     new DownloadStatistics(fcw), new DisciplineStatistics(datasetModel.getObject()));
-                        }
-                        else
-                        {
+                        } else {
                             // download can't be handled so show a message
                             popup.setContent(new ModalPopup(popup,
                                     new StringResourceModel(MSG_FILE_SIZE_TOLARGE, this, new Model<FileSizeException>(exception)).getObject()));
@@ -169,9 +143,7 @@ public class NamePanel extends Panel
                         }
                     }
                 };
-            }
-            else
-            {
+            } else {
                 link = fileActionLink;
             }
             // disable link if this file isn't accessible
@@ -181,19 +153,15 @@ public class NamePanel extends Panel
         // determine what icon to display
         Type type = item.getType();
         String icon = "unknown.gif";
-        if (type.equals(Type.FOLDER))
-        {
+        if (type.equals(Type.FOLDER)) {
             icon = "folder.gif";
-        }
-        else if (type.equals(Type.FILE))
-        {
+        } else if (type.equals(Type.FILE)) {
             icon = MimeTypes.get(item.getMimeType()) + ".gif";
         }
 
         add(new Image("icon", new ExplorerIcon(icon)));
         link.add(new Label("name", model.getObject().getName()));
-        if (!EasySession.getSessionUser().hasRole(Role.ARCHIVIST) && !datasetModel.getObject().hasDepositor(EasySession.getSessionUser()))
-        {
+        if (!EasySession.getSessionUser().hasRole(Role.ARCHIVIST) && !datasetModel.getObject().hasDepositor(EasySession.getSessionUser())) {
             link.add(new AttributeAppender("class", new Model<String>(style), " "));
         }
 

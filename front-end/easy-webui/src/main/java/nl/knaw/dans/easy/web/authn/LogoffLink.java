@@ -9,19 +9,16 @@ import org.apache.wicket.markup.html.link.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LogoffLink extends Link
-{
+public class LogoffLink extends Link {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(LogoffLink.class);
 
-    public LogoffLink(final String wicketId)
-    {
+    public LogoffLink(final String wicketId) {
         super(wicketId);
     }
 
     @Override
-    public void onClick()
-    {
+    public void onClick() {
         logger.debug("Logoutlink is clicked");
         StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGOUT);
         EasySession.get().setLoggedOff();
@@ -30,13 +27,11 @@ public class LogoffLink extends Link
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return isUserLoggedOn();
     }
 
-    private static boolean isUserLoggedOn()
-    {
+    private static boolean isUserLoggedOn() {
         return !EasySession.getSessionUser().isAnonymous();
     }
 

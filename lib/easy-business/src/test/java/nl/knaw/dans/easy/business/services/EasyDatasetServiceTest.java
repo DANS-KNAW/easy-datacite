@@ -53,8 +53,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(AbstractDmoFactory.class)
-public class EasyDatasetServiceTest extends TestHelper
-{
+public class EasyDatasetServiceTest extends TestHelper {
 
     private static EasyStore easyStore;
     private static DatasetService service;
@@ -62,8 +61,7 @@ public class EasyDatasetServiceTest extends TestHelper
     private static DisciplineCollection disciplineCollection;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         new Security(new CodedAuthz());
 
         easyStore = EasyMock.createMock(EasyStore.class);
@@ -79,8 +77,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setEasyStore(null);
@@ -88,8 +85,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test
-    public void getDataModelObject() throws ServiceException, ObjectNotInStoreException, RepositoryException
-    {
+    public void getDataModelObject() throws ServiceException, ObjectNotInStoreException, RepositoryException {
         DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
         EasyUser user = new EasyUserImpl("foo");
         user.addRole(Role.ARCHIVIST);
@@ -105,8 +101,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test
-    public void getDataset() throws Exception
-    {
+    public void getDataset() throws Exception {
         DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
         EasyUser user = new EasyUserImpl("foo");
         user.addRole(Role.ARCHIVIST);
@@ -132,8 +127,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test(expected = DataIntegrityException.class)
-    public void saveEasyMetadataNoDepositorOnDataset() throws Exception
-    {
+    public void saveEasyMetadataNoDepositorOnDataset() throws Exception {
         DataIntegrityException t = null;
         TestReporter reporter = new TestReporter();
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
@@ -141,12 +135,10 @@ public class EasyDatasetServiceTest extends TestHelper
         user.addRole(Role.ARCHIVIST);
         user.setState(State.ACTIVE);
 
-        try
-        {
+        try {
             service.saveEasyMetadata(user, dataset, reporter);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             t = (DataIntegrityException) e.getCause();
         }
         assertEquals(0, reporter.getTotalActionCount());
@@ -157,8 +149,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test
-    public void saveEasyMetadataStateUnsaved() throws Exception
-    {
+    public void saveEasyMetadataStateUnsaved() throws Exception {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositorId("jan");
         EasyUser sessionUser = new EasyUserImpl("jan");
@@ -184,8 +175,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test
-    public void saveAdministrativeMetadataStateUnsaved() throws Exception
-    {
+    public void saveAdministrativeMetadataStateUnsaved() throws Exception {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositorId("piet");
 
@@ -210,8 +200,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test(expected = ServiceException.class)
-    public void saveEasyMetadataStateUnsavedAndException() throws Exception
-    {
+    public void saveEasyMetadataStateUnsavedAndException() throws Exception {
         ServiceException se = null;
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositorId("jan");
@@ -228,12 +217,10 @@ public class EasyDatasetServiceTest extends TestHelper
         EasyMock.expect(userRepo.exists("jan")).andReturn(true);
         EasyMock.replay(easyStore, userRepo);
 
-        try
-        {
+        try {
             service.saveEasyMetadata(sessionUser, dataset, reporter);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             se = e;
         }
 
@@ -247,8 +234,7 @@ public class EasyDatasetServiceTest extends TestHelper
 
     @Ignore("EasyFedoraStore takes care of shifting dirty units.")
     @Test
-    public void saveEasyMetadataStateSavedAndNotDirty() throws Exception
-    {
+    public void saveEasyMetadataStateSavedAndNotDirty() throws Exception {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositorId("jan");
         dataset.setStoreId("easy-dataset:333");
@@ -283,8 +269,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void submitDatasetNoDepositor() throws Exception
-    {
+    public void submitDatasetNoDepositor() throws Exception {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         EasyUser sessionUser = new EasyUserImpl("abc");
         sessionUser.setState(State.ACTIVE);
@@ -294,8 +279,7 @@ public class EasyDatasetServiceTest extends TestHelper
     }
 
     @Test
-    public void createDatasetTest() throws RepositoryException, ServiceException, ObjectNotFoundException, DomainException
-    {
+    public void createDatasetTest() throws RepositoryException, ServiceException, ObjectNotFoundException, DomainException {
         Dataset input = new DatasetImpl("dummy-dataset:1");
 
         // test SOCIOLOGY, UNSPECIFIED AND HISTORY
@@ -339,14 +323,12 @@ public class EasyDatasetServiceTest extends TestHelper
         PowerMock.verify(AbstractDmoFactory.class);
     }
 
-    private static class TestReporter extends WorkReporter
-    {
+    private static class TestReporter extends WorkReporter {
 
         List<Throwable> reportedExceptions = new ArrayList<Throwable>();
 
         @Override
-        public void onException(Throwable t)
-        {
+        public void onException(Throwable t) {
             super.onException(t);
             reportedExceptions.add(t);
         }

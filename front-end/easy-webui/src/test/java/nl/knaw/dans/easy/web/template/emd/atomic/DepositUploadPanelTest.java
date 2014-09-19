@@ -24,11 +24,9 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class DepositUploadPanelTest
-{
+public class DepositUploadPanelTest {
     @Test
-    public void smokeTest() throws Exception
-    {
+    public void smokeTest() throws Exception {
         String datasetId = new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId();
         final Dataset dataset = new DatasetImpl(datasetId);
 
@@ -45,13 +43,11 @@ public class DepositUploadPanelTest
 
         final WicketTester tester = EasyWicketTester.create(applicationContextMock);
         tester.getApplication().getResourceSettings().addResourceFolder("src/main/java/");
-        tester.startPanel(new ITestPanelSource()
-        {
+        tester.startPanel(new ITestPanelSource() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Panel getTestPanel(final String panelId)
-            {
+            public Panel getTestPanel(final String panelId) {
                 return new DepositUploadPanel(panelId, new DatasetModel(dataset));
             }
         });
@@ -73,8 +69,7 @@ public class DepositUploadPanelTest
         // formTester.submit();
     }
 
-    private InMemoryDatabase initInMemoryDB(final Dataset dataset) throws DomainException
-    {
+    private InMemoryDatabase initInMemoryDB(final Dataset dataset) throws DomainException {
         final InMemoryDatabase inMemoryDB = new InMemoryDatabase();
         final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
         inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);

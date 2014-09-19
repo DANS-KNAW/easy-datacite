@@ -10,23 +10,19 @@ import org.apache.wicket.markup.html.panel.Panel;
  * Reusable class for displaying a simple popup with a message
  */
 
-public class ModalPopup extends Panel
-{
+public class ModalPopup extends Panel {
     private static final long serialVersionUID = 1L;
 
-    public ModalPopup(final ModalWindow window, String message)
-    {
+    public ModalPopup(final ModalWindow window, String message) {
         super(window.getContentId());
 
         add(new Label("message", message));
 
-        add(new IndicatingAjaxLink<Void>("close")
-        {
+        add(new IndicatingAjaxLink<Void>("close") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 window.close(target);
             }
         });

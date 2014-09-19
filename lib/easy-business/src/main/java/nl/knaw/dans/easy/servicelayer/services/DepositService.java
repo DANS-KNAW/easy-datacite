@@ -12,13 +12,12 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 /**
- * Service for {@link DepositDiscipline}s. Each Discipline obtained from this service is guaranteed to
- * have a {@link FormDefinition} with an id {@link DepositDiscipline#EMD_DEPOSITFORM_WIZARD}.
+ * Service for {@link DepositDiscipline}s. Each Discipline obtained from this service is guaranteed to have a {@link FormDefinition} with an id
+ * {@link DepositDiscipline#EMD_DEPOSITFORM_WIZARD}.
  * 
  * @author ecco
  */
-public interface DepositService extends EasyService
-{
+public interface DepositService extends EasyService {
 
     /**
      * Get the Discipline with the given disciplineId.
@@ -43,8 +42,7 @@ public interface DepositService extends EasyService
     DepositDiscipline getDiscipline(MetadataFormat emdFormat) throws ServiceException;
 
     /**
-     * Get a list of known Disciplines. The list ordered according to
-     * {@link DepositDiscipline#getOrdinal()}.
+     * Get a list of known Disciplines. The list ordered according to {@link DepositDiscipline#getOrdinal()}.
      * 
      * @return list of known Disciplines
      * @throws ServiceException

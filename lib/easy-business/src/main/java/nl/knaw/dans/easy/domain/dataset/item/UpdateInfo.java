@@ -7,16 +7,13 @@ import java.util.List;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 
-public class UpdateInfo implements Serializable
-{
+public class UpdateInfo implements Serializable {
     /**
-     * Possible actions contained in UpdateInfo. (archivist) or ((draft/unsaved and depositor) and
-     * (allowedUpdateAction Delete or Rename))
+     * Possible actions contained in UpdateInfo. (archivist) or ((draft/unsaved and depositor) and (allowedUpdateAction Delete or Rename))
      * 
      * @author ecco Nov 17, 2009
      */
-    public enum Action
-    {
+    public enum Action {
         UPDATE_VISIBILITY, UPDATE_ACCESSIBILITY, RENAME, DELETE
 
     }
@@ -28,122 +25,97 @@ public class UpdateInfo implements Serializable
     private String name;
     private boolean deleted;
 
-    public UpdateInfo()
-    {
+    public UpdateInfo() {
 
     }
 
-    public UpdateInfo(VisibleTo visibleTo, AccessibleTo accessibleTo, String name, boolean delete)
-    {
+    public UpdateInfo(VisibleTo visibleTo, AccessibleTo accessibleTo, String name, boolean delete) {
         this.visibleTo = visibleTo;
         this.accessibleTo = accessibleTo;
         this.name = name;
         this.deleted = delete;
     }
 
-    public boolean hasVisibleToUpdate()
-    {
+    public boolean hasVisibleToUpdate() {
         return visibleTo != null;
     }
 
-    public VisibleTo getVisibleTo()
-    {
+    public VisibleTo getVisibleTo() {
         return visibleTo;
     }
 
-    public void updateVisibleTo(VisibleTo visibleTo)
-    {
+    public void updateVisibleTo(VisibleTo visibleTo) {
         this.visibleTo = visibleTo;
     }
 
-    public boolean hasAccessibleToUpdate()
-    {
+    public boolean hasAccessibleToUpdate() {
         return accessibleTo != null;
     }
 
-    public AccessibleTo getAccessibleTo()
-    {
+    public AccessibleTo getAccessibleTo() {
         return accessibleTo;
     }
 
-    public void updateAccessibleTo(AccessibleTo accessibleTo)
-    {
+    public void updateAccessibleTo(AccessibleTo accessibleTo) {
         this.accessibleTo = accessibleTo;
     }
 
-    public boolean hasNameUpdate()
-    {
+    public boolean hasNameUpdate() {
         return name != null;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void updateName(String name)
-    {
+    public void updateName(String name) {
         this.name = name;
     }
 
-    public boolean isRegisteredDeleted()
-    {
+    public boolean isRegisteredDeleted() {
         return deleted;
     }
 
-    public void registerDeleted(boolean delete)
-    {
+    public void registerDeleted(boolean delete) {
         this.deleted = delete;
     }
 
-    public boolean hasPropagatingUpdates()
-    {
+    public boolean hasPropagatingUpdates() {
         return hasAccessibleToUpdate() || hasVisibleToUpdate() || isRegisteredDeleted();
     }
 
-    public List<Action> getActions()
-    {
+    public List<Action> getActions() {
         List<Action> actions = new ArrayList<Action>();
-        if (hasVisibleToUpdate())
-        {
+        if (hasVisibleToUpdate()) {
             actions.add(Action.UPDATE_VISIBILITY);
         }
-        if (hasAccessibleToUpdate())
-        {
+        if (hasAccessibleToUpdate()) {
             actions.add(Action.UPDATE_ACCESSIBILITY);
         }
-        if (hasNameUpdate())
-        {
+        if (hasNameUpdate()) {
             actions.add(Action.RENAME);
         }
-        if (isRegisteredDeleted())
-        {
+        if (isRegisteredDeleted()) {
             actions.add(Action.DELETE);
         }
         return actions;
     }
 
-    public String getAction()
-    {
+    public String getAction() {
         StringBuilder sb = new StringBuilder();
-        if (hasVisibleToUpdate())
-        {
+        if (hasVisibleToUpdate()) {
             sb.append("Updating visible to " + getVisibleTo() + " ");
         }
-        if (hasAccessibleToUpdate())
-        {
+        if (hasAccessibleToUpdate()) {
             sb.append("Updating accessible to " + getAccessibleTo() + " ");
         }
-        if (hasNameUpdate())
-        {
+        if (hasNameUpdate()) {
             sb.append("Updating name to " + getName() + " ");
         }
-        if (isRegisteredDeleted())
-        {
+        if (isRegisteredDeleted()) {
             sb.append("Deleting ");
         }
-        if (sb.length() == 0)
-        {
+        if (sb.length() == 0) {
             sb.append("No action ");
         }
         return sb.toString();

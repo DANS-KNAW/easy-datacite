@@ -8,19 +8,16 @@ import java.io.IOException;
 /**
  * Helper class that reads the entire contents of a text file into a string.
  */
-public class TextFileReader
-{
+public class TextFileReader {
     private final File file;
 
     /**
-     * Initializes this {@link TextFileReader} with a file. The read action is not performed until the
-     * call to the {@link #read()} function.
+     * Initializes this {@link TextFileReader} with a file. The read action is not performed until the call to the {@link #read()} function.
      * 
      * @param file
      *        the file to use
      */
-    public TextFileReader(final File file)
-    {
+    public TextFileReader(final File file) {
         this.file = file;
     }
 
@@ -30,23 +27,19 @@ public class TextFileReader
      * @return the contents
      * @throws IOException
      */
-    public String read() throws IOException
-    {
+    public String read() throws IOException {
         final BufferedReader reader = new BufferedReader(new FileReader(file));
-        try
-        {
+        try {
             String line;
             String result = "";
 
-            while ((line = reader.readLine()) != null)
-            {
+            while ((line = reader.readLine()) != null) {
                 result += String.format("%s%n", line);
             }
 
             return result;
         }
-        finally
-        {
+        finally {
             reader.close();
         }
     }

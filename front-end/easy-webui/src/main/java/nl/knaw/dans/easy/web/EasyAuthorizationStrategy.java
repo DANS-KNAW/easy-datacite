@@ -22,35 +22,27 @@ import org.apache.wicket.markup.html.WebPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class EasyAuthorizationStrategy implements IAuthorizationStrategy
-{
+final class EasyAuthorizationStrategy implements IAuthorizationStrategy {
     private static Logger LOGGER = LoggerFactory.getLogger(EasyAuthorizationStrategy.class);
 
-    public boolean isActionAuthorized(final Component component, final Action action)
-    {
+    public boolean isActionAuthorized(final Component component, final Action action) {
         final List<String> items = new ArrayList<String>();
         AbstractEasyPage easyPage = null;
-        if (component instanceof SecureEasyPageLink)
-        {
+        if (component instanceof SecureEasyPageLink) {
             final SecureEasyPageLink protectedLink = (SecureEasyPageLink) component;
             final String item = protectedLink.getTarget().getName();
             items.add(item);
-        }
-        else
-        {
+        } else {
             final Page page = component.findParent(Page.class);
-            if (page instanceof AbstractEasyPage)
-            {
+            if (page instanceof AbstractEasyPage) {
                 easyPage = (AbstractEasyPage) page;
             }
             String item = page == null ? "" : component.getPage().getClass().getName() + ":" + component.getPageRelativePath();
             items.add(item);
 
-            if (page != null)
-            {
+            if (page != null) {
                 Class<?> superPage = component.getPage().getClass().getSuperclass();
-                while (superPage != null && ClassUtil.instanceOf(superPage, AbstractEasyPage.class))
-                {
+                while (superPage != null && ClassUtil.instanceOf(superPage, AbstractEasyPage.class)) {
                     item = superPage.getName() + ":" + component.getPageRelativePath();
                     items.add(item);
                     superPage = superPage.getSuperclass();
@@ -58,58 +50,42 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
             }
         }
 
-        for (final String item : items)
-        {
-            if (Security.getAuthz().hasSecurityOfficer(item))
-            {
+        for (final String item : items) {
+            if (Security.getAuthz().hasSecurityOfficer(item)) {
                 final SecurityOfficer officer = Security.getAuthz().getSecurityOfficer(item);
                 final EasySession session = EasySession.get();
                 ContextParameters ctxParameters;
-                if (easyPage != null)
-                {
+                if (easyPage != null) {
                     ctxParameters = easyPage.getContextParameters();
-                }
-                else
-                {
+                } else {
                     ctxParameters = session.getContextParameters();
                 }
-                if (Component.RENDER.equals(action))
-                {
+                if (Component.RENDER.equals(action)) {
                     return officer.isComponentVisible(ctxParameters);
-                }
-                else if (Component.ENABLE.equals(action))
-                {
+                } else if (Component.ENABLE.equals(action)) {
                     return officer.isEnableAllowed(ctxParameters);
                 }
                 return true;
             }
         }
-        if (component instanceof ComponentWithSecurityOfficer)
-        {
+        if (component instanceof ComponentWithSecurityOfficer) {
             LOGGER.error(component.getClass().getName() + " should have a SecurityOfficer for at least one of " + Arrays.deepToString(items.toArray()));
             return false;
         }
         return true;
     }
 
-    public boolean isInstantiationAuthorized(@SuppressWarnings("rawtypes")
-    final Class componentClass)
-    {
-        if (WebPage.class.isAssignableFrom(componentClass))
-        {
-            if (Security.getAuthz().isProtectedPage(componentClass.getName()))
-            {
+    public boolean isInstantiationAuthorized(@SuppressWarnings("rawtypes") final Class componentClass) {
+        if (WebPage.class.isAssignableFrom(componentClass)) {
+            if (Security.getAuthz().isProtectedPage(componentClass.getName())) {
                 final boolean sessionExists = Session.exists();
                 final EasySession session = EasySession.get();
-                if (session.getUser().isAnonymous())
-                {
+                if (session.getUser().isAnonymous()) {
                     LOGGER.info("Redirecting user (" + EasyWicketApplication.getUserIpAddress() + ") with session ("
                             + (sessionExists ? session.getId() : "null") + ") to login page. User is not allowed to access page " + componentClass.getName());
 
                     throw new RestartResponseAtInterceptPageException(LoginPage.class);
-                }
-                else
-                {
+                } else {
                     SecurityOfficer officer = Security.getAuthz().getSecurityOfficer(componentClass.getName());
                     return officer.isEnableAllowed(EasySession.get().getContextParameters());
 

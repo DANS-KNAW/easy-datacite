@@ -3,13 +3,11 @@ package nl.knaw.dans.pf.language.emd.types;
 import java.util.Locale;
 
 /**
- * A {@link BasicString} who's value is most likely an expression in a certain language from a person
- * that is the author of the remark.
+ * A {@link BasicString} who's value is most likely an expression in a certain language from a person that is the author of the remark.
  * 
  * @author ecco
  */
-public class BasicRemark extends BasicString
-{
+public class BasicRemark extends BasicString {
 
     /**
      *
@@ -21,8 +19,7 @@ public class BasicRemark extends BasicString
     /**
      * Constructor.
      */
-    public BasicRemark()
-    {
+    public BasicRemark() {
         super();
     }
 
@@ -32,8 +29,7 @@ public class BasicRemark extends BasicString
      * @param value
      *        the value of this BasicRemark
      */
-    public BasicRemark(final String value)
-    {
+    public BasicRemark(final String value) {
         super(value);
     }
 
@@ -47,8 +43,7 @@ public class BasicRemark extends BasicString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regular expression in {@link #LANGUAGE_TOKEN}
      */
-    public BasicRemark(final String value, final String language) throws InvalidLanguageTokenException
-    {
+    public BasicRemark(final String value, final String language) throws InvalidLanguageTokenException {
         super(value, language);
     }
 
@@ -63,8 +58,7 @@ public class BasicRemark extends BasicString
      *         if a language token could not be parsed from the given locale
      * @see #setLanguage(Locale)
      */
-    public BasicRemark(final String value, final Locale locale) throws InvalidLanguageTokenException
-    {
+    public BasicRemark(final String value, final Locale locale) throws InvalidLanguageTokenException {
         super(value, locale);
     }
 
@@ -80,8 +74,7 @@ public class BasicRemark extends BasicString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regex in {@link #LANGUAGE_TOKEN}
      */
-    public BasicRemark(final String value, final String language, final String author) throws InvalidLanguageTokenException
-    {
+    public BasicRemark(final String value, final String language, final String author) throws InvalidLanguageTokenException {
         super(value, language);
         this.author = author;
     }
@@ -99,8 +92,7 @@ public class BasicRemark extends BasicString
      *         if a language token could not be parsed from the given locale
      * @see #setLanguage(Locale)
      */
-    public BasicRemark(final String value, final Locale locale, final String author) throws InvalidLanguageTokenException
-    {
+    public BasicRemark(final String value, final Locale locale, final String author) throws InvalidLanguageTokenException {
         super(value, locale);
         this.author = author;
     }
@@ -110,8 +102,7 @@ public class BasicRemark extends BasicString
      * 
      * @return the author
      */
-    public String getAuthor()
-    {
+    public String getAuthor() {
         return author;
     }
 
@@ -121,8 +112,7 @@ public class BasicRemark extends BasicString
      * @param author
      *        the author
      */
-    public void setAuthor(final String author)
-    {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 

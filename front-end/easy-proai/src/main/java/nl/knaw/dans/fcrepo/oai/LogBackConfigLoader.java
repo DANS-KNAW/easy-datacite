@@ -10,32 +10,21 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 
-public class LogBackConfigLoader
-{
+public class LogBackConfigLoader {
     private Logger logger = LoggerFactory.getLogger(LogBackConfigLoader.class);
 
-    public LogBackConfigLoader(File externalConfigFile) throws IOException, JoranException
-    {
+    public LogBackConfigLoader(File externalConfigFile) throws IOException, JoranException {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 
-        if (!externalConfigFile.exists())
-        {
+        if (!externalConfigFile.exists()) {
             throw new IOException("Logback External Config File Parameter does not reference a file that exists");
-        }
-        else
-        {
-            if (!externalConfigFile.isFile())
-            {
+        } else {
+            if (!externalConfigFile.isFile()) {
                 throw new IOException("Logback External Config File Parameter exists, but does not reference a file");
-            }
-            else
-            {
-                if (!externalConfigFile.canRead())
-                {
+            } else {
+                if (!externalConfigFile.canRead()) {
                     throw new IOException("Logback External Config File exists and is a file, but cannot be read.");
-                }
-                else
-                {
+                } else {
                     JoranConfigurator configurator = new JoranConfigurator();
                     configurator.setContext(lc);
                     lc.reset();

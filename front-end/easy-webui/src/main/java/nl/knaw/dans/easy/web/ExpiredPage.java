@@ -11,8 +11,7 @@ import org.apache.wicket.model.IModel;
  * 
  * @author Herman Suijs
  */
-public class ExpiredPage extends AbstractEasyNavPage
-{
+public class ExpiredPage extends AbstractEasyNavPage {
 
     /**
      * Serial version uid.
@@ -22,16 +21,14 @@ public class ExpiredPage extends AbstractEasyNavPage
     /**
      * Initialize same for all constructors.
      */
-    private void init()
-    {
+    private void init() {
         // TODO: create contents of expired page.
     }
 
     /**
      * Default Constructor.
      */
-    public ExpiredPage()
-    {
+    public ExpiredPage() {
         super();
         init();
     }
@@ -42,8 +39,7 @@ public class ExpiredPage extends AbstractEasyNavPage
      * @param model
      *        IModel
      */
-    public ExpiredPage(final IModel model)
-    {
+    public ExpiredPage(final IModel model) {
         super(model);
         init();
     }
@@ -56,8 +52,7 @@ public class ExpiredPage extends AbstractEasyNavPage
      * @param model
      *        IModel
      */
-    public ExpiredPage(final PageMap map, final IModel model)
-    {
+    public ExpiredPage(final PageMap map, final IModel model) {
         super(map, model);
         init();
     }
@@ -68,8 +63,7 @@ public class ExpiredPage extends AbstractEasyNavPage
      * @param map
      *        PageMap
      */
-    public ExpiredPage(final PageMap map)
-    {
+    public ExpiredPage(final PageMap map) {
         super(map);
         init();
     }
@@ -80,8 +74,7 @@ public class ExpiredPage extends AbstractEasyNavPage
      * @param parameters
      *        Page parameters
      */
-    public ExpiredPage(final PageParameters parameters)
-    {
+    public ExpiredPage(final PageParameters parameters) {
         super(parameters);
         // TODO Auto-generated constructor stub
     }

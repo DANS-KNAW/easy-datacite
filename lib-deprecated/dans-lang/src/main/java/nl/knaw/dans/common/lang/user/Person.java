@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.user;
 
 import java.io.Serializable;
 
-public interface Person extends Serializable
-{
+public interface Person extends Serializable {
 
     public static final String PATTERN_TELEPHONE = "[+]?((\\([0-9- ]+\\))|[0-9- ]+)+[^-][^ ]";
 

@@ -3,11 +3,9 @@ package nl.knaw.dans.common.wicket.components.upload;
 import java.io.Serializable;
 
 /**
- * @author lobo This class contains the information concerning the upload process. It is being held by an
- *         UploadProcess class.
+ * @author lobo This class contains the information concerning the upload process. It is being held by an UploadProcess class.
  */
-public class UploadStatus implements Serializable
-{
+public class UploadStatus implements Serializable {
     private Integer percentComplete = 0;
 
     private boolean error = false;
@@ -16,55 +14,45 @@ public class UploadStatus implements Serializable
 
     private String message;
 
-    public UploadStatus(String message)
-    {
+    public UploadStatus(String message) {
         this.message = message;
         percentComplete = 0;
     }
 
-    public boolean isError()
-    {
+    public boolean isError() {
         return error;
     }
 
-    public void setError(boolean error)
-    {
+    public void setError(boolean error) {
         this.error = error;
     }
 
-    public void setError(String errorMessage)
-    {
+    public void setError(String errorMessage) {
         this.error = true;
         this.message = errorMessage;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message)
-    {
+    public void setMessage(String message) {
         this.message = message;
     }
 
-    public Integer getPercentComplete()
-    {
+    public Integer getPercentComplete() {
         return percentComplete;
     }
 
-    public void setPercentComplete(Integer percentComplete)
-    {
+    public void setPercentComplete(Integer percentComplete) {
         this.percentComplete = percentComplete;
     }
 
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return finished;
     }
 
-    public void setFinished(boolean finished)
-    {
+    public void setFinished(boolean finished) {
         this.finished = finished;
     }
 }

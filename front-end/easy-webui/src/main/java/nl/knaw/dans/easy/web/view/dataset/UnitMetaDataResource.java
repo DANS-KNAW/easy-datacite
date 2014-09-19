@@ -27,87 +27,71 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnitMetaDataResource extends DynamicWebResource
-{
+public class UnitMetaDataResource extends DynamicWebResource {
     protected static final Logger logger = LoggerFactory.getLogger(UnitMetaDataResource.class);
     private static final long serialVersionUID = 7094073311242493238L;
     private final UnitMetadata unitMetaData;
     private final DatasetModel datasetModel;
 
-    public UnitMetaDataResource(final DatasetModel datasetModel, final UnitMetadata unitMetaData)
-    {
+    public UnitMetaDataResource(final DatasetModel datasetModel, final UnitMetadata unitMetaData) {
         this.datasetModel = datasetModel;
         this.unitMetaData = unitMetaData;
     }
 
     @Override
-    protected void setHeaders(final WebResponse response)
-    {
+    protected void setHeaders(final WebResponse response) {
         super.setHeaders(response);
         response.setAttachmentHeader(datasetModel.getObject().getPreferredTitle() + " " + unitMetaData.getLabel());
     }
 
-    protected URL getURL() throws ServiceException, CommonSecurityException
-    {
+    protected URL getURL() throws ServiceException, CommonSecurityException {
         final URL url = Services.getDatasetService().getUnitMetadataURL(EasySession.getSessionUser(), datasetModel.getObject(), unitMetaData);
         return url;
     }
 
-    protected DatasetModel getDatasetModel()
-    {
+    protected DatasetModel getDatasetModel() {
         return datasetModel;
     }
 
     @Override
-    protected ResourceState getResourceState()
-    {
-        return new DynamicWebResource.ResourceState()
-        {
+    protected ResourceState getResourceState() {
+        return new DynamicWebResource.ResourceState() {
             @Override
-            public String getContentType()
-            {
+            public String getContentType() {
                 return unitMetaData.getMimeType();
             }
 
             @Override
-            public Time lastModifiedTime()
-            {
-                try
-                {
+            public Time lastModifiedTime() {
+                try {
                     final DateTime dateTime = unitMetaData.getCreationDate();
                     final String date = dateTime.toString("YYYY.MM.dd");
                     final String time = dateTime.toString("hh.mma");
                     return Time.valueOf(date + "-" + time);
                 }
-                catch (final ParseException e)
-                {
+                catch (final ParseException e) {
                     return Time.now();
                 }
             }
 
             @Override
-            public byte[] getData()
-            {
+            public byte[] getData() {
                 final byte[] content;
-                try
-                {
+                try {
                     final URL url = getURL();
                     final InputStream openStream = url.openStream();
                     content = StreamUtil.getBytes(openStream);
                     openStream.close();
                 }
-                catch (final IOException e)
-                {
+                catch (final IOException e) {
                     logger.error("Cannot read URL", e);
                     throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
-                catch (CommonSecurityException e)
-                {
+                catch (CommonSecurityException e) {
                     logger.error("Illegal access to URL", e);
                     throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_FORBIDDEN);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     logger.error("Cannot get URL", e);
                     throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }

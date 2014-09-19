@@ -10,16 +10,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DownloadRecordTest
-{
+public class DownloadRecordTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DownloadRecordTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testMarshalAndUnmarshal() throws XMLException
-    {
+    public void testMarshalAndUnmarshal() throws XMLException {
         DownloadRecord record = createRecord();
 
         if (verbose)
@@ -31,8 +29,7 @@ public class DownloadRecordTest
         assertEquals(record.asXMLString(), record2.asXMLString());
     }
 
-    public static DownloadRecord createRecord()
-    {
+    public static DownloadRecord createRecord() {
         DownloadRecord record = new DownloadRecord("easy-file:123");
         record.setDatasetId("easy-dataset:123");
         record.setPath("abc/def/nice.jpg");

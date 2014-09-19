@@ -18,25 +18,20 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DeleteFilesPanel extends Panel
-{
+public class DeleteFilesPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(DeleteFilesPanel.class);
 
-    public DeleteFilesPanel(final ModalWindow window, final DatasetModel datasetModel)
-    {
+    public DeleteFilesPanel(final ModalWindow window, final DatasetModel datasetModel) {
         super(window.getContentId());
 
-        add(new IndicatingAjaxLink<Void>("ok")
-        {
+        add(new IndicatingAjaxLink<Void>("ok") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                try
-                {
+            public void onClick(AjaxRequestTarget target) {
+                try {
                     List<DmoStoreId> sids = getSids(Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), datasetModel.getObject(),
                             datasetModel.getObject().getDmoStoreId(), -1, -1, null, null));
                     Services.getItemService().updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sids,
@@ -44,32 +39,27 @@ public class DeleteFilesPanel extends Panel
                     // Remove all messages from the uploadpanel
                     target.appendJavascript("removeMessages();");
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     logger.error("Error while trying to delete files.");
                 }
                 window.close(target);
             }
         });
 
-        add(new IndicatingAjaxLink<Void>("cancel")
-        {
+        add(new IndicatingAjaxLink<Void>("cancel") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 window.close(target);
             }
         });
     }
 
-    private List<DmoStoreId> getSids(List<ItemVO> items)
-    {
+    private List<DmoStoreId> getSids(List<ItemVO> items) {
         List<DmoStoreId> result = new ArrayList<DmoStoreId>();
 
-        for (ItemVO item : items)
-        {
+        for (ItemVO item : items) {
             result.add(new DmoStoreId(item.getSid()));
         }
 

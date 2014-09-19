@@ -8,16 +8,13 @@ import nl.knaw.dans.easy.rest.resources.AbstractResource;
 
 import org.junit.Test;
 
-public class RestApplicationTest
-{
+public class RestApplicationTest {
 
     @Test
-    public void testApplication()
-    {
+    public void testApplication() {
         RestApplication app = new RestApplication();
         Set<Class<?>> resources = app.getClasses();
-        for (Class<?> resource : resources)
-        {
+        for (Class<?> resource : resources) {
             assertTrue(AbstractResource.class.isAssignableFrom(resource));
         }
     }

@@ -5,8 +5,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 
-public class AuditTrail extends AbstractJiBXObject<AuditTrail>
-{
+public class AuditTrail extends AbstractJiBXObject<AuditTrail> {
 
     public static final String STREAM_ID = "AUDIT";
 
@@ -14,8 +13,7 @@ public class AuditTrail extends AbstractJiBXObject<AuditTrail>
 
     private List<AuditRecord> records = new ArrayList<AuditRecord>();
 
-    public List<AuditRecord> getRecords()
-    {
+    public List<AuditRecord> getRecords() {
         return records;
     }
 

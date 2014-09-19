@@ -10,8 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CsvCollectorTest
-{
+public class CsvCollectorTest {
 
     public static final String TEST_FILE_NAME = "test-files/collect/csvcollector-test.csv";
     public static final String TEST_FILE_PATH = "src/test/resources/";
@@ -19,8 +18,7 @@ public class CsvCollectorTest
     private static final Logger logger = LoggerFactory.getLogger(CsvCollectorTest.class);
 
     @Test
-    public void collect() throws Exception
-    {
+    public void collect() throws Exception {
         CsvCollector collector = new CsvCollector(TEST_FILE_PATH + TEST_FILE_NAME);
         collector.addProgressListeners(new MyProgressListener());
         List<List<String>> entries = collector.collect();
@@ -38,24 +36,20 @@ public class CsvCollectorTest
         assertEquals("bar", line7.get(3));
     }
 
-    class MyProgressListener implements ProgressListener
-    {
+    class MyProgressListener implements ProgressListener {
 
         @Override
-        public void onStartProcess(String processId)
-        {
+        public void onStartProcess(String processId) {
             logger.debug("onStartProcess " + processId);
         }
 
         @Override
-        public void updateProgress(int percentage)
-        {
+        public void updateProgress(int percentage) {
             logger.debug("updateProgress " + percentage);
         }
 
         @Override
-        public void onEndProcess(String processId)
-        {
+        public void onEndProcess(String processId) {
             logger.debug("onEndProcess " + processId);
         }
 

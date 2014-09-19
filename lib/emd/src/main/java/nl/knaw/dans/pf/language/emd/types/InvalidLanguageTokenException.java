@@ -5,30 +5,25 @@ package nl.knaw.dans.pf.language.emd.types;
  * 
  * @author ecco
  */
-public class InvalidLanguageTokenException extends EasyMetadataException
-{
+public class InvalidLanguageTokenException extends EasyMetadataException {
 
     private static final long serialVersionUID = 6193499442701332049L;
 
     // ecco: CHECKSTYLE: OFF
 
-    InvalidLanguageTokenException()
-    {
+    InvalidLanguageTokenException() {
         super();
     }
 
-    InvalidLanguageTokenException(final String message)
-    {
+    InvalidLanguageTokenException(final String message) {
         super(message);
     }
 
-    InvalidLanguageTokenException(final Throwable cause)
-    {
+    InvalidLanguageTokenException(final Throwable cause) {
         super(cause);
     }
 
-    InvalidLanguageTokenException(final String message, final Throwable cause)
-    {
+    InvalidLanguageTokenException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

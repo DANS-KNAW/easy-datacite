@@ -6,8 +6,7 @@ import nl.knaw.dans.common.lang.repo.UnitMetadata;
 
 import org.apache.wicket.Application;
 
-public class ResourceRef implements Serializable
-{
+public class ResourceRef implements Serializable {
 
     public static final String CONTEXT_PATH = "/ui";
 
@@ -20,8 +19,7 @@ public class ResourceRef implements Serializable
     private boolean referenced;
     private final String resourceAlias;
 
-    public ResourceRef(String containerId, UnitMetadata unitMetadata, String resourceAlias)
-    {
+    public ResourceRef(String containerId, UnitMetadata unitMetadata, String resourceAlias) {
         this.containerId = containerId;
         unitId = unitMetadata.getId();
         filename = unitMetadata.getLabel();
@@ -29,44 +27,36 @@ public class ResourceRef implements Serializable
         this.resourceAlias = resourceAlias;
     }
 
-    public String getHref()
-    {
+    public String getHref() {
         String alias = resourceAlias == null ? Application.class.getName() : resourceAlias;
         return CONTEXT_PATH + "/resources/" + alias + "/content?sid=" + containerId + "&did=" + unitId;
     }
 
-    public String getContainerId()
-    {
+    public String getContainerId() {
         return containerId;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return unitId;
     }
 
-    public String getFilename()
-    {
+    public String getFilename() {
         return filename;
     }
 
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return mimeType;
     }
 
-    public boolean isReferenced()
-    {
+    public boolean isReferenced() {
         return referenced;
     }
 
-    public void setReferenced(boolean referenced)
-    {
+    public void setReferenced(boolean referenced) {
         this.referenced = referenced;
     }
 
-    public String getResourceAlias()
-    {
+    public String getResourceAlias() {
         return resourceAlias;
     }
 

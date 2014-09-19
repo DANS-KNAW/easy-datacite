@@ -8,16 +8,14 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
-public class DANSSchema extends AbstractSchema
-{
+public class DANSSchema extends AbstractSchema {
 
     public static final String SCHEMA_NAME = "dans";
 
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
 
-    public DANSSchema()
-    {
+    public DANSSchema() {
         // attributetypes
         attributeTypes = new ArrayList<Attributes>();
 
@@ -195,19 +193,16 @@ public class DANSSchema extends AbstractSchema
 
     }
 
-    public List<Attributes> getAttributeTypes()
-    {
+    public List<Attributes> getAttributeTypes() {
         return attributeTypes;
     }
 
-    public List<Attributes> getObjectClasses()
-    {
+    public List<Attributes> getObjectClasses() {
         return objectClasses;
     }
 
     @Override
-    public String getSchemaName()
-    {
+    public String getSchemaName() {
         return SCHEMA_NAME;
     }
 

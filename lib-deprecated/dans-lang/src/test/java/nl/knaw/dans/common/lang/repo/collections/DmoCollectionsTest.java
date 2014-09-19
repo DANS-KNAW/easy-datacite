@@ -18,20 +18,17 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class DmoCollectionsTest
-{
+public class DmoCollectionsTest {
     private static RepoTester repoTester;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         repoTester = new RepoTester();
     }
 
     @Test
     @Ignore("Dummy shit cannot be maintained")
-    public void testRelationships() throws Exception
-    {
+    public void testRelationships() throws Exception {
         DummyDmoContainer c1 = (DummyDmoContainer) repoTester.retrieve(DummyDmoContainer.class);
         DummyDmoContainerItem i1 = (DummyDmoContainerItem) repoTester.retrieve(DummyDmoContainerItem.class);
         DummyDmoContainerItem i2 = (DummyDmoContainerItem) repoTester.retrieve(DummyDmoContainerItem.class);
@@ -74,35 +71,29 @@ public class DmoCollectionsTest
 
     @Ignore("Dummy shit will not be maintained")
     @Test(expected = ObjectIsNotPartOfCollection.class)
-    public void testInvalidRelationships() throws Exception
-    {
+    public void testInvalidRelationships() throws Exception {
         DummyDmoContainer c1 = (DummyDmoContainer) repoTester.retrieve(DummyDmoContainer.class);
         InvalidDummyItem dmo = new InvalidDummyItem("invalid:1");
         c1.addChild(dmo);
     }
 
-    class InvalidDummyItem extends AbstractDmoContainerItem
-    {
+    class InvalidDummyItem extends AbstractDmoContainerItem {
         private static final long serialVersionUID = -7642181598352535316L;
 
-        public InvalidDummyItem(String storeId)
-        {
+        public InvalidDummyItem(String storeId) {
             super(storeId);
         }
 
-        public Set<DmoCollection> getCollections()
-        {
+        public Set<DmoCollection> getCollections() {
             return null;
         }
 
-        public boolean isDeletable()
-        {
+        public boolean isDeletable() {
             return true;
         }
 
         @Override
-        public DmoNamespace getDmoNamespace()
-        {
+        public DmoNamespace getDmoNamespace() {
             return DmoStoreId.getDmoNamespace(getStoreId());
         }
 

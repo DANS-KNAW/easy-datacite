@@ -25,9 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This WebRequest object is used to intercept multipart request that are meant for the UploadPanel It
- * only invokes itself (class: UploadRequest) when an uploadId was send via the URL (GET method) if not
- * then it uses the original web request class that could be useful for traditional Wicket file upload.
+ * This WebRequest object is used to intercept multipart request that are meant for the UploadPanel It only invokes itself (class: UploadRequest) when an
+ * uploadId was send via the URL (GET method) if not then it uses the original web request class that could be useful for traditional Wicket file upload.
  * <p>
  * This request object is necessary for the UploadPanel to function properly. It is installed like so:
  * 
@@ -44,8 +43,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public class EasyUploadWebRequest extends ServletWebRequest
-{
+public class EasyUploadWebRequest extends ServletWebRequest {
     private final HttpServletRequest request;
 
     private static final Logger LOG = LoggerFactory.getLogger(EasyUploadWebRequest.class);
@@ -60,29 +58,25 @@ public class EasyUploadWebRequest extends ServletWebRequest
 
     private EasyUploadIFrame.UploadForm uploadForm;
 
-    public EasyUploadWebRequest(final HttpServletRequest request)
-    {
+    public EasyUploadWebRequest(final HttpServletRequest request) {
         super(request);
         this.request = request;
         if (baseUrl == null || baseUrl.equals(""))
             baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
-    private WebRequest getDefaultMultipartWebRequest(Bytes maxsize) throws FileUploadException
-    {
+    private WebRequest getDefaultMultipartWebRequest(Bytes maxsize) throws FileUploadException {
         return new MultipartServletWebRequest(request, maxsize);
     }
 
     /**
-     * This method starts the upload process. To handle the tracking of the upload prorgess it starts a
-     * new EasyUploadProcess. This process can be polled using its unique uploadId.
+     * This method starts the upload process. To handle the tracking of the upload prorgess it starts a new EasyUploadProcess. This process can be polled using
+     * its unique uploadId.
      * 
      * @see org.apache.wicket.protocol.http.WebRequest#newMultipartWebRequest(org.apache.wicket.util.lang.Bytes)
      */
-    public WebRequest newMultipartWebRequest(Bytes maxsize)
-    {
-        try
-        {
+    public WebRequest newMultipartWebRequest(Bytes maxsize) {
+        try {
             uploadForm = getUploadForm();
             if (uploadForm == null)
                 return getDefaultMultipartWebRequest(maxsize);
@@ -108,19 +102,15 @@ public class EasyUploadWebRequest extends ServletWebRequest
 
             return new EasyUploadRequest(request, maxsize);
         }
-        catch (FileUploadException e)
-        {
-            if (uploadProcess != null)
-            {
+        catch (FileUploadException e) {
+            if (uploadProcess != null) {
                 String message = "Upload failed: " + e.getLocalizedMessage();
-                if (e instanceof SizeLimitExceededException)
-                {
+                if (e instanceof SizeLimitExceededException) {
                     String filename = EasyUploadRequest.getFilename();
                     final String defaultValue = "Upload of '" + filename + "'failed: it is larger than " + maxsize + ".";
                     message = defaultValue;
                     LOG.info(message);
-                }
-                else
+                } else
                     LOG.error(message, e);
                 uploadProcess.getStatus().setError(message);
             }
@@ -129,13 +119,11 @@ public class EasyUploadWebRequest extends ServletWebRequest
         }
     }
 
-    private HashMap<String, String> getClientParams()
-    {
+    private HashMap<String, String> getClientParams() {
         @SuppressWarnings("unchecked")
         Map<String, String[]> params = getParameterMap();
         HashMap<String, String> clientParams = new HashMap<String, String>();
-        for (String key : params.keySet())
-        {
+        for (String key : params.keySet()) {
             if (key.equals("filename") || key.equals("uploadId"))
                 continue;
             String[] val = params.get(key);
@@ -145,33 +133,26 @@ public class EasyUploadWebRequest extends ServletWebRequest
         return clientParams;
     }
 
-    private void extractUploadIdFromRequest()
-    {
-        try
-        {
+    private void extractUploadIdFromRequest() {
+        try {
             uploadId = Integer.parseInt(request.getParameter("uploadId"));
         }
-        catch (NumberFormatException e)
-        {
+        catch (NumberFormatException e) {
             uploadId = -1;
         }
     }
 
-    private void extractFilenameFromRequest()
-    {
+    private void extractFilenameFromRequest() {
         String message = "URL decoding of filename failed. Trying to continue with: ";
         String encoded = request.getParameter("filename");
-        try
-        {
+        try {
             filename = URLDecoder.decode(encoded, request.getCharacterEncoding());
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             filename = encoded;
             LOG.error(message + filename, e);
         }
-        catch (UnsupportedEncodingException e)
-        {
+        catch (UnsupportedEncodingException e) {
             filename = encoded;
             LOG.error(message + filename, e);
         }
@@ -180,13 +161,11 @@ public class EasyUploadWebRequest extends ServletWebRequest
     /**
      * @return the baseUrl
      */
-    public static String getBaseUrl()
-    {
+    public static String getBaseUrl() {
         return baseUrl;
     }
 
-    public EasyUploadIFrame.UploadForm getUploadForm()
-    {
+    public EasyUploadIFrame.UploadForm getUploadForm() {
         Component comp = this.getPage().get(EasyUploadIFrame.UPLOAD_FORM_ID);
         if (comp instanceof EasyUploadIFrame.UploadForm)
             return ((EasyUploadIFrame.UploadForm) comp);
@@ -194,45 +173,38 @@ public class EasyUploadWebRequest extends ServletWebRequest
             return null;
     }
 
-    public Integer getUploadId()
-    {
+    public Integer getUploadId() {
         return uploadId;
     }
 
-    public String getFilename()
-    {
+    public String getFilename() {
         return filename;
     }
 
 }
 
-class EasyUploadRequest extends MultipartServletWebRequest
-{
+class EasyUploadRequest extends MultipartServletWebRequest {
     /** Log. */
     private static final Logger LOG = LoggerFactory.getLogger(UnzipUtil.class);
 
-    public EasyUploadRequest(HttpServletRequest request, Bytes maxSize) throws FileUploadException
-    {
+    public EasyUploadRequest(HttpServletRequest request, Bytes maxSize) throws FileUploadException {
         super(request, maxSize);
         onUploadCompleted2();
     }
 
     /* the following three methods are static for a good reason */
 
-    protected static EasyUploadWebRequest getEasyUploadWebRequest()
-    {
+    protected static EasyUploadWebRequest getEasyUploadWebRequest() {
         WebRequest request = ((WebRequest) RequestCycle.get().getRequest());
         if (request instanceof EasyUploadWebRequest)
             return ((EasyUploadWebRequest) request);
-        else
-        {
+        else {
             LOG.error("Error! This should never happen. The EasyUploadRequest is not part of a EasyUploadWebRequest?!");
             return null;
         }
     }
 
-    public static Integer getUploadId()
-    {
+    public static Integer getUploadId() {
         EasyUploadWebRequest request = getEasyUploadWebRequest();
         if (request != null)
             return request.getUploadId();
@@ -240,8 +212,7 @@ class EasyUploadRequest extends MultipartServletWebRequest
             return -1;
     }
 
-    public static String getFilename()
-    {
+    public static String getFilename() {
         EasyUploadWebRequest request = getEasyUploadWebRequest();
         if (request != null)
             return request.getFilename();
@@ -249,24 +220,21 @@ class EasyUploadRequest extends MultipartServletWebRequest
             return "";
     }
 
-    public static EasyUploadProcess getUploadProcess()
-    {
+    public static EasyUploadProcess getUploadProcess() {
         return EasyUploadProcesses.getInstance().getUploadProcessById(getUploadId());
     }
 
     /**
      * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#wantUploadProgressUpdates()
      */
-    protected boolean wantUploadProgressUpdates()
-    {
+    protected boolean wantUploadProgressUpdates() {
         return true;
     }
 
     /**
      * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadStarted(int)
      */
-    protected void onUploadStarted(int totalBytes)
-    {
+    protected void onUploadStarted(int totalBytes) {
         EasyUploadProcess uploadProcess = getUploadProcess();
         if (uploadProcess != null)
             uploadProcess.onUploadStarted(totalBytes);
@@ -275,25 +243,20 @@ class EasyUploadRequest extends MultipartServletWebRequest
     /**
      * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadUpdate(int, int)
      */
-    protected void onUploadUpdate(int bytesUploaded, int total)
-    {
+    protected void onUploadUpdate(int bytesUploaded, int total) {
         EasyUploadProcess uploadProcess = getUploadProcess();
         if (uploadProcess != null)
             uploadProcess.onUploadUpdate(bytesUploaded, total);
     }
 
     /**
-     * This function is not used, since at this point one cannot retrieve the list of files yet. Instead
-     * onUploadCompleted2 does the job.
+     * This function is not used, since at this point one cannot retrieve the list of files yet. Instead onUploadCompleted2 does the job.
      * 
      * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadCompleted()
      */
-    protected void onUploadCompleted()
-    {
-    }
+    protected void onUploadCompleted() {}
 
-    protected void onUploadCompleted2()
-    {
+    protected void onUploadCompleted2() {
         EasyUploadProcess uploadProcess = getUploadProcess();
 
         if (uploadProcess == null)
@@ -301,15 +264,13 @@ class EasyUploadRequest extends MultipartServletWebRequest
 
         @SuppressWarnings("rawtypes")
         Iterator it = this.getFiles().values().iterator();
-        if (!it.hasNext())
-        {
+        if (!it.hasNext()) {
             LOG.error("After uploading no files seem to have been received.");
             uploadProcess.getStatus().setError("No files received");
         }
 
         FileItem file = (FileItem) it.next();
-        if (file == null)
-        {
+        if (file == null) {
             LOG.error("Got null on received file");
             uploadProcess.getStatus().setError("Unable to access file on server.");
         }

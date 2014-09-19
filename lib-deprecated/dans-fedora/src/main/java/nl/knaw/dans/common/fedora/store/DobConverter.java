@@ -6,8 +6,7 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectSerializationException;
 
-public interface DobConverter<T extends DataModelObject>
-{
+public interface DobConverter<T extends DataModelObject> {
     DmoNamespace getObjectNamespace();
 
     /**

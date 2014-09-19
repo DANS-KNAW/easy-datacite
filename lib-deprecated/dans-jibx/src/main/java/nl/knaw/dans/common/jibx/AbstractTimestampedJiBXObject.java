@@ -13,8 +13,7 @@ import nl.knaw.dans.common.lang.xml.XMLBean;
 
 import org.joda.time.DateTime;
 
-public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObject<T> implements TimestampedMinimalXMLBean, XMLBean
-{
+public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObject<T> implements TimestampedMinimalXMLBean, XMLBean {
 
     private static final long serialVersionUID = 317432367740811300L;
 
@@ -24,47 +23,37 @@ public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObjec
 
     private byte[] originalMd5;
 
-    public DateTime getTimestamp()
-    {
+    public DateTime getTimestamp() {
         return timestamp;
     }
 
-    public boolean isOlderThan(Object compareDate) throws IllegalArgumentException
-    {
+    public boolean isOlderThan(Object compareDate) throws IllegalArgumentException {
         return AbstractTimestampedObject.compare(getTimestamp(), compareDate) < 0;
     }
 
-    public void setTimestamp(Object timestamp) throws IllegalArgumentException
-    {
-        if (timestamp == null)
-        {
+    public void setTimestamp(Object timestamp) throws IllegalArgumentException {
+        if (timestamp == null) {
             this.timestamp = null;
-        }
-        else
-        {
+        } else {
             this.timestamp = new DateTime(timestamp);
         }
     }
 
-    public boolean isDirty()
-    {
+    public boolean isDirty() {
         if (dirty)
             return dirty;
         dirty = !Arrays.equals(originalMd5, calcMd5());
         return dirty;
     }
 
-    public void setDirty(boolean dirty)
-    {
+    public void setDirty(boolean dirty) {
         this.dirty = dirty;
-        if (!dirty)
-        {
+        if (!dirty) {
             originalMd5 = calcMd5();
         }
     }
 
-    public byte[] calcMd5()
-    {
+    public byte[] calcMd5() {
         FastByteArrayOutputStream out = new FastByteArrayOutputStream(8 * 1024);
         ObjectOutputStream objstream = null;
 
@@ -79,8 +68,7 @@ public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObjec
         DateTime saveTimestamp = timestamp;
         timestamp = null;
 
-        try
-        {
+        try {
             objstream = new ObjectOutputStream(out);
             objstream.writeObject(this);
             MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -88,48 +76,37 @@ public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObjec
             md5.update(out.getByteArray());
             return md5.digest();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
-        catch (NoSuchAlgorithmException e)
-        {
+        catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("MD5 algorithm not found", e);
         }
-        finally
-        {
-            try
-            {
+        finally {
+            try {
                 // put back original mvalues
-                if (saveOriginalMd5 != null)
-                {
+                if (saveOriginalMd5 != null) {
                     originalMd5 = Arrays.copyOf(saveOriginalMd5, saveOriginalMd5.length);
                 }
                 dirty = saveDirty;
                 timestamp = saveTimestamp;
 
-                if (objstream != null)
-                {
+                if (objstream != null) {
                     objstream.close();
                 }
                 out.close();
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    protected boolean evaluateDirty(Object obj1, Object obj2)
-    {
+    protected boolean evaluateDirty(Object obj1, Object obj2) {
         boolean dirty = false;
-        if (obj2 == null)
-        {
+        if (obj2 == null) {
             dirty = obj1 != null;
-        }
-        else
-        {
+        } else {
             dirty = !obj2.equals(obj1);
         }
         if (dirty)

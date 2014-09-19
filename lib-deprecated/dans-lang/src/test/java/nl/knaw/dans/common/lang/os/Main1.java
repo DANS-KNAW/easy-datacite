@@ -2,15 +2,13 @@ package nl.knaw.dans.common.lang.os;
 
 import java.io.IOException;
 
-public class Main1
-{
+public class Main1 {
 
     /**
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
         System.out.println("MAIN1 > Hello, this is " + Main1.class.getName());
 
         System.out.println("MAIN1 > Now executing Main2");

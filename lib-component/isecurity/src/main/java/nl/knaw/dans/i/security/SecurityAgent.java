@@ -1,7 +1,6 @@
 package nl.knaw.dans.i.security;
 
-public interface SecurityAgent
-{
+public interface SecurityAgent {
 
     String getSecurityId();
 

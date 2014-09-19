@@ -23,15 +23,13 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class AdvancedSearchResourceTest extends RestTest
-{
+public class AdvancedSearchResourceTest extends RestTest {
 
     private SearchService searchServiceMock;
     private SearchResult searchResultMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
 
         searchServiceMock = Mockito.mock(SearchService.class);
@@ -42,8 +40,7 @@ public class AdvancedSearchResourceTest extends RestTest
     }
 
     @Test
-    public void searchSingleParams() throws ServiceException
-    {
+    public void searchSingleParams() throws ServiceException {
         when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(searchResultMock);
 
         WebResource webResource = resource().path("advsearch").queryParam("title", "title");
@@ -55,8 +52,7 @@ public class AdvancedSearchResourceTest extends RestTest
     }
 
     @Test
-    public void searchMultipleParams() throws ServiceException
-    {
+    public void searchMultipleParams() throws ServiceException {
         when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(searchResultMock);
 
         MultivaluedMap params = new MultivaluedMapImpl();
@@ -82,8 +78,7 @@ public class AdvancedSearchResourceTest extends RestTest
     }
 
     @Test
-    public void searchInternalServerError() throws ServiceException
-    {
+    public void searchInternalServerError() throws ServiceException {
         when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenThrow(ServiceException.class);
 
         WebResource webResource = resource().path("advsearch");

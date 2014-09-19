@@ -12,51 +12,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo This dynamic web resource is being called by the Ajax polling mechanism of the browser
- *         that request an update on the status of one or more uploads. The return value is serialized in
- *         JSON.
+ * @author lobo This dynamic web resource is being called by the Ajax polling mechanism of the browser that request an update on the status of one or more
+ *         uploads. The return value is serialized in JSON.
  */
 @SuppressWarnings("serial")
-public class EasyUploadStatusCommand extends EasyUploadCommand
-{
+public class EasyUploadStatusCommand extends EasyUploadCommand {
     public static final String RESOURCE_NAME = "uploadStatus";
     private static final Logger log = LoggerFactory.getLogger(EasyUploadStatusCommand.class);
 
-    protected ResourceState getResourceState()
-    {
+    protected ResourceState getResourceState() {
         this.setCacheable(false);
 
         return new UploadStatusResourceState();
     }
 
-    private class UploadStatusResourceState extends DynamicWebResource.ResourceState
-    {
+    private class UploadStatusResourceState extends DynamicWebResource.ResourceState {
         private JSONArray responseWriter = new JSONArray();
 
-        public UploadStatusResourceState()
-        {
-            try
-            {
+        public UploadStatusResourceState() {
+            try {
                 Integer[] uploadIds = getUploadProcessIds();
                 log.debug("Creating new upload status object for the following upload ID(s): '{}'", Arrays.toString(uploadIds));
-                for (int i = 0; i < uploadIds.length; i++)
-                {
+                for (int i = 0; i < uploadIds.length; i++) {
                     EasyUploadProcess process = EasyUploadProcesses.getInstance().getUploadProcessById(uploadIds[i]);
-                    if (process != null)
-                    {
+                    if (process != null) {
                         EasyUploadStatus status = process.getStatus();
                         log.debug("Status of upload process '{}' is: '{}'", uploadIds[i], status);
                         responseWriter.put(status.toJSONObject());
-                        if (status.isFinished())
-                        {
+                        if (status.isFinished()) {
                             log.debug("Unregister upload process: '{}'", uploadIds[i]);
                             EasyUploadProcesses.getInstance().unregister(process);
                         }
                     }
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 responseWriter = new JSONArray();
                 EasyUploadStatus us = new EasyUploadStatus(-1, e.getMessage());
                 us.setError(true);
@@ -67,24 +57,21 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
         /**
          * @see org.apache.wicket.markup.html.DynamicWebResource.ResourceState#getContentType()
          */
-        public String getContentType()
-        {
+        public String getContentType() {
             return "text/json";
         }
 
         /**
          * @see org.apache.wicket.markup.html.DynamicWebResource.ResourceState#getLength()
          */
-        public int getLength()
-        {
+        public int getLength() {
             return responseWriter.toString().length();
         }
 
         /**
          * @see org.apache.wicket.markup.html.DynamicWebResource.ResourceState#getData()
          */
-        public byte[] getData()
-        {
+        public byte[] getData() {
             return responseWriter.toString().getBytes();
         }
     }

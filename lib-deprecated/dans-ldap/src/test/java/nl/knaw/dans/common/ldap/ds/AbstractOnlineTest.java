@@ -5,8 +5,7 @@ import nl.knaw.dans.common.lang.test.Tester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AbstractOnlineTest
-{
+public class AbstractOnlineTest {
 
     private static StandAloneDS SUPPLIER;
 
@@ -14,10 +13,8 @@ public class AbstractOnlineTest
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractOnlineTest.class);
 
-    public static DirContextSupplier getDirContextSupplier()
-    {
-        if (SUPPLIER == null)
-        {
+    public static DirContextSupplier getDirContextSupplier() {
+        if (SUPPLIER == null) {
             SUPPLIER = new StandAloneDS();
             String inUse = Tester.getString("ldap.in.use");
             logger.debug("Using " + inUse + " as ldap server");
@@ -28,10 +25,8 @@ public class AbstractOnlineTest
         return SUPPLIER;
     }
 
-    public static LdapClient getLdapClient()
-    {
-        if (LDAP_CLIENT == null)
-        {
+    public static LdapClient getLdapClient() {
+        if (LDAP_CLIENT == null) {
             LDAP_CLIENT = new LdapClient(getDirContextSupplier());
         }
         return LDAP_CLIENT;

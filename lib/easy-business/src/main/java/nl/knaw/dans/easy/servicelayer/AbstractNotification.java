@@ -22,8 +22,7 @@ import nl.knaw.dans.easy.mail.EasyMailerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractNotification
-{
+public abstract class AbstractNotification {
 
     static final Logger logger = LoggerFactory.getLogger(AbstractNotification.class);
 
@@ -49,8 +48,7 @@ public abstract class AbstractNotification
      *         <li>an entry: {@link #getTemplateLocation()} (slashes replaced by dots)<br>
      *         in the properties file {@link #SUBJECT_PROPERTIES}</li>
      *         </ul>
-     *         The templates can contain place holders like ~PlaceHolderSupplier.getXx~ (see constructor)
-     *         or ~Notification.getYy~ (see subclasses).
+     *         The templates can contain place holders like ~PlaceHolderSupplier.getXx~ (see constructor) or ~Notification.getYy~ (see subclasses).
      */
     abstract String getTemplateLocation();
 
@@ -58,8 +56,7 @@ public abstract class AbstractNotification
      * @param placeHolderSuppliers
      *        The types should be unique.
      */
-    public AbstractNotification(final EasyUser receiver, final Object... placeHolderSuppliers)
-    {
+    public AbstractNotification(final EasyUser receiver, final Object... placeHolderSuppliers) {
         this.receiver = receiver;
         this.placeholderSuppliers = concat(receiver, this, placeHolderSuppliers);
         this.composer = new EasyMailComposer(placeholderSuppliers);
@@ -68,8 +65,7 @@ public abstract class AbstractNotification
     /**
      * @return the last argument concatenated with the others at its front
      */
-    static Object[] concat(final Object... source)
-    {
+    static Object[] concat(final Object... source) {
         final Object[] last = (Object[]) source[source.length - 1];
         final Object[] destination = new Object[source.length - 1 + last.length];
         System.arraycopy(source, 0, destination, 0, source.length - 1);
@@ -77,51 +73,41 @@ public abstract class AbstractNotification
         return destination;
     }
 
-    private static Properties loadSubjectTemplates()
-    {
-        try
-        {
+    private static Properties loadSubjectTemplates() {
+        try {
             final Properties properties = new Properties();
             final InputStream resourceAsStream = ResourceLocator.getInputStream(SUBJECT_PROPERTIES);
             properties.load(resourceAsStream);
             return properties;
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             logger.error(SUBJECT_ERROR, e);
         }
-        catch (ResourceNotFoundException e)
-        {
+        catch (ResourceNotFoundException e) {
             logger.error("Required resource not fount: {}", SUBJECT_PROPERTIES);
         }
         return null;
     }
 
-    final public void send() throws ServiceException
-    {
+    final public void send() throws ServiceException {
         final EasyMailer mailOffice = ExternalServices.getMailOffice();
         if (mailOffice == null)
             throw new ServiceException(new NullPointerException("no mail office available"));
-        try
-        {
+        try {
             mailOffice.sendMail(getSubject(), new String[] {getReceiverEmail()}, getText(), getHtml(),
                     attachments.toArray(new EasyMailerAttachment[attachments.size()]));
         }
-        catch (final EasyMailerException e)
-        {
+        catch (final EasyMailerException e) {
             throw new ServiceException(e);
         }
     }
 
-    final public boolean sendMail()
-    {
-        try
-        {
+    final public boolean sendMail() {
+        try {
             send();
             return true;
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             final String format = "could not send [%s] to [%s]";
             final String message = String.format(format, getSubjectTemplate(), getReceiverEmail());
             logger.error(message, e);
@@ -129,72 +115,58 @@ public abstract class AbstractNotification
         return false;
     }
 
-    private final String getSubjectTemplate()
-    {
+    private final String getSubjectTemplate() {
         return SUBJECT_TEMPLATES.getProperty(getPropertiesEntry());
     }
 
-    private String getPropertiesEntry()
-    {
+    private String getPropertiesEntry() {
         return getTemplateLocation().replaceAll("/", ".");
     }
 
-    final String getSubject() throws ServiceException
-    {
+    final String getSubject() throws ServiceException {
         // this method is not private for testing purposes
         final byte[] template = getSubjectTemplate().getBytes();
         final InputStream inputStream = new ByteArrayInputStream(template);
-        try
-        {
+        try {
             return composer.compose(inputStream, false);
         }
-        catch (final MailComposerException e)
-        {
+        catch (final MailComposerException e) {
             throw wrapSubjectException(e);
         }
     }
 
-    protected String getReceiverEmail()
-    {
+    protected String getReceiverEmail() {
         return receiver.getEmail();
     }
 
-    final String getHtml() throws ServiceException
-    {
+    final String getHtml() throws ServiceException {
         // this method is not private for testing purposes
         final String templateLocation = TEMPLATE_BASE_LOCATION + getTemplateLocation() + ".html";
-        try
-        {
+        try {
             return composer.composeHtml(templateLocation);
         }
-        catch (final MailComposerException e)
-        {
+        catch (final MailComposerException e) {
             throw wrapBodyException(templateLocation, e);
         }
     }
 
-    final String getText() throws ServiceException
-    {
+    final String getText() throws ServiceException {
         // this method is not private for testing purposes
         final String templateLocation = TEMPLATE_BASE_LOCATION + getTemplateLocation() + ".txt";
-        try
-        {
+        try {
             return composer.composeText(templateLocation);
         }
-        catch (final MailComposerException e)
-        {
+        catch (final MailComposerException e) {
             throw wrapBodyException(templateLocation, e);
         }
     }
 
-    private ServiceException wrapSubjectException(final MailComposerException e) throws ServiceException
-    {
+    private ServiceException wrapSubjectException(final MailComposerException e) throws ServiceException {
         final File file = new File(SUBJECT_PROPERTIES);
         return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath() + "/" + file.getName() + "(" + getPropertiesEntry() + ")", e);
     }
 
-    private ServiceException wrapBodyException(final String templateLocation, final MailComposerException e)
-    {
+    private ServiceException wrapBodyException(final String templateLocation, final MailComposerException e) {
         final File file = new File(templateLocation);
         return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath() + "/" + file.getName(), e);
     }

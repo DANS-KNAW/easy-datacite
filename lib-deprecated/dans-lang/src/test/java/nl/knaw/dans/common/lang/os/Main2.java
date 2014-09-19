@@ -1,17 +1,14 @@
 package nl.knaw.dans.common.lang.os;
 
-public class Main2
-{
+public class Main2 {
 
     /**
      * @param args
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         System.out.println("MAIN2 > Hello, this is " + Main2.class.getName());
         System.out.println("MAIN2 > I'm going to print digits from 0 to 9 with a pause of 1 second between each.");
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             seconds(1L);
             System.out.println("MAIN2 > current digit is " + i);
         }
@@ -20,19 +17,15 @@ public class Main2
         throw new IllegalStateException("I have no more lines of code to execute!");
     }
 
-    public static void seconds(long s)
-    {
+    public static void seconds(long s) {
         milliSeconds(s * 1000);
     }
 
-    public static void milliSeconds(long ms)
-    {
-        try
-        {
+    public static void milliSeconds(long ms) {
+        try {
             Thread.sleep(ms);
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
             System.err.println("Wait time interrupted: ");
             e.printStackTrace();
         }

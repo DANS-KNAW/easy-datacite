@@ -45,14 +45,12 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 
 @SuppressWarnings("unchecked")
-public class DatasetSpecificDataTest extends RestTest
-{
+public class DatasetSpecificDataTest extends RestTest {
     private DatasetService datasetServiceMock;
     private ItemService itemServiceMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
 
         datasetServiceMock = mock(DatasetService.class);
@@ -62,8 +60,7 @@ public class DatasetSpecificDataTest extends RestTest
         services.setItemService(itemServiceMock);
     }
 
-    private void setUpServiceMethods() throws ServiceException
-    {
+    private void setUpServiceMethods() throws ServiceException {
         ArrayList<ItemVO> items = new ArrayList<ItemVO>();
         FileItemVO file = new FileItemVO();
         file.setSid("easy-file:1");
@@ -83,8 +80,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificDataWithPathToFolder() throws ServiceException
-    {
+    public void getSpecificDataWithPathToFolder() throws ServiceException {
         setUpServiceMethods();
         setUpGetFolderItemByPath();
 
@@ -93,8 +89,7 @@ public class DatasetSpecificDataTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpGetFolderItemByPath() throws ServiceException
-    {
+    private void setUpGetFolderItemByPath() throws ServiceException {
         FolderItemImpl folder = new FolderItemImpl("easy-folder:2");
         when(itemServiceMock.getFolderItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenReturn(folder);
     }
@@ -102,8 +97,7 @@ public class DatasetSpecificDataTest extends RestTest
     // TODO: un-ignore this after mocking the right methods!
     @Ignore
     @Test
-    public void getSpecificDataWithPathToFile() throws ServiceException, MalformedURLException
-    {
+    public void getSpecificDataWithPathToFile() throws ServiceException, MalformedURLException {
         setUpServiceMethods();
         setUpGetFolderItemByPathException();
         setUpGetFileItemByPath();
@@ -113,13 +107,11 @@ public class DatasetSpecificDataTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpGetFolderItemByPathException() throws ServiceException
-    {
+    private void setUpGetFolderItemByPathException() throws ServiceException {
         when(itemServiceMock.getFolderItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(ServiceException.class);
     }
 
-    private void setUpGetFileItemByPath() throws ServiceException, MalformedURLException
-    {
+    private void setUpGetFileItemByPath() throws ServiceException, MalformedURLException {
         FileItemImpl file = new FileItemImpl("easy-file:1");
         file.setMimeType(MediaType.TEXT_PLAIN);
         file.setSize(4);
@@ -130,25 +122,19 @@ public class DatasetSpecificDataTest extends RestTest
         when(itemServiceMock.getFileContentURL(isA(EasyUser.class), isA(Dataset.class), isA(FileItem.class))).thenReturn(url);
     }
 
-    private URL setUpUrlMock() throws MalformedURLException
-    {
-        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler()
-        {
+    private URL setUpUrlMock() throws MalformedURLException {
+        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler() {
             @Override
-            protected URLConnection openConnection(URL u) throws IOException
-            {
-                return new URLConnection(u)
-                {
+            protected URLConnection openConnection(URL u) throws IOException {
+                return new URLConnection(u) {
 
                     @Override
-                    public void connect() throws IOException
-                    {
+                    public void connect() throws IOException {
                         // do nothing
                     }
 
                     @Override
-                    public InputStream getInputStream()
-                    {
+                    public InputStream getInputStream() {
                         return new ByteArrayInputStream("test".getBytes());
                     }
                 };
@@ -157,8 +143,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificDataWithPathNotAuthorized() throws ServiceException
-    {
+    public void getSpecificDataWithPathNotAuthorized() throws ServiceException {
         setException(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
@@ -166,15 +151,13 @@ public class DatasetSpecificDataTest extends RestTest
         assertEquals(401, response.getStatus());
     }
 
-    private void setException(Class<? extends Throwable> t) throws ServiceException
-    {
+    private void setException(Class<? extends Throwable> t) throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
 
     }
 
     @Test
-    public void getSpecificDataWithPathInternalServerError() throws ServiceException
-    {
+    public void getSpecificDataWithPathInternalServerError() throws ServiceException {
         setException(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
@@ -183,8 +166,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificDataWithPathNotAvailable() throws ServiceException
-    {
+    public void getSpecificDataWithPathNotAvailable() throws ServiceException {
         setUpServiceMethods();
         setUpGetFolderItemByPathException();
         when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(ObjectNotAvailableException.class);
@@ -195,8 +177,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificDataWithPathIOProblem() throws ServiceException
-    {
+    public void getSpecificDataWithPathIOProblem() throws ServiceException {
         setUpServiceMethods();
         setUpGetFolderItemByPathException();
         when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(IOException.class);
@@ -209,8 +190,7 @@ public class DatasetSpecificDataTest extends RestTest
     // TODO: un-ignore this after mocking the right methods!
     @Ignore
     @Test
-    public void getSpecificFileWithId() throws ServiceException, MalformedURLException
-    {
+    public void getSpecificFileWithId() throws ServiceException, MalformedURLException {
         setUpServiceMethods();
         setUpGetFileItem();
 
@@ -219,8 +199,7 @@ public class DatasetSpecificDataTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpGetFileItem() throws ServiceException, MalformedURLException
-    {
+    private void setUpGetFileItem() throws ServiceException, MalformedURLException {
         FileItemImpl file = new FileItemImpl("easy-file:1");
         file.setMimeType(MediaType.TEXT_PLAIN);
         file.setSize(4);
@@ -231,8 +210,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFileWithIdNotAuthorized() throws ServiceException
-    {
+    public void getSpecificFileWithIdNotAuthorized() throws ServiceException {
         setException(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
@@ -241,8 +219,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFileWithIdInternalServerError() throws ServiceException
-    {
+    public void getSpecificFileWithIdInternalServerError() throws ServiceException {
         setException(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
@@ -251,8 +228,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFileWithIdIOProblem() throws ServiceException
-    {
+    public void getSpecificFileWithIdIOProblem() throws ServiceException {
         setException(IOException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
@@ -261,8 +237,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFolderWithId() throws ServiceException
-    {
+    public void getSpecificFolderWithId() throws ServiceException {
         setUpServiceMethods();
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);
@@ -271,8 +246,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFolderWithIdNotAuthorized() throws ServiceException
-    {
+    public void getSpecificFolderWithIdNotAuthorized() throws ServiceException {
         setException(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);
@@ -281,8 +255,7 @@ public class DatasetSpecificDataTest extends RestTest
     }
 
     @Test
-    public void getSpecificFolderWithIdInternalServerError() throws ServiceException
-    {
+    public void getSpecificFolderWithIdInternalServerError() throws ServiceException {
         setException(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);

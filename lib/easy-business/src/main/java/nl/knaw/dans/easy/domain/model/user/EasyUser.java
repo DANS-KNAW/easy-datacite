@@ -11,11 +11,9 @@ import nl.knaw.dans.common.lang.user.User;
 /**
  * Interface for the business user object.
  */
-public interface EasyUser extends User
-{
+public interface EasyUser extends User {
 
-    public enum Role
-    {
+    public enum Role {
         /**
          * Standard user role.
          */

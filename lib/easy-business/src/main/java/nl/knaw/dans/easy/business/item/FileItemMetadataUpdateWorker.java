@@ -28,72 +28,57 @@ import nl.knaw.dans.easy.xml.AdditionalMetadata;
 import nl.knaw.dans.easy.xml.ResourceMetadata;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
-public class FileItemMetadataUpdateWorker extends ItemWorker
-{
+public class FileItemMetadataUpdateWorker extends ItemWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(FileItemMetadataUpdateWorker.class);
 
     private final AdditionalMetadataUpdateStrategy updateStrategy;
 
-    public FileItemMetadataUpdateWorker(EasyUser sessionUser, AdditionalMetadataUpdateStrategy updateStrategy)
-    {
+    public FileItemMetadataUpdateWorker(EasyUser sessionUser, AdditionalMetadataUpdateStrategy updateStrategy) {
         super(sessionUser);
         this.updateStrategy = updateStrategy;
     }
 
-    public FileItemMetadataUpdateWorker(UnitOfWork uow, AdditionalMetadataUpdateStrategy updateStrategy)
-    {
+    public FileItemMetadataUpdateWorker(UnitOfWork uow, AdditionalMetadataUpdateStrategy updateStrategy) {
         super(uow);
         this.updateStrategy = updateStrategy;
     }
 
-    protected void workUpdateMetadata(Dataset dataset, ResourceMetadataList rmdl) throws ServiceException
-    {
+    protected void workUpdateMetadata(Dataset dataset, ResourceMetadataList rmdl) throws ServiceException {
         UnitOfWork uow = getUnitOfWork();
-        try
-        {
+        try {
             uow.attach(dataset);
             List<ResourceMetadata> rmdList = rmdl.getResourceMetadataAsList();
-            for (ResourceMetadata rmd : rmdList)
-            {
+            for (ResourceMetadata rmd : rmdList) {
                 String fileItemId = getFileItemId(dataset, rmd);
-                if (fileItemId == null)
-                {
+                if (fileItemId == null) {
                     String msg = "Object not found. datasetId=" + dataset.getStoreId() + " fileItemId=" + rmd.getSid() + " path=" + rmd.getPath();
                     logger.error(msg);
                     informListeners(new ObjectNotAvailableException(msg));
-                }
-                else
-                {
+                } else {
                     FileItem fileItem = (FileItem) uow.retrieveObject(new DmoStoreId(fileItemId));
                     updateMetadata(fileItem, dataset, rmd);
                 }
             }
             uow.commit();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("While updating metadata: ", e);
             throw new ServiceException(e);
         }
-        catch (UnitOfWorkInterruptException e)
-        {
+        catch (UnitOfWorkInterruptException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
 
-    private void updateMetadata(FileItem fileItem, Dataset dataset, ResourceMetadata rmd)
-    {
-        try
-        {
+    private void updateMetadata(FileItem fileItem, Dataset dataset, ResourceMetadata rmd) {
+        try {
             checkIntegrity(dataset, fileItem);
         }
-        catch (ApplicationException e)
-        {
+        catch (ApplicationException e) {
             logger.error("Integrety violation: ", e);
             informListeners(e);
             return;
@@ -105,74 +90,59 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
         updateAdditionalMetadata(rmd, fileItem);
     }
 
-    private void updateAdditionalMetadata(ResourceMetadata rmd, final FileItem fileItem)
-    {
-        AdditionalMetadataOwner owner = new AdditionalMetadataOwner()
-        {
+    private void updateAdditionalMetadata(ResourceMetadata rmd, final FileItem fileItem) {
+        AdditionalMetadataOwner owner = new AdditionalMetadataOwner() {
 
             @Override
-            public void setAdditionalMetadata(AdditionalMetadata addmd)
-            {
+            public void setAdditionalMetadata(AdditionalMetadata addmd) {
                 fileItem.setAdditionalMetadata(addmd);
             }
 
             @Override
-            public AdditionalMetadata getAdditionalMetadata()
-            {
+            public AdditionalMetadata getAdditionalMetadata() {
                 return fileItem.getAdditionalMetadata();
             }
         };
 
-        try
-        {
+        try {
             updateStrategy.update(owner, rmd.getAdditionalMetadata());
         }
-        catch (AdditionalMetadataUpdateException e)
-        {
+        catch (AdditionalMetadataUpdateException e) {
             logger.error("Could not update. fileitemId=" + fileItem.getStoreId(), e);
             informListeners(e);
         }
     }
 
-    private void setDiscoverRights(ResourceMetadata rmd, FileItem fileItem)
-    {
+    private void setDiscoverRights(ResourceMetadata rmd, FileItem fileItem) {
         AccessCategory discoverCat = rmd.getCategoryDiscover();
-        if (discoverCat != null)
-        {
+        if (discoverCat != null) {
             fileItem.setVisibleTo(VisibleTo.translate(discoverCat));
         }
     }
 
-    private void setReadRights(ResourceMetadata rmd, FileItem fileItem)
-    {
+    private void setReadRights(ResourceMetadata rmd, FileItem fileItem) {
         AccessCategory readCat = rmd.getCategoryRead();
-        if (readCat != null)
-        {
+        if (readCat != null) {
             fileItem.setAccessibleTo(AccessibleTo.translate(readCat));
         }
     }
 
-    private String getFileItemId(Dataset dataset, ResourceMetadata rmd) throws ServiceException
-    {
+    private String getFileItemId(Dataset dataset, ResourceMetadata rmd) throws ServiceException {
         String fileItemId = rmd.getSid();
-        if (fileItemId == null)
-        {
+        if (fileItemId == null) {
             fileItemId = getFileItemIdByPath(dataset, rmd);
         }
         return fileItemId;
     }
 
-    private String getFileItemIdByPath(Dataset dataset, ResourceMetadata rmd) throws ServiceException
-    {
+    private String getFileItemIdByPath(Dataset dataset, ResourceMetadata rmd) throws ServiceException {
         String fileItemId;
         String path = rmd.getPath();
-        try
-        {
+        try {
             FileItemVO fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getDmoStoreId(), path);
             fileItemId = fileItemVO != null ? fileItemVO.getSid() : null;
         }
-        catch (StoreAccessException e)
-        {
+        catch (StoreAccessException e) {
             throw new ServiceException(e);
         }
         return fileItemId;

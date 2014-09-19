@@ -5,28 +5,22 @@ package nl.knaw.dans.common.lang.repo.exception;
  * 
  * @author ecco Sep 24, 2009
  */
-public class ObjectSerializationException extends ConverterException
-{
+public class ObjectSerializationException extends ConverterException {
 
     private static final long serialVersionUID = -2486810834396468739L;
 
     // CHECKSTYLE: OFF
-    public ObjectSerializationException()
-    {
-    }
+    public ObjectSerializationException() {}
 
-    public ObjectSerializationException(final String message)
-    {
+    public ObjectSerializationException(final String message) {
         super(message);
     }
 
-    public ObjectSerializationException(final Throwable cause)
-    {
+    public ObjectSerializationException(final Throwable cause) {
         super(cause);
     }
 
-    public ObjectSerializationException(final String message, final Throwable cause)
-    {
+    public ObjectSerializationException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

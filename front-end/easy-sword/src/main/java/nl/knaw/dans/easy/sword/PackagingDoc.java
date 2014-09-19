@@ -29,8 +29,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PackagingDoc
-{
+public class PackagingDoc {
     private static final Logger logger = LoggerFactory.getLogger(PackagingDoc.class);
 
     private static String fedoraUrl = "http://localhost:8080/fedora";
@@ -38,8 +37,7 @@ public class PackagingDoc
     private static String fedoraPassword = "fedoraAdmin";
     private String helpDir;
 
-    public static void main(final String[] args) throws ServiceException, IOException, ResourceNotFoundException
-    {
+    public static void main(final String[] args) throws ServiceException, IOException, ResourceNotFoundException {
         if (args == null || args.length == 0 || !new File(args[0]).exists())
             throw new IllegalArgumentException("Expecting at least an excisting directory: ${EASY_WEBUI_HOME}/res/example/editable/help/");
         final String helpDir = args[0];
@@ -51,15 +49,13 @@ public class PackagingDoc
         System.out.print(new PackagingDoc().generate(depositService, helpDir).toString());
     }
 
-    private static DepositService setFedoraContext()
-    {
+    private static DepositService setFedoraContext() {
         final Fedora fedora = new Fedora(fedoraUrl, fedoraUser, fedoraPassword);
         new Data().setEasyStore(new EasyFedoraStore("easy", fedora));
         return new EasyDepositService();
     }
 
-    StringBuffer generate(final DepositService depositService, final String helpDir) throws ServiceException, IOException, ResourceNotFoundException
-    {
+    StringBuffer generate(final DepositService depositService, final String helpDir) throws ServiceException, IOException, ResourceNotFoundException {
 
         this.helpDir = helpDir;
         final StringBuffer sb = new StringBuffer();
@@ -80,8 +76,7 @@ public class PackagingDoc
             IOException, ResourceNotFoundException
     {
         final StringBuffer sb = new StringBuffer();
-        for (final DepositDiscipline discipline : depositService.getDisciplines())
-        {
+        for (final DepositDiscipline discipline : depositService.getDisciplines()) {
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             sb.append("<h2>discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
             sb.append(generateElements(choiceLists, formDef.getFormPages(), discipline.getDepositDisciplineId()));
@@ -89,8 +84,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateHeadSection()
-    {
+    private static StringBuffer generateHeadSection() {
         final StringBuffer sb = new StringBuffer();
         sb.append("<head>\n");
         sb.append("<script language='javascript' type='text/javascript'>\n");
@@ -121,8 +115,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private StringBuffer generateIntro() throws IOException, ResourceNotFoundException
-    {
+    private StringBuffer generateIntro() throws IOException, ResourceNotFoundException {
         final StringBuffer sb = new StringBuffer();
 
         sb.append("<p><em>Note that the expandable info blocks are written for the web interface and sometines may be odd in this context.</em></p>\n");
@@ -158,13 +151,11 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateDisciplinesToc(final DepositService depositService) throws ServiceException
-    {
+    private static StringBuffer generateDisciplinesToc(final DepositService depositService) throws ServiceException {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table style='margin-left:2em'>\n");
         sb.append("  <tr><th>Discipline ID</td><th colspan='2'>details</td></tr>\n");
-        for (final DepositDiscipline discipline : depositService.getDisciplines())
-        {
+        for (final DepositDiscipline discipline : depositService.getDisciplines()) {
             final String id = discipline.getDepositDisciplineId();
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             sb.append("  <tr><td>" + id + "\n");
@@ -176,8 +167,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateChoicelistToc(final Map<String, ChoiceListDefinition> choiceLists)
-    {
+    private static StringBuffer generateChoicelistToc(final Map<String, ChoiceListDefinition> choiceLists) {
         final StringBuffer sb = new StringBuffer();
         sb.append("<p>In addition, some elements require entries from a controlled vocabulary. \n");
         sb.append("Where applicable the elements descriptions refer to the appropriate one. \n");
@@ -195,13 +185,11 @@ public class PackagingDoc
     {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table><tr>\n");
-        for (final ChoiceListDefinition clDef : choiceLists.values())
-        {
+        for (final ChoiceListDefinition clDef : choiceLists.values()) {
             sb.append("<tr><td colspan='2'><h2><a name='" + clDef.getId() + "'>" + clDef.getId() + "</a></h2></td></tr>\n");
             sb.append("<tr><th>value</th><th>description</th>\n");
             final ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
-            for (final KeyValuePair kvp : choiceList.getChoices())
-            {
+            for (final KeyValuePair kvp : choiceList.getChoices()) {
                 String indent = "";
                 for (int i = 0; i < kvp.getIndent(); i++)
                     indent += " . . ";
@@ -217,12 +205,10 @@ public class PackagingDoc
     {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table>\n<tr><th>element</th><th>notes</th></tr>");
-        for (final FormPage formPage : formPages)
-        {
+        for (final FormPage formPage : formPages) {
             sb.append("<tr><td colspan='2'>&nbsp;</td></td></tr>\n");
             final List<PanelDefinition> panels = formPage.getPanelDefinitions();
-            for (final PanelDefinition panel : panels)
-            {
+            for (final PanelDefinition panel : panels) {
                 sb.append("<tr><td><p>" + panel.getId() + "</p></td><td>" + helpInfo(panel, disciplineId) + "</td></tr>\n");
                 collectChoiceLists(panel, choiceLists);
             }
@@ -231,31 +217,23 @@ public class PackagingDoc
         return sb;
     }
 
-    private static void collectChoiceLists(final PanelDefinition panel, final Map<String, ChoiceListDefinition> choiceLists) throws ServiceException
-    {
-        if (panel instanceof SubHeadingDefinition)
-        {
+    private static void collectChoiceLists(final PanelDefinition panel, final Map<String, ChoiceListDefinition> choiceLists) throws ServiceException {
+        if (panel instanceof SubHeadingDefinition) {
             final SubHeadingDefinition shDef = (SubHeadingDefinition) panel;
             for (final PanelDefinition spd : shDef.getPanelDefinitions())
                 collectChoiceLists(spd, choiceLists);
-        }
-        else if (panel instanceof StandardPanelDefinition)
-        {
+        } else if (panel instanceof StandardPanelDefinition) {
             final StandardPanelDefinition spDef = (StandardPanelDefinition) panel;
             for (final ChoiceListDefinition clDef : spDef.getChoiceListDefinitions())
                 choiceLists.put(clDef.getId(), clDef);
-        }
-        else
-        {
+        } else {
             logger.warn(panel.getClass().getName());
         }
     }
 
-    private String helpInfo(final AbstractInheritableDefinition<?> panel, final String disciplineId) throws IOException, ResourceNotFoundException
-    {
+    private String helpInfo(final AbstractInheritableDefinition<?> panel, final String disciplineId) throws IOException, ResourceNotFoundException {
         String s = "";
-        if (panel instanceof StandardPanelDefinition)
-        {
+        if (panel instanceof StandardPanelDefinition) {
             final StandardPanelDefinition sp = (StandardPanelDefinition) panel;
             if (sp.isRequired())
                 s += " mandatory ";
@@ -274,45 +252,36 @@ public class PackagingDoc
                 + "<table class='help' id='" + id + "'><tr><td>" + help + "</td></tr></table>";
     }
 
-    private String readHelpFile(final String id) throws ResourceNotFoundException, IOException
-    {
+    private String readHelpFile(final String id) throws ResourceNotFoundException, IOException {
         final File file = new File(this.helpDir + id + ".template");
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             final String msg = "file does not exist: " + file;
             logger.error(msg);
             return (msg);
-        }
-        else
-        {
+        } else {
             final byte[] bytes = FileUtil.readFile(file);
             return new String(bytes).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
         }
     }
 
-    private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
-    {
+    private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s) {
         final String key = panel.getShortHelpResourceKey();
-        if (key != null)
-        {
+        if (key != null) {
             // TODO return DepositPage.class.getResource(key); without dependency on the web-ui layer
             return " ";
         }
         return "";
     }
 
-    public void setFedoraPassword(final String fedoraPassword)
-    {
+    public void setFedoraPassword(final String fedoraPassword) {
         PackagingDoc.fedoraPassword = fedoraPassword;
     }
 
-    public void setFedoraUser(final String fedoraUser)
-    {
+    public void setFedoraUser(final String fedoraUser) {
         PackagingDoc.fedoraUser = fedoraUser;
     }
 
-    public void setFedoraUrl(final String fedoraUrl)
-    {
+    public void setFedoraUrl(final String fedoraUrl) {
         PackagingDoc.fedoraUrl = fedoraUrl;
     }
 }

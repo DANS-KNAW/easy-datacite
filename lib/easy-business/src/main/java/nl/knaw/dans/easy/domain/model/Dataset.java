@@ -18,8 +18,7 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.joda.time.DateTime;
 
-public interface Dataset extends DatasetItemContainer
-{
+public interface Dataset extends DatasetItemContainer {
     AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
 
     String NAME_SPACE_VALUE = "easy-dataset";
@@ -98,8 +97,8 @@ public interface Dataset extends DatasetItemContainer
     void setAdditionalLicenseContent(File file);
 
     /**
-     * Usually the meta data is changed by making changes to the object. This method allows to replace
-     * the entire object. For example for general spelling corrections at data stream level.
+     * Usually the meta data is changed by making changes to the object. This method allows to replace the entire object. For example for general spelling
+     * corrections at data stream level.
      * 
      * @param xml
      *        an UTF-8 encoded XML string

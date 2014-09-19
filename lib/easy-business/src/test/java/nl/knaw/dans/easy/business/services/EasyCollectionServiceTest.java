@@ -33,8 +33,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyCollectionServiceTest
-{
+public class EasyCollectionServiceTest {
 
     private static CollectionService service;
     private static DmoCollectionsAccess access;
@@ -43,8 +42,7 @@ public class EasyCollectionServiceTest
     private boolean verbose = false;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         access = EasyMock.createMock(DmoCollectionsAccess.class);
 
         Data data = new Data();
@@ -55,34 +53,29 @@ public class EasyCollectionServiceTest
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setCollectionAccess(null);
     }
 
     @Before
-    public void beforeTest()
-    {
+    public void beforeTest() {
         testCollections.clear();
         reset(access);
     }
 
     @Test
-    public void testSecuredOperationIds() throws Exception
-    {
+    public void testSecuredOperationIds() throws Exception {
         SecuredOperationUtil.checkSecurityIds(EasyCollectionService.class);
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void testSecurityOnUpdateCollectionMembershipsNoUser() throws Exception
-    {
+    public void testSecurityOnUpdateCollectionMembershipsNoUser() throws Exception {
         new Security(createCodedAuthz());
         service.updateCollectionMemberships(null, null, null);
     }
 
-    private CodedAuthz createCodedAuthz()
-    {
+    private CodedAuthz createCodedAuthz() {
         CodedAuthz codedAuthz = new CodedAuthz();
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
@@ -91,20 +84,16 @@ public class EasyCollectionServiceTest
 
     @SuppressWarnings("serial")
     @Test(expected = NullPointerException.class)
-    public void testSecurityOnUpdateCollectionMemberships() throws Exception
-    {
+    public void testSecurityOnUpdateCollectionMemberships() throws Exception {
         new Security(createCodedAuthz());
-        service.updateCollectionMemberships(new EasyUserImpl()
-        {
+        service.updateCollectionMemberships(new EasyUserImpl() {
             @Override
-            public boolean hasRole(Role... roles)
-            {
+            public boolean hasRole(Role... roles) {
                 return true;
             }
 
             @Override
-            public boolean isActive()
-            {
+            public boolean isActive() {
                 return true;
             }
 
@@ -112,18 +101,15 @@ public class EasyCollectionServiceTest
     }
 
     @Test
-    public void getCollectionEntries() throws Exception
-    {
+    public void getCollectionEntries() throws Exception {
         int wide = 2;
         int deep = 2;
         expectGetRoot(ECollection.EasyCollection, wide, deep);
 
         replay(access);
         List<ECollectionEntry> entries = service.getCollectionEntries(ECollection.EasyCollection);
-        if (verbose)
-        {
-            for (ECollectionEntry entry : entries)
-            {
+        if (verbose) {
+            for (ECollectionEntry entry : entries) {
                 System.err.println(entry);
             }
         }
@@ -133,11 +119,9 @@ public class EasyCollectionServiceTest
     }
 
     @Test
-    public void getCollectionEntryMap() throws Exception
-    {
+    public void getCollectionEntryMap() throws Exception {
         Iterator<ECollection> iter = ECollection.iterator();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             expectGetRoot(iter.next(), 2, 3);
         }
 
@@ -147,16 +131,13 @@ public class EasyCollectionServiceTest
         verify(access);
     }
 
-    private void expectGetRoot(ECollection eColl, int wide, int deep) throws Exception
-    {
+    private void expectGetRoot(ECollection eColl, int wide, int deep) throws Exception {
         expect(access.getRoot(eColl)).andReturn(getRoot(eColl.namespace, wide, deep)).anyTimes();
     }
 
-    private DmoCollection getRoot(DmoNamespace namespace, int wide, int deep) throws Exception
-    {
+    private DmoCollection getRoot(DmoNamespace namespace, int wide, int deep) throws Exception {
         DmoCollection root = testCollections.get(namespace);
-        if (root == null)
-        {
+        if (root == null) {
             root = MockCollectionCreator.createRoot(namespace, wide, deep);
             testCollections.put(namespace, root);
         }

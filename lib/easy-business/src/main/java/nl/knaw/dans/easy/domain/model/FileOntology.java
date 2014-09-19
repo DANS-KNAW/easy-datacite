@@ -5,11 +5,9 @@ package nl.knaw.dans.easy.domain.model;
  * 
  * @author henk van den berg
  */
-public class FileOntology
-{
+public class FileOntology {
 
-    public enum MetadataFormat
-    {
+    public enum MetadataFormat {
         CMDI, DDM, DDI
     }
 
@@ -22,24 +20,20 @@ public class FileOntology
 
     private String text = URI;
 
-    public String get()
-    {
+    public String get() {
         return text;
     }
 
-    public String iri()
-    {
+    public String iri() {
         return "<" + text + ">";
     }
 
-    public FileOntology isMetadataOn()
-    {
+    public FileOntology isMetadataOn() {
         text = URI + IS_METADATA_ON;
         return this;
     }
 
-    public FileOntology hasMetadataFormat()
-    {
+    public FileOntology hasMetadataFormat() {
         text = URI + HAS_METADATA_FORMAT;
         return this;
     }

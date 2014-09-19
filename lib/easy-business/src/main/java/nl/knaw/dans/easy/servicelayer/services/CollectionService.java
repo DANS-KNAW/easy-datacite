@@ -14,8 +14,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.security.annotations.SecuredOperation;
 
-public interface CollectionService extends EasyService
-{
+public interface CollectionService extends EasyService {
 
     DmoCollection getRoot(ECollection eColl) throws ServiceException;
 
@@ -42,8 +41,7 @@ public interface CollectionService extends EasyService
     /**
      * Update collection memberships of the given dataset.
      * <p/>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships")
      * 
      * @param sessionUser
      * @param dataset

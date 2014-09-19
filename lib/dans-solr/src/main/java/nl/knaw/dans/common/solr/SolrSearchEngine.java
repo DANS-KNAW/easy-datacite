@@ -42,8 +42,7 @@ import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SolrSearchEngine implements SearchEngine
-{
+public class SolrSearchEngine implements SearchEngine {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolrServerWrapper.class);
 
     private URL baseUrl;
@@ -51,9 +50,8 @@ public class SolrSearchEngine implements SearchEngine
     private SearchBeanFactory searchBeanFactory;
 
     /**
-     * The name of the field that hold the type value of search entities. It is up to the searchEngine
-     * how the type of the bean is stored. In the case of Solr we add a type field which holds this
-     * information.
+     * The name of the field that hold the type value of search entities. It is up to the searchEngine how the type of the bean is stored. In the case of Solr
+     * we add a type field which holds this information.
      */
     final static String SE_TYPE_FIELD_NAME = "type";
 
@@ -66,69 +64,57 @@ public class SolrSearchEngine implements SearchEngine
 
     ThreadLocal<TransactionData> transactions = new ThreadLocal<TransactionData>();
 
-    class TransactionData
-    {
+    class TransactionData {
         private Set<SolrServerWrapper> server = new HashSet<SolrServerWrapper>();
 
-        public void addServer(SolrServerWrapper executor)
-        {
+        public void addServer(SolrServerWrapper executor) {
             server.add(executor);
         }
 
-        public void commitAll() throws SearchEngineException
-        {
+        public void commitAll() throws SearchEngineException {
             for (SolrServerWrapper executor : server)
                 executor.commit();
         }
 
-        public void rollbackAll() throws SearchEngineException
-        {
+        public void rollbackAll() throws SearchEngineException {
             for (SolrServerWrapper executor : server)
                 executor.rollback();
         }
     }
 
-    public SolrSearchEngine(String baseUrl, SearchBeanFactory searchBeanFactory) throws MalformedURLException
-    {
+    public SolrSearchEngine(String baseUrl, SearchBeanFactory searchBeanFactory) throws MalformedURLException {
         this(baseUrl, searchBeanFactory, true);
     }
 
-    public SolrSearchEngine(String baseUrl, SearchBeanFactory searchBeanFactory, boolean multiCore) throws MalformedURLException
-    {
+    public SolrSearchEngine(String baseUrl, SearchBeanFactory searchBeanFactory, boolean multiCore) throws MalformedURLException {
         this.baseUrl = new URL(baseUrl);
         setSearchBeanFactory(searchBeanFactory);
         this.multiCore = multiCore;
     }
 
-    public SearchBeanFactory getSearchBeanFactory()
-    {
+    public SearchBeanFactory getSearchBeanFactory() {
         return searchBeanFactory;
     }
 
-    public void setSearchBeanFactory(SearchBeanFactory seFactory)
-    {
+    public void setSearchBeanFactory(SearchBeanFactory seFactory) {
         this.searchBeanFactory = seFactory;
     }
 
-    protected synchronized SolrServerWrapper getServerByName(String indexName) throws SolrSearchEngineException
-    {
+    protected synchronized SolrServerWrapper getServerByName(String indexName) throws SolrSearchEngineException {
         if (!multiCore)
             indexName = null;
 
         SolrServerWrapper result = serverPool.get(indexName);
-        if (result == null)
-        {
+        if (result == null) {
             String coreUrl = baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort();
-            if (indexName != null && !indexName.equals("") && multiCore)
-            {
+            if (indexName != null && !indexName.equals("") && multiCore) {
                 boolean pathHasTrailingSlash = baseUrl.getPath().charAt(baseUrl.getPath().length() - 1) == '/';
                 boolean pathHasStartingSlash = baseUrl.getPath().charAt(0) == '/';
                 coreUrl += (pathHasStartingSlash ? "" : "/") + baseUrl.getPath() + (pathHasTrailingSlash ? "" : "/") + indexName;
             }
 
             CommonsHttpSolrServer httpServer;
-            try
-            {
+            try {
                 // for one core there should exist only one CommonsHttpServer
                 // object that is created like this, because it holds internally
                 // a multi-threaded http connection manager which does
@@ -138,8 +124,7 @@ public class SolrSearchEngine implements SearchEngine
                 // work.
                 httpServer = new CommonsHttpSolrServer(new URL(coreUrl));
             }
-            catch (MalformedURLException e)
-            {
+            catch (MalformedURLException e) {
                 throw new SolrSearchEngineException("invalid index name " + indexName, e);
             }
 
@@ -159,18 +144,15 @@ public class SolrSearchEngine implements SearchEngine
         return result;
     }
 
-    protected synchronized SolrServerWrapper getServerByIndex(Index index) throws SolrSearchEngineException
-    {
+    protected synchronized SolrServerWrapper getServerByIndex(Index index) throws SolrSearchEngineException {
         return (index == null) ? getServerByName((String) null) : getServerByName(index.getName());
     }
 
     @SuppressWarnings("unchecked")
-    protected void doIndex(Collection<?> objects) throws SearchEngineException, SearchBeanException, SearchBeanConverterException, SearchBeanFactoryException
-    {
+    protected void doIndex(Collection<?> objects) throws SearchEngineException, SearchBeanException, SearchBeanConverterException, SearchBeanFactoryException {
         // weed out index document based on index name
         Map<Index, Collection<IndexDocument>> indexMap = new HashMap<Index, Collection<IndexDocument>>();
-        for (Object object : objects)
-        {
+        for (Object object : objects) {
             Index index = null;
             if (object instanceof IndexDocument)
                 index = ((IndexDocument) object).getIndex();
@@ -178,16 +160,14 @@ public class SolrSearchEngine implements SearchEngine
                 index = SearchBeanUtil.getDefaultIndex(object.getClass());
 
             Collection<IndexDocument> indexDocs = indexMap.get(index);
-            if (indexDocs == null)
-            {
+            if (indexDocs == null) {
                 indexDocs = new ArrayList<IndexDocument>();
                 indexMap.put(index, indexDocs);
             }
 
             if (object instanceof IndexDocument)
                 indexDocs.add((IndexDocument) object);
-            else
-            {
+            else {
                 SearchBeanConverter converter = getSearchBeanFactory().getSearchBeanConverter(object.getClass());
                 IndexDocument doc = converter.toIndexDocument(object);
 
@@ -207,8 +187,7 @@ public class SolrSearchEngine implements SearchEngine
 
         // send to server
         List<SolrServerWrapper> servers = new ArrayList<SolrServerWrapper>();
-        for (Entry<Index, Collection<IndexDocument>> indexEntry : indexMap.entrySet())
-        {
+        for (Entry<Index, Collection<IndexDocument>> indexEntry : indexMap.entrySet()) {
             SolrServerWrapper server = getServerByIndex(indexEntry.getKey());
             servers.add(server);
             server.index(indexEntry.getValue());
@@ -217,39 +196,31 @@ public class SolrSearchEngine implements SearchEngine
         doCommit(servers);
     }
 
-    public void doDelete(Collection<?> objects) throws SearchEngineException, SearchBeanException
-    {
+    public void doDelete(Collection<?> objects) throws SearchEngineException, SearchBeanException {
         Map<Index, List<Field<?>>> delMap = new HashMap<Index, List<Field<?>>>(objects.size());
-        for (Object object : objects)
-        {
+        for (Object object : objects) {
             Field<?> primaryKey = null;
             Index index = null;
-            if (object instanceof IndexDocument)
-            {
+            if (object instanceof IndexDocument) {
                 primaryKey = ((IndexDocument) object).getPrimaryKey();
                 index = ((IndexDocument) object).getIndex();
-            }
-            else
-            {
+            } else {
                 primaryKey = SearchBeanUtil.getPrimaryKey(object);
                 index = SearchBeanUtil.getDefaultIndex(object.getClass());
             }
 
             List<Field<?>> primaryKeys = delMap.get(index);
-            if (primaryKeys == null)
-            {
+            if (primaryKeys == null) {
                 primaryKeys = new ArrayList<Field<?>>();
                 primaryKeys.add(primaryKey);
                 delMap.put(index, primaryKeys);
-            }
-            else
+            } else
                 primaryKeys.add(primaryKey);
         }
 
         // send to server
         List<SolrServerWrapper> servers = new ArrayList<SolrServerWrapper>();
-        for (Entry<Index, List<Field<?>>> delEntry : delMap.entrySet())
-        {
+        for (Entry<Index, List<Field<?>>> delEntry : delMap.entrySet()) {
             SolrServerWrapper server = getServerByIndex(delEntry.getKey());
             servers.add(server);
             server.deleteByPrimaryKey(delEntry.getValue());
@@ -258,31 +229,24 @@ public class SolrSearchEngine implements SearchEngine
         doCommit(servers);
     }
 
-    private void doCommit(List<SolrServerWrapper> servers) throws SearchEngineException
-    {
+    private void doCommit(List<SolrServerWrapper> servers) throws SearchEngineException {
         TransactionData transaction = transactions.get();
-        for (SolrServerWrapper server : servers)
-        {
-            if (transaction != null)
-            {
+        for (SolrServerWrapper server : servers) {
+            if (transaction != null) {
                 transaction.addServer(server);
-            }
-            else
-            {
+            } else {
                 server.commit();
             }
         }
     }
 
     @SuppressWarnings("unchecked")
-    public SearchResult<? extends Document> searchDocuments(SearchRequest request) throws SearchEngineException
-    {
+    public SearchResult<? extends Document> searchDocuments(SearchRequest request) throws SearchEngineException {
         return (SearchResult<? extends Document>) getServerByIndex(request.getIndex()).search(request);
     }
 
     @SuppressWarnings("unchecked")
-    public SearchResult<? extends Object> searchBeans(SearchRequest request) throws SearchEngineException
-    {
+    public SearchResult<? extends Object> searchBeans(SearchRequest request) throws SearchEngineException {
         if (searchBeanFactory == null)
             throw new MissingSearchBeanFactoryException();
 
@@ -290,18 +254,14 @@ public class SolrSearchEngine implements SearchEngine
 
         // add filter fields according to the type of the search beans
         Set<Class<?>> filterBeans = request.getFilterBeans();
-        if (filterBeans != null)
-        {
+        if (filterBeans != null) {
             FieldSet filterQueries = request.getFilterQueries();
-            for (Class<?> sbClass : filterBeans)
-            {
+            for (Class<?> sbClass : filterBeans) {
                 String sbType;
-                try
-                {
+                try {
                     sbType = SearchBeanUtil.getTypeIdentifier(sbClass);
                 }
-                catch (SearchBeanException e)
-                {
+                catch (SearchBeanException e) {
                     throw new SolrSearchEngineException(e);
                 }
                 if (sbType == null)
@@ -320,8 +280,7 @@ public class SolrSearchEngine implements SearchEngine
 
         // now build the search entities from the returned documents by the type
         // field
-        for (Object hitObj : result.getHits())
-        {
+        for (Object hitObj : result.getHits()) {
             SimpleSearchHit hit = (SimpleSearchHit) hitObj;
             Document doc = (Document) hit.getData();
 
@@ -338,8 +297,7 @@ public class SolrSearchEngine implements SearchEngine
             String typeName = "";
             if (typeValue instanceof String)
                 typeName = (String) typeValue;
-            else if (typeValue instanceof Collection)
-            {
+            else if (typeValue instanceof Collection) {
                 Object[] typeHierarchy = ((Collection) typeValue).toArray();
                 Object firstType = typeHierarchy[0];
                 if (!(firstType instanceof String))
@@ -351,16 +309,13 @@ public class SolrSearchEngine implements SearchEngine
 
             // instantiate the SearchBean based on the type name
             Object searchBean = null;
-            try
-            {
+            try {
                 searchBean = searchBeanFactory.createSearchBean(typeName, doc);
             }
-            catch (SearchBeanFactoryException e)
-            {
+            catch (SearchBeanFactoryException e) {
                 throw new SolrSearchEngineException(e);
             }
-            catch (SearchBeanException e)
-            {
+            catch (SearchBeanException e) {
                 throw new SolrSearchEngineException(e);
             }
 
@@ -371,148 +326,114 @@ public class SolrSearchEngine implements SearchEngine
         return (SearchResult<Object>) result;
     }
 
-    public void deleteBean(final Object searchBean) throws SearchEngineException
-    {
-        try
-        {
-            doDelete(new ArrayList<Object>(1)
-            {
+    public void deleteBean(final Object searchBean) throws SearchEngineException {
+        try {
+            doDelete(new ArrayList<Object>(1) {
                 {
                     add(searchBean);
                 }
             });
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void deleteDocument(final IndexDocument indexDocument) throws SearchEngineException
-    {
-        try
-        {
-            doDelete(new ArrayList<IndexDocument>(1)
-            {
+    public void deleteDocument(final IndexDocument indexDocument) throws SearchEngineException {
+        try {
+            doDelete(new ArrayList<IndexDocument>(1) {
                 {
                     add(indexDocument);
                 }
             });
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void indexBean(final Object searchBean) throws SearchEngineException, SearchEngineException
-    {
-        try
-        {
-            doIndex(new ArrayList<Object>(1)
-            {
+    public void indexBean(final Object searchBean) throws SearchEngineException, SearchEngineException {
+        try {
+            doIndex(new ArrayList<Object>(1) {
                 {
                     add(searchBean);
                 }
             });
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void indexDocument(final IndexDocument indexDocument) throws SearchEngineException
-    {
-        try
-        {
-            doIndex(new ArrayList<Object>(1)
-            {
+    public void indexDocument(final IndexDocument indexDocument) throws SearchEngineException {
+        try {
+            doIndex(new ArrayList<Object>(1) {
                 {
                     add(indexDocument);
                 }
             });
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void deleteBeans(Collection<? extends Object> searchBeans) throws SearchEngineException
-    {
-        try
-        {
+    public void deleteBeans(Collection<? extends Object> searchBeans) throws SearchEngineException {
+        try {
             doDelete(searchBeans);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void deleteDocuments(Collection<? extends IndexDocument> indexDocuments) throws SearchEngineException
-    {
-        try
-        {
+    public void deleteDocuments(Collection<? extends IndexDocument> indexDocuments) throws SearchEngineException {
+        try {
             doDelete(indexDocuments);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void indexBeans(Collection<? extends Object> searchBeans) throws SearchEngineException
-    {
-        try
-        {
+    public void indexBeans(Collection<? extends Object> searchBeans) throws SearchEngineException {
+        try {
             doIndex(searchBeans);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
-    public void indexDocuments(Collection<? extends IndexDocument> indexDocuments) throws SearchEngineException
-    {
-        try
-        {
+    public void indexDocuments(Collection<? extends IndexDocument> indexDocuments) throws SearchEngineException {
+        try {
             doIndex(indexDocuments);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new SolrSearchEngineException(e);
         }
     }
 
     @Override
-    public void beginTransaction()
-    {
-        if (transactions.get() == null)
-        {
+    public void beginTransaction() {
+        if (transactions.get() == null) {
             transactions.set(new TransactionData());
         }
     }
 
     @Override
-    public void commit() throws SearchEngineException
-    {
+    public void commit() throws SearchEngineException {
         TransactionData transactionData = transactions.get();
-        if (transactionData != null)
-        {
+        if (transactionData != null) {
             transactions.set(null);
             transactionData.commitAll();
         }
     }
 
     @Override
-    public void rollback() throws SearchEngineException
-    {
+    public void rollback() throws SearchEngineException {
         TransactionData transactionData = transactions.get();
-        if (transactionData != null)
-        {
+        if (transactionData != null) {
             transactions.set(null);
             transactionData.rollbackAll();
         }

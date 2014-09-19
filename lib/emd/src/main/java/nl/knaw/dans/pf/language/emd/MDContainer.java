@@ -5,8 +5,7 @@ package nl.knaw.dans.pf.language.emd;
  * 
  * @author ecco
  */
-public enum MDContainer
-{
+public enum MDContainer {
     // CHECKSTYLE: OFF
     // @formatter:off
     Title(true), 
@@ -28,13 +27,11 @@ public enum MDContainer
     // @formatter:on
 
     /**
-     * Is this metadata container part of the 15 legacy /elements/1.1/ of the DCMI-terms, also known as
-     * 'simple dublin core'.
+     * Is this metadata container part of the 15 legacy /elements/1.1/ of the DCMI-terms, also known as 'simple dublin core'.
      */
     public final boolean isDC;
 
-    private MDContainer(final boolean isDC)
-    {
+    private MDContainer(final boolean isDC) {
         this.isDC = isDC;
     }
     // CHECKSTYLE: ON

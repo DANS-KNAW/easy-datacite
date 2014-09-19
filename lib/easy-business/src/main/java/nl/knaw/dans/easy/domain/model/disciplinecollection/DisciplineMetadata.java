@@ -4,8 +4,7 @@ import java.net.URI;
 
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 
-public interface DisciplineMetadata extends MetadataUnitXMLBean
-{
+public interface DisciplineMetadata extends MetadataUnitXMLBean {
     String UNIT_ID = "DMD";
 
     String UNIT_LABEL = "Discipline metadata";

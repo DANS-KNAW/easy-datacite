@@ -5,8 +5,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 
-public interface DisciplineCollection
-{
+public interface DisciplineCollection {
 
     public static final DmoNamespace NAME_SPACE = new DmoNamespace("discipline-collection");
 
@@ -15,9 +14,8 @@ public interface DisciplineCollection
      * 
      * @return the root discipline
      * @throws ObjectNotFoundException
-     *         thrown when the root discipline was not found. This is a serious exception that should be
-     *         handled properly. In this case something has gone terribly wrong and an administrator
-     *         should be warned.
+     *         thrown when the root discipline was not found. This is a serious exception that should be handled properly. In this case something has gone
+     *         terribly wrong and an administrator should be warned.
      * @throws DomainException
      *         wrapper exception
      */

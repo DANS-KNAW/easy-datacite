@@ -11,14 +11,12 @@ import org.apache.wicket.protocol.http.WebRequest;
 /**
  * @author lobo
  */
-public abstract class EasyUploadCommand extends DynamicWebResource
-{
+public abstract class EasyUploadCommand extends DynamicWebResource {
     private static final long serialVersionUID = 164170720396174821L;
 
     public static final String UPLOADID_ARGUMENT = "uploadId";
 
-    public Integer[] getUploadProcessIds()
-    {
+    public Integer[] getUploadProcessIds() {
         RequestCycle rc = RequestCycle.get();
 
         // find uploadIds argument
@@ -32,8 +30,7 @@ public abstract class EasyUploadCommand extends DynamicWebResource
         if (strUploadIds.length == 0)
             throw new MissingResourceException("Missing argument value", UPLOADID_ARGUMENT, UPLOADID_ARGUMENT);
         Integer[] uploadIds = new Integer[strUploadIds.length];
-        for (int i = 0; i < uploadIds.length; i++)
-        {
+        for (int i = 0; i < uploadIds.length; i++) {
             uploadIds[i] = Integer.parseInt(strUploadIds[i]);
         }
         return uploadIds;

@@ -22,26 +22,21 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
-public class OurWorkSearchResultPage extends AbstractSearchResultPage
-{
-    public OurWorkSearchResultPage()
-    {
+public class OurWorkSearchResultPage extends AbstractSearchResultPage {
+    public OurWorkSearchResultPage() {
         super(true);
     }
 
-    public OurWorkSearchResultPage(SearchModel searchModel)
-    {
+    public OurWorkSearchResultPage(SearchModel searchModel) {
         super(searchModel);
     }
 
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
         return Services.getSearchService().searchOurWork(request, getSessionUser());
     }
 
     @Override
-    protected SearchResultConfig getSearchResultConfig()
-    {
+    protected SearchResultConfig getSearchResultConfig() {
         SearchResultConfig config = super.getSearchResultConfig();
         List<SortField> initialSortFields = new ArrayList<SortField>();
         initialSortFields.add(new SimpleSortField(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortOrder.DESC));
@@ -50,21 +45,17 @@ public class OurWorkSearchResultPage extends AbstractSearchResultPage
     }
 
     @Override
-    protected IModel<String> getInitialCriteriumText()
-    {
+    protected IModel<String> getInitialCriteriumText() {
         return new ResourceModel("ourwork.defaultbreadcrumbtext");
     }
 
     @Override
-    protected IModel<String> getSearchCriteriumText(final String searchText)
-    {
-        return new AbstractReadOnlyModel<String>()
-        {
+    protected IModel<String> getSearchCriteriumText(final String searchText) {
+        return new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 3254972701101566016L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return CriteriumLabel.createFilterText(getString("ourwork.searchbreadcrumbtext"), searchText);
             }
         };

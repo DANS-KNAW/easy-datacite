@@ -18,20 +18,17 @@ import javax.naming.ldap.SortResponseControl;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class SortControlOnlineTest
-{
+public class SortControlOnlineTest {
 
     @Ignore("Both apacheDS and openLdap do not support sorting")
     @Test
-    public void sort() throws IOException
-    {
+    public void sort() throws IOException {
         // Set up environment for creating initial context
         Hashtable<String, Object> env = new Hashtable<String, Object>(11);
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, "ldap://localhost:10389/ou=users,ou=test,dc=dans,dc=knaw,dc=nl");
 
-        try
-        {
+        try {
             // Create initial context with no connection request controls
             LdapContext ctx = new InitialLdapContext(env, null);
 
@@ -44,34 +41,26 @@ public class SortControlOnlineTest
 
             // Iterate over search results
             System.out.println("---->sort by cn");
-            while (results != null && results.hasMore())
-            {
+            while (results != null && results.hasMore()) {
                 // Display an entry
                 SearchResult entry = (SearchResult) results.next();
                 System.out.println(entry.getName());
 
                 // Handle the entry's response controls (if any)
-                if (entry instanceof HasControls)
-                {
+                if (entry instanceof HasControls) {
                     // ((HasControls)entry).getControls();
                 }
             }
             // Examine the sort control response
             Control[] controls = ctx.getResponseControls();
-            if (controls != null)
-            {
-                for (int i = 0; i < controls.length; i++)
-                {
-                    if (controls[i] instanceof SortResponseControl)
-                    {
+            if (controls != null) {
+                for (int i = 0; i < controls.length; i++) {
+                    if (controls[i] instanceof SortResponseControl) {
                         SortResponseControl src = (SortResponseControl) controls[i];
-                        if (!src.isSorted())
-                        {
+                        if (!src.isSorted()) {
                             throw src.getException();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // Handle other response controls (if any)
                     }
                 }
@@ -80,8 +69,7 @@ public class SortControlOnlineTest
             // Close when no longer needed
             ctx.close();
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             e.printStackTrace();
         }
     }

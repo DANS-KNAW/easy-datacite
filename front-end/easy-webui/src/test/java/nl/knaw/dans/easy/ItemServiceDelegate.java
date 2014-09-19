@@ -35,8 +35,7 @@ import nl.knaw.dans.easy.xml.ResourceMetadataList;
 import org.apache.commons.lang.NotImplementedException;
 import org.dom4j.Element;
 
-public class ItemServiceDelegate implements ItemService
-{
+public class ItemServiceDelegate implements ItemService {
     private static final ItemService INSTANCE = new EasyItemService();
 
     /** An authorization that does not render files invisible even if visible and accessible to anonymous */
@@ -46,20 +45,17 @@ public class ItemServiceDelegate implements ItemService
             "This ItemServices delegate only implements methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
 
     @Override
-    public String getServiceTypeName()
-    {
+    public String getServiceTypeName() {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public String getServiceDescription()
-    {
+    public String getServiceDescription() {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public void doBeanPostProcessing() throws ServiceException
-    {
+    public void doBeanPostProcessing() throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
@@ -175,8 +171,7 @@ public class ItemServiceDelegate implements ItemService
     }
 
     @Override
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException
-    {
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
@@ -191,65 +186,55 @@ public class ItemServiceDelegate implements ItemService
     }
 
     @Override
-    public List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws ServiceException
-    {
+    public List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws ServiceException {
         return INSTANCE.getFilenames(parentSid, recursive);
     }
 
     @Override
-    public boolean hasChildItems(DmoStoreId parentSid) throws ServiceException
-    {
+    public boolean hasChildItems(DmoStoreId parentSid) throws ServiceException {
         return INSTANCE.hasChildItems(parentSid);
     }
 
     @Override
-    public FileContentWrapper getContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
-    {
+    public FileContentWrapper getContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public ZipFileContentWrapper getZippedContent(EasyUser sessionUser, Dataset dataset, Collection<RequestedItem> requestedItems) throws ServiceException
-    {
+    public ZipFileContentWrapper getZippedContent(EasyUser sessionUser, Dataset dataset, Collection<RequestedItem> requestedItems) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public void saveDescriptiveMetadata(EasyUser sessionUser, Dataset dataset, Map<String, Element> fileMetadataMap) throws ServiceException
-    {
+    public void saveDescriptiveMetadata(EasyUser sessionUser, Dataset dataset, Map<String, Element> fileMetadataMap) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
 
     @Override
-    public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads)
-    {
+    public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads) {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
 
     @Override
-    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException
-    {
+    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public URL getStreamingHost()
-    {
+    public URL getStreamingHost() {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
-    public void setMustProcessAudioVideoInstructions(boolean value)
-    {
+    public void setMustProcessAudioVideoInstructions(boolean value) {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
 
     @Override
-    public boolean mustProcessAudioVideoInstructions()
-    {
+    public boolean mustProcessAudioVideoInstructions() {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 

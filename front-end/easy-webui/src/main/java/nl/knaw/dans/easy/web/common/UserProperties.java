@@ -7,8 +7,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
  * 
  * @author ecco Mar 11, 2009
  */
-public interface UserProperties
-{
+public interface UserProperties {
 
     public static final String TELEPHONE = "telephone";
     public static final String COUNTRY = "country";

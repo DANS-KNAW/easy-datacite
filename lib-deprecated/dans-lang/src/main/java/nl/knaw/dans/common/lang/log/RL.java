@@ -28,12 +28,10 @@ import org.slf4j.LoggerFactory;
  *  </bean>
  * </pre>
  * 
- * or it can be initialized by a start-up routine, using one of the initialize methods. If no
- * initialization has been called, this class will be initialized after a call to one of the info(),
- * warn(), error() or close() methods.
+ * or it can be initialized by a start-up routine, using one of the initialize methods. If no initialization has been called, this class will be initialized
+ * after a call to one of the info(), warn(), error() or close() methods.
  */
-public class RL
-{
+public class RL {
 
     public static final String GLOBAL = "global";
 
@@ -47,20 +45,16 @@ public class RL
     private File reportLocation;
     private boolean allReadWrite;
 
-    public static RL initialize() throws ConfigurationException
-    {
+    public static RL initialize() throws ConfigurationException {
         return initialize(DEFAULT_REPORT_LOCATION, false);
     }
 
-    public static RL initialize(String reportLocationName, boolean allReadWrite) throws ConfigurationException
-    {
+    public static RL initialize(String reportLocationName, boolean allReadWrite) throws ConfigurationException {
         return initialize(new File(reportLocationName), allReadWrite);
     }
 
-    public static RL initialize(File reportLocation, boolean allReadWrite) throws ConfigurationException
-    {
-        if (isInitialized())
-        {
+    public static RL initialize(File reportLocation, boolean allReadWrite) throws ConfigurationException {
+        if (isInitialized()) {
             throw new ConfigurationException("Already initialized: " + RL.class.getName());
         }
         return new RL(reportLocation, allReadWrite, false);
@@ -71,13 +65,11 @@ public class RL
      * 
      * @throws ConfigurationException
      */
-    public RL(boolean dateLocation) throws ConfigurationException
-    {
+    public RL(boolean dateLocation) throws ConfigurationException {
         this(DEFAULT_REPORT_LOCATION, false, dateLocation);
     }
 
-    public RL(String reportLocationName) throws ConfigurationException
-    {
+    public RL(String reportLocationName) throws ConfigurationException {
         this(reportLocationName, false, true);
     }
 
@@ -88,8 +80,7 @@ public class RL
      * @param allReadWrite
      * @throws ConfigurationException
      */
-    public RL(String reportLocationName, boolean allReadWrite, boolean dateLocation) throws ConfigurationException
-    {
+    public RL(String reportLocationName, boolean allReadWrite, boolean dateLocation) throws ConfigurationException {
         this(new File(reportLocationName), allReadWrite, dateLocation);
     }
 
@@ -100,26 +91,21 @@ public class RL
      * @param allReadWrite
      * @throws ConfigurationException
      */
-    public RL(File reportLocation, boolean allReadWrite, boolean dateLocation) throws ConfigurationException
-    {
+    public RL(File reportLocation, boolean allReadWrite, boolean dateLocation) throws ConfigurationException {
         setReportLocation(reportLocation, allReadWrite, dateLocation);
         INSTANCE = this;
         logger.info("Instantiated " + this + " reporting at " + this.reportLocation.getAbsolutePath());
     }
 
-    private void setReportLocation(File file, boolean allRW, boolean dateLocation) throws ConfigurationException
-    {
+    private void setReportLocation(File file, boolean allRW, boolean dateLocation) throws ConfigurationException {
         file.mkdirs();
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             throw new ConfigurationException("The file " + file.getPath() + " does not exist.");
         }
-        if (!file.isDirectory())
-        {
+        if (!file.isDirectory()) {
             throw new ConfigurationException("The file " + file.getPath() + " is not a directory.");
         }
-        if (!file.canWrite())
-        {
+        if (!file.canWrite()) {
             throw new ConfigurationException("The file " + file.getPath() + " is not a writable.");
         }
 
@@ -127,8 +113,7 @@ public class RL
         this.reportLocation = file;
         setRestrictions(reportLocation);
 
-        if (dateLocation)
-        {
+        if (dateLocation) {
             reportLocation = new File(reportLocation, new DateTime().toString("yyyy-MM-dd-HH:mm:ss"));
             reportLocation.mkdirs();
             setRestrictions(reportLocation);
@@ -136,85 +121,67 @@ public class RL
 
     }
 
-    private void setRestrictions(File file) throws ConfigurationException
-    {
-        try
-        {
+    private void setRestrictions(File file) throws ConfigurationException {
+        try {
             prepareReportLocation(reportLocation, allReadWrite);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ConfigurationException(e);
         }
     }
 
-    public static File getReportLocation()
-    {
+    public static File getReportLocation() {
         return getInstance().reportLocation;
     }
 
-    public Reporter getReporter()
-    {
-        if (reporter == null)
-        {
+    public Reporter getReporter() {
+        if (reporter == null) {
             reporter = new Reporter(reportLocation, allReadWrite);
         }
         return reporter;
     }
 
-    public void setReporter(Reporter reporter)
-    {
+    public void setReporter(Reporter reporter) {
         this.reporter = reporter;
         this.reporter.setReportLocation(reportLocation, allReadWrite);
         logger.info("Reporter set at " + this.reporter);
     }
 
-    public static boolean isInitialized()
-    {
+    public static boolean isInitialized() {
         return INSTANCE != null;
     }
 
-    private static RL getInstance()
-    {
-        if (!isInitialized())
-        {
-            try
-            {
+    private static RL getInstance() {
+        if (!isInitialized()) {
+            try {
                 new RL(true);
             }
-            catch (ConfigurationException e)
-            {
+            catch (ConfigurationException e) {
                 throw new RLRuntimeException(e);
             }
         }
         return INSTANCE;
     }
 
-    public static void info(Event event)
-    {
+    public static void info(Event event) {
         getInstance().getReporter().info(event);
     }
 
-    public static void warn(Event event)
-    {
+    public static void warn(Event event) {
         getInstance().getReporter().warn(event);
     }
 
-    public static void error(Event event)
-    {
+    public static void error(Event event) {
         getInstance().getReporter().error(event);
     }
 
-    public static void close()
-    {
+    public static void close() {
         getInstance().getReporter().close();
     }
 
-    public static void prepareReportLocation(File location, boolean allReadWrite) throws IOException
-    {
+    public static void prepareReportLocation(File location, boolean allReadWrite) throws IOException {
         location.mkdirs();
-        if (allReadWrite)
-        {
+        if (allReadWrite) {
             OS.setAllRWX(location);
         }
     }
@@ -222,8 +189,7 @@ public class RL
     /**
      * Only for tests!
      */
-    static void reset()
-    {
+    static void reset() {
         INSTANCE = null;
     }
 

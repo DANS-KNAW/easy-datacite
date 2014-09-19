@@ -5,8 +5,7 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
 
-public class CommonSession extends WebSession
-{
+public class CommonSession extends WebSession {
     private static final long serialVersionUID = -7886316129048405422L;
 
     private String currentPageURL;
@@ -17,40 +16,32 @@ public class CommonSession extends WebSession
 
     private Class<? extends Page> lastVisitedPageClass;
 
-    public CommonSession(Request request)
-    {
+    public CommonSession(Request request) {
         super(request);
     }
 
-    public static CommonSession get()
-    {
+    public static CommonSession get() {
         return (CommonSession) Session.get();
     }
 
-    public String getLastVisitedPageURL()
-    {
+    public String getLastVisitedPageURL() {
         return lastVisitedPageURL;
     }
 
-    public Class<? extends Page> getLastVisitedPageClass()
-    {
+    public Class<? extends Page> getLastVisitedPageClass() {
         return lastVisitedPageClass;
     }
 
-    public Class<? extends Page> getCurrentPageClass()
-    {
+    public Class<? extends Page> getCurrentPageClass() {
         return currentPageClass;
     }
 
-    public String getCurrentPageURL()
-    {
+    public String getCurrentPageURL() {
         return currentPageURL;
     }
 
-    public void setCurrentPage(String URL, Class<? extends CommonPage> pageClass)
-    {
-        if (!pageClass.equals(currentPageClass))
-        {
+    public void setCurrentPage(String URL, Class<? extends CommonPage> pageClass) {
+        if (!pageClass.equals(currentPageClass)) {
             this.lastVisitedPageURL = this.currentPageURL;
             this.currentPageURL = URL;
             this.lastVisitedPageClass = currentPageClass;

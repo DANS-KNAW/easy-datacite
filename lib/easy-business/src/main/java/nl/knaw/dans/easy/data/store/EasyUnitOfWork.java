@@ -6,59 +6,49 @@ import nl.knaw.dans.common.lang.repo.DmoStore;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class EasyUnitOfWork extends AbstractUnitOfWork
-{
+public class EasyUnitOfWork extends AbstractUnitOfWork {
     private static final long serialVersionUID = 1L;
 
     private EasyUser user;
 
-    public EasyUnitOfWork(EasyUser user)
-    {
+    public EasyUnitOfWork(EasyUser user) {
         super(user == null ? null : user.isAnonymous() ? null : user.getId());
         this.user = user;
     }
 
     @Override
-    public DmoStore getStore()
-    {
+    public DmoStore getStore() {
         return Data.getEasyStore();
     }
 
-    public static String createIngestMessage(String storeId, EasyUser user)
-    {
+    public static String createIngestMessage(String storeId, EasyUser user) {
         return "Ingested " + storeId + " by " + getUserName(user);
     }
 
     @Override
-    protected String getIngestLogMessage(DataModelObject dmo)
-    {
+    protected String getIngestLogMessage(DataModelObject dmo) {
         return createIngestMessage(dmo.getStoreId(), user);
     }
 
-    private static String getUserName(EasyUser user)
-    {
+    private static String getUserName(EasyUser user) {
         return user != null && !user.isAnonymous() ? user.getDisplayName() + " (" + user.getId() + ")" : "anonymous user";
     }
 
-    public static String createPurgeMessage(String storeId, EasyUser user)
-    {
+    public static String createPurgeMessage(String storeId, EasyUser user) {
         return "Purged " + storeId + " by " + getUserName(user);
     }
 
     @Override
-    protected String getPurgeLogMessage(DataModelObject dmo)
-    {
+    protected String getPurgeLogMessage(DataModelObject dmo) {
         return createPurgeMessage(dmo.getStoreId(), user);
     }
 
-    public static String createUpdateMessage(String storeId, EasyUser user)
-    {
+    public static String createUpdateMessage(String storeId, EasyUser user) {
         return "Update of " + storeId + " by " + getUserName(user);
     }
 
     @Override
-    protected String getUpdateLogMessage(DataModelObject dmo)
-    {
+    protected String getUpdateLogMessage(DataModelObject dmo) {
         return createUpdateMessage(dmo.getStoreId(), user);
     }
 

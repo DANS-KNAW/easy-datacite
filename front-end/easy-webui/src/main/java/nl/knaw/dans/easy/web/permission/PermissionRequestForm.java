@@ -32,8 +32,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
-public class PermissionRequestForm extends PermissionForm
-{
+public class PermissionRequestForm extends PermissionForm {
     private static final long serialVersionUID = 6204591036947047986L;
 
     public static final String EDITABLE_PERMISSION_REQUEST_TEMPLATE = "/pages/PermissionRequest.template";
@@ -51,8 +50,7 @@ public class PermissionRequestForm extends PermissionForm
 
     private final PermissionRequestModel prmRequest;
 
-    public PermissionRequestForm(final String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
-    {
+    public PermissionRequestForm(final String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel) {
         super(wicketId, fromPage, datasetModel);
         addCommonFeedbackPanel();
 
@@ -96,12 +94,9 @@ public class PermissionRequestForm extends PermissionForm
         // Also select if conditions of use was already accepted (returned request)
         // prmRequest.isAcceptingConditionsOfUse()
         final Model<Boolean> additionalAccepted = new Model<Boolean>(!hasAdditionalLicense || prmRequest.isAcceptingConditionsOfUse());
-        if (hasAdditionalLicense)
-        {
+        if (hasAdditionalLicense) {
             addRequired(new CheckBox(ADDITIONAL_CONDITIONS_WID, additionalAccepted)).setEnabled(editMode);
-        }
-        else
-        {
+        } else {
             // not visible and not required
             add(new CheckBox(ADDITIONAL_CONDITIONS_WID, additionalAccepted).setVisible(false));
         }
@@ -110,13 +105,11 @@ public class PermissionRequestForm extends PermissionForm
 
         addComponent(new SubmitLink(SUBMIT_WID)).setVisible(editMode);
         add(new EasyEditablePanel("editablePanel", EDITABLE_PERMISSION_REQUEST_TEMPLATE));
-        add(new Link<Void>(CANCEL_WID)
-        {
+        add(new Link<Void>(CANCEL_WID) {
             private static final long serialVersionUID = -6091186801938439734L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logAction("permissionrequest cancelled.", prmRequest);
                 pageBack();
             }
@@ -124,10 +117,8 @@ public class PermissionRequestForm extends PermissionForm
     }
 
     @Override
-    protected void onSubmit()
-    {
-        try
-        {
+    protected void onSubmit() {
+        try {
             prmRequest.setPermissionsTabLink(DatasetViewPage.urlFor(getDataset(), DatasetPermissionsTab.TAB_INDEX, true, this));
             prmRequest.setRequestLink(PermissionReplyPage.urlFor(getDataset(), getSessionUser(), this));
 
@@ -136,14 +127,12 @@ public class PermissionRequestForm extends PermissionForm
             final String message = infoMessage(EasyResources.PERMISSION_REQUESTED);
             logger.info(message);
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             final String message = errorMessage(EasyResources.PERMISSION_REQUEST_FAIL);
             logger.error(message, e);
             throw new InternalWebError();
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             final String message = errorMessage(EasyResources.PERMISSION_REQUEST_FAIL);
             logger.error(message, e);
             throw new InternalWebError();
@@ -151,15 +140,13 @@ public class PermissionRequestForm extends PermissionForm
         pageBack();
     }
 
-    private <T> FormComponent<T> addRequired(final FormComponent<T> field)
-    {
+    private <T> FormComponent<T> addRequired(final FormComponent<T> field) {
         addWithComponentFeedback(field, new Model<String>(field.getId()));
         field.setRequired(true);
         return field;
     }
 
-    protected void logAction(final String action, final PermissionRequestModel permissionRequest)
-    {
+    protected void logAction(final String action, final PermissionRequestModel permissionRequest) {
         logger.debug(String.format("%s title=[%s] theme=[%s] accept conditions=[%s]", action, permissionRequest.getRequestTitle(),
                 StringUtils.abbreviate(permissionRequest.getRequestTheme(), 25), permissionRequest.isAcceptingConditionsOfUse()));
     }

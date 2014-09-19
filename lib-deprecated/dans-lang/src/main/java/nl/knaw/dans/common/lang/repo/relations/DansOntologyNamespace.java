@@ -1,21 +1,18 @@
 package nl.knaw.dans.common.lang.repo.relations;
 
 /**
- * The DANS ontology. Currently I am not sure how we should use this, how and if we should map on
- * existing standard, but at least here we can define our own ontology if needed.
+ * The DANS ontology. Currently I am not sure how we should use this, how and if we should map on existing standard, but at least here we can define our own
+ * ontology if needed.
  * 
  * @author lobo
  */
-public class DansOntologyNamespace extends OntologyNamespace
-{
+public class DansOntologyNamespace extends OntologyNamespace {
     private static final long serialVersionUID = 8904001093613110074L;
 
     /**
-     * STUPID! !(not)General relation to express membership. These relations are removed in method
-     * prepare for update and replaced with DmoContainerItemRelations Parents or something! Anyway. If
-     * you add a relation of this type, than it is gone before update is actually processed. It's time to
-     * get rid of this stupid DmoContainerItemRelations shit. (If ever Lodewijk gets into my hands I'll
-     * .....)
+     * STUPID! !(not)General relation to express membership. These relations are removed in method prepare for update and replaced with
+     * DmoContainerItemRelations Parents or something! Anyway. If you add a relation of this type, than it is gone before update is actually processed. It's
+     * time to get rid of this stupid DmoContainerItemRelations shit. (If ever Lodewijk gets into my hands I'll .....)
      */
     public final RelationName IS_MEMBER_OF;
 
@@ -56,8 +53,7 @@ public class DansOntologyNamespace extends OntologyNamespace
 
     public final RelationName HAS_CONTRIBUTOR_DAI;
 
-    public DansOntologyNamespace()
-    {
+    public DansOntologyNamespace() {
         uri = "http://dans.knaw.nl/ontologies/relations#";
         prefix = "dans";
 

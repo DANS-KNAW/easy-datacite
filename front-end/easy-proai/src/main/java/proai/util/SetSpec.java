@@ -6,11 +6,9 @@ import java.util.Set;
 
 import proai.SetInfo;
 
-public abstract class SetSpec
-{
+public abstract class SetSpec {
 
-    public static boolean hasParents(String spec)
-    {
+    public static boolean hasParents(String spec) {
 
         if (spec != null && spec.contains(":"))
             return true;
@@ -18,34 +16,26 @@ public abstract class SetSpec
             return false;
     }
 
-    public static String parentOf(String spec)
-    {
+    public static String parentOf(String spec) {
         int boundary = spec.lastIndexOf(':');
-        if (boundary > 0)
-        {
+        if (boundary > 0) {
             return spec.substring(0, boundary);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    public static boolean isValid(String spec)
-    {
+    public static boolean isValid(String spec) {
         return spec.matches("([A-Za-z0-9_!'$\\(\\)\\+\\-\\.\\*])+(:[A-Za-z0-9_!'$\\(\\)\\+\\-\\.\\*]+)*");
     }
 
-    public static Set<String> allSetsFor(String spec)
-    {
+    public static Set<String> allSetsFor(String spec) {
         Set<String> ancestors = new HashSet<String>();
 
         ancestors.add(spec);
-        if (hasParents(spec))
-        {
+        if (hasParents(spec)) {
             String parent = parentOf(spec);
-            if (parent != null)
-            {
+            if (parent != null) {
                 ancestors.add(parent);
                 ancestors.addAll(SetSpec.allSetsFor(parent));
             }
@@ -54,21 +44,17 @@ public abstract class SetSpec
         return ancestors;
     }
 
-    public static SetInfo defaultInfoFor(final String setSpec)
-    {
-        return new SetInfo()
-        {
+    public static SetInfo defaultInfoFor(final String setSpec) {
+        return new SetInfo() {
 
-            public void write(PrintWriter w)
-            {
+            public void write(PrintWriter w) {
                 w.println("<set>");
                 w.println("  <setSpec>" + setSpec + "</setSpec>");
                 w.println("  <setName>" + setSpec + "</setName>");
                 w.println("</set>");
             }
 
-            public String getSetSpec()
-            {
+            public String getSetSpec() {
                 return setSpec;
             }
         };

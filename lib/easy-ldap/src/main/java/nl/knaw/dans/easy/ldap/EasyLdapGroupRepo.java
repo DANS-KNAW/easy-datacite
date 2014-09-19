@@ -18,8 +18,7 @@ import nl.knaw.dans.easy.domain.user.GroupImpl;
  * 
  * @author ecco Nov 20, 2009
  */
-public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements GroupRepo
-{
+public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements GroupRepo {
 
     public static final String RDN = "ou";
 
@@ -29,17 +28,14 @@ public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements Gro
      * @param client
      *        the LdapClient this UserRepo talks to
      * @param context
-     *        the context where groups are kept on the client, i.e.
-     *        "ou=groups,ou=easy,dc=dans,dc=knaw,dc=nl"
+     *        the context where groups are kept on the client, i.e. "ou=groups,ou=easy,dc=dans,dc=knaw,dc=nl"
      */
-    public EasyLdapGroupRepo(LdapClient client, String context)
-    {
+    public EasyLdapGroupRepo(LdapClient client, String context) {
         super(client, context, RDN, new LdapMapper<Group>(GroupImpl.class));
     }
 
     @Override
-    protected Group unmarshal(Attributes attrs) throws LdapMappingException
-    {
+    protected Group unmarshal(Attributes attrs) throws LdapMappingException {
         return getLdapMapper().unmarshal(new GroupImpl(), attrs);
     }
 

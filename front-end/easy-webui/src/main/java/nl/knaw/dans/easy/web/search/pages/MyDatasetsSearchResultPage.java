@@ -21,37 +21,31 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
-public class MyDatasetsSearchResultPage extends AbstractSearchResultPage
-{
+public class MyDatasetsSearchResultPage extends AbstractSearchResultPage {
     public static final String MY_DATASETS_SEARCH_RESULTS = "/pages/MyDatasetsSearchResult.template";
 
-    public MyDatasetsSearchResultPage()
-    {
+    public MyDatasetsSearchResultPage() {
         super(true);
         init();
     }
 
-    public MyDatasetsSearchResultPage(SearchModel searchModel)
-    {
+    public MyDatasetsSearchResultPage(SearchModel searchModel) {
         super(searchModel);
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         setSorting(getSearchModel().getRequestBuilder());
         add(new EasyEditablePanel("editablePanel", MY_DATASETS_SEARCH_RESULTS));
     }
 
     @Override
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
         return searchService.searchMyDataset(request, getSessionUser());
     }
 
     @Override
-    protected SearchResultConfig getSearchResultConfig()
-    {
+    protected SearchResultConfig getSearchResultConfig() {
         SearchResultConfig config = super.getSearchResultConfig();
         List<SortField> initialSortFields = new ArrayList<SortField>();
         initialSortFields.add(new SimpleSortField(DatasetSB.DS_STATE_FIELD, SortOrder.DESC));
@@ -63,21 +57,17 @@ public class MyDatasetsSearchResultPage extends AbstractSearchResultPage
     }
 
     @Override
-    protected IModel<String> getInitialCriteriumText()
-    {
+    protected IModel<String> getInitialCriteriumText() {
         return new ResourceModel("mydatasets.defaultbreadcrumbtext");
     }
 
     @Override
-    protected IModel<String> getSearchCriteriumText(final String searchText)
-    {
-        return new AbstractReadOnlyModel<String>()
-        {
+    protected IModel<String> getSearchCriteriumText(final String searchText) {
+        return new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 3254972701101566016L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return CriteriumLabel.createFilterText(getString("mydatasets.searchbreadcrumbtext"), searchText);
             }
         };

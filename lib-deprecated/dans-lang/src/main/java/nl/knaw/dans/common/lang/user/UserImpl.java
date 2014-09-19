@@ -12,8 +12,7 @@ import org.joda.time.DateTime;
  * User of a DANS application.
  */
 @LdapObject(objectClasses = {"dansUser", "inetOrgPerson", "organizationalPerson", "person"})
-public class UserImpl extends PersonVO implements User
-{
+public class UserImpl extends PersonVO implements User {
     /**
      * Serial version UID.
      */
@@ -52,13 +51,11 @@ public class UserImpl extends PersonVO implements User
     /**
      * Default constructor.
      */
-    public UserImpl()
-    {
+    public UserImpl() {
         super();
     }
 
-    public UserImpl(String userId)
-    {
+    public UserImpl(String userId) {
         this.userId = userId;
     }
 
@@ -70,8 +67,7 @@ public class UserImpl extends PersonVO implements User
      * @param email
      *        email address.
      */
-    public UserImpl(final String userId, final String email)
-    {
+    public UserImpl(final String userId, final String email) {
         this.userId = userId;
         setEmail(email);
     }
@@ -80,8 +76,7 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#getUserId()
      */
-    public String getId()
-    {
+    public String getId() {
         return this.userId;
     }
 
@@ -89,8 +84,7 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#setUserId(java.lang.String)
      */
-    public void setId(final String userId)
-    {
+    public void setId(final String userId) {
         this.userId = userId;
     }
 
@@ -98,8 +92,7 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#getPassword()
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.password;
     }
 
@@ -107,8 +100,7 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#setPassword(java.lang.String)
      */
-    public void setPassword(final String password)
-    {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -116,8 +108,7 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#getEncryptedPassword()
      */
-    public String getSHAEncryptedPassword()
-    {
+    public String getSHAEncryptedPassword() {
         return this.shaEncryptedPassword;
     }
 
@@ -125,73 +116,59 @@ public class UserImpl extends PersonVO implements User
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.model.User#setEncryptedPassword()
      */
-    public void setSHAEncryptedPassword(final String shaEncryptedPassword)
-    {
+    public void setSHAEncryptedPassword(final String shaEncryptedPassword) {
         this.shaEncryptedPassword = shaEncryptedPassword;
     }
 
-    public boolean getAcceptConditionsOfUse()
-    {
+    public boolean getAcceptConditionsOfUse() {
         return acceptConditionsOfUse;
     }
 
-    public void setAcceptConditionsOfUse(boolean acceptConditionsOfUse)
-    {
+    public void setAcceptConditionsOfUse(boolean acceptConditionsOfUse) {
         this.acceptConditionsOfUse = acceptConditionsOfUse;
     }
 
-    public boolean getOptsForNewsletter()
-    {
+    public boolean getOptsForNewsletter() {
         return optsForNewsletter;
     }
 
-    public void setOptsForNewsletter(boolean optsForNewsletter)
-    {
+    public void setOptsForNewsletter(boolean optsForNewsletter) {
         this.optsForNewsletter = optsForNewsletter;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         this.state = state;
     }
 
-    public DateTime getLastLoginDate()
-    {
+    public DateTime getLastLoginDate() {
         return lastLogin;
     }
 
-    public boolean isFirstLogin()
-    {
+    public boolean isFirstLogin() {
         return State.CONFIRMED_REGISTRATION.equals(state);
     }
 
-    public boolean isUserInfoUpdateRequired()
-    {
+    public boolean isUserInfoUpdateRequired() {
         return isFirstLogin(); // or this, and that etc.
     }
 
-    public void synchronizeOn(User otherUser)
-    {
+    public void synchronizeOn(User otherUser) {
         super.synchronizeOn(otherUser);
     }
 
-    public boolean isQualified()
-    {
+    public boolean isQualified() {
         return State.ACTIVE.equals(state) || State.CONFIRMED_REGISTRATION.equals(state);
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return State.ACTIVE.equals(state);
     }
 
-    public boolean isBlocked()
-    {
+    public boolean isBlocked() {
         return State.BLOCKED.equals(state);
     }
 
@@ -201,8 +178,7 @@ public class UserImpl extends PersonVO implements User
      * @return string representation
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + " [" + userId + "] " + this.getCommonName() + " state=" + state;
     }
 
@@ -214,19 +190,13 @@ public class UserImpl extends PersonVO implements User
      * @return true if object is equal.
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         boolean equals = false;
-        if (obj != null)
-        {
-            if (obj == this)
-            {
+        if (obj != null) {
+            if (obj == this) {
                 equals = true;
-            }
-            else
-            {
-                if (obj.getClass() == this.getClass())
-                {
+            } else {
+                if (obj.getClass() == this.getClass()) {
                     final UserImpl otherUser = (UserImpl) obj;
                     equals = new EqualsBuilder().append(this.userId, otherUser.userId).append(this.getEmail(), otherUser.getEmail())
                             .append(this.getCommonName(), otherUser.getCommonName()).append(this.state, otherUser.state).isEquals();
@@ -243,13 +213,11 @@ public class UserImpl extends PersonVO implements User
      * @return hashcode
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(1, 3).append(this.userId).append(this.getEmail()).append(this.getCommonName()).append(this.state).toHashCode();
     }
 
-    public boolean isAnonymous()
-    {
+    public boolean isAnonymous() {
         return false;
     }
 

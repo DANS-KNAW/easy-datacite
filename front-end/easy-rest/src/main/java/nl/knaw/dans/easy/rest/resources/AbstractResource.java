@@ -9,14 +9,12 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Abstract class for resources. This class wraps HTTP request information and methods that are injected
- * by JAX-RS.
+ * Abstract class for resources. This class wraps HTTP request information and methods that are injected by JAX-RS.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public abstract class AbstractResource
-{
+public abstract class AbstractResource {
     /**
      * With each request the headers of that request are injected into the requestHeaders parameter.
      */
@@ -34,8 +32,7 @@ public abstract class AbstractResource
      * 
      * @return True iff the requested Media Type is acceptable.
      */
-    protected boolean isAcceptable()
-    {
+    protected boolean isAcceptable() {
         return wantsXml() || wantsJson();
     }
 
@@ -44,8 +41,7 @@ public abstract class AbstractResource
      * 
      * @return True iff the requested Media Type is XML.
      */
-    protected boolean wantsXml()
-    {
+    protected boolean wantsXml() {
         List<MediaType> mediaTypes = getRequestHeaders().getAcceptableMediaTypes();
         return mediaTypes.isEmpty() || mediaTypes.contains(MediaType.TEXT_XML_TYPE) || mediaTypes.contains(MediaType.APPLICATION_XML_TYPE)
                 || mediaTypes.contains(MediaType.APPLICATION_XHTML_XML_TYPE) || mediaTypes.contains(MediaType.TEXT_HTML_TYPE);
@@ -56,8 +52,7 @@ public abstract class AbstractResource
      * 
      * @return True iff the requested Media Type is JSON.
      */
-    protected boolean wantsJson()
-    {
+    protected boolean wantsJson() {
         List<MediaType> mediaTypes = getRequestHeaders().getAcceptableMediaTypes();
         return mediaTypes.contains(MediaType.APPLICATION_JSON_TYPE);
     }
@@ -67,8 +62,7 @@ public abstract class AbstractResource
      * 
      * @return The request headers.
      */
-    protected HttpHeaders getRequestHeaders()
-    {
+    protected HttpHeaders getRequestHeaders() {
         return requestHeaders;
     }
 
@@ -77,8 +71,7 @@ public abstract class AbstractResource
      * 
      * @return The query parameters.
      */
-    protected MultivaluedMap<String, String> getQueryParameters()
-    {
+    protected MultivaluedMap<String, String> getQueryParameters() {
         return uriInfo.getQueryParameters();
     }
 
@@ -88,8 +81,7 @@ public abstract class AbstractResource
      * @param requestHeaders
      *        The new request headers.
      */
-    protected void setRequestHeaders(HttpHeaders requestHeaders)
-    {
+    protected void setRequestHeaders(HttpHeaders requestHeaders) {
         this.requestHeaders = requestHeaders;
     }
 

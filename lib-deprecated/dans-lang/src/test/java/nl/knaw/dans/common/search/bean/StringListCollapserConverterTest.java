@@ -10,8 +10,7 @@ import nl.knaw.dans.common.lang.search.bean.StringListCollapserConverter;
 import org.junit.Test;
 
 @SuppressWarnings("serial")
-public class StringListCollapserConverterTest
-{
+public class StringListCollapserConverterTest {
     // Note that inside the Java string literals, we need to escape the '\' as well
     final static String testEmptyString = "";
     final static String testStringPart1 = "This is";
@@ -22,31 +21,27 @@ public class StringListCollapserConverterTest
 
     final static String testDoubleEmptyItemString = ",";
 
-    final static List<String> testSingleItemStringList = new ArrayList<String>()
-    {
+    final static List<String> testSingleItemStringList = new ArrayList<String>() {
         {
             add(testSingleItemString);
         }
     };
 
-    final static List<String> testDoubleItemStringList = new ArrayList<String>()
-    {
+    final static List<String> testDoubleItemStringList = new ArrayList<String>() {
         {
             add(testStringPart1);
             add(testStringPart2);
         }
     };
 
-    final static List<String> testSingleItemStringEscapedList = new ArrayList<String>()
-    {
+    final static List<String> testSingleItemStringEscapedList = new ArrayList<String>() {
         {
             add(testDoubleItemString);
         }
     };
 
     @Test
-    public void testConvertionFromFieldValue() throws Exception
-    {
+    public void testConvertionFromFieldValue() throws Exception {
         StringListCollapserConverter converter = new StringListCollapserConverter();
         List<String> fromFieldValue;
 
@@ -76,8 +71,7 @@ public class StringListCollapserConverterTest
     }
 
     @Test
-    public void testConvertionToFieldValue() throws Exception
-    {
+    public void testConvertionToFieldValue() throws Exception {
         StringListCollapserConverter converter = new StringListCollapserConverter();
 
         String fieldValue;

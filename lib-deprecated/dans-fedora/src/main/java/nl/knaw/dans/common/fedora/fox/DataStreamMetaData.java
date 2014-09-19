@@ -6,8 +6,7 @@ import org.joda.time.DateTime;
 
 import fedora.server.types.gen.Datastream;
 
-public class DataStreamMetaData implements UnitMetadata
-{
+public class DataStreamMetaData implements UnitMetadata {
     private static final long serialVersionUID = -313702526178798982L;
     private final DateTime creationDate;
     private final String id;
@@ -19,8 +18,7 @@ public class DataStreamMetaData implements UnitMetadata
 
     private final String containerId;
 
-    public DataStreamMetaData(Datastream dataStream, String containerId)
-    {
+    public DataStreamMetaData(Datastream dataStream, String containerId) {
         creationDate = new DateTime(dataStream.getCreateDate());
         id = dataStream.getID();
         size = dataStream.getSize();
@@ -36,8 +34,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getCreationDate()
      */
-    public DateTime getCreationDate()
-    {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
@@ -45,8 +42,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getId()
      */
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
@@ -54,8 +50,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getVersionId()
      */
-    public String getVersionId()
-    {
+    public String getVersionId() {
         return versionId;
     }
 
@@ -63,8 +58,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getSize()
      */
-    public long getSize()
-    {
+    public long getSize() {
         return size;
     }
 
@@ -72,8 +66,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getLabel()
      */
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
@@ -81,8 +74,7 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getMimeType()
      */
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return mimeType;
     }
 
@@ -90,13 +82,11 @@ public class DataStreamMetaData implements UnitMetadata
      * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getLocation()
      */
-    public String getLocation()
-    {
+    public String getLocation() {
         return location;
     }
 
-    public String getContainerId()
-    {
+    public String getContainerId() {
         return containerId;
     }
 

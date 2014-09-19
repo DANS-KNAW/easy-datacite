@@ -10,28 +10,24 @@ import org.junit.runners.Parameterized.Parameters;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class ShortenedCharSequenceModelTest
-{
+public class ShortenedCharSequenceModelTest {
     private CharSequence input;
     private int shortenCount;
     private String expected;
 
-    public ShortenedCharSequenceModelTest(CharSequence input, int shortenCount, String expected)
-    {
+    public ShortenedCharSequenceModelTest(CharSequence input, int shortenCount, String expected) {
         this.input = input;
         this.shortenCount = shortenCount;
         this.expected = expected;
     }
 
     @Test
-    public void valid()
-    {
+    public void valid() {
         assertEquals(expected, new ShortenedCharSequenceModel(input, shortenCount, "...").getObject());
     }
 
     @Parameters
-    public static Collection<Object[]> parameters()
-    {
+    public static Collection<Object[]> parameters() {
         return Arrays.asList(new Object[][] {
                 // @formatter:off
                 {"1234567890123", 10, "1234567890..."}, {"", 10, ""}, {"", 0, ""}, {"1", 0, "..."}, {"12345", 0, "..."}, {"12345", 5, "12345"},
@@ -42,8 +38,7 @@ public class ShortenedCharSequenceModelTest
 
     }
 
-    private static CharSequence hlCharSeq(String markup)
-    {
+    private static CharSequence hlCharSeq(String markup) {
         return new HighlightedCharSequence(markup);
     }
 

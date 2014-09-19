@@ -10,8 +10,7 @@ import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.model.IModel;
 
-public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepeaterPanel<T>
-{
+public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepeaterPanel<T> {
 
     private static final long serialVersionUID = -3621013693080590601L;
 
@@ -30,53 +29,44 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
      *        a list of choices
      */
 
-    public AbstractChoicePanel(final String wicketId, final IModel model, final ChoiceList choiceList)
-    {
+    public AbstractChoicePanel(final String wicketId, final IModel model, final ChoiceList choiceList) {
         super(wicketId, model);
         this.choiceList = choiceList;
         renderer = getListWrapper().getChoiceRenderer();
     }
 
-    public AbstractChoicePanel(final String wicketId, final ListWrapper<T> listWrapper, final ChoiceList choiceList)
-    {
+    public AbstractChoicePanel(final String wicketId, final ListWrapper<T> listWrapper, final ChoiceList choiceList) {
         super(wicketId, listWrapper);
         this.choiceList = choiceList;
         renderer = getListWrapper().getChoiceRenderer();
     }
 
     @Override
-    public void setPanelDefinition(StandardPanelDefinition definition)
-    {
+    public void setPanelDefinition(StandardPanelDefinition definition) {
         super.setPanelDefinition(definition);
-        if (!definition.getChoiceListDefinitions().isEmpty())
-        {
+        if (!definition.getChoiceListDefinitions().isEmpty()) {
             this.nullValid = definition.getChoiceListDefinitions().get(0).isNullValid();
         }
     }
 
-    public boolean isNullValid()
-    {
+    public boolean isNullValid() {
         return nullValid;
     }
 
-    public void setNullValid(final boolean nullValid)
-    {
+    public void setNullValid(final boolean nullValid) {
         this.nullValid = nullValid;
     }
 
-    public ChoiceList getChoiceList()
-    {
+    public ChoiceList getChoiceList() {
         return choiceList;
     }
 
-    public List<KeyValuePair> getChoices()
-    {
+    public List<KeyValuePair> getChoices() {
         List<KeyValuePair> list = new ArrayList<KeyValuePair>(choiceList.getChoices());
         return list;
     }
 
-    public ChoiceRenderer getRenderer()
-    {
+    public ChoiceRenderer getRenderer() {
         return renderer;
     }
 

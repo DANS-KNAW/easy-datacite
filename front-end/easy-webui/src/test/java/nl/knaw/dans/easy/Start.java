@@ -19,10 +19,9 @@ import ch.qos.logback.core.util.StatusPrinter;
  * -Xmx1g -DEASY_WEBUI_HOME=/YOUR_PATH_TO/easy-webui-home -Dlogback.configurationFile=/YOUR_PATH_TO/logback.xml -Dwicket.configuration=development
  * </pre>
  * 
- * Examples of the logback.xml are available in src/main/resources/ as wel as src/main/assembly/dist/cfg/
- * The folder easy-webui-home should contain a copy of the folders under src/main/assembly/dist please
- * adjust cfg/application.properties, the user guide of the EVM (Easy Virtual Machine) explains the
- * required passwords.
+ * Examples of the logback.xml are available in src/main/resources/ as wel as src/main/assembly/dist/cfg/ The folder easy-webui-home should contain a copy of
+ * the folders under src/main/assembly/dist please adjust cfg/application.properties, the user guide of the EVM (Easy Virtual Machine) explains the required
+ * passwords.
  */
 public final class Start // NOPMD
 {
@@ -33,8 +32,7 @@ public final class Start // NOPMD
     private static final int SLEEPTIME = 5000;
     private static final int EXIT_CODE = 100;
 
-    private Start()
-    {
+    private Start() {
         // Make it impossible to instantiate
     }
 
@@ -53,26 +51,22 @@ public final class Start // NOPMD
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
 
-        try
-        {
+        try {
             log.info(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
             server.start();
-            while (System.in.available() == 0)
-            {
+            while (System.in.available() == 0) {
                 Thread.sleep(SLEEPTIME); // NOPMD
             }
             server.stop();
             server.join();
         }
-        catch (final Exception e)
-        {
+        catch (final Exception e) {
             e.printStackTrace(); // NOPMD
             System.exit(EXIT_CODE); // NOPMD
         }
     }
 
-    static Server createServer(int port, int sslPort)
-    {
+    static Server createServer(int port, int sslPort) {
         log.info(">>> Configuration folder = {}", ClassLoader.getSystemResource("conf"));
 
         // @formatter:off
@@ -103,8 +97,7 @@ public final class Start // NOPMD
         connector.setPort(port); // NOPMD
 
         Connector[] connectors;
-        if ("true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl")))
-        {
+        if ("true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl"))) {
             log.info(">>> " + "Creating sslConnector on port {}", sslPort);
             connector.setConfidentialPort(sslPort);
 
@@ -120,9 +113,7 @@ public final class Start // NOPMD
             sslConnector.setTruststore("/etc/keystore");
             sslConnector.setTrustPassword("jetty01");
             connectors = new Connector[] {connector, sslConnector};
-        }
-        else
-        {
+        } else {
             connectors = new Connector[] {connector};
         }
 
@@ -136,8 +127,7 @@ public final class Start // NOPMD
         return server;
     }
 
-    private static void printLogbackStatus()
-    {
+    private static void printLogbackStatus() {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         StatusPrinter.print(lc);
     }

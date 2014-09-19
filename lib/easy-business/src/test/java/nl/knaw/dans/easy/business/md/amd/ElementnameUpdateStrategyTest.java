@@ -15,16 +15,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ElementnameUpdateStrategyTest
-{
+public class ElementnameUpdateStrategyTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ElementnameUpdateStrategyTest.class);
 
     boolean verbose = false;
 
     @Test
-    public void update() throws Exception
-    {
+    public void update() throws Exception {
         final AdditionalMetadata originalAmd = createAMD(new String[] {"element0", "old value 0"}, new String[] {"element1", "old value 1"}, new String[] {
                 "element2", "old value 2"}, new String[] {"element3", "old value 3"});
 
@@ -38,18 +36,15 @@ public class ElementnameUpdateStrategyTest
             print(newAmd);
 
         ElementnameUpdateStrategy strategy = new ElementnameUpdateStrategy("myId");
-        AdditionalMetadataOwner owner = new AdditionalMetadataOwner()
-        {
+        AdditionalMetadataOwner owner = new AdditionalMetadataOwner() {
 
             @Override
-            public void setAdditionalMetadata(AdditionalMetadata addmd)
-            {
+            public void setAdditionalMetadata(AdditionalMetadata addmd) {
                 fail("Setter-call not expected.");
             }
 
             @Override
-            public AdditionalMetadata getAdditionalMetadata()
-            {
+            public AdditionalMetadata getAdditionalMetadata() {
                 return originalAmd;
             }
         };
@@ -68,13 +63,11 @@ public class ElementnameUpdateStrategyTest
         assertEquals("i'm new", content.element("newElement").getText());
     }
 
-    protected AdditionalMetadata createAMD(String[]... values)
-    {
+    protected AdditionalMetadata createAMD(String[]... values) {
         AdditionalMetadata amd = new AdditionalMetadata();
         Element content = new DefaultElement("myContent");
 
-        for (int i = 0; i < values.length; i++)
-        {
+        for (int i = 0; i < values.length; i++) {
             Element e = new DefaultElement(values[i][0]);
             e.setText(values[i][1]);
             content.add(e);
@@ -85,8 +78,7 @@ public class ElementnameUpdateStrategyTest
         return amd;
     }
 
-    protected void print(AdditionalMetadata amd) throws XMLSerializationException
-    {
+    protected void print(AdditionalMetadata amd) throws XMLSerializationException {
         ResourceMetadataList rmdl = new ResourceMetadataList();
         ResourceMetadata rmd = new ResourceMetadata("storeId");
         rmd.setAdditionalMetadata(amd);

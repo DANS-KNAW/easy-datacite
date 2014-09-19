@@ -3,8 +3,7 @@ package nl.knaw.dans.easy.domain.dataset.item;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
-public interface ItemVO extends Cloneable
-{
+public interface ItemVO extends Cloneable {
 
     String getSid();
 

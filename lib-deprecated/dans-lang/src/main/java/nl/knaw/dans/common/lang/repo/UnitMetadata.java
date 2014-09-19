@@ -8,8 +8,7 @@ import org.joda.time.DateTime;
  * 
  *
  */
-public interface UnitMetadata extends Serializable
-{
+public interface UnitMetadata extends Serializable {
 
     DateTime getCreationDate();
 

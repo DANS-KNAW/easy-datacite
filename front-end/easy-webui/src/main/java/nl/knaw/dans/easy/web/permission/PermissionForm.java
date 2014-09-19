@@ -14,33 +14,28 @@ import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class PermissionForm extends AbstractEasyForm<Dataset>
-{
+public abstract class PermissionForm extends AbstractEasyForm<Dataset> {
 
     private static final long serialVersionUID = 7555676473614004617L;
     protected static Logger logger = LoggerFactory.getLogger(PermissionForm.class);
     protected final AbstractEasyPage fromPage;
 
-    public PermissionForm(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
-    {
+    public PermissionForm(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel) {
         super(wicketId, datasetModel);
         this.fromPage = fromPage;
     }
 
-    protected FormComponent addFormComponent(final FormComponent field, IModel model)
-    {
+    protected FormComponent addFormComponent(final FormComponent field, IModel model) {
         addWithComponentFeedback(field, model);
         return field;
     }
 
-    protected Component addComponent(final Component field)
-    {
+    protected Component addComponent(final Component field) {
         add(field);
         return field;
     }
 
-    protected void pageBack() throws RestartResponseException
-    {
+    protected void pageBack() throws RestartResponseException {
         if (fromPage == null)
             throw new RestartResponseException(HomePage.class);
         // create a new instance of the page so that everything will be refreshed properly
@@ -50,8 +45,7 @@ public abstract class PermissionForm extends AbstractEasyForm<Dataset>
         // setResponsePage(fromPage);
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return getModel().getObject();
     }
 }

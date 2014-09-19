@@ -20,24 +20,20 @@ import org.slf4j.LoggerFactory;
 /**
  * Superclass of form to use for every form within the Easy application.
  */
-public abstract class AbstractEasyForm<T> extends CommonForm<T>
-{
+public abstract class AbstractEasyForm<T> extends CommonForm<T> {
     private static final long serialVersionUID = 3422879786964201174L;
     private static final Logger log = LoggerFactory.getLogger(AbstractEasyForm.class);
 
-    public AbstractEasyForm(final String wicketId, final IModel<T> model)
-    {
+    public AbstractEasyForm(final String wicketId, final IModel<T> model) {
         super(wicketId, model);
     }
 
-    public AbstractEasyForm(String wicketId)
-    {
+    public AbstractEasyForm(String wicketId) {
         super(wicketId);
     }
 
     @Override
-    protected void onError()
-    {
+    protected void onError() {
         error(getString(EasyResources.DEFAULT_FORM_ERROR));
         super.onError();
     }
@@ -47,8 +43,7 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
      * 
      * @return current user or null
      */
-    protected EasyUser getSessionUser()
-    {
+    protected EasyUser getSessionUser() {
         return ((EasySession) getSession()).getUser();
     }
 
@@ -61,8 +56,7 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
      *        parameterMap
      * @return Url string
      */
-    protected String createPageURL(Class<? extends WebPage> pageClass, final Map<String, String> parameterMap)
-    {
+    protected String createPageURL(Class<? extends WebPage> pageClass, final Map<String, String> parameterMap) {
         String absUrl = RequestUtils.toAbsolutePath(this.urlFor(pageClass, new PageParameters(parameterMap)).toString());
         log.debug("Absolute URL of page is {}", absUrl);
         final String pageUrl = absUrl;

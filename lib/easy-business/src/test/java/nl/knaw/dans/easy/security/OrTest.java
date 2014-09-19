@@ -15,19 +15,16 @@ import nl.knaw.dans.easy.security.SecurityOfficer;
 
 import org.junit.Test;
 
-public class OrTest
-{
+public class OrTest {
 
     @Test()
-    public void arrayConstructorOne()
-    {
+    public void arrayConstructorOne() {
         SecurityOfficer or = new Or(new DatasetStateCheck(DatasetState.DELETED));
         assertEquals("([Dataset state is DELETED])", or.getProposition());
     }
 
     @Test
-    public void arrayConstructor()
-    {
+    public void arrayConstructor() {
         SecurityOfficer or = new Or(new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE));
         assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
 

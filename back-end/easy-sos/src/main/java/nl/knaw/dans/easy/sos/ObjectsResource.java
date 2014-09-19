@@ -38,8 +38,7 @@ import org.slf4j.LoggerFactory;
 import com.sun.jersey.api.core.InjectParam;
 
 @Path("/objects")
-public class ObjectsResource
-{
+public class ObjectsResource {
     private static final String AUTHENTICATION_TYPE = "Basic ";
     private static final Logger log = LoggerFactory.getLogger(ObjectsResource.class);
 
@@ -60,17 +59,14 @@ public class ObjectsResource
 
     @GET
     @Produces("text/plain")
-    public String getObjects()
-    {
+    public String getObjects() {
         return "Simple Object Storage";
     }
 
     @GET
     @Path("{uuid}")
     @Produces("application/octet-stream")
-    public File getObject(@PathParam("uuid")
-    String uuid)
-    {
+    public File getObject(@PathParam("uuid") String uuid) {
         authenticate();
         return new File(rootDirectory, new StoredObject(uuid).getRelativePath());
     }
@@ -78,9 +74,7 @@ public class ObjectsResource
     @HEAD
     @Path("{uuid}")
     @Produces("application/octet-stream")
-    public Response getObjectStatus(@PathParam("uuid")
-    String uuid)
-    {
+    public Response getObjectStatus(@PathParam("uuid") String uuid) {
         authenticate();
         if (!new File(rootDirectory, new StoredObject(uuid).getRelativePath()).exists())
             return Response.status(HttpServletResponse.SC_NOT_FOUND).build();
@@ -90,22 +84,18 @@ public class ObjectsResource
 
     @POST
     @Consumes("application/octet-stream")
-    public Response createObject(InputStream data, @HeaderParam("Content-MD5")
-    String contentMd5)
-    {
+    public Response createObject(InputStream data, @HeaderParam("Content-MD5") String contentMd5) {
         authenticate();
         StoredObject so = new StoredObject();
         log.debug("Generated UUID for new object: {}", so.getUuid());
-        try
-        {
+        try {
             String relativePath = so.getRelativePath();
             File targetFile = new File(rootDirectory, relativePath);
             log.debug("Copying data to target file: {}", targetFile);
             MessageDigest md = MessageDigest.getInstance("MD5");
             FileUtils.copyInputStreamToFile(new DigestInputStream(data, md), targetFile);
             byte[] digest = md.digest();
-            if (!Arrays.equals(digest, Base64.decodeBase64(contentMd5)))
-            {
+            if (!Arrays.equals(digest, Base64.decodeBase64(contentMd5))) {
                 log.warn("Provided Content-MD5 does not check out. Deleting file from storage (though not deleting directories)");
                 targetFile.delete();
                 throw new WebApplicationException(Response.status(HttpServletResponse.SC_BAD_REQUEST)
@@ -115,12 +105,10 @@ public class ObjectsResource
             log.debug("Copy SUCCEEDED");
             return Response.status(HttpServletResponse.SC_CREATED).location(buildObjectUriFor(so)).build();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error("I/O Error storing object", e);
         }
-        catch (NoSuchAlgorithmException e)
-        {
+        catch (NoSuchAlgorithmException e) {
             log.error("Message digest algorithm not supported", e);
         }
         return Response.status(HttpServletResponse.SC_BAD_REQUEST).build();
@@ -129,81 +117,58 @@ public class ObjectsResource
     @DELETE
     @Path("{uuid}")
     @Produces("application/octet-stream")
-    public Response deleteObject(@PathParam("uuid")
-    String uuid)
-    {
+    public Response deleteObject(@PathParam("uuid") String uuid) {
         authenticate();
         File f = new File(rootDirectory, new StoredObject(uuid).getRelativePath());
-        if (!f.exists())
-        {
+        if (!f.exists()) {
             return Response.status(HttpServletResponse.SC_NOT_FOUND).build();
-        }
-        else if (f.delete())
-        {
+        } else if (f.delete()) {
             return Response.ok().build();
-        }
-        else
-        {
+        } else {
             return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    private URI buildObjectUriFor(StoredObject so)
-    {
-        try
-        {
+    private URI buildObjectUriFor(StoredObject so) {
+        try {
             return new URL(objectsBaseUrl, so.getUuid()).toURI();
         }
-        catch (URISyntaxException e)
-        {
+        catch (URISyntaxException e) {
             log.error("Invalid URI syntax", e);
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             log.error("Invalid URL syntax", e);
         }
         return null;
     }
 
-    private void authenticate()
-    {
+    private void authenticate() {
         List<String> authHeaders = requestHeaders.getRequestHeader(HttpHeaders.AUTHORIZATION);
-        if (authHeaders != null && !authHeaders.isEmpty() && authHeaders.get(0).startsWith(AUTHENTICATION_TYPE))
-        {
+        if (authHeaders != null && !authHeaders.isEmpty() && authHeaders.get(0).startsWith(AUTHENTICATION_TYPE)) {
             String decodedAuthHeader = decodeBase64EncodedAsciiString(authHeaders.get(0).substring(AUTHENTICATION_TYPE.length()));
-            if (decodedAuthHeader.contains(":"))
-            {
+            if (decodedAuthHeader.contains(":")) {
                 String[] auth = decodedAuthHeader.split(":");
                 authenticate(auth[0], auth[1]);
             }
-        }
-        else
-        {
+        } else {
             throw new WebApplicationException(HttpServletResponse.SC_FORBIDDEN);
         }
     }
 
-    private String decodeBase64EncodedAsciiString(String encoded)
-    {
-        try
-        {
+    private String decodeBase64EncodedAsciiString(String encoded) {
+        try {
             return new String(Base64.decodeBase64(encoded), "US-ASCII");
         }
-        catch (UnsupportedEncodingException e)
-        {
+        catch (UnsupportedEncodingException e) {
             log.error("FATAL: US-ASCII NOT SUPPORTED ???");
         }
         return null;
     }
 
-    private void authenticate(String u, String p)
-    {
-        if (user.equals(u) && password.equals(p))
-        {
+    private void authenticate(String u, String p) {
+        if (user.equals(u) && password.equals(p)) {
             log.info("User {} authenticated", u);
-        }
-        else
-        {
+        } else {
             log.warn("Authentication for user {} failed, wrong password", u);
             throw new WebApplicationException(HttpServletResponse.SC_FORBIDDEN);
         }

@@ -10,12 +10,10 @@ import nl.knaw.dans.easy.security.DmoNamespaceCheck;
 
 import org.junit.Test;
 
-public class DmoNamespaceCheckTest
-{
+public class DmoNamespaceCheckTest {
 
     @Test
-    public void explain()
-    {
+    public void explain() {
         DmoNamespaceCheck nsc = new DmoNamespaceCheck(JumpoffDmo.NAMESPACE, DisciplineContainer.NAMESPACE);
 
         ContextParameters ctx = new ContextParameters(new DmoStoreId("dans-jumpoff:41"));

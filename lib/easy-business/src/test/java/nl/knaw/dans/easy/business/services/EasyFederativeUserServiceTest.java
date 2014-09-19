@@ -20,8 +20,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.util.TestHelper;
 
-public class EasyFederativeUserServiceTest extends TestHelper
-{
+public class EasyFederativeUserServiceTest extends TestHelper {
     private FederativeUserService federativeUserService = new EasyFederativeUserService();
     private Data data = new Data();
 
@@ -29,8 +28,7 @@ public class EasyFederativeUserServiceTest extends TestHelper
     final String FAKE_EASYID = "some.fake.easyUserId";
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setFederativeUserRepo(null);
@@ -38,8 +36,7 @@ public class EasyFederativeUserServiceTest extends TestHelper
     }
 
     @Test
-    public void findFederativeUser() throws RepositoryException, ServiceException
-    {
+    public void findFederativeUser() throws RepositoryException, ServiceException {
         EasyUser easyUser = new EasyUserImpl();
         EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
         data.setUserRepo(userRepo);
@@ -63,8 +60,7 @@ public class EasyFederativeUserServiceTest extends TestHelper
     }
 
     @Test(expected = ObjectNotAvailableException.class)
-    public void findFederativeUserNotMapped() throws RepositoryException, ServiceException
-    {
+    public void findFederativeUserNotMapped() throws RepositoryException, ServiceException {
         FederativeUserRepo federativeUserRepo = EasyMock.createMock(FederativeUserRepo.class);
         data.setFederativeUserRepo(federativeUserRepo);
         EasyMock.expect(federativeUserRepo.findById(FAKE_FEDID)).andThrow(new ObjectNotInStoreException("not in store"));

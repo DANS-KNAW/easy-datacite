@@ -8,30 +8,24 @@ import nl.knaw.dans.common.lang.RepositoryException;
  * 
  * @author ecco Feb 16, 2009
  */
-public class LdapMappingException extends RepositoryException
-{
+public class LdapMappingException extends RepositoryException {
 
     /**
      *
      */
     private static final long serialVersionUID = -4092636710840744437L;
 
-    public LdapMappingException()
-    {
-    }
+    public LdapMappingException() {}
 
-    public LdapMappingException(String message)
-    {
+    public LdapMappingException(String message) {
         super(message);
     }
 
-    public LdapMappingException(Throwable cause)
-    {
+    public LdapMappingException(Throwable cause) {
         super(cause);
     }
 
-    public LdapMappingException(String message, Throwable cause)
-    {
+    public LdapMappingException(String message, Throwable cause) {
         super(message, cause);
     }
 

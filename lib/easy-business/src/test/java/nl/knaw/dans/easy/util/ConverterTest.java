@@ -12,12 +12,10 @@ import org.junit.Test;
 
 // ecco: CHECKSTYLE: OFF
 
-public class ConverterTest extends TestHelper
-{
+public class ConverterTest extends TestHelper {
 
     @BeforeClass
-    public static void testStartInformation()
-    {
+    public static void testStartInformation() {
         before(ConverterTest.class);
     }
 
@@ -25,8 +23,7 @@ public class ConverterTest extends TestHelper
      * Test serialization and deserialization of a date.
      */
     @Test
-    public void testSerializeDate()
-    {
+    public void testSerializeDate() {
         DateTime date = new DateTime().withZone(Converter.EASY_TIME_ZONE);
 
         log().debug("Offset from local=" + Converter.EASY_TIME_ZONE.getOffsetFromLocal(new Date().getTime()) / 1000 / 60 + " minutes.");
@@ -45,8 +42,7 @@ public class ConverterTest extends TestHelper
     }
 
     @Test
-    public void testDeserializeDateTime()
-    {
+    public void testDeserializeDateTime() {
         String dateString = "2008-08-05T13:17:24.898+02:00";
         DateTime dateTime = Converter.deSerializeDateTime(dateString);
         String returned = Converter.serializeDateTime(dateTime);
@@ -54,8 +50,7 @@ public class ConverterTest extends TestHelper
     }
 
     @Test
-    public void testDeserializeDateTime2()
-    {
+    public void testDeserializeDateTime2() {
         String dateString = "2008-08-05T01:17:24.898+02:00";
         DateTime dateTime = Converter.deSerializeDateTime(dateString);
         String returned = Converter.serializeDateTime(dateTime);
@@ -64,23 +59,20 @@ public class ConverterTest extends TestHelper
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDeserializeDateTime3()
-    {
+    public void testDeserializeDateTime3() {
         // 2006-05-01T00:00:00+02:00 is a Jaxb contraption from old easy. It is not a legal date.
         String dateString = "2006-05-01T00:00:00+02:00";
         Converter.deSerializeDateTime(dateString);
     }
 
     @Test
-    public void testNullDates()
-    {
+    public void testNullDates() {
         assertNull(Converter.serializeDateTime(null));
         assertNull(Converter.deSerializeDateTime(null));
     }
 
     @Test
-    public void testURI() throws URISyntaxException
-    {
+    public void testURI() throws URISyntaxException {
         String uriString = "info:bla/bla";
         URI uri = new URI(uriString);
         assertEquals(uriString, Converter.serializeURI(uri));

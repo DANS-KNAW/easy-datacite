@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Herman Suijs
  */
-public class RequireOneValidatorTest extends TestCase
-{
+public class RequireOneValidatorTest extends TestCase {
     /**
      * Logger for this class.
      */
@@ -32,24 +31,20 @@ public class RequireOneValidatorTest extends TestCase
      * Set up for tests.
      */
     @Override
-    public void setUp()
-    {
+    public void setUp() {
         this.tester = new WicketTester();
     }
 
     /**
      * Test without parameters.
      */
-    public void testNoParameters()
-    {
-        try
-        {
+    public void testNoParameters() {
+        try {
             RequireOneValidator validator = new RequireOneValidator();
             LOGGER.info("Created validator: " + validator);
             fail("Validator should not be created without parameters.");
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             LOGGER.info("Proper exception caught.");
         }
     }
@@ -57,17 +52,14 @@ public class RequireOneValidatorTest extends TestCase
     /**
      * Test with one parameter.
      */
-    public void testOneParameter()
-    {
-        try
-        {
+    public void testOneParameter() {
+        try {
             TextField textField = new TextField("testId");
             final RequireOneValidator validator = new RequireOneValidator(textField);
             LOGGER.info("Created validator: " + validator);
             fail("Validator should not be created with 1 parameter (at least 2)");
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             LOGGER.info("Proper exception caught.");
         }
     }
@@ -75,30 +67,24 @@ public class RequireOneValidatorTest extends TestCase
     /**
      * Test with null as parameter.
      */
-    public void testNullParameter()
-    {
-        try
-        {
+    public void testNullParameter() {
+        try {
             final RequireOneValidator validator = new RequireOneValidator(new TextField("testId"), null);
             LOGGER.info("Created validator: " + validator);
             fail("Validator should not be created with a null as parameters");
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             LOGGER.info("Proper exception caught.");
         }
     }
 
-    public void testTwoParameters()
-    {
-        try
-        {
+    public void testTwoParameters() {
+        try {
             final RequireOneValidator validator = new RequireOneValidator(new TextField("testId"), null);
             LOGGER.info("Created validator: " + validator);
             fail("Validator should not be created with a null as parameters");
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             LOGGER.info("Proper exception caught.");
         }
     }

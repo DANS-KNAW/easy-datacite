@@ -16,8 +16,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatasetConverterTest
-{
+public class DatasetConverterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetConverterTest.class);
 
@@ -26,8 +25,7 @@ public class DatasetConverterTest
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testConversion() throws Exception
-    {
+    public void testConversion() throws Exception {
         DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
         dataset.getAdministrativeMetadata().setDepositorId("kees4");
         dataset.getEasyMetadata().getEmdTitle().getDcTitle().add(new BasicString("Test Dataset"));

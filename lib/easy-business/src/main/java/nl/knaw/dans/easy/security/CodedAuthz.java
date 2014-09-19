@@ -16,8 +16,7 @@ import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CodedAuthz extends AbstractEasyService implements Authz
-{
+public class CodedAuthz extends AbstractEasyService implements Authz {
     public static final String NO_SIGNATURE_OFFICER_PROPOSITION = "NO SECURITYOFFICER SET FOR THIS SIGNATURE! ADJUST SIGNATURE IN CODEDAUTHZ.JAVA!";
 
     private static final Logger logger = LoggerFactory.getLogger(CodedAuthz.class);
@@ -68,35 +67,30 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     private AbstractCheck isSystemInUpdateModeCheck;
 
     @Override
-    public String getServiceDescription()
-    {
+    public String getServiceDescription() {
         return "Provides rules for authorization.";
     }
 
     @Override
-    public void doBeanPostProcessing() throws ServiceException
-    {
+    public void doBeanPostProcessing() throws ServiceException {
         getRules();
     }
 
     /**
      * Expected behavior if called from isInstantiationAuthorized(Class componentClass):
      * <ul>
-     * <li>[isProtectedPage] AND [SessionUser == null] ==> throw
-     * RestartResponseAtInterceptPageException(LoginPage.class)</li>
+     * <li>[isProtectedPage] AND [SessionUser == null] ==> throw RestartResponseAtInterceptPageException(LoginPage.class)</li>
      * <li>[isProtectedPage] AND [SessionUser != null] ==> instantiate page</li>
      * <li>NOT[isProtectedPage] ==> instantiate page</li>
      * </ul>
      */
-    public boolean isProtectedPage(String pageName)
-    {
+    public boolean isProtectedPage(String pageName) {
         return getRules().containsKey(pageName);
     }
 
     // List<String> missing = new ArrayList<String>();
 
-    public boolean hasSecurityOfficer(String item)
-    {
+    public boolean hasSecurityOfficer(String item) {
         boolean hasOfficer = getRules().containsKey(item);
         // if (logger.isDebugEnabled() && !hasOfficer && !missing.contains(item) &&
         // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_]*)?"))
@@ -107,15 +101,13 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return hasOfficer;
     }
 
-    public SecurityOfficer getSecurityOfficer(final String signature)
-    {
+    public SecurityOfficer getSecurityOfficer(final String signature) {
         if (logger.isDebugEnabled())
             logger.debug("Getting SecurityOfficer for '" + signature + "'");
 
         SecurityOfficer officer = null;
         officer = getRules().get(signature);
-        if (officer == null)
-        {
+        if (officer == null) {
             logger.warn("No SecurityOfficer set for signature '" + signature + "'. Returning default SecurityOfficer");
             officer = createDefaultOfficer(signature);
         }
@@ -125,36 +117,29 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return addSystemInUpdateModeCheck(signature, officer);
     }
 
-    private AbstractCheck createDefaultOfficer(final String signature)
-    {
-        return new AbstractCheck()
-        {
-            public boolean evaluate(ContextParameters ctxParameters)
-            {
+    private AbstractCheck createDefaultOfficer(final String signature) {
+        return new AbstractCheck() {
+            public boolean evaluate(ContextParameters ctxParameters) {
                 return false;
             }
 
-            public String getProposition()
-            {
+            public String getProposition() {
                 return NO_SIGNATURE_OFFICER_PROPOSITION;
             }
 
-            public String explain(ContextParameters ctxParameters)
-            {
+            public String explain(ContextParameters ctxParameters) {
                 return "\nNo SecurityOfficer set for signature '" + signature + "'";
             }
 
             @Override
-            public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-            {
+            public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
                 hints.add(NO_SIGNATURE_OFFICER_PROPOSITION);
                 return false;
             }
         };
     }
 
-    private SecurityOfficer addSystemInUpdateModeCheck(final String signature, SecurityOfficer officer)
-    {
+    private SecurityOfficer addSystemInUpdateModeCheck(final String signature, SecurityOfficer officer) {
         // first return what is allowed in read-only mode
 
         if (signature.matches("nl.knaw.dans.easy.web.search.pages.\\w+SearchResultPage"))
@@ -190,12 +175,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return all security rules
      */
-    private Map<String, SecurityOfficer> getRules()
-    {
-        synchronized (syncRules)
-        {
-            if (rules == null)
-            {
+    private Map<String, SecurityOfficer> getRules() {
+        synchronized (syncRules) {
+            if (rules == null) {
                 rules = Collections.synchronizedMap(createRules());
             }
             return rules;
@@ -205,12 +187,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     /**
      * Performs lazy initialization, called in a thread safe environment.
      * 
-     * @return a map with security officers, keys are method signatures or PageRelativePath's of wicket
-     *         components: arguments for {@link #getSecurityOfficer(String)},
-     *         {@link #hasSecurityOfficer(String) or {@link #isProtectedPage(String)}.
+     * @return a map with security officers, keys are method signatures or PageRelativePath's of wicket components: arguments for
+     *         {@link #getSecurityOfficer(String)}, {@link #hasSecurityOfficer(String) or {@link #isProtectedPage(String)}.
      */
-    private Map<String, SecurityOfficer> createRules()
-    {
+    private Map<String, SecurityOfficer> createRules() {
         Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>();
 
         // easy navigation
@@ -399,10 +379,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return newRules;
     }
 
-    protected SecurityOfficer getNoSecurityOfficer()
-    {
-        if (noSecurityOfficer == null)
-        {
+    protected SecurityOfficer getNoSecurityOfficer() {
+        if (noSecurityOfficer == null) {
             noSecurityOfficer = new NoSecurityOfficer();
             logger.debug("Created rule: " + noSecurityOfficer.getProposition());
         }
@@ -420,10 +398,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to logged in users
      */
-    protected SecurityOfficer getEnableToLoggedInUserRule()
-    {
-        if (enableToLoggedInUserRule == null)
-        {
+    protected SecurityOfficer getEnableToLoggedInUserRule() {
+        if (enableToLoggedInUserRule == null) {
             enableToLoggedInUserRule = new HasRoleCheck(Role.values());
             logger.debug("Created rule: " + enableToLoggedInUserRule.getProposition());
         }
@@ -441,10 +417,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to logged in users
      */
-    protected SecurityOfficer getEnableToNormalUserRule()
-    {
-        if (enableToNormalUserRule == null)
-        {
+    protected SecurityOfficer getEnableToNormalUserRule() {
+        if (enableToNormalUserRule == null) {
             enableToNormalUserRule = new HasRoleCheck(Role.USER);
             logger.debug("Created rule: " + enableToNormalUserRule.getProposition());
         }
@@ -462,10 +436,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to archivists
      */
-    protected SecurityOfficer getEnableToArchivistRule()
-    {
-        if (enableToArchivistRule == null)
-        {
+    protected SecurityOfficer getEnableToArchivistRule() {
+        if (enableToArchivistRule == null) {
             enableToArchivistRule = new HasRoleCheck(Role.ARCHIVIST);
             logger.debug("Created rule: " + enableToArchivistRule.getProposition());
         }
@@ -483,10 +455,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to administrators
      */
-    protected SecurityOfficer getEnableToAdminRule()
-    {
-        if (enableToAdminRule == null)
-        {
+    protected SecurityOfficer getEnableToAdminRule() {
+        if (enableToAdminRule == null) {
             enableToAdminRule = new HasRoleCheck(Role.ADMIN);
             logger.debug("Created rule: " + enableToAdminRule.getProposition());
         }
@@ -504,20 +474,16 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to archivists and administrators
      */
-    protected SecurityOfficer getEnableToArchivistOrAdminRule()
-    {
-        if (enableToArchivistOrAdminRule == null)
-        {
+    protected SecurityOfficer getEnableToArchivistOrAdminRule() {
+        if (enableToArchivistOrAdminRule == null) {
             enableToArchivistOrAdminRule = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
             logger.debug("Created rule: " + enableToArchivistOrAdminRule.getProposition());
         }
         return enableToArchivistOrAdminRule;
     }
 
-    protected SecurityOfficer getEnableToDepositorOfDatasetRule()
-    {
-        if (enableToDepositorOfDatasetRule == null)
-        {
+    protected SecurityOfficer getEnableToDepositorOfDatasetRule() {
+        if (enableToDepositorOfDatasetRule == null) {
             enableToDepositorOfDatasetRule = new IsDepositorOfDatasetCheck();
             logger.debug("Created rule: " + enableToDepositorOfDatasetRule.getProposition());
         }
@@ -535,10 +501,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return Rule that grants rights to the depositor of a dataset and to archivists
      */
-    protected SecurityOfficer getEnableToDepositorOrArchivistRule()
-    {
-        if (enableToDepositorOrArchivistRule == null)
-        {
+    protected SecurityOfficer getEnableToDepositorOrArchivistRule() {
+        if (enableToDepositorOrArchivistRule == null) {
             enableToDepositorOrArchivistRule = new Or( //
                     new IsDepositorOfDatasetCheck(), //
                     new HasRoleCheck(Role.ARCHIVIST));
@@ -547,10 +511,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return enableToDepositorOrArchivistRule;
     }
 
-    public SecurityOfficer getViewDatasetRule()
-    {
-        if (viewDatasetRule == null)
-        {
+    public SecurityOfficer getViewDatasetRule() {
+        if (viewDatasetRule == null) {
             SecurityOfficer isPublic = new DatasetStateCheck(DatasetState.PUBLISHED);
             SecurityOfficer isDepositor = new And( //
                     new IsDepositorOfDatasetCheck(), //
@@ -563,8 +525,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     }
 
     /**
-     * Rule that grants rights to the depositor of a dataset or an archivist if the dataset status is
-     * draft.
+     * Rule that grants rights to the depositor of a dataset or an archivist if the dataset status is draft.
      * <p/>
      * Proposition is
      * 
@@ -572,13 +533,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * ([Dataset state is DRAFT] AND [SessionUser is depositor of dataset]) OR [SessionUser has role ARCHIVIST]
      * </pre>
      * 
-     * @return Rule that grants rights to the depositor of a dataset or an archivist if the dataset
-     *         status is draft
+     * @return Rule that grants rights to the depositor of a dataset or an archivist if the dataset status is draft
      */
-    protected SecurityOfficer getEnableToDepositorOrArchivistIfDraftRule()
-    {
-        if (enableToDepositorOrArchivistIfDraftRule == null)
-        {
+    protected SecurityOfficer getEnableToDepositorOrArchivistIfDraftRule() {
+        if (enableToDepositorOrArchivistIfDraftRule == null) {
             enableToDepositorOrArchivistIfDraftRule = new Or( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new And( //
@@ -589,10 +547,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return enableToDepositorOrArchivistIfDraftRule;
     }
 
-    protected SecurityOfficer getEnableToDepositorOrArchivistOrAdminRule()
-    {
-        if (enableToDepositorOrArchivistOrAdminRule == null)
-        {
+    protected SecurityOfficer getEnableToDepositorOrArchivistOrAdminRule() {
+        if (enableToDepositorOrArchivistOrAdminRule == null) {
             enableToDepositorOrArchivistOrAdminRule = new Or( //
                     new IsDepositorOfDatasetCheck(), //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN));
@@ -601,10 +557,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return enableToDepositorOrArchivistOrAdminRule;
     }
 
-    protected SecurityOfficer getSubmitDatasetRule()
-    {
-        if (submitDatasetRule == null)
-        {
+    protected SecurityOfficer getSubmitDatasetRule() {
+        if (submitDatasetRule == null) {
             submitDatasetRule = new And( //
                     new IsDepositorOfDatasetCheck(), //
                     new DatasetStateCheck(DatasetState.DRAFT));
@@ -613,10 +567,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return submitDatasetRule;
     }
 
-    protected SecurityOfficer getUnsubmitDatasetRule()
-    {
-        if (unsubmitDatasetRule == null)
-        {
+    protected SecurityOfficer getUnsubmitDatasetRule() {
+        if (unsubmitDatasetRule == null) {
             unsubmitDatasetRule = new And( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new DatasetStateCheck(DatasetState.SUBMITTED));
@@ -625,13 +577,11 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return unsubmitDatasetRule;
     }
 
-    protected SecurityOfficer getPublishDatasetRule()
-    {
+    protected SecurityOfficer getPublishDatasetRule() {
         // if submitted and archivist -> disabled & visible = v
         // if submitted and archivist and workflow progress complete -> enabled & visible = e
 
-        if (publishDatasetRule == null)
-        {
+        if (publishDatasetRule == null) {
             SecurityOfficer v = new And( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new DatasetStateCheck(DatasetState.SUBMITTED));
@@ -646,10 +596,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return publishDatasetRule;
     }
 
-    protected SecurityOfficer getUnpublishDatasetRule()
-    {
-        if (unpublishDatasetRule == null)
-        {
+    protected SecurityOfficer getUnpublishDatasetRule() {
+        if (unpublishDatasetRule == null) {
             unpublishDatasetRule = new And( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new DatasetStateCheck(DatasetState.PUBLISHED));
@@ -658,10 +606,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return unpublishDatasetRule;
     }
 
-    protected SecurityOfficer getMaintainDatasetRule()
-    {
-        if (maintainDatasetRule == null)
-        {
+    protected SecurityOfficer getMaintainDatasetRule() {
+        if (maintainDatasetRule == null) {
             maintainDatasetRule = new And( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new DatasetStateCheck(DatasetState.PUBLISHED));
@@ -670,10 +616,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return maintainDatasetRule;
     }
 
-    protected SecurityOfficer getRepublishDatasetRule()
-    {
-        if (republishDatasetRule == null)
-        {
+    protected SecurityOfficer getRepublishDatasetRule() {
+        if (republishDatasetRule == null) {
             republishDatasetRule = new And( //
                     new HasRoleCheck(Role.ARCHIVIST), //
                     new DatasetStateCheck(DatasetState.MAINTENANCE), //
@@ -683,10 +627,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return republishDatasetRule;
     }
 
-    public SecurityOfficer getUpdateItemRule()
-    {
-        if (updateItemRule == null)
-        {
+    public SecurityOfficer getUpdateItemRule() {
+        if (updateItemRule == null) {
             SecurityOfficer archivist = new HasRoleCheck(Role.ARCHIVIST);
             SecurityOfficer depositor = new IsDepositorOfDatasetCheck();
             SecurityOfficer datasetState = new DatasetStateCheck(DatasetState.DRAFT);
@@ -709,10 +651,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return rule for deleting datasets
      */
-    protected SecurityOfficer getDeleteDatasetRule()
-    {
-        if (deleteDatasetRule == null)
-        {
+    protected SecurityOfficer getDeleteDatasetRule() {
+        if (deleteDatasetRule == null) {
             SecurityOfficer a = new IsDepositorOfDatasetCheck();
             SecurityOfficer b = new DatasetStateCheck(DatasetState.DRAFT);
             SecurityOfficer p = new And(a, b);
@@ -727,10 +667,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return deleteDatasetRule;
     }
 
-    protected SecurityOfficer getPurgeDatasetRule()
-    {
-        if (purgeDatasetRule == null)
-        {
+    protected SecurityOfficer getPurgeDatasetRule() {
+        if (purgeDatasetRule == null) {
             purgeDatasetRule = new And( //
                     new HasRoleCheck(Role.ADMIN), //
                     new DatasetStateCheck(DatasetState.DELETED));
@@ -750,10 +688,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return rule for restoring datasets
      */
-    protected SecurityOfficer getRestoreDatasetRule()
-    {
-        if (restoreDatasetRule == null)
-        {
+    protected SecurityOfficer getRestoreDatasetRule() {
+        if (restoreDatasetRule == null) {
             restoreDatasetRule = new And( //
                     new HasRoleCheck(Role.ADMIN), //
                     new DatasetStateCheck(DatasetState.DELETED));
@@ -762,10 +698,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return restoreDatasetRule;
     }
 
-    protected SecurityOfficer getDownloadRule()
-    {
-        if (downloadRule == null)
-        {
+    protected SecurityOfficer getDownloadRule() {
+        if (downloadRule == null) {
             SecurityOfficer accessableDataset = new And( //
                     new DatasetStateCheck(DatasetState.PUBLISHED), //
                     new EmbargoFreeCheck());
@@ -777,10 +711,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return downloadRule;
     }
 
-    protected SecurityOfficer getFileItemDescriptionAccessRule()
-    {
-        if (fileItemDescriptionAccessRule == null)
-        {
+    protected SecurityOfficer getFileItemDescriptionAccessRule() {
+        if (fileItemDescriptionAccessRule == null) {
             fileItemDescriptionAccessRule = new Or( //
                     new DatasetStateCheck(DatasetState.PUBLISHED), //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
@@ -790,10 +722,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return fileItemDescriptionAccessRule;
     }
 
-    protected SecurityOfficer getFileItemContentsAccessRule()
-    {
-        if (fileItemContentsAccessRule == null)
-        {
+    protected SecurityOfficer getFileItemContentsAccessRule() {
+        if (fileItemContentsAccessRule == null) {
             fileItemContentsAccessRule = new Or( //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
                     new IsDepositorOfFileItemCheck(), //
@@ -803,10 +733,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return fileItemContentsAccessRule;
     }
 
-    protected SecurityOfficer getFreelyAvailableContentRule()
-    {
-        if (freelyAvailableContentRule == null)
-        {
+    protected SecurityOfficer getFreelyAvailableContentRule() {
+        if (freelyAvailableContentRule == null) {
             freelyAvailableContentRule = new Or( //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
                     new FreelyAvailableContentCheck());
@@ -816,8 +744,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     }
 
     /**
-     * Rule that grants the right to archivists to see a thing and the right to administrators to see
-     * *and* act upon a thing.
+     * Rule that grants the right to archivists to see a thing and the right to administrators to see *and* act upon a thing.
      * <p/>
      * Implications and propositions:
      * 
@@ -826,13 +753,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * EnableAllowed     &lt;== [SessionUser has role ADMIN]
      * </pre>
      * 
-     * @return rule that grants the right to archivists to see a thing and the right to administrators to
-     *         see *and* act upon a thing
+     * @return rule that grants the right to archivists to see a thing and the right to administrators to see *and* act upon a thing
      */
-    protected SecurityOfficer getVisibleToArchivistEnableToAdminRule()
-    {
-        if (visibleToArchivistEnableToAdminRule == null)
-        {
+    protected SecurityOfficer getVisibleToArchivistEnableToAdminRule() {
+        if (visibleToArchivistEnableToAdminRule == null) {
             SecurityOfficer v = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
             SecurityOfficer e = new HasRoleCheck(Role.ADMIN);
             visibleToArchivistEnableToAdminRule = new SplitAnswer(v, e);
@@ -841,10 +765,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return visibleToArchivistEnableToAdminRule;
     }
 
-    protected SecurityOfficer getVisibleToDepositorEnableToArchivistRule()
-    {
-        if (visibleToDepositorEnableToArchivistRule == null)
-        {
+    protected SecurityOfficer getVisibleToDepositorEnableToArchivistRule() {
+        if (visibleToDepositorEnableToArchivistRule == null) {
             SecurityOfficer v = new Or(new IsDepositorOfDatasetCheck(), new HasRoleCheck(Role.ARCHIVIST));
             SecurityOfficer e = new HasRoleCheck(Role.ARCHIVIST);
             visibleToDepositorEnableToArchivistRule = new SplitAnswer(v, e);
@@ -854,16 +776,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     }
 
     /**
-     * Rule that warns a user that permission is required to see/access (some of) the files in the
-     * dataset.
+     * Rule that warns a user that permission is required to see/access (some of) the files in the dataset.
      * 
-     * @return Rule that warns a user that permission is required to see/access (some of) the files in
-     *         the dataset.
+     * @return Rule that warns a user that permission is required to see/access (some of) the files in the dataset.
      */
-    protected SecurityOfficer getPermissionRequestRequiredRule()
-    {
-        if (permissionRequestRequiredRule == null)
-        {
+    protected SecurityOfficer getPermissionRequestRequiredRule() {
+        if (permissionRequestRequiredRule == null) {
             final SecurityOfficer powerUser = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
             final SecurityOfficer ordinaryUser = new Not(new Or(powerUser, new IsDepositorOfDatasetCheck()));
             final SecurityOfficer specialDataset = new HasPermissionRestrictedItemsCheck();
@@ -874,9 +792,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     }
 
     /**
-     * Rule that grants the right to archivists to see user attributes and the right to administrators to
-     * see *and* act upon those attributes, as long as the administrator is not the user that is being
-     * edited.
+     * Rule that grants the right to archivists to see user attributes and the right to administrators to see *and* act upon those attributes, as long as the
+     * administrator is not the user that is being edited.
      * <p/>
      * Implications and propositions:
      * 
@@ -887,10 +804,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return rule on editing (certain) attributes of users
      */
-    protected SecurityOfficer getEditProtectedUserAttributesRule()
-    {
-        if (editProtectedUserAttributesRule == null)
-        {
+    protected SecurityOfficer getEditProtectedUserAttributesRule() {
+        if (editProtectedUserAttributesRule == null) {
             SecurityOfficer v = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
 
             SecurityOfficer a = new HasRoleCheck(Role.ADMIN);
@@ -903,32 +818,26 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return editProtectedUserAttributesRule;
     }
 
-    protected SecurityOfficer getJumpoffDmoNameSpaceRule()
-    {
-        if (jumpoffDmoNameSpaceRule == null)
-        {
+    protected SecurityOfficer getJumpoffDmoNameSpaceRule() {
+        if (jumpoffDmoNameSpaceRule == null) {
             jumpoffDmoNameSpaceRule = new DmoNamespaceCheck(JumpoffDmo.NAMESPACE);
             logger.debug("Created rule: " + jumpoffDmoNameSpaceRule.getProposition());
         }
         return jumpoffDmoNameSpaceRule;
     }
 
-    protected SecurityOfficer getUserByIdRule()
-    {
-        if (userByIdRule == null)
-        {
+    protected SecurityOfficer getUserByIdRule() {
+        if (userByIdRule == null) {
             userByIdRule = new Or(new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), new IsSelfCheck());
         }
         return userByIdRule;
     }
 
-    public SystemReadOnlyStatus getSystemReadOnlyStatus()
-    {
+    public SystemReadOnlyStatus getSystemReadOnlyStatus() {
         return systemReadOnlyStatus;
     }
 
-    public void setSystemReadOnlyStatus(SystemReadOnlyStatus readOnlyStatus)
-    {
+    public void setSystemReadOnlyStatus(SystemReadOnlyStatus readOnlyStatus) {
         this.systemReadOnlyStatus = readOnlyStatus;
         isSystemInUpdateModeCheck = new IsSystemInUpdateModeCheck(systemReadOnlyStatus);
     }

@@ -4,24 +4,20 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
-public class JumpoffDmoFactory extends AbstractDmoFactory<JumpoffDmo>
-{
+public class JumpoffDmoFactory extends AbstractDmoFactory<JumpoffDmo> {
 
     @Override
-    public DmoNamespace getNamespace()
-    {
+    public DmoNamespace getNamespace() {
         return JumpoffDmo.NAMESPACE;
     }
 
     @Override
-    public JumpoffDmo newDmo() throws RepositoryException
-    {
+    public JumpoffDmo newDmo() throws RepositoryException {
         return createDmo(nextSid());
     }
 
     @Override
-    public JumpoffDmo createDmo(String storeId)
-    {
+    public JumpoffDmo createDmo(String storeId) {
         return new JumpoffDmo(storeId);
     }
 

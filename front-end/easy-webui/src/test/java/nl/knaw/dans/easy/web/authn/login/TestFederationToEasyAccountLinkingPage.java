@@ -10,13 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class TestFederationToEasyAccountLinkingPage extends Fixture
-{
+public class TestFederationToEasyAccountLinkingPage extends Fixture {
     private static FederationUser federationUser;
 
     @Before
-    public void mockFederationUser() throws Exception
-    {
+    public void mockFederationUser() throws Exception {
         federationUser = PowerMock.createMock(FederationUser.class);
         EasyMock.expect(federationUser.getUserDescription()).andStubReturn("mocked user description");
         EasyMock.expect(federationUser.getUserId()).andStubReturn("mocked user ID");
@@ -27,8 +25,7 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
     }
 
     @Test
-    public void smokeTest() throws Exception
-    {
+    public void smokeTest() throws Exception {
         final EasyWicketTester tester = init();
         tester.dumpPage();
 
@@ -44,8 +41,7 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
     }
 
     @Test
-    public void emptyLogin() throws Exception
-    {
+    public void emptyLogin() throws Exception {
         final EasyWicketTester tester = init();
         tester.clickLink(REG_LOGIN_SUBMIT);
         tester.dumpPage();
@@ -57,8 +53,7 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
     }
 
     @Test
-    public void wrongUserOrPassordLogin() throws Exception
-    {
+    public void wrongUserOrPassordLogin() throws Exception {
         userService.authenticate(authentication);
         EasyMock.expectLastCall().anyTimes();
 
@@ -90,17 +85,14 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
         tester.assertInvisible(CREDENTIALS_FEEDBACK);
     }
 
-    protected EasyWicketTester init()
-    {
+    protected EasyWicketTester init() {
         PowerMock.replayAll();
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        tester.startPage(new ITestPageSource()
-        {
+        tester.startPage(new ITestPageSource() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Page getTestPage()
-            {
+            public Page getTestPage() {
                 return new FederationToEasyAccountLinkingPage(federationUser);
             }
         });

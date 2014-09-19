@@ -19,8 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResources
-{
+public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResources {
     private static final String WI_USER_OVERVIEW_PANEL = "userOverviewPanel";
 
     private static final Logger logger = LoggerFactory.getLogger(UsersOverviewPage.class);
@@ -28,24 +27,19 @@ public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResou
     @SpringBean(name = "userService")
     private UserService userService;
 
-    public UsersOverviewPage()
-    {
+    public UsersOverviewPage() {
         super();
-        setDefaultModel(new LoadableDetachableModel()
-        {
+        setDefaultModel(new LoadableDetachableModel() {
 
             private static final long serialVersionUID = -2140139404191270967L;
 
             @Override
-            protected Object load()
-            {
+            protected Object load() {
                 List<EasyUser> users = null;
-                try
-                {
+                try {
                     users = userService.getAllUsers();
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     final String message = fatalMessage(EasyResources.COULD_NOT_RETRIEVE_USERS);
                     logger.error(message, e);
                     throw new InternalWebError();
@@ -57,13 +51,11 @@ public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResou
 
         add(new UsersOverviewPanel(WI_USER_OVERVIEW_PANEL, getDefaultModel()));
 
-        Link addLink = new Link(ADD_LINK)
-        {
+        Link addLink = new Link(ADD_LINK) {
             private static final long serialVersionUID = -4963887902220218903L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(UserDetailsPage.class);
             }
         };

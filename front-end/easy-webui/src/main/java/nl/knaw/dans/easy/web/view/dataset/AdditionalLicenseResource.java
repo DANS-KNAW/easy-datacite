@@ -8,18 +8,15 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 
-public class AdditionalLicenseResource extends UnitMetaDataResource
-{
+public class AdditionalLicenseResource extends UnitMetaDataResource {
     private static final long serialVersionUID = 1L;
 
-    public AdditionalLicenseResource(DatasetModel datasetModel, UnitMetadata unitMetaData)
-    {
+    public AdditionalLicenseResource(DatasetModel datasetModel, UnitMetadata unitMetaData) {
         super(datasetModel, unitMetaData);
     }
 
     @Override
-    protected URL getURL() throws ServiceException, CommonSecurityException
-    {
+    protected URL getURL() throws ServiceException, CommonSecurityException {
         URL url = Services.getDatasetService().getAdditionalLicenseURL(this.getDatasetModel().getObject());
         return url;
     }

@@ -14,8 +14,7 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
  * @param <T>
  *        The type managed by this Data Access Point.
  */
-public interface GenericRepo<T>
-{
+public interface GenericRepo<T> {
 
     String getContext();
 

@@ -11,8 +11,7 @@ import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.StringResourceStream;
 
-public class DownloadPanel extends Panel
-{
+public class DownloadPanel extends Panel {
 
     public static final String DOWNLOAD_XML = "download_xml";
 
@@ -24,55 +23,45 @@ public class DownloadPanel extends Panel
 
     private boolean initiated;
 
-    public DownloadPanel(final String id, final EasyMetadata easyMetadata)
-    {
+    public DownloadPanel(final String id, final EasyMetadata easyMetadata) {
         super(id);
         this.easyMetadata = easyMetadata;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         add(new ResourceLink(DOWNLOAD_XML, getXMLWebResource(easyMetadata)));
         add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(easyMetadata)));
 
     }
 
-    private WebResource getXMLWebResource(final EasyMetadata emd)
-    {
-        WebResource export = new WebResource()
-        {
+    private WebResource getXMLWebResource(final EasyMetadata emd) {
+        WebResource export = new WebResource() {
 
             private static final long serialVersionUID = 2114665554680463199L;
 
             @Override
-            public IResourceStream getResourceStream()
-            {
+            public IResourceStream getResourceStream() {
                 CharSequence xml = null;
-                try
-                {
+                try {
                     xml = new EmdMarshaller(emd).getXmlString();
                 }
-                catch (XMLSerializationException e)
-                {
+                catch (XMLSerializationException e) {
                     error(e.getMessage());
                 }
                 return new StringResourceStream(xml, "text/xml");
             }
 
             @Override
-            protected void setHeaders(WebResponse response)
-            {
+            protected void setHeaders(WebResponse response) {
                 super.setHeaders(response);
                 response.setAttachmentHeader(emd.getPreferredTitle() + ".xml");
             }
@@ -82,22 +71,18 @@ public class DownloadPanel extends Panel
         return export;
     }
 
-    private WebResource getCSVWebResource(final EasyMetadata emd)
-    {
-        WebResource export = new WebResource()
-        {
+    private WebResource getCSVWebResource(final EasyMetadata emd) {
+        WebResource export = new WebResource() {
 
             private static final long serialVersionUID = 2534427934241209655L;
 
             @Override
-            public IResourceStream getResourceStream()
-            {
+            public IResourceStream getResourceStream() {
                 return new StringResourceStream(emd.toString(";"), "text/csv");
             }
 
             @Override
-            protected void setHeaders(WebResponse response)
-            {
+            protected void setHeaders(WebResponse response) {
                 super.setHeaders(response);
                 response.setAttachmentHeader(emd.getPreferredTitle() + ".csv");
             }

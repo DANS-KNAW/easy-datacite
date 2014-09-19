@@ -32,8 +32,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Feb 4, 2009
  */
-public class LdapClient
-{
+public class LdapClient {
 
     private static final DateTimeTranslator DT_TRANSLATOR = new DateTimeTranslator();
 
@@ -45,8 +44,7 @@ public class LdapClient
     private DirContextSupplier dirContextSupplier;
     private boolean updatingLastLogin = true;
 
-    public LdapClient()
-    {
+    public LdapClient() {
 
     }
 
@@ -56,8 +54,7 @@ public class LdapClient
      * @param dirContextSupplier
      *        supplies a fresh {@link DirContext} for each client call
      */
-    public LdapClient(DirContextSupplier dirContextSupplier)
-    {
+    public LdapClient(DirContextSupplier dirContextSupplier) {
         this.dirContextSupplier = dirContextSupplier;
     }
 
@@ -67,8 +64,7 @@ public class LdapClient
      * @param contextSupplier
      *        the DirContextSupplier this client will use
      */
-    public void setDirContextSupplier(DirContextSupplier contextSupplier)
-    {
+    public void setDirContextSupplier(DirContextSupplier contextSupplier) {
         this.dirContextSupplier = contextSupplier;
     }
 
@@ -77,8 +73,7 @@ public class LdapClient
      * 
      * @return the DirContextSupplier in use with this client
      */
-    public DirContextSupplier getDirContextSupplier()
-    {
+    public DirContextSupplier getDirContextSupplier() {
         return dirContextSupplier;
     }
 
@@ -87,20 +82,17 @@ public class LdapClient
      * 
      * @return <code>true</code> if it does, <code>false</code> otherwise
      */
-    public boolean isUpdatingLastLogin()
-    {
+    public boolean isUpdatingLastLogin() {
         return updatingLastLogin;
     }
 
     /**
-     * Set whether this client should update the 'dansLastLogin' attribute after a successful
-     * authentication. The default is <code>true</code>.
+     * Set whether this client should update the 'dansLastLogin' attribute after a successful authentication. The default is <code>true</code>.
      * 
      * @param updatingLastLogin
      *        <code>true</code> if it should, <code>false</code> otherwise
      */
-    public void setUpdatingLastLogin(boolean updatingLastLogin)
-    {
+    public void setUpdatingLastLogin(boolean updatingLastLogin) {
         this.updatingLastLogin = updatingLastLogin;
         logger.debug("Updating last login set to " + updatingLastLogin);
     }
@@ -118,17 +110,14 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public Attributes getAttributes(String rdn, String subContext) throws NameNotFoundException, NamingException
-    {
+    public Attributes getAttributes(String rdn, String subContext) throws NameNotFoundException, NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         Attributes attrs = null;
-        try
-        {
+        try {
             Name name = composeName(rdn, subContext);
             attrs = ctx.getAttributes(name);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
         return attrs;
@@ -149,32 +138,28 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public Attributes getAttributes(String rdn, String subContext, String[] attrIds) throws NameNotFoundException, NamingException
-    {
+    public Attributes getAttributes(String rdn, String subContext, String[] attrIds) throws NameNotFoundException, NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         Attributes attrs = null;
-        try
-        {
+        try {
             Name name = composeName(rdn, subContext);
             attrs = ctx.getAttributes(name, attrIds);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
         return attrs;
     }
 
-    private Name composeName(String rdn, String subContext) throws InvalidNameException
-    {
+    private Name composeName(String rdn, String subContext) throws InvalidNameException {
         Name name = new LdapName(subContext);
         name.addAll(new LdapName(rdn));
         return name;
     }
 
     /**
-     * Update the entry with the given rdn, within the given sub context, relative to the base context of
-     * this LdapClient. This method <b>replaces</b> all previously assigned attributes with the new ones.
+     * Update the entry with the given rdn, within the given sub context, relative to the base context of this LdapClient. This method <b>replaces</b> all
+     * previously assigned attributes with the new ones.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to update
@@ -185,23 +170,19 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public void modifyEntry(String rdn, String subContext, Attributes attrs) throws NamingException
-    {
+    public void modifyEntry(String rdn, String subContext, Attributes attrs) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
-        try
-        {
+        try {
             Name name = composeName(rdn, subContext);
             ctx.modifyAttributes(name, DirContext.REPLACE_ATTRIBUTE, attrs);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
     }
 
     /**
-     * Add a new entry under the given sub context, relative to this LdapClients base context, as the
-     * given rdn.
+     * Add a new entry under the given sub context, relative to this LdapClients base context, as the given rdn.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to add
@@ -214,23 +195,19 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public void addEntry(String rdn, String subContext, Attributes attrs) throws NameAlreadyBoundException, NamingException
-    {
+    public void addEntry(String rdn, String subContext, Attributes attrs) throws NameAlreadyBoundException, NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
-        try
-        {
+        try {
             Name name = composeName(rdn, subContext);
             ctx.bind(name, null, attrs);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
     }
 
     /**
-     * Delete the entry with the given rdn, within the given sub context, relative to the base context of
-     * this LdapClient.
+     * Delete the entry with the given rdn, within the given sub context, relative to the base context of this LdapClient.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to delete
@@ -239,16 +216,13 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public void deleteEntry(String rdn, String subContext) throws NamingException
-    {
+    public void deleteEntry(String rdn, String subContext) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
-        try
-        {
+        try {
             Name name = composeName(rdn, subContext);
             ctx.unbind(name);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
     }
@@ -262,28 +236,23 @@ public class LdapClient
      * @throws NamingException
      *         in case of oops
      */
-    public NamingEnumeration<Binding> listBindings(String subContext) throws NamingException
-    {
+    public NamingEnumeration<Binding> listBindings(String subContext) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         NamingEnumeration<Binding> list = null;
-        try
-        {
+        try {
             list = ctx.listBindings(subContext);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
         return list;
     }
 
     /**
-     * Authenticate the dn found in the given subContext, with the given filter against the given
-     * password.
+     * Authenticate the dn found in the given subContext, with the given filter against the given password.
      * <ol>
      * <li>If no dn is found returns false;</li>
-     * <li>If a lookup with found dn as security principal and given password cannot be done, returns
-     * false;</li>
+     * <li>If a lookup with found dn as security principal and given password cannot be done, returns false;</li>
      * <li>Otherwise returns true</li>
      * </ol>
      * 
@@ -294,128 +263,102 @@ public class LdapClient
      * @param filter
      *        filter to find the dn (i.e. "(&(objectClass=inetOrgPerson)(uid=jan))"
      * @param objectClasses
-     *        the ldap objectClasses of the authenticated entity in reverse hierarchical order. Maybe
-     *        <code>null</code> if updatingLastLogin is off.
+     *        the ldap objectClasses of the authenticated entity in reverse hierarchical order. Maybe <code>null</code> if updatingLastLogin is off.
      * @throws NamingException
      *         for exceptions
      */
-    public boolean authenticate(String password, String subContext, String filter, String... objectClasses) throws NamingException
-    {
+    public boolean authenticate(String password, String subContext, String filter, String... objectClasses) throws NamingException {
         boolean authenticated = false;
         NamingEnumeration<SearchResult> result = search(subContext, filter);
         String dn = null;
-        if (result.hasMore())
-        {
+        if (result.hasMore()) {
             SearchResult r = result.next();
-            if (r.isRelative())
-            {
+            if (r.isRelative()) {
                 dn = r.getNameInNamespace();
-            }
-            else
-            {
+            } else {
                 dn = r.getName();
             }
         }
-        if (dn == null)
-        {
+        if (dn == null) {
             logger.debug("User not found in sub context '" + subContext + "' with filter " + filter);
-        }
-        else
-        {
+        } else {
             DirContext ctx = dirContextSupplier.getDirContext();
             ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
             ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-            try
-            {
+            try {
                 ctx.lookup(dn);
                 authenticated = true;
                 logger.debug("Successfully authenticated: " + dn);
 
-                if (isUpdatingLastLogin() && objectClasses != null && objectClasses.length > 0)
-                {
+                if (isUpdatingLastLogin() && objectClasses != null && objectClasses.length > 0) {
                     updateLastLogin(dn, objectClasses);
                 }
 
             }
-            catch (AuthenticationException e)
-            {
+            catch (AuthenticationException e) {
                 logger.debug("Invalid pass. Failed authentication for " + dn);
             }
-            finally
-            {
+            finally {
                 ctx.close();
             }
         }
         return authenticated;
     }
 
-    private void updateLastLogin(String dn, String... objectClasses) throws NamingException, InvalidNameException
-    {
+    private void updateLastLogin(String dn, String... objectClasses) throws NamingException, InvalidNameException {
         Attributes attrs = new BasicAttributes();
         Attribute oc = new BasicAttribute("objectclass");
-        for (String objectClass : objectClasses)
-        {
+        for (String objectClass : objectClasses) {
             oc.add(objectClass);
         }
         attrs.put(oc);
         attrs.put("dansLastLogin", DT_TRANSLATOR.toLdap(new DateTime()));
 
         DirContext ctx = dirContextSupplier.getDirContext();
-        try
-        {
+        try {
             ctx.modifyAttributes(new LdapName(dn), DirContext.REPLACE_ATTRIBUTE, attrs);
             logger.debug("Modified last login of " + dn);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
     }
 
-    public NamingEnumeration<SearchResult> search(String subContext, String filter) throws NamingException
-    {
+    public NamingEnumeration<SearchResult> search(String subContext, String filter) throws NamingException {
         return search(dirContextSupplier.getDirContext(), subContext, filter);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter) throws NamingException
-    {
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter) throws NamingException {
         return search(ctx, subContext, filter, SearchControls.SUBTREE_SCOPE);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, int scope) throws NamingException
-    {
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, int scope) throws NamingException {
         NamingEnumeration<SearchResult> resultEnum;
-        try
-        {
+        try {
             resultEnum = null;
             Name name = new LdapName(subContext);
             SearchControls ctls = new SearchControls();
             ctls.setSearchScope(scope);
             resultEnum = ctx.search(name, filter, ctls);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
         return resultEnum;
     }
 
-    public NamingEnumeration<SearchResult> search(String subContext, String filter, SearchControls ctls) throws NamingException
-    {
+    public NamingEnumeration<SearchResult> search(String subContext, String filter, SearchControls ctls) throws NamingException {
         return search(dirContextSupplier.getDirContext(), subContext, filter, ctls);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, SearchControls ctls) throws NamingException
-    {
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, SearchControls ctls) throws NamingException {
         NamingEnumeration<SearchResult> resultEnum;
-        try
-        {
+        try {
             resultEnum = null;
             Name name = new LdapName(subContext);
             resultEnum = ctx.search(name, filter, ctls);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
         return resultEnum;
@@ -423,18 +366,15 @@ public class LdapClient
 
     // NON OFFICIAL CODE
 
-    void logEnvironment() throws NamingException
-    {
+    void logEnvironment() throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         Hashtable<?, ?> env = ctx.getEnvironment();
-        for (Entry<?, ?> entry : env.entrySet())
-        {
+        for (Entry<?, ?> entry : env.entrySet()) {
             System.out.println(entry.getKey() + "=" + entry.getValue());
         }
     }
 
-    void getSchema(String subContext) throws NamingException
-    {
+    void getSchema(String subContext) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         // Get the schema tree root
         DirContext schema = ctx.getSchema("");
@@ -452,30 +392,25 @@ public class LdapClient
 
     }
 
-    void addAttributes(String rdn, String subContext, Attributes attrs) throws NamingException
-    {
+    void addAttributes(String rdn, String subContext, Attributes attrs) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
-        try
-        {
+        try {
             Name name = new LdapName(subContext);
             name.addAll(new LdapName(rdn));
             ctx.modifyAttributes(name, DirContext.ADD_ATTRIBUTE, attrs);
         }
-        finally
-        {
+        finally {
             ctx.close();
         }
 
     }
 
     //
-    void list(String subContext) throws NamingException
-    {
+    void list(String subContext) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
         NamingEnumeration<Binding> list = ctx.listBindings(subContext);
 
-        while (list.hasMore())
-        {
+        while (list.hasMore()) {
             Binding binding = list.next();
             System.err.println(binding.getName());
             // DirContext context = (DirContext) binding.getObject();
@@ -504,13 +439,11 @@ public class LdapClient
 
     }
 
-    Attributes getRootAttributes(String name) throws NamingException
-    {
+    Attributes getRootAttributes(String name) throws NamingException {
         return dirContextSupplier.getDirContext().getAttributes(name);
     }
 
-    void lookup(String name) throws NamingException
-    {
+    void lookup(String name) throws NamingException {
         DirContext ctx = dirContextSupplier.getDirContext();
 
         System.out.println(ctx.lookup(name));

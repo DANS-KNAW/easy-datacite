@@ -14,25 +14,21 @@ import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
-{
+public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep> {
 
     private boolean verbose = false;
 
     @BeforeClass
-    public static void testStartInformation()
-    {
+    public static void testStartInformation() {
         before(WorkflowStepJiBXTest.class);
     }
 
-    public WorkflowStepJiBXTest()
-    {
+    public WorkflowStepJiBXTest() {
         super(WorkflowStep.class);
     }
 
     @Test
-    public void testEmpty() throws IOException, JiBXException, XMLSerializationException
-    {
+    public void testEmpty() throws IOException, JiBXException, XMLSerializationException {
         WorkflowStep wfs = new WorkflowStep("x");
         String filename = marshal(wfs, "_empty");
 
@@ -41,8 +37,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     }
 
     @Test
-    public void testFull() throws JiBXException, IOException, XMLSerializationException
-    {
+    public void testFull() throws JiBXException, IOException, XMLSerializationException {
         WorkflowStep wfs = new WorkflowStep("dasa_10000");
         wfs.setDoneById("piet");
 
@@ -66,16 +61,14 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     }
 
     @Test
-    public void read() throws IOException, JiBXException
-    {
+    public void read() throws IOException, JiBXException {
         WorkflowStep wfs = unmarshal(getFile("read.xml").getPath());
         assertEquals("dasa_10000", wfs.getId());
         assertTrue(wfs.isRequired());
     }
 
     @Test
-    public void testFull2() throws Exception
-    {
+    public void testFull2() throws Exception {
         WorkflowStep wfs = WorkflowFactory.newDatasetWorkflow();
         wfs.addRemark(new Remark("text of remark", "henkb"));
         wfs.addRemark(new Remark("text of remark2", "henkb"));
@@ -87,10 +80,8 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
             System.err.println("\n" + wfs.asXMLString(4));
     }
 
-    private void fillSteps(List<WorkflowStep> steps)
-    {
-        for (WorkflowStep step : steps)
-        {
+    private void fillSteps(List<WorkflowStep> steps) {
+        for (WorkflowStep step : steps) {
             step.addRemark(new Remark("remark text", "henkb"));
             step.addRemark(new Remark("2e remark", "henkb"));
             step.setCompleted(true, "completerId");

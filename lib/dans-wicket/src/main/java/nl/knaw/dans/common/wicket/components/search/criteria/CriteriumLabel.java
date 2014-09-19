@@ -8,14 +8,12 @@ import org.apache.wicket.model.IModel;
  * 
  * @author lobo
  */
-public class CriteriumLabel extends Label
-{
+public class CriteriumLabel extends Label {
     public static final String FILTER_SEPARATOR = ": ";
 
     private static final long serialVersionUID = -690179496317797759L;
 
-    public CriteriumLabel(String id, IModel<String> model)
-    {
+    public CriteriumLabel(String id, IModel<String> model) {
         super(id, model);
     }
 
@@ -28,8 +26,7 @@ public class CriteriumLabel extends Label
      *        what are we filtering on?
      * @return a label text using a standard layout
      */
-    public static String createFilterText(String filter, String filterBy)
-    {
+    public static String createFilterText(String filter, String filterBy) {
         return filter + FILTER_SEPARATOR + filterBy;
     }
 

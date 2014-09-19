@@ -9,8 +9,7 @@ import java.io.InputStream;
  * 
  * @author Joke Pol
  */
-public final class DansMailerConfiguration extends CommonMailerConfiguration implements MailerConfiguration
-{
+public final class DansMailerConfiguration extends CommonMailerConfiguration implements MailerConfiguration {
     /** The default value for the SMTP host. */
     public static final String SMTP_HOST_DEFAULT = "mailrelay.knaw.nl";
 
@@ -33,8 +32,7 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
      * @throws IllegalArgumentException
      *         If the input stream contains a malformed UniCode escape sequence.
      */
-    public DansMailerConfiguration(final InputStream inputStream) throws IOException
-    {
+    public DansMailerConfiguration(final InputStream inputStream) throws IOException {
         super(inputStream);
         if (getSmtpHost() == null)
             setSmtpHost(SMTP_HOST_DEFAULT);
@@ -48,22 +46,17 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
      * Creates a customized instance. Calls {@link #MailerProperties(InputStream)} with a wrapped string.
      * 
      * @param input
-     *        The customized configuration values. If {@link #SMTP_HOST_KEY} is not specified, no host
-     *        will be set and no mails will be sent.
+     *        The customized configuration values. If {@link #SMTP_HOST_KEY} is not specified, no host will be set and no mails will be sent.
      * @return A customized instance.
      * @throws MailerConfiguration.Exception
-     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into
-     *         a runtime exception.
+     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into a runtime exception.
      */
-    public static MailerConfiguration createCustomized(final String input) throws Exception
-    {
-        try
-        {
+    public static MailerConfiguration createCustomized(final String input) throws Exception {
+        try {
             final InputStream inputStream = input == null ? (InputStream) null : new ByteArrayInputStream(input.getBytes());
             return new DansMailerConfiguration(inputStream);
         }
-        catch (final IOException exception)
-        {
+        catch (final IOException exception) {
             throw new Exception("Unexpected exception", exception);
         }
     }
@@ -73,19 +66,14 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
      * 
      * @return A default instance.
      * @throws MailerConfiguration.Exception
-     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into
-     *         a runtime exception.
+     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into a runtime exception.
      */
-    public static MailerConfiguration getDefaultInstance() throws Exception
-    {
-        if (defaultInstance == null)
-        {
-            try
-            {
+    public static MailerConfiguration getDefaultInstance() throws Exception {
+        if (defaultInstance == null) {
+            try {
                 defaultInstance = new DansMailerConfiguration((InputStream) null);
             }
-            catch (final IOException e)
-            {
+            catch (final IOException e) {
                 throw new Exception("Unexpected exception", e);
             }
         }

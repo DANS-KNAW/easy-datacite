@@ -10,18 +10,14 @@ import nl.knaw.dans.common.lang.repo.relations.OntologyNamespace;
  * Preferred Prefix : fedora
  * </pre>
  * 
- * @see <a
- *      href="http://info-uri.info/registry/OAIHandler?verb=GetRecord&metadataPrefix=reg&identifier=info:fedora/">
- *      "info" URI Scheme Registry page</a>
+ * @see <a href="http://info-uri.info/registry/OAIHandler?verb=GetRecord&metadataPrefix=reg&identifier=info:fedora/"> "info" URI Scheme Registry page</a>
  * @author Chris Wilper
  */
-public class FedoraNamespace extends OntologyNamespace
-{
+public class FedoraNamespace extends OntologyNamespace {
 
     private static final long serialVersionUID = 1L;
 
-    public FedoraNamespace()
-    {
+    public FedoraNamespace() {
 
         uri = "info:fedora/";
         prefix = "fedora";

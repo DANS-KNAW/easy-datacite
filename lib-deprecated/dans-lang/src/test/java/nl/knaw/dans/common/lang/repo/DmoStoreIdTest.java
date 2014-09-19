@@ -6,12 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class DmoStoreIdTest
-{
+public class DmoStoreIdTest {
 
     @Test
-    public void testEqualsAndHash()
-    {
+    public void testEqualsAndHash() {
         DmoStoreId dmoStoreId1 = new DmoStoreId(new DmoNamespace("foo"), "1");
         DmoStoreId dmoStoreId2 = new DmoStoreId(new DmoNamespace("foo"), "1");
 
@@ -31,8 +29,7 @@ public class DmoStoreIdTest
     }
 
     @Test
-    public void isValidId()
-    {
+    public void isValidId() {
         assertTrue(DmoStoreId.isValidId("a"));
         assertTrue(DmoStoreId.isValidId("42"));
         assertTrue(DmoStoreId.isValidId("a83"));
@@ -42,8 +39,7 @@ public class DmoStoreIdTest
     }
 
     @Test
-    public void notValid()
-    {
+    public void notValid() {
         assertFalse(DmoStoreId.isValidId(null));
         assertFalse(DmoStoreId.isValidId(""));
         assertFalse(DmoStoreId.isValidId(" "));
@@ -57,8 +53,7 @@ public class DmoStoreIdTest
     }
 
     @Test
-    public void split()
-    {
+    public void split() {
         String[] split = DmoStoreId.split("easy-dataset:123");
         assertEquals("easy-dataset", split[0]);
         assertEquals("123", split[1]);
@@ -69,8 +64,7 @@ public class DmoStoreIdTest
     }
 
     @Test
-    public void notSplit()
-    {
+    public void notSplit() {
         assertTrue(isValidSplit("easy-model:oai-set1"));
 
         assertFalse(isValidSplit("easy-model:"));
@@ -82,22 +76,18 @@ public class DmoStoreIdTest
         assertFalse(isValidSplit("bla:@foo"));
     }
 
-    private boolean isValidSplit(String value)
-    {
-        try
-        {
+    private boolean isValidSplit(String value) {
+        try {
             DmoStoreId.split(value);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return false;
         }
         return true;
     }
 
     @Test
-    public void constructorDmoNamespaceString()
-    {
+    public void constructorDmoNamespaceString() {
         DmoNamespace namespace = new DmoNamespace("easy-foo");
 
         assertTrue(validConstructorArgs(namespace, "123"));
@@ -108,22 +98,18 @@ public class DmoStoreIdTest
         assertFalse(validConstructorArgs(namespace, "=-"));
     }
 
-    private boolean validConstructorArgs(DmoNamespace namespace, String id)
-    {
-        try
-        {
+    private boolean validConstructorArgs(DmoNamespace namespace, String id) {
+        try {
             new DmoStoreId(namespace, id);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return false;
         }
         return true;
     }
 
     @Test
-    public void constructorString()
-    {
+    public void constructorString() {
         assertTrue(validConstructorArgs("easy-dataset:445"));
         assertTrue(validConstructorArgs("easy-dataset:ff-2-h"));
 
@@ -134,14 +120,11 @@ public class DmoStoreIdTest
         assertFalse(validConstructorArgs("*:foo"));
     }
 
-    private boolean validConstructorArgs(String storeId)
-    {
-        try
-        {
+    private boolean validConstructorArgs(String storeId) {
+        try {
             new DmoStoreId(storeId);
         }
-        catch (IllegalArgumentException e)
-        {
+        catch (IllegalArgumentException e) {
             return false;
         }
         return true;

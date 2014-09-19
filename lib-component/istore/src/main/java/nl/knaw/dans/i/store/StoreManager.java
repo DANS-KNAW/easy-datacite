@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 /**
  * Manages a store or repository.
  */
-public interface StoreManager
-{
+public interface StoreManager {
 
     /**
      * Creates a new {@link StoreSession}.

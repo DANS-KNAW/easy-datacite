@@ -10,30 +10,25 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DisciplineModel extends Model<String>
-{
+public class DisciplineModel extends Model<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineModel.class);
     private static final long serialVersionUID = -1427246145762034962L;
 
     @SpringBean(name = "disciplineService")
     private DisciplineCollectionService disciplineService;
 
-    public DisciplineModel(String audienceId)
-    {
+    public DisciplineModel(String audienceId) {
         InjectorHolder.getInjector().inject(this);
         setObject(audienceId);
     }
 
     @Override
-    public String getObject()
-    {
+    public String getObject() {
         String audienceId = (String) super.getObject();
-        try
-        {
+        try {
             return disciplineService.getDisciplineName(new DmoStoreId(audienceId));
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             LOGGER.error("Unable to convert audienceId " + audienceId + " to discipline name", e);
             throw new InternalWebError();
         }

@@ -9,8 +9,7 @@ import java.net.URI;
  * @see http://wiki.surf.nl/display/standards/DAI#DAI-Syntax
  * @author henkb
  */
-public class DAI
-{
+public class DAI {
 
     public static final int MAX_DAI_LENGTH = 10;
 
@@ -32,65 +31,50 @@ public class DAI
 
     private final String identifier;
 
-    public DAI(String identifier) throws IllegalArgumentException
-    {
-        if (!isValid(identifier))
-        {
+    public DAI(String identifier) throws IllegalArgumentException {
+        if (!isValid(identifier)) {
             throw new IllegalArgumentException(explain(identifier));
         }
         this.identifier = identifier;
     }
 
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return identifier;
     }
 
-    public URI getURI()
-    {
+    public URI getURI() {
         return URI.create(DAI_NAMESPACE + identifier);
     }
 
-    public static String explain(String dai)
-    {
-        if (dai == null)
-        {
+    public static String explain(String dai) {
+        if (dai == null) {
             return "<null> is not a valid DAI.";
         }
-        if (dai.length() > MAX_DAI_LENGTH)
-        {
+        if (dai.length() > MAX_DAI_LENGTH) {
             return "A DAI has a maximum of " + MAX_DAI_LENGTH + " characters.";
         }
-        if (dai.length() < MIN_DAI_LENGTH)
-        {
+        if (dai.length() < MIN_DAI_LENGTH) {
             return "A DAI has a minimum of " + MIN_DAI_LENGTH + " characters.";
         }
         String[] daiCompound = devide(dai);
-        for (int i = 0; i < daiCompound[0].length(); i++)
-        {
-            if (!Character.isDigit(daiCompound[0].charAt(i)))
-            {
+        for (int i = 0; i < daiCompound[0].length(); i++) {
+            if (!Character.isDigit(daiCompound[0].charAt(i))) {
                 return "Non-digit character found in DAI at position " + (i + 1) + ".";
             }
         }
-        if (!isValid(dai))
-        {
+        if (!isValid(dai)) {
             return "Checksum-invalid DAI.";
         }
         return "Valid DAI.";
     }
 
-    public static boolean isValid(String dai)
-    {
-        if (dai == null || dai.length() > MAX_DAI_LENGTH || dai.length() < MIN_DAI_LENGTH)
-        {
+    public static boolean isValid(String dai) {
+        if (dai == null || dai.length() > MAX_DAI_LENGTH || dai.length() < MIN_DAI_LENGTH) {
             return false;
         }
         String[] daiCompound = devide(dai);
-        for (int i = 0; i < daiCompound[0].length(); i++)
-        {
-            if (!Character.isDigit(daiCompound[0].charAt(i)))
-            {
+        for (int i = 0; i < daiCompound[0].length(); i++) {
+            if (!Character.isDigit(daiCompound[0].charAt(i))) {
                 return false;
             }
         }
@@ -99,8 +83,7 @@ public class DAI
     }
 
     /**
-     * Digests a message and returns the mod 11 checksum character for the given mode. DAI uses
-     * {@value #MAX_NCR}.
+     * Digests a message and returns the mod 11 checksum character for the given mode. DAI uses {@value #MAX_NCR}.
      * 
      * @param message
      *        message to digest
@@ -108,13 +91,11 @@ public class DAI
      *        either {@link #MAX_IBM} or {@link #MAX_NCR}
      * @return checksum
      */
-    protected static char digest(String message, int modeMax)
-    {
+    protected static char digest(String message, int modeMax) {
         String reverse = new StringBuilder(message).reverse().toString();
         int f = FACTOR_START;
         int w = 0;
-        for (int i = 0; i < reverse.length(); i++)
-        {
+        for (int i = 0; i < reverse.length(); i++) {
             char cx = reverse.charAt(i);
             int x = cx - 48;
             w += f * x;
@@ -123,30 +104,23 @@ public class DAI
                 f = FACTOR_START;
         }
         int mod = (w % 11);
-        if (mod == 0)
-        {
+        if (mod == 0) {
             return '0';
         }
         int c = 11 - mod;
-        if (c == 10)
-        {
+        if (c == 10) {
             return 'X';
-        }
-        else
-        {
+        } else {
             return (char) (c + 48);
         }
     }
 
-    protected static String create(String message, int modeMax)
-    {
+    protected static String create(String message, int modeMax) {
         return message + String.valueOf(digest(message, modeMax));
     }
 
-    protected static String[] devide(String dai) throws IllegalArgumentException
-    {
-        if (dai == null || dai.length() > MAX_DAI_LENGTH || dai.length() < MIN_DAI_LENGTH)
-        {
+    protected static String[] devide(String dai) throws IllegalArgumentException {
+        if (dai == null || dai.length() > MAX_DAI_LENGTH || dai.length() < MIN_DAI_LENGTH) {
             throw new IllegalArgumentException(dai == null ? "<null> argument" : "invalid length: " + dai.length());
         }
         String[] daiCompound = new String[2];

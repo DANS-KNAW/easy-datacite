@@ -10,12 +10,10 @@ import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class ZipperFactory
-{
+public class ZipperFactory {
     private Map<String, Integer> weightMap;
 
-    public Zipper createZipper(EasyUser sessionUser, Dataset dataset, List<RequestedItem> requestedItems, ZipOutputStream zipOut)
-    {
+    public Zipper createZipper(EasyUser sessionUser, Dataset dataset, List<RequestedItem> requestedItems, ZipOutputStream zipOut) {
         int totalWeight = 0;
         ItemCollector itemCollector = new ItemCollector(requestedItems);
         itemCollector.setWeight(getWeight(ItemCollector.class.getName()));
@@ -32,28 +30,21 @@ public class ZipperFactory
         return null;
     }
 
-    private int getWeight(String subjectId)
-    {
+    private int getWeight(String subjectId) {
         Integer weight = getWeightMap().get(subjectId);
-        if (weight == null)
-        {
+        if (weight == null) {
             return ProgressSubject.DEFAULT_WEIGHT;
-        }
-        else
-        {
+        } else {
             return weight.intValue();
         }
     }
 
-    public void setWeightMap(Map<String, Integer> weightMap)
-    {
+    public void setWeightMap(Map<String, Integer> weightMap) {
         this.weightMap = weightMap;
     }
 
-    private Map<String, Integer> getWeightMap()
-    {
-        if (weightMap == null)
-        {
+    private Map<String, Integer> getWeightMap() {
+        if (weightMap == null) {
             weightMap = new HashMap<String, Integer>();
             weightMap.put(ItemCollector.class.getName(), 17000);
             weightMap.put(DownloadFilterAdapter.class.getName(), 20);

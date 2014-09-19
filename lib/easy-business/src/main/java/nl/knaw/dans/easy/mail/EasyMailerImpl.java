@@ -5,8 +5,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 
-public class EasyMailerImpl implements EasyMailer
-{
+public class EasyMailerImpl implements EasyMailer {
     private String[] bccs;
     private String smtpHost;
     private String smtpPassword;
@@ -14,17 +13,14 @@ public class EasyMailerImpl implements EasyMailer
     private String from;
 
     @Override
-    public void sendMail(String subject, String[] recipients, String text, String html, EasyMailerAttachment... attachments)
-    {
+    public void sendMail(String subject, String[] recipients, String text, String html, EasyMailerAttachment... attachments) {
         /*
-         * We always send an HTML-email, which is a multi-part email. We can always leave the HTML or
-         * text message empty if we wish.
+         * We always send an HTML-email, which is a multi-part email. We can always leave the HTML or text message empty if we wish.
          */
         sendHtmlMail(subject, recipients, text, html, attachments);
     }
 
-    private void sendHtmlMail(String subject, String[] to, String text, String html, EasyMailerAttachment... attachements)
-    {
+    private void sendHtmlMail(String subject, String[] to, String text, String html, EasyMailerAttachment... attachements) {
         HtmlEmail mail = new HtmlEmail();
         addSmtpHost(mail);
         addFrom(mail);
@@ -38,186 +34,140 @@ public class EasyMailerImpl implements EasyMailer
         send(mail);
     }
 
-    private void addSmtpHost(Email mail)
-    {
+    private void addSmtpHost(Email mail) {
         checkSet("smtpHost", smtpHost);
         mail.setHostName(smtpHost);
     }
 
-    private void checkSet(String fieldName, Object field)
-    {
-        if (field == null || "".equals(field))
-        {
+    private void checkSet(String fieldName, Object field) {
+        if (field == null || "".equals(field)) {
             error(fieldName + " is required", null);
         }
     }
 
-    private void error(String msg, Throwable cause)
-    {
+    private void error(String msg, Throwable cause) {
         throw new EasyMailerException("Cannot send E-mail: " + msg, cause);
     }
 
-    private void addFrom(Email mail)
-    {
+    private void addFrom(Email mail) {
         checkSet("from", from);
-        try
-        {
+        try {
             mail.setFrom(from);
         }
-        catch (EmailException e)
-        {
+        catch (EmailException e) {
             error("Problem adding from-field: " + e.getMessage(), e);
         }
     }
 
-    private void addTo(Email mail, String[] recipients)
-    {
+    private void addTo(Email mail, String[] recipients) {
         checkSet("to", recipients);
-        for (String r : recipients)
-        {
-            try
-            {
+        for (String r : recipients) {
+            try {
                 mail.addTo(r);
             }
-            catch (EmailException e)
-            {
+            catch (EmailException e) {
                 error("Problem adding recipient: " + r, e);
             }
         }
     }
 
-    private void maybeAddSubject(Email mail, String subject)
-    {
-        if (subject != null)
-        {
+    private void maybeAddSubject(Email mail, String subject) {
+        if (subject != null) {
             mail.setSubject(subject);
         }
     }
 
-    private void maybeAddCredentials(HtmlEmail mail)
-    {
-        if (smtpUserName != null && smtpPassword != null)
-        {
+    private void maybeAddCredentials(HtmlEmail mail) {
+        if (smtpUserName != null && smtpPassword != null) {
             mail.setAuthentication(smtpUserName, smtpPassword);
         }
     }
 
-    private void maybeAddHtmlMsg(HtmlEmail mail, String html)
-    {
-        if (html != null)
-        {
-            try
-            {
+    private void maybeAddHtmlMsg(HtmlEmail mail, String html) {
+        if (html != null) {
+            try {
                 mail.setHtmlMsg(html);
             }
-            catch (EmailException e)
-            {
+            catch (EmailException e) {
                 error("Problem adding HTML message: " + e.getMessage() + ". HTML = '" + html + "''", e);
             }
         }
     }
 
-    private void maybeAddTextMsg(HtmlEmail mail, String text)
-    {
-        if (text != null)
-        {
-            try
-            {
+    private void maybeAddTextMsg(HtmlEmail mail, String text) {
+        if (text != null) {
+            try {
                 mail.setTextMsg(text);
             }
-            catch (EmailException e)
-            {
+            catch (EmailException e) {
                 error("Problem adding text message: " + e.getMessage() + ". Text = '" + text + "", e);
             }
         }
     }
 
-    private void maybeAddBccs(Email mail)
-    {
-        if (bccs != null)
-        {
-            for (String bcc : bccs)
-            {
-                try
-                {
+    private void maybeAddBccs(Email mail) {
+        if (bccs != null) {
+            for (String bcc : bccs) {
+                try {
                     mail.addBcc(bcc);
                 }
-                catch (EmailException e)
-                {
+                catch (EmailException e) {
                     error(e.getMessage(), e);
                 }
             }
         }
     }
 
-    private void maybeAddAttachments(MultiPartEmail mail, EasyMailerAttachment... attachments)
-    {
-        if (attachments != null)
-        {
-            for (EasyMailerAttachment a : attachments)
-            {
-                try
-                {
+    private void maybeAddAttachments(MultiPartEmail mail, EasyMailerAttachment... attachments) {
+        if (attachments != null) {
+            for (EasyMailerAttachment a : attachments) {
+                try {
                     mail.attach(a.getDataSource(), a.getName(), a.getDescription());
                 }
-                catch (EmailException e)
-                {
+                catch (EmailException e) {
                     error("Problem attaching file to E-mail: " + a, e);
                 }
             }
         }
     }
 
-    private void send(Email mail)
-    {
-        try
-        {
+    private void send(Email mail) {
+        try {
             mail.send();
         }
-        catch (EmailException e)
-        {
+        catch (EmailException e) {
             error(e.getMessage(), e);
         }
     }
 
-    public void setBccs(String bccs)
-    {
-        if (bccs == null || "".equals(bccs.trim()))
-        {
+    public void setBccs(String bccs) {
+        if (bccs == null || "".equals(bccs.trim())) {
             this.bccs = null;
-        }
-        else
-        {
+        } else {
             this.bccs = bccs.split(",");
             trimBccs();
         }
     }
 
-    private void trimBccs()
-    {
-        for (int i = 0; i < bccs.length; ++i)
-        {
+    private void trimBccs() {
+        for (int i = 0; i < bccs.length; ++i) {
             bccs[i] = bccs[i].trim();
         }
     }
 
-    public void setSmtpHost(String smtpHost)
-    {
+    public void setSmtpHost(String smtpHost) {
         this.smtpHost = smtpHost;
     }
 
-    public void setSmtpPassword(String smtpPassword)
-    {
+    public void setSmtpPassword(String smtpPassword) {
         this.smtpPassword = smtpPassword;
     }
 
-    public void setSmtpUserName(String smtpUserName)
-    {
+    public void setSmtpUserName(String smtpUserName) {
         this.smtpUserName = smtpUserName;
     }
 
-    public void setFrom(String from)
-    {
+    public void setFrom(String from) {
         this.from = from;
     }
 }

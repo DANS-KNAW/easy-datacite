@@ -38,8 +38,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.powermock.api.easymock.PowerMock;
 
-public class ActivityLogFixture
-{
+public class ActivityLogFixture {
 
     protected static final DateTime DOWNLOAD_DATE_TIME = new DateTime("2013-12-13");
     protected static final FolderItemVO FOLDER_ITEM_VO = new FolderItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256);
@@ -51,8 +50,7 @@ public class ActivityLogFixture
     private StringBuffer labelErrors;
 
     @BeforeClass
-    public static void mockApplicationContext() throws Exception
-    {
+    public static void mockApplicationContext() throws Exception {
         datasetService = PowerMock.createMock(DatasetService.class);
         userService = PowerMock.createMock(UserService.class);
 
@@ -65,32 +63,27 @@ public class ActivityLogFixture
     }
 
     @BeforeClass
-    public static void mockNow()
-    {
+    public static void mockNow() {
         DateTimeUtils.setCurrentMillisFixed(new DateTime("2013-12-11").getMillis());
     }
 
     @Before
-    public void resetAll()
-    {
+    public void resetAll() {
         labelErrors = new StringBuffer();
         PowerMock.resetAll();
     }
 
     @After
-    public void verifyAll()
-    {
+    public void verifyAll() {
         assertTrue(labelErrors.toString(), labelErrors.length() == 0);
         PowerMock.verifyAll();
     }
 
-    protected DownloadList createDownloadList()
-    {
+    protected DownloadList createDownloadList() {
         return new DownloadList(DownloadList.TYPE_MONTH, Level.FILE_ITEM, DOWNLOAD_DATE_TIME);
     }
 
-    protected EasyUserImpl mockUser(final boolean logMyActions) throws Exception
-    {
+    protected EasyUserImpl mockUser(final boolean logMyActions) throws Exception {
         final EasyUserImpl user = new EasyUserImpl("userid");
         user.setFunction("function");
         user.setSurname("surname");
@@ -101,8 +94,7 @@ public class ActivityLogFixture
         return user;
     }
 
-    protected EasyUserImpl mockUserWithEmptyValues() throws Exception
-    {
+    protected EasyUserImpl mockUserWithEmptyValues() throws Exception {
         final EasyUserImpl user = new EasyUserImpl("userid");
         user.setFunction(null);
         user.setEmail(null);
@@ -111,14 +103,12 @@ public class ActivityLogFixture
         return user;
     }
 
-    protected EasyUserImpl mockNotFoundUser() throws Exception
-    {
+    protected EasyUserImpl mockNotFoundUser() throws Exception {
         EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ObjectNotAvailableException(""));
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected EasyUserImpl mockNotFoundUserService() throws Exception
-    {
+    protected EasyUserImpl mockNotFoundUserService() throws Exception {
         EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ServiceException(""));
         return new EasyUserImpl("notFoundUser");
     }
@@ -144,21 +134,18 @@ public class ActivityLogFixture
         return dataset;
     }
 
-    private DownloadHistory mockDownloadHistory(final DownloadList downloadList)
-    {
+    private DownloadHistory mockDownloadHistory(final DownloadList downloadList) {
         final DownloadHistory dlh;
         if (downloadList == null)
             dlh = null;
-        else
-        {
+        else {
             dlh = PowerMock.createMock(DownloadHistory.class);
             EasyMock.expect(dlh.getDownloadList()).andStubReturn(downloadList);
         }
         return dlh;
     }
 
-    protected Session mockSessionFor_Component_isActionAuthourized()
-    {
+    protected Session mockSessionFor_Component_isActionAuthourized() {
         final Session session = PowerMock.createMock(Session.class);
         EasyMock.expect(session.getAuthorizationStrategy()).andStubReturn(null);
 
@@ -167,8 +154,7 @@ public class ActivityLogFixture
         return session;
     }
 
-    protected WicketTester createWicketTester()
-    {
+    protected WicketTester createWicketTester() {
         final EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);

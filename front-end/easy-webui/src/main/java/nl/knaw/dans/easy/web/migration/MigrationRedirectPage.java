@@ -29,8 +29,7 @@ import org.slf4j.LoggerFactory;
  *   /dms?command=myContents
  * </pre>
  */
-public class MigrationRedirectPage extends AbstractEasyPage
-{
+public class MigrationRedirectPage extends AbstractEasyPage {
 
     public static final String PM_COMMAND = "command";
     public static final String PM_AIP_ID = "aipId";
@@ -46,52 +45,36 @@ public class MigrationRedirectPage extends AbstractEasyPage
 
     private static final Logger logger = LoggerFactory.getLogger(MigrationRedirectPage.class);
 
-    public MigrationRedirectPage(final PageParameters parameters)
-    {
+    public MigrationRedirectPage(final PageParameters parameters) {
         super(parameters);
         String command = parameters.getString(PM_COMMAND);
 
-        if ("home".equals(command))
-        {
+        if ("home".equals(command)) {
             throw new RestartResponseException(new RedirectPage(URL_HOME));
-        }
-        else if ("loginForm".equals(command))
-        {
+        } else if ("loginForm".equals(command)) {
             throw new RestartResponseException(new RedirectPage(URL_LOGIN));
-        }
-        else if ("AIP_info".equals(command))
-        {
+        } else if ("AIP_info".equals(command)) {
             redirectToDatasetViewPage(parameters);
-        }
-        else if ("show".equals(command))
-        {
+        } else if ("show".equals(command)) {
             redirectToSearchPage(parameters);
-        }
-        else if ("myContents".equals(command))
-        {
+        } else if ("myContents".equals(command)) {
             throw new RestartResponseException(new RedirectPage(URL_MY_DATSETS));
-        }
-        else
-        {
+        } else {
             errorMessage(EasyResources.NOT_FOUND, parameters.toString());
             throw new InternalWebError();
         }
 
     }
 
-    private void redirectToDatasetViewPage(PageParameters parameters)
-    {
+    private void redirectToDatasetViewPage(PageParameters parameters) {
         String aipId = parameters.getString(PM_AIP_ID);
-        if (StringUtils.isBlank(aipId))
-        {
+        if (StringUtils.isBlank(aipId)) {
             errorMessage(EasyResources.NOT_FOUND, "aipId = [null]");
             throw new InternalWebError();
         }
-        try
-        {
+        try {
             IdMap idMap = Services.getMigrationService().getMostRecentByAipId(aipId);
-            if (idMap == null)
-            {
+            if (idMap == null) {
                 errorMessage(EasyResources.NOT_FOUND, "aipId = " + aipId);
                 throw new InternalWebError();
             }
@@ -101,8 +84,7 @@ public class MigrationRedirectPage extends AbstractEasyPage
             logger.debug("Redirecting to " + DatasetViewPage.class.getName());
             setResponsePage(datasetViewPage);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error("Unable to redirect: ", e);
             throw new InternalWebError();
@@ -110,8 +92,7 @@ public class MigrationRedirectPage extends AbstractEasyPage
 
     }
 
-    private void redirectToSearchPage(PageParameters parameters)
-    {
+    private void redirectToSearchPage(PageParameters parameters) {
         String query = parameters.getString(PM_SEARCH_QUERY, "");
         String url = URL_PUBLIC_SEARCH + query;
         throw new RestartResponseException(new RedirectPage(url));

@@ -1,45 +1,37 @@
 package nl.knaw.dans.easy.domain.form;
 
-public class ChoiceListDefinition extends AbstractInheritableDefinition<ChoiceListDefinition>
-{
+public class ChoiceListDefinition extends AbstractInheritableDefinition<ChoiceListDefinition> {
 
     private static final long serialVersionUID = 767251261447410517L;
 
     private String schemeName;
     private boolean nullValid;
 
-    protected ChoiceListDefinition()
-    {
+    protected ChoiceListDefinition() {
         super();
     }
 
-    public ChoiceListDefinition(String listId)
-    {
+    public ChoiceListDefinition(String listId) {
         super(listId);
     }
 
-    public boolean isNullValid()
-    {
+    public boolean isNullValid() {
         return nullValid;
     }
 
-    public void setNullValid(boolean nullValid)
-    {
+    public void setNullValid(boolean nullValid) {
         this.nullValid = nullValid;
     }
 
-    public String getSchemeName()
-    {
+    public String getSchemeName() {
         return schemeName;
     }
 
-    public void setSchemeName(String schemeName)
-    {
+    public void setSchemeName(String schemeName) {
         this.schemeName = schemeName;
     }
 
-    protected synchronized ChoiceListDefinition clone()
-    {
+    protected synchronized ChoiceListDefinition clone() {
         ChoiceListDefinition clone = new ChoiceListDefinition(getId());
         super.clone(clone);
         clone.schemeName = schemeName;

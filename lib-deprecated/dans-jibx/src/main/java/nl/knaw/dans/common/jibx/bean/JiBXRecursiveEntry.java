@@ -7,8 +7,7 @@ import java.util.List;
 import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveEntry;
 
-public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> implements RecursiveEntry
-{
+public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> implements RecursiveEntry {
 
     private static final long serialVersionUID = -1709403472957310519L;
 
@@ -19,13 +18,11 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
 
     private List<RecursiveEntry> children = new ArrayList<RecursiveEntry>();
 
-    public JiBXRecursiveEntry()
-    {
+    public JiBXRecursiveEntry() {
 
     }
 
-    public JiBXRecursiveEntry(String key, String shortname, String name, int ordinal)
-    {
+    public JiBXRecursiveEntry(String key, String shortname, String name, int ordinal) {
         this.key = key;
         this.shortname = shortname;
         this.name = name;
@@ -37,8 +34,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#getKey()
      */
     @Override
-    public String getKey()
-    {
+    public String getKey() {
         return key;
     }
 
@@ -47,8 +43,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#setKey(java.lang.String)
      */
     @Override
-    public void setKey(String key)
-    {
+    public void setKey(String key) {
         this.key = key;
     }
 
@@ -57,8 +52,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#getShortname()
      */
     @Override
-    public String getShortname()
-    {
+    public String getShortname() {
         return shortname;
     }
 
@@ -67,8 +61,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#setShortname(java.lang.String)
      */
     @Override
-    public void setShortname(String shortname)
-    {
+    public void setShortname(String shortname) {
         this.shortname = shortname;
     }
 
@@ -77,8 +70,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -87,8 +79,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#setName(java.lang.String)
      */
     @Override
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -97,8 +88,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#getOrdinal()
      */
     @Override
-    public int getOrdinal()
-    {
+    public int getOrdinal() {
         return ordinal;
     }
 
@@ -107,8 +97,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#setOrdinal(int)
      */
     @Override
-    public void setOrdinal(int ordinal)
-    {
+    public void setOrdinal(int ordinal) {
         this.ordinal = ordinal;
     }
 
@@ -117,8 +106,7 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#getChildren()
      */
     @Override
-    public List<RecursiveEntry> getChildren()
-    {
+    public List<RecursiveEntry> getChildren() {
         return children;
     }
 
@@ -127,25 +115,20 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#setChildren(java.util.List)
      */
     @Override
-    public void setChildren(List<RecursiveEntry> children)
-    {
+    public void setChildren(List<RecursiveEntry> children) {
         this.children = children;
     }
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.common.jibx.bean.RecursiveEntry#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
+     * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
      */
     @Override
-    public void add(RecursiveEntry re)
-    {
-        if (re == null)
-        {
+    public void add(RecursiveEntry re) {
+        if (re == null) {
             throw new NullPointerException("A Child of a RecursiveEntry cannot be null");
         }
-        if (this == re)
-        {
+        if (this == re) {
             throw new IllegalArgumentException("An RecursiveEntry cannot be added to itself!");
         }
         children.add(re);
@@ -156,18 +139,13 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
      * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#get(java.lang.String)
      */
     @Override
-    public RecursiveEntry get(String key)
-    {
+    public RecursiveEntry get(String key) {
         RecursiveEntry entry = null;
-        if (getKey().equals(key))
-        {
+        if (getKey().equals(key)) {
             entry = this;
-        }
-        else
-        {
+        } else {
             Iterator<RecursiveEntry> iter = children.iterator();
-            while (iter.hasNext() && entry == null)
-            {
+            while (iter.hasNext() && entry == null) {
                 RecursiveEntry kid = iter.next();
                 entry = kid.get(key);
             }
@@ -177,18 +155,13 @@ public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> i
 
     /*
      * (non-Javadoc)
-     * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#compareTo(nl.knaw.dans.common.jibx.bean.
-     * JiBXRecursiveEntry)
+     * @see nl.knaw.dans.common.jibx.bean.RecursiveEntry#compareTo(nl.knaw.dans.common.jibx.bean. JiBXRecursiveEntry)
      */
     @Override
-    public int compareTo(RecursiveEntry re)
-    {
-        if (re == null)
-        {
+    public int compareTo(RecursiveEntry re) {
+        if (re == null) {
             return 1;
-        }
-        else
-        {
+        } else {
             return ordinal - re.getOrdinal();
         }
     }

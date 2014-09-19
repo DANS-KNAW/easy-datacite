@@ -15,16 +15,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdministrativeMetadataValidatorTest
-{
+public class AdministrativeMetadataValidatorTest {
 
     private static final Logger logger = LoggerFactory.getLogger(AdministrativeMetadataValidatorTest.class);
 
     private static final boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testMarshalUnMarshal() throws Exception
-    {
+    public void testMarshalUnMarshal() throws Exception {
         AdministrativeMetadataImpl amd = new AdministrativeMetadataImpl();
         amd.setAdministrativeState(DatasetState.MAINTENANCE);
         amd.setAdministrativeState(DatasetState.DRAFT);
@@ -55,10 +53,8 @@ public class AdministrativeMetadataValidatorTest
         assertTrue(handler.passed());
     }
 
-    private void fillSteps(List<WorkflowStep> steps)
-    {
-        for (WorkflowStep step : steps)
-        {
+    private void fillSteps(List<WorkflowStep> steps) {
+        for (WorkflowStep step : steps) {
             step.addRemark(new Remark("remark text", "remarkerId"));
             step.addRemark(new Remark("2e remark", "2eremarkerId"));
             step.setCompleted(true, "completerId");

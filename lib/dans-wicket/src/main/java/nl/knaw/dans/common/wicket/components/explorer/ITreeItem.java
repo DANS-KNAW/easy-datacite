@@ -2,10 +2,8 @@ package nl.knaw.dans.common.wicket.components.explorer;
 
 import java.util.ArrayList;
 
-public interface ITreeItem extends Comparable<ITreeItem>
-{
-    enum Type
-    {
+public interface ITreeItem extends Comparable<ITreeItem> {
+    enum Type {
         FILE, FOLDER
     };
 

@@ -17,15 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
-{
+public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata> {
     private static final Logger logger = LoggerFactory.getLogger(Ddm2EmdCrosswalk.class);
 
     private AbstractValidator2 ddmValidator;
 
     /** Creates an instance. */
-    public Ddm2EmdCrosswalk()
-    {
+    public Ddm2EmdCrosswalk() {
         super(Ddm2EmdHandlerMap.getInstance());
         this.ddmValidator = new DDMValidator();
     }
@@ -36,8 +34,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * @param ddmValidator
      *        The validator to use
      */
-    public Ddm2EmdCrosswalk(AbstractValidator2 ddmValidator)
-    {
+    public Ddm2EmdCrosswalk(AbstractValidator2 ddmValidator) {
         super(Ddm2EmdHandlerMap.getInstance());
         this.ddmValidator = ddmValidator;
     }
@@ -50,8 +47,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
-    public EasyMetadata createFrom(final File file) throws CrosswalkException
-    {
+    public EasyMetadata createFrom(final File file) throws CrosswalkException {
         return validateEMD(walk(ddmValidator, file, newTarget()));
     }
 
@@ -63,8 +59,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
-    public EasyMetadata createFromValidated(final File file) throws CrosswalkException
-    {
+    public EasyMetadata createFromValidated(final File file) throws CrosswalkException {
         return validateEMD(walk(null, file, newTarget()));
     }
 
@@ -76,8 +71,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
-    public EasyMetadata createFrom(final String xml) throws CrosswalkException
-    {
+    public EasyMetadata createFrom(final String xml) throws CrosswalkException {
         return validateEMD(walk(ddmValidator, xml, newTarget()));
     }
 
@@ -89,37 +83,30 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
-    public EasyMetadata createFromValidated(final String xml) throws CrosswalkException
-    {
+    public EasyMetadata createFromValidated(final String xml) throws CrosswalkException {
         return validateEMD(walk(null, xml, newTarget()));
     }
 
-    private EasyMetadata newTarget()
-    {
+    private EasyMetadata newTarget() {
         return EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
     }
 
-    private EasyMetadata validateEMD(final EasyMetadata emd) throws CrosswalkException
-    {
+    private EasyMetadata validateEMD(final EasyMetadata emd) throws CrosswalkException {
         if (getXmlErrorHandler().getErrors().size() > 0 || getXmlErrorHandler().getFatalErrors().size() > 0)
             return null;
-        try
-        {
+        try {
             // incomplete fields may cause trouble
             final String validatedXML = new EmdMarshaller(emd).getXmlString();
             logger.debug(validatedXML);
             return emd;
         }
-        catch (final XMLSerializationException e)
-        {
+        catch (final XMLSerializationException e) {
             String msg = "resulting Easy Meta Data is invalid: ";
             logger.error(msg, e);
-            try
-            {
+            try {
                 getXmlErrorHandler().error(new SAXParseException(msg + e.getMessage(), null));
             }
-            catch (SAXException dummy)
-            {
+            catch (SAXException dummy) {
                 // wrap the original exception, do not re-wrap
                 throw new CrosswalkException(msg + e.getMessage(), e);
             }

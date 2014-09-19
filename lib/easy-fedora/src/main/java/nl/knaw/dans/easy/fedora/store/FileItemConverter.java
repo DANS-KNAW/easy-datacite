@@ -16,46 +16,37 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileItemConverter extends AbstractDobConverter<FileItemImpl>
-{
+public class FileItemConverter extends AbstractDobConverter<FileItemImpl> {
 
     private static final Logger logger = LoggerFactory.getLogger(FileItemConverter.class);
 
-    public FileItemConverter()
-    {
+    public FileItemConverter() {
         super(FileItem.NAMESPACE);
     }
 
     @Override
-    public void deserialize(DigitalObject digitalObject, FileItemImpl fileItem) throws ObjectDeserializationException
-    {
+    public void deserialize(DigitalObject digitalObject, FileItemImpl fileItem) throws ObjectDeserializationException {
         super.deserialize(digitalObject, fileItem);
 
-        try
-        {
+        try {
             DatastreamVersion fmdVersion = digitalObject.getLatestVersion(FileItemMetadata.UNIT_ID);
-            if (fmdVersion != null)
-            {
+            if (fmdVersion != null) {
                 Element element = fmdVersion.getXmlContentElement();
                 FileItemMetadataImpl fmd = (FileItemMetadataImpl) JiBXObjectFactory.unmarshal(FileItemMetadataImpl.class, element);
                 fmd.setTimestamp(fmdVersion.getTimestamp());
                 fmd.setDirty(false);
                 fileItem.setFileItemMetadata(fmd);
-            }
-            else
-            {
+            } else {
                 logger.warn("No fileItemMetadata found on retrieved digital object. sid=" + digitalObject.getSid());
             }
 
             DatastreamVersion dmdVersion = digitalObject.getLatestVersion(DescriptiveMetadata.UNIT_ID);
-            if (dmdVersion != null)
-            {
+            if (dmdVersion != null) {
                 Element element = dmdVersion.getXmlContentElement();
                 fileItem.setDescriptiveMetadata(element);
             }
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new ObjectDeserializationException(e);
         }
     }

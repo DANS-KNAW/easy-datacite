@@ -24,28 +24,23 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
  * 
  * @author lobo
  */
-public class RepoTester
-{
+public class RepoTester {
     private DummyDmoStore dmoStore;
 
-    public RepoTester(DummyDmoStore store)
-    {
+    public RepoTester(DummyDmoStore store) {
         this.setDmoStore(store);
     }
 
-    public RepoTester()
-    {
+    public RepoTester() {
         this.setDmoStore(new DummyDmoStore());
     }
 
-    public DataModelObject retrieve(DmoStoreId dmoStoreID) throws ObjectNotInStoreException, ObjectDeserializationException, RepositoryException
-    {
+    public DataModelObject retrieve(DmoStoreId dmoStoreID) throws ObjectNotInStoreException, ObjectDeserializationException, RepositoryException {
         return retrieve(dmoStoreID, DummyDmo.class);
     }
 
     @SuppressWarnings("unchecked")
-    public DataModelObject retrieve(Class dmoClass) throws ObjectNotInStoreException, ObjectDeserializationException, RepositoryException
-    {
+    public DataModelObject retrieve(Class dmoClass) throws ObjectNotInStoreException, ObjectDeserializationException, RepositoryException {
         return retrieve(null, dmoClass);
     }
 
@@ -69,8 +64,7 @@ public class RepoTester
         return result;
     }
 
-    public void update(DummyDmo dmo) throws DmoStoreEventListenerException, RepositoryException, ConcurrentUpdateException
-    {
+    public void update(DummyDmo dmo) throws DmoStoreEventListenerException, RepositoryException, ConcurrentUpdateException {
         String logMessage = "updating " + dmo.getStoreId();
 
         getDmoStore().update(dmo, logMessage);
@@ -80,8 +74,7 @@ public class RepoTester
         assertFalse(dmo.isInvalidated());
     }
 
-    public void purge(DummyDmo dmo) throws ObjectNotInStoreException, ObjectIsNotDeletableException, RepositoryException
-    {
+    public void purge(DummyDmo dmo) throws ObjectNotInStoreException, ObjectIsNotDeletableException, RepositoryException {
         String logMessage = "purging " + dmo.getStoreId();
 
         dmo.registerDeleted();
@@ -90,8 +83,7 @@ public class RepoTester
         assertEquals(getDmoStore(), dmo.getStore());
     }
 
-    public ByteArrayOutputStream serializeDmo(DummyDmo dmo5) throws IOException
-    {
+    public ByteArrayOutputStream serializeDmo(DummyDmo dmo5) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ObjectOutputStream objstream = new ObjectOutputStream(out);
         objstream.writeObject(dmo5);
@@ -100,21 +92,18 @@ public class RepoTester
         return out;
     }
 
-    public DummyDmo deserializeDmo(ByteArrayOutputStream sdmo) throws IOException, ClassNotFoundException
-    {
+    public DummyDmo deserializeDmo(ByteArrayOutputStream sdmo) throws IOException, ClassNotFoundException {
         ObjectInputStream objstream = new ObjectInputStream(new ByteArrayInputStream(sdmo.toByteArray()));
         Object object = objstream.readObject();
         objstream.close();
         return (DummyDmo) object;
     }
 
-    public void setDmoStore(DummyDmoStore dmoStore)
-    {
+    public void setDmoStore(DummyDmoStore dmoStore) {
         this.dmoStore = dmoStore;
     }
 
-    public DummyDmoStore getDmoStore()
-    {
+    public DummyDmoStore getDmoStore() {
         return dmoStore;
     }
 

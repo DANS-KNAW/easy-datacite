@@ -7,8 +7,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class LoginPanelRegular extends AbstractEasyStatelessPanel
-{
+class LoginPanelRegular extends AbstractEasyStatelessPanel {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelRegular.class);
 
     /**
@@ -41,20 +40,16 @@ class LoginPanelRegular extends AbstractEasyStatelessPanel
      * @param wicketId
      *        The wicket id for this component.
      */
-    public LoginPanelRegular(final String wicketId, LoginForm loginForm)
-    {
+    public LoginPanelRegular(final String wicketId, LoginForm loginForm) {
         super(wicketId);
         add(loginForm);
         addForgottenPasswordLink();
     }
 
-    private void addForgottenPasswordLink()
-    {
-        add(new Link<Void>(FORGOTTEN_PASSWORD)
-        {
+    private void addForgottenPasswordLink() {
+        add(new Link<Void>(FORGOTTEN_PASSWORD) {
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("Forgotten password link clicked");
                 setResponsePage(ForgottenPasswordPage.class); // TODO Auto-generated method stub
             }
@@ -70,8 +65,7 @@ class LoginPanelRegular extends AbstractEasyStatelessPanel
              * @return true if visible
              */
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 // Only show when not logged in.
                 return getSessionUser().isAnonymous();
             }

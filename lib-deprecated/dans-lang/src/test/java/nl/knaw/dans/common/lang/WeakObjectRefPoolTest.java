@@ -5,12 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class WeakObjectRefPoolTest
-{
+public class WeakObjectRefPoolTest {
 
     @Test
-    public void dmoPoolTest() throws RepositoryException, InterruptedException
-    {
+    public void dmoPoolTest() throws RepositoryException, InterruptedException {
         WeakObjectRefPool<String, String, String> pool = new WeakObjectRefPool<String, String, String>();
 
         // call new otherwise these strings end up on the stack instead of the heap

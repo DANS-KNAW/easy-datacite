@@ -9,8 +9,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class TextAreaPanel<T extends Object> extends AbstractRepeaterPanel<T>
-{
+public class TextAreaPanel<T extends Object> extends AbstractRepeaterPanel<T> {
 
     private static final long serialVersionUID = -8267060816678393222L;
 
@@ -22,44 +21,33 @@ public class TextAreaPanel<T extends Object> extends AbstractRepeaterPanel<T>
      * @param model
      *        a model of sort IModel&lt;ListWrapper&lt;T>>
      */
-    public TextAreaPanel(String wicketId, IModel model)
-    {
+    public TextAreaPanel(String wicketId, IModel model) {
         super(wicketId, model);
     }
 
-    public TextAreaPanel(String wicketId, ListWrapper<T> listWrapper)
-    {
+    public TextAreaPanel(String wicketId, ListWrapper<T> listWrapper) {
         super(wicketId, listWrapper);
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(final ListItem item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(final ListItem item) {
+        if (isInEditMode()) {
             return new RepeatingEditModePanel(item);
-        }
-        else
-        {
+        } else {
             return new RepeatingViewModePanel(item);
         }
     }
 
-    class RepeatingEditModePanel extends Panel
-    {
+    class RepeatingEditModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingEditModePanel(final ListItem item)
-        {
+        RepeatingEditModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
-            if (getListWrapper() instanceof IdentifierListWrapper)
-            {
+            if (getListWrapper() instanceof IdentifierListWrapper) {
                 final TextArea textArea = new TextArea("textArea", new PropertyModel(item.getDefaultModel(), "value"));
                 add(textArea);
-            }
-            else
-            {
+            } else {
                 final TextArea textArea = new TextArea("textArea", item.getDefaultModel());
                 add(textArea);
             }
@@ -67,17 +55,14 @@ public class TextAreaPanel<T extends Object> extends AbstractRepeaterPanel<T>
 
     }
 
-    class RepeatingViewModePanel extends Panel
-    {
+    class RepeatingViewModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem item)
-        {
+        RepeatingViewModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
             String key = "";
-            if (getListWrapper() instanceof IdentifierListWrapper)
-            {
+            if (getListWrapper() instanceof IdentifierListWrapper) {
                 key = "value";
             }
             MultiLineLabel label = new MultiLineLabel("noneditable", new PropertyModel(item.getDefaultModel(), key));

@@ -9,8 +9,7 @@ import nl.knaw.dans.common.lang.search.bean.annotation.SearchBean;
 import nl.knaw.dans.common.lang.search.bean.annotation.SearchField;
 
 @SearchBean(defaultIndex = DatasetsIndex.class, typeIdentifier = DatasetSB.DATASET_TYPE_IDENTIFIER)
-public class DatasetSB extends RepoSearchBean
-{
+public class DatasetSB extends RepoSearchBean {
     private static final long serialVersionUID = -7886251751049650121L;
 
     public static final String DATASET_TYPE_IDENTIFIER = "dataset";
@@ -92,8 +91,7 @@ public class DatasetSB extends RepoSearchBean
     @SearchField(name = DC_RIGHTS_FIELD)
     private List<String> dcRights;
 
-    public void setDublinCore(DublinCoreMetadata dc)
-    {
+    public void setDublinCore(DublinCoreMetadata dc) {
         setDcTitle(dc.getTitle());
         setDcDescription(dc.getDescription());
         setDcCreator(dc.getCreator());
@@ -111,8 +109,7 @@ public class DatasetSB extends RepoSearchBean
         setDcType(dc.getType());
     }
 
-    private String flatten(List<String> in)
-    {
+    private String flatten(List<String> in) {
         if (in == null)
             return null;
         String out = "";
@@ -121,198 +118,159 @@ public class DatasetSB extends RepoSearchBean
         return out;
     }
 
-    public List<String> getDcTitle()
-    {
+    public List<String> getDcTitle() {
         return dcTitle;
     }
 
-    public String getDcTitleSortable()
-    {
+    public String getDcTitleSortable() {
         return flatten(dcTitle);
     }
 
-    public void setDcTitle(List<String> dcTitle)
-    {
+    public void setDcTitle(List<String> dcTitle) {
         this.dcTitle = dcTitle;
     }
 
-    public List<String> getDcCreator()
-    {
+    public List<String> getDcCreator() {
         return dcCreator;
     }
 
-    public String getDcCreatorSortable()
-    {
+    public String getDcCreatorSortable() {
         return flatten(dcCreator);
     }
 
-    public void setDcCreator(List<String> dcCreator)
-    {
+    public void setDcCreator(List<String> dcCreator) {
         this.dcCreator = dcCreator;
     }
 
-    public List<String> getDcSubject()
-    {
+    public List<String> getDcSubject() {
         return dcSubject;
     }
 
-    public void setDcSubject(List<String> dcSubject)
-    {
+    public void setDcSubject(List<String> dcSubject) {
         this.dcSubject = dcSubject;
     }
 
-    public List<String> getDcDescription()
-    {
+    public List<String> getDcDescription() {
         return dcDescription;
     }
 
-    public void setDcDescription(List<String> dcDescription)
-    {
+    public void setDcDescription(List<String> dcDescription) {
         this.dcDescription = dcDescription;
     }
 
-    public List<String> getDcPublisher()
-    {
+    public List<String> getDcPublisher() {
         return dcPublisher;
     }
 
-    public String getDcPublisherSortable()
-    {
+    public String getDcPublisherSortable() {
         return flatten(dcPublisher);
     }
 
-    public void setDcPublisher(List<String> dcPublisher)
-    {
+    public void setDcPublisher(List<String> dcPublisher) {
         this.dcPublisher = dcPublisher;
     }
 
-    public List<String> getDcContributor()
-    {
+    public List<String> getDcContributor() {
         return dcContributor;
     }
 
-    public String getDcContributorSortable()
-    {
+    public String getDcContributorSortable() {
         return flatten(dcContributor);
     }
 
-    public void setDcContributor(List<String> dcContributor)
-    {
+    public void setDcContributor(List<String> dcContributor) {
         this.dcContributor = dcContributor;
     }
 
-    public List<String> getDcDate()
-    {
+    public List<String> getDcDate() {
         return dcDate;
     }
 
-    public void setDcDate(List<String> dcDate)
-    {
+    public void setDcDate(List<String> dcDate) {
         this.dcDate = dcDate;
     }
 
-    public List<String> getDcType()
-    {
+    public List<String> getDcType() {
         return dcType;
     }
 
-    public void setDcType(List<String> dcType)
-    {
+    public void setDcType(List<String> dcType) {
         this.dcType = dcType;
     }
 
-    public List<String> getDcFormat()
-    {
+    public List<String> getDcFormat() {
         return dcFormat;
     }
 
-    public void setDcFormat(List<String> dcFormat)
-    {
+    public void setDcFormat(List<String> dcFormat) {
         this.dcFormat = dcFormat;
     }
 
-    public List<String> getDcIdentifier()
-    {
+    public List<String> getDcIdentifier() {
         return dcIdentifier;
     }
 
-    public void setDcIdentifier(List<String> dcIdentifier)
-    {
+    public void setDcIdentifier(List<String> dcIdentifier) {
         this.dcIdentifier = dcIdentifier;
     }
 
-    public List<String> getDcSource()
-    {
+    public List<String> getDcSource() {
         return dcSource;
     }
 
-    public void setDcSource(List<String> dcSource)
-    {
+    public void setDcSource(List<String> dcSource) {
         this.dcSource = dcSource;
     }
 
-    public List<String> getDcLanguage()
-    {
+    public List<String> getDcLanguage() {
         return dcLanguage;
     }
 
-    public void setDcLanguage(List<String> dcLanguage)
-    {
+    public void setDcLanguage(List<String> dcLanguage) {
         this.dcLanguage = dcLanguage;
     }
 
-    public List<String> getDcRelation()
-    {
+    public List<String> getDcRelation() {
         return dcRelation;
     }
 
-    public void setDcRelation(List<String> dcRelation)
-    {
+    public void setDcRelation(List<String> dcRelation) {
         this.dcRelation = dcRelation;
     }
 
-    public List<String> getDcCoverage()
-    {
+    public List<String> getDcCoverage() {
         return dcCoverage;
     }
 
-    public void setDcCoverage(List<String> dcCoverage)
-    {
+    public void setDcCoverage(List<String> dcCoverage) {
         this.dcCoverage = dcCoverage;
     }
 
-    public List<String> getDcRights()
-    {
+    public List<String> getDcRights() {
         return dcRights;
     }
 
-    public String getDcRightsSortable()
-    {
+    public String getDcRightsSortable() {
         return flatten(dcRights);
     }
 
-    public void setDcRights(List<String> dcRights)
-    {
+    public void setDcRights(List<String> dcRights) {
         this.dcRights = dcRights;
     }
 
-    public void setState(DatasetState datasetState)
-    {
+    public void setState(DatasetState datasetState) {
         this.state = datasetState;
     }
 
-    public DatasetState getState()
-    {
+    public DatasetState getState() {
         return this.state;
     }
 
-    public void setAccessCategory(AccessCategory accessCategory)
-    {
+    public void setAccessCategory(AccessCategory accessCategory) {
         this.accessCategory = accessCategory;
     }
 
-    public AccessCategory getAccessCategory()
-    {
+    public AccessCategory getAccessCategory() {
         return accessCategory;
     }
 }

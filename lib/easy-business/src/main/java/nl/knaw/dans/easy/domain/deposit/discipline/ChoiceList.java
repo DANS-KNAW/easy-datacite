@@ -8,8 +8,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 
-public class ChoiceList extends AbstractJiBXObject<ChoiceList>
-{
+public class ChoiceList extends AbstractJiBXObject<ChoiceList> {
 
     public static final String LID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
     public static final String LID_ARCHAEOLOGY_DCTERMS_TEMPORAL = "archaeology.dcterms.temporal";
@@ -20,51 +19,41 @@ public class ChoiceList extends AbstractJiBXObject<ChoiceList>
     private List<KeyValuePair> choices = new ArrayList<KeyValuePair>();
     private Map<String, String> choiceMap;
 
-    protected ChoiceList()
-    {
+    protected ChoiceList() {
 
     }
 
-    public ChoiceList(List<KeyValuePair> choices)
-    {
+    public ChoiceList(List<KeyValuePair> choices) {
         this.choices = choices;
     }
 
-    public List<KeyValuePair> getChoices()
-    {
+    public List<KeyValuePair> getChoices() {
         return Collections.unmodifiableList(choices);
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public String getValue(String key)
-    {
+    public String getValue(String key) {
         return getChoiceMap().get(key);
     }
 
-    private Map<String, String> getChoiceMap()
-    {
-        if (choiceMap == null)
-        {
+    private Map<String, String> getChoiceMap() {
+        if (choiceMap == null) {
             choiceMap = new HashMap<String, String>();
-            for (KeyValuePair kvp : choices)
-            {
+            for (KeyValuePair kvp : choices) {
                 choiceMap.put(kvp.getKey(), kvp.getValue());
             }
         }
         return choiceMap;
     }
 
-    public byte[] toBytes()
-    {
+    public byte[] toBytes() {
         return null;
     }
 }

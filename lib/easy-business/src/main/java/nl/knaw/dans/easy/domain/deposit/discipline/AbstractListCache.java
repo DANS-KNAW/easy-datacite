@@ -14,14 +14,12 @@ import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 
-public abstract class AbstractListCache<V> extends AbstractCache<String, V>
-{
+public abstract class AbstractListCache<V> extends AbstractCache<String, V> {
     public static final String EXTENSION = "xml";
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractListCache.class);
 
-    protected AbstractListCache()
-    {
+    protected AbstractListCache() {
         super();
     }
 
@@ -38,8 +36,7 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
      * @throws CacheException
      *         as a wrapper for several mishaps
      */
-    public V getList(String listId) throws CacheException
-    {
+    public V getList(String listId) throws CacheException {
         return getList(listId, null);
     }
 
@@ -54,8 +51,7 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
      * @throws CacheException
      *         as a wrapper for several mishaps
      */
-    public V getList(String listId, Locale locale) throws CacheException
-    {
+    public V getList(String listId, Locale locale) throws CacheException {
         return super.getCachedObject(listId, locale);
     }
 
@@ -70,12 +66,10 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
      * @throws ResourceNotFoundException
      *         if a list for the given id does not exist
      */
-    protected URL getURL(String listId, Locale locale) throws ResourceNotFoundException
-    {
+    protected URL getURL(String listId, Locale locale) throws ResourceNotFoundException {
         String path = getBaseFolder() + listId.replaceAll("\\.", "/");
         URL url = ResourceLocator.getURL(path, locale, EXTENSION);
-        if (url == null)
-        {
+        if (url == null) {
             throw new ResourceNotFoundException("A resource with id '" + listId + "' was not found." + "\nEither the file '" + path + "." + EXTENSION
                     + "' is missing" + "\nor the id '" + listId + "' is wrong.");
         }
@@ -83,8 +77,7 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
     }
 
     /**
-     * Get an InputStream on the given listId for the given Locale. The caller is responsible for proper
-     * closing of the InputStream.
+     * Get an InputStream on the given listId for the given Locale. The caller is responsible for proper closing of the InputStream.
      * 
      * @param listId
      *        id of the list
@@ -96,15 +89,13 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
      * @throws ResourceNotFoundException
      *         if a list for the given id does not exist
      */
-    public InputStream getInputStream(String listId, Locale locale) throws IOException, ResourceNotFoundException
-    {
+    public InputStream getInputStream(String listId, Locale locale) throws IOException, ResourceNotFoundException {
         URL url = getURL(listId, locale);
         return url.openStream();
     }
 
     /**
-     * Get an InputStream on the given listId for the default Locale. The caller is responsible for
-     * proper closing of the InputStream.
+     * Get an InputStream on the given listId for the default Locale. The caller is responsible for proper closing of the InputStream.
      * 
      * @param listId
      *        id of the list
@@ -114,28 +105,22 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
      * @throws ResourceNotFoundException
      *         if a list for the given id does not exist
      */
-    public InputStream getInputStream(String listId) throws IOException, ResourceNotFoundException
-    {
+    public InputStream getInputStream(String listId) throws IOException, ResourceNotFoundException {
         return getInputStream(listId, null);
     }
 
-    public byte[] getBytes(String listId, Locale locale) throws IOException, ResourceNotFoundException
-    {
+    public byte[] getBytes(String listId, Locale locale) throws IOException, ResourceNotFoundException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = getInputStream(listId, locale);
             int b;
-            while ((b = inStream.read()) != -1)
-            {
+            while ((b = inStream.read()) != -1) {
                 baos.write(b);
             }
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }
@@ -144,15 +129,12 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
     }
 
     @Override
-    protected V getObject(String key, Locale locale) throws CacheException
-    {
+    protected V getObject(String key, Locale locale) throws CacheException {
         V list = null;
-        try
-        {
+        try {
             list = getObjectForCache(key, locale);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             String msg = "Unable to close input stream on resource 'ChoiceList:" + key + "': ";
             logger.error(msg, e);
             throw new CacheException(msg, e);

@@ -28,15 +28,12 @@ import org.apache.http.util.EntityUtils;
 /**
  * An example that demonstrates how HttpClient APIs can be used to perform form-based logon.
  */
-public class ClientFormLogin
-{
+public class ClientFormLogin {
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
 
         DefaultHttpClient httpclient = new DefaultHttpClient();
-        try
-        {
+        try {
             // Create a local instance of cookie store
             CookieStore cookieStore = new BasicCookieStore();
 
@@ -59,14 +56,10 @@ public class ClientFormLogin
 
             System.out.println("Initial set of cookies:");
             List<Cookie> cookies = httpclient.getCookieStore().getCookies();
-            if (cookies.isEmpty())
-            {
+            if (cookies.isEmpty()) {
                 System.out.println("None");
-            }
-            else
-            {
-                for (int i = 0; i < cookies.size(); i++)
-                {
+            } else {
+                for (int i = 0; i < cookies.size(); i++) {
                     System.out.println("- " + cookies.get(i).toString());
                 }
             }
@@ -92,20 +85,15 @@ public class ClientFormLogin
 
             System.out.println("Post logon cookies:");
             cookies = httpclient.getCookieStore().getCookies();
-            if (cookies.isEmpty())
-            {
+            if (cookies.isEmpty()) {
                 System.out.println("None");
-            }
-            else
-            {
-                for (int i = 0; i < cookies.size(); i++)
-                {
+            } else {
+                for (int i = 0; i < cookies.size(); i++) {
                     System.out.println("- " + cookies.get(i).toString());
                 }
             }
 
-            if (status == 302)
-            {
+            if (status == 302) {
                 // httpget = new HttpGet("https://tools.sikb.nl/sikb0102/Validation/Validate");
                 // response = httpclient.execute(httpget, localContext);
                 // entity = response.getEntity();
@@ -135,15 +123,12 @@ public class ClientFormLogin
                 System.out.println(IOUtils.toString(entity.getContent()));
                 EntityUtils.consume(entity);
 
-            }
-            else
-            {
+            } else {
                 System.err.println("status = " + status);
             }
 
         }
-        finally
-        {
+        finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
             // immediate deallocation of all system resources

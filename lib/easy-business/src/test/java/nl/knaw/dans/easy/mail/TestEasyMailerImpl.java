@@ -27,8 +27,7 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EasyMailerImpl.class)
-public class TestEasyMailerImpl
-{
+public class TestEasyMailerImpl {
     private EasyMailerImpl mailer;
     private HtmlEmail htmlEmailMock;
 
@@ -46,22 +45,19 @@ public class TestEasyMailerImpl
     private Capture<String> attachmentDescriptions = new Capture<String>(CaptureType.ALL);
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mailer = new EasyMailerImpl();
         htmlEmailMock = PowerMock.createMock(HtmlEmail.class);
     }
 
     @Test(expected = EasyMailerException.class)
-    public void exceptionWhenNoSmtpHostSpecified()
-    {
+    public void exceptionWhenNoSmtpHostSpecified() {
         String[] recipients = {"piet@puk.com"};
         mailer.sendMail("No host", recipients, "text", "html");
     }
 
     @Test
-    public void hostNameCorrectlyPassed() throws Exception
-    {
+    public void hostNameCorrectlyPassed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
 
@@ -73,8 +69,7 @@ public class TestEasyMailerImpl
 
     }
 
-    private void expectConfigureAndSendHtmlEmail() throws Exception, EmailException
-    {
+    private void expectConfigureAndSendHtmlEmail() throws Exception, EmailException {
         expectNew(HtmlEmail.class).andReturn(htmlEmailMock);
         htmlEmailMock.setHostName(capture(hostName));
         expect(htmlEmailMock.setFrom(capture(from))).andStubReturn(htmlEmailMock);
@@ -89,16 +84,14 @@ public class TestEasyMailerImpl
     }
 
     @Test(expected = EasyMailerException.class)
-    public void exceptionWhenNoFromAddressSpecified()
-    {
+    public void exceptionWhenNoFromAddressSpecified() {
         String[] recipients = {"piet@puk.com"};
         mailer.setSmtpHost("myhost.com");
         mailer.sendMail("No host", recipients, "text", "html");
     }
 
     @Test
-    public void fromCorrectlyPassed() throws Exception
-    {
+    public void fromCorrectlyPassed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
 
@@ -110,16 +103,14 @@ public class TestEasyMailerImpl
     }
 
     @Test(expected = EasyMailerException.class)
-    public void exceptionWhenRecipientsNull()
-    {
+    public void exceptionWhenRecipientsNull() {
         mailer.setSmtpHost("myhost.nl");
         mailer.setFrom("me@org.com");
         mailer.sendMail("No host", null, "text", "html");
     }
 
     @Test(expected = EasyMailerException.class)
-    public void exceptionWhenRecipientsEmpty()
-    {
+    public void exceptionWhenRecipientsEmpty() {
         String[] recipients = {};
         mailer.setSmtpHost("myhost.nl");
         mailer.setFrom("me@org.com");
@@ -127,8 +118,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void oneRecipientCorrectlyPassed() throws Exception
-    {
+    public void oneRecipientCorrectlyPassed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
 
@@ -141,8 +131,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void twoRecipientsCorrectlyPassed() throws Exception
-    {
+    public void twoRecipientsCorrectlyPassed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
 
@@ -156,8 +145,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noSubjectPassedIfAbsent() throws Exception
-    {
+    public void noSubjectPassedIfAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -168,8 +156,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void subjectCorrectlyPassed() throws Exception
-    {
+    public void subjectCorrectlyPassed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -180,8 +167,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noCredentialsPassedIfUserAbsent() throws Exception
-    {
+    public void noCredentialsPassedIfUserAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -195,8 +181,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noCredentialsPassedIfPasswordAbsent() throws Exception
-    {
+    public void noCredentialsPassedIfPasswordAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -210,8 +195,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void credentialsPassedIfBotherUserAndPasswordSet() throws Exception
-    {
+    public void credentialsPassedIfBotherUserAndPasswordSet() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -226,8 +210,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noHtmlMsgPassedIfAbsent() throws Exception
-    {
+    public void noHtmlMsgPassedIfAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -238,8 +221,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void htmlPassedIfSpecified() throws Exception
-    {
+    public void htmlPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -250,8 +232,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noTextMsgPassedIfAbsent() throws Exception
-    {
+    public void noTextMsgPassedIfAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -262,8 +243,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void textPassedIfSpecified() throws Exception
-    {
+    public void textPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -274,8 +254,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void noBccPassedIfAbsent() throws Exception
-    {
+    public void noBccPassedIfAbsent() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -286,8 +265,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void oneBccPassedIfSpecified() throws Exception
-    {
+    public void oneBccPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -300,8 +278,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void multipleBccsPassedIfSpecified() throws Exception
-    {
+    public void multipleBccsPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -315,8 +292,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void bccsTrimmed() throws Exception
-    {
+    public void bccsTrimmed() throws Exception {
         expectConfigureAndSendHtmlEmail();
         PowerMock.replayAll();
         mailer.setSmtpHost("myhost.nl");
@@ -330,8 +306,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void oneAttachmentPassedIfSpecified() throws Exception
-    {
+    public void oneAttachmentPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         final DataSource ds = PowerMock.createMock(DataSource.class);
 
@@ -346,8 +321,7 @@ public class TestEasyMailerImpl
     }
 
     @Test
-    public void multipleAttachmentPassedIfSpecified() throws Exception
-    {
+    public void multipleAttachmentPassedIfSpecified() throws Exception {
         expectConfigureAndSendHtmlEmail();
         final DataSource ds1 = PowerMock.createMock(DataSource.class);
         final DataSource ds2 = PowerMock.createMock(DataSource.class);

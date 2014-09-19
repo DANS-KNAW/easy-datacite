@@ -23,23 +23,19 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
-public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>>
-{
+public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>> {
     private static final long serialVersionUID = 1765294309790135569L;
 
-    public DatasetHitPanel(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel)
-    {
+    public DatasetHitPanel(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel) {
         super(wicketId, model);
         add(new DatasetLink("showDataset", model, svModel));
     }
 
-    public class DatasetLink extends AbstractDatasetLink<SearchHit<DatasetSB>>
-    {
+    public class DatasetLink extends AbstractDatasetLink<SearchHit<DatasetSB>> {
         private static final long serialVersionUID = -2898309546692290393L;
 
         @SuppressWarnings("unchecked")
-        DatasetLink(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel)
-        {
+        DatasetLink(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel) {
             super(wicketId, model);
 
             SearchHit<DatasetSB> hit = model.getObject();
@@ -56,13 +52,11 @@ public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>>
             addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)),
                     !StringUtils.isBlank(svModel.getObject().getRequestBuilder().getRequest().getQuery().getQueryString()));
             List<SnippetField> remainingSnippets = getRemainingSnippets();
-            add(new ListView("snippets", remainingSnippets)
-            {
+            add(new ListView("snippets", remainingSnippets) {
                 private static final long serialVersionUID = 6092057488401837474L;
 
                 @Override
-                protected void populateItem(ListItem item)
-                {
+                protected void populateItem(ListItem item) {
                     final SnippetField snippetField = (SnippetField) item.getDefaultModelObject();
                     String snippet = "";
                     for (String snip : snippetField.getValue())
@@ -74,8 +68,7 @@ public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>>
         }
 
         @Override
-        public void onClick()
-        {
+        public void onClick() {
             SearchHit<? extends DatasetSB> hit = (SearchHit<? extends DatasetSB>) getModelObject();
             DatasetSB datasetHit = hit.getData();
 

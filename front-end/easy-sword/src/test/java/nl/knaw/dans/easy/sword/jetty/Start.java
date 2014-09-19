@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
 
-public class Start
-{
+public class Start {
     private static final Logger log = LoggerFactory.getLogger(Start.class);
 
     public static final int PORT = 8083;
@@ -20,8 +19,7 @@ public class Start
     private static final int SLEEPTIME = 5000;
     private static final int EXIT_CODE = 100;
 
-    private Start()
-    {
+    private Start() {
         // Make it impossible to instantiate
     }
 
@@ -32,8 +30,7 @@ public class Start
      * <br>
      * <code>
      * curl -i --data-binary @src/test/resources/input/data-plus-meta.zip http://EASYUSER:PASSWORD@localhost:8083/deposit
-     * </code>
-     * <br>
+     * </code> <br>
      * <ul>
      * <li>To prevent changes of the repository, add: <code>-H "X-No-Op: true"</code></li>
      * <li>To return also a license document, add: <code>-H "X-Verbose: true"</code></li>
@@ -50,26 +47,22 @@ public class Start
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
 
-        try
-        {
+        try {
             server.start();
             log.info(">>> STARTED EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
-            while (System.in.available() == 0)
-            {
+            while (System.in.available() == 0) {
                 Thread.sleep(SLEEPTIME); // NOPMD
             }
             server.stop();
             server.join();
         }
-        catch (final Exception e)
-        {
+        catch (final Exception e) {
             e.printStackTrace(); // NOPMD
             System.exit(EXIT_CODE); // NOPMD
         }
     }
 
-    public static Server createServer(int port, int sslPort) throws Exception
-    {
+    public static Server createServer(int port, int sslPort) throws Exception {
         final Server server = new Server(); // NOPMD
         System.setProperty("java.naming.factory.url.pkgs", "org.mortbay.naming");
         System.setProperty("java.naming.factory.initial", "org.mortbay.naming.InitialContextFactory");
@@ -79,12 +72,9 @@ public class Start
         connector.setPort(port); // NOPMD
 
         Connector[] connectors;
-        if (!"true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl")))
-        {
+        if (!"true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl"))) {
             connectors = new Connector[] {connector};
-        }
-        else
-        {
+        } else {
             log.info(">>> " + "Creating sslConnector on port {}", sslPort);
             connector.setConfidentialPort(sslPort);
 
@@ -109,8 +99,7 @@ public class Start
         return server;
     }
 
-    private static void printLogbackStatus()
-    {
+    private static void printLogbackStatus() {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         StatusPrinter.print(lc);
     }

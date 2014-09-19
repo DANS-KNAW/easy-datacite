@@ -14,8 +14,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * 
  * @author Herman Suijs
  */
-public final class SecurityUtil
-{
+public final class SecurityUtil {
     /**
      * Hashing algorithm used.
      */
@@ -29,8 +28,7 @@ public final class SecurityUtil
     /**
      * Default constructor.
      */
-    private SecurityUtil()
-    {
+    private SecurityUtil() {
         // Do not instantiate.
     }
 
@@ -39,8 +37,7 @@ public final class SecurityUtil
      * 
      * @return random string.
      */
-    public static String getRandomString()
-    {
+    public static String getRandomString() {
         String randomString = RandomStringUtils.random(GENERATED_RANDOM_STRING_LENGTH);
         return randomString;
     }
@@ -52,11 +49,9 @@ public final class SecurityUtil
      *        memberStrings for the hashCode.
      * @return integer hash
      */
-    public static int generateHashCode(final String... strings)
-    {
+    public static int generateHashCode(final String... strings) {
         HashCodeBuilder builder = new HashCodeBuilder(12345, 54321);
-        for (String memberString : strings)
-        {
+        for (String memberString : strings) {
             builder.append(memberString);
         }
         return builder.toHashCode();
@@ -69,23 +64,19 @@ public final class SecurityUtil
      *        memberStrings for the hashCode
      * @return String hash
      */
-    public static String generateHashCodeString(final String... strings)
-    {
+    public static String generateHashCodeString(final String... strings) {
         MessageDigest messageDigest;
         String returnValue = null;
-        try
-        {
+        try {
             messageDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
             StringBuilder completeHashingString = new StringBuilder();
-            for (String hashString : strings)
-            {
+            for (String hashString : strings) {
                 completeHashingString.append(hashString);
             }
             messageDigest.update(completeHashingString.toString().getBytes());
             returnValue = new String(messageDigest.digest());
         }
-        catch (NoSuchAlgorithmException e)
-        {
+        catch (NoSuchAlgorithmException e) {
             // use HashCodeBuilder to generate a fallback hashcode.
             returnValue = Integer.valueOf(generateHashCode(strings)).toString();
         }

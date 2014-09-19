@@ -9,15 +9,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JiBXJumpoffDmoMetadataTest
-{
+public class JiBXJumpoffDmoMetadataTest {
     private static final Logger logger = LoggerFactory.getLogger(JiBXJumpoffDmoMetadataTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws Exception
-    {
+    public void serializeDeserializeEmpty() throws Exception {
         JiBXJumpoffDmoMetadata jomd = new JiBXJumpoffDmoMetadata();
         // if (verbose)
         logger.debug("\n" + jomd.asXMLString(4) + "\n");
@@ -27,8 +25,7 @@ public class JiBXJumpoffDmoMetadataTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws Exception
-    {
+    public void serializeDeserializeFull() throws Exception {
         JiBXJumpoffDmoMetadata jomd = new JiBXJumpoffDmoMetadata();
         jomd.setDefaultMarkupVersionID(MarkupVersionID.HTML_MU);
         jomd.getHtmlMarkupMetadata().setLastEditedBy("html-author-id");

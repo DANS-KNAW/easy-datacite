@@ -17,8 +17,7 @@ import org.apache.wicket.model.IModel;
  * 
  * @author Herman Suijs
  */
-public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
-{
+public abstract class AbstractEasyPanel<T> extends CommonPanel<T> {
     private static final long serialVersionUID = 5529101351554863036L;
 
     /**
@@ -27,8 +26,7 @@ public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
      * @param wicketId
      *        wicket id
      */
-    public AbstractEasyPanel(final String wicketId)
-    {
+    public AbstractEasyPanel(final String wicketId) {
         super(wicketId);
         initAbstractEasyPanel();
     }
@@ -41,53 +39,43 @@ public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
      * @param model
      *        model
      */
-    public AbstractEasyPanel(final String wicketId, final IModel<T> model)
-    {
+    public AbstractEasyPanel(final String wicketId, final IModel<T> model) {
         super(wicketId, model);
         initAbstractEasyPanel();
     }
 
-    protected void initAbstractEasyPanel()
-    {
-    }
+    protected void initAbstractEasyPanel() {}
 
     /**
      * Check if authenticated.
      * 
      * @return true if authenticated.
      */
-    public final boolean isAuthenticated()
-    {
+    public final boolean isAuthenticated() {
         return !getSessionUser().isAnonymous();
     }
 
-    public EasySession getEasySession()
-    {
+    public EasySession getEasySession() {
         return (EasySession) getSession();
     }
 
-    public EasyUser getSessionUser()
-    {
+    public EasyUser getSessionUser() {
         return getEasySession().getUser();
     }
 
-    public boolean registerAjaxEventListener(String event, AjaxEventListener listener)
-    {
+    public boolean registerAjaxEventListener(String event, AjaxEventListener listener) {
         boolean success = false;
         Page page = getPage();
-        if (page != null && page instanceof AbstractEasyPage)
-        {
+        if (page != null && page instanceof AbstractEasyPage) {
             ((AbstractEasyPage) page).registerAjaxEventListener(event, listener);
             success = true;
         }
         return success;
     }
 
-    public void handleAjaxEvent(String event, AjaxRequestTarget target)
-    {
+    public void handleAjaxEvent(String event, AjaxRequestTarget target) {
         Page page = getPage();
-        if (page != null && page instanceof AbstractEasyPage)
-        {
+        if (page != null && page instanceof AbstractEasyPage) {
             ((AbstractEasyPage) page).handleAjaxEvent(event, target);
         }
     }

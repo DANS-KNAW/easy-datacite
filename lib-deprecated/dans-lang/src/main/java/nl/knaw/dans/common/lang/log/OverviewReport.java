@@ -7,8 +7,7 @@ import java.io.RandomAccessFile;
 
 import nl.knaw.dans.common.lang.os.OS;
 
-public class OverviewReport implements Report
-{
+public class OverviewReport implements Report {
 
     public static final int DEFAULT_MAX_LENGTH = 5;
     public static final String DEFAULT_FILENAME = "overview.csv";
@@ -25,74 +24,60 @@ public class OverviewReport implements Report
 
     private EventPrinter printer;
 
-    public OverviewReport()
-    {
+    public OverviewReport() {
         this(DEFAULT_FILENAME, null);
     }
 
-    public OverviewReport(String fileName)
-    {
+    public OverviewReport(String fileName) {
         this(fileName, null);
     }
 
-    public OverviewReport(EventPrinter eventPrinter)
-    {
+    public OverviewReport(EventPrinter eventPrinter) {
         this(DEFAULT_FILENAME, eventPrinter);
     }
 
-    public OverviewReport(String fileName, EventPrinter eventPrinter)
-    {
+    public OverviewReport(String fileName, EventPrinter eventPrinter) {
         this.fileName = fileName;
         this.printer = eventPrinter;
     }
 
     @Override
-    public void setReportLocation(File reportLocation, boolean allRW)
-    {
+    public void setReportLocation(File reportLocation, boolean allRW) {
         this.reportLocation = reportLocation;
         this.allRW = allRW;
     }
 
-    private File getReportLocation()
-    {
-        if (reportLocation == null)
-        {
+    private File getReportLocation() {
+        if (reportLocation == null) {
             reportLocation = new File(".");
         }
         return reportLocation;
     }
 
-    private EventPrinter getPrinter()
-    {
-        if (printer == null)
-        {
+    private EventPrinter getPrinter() {
+        if (printer == null) {
             printer = new Printer();
         }
         return printer;
     }
 
     @Override
-    public void info(Event event)
-    {
+    public void info(Event event) {
         write(event);
     }
 
     @Override
-    public void warn(Event event)
-    {
+    public void warn(Event event) {
         write(event);
     }
 
     @Override
-    public void error(Event event)
-    {
+    public void error(Event event) {
         write(event);
     }
 
-    public int getMaxLength()
-    {
-        if (maxLength <= 0)
-        {
+    public int getMaxLength() {
+        if (maxLength <= 0) {
             maxLength = DEFAULT_MAX_LENGTH;
         }
         return maxLength;
@@ -104,75 +89,59 @@ public class OverviewReport implements Report
      * @param maxLength
      *        maximum file length in MB
      */
-    public void setMaxLength(int maxLength)
-    {
+    public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
     }
 
-    public String getFileName()
-    {
+    public String getFileName() {
         return fileName;
     }
 
     @Override
-    public void close()
-    {
-        if (raf != null)
-        {
-            try
-            {
+    public void close() {
+        if (raf != null) {
+            try {
                 raf.close();
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 throw new RuntimeException("Unable to close report file: " + currentFileName, e);
             }
         }
         raf = null;
     }
 
-    protected void write(Event event)
-    {
+    protected void write(Event event) {
         String line = getPrinter().print(event);
         RandomAccessFile raFile = getRaf(event);
-        try
-        {
+        try {
             raFile.writeBytes(line);
-            if (raFile.length() > getMaxLength() * 1000000)
-            {
+            if (raFile.length() > getMaxLength() * 1000000) {
                 close();
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             close();
             throw new RLRuntimeException("Unable to write report: " + currentFileName, e);
         }
     }
 
-    protected RandomAccessFile getRaf(Event event)
-    {
-        if (raf == null)
-        {
+    protected RandomAccessFile getRaf(Event event) {
+        if (raf == null) {
             currentFileName = composeFileName(getFileName(), fileCounter++);
             File currentFile = new File(getReportLocation(), currentFileName);
 
-            try
-            {
+            try {
                 raf = new RandomAccessFile(currentFile, "rw");
                 raf.writeBytes(getPrinter().printHeader(event));
-                if (allRW)
-                {
+                if (allRW) {
                     OS.setAllRWX(currentFile);
                 }
             }
-            catch (FileNotFoundException e)
-            {
+            catch (FileNotFoundException e) {
                 close();
                 throw new RuntimeException("Unable to open report file: " + currentFileName, e);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 close();
                 throw new RuntimeException("Unable to write report: " + currentFileName, e);
             }
@@ -180,30 +149,24 @@ public class OverviewReport implements Report
         return raf;
     }
 
-    protected static String composeFileName(String name, int i)
-    {
+    protected static String composeFileName(String name, int i) {
         String filename;
         String extension;
         int p = name.lastIndexOf(".");
-        if (p > 0)
-        {
+        if (p > 0) {
             filename = name.substring(0, p);
             extension = name.substring(p);
-        }
-        else
-        {
+        } else {
             filename = name;
             extension = "";
         }
         return filename + "_" + i + extension;
     }
 
-    public static class Printer implements EventPrinter
-    {
+    public static class Printer implements EventPrinter {
 
         @Override
-        public String printHeader(Event event)
-        {
+        public String printHeader(Event event) {
             StringBuilder sb = new StringBuilder() //
                     .append("Date").append(SEPARATOR) //
                     .append("Level").append(SEPARATOR) //
@@ -218,42 +181,31 @@ public class OverviewReport implements Report
         }
 
         @Override
-        public String print(Event event)
-        {
+        public String print(Event event) {
             StringBuilder sb = new StringBuilder();
             sb.append(event.getDate().toString("yyyy-MM-dd HH:mm:ss.SSS")).append(SEPARATOR) //
                     .append(event.getLevel()).append(SEPARATOR) //
                     .append(event.getSourceLink()).append(SEPARATOR); //
 
-            if (event.hasCause())
-            {
+            if (event.hasCause()) {
                 sb.append(event.getCause().getClass().getSimpleName());
-            }
-            else
-            {
+            } else {
                 sb.append(EMPTY_CELL);
             }
             sb.append(SEPARATOR) //
                     .append(event.getEventName()).append(SEPARATOR);
 
-            if (event.hasDetails())
-            {
+            if (event.hasDetails()) {
                 sb.append(event.getDetails().getDetailLink());
-            }
-            else
-            {
+            } else {
                 sb.append(EMPTY_CELL);
             }
             sb.append(SEPARATOR);
 
-            for (String msg : event.getMessages())
-            {
-                if (msg != null)
-                {
+            for (String msg : event.getMessages()) {
+                if (msg != null) {
                     sb.append(msg.replaceAll("\n", " | ")).append(SEPARATOR);
-                }
-                else
-                {
+                } else {
                     sb.append(msg).append(SEPARATOR);
                 }
             }

@@ -7,8 +7,7 @@ import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
  * 
  * @author akmi
  */
-public enum CreatorRole implements FileItemVOAttribute
-{
+public enum CreatorRole implements FileItemVOAttribute {
     ARCHIVIST, DEPOSITOR
 
 }

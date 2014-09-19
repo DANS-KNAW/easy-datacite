@@ -12,8 +12,7 @@ import org.apache.axis.types.NonNegativeInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SidList
-{
+public class SidList {
 
     private static final Logger logger = LoggerFactory.getLogger(SidList.class);
 
@@ -25,10 +24,8 @@ public class SidList
     private List<String> sidList;
     private Iterator<String> sidListIterator;
 
-    public SidList(Repository repository, String objectNameSpace, int bufferSize)
-    {
-        if (bufferSize < 1)
-        {
+    public SidList(Repository repository, String objectNameSpace, int bufferSize) {
+        if (bufferSize < 1) {
             throw new IllegalArgumentException("BufferSize smaller than 1.");
         }
         this.repository = repository;
@@ -36,38 +33,30 @@ public class SidList
         this.bufferSize = bufferSize;
     }
 
-    public String getObjectNamespace()
-    {
+    public String getObjectNamespace() {
         return objectNamespace;
     }
 
-    public int getBufferSize()
-    {
+    public int getBufferSize() {
         return bufferSize;
     }
 
-    public void setBufferSize(int bufferSize)
-    {
-        if (bufferSize < 1)
-        {
+    public void setBufferSize(int bufferSize) {
+        if (bufferSize < 1) {
             throw new IllegalArgumentException("Buffer size cannot be less than 1.");
         }
         this.bufferSize = bufferSize;
     }
 
-    public synchronized String nextSid() throws RepositoryException
-    {
-        if (sidList == null || !sidListIterator.hasNext())
-        {
-            try
-            {
+    public synchronized String nextSid() throws RepositoryException {
+        if (sidList == null || !sidListIterator.hasNext()) {
+            try {
                 getNextSidWithRetry();
 
                 logger.info("Fetched " + bufferSize + " new SID's, starting with " + sidList.get(0));
                 sidListIterator = sidList.iterator();
             }
-            catch (RemoteException e)
-            {
+            catch (RemoteException e) {
                 final String msg = "Unable to get next sid(s). objectNamespace=" + objectNamespace;
                 logger.debug(msg, e);
                 Repository.mapRemoteException(msg, e);
@@ -76,25 +65,20 @@ public class SidList
         return sidListIterator.next();
     }
 
-    private void getNextSidWithRetry() throws RepositoryException, RemoteException
-    {
+    private void getNextSidWithRetry() throws RepositoryException, RemoteException {
         boolean loaded = false;
         int tryCount = 0;
-        while (!loaded)
-        {
+        while (!loaded) {
             tryCount++;
-            try
-            {
+            try {
                 String[] sids = repository.getFedoraAPIM().getNextPID(new NonNegativeInteger("" + bufferSize), objectNamespace);
                 sidList = Arrays.asList(sids);
                 loaded = true;
             }
-            catch (RemoteException e)
-            {
+            catch (RemoteException e) {
                 logger.warn("Caught RemoteException while getting next sid(s). objectNamespace=" + objectNamespace + " tryCount=" + tryCount + " message="
                         + e.getMessage());
-                if (tryCount >= repository.getMaxRetryCount())
-                {
+                if (tryCount >= repository.getMaxRetryCount()) {
                     throw (e);
                 }
                 Wait.seconds(repository.getRetryTimeOutSeconds());

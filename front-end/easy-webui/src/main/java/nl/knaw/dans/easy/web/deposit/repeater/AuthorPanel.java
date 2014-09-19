@@ -13,44 +13,35 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
-{
+public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel> {
 
     private static final long serialVersionUID = 7729872166922893440L;
 
-    public AuthorPanel(String wicketId, ListWrapper<AuthorModel> listWrapper)
-    {
+    public AuthorPanel(String wicketId, ListWrapper<AuthorModel> listWrapper) {
         super(wicketId, listWrapper);
     }
 
-    public AuthorPanel(String wicketId, IModel<Author> model)
-    {
+    public AuthorPanel(String wicketId, IModel<Author> model) {
         super(wicketId, model);
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(ListItem<AuthorModel> item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(ListItem<AuthorModel> item) {
+        if (isInEditMode()) {
             return new EditPanel(item);
-        }
-        else
-        {
+        } else {
             return new ViewPanel(item);
         }
     }
 
-    class EditPanel extends Panel
-    {
+    class EditPanel extends Panel {
 
         private static final long serialVersionUID = -416742232389721048L;
 
         private final int index;
 
         @SuppressWarnings({"unchecked", "rawtypes"})
-        EditPanel(ListItem<AuthorModel> item)
-        {
+        EditPanel(ListItem<AuthorModel> item) {
             super(REPEATING_PANEL_ID);
             index = item.getIndex();
             final TextField titleField = new TextField("titleField", new PropertyModel(item.getDefaultModelObject(), "title"));
@@ -61,14 +52,12 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
             add(insertionsField);
             final TextField surnameField = new TextField("surnameField", new PropertyModel(item.getDefaultModelObject(), "surname"));
             add(surnameField);
-            final TextField idField = new TextField("idField", new PropertyModel(item.getDefaultModelObject(), "entityId"))
-            {
+            final TextField idField = new TextField("idField", new PropertyModel(item.getDefaultModelObject(), "entityId")) {
 
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                protected boolean shouldTrimInput()
-                {
+                protected boolean shouldTrimInput() {
                     return true;
                 }
 
@@ -77,15 +66,13 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
             final TextField organizationField = new TextField("organizationField", new PropertyModel(item.getDefaultModelObject(), "organization"));
             add(organizationField);
 
-            add(new WebMarkupContainer("item-demarcation")
-            {
+            add(new WebMarkupContainer("item-demarcation") {
 
                 private static final long serialVersionUID = 1L;
 
                 // puts class="repating0" (first item) or class="repeating1" (next items)
                 @Override
-                protected void onComponentTag(ComponentTag tag)
-                {
+                protected void onComponentTag(ComponentTag tag) {
                     super.onComponentTag(tag);
                     int repeating = index == 0 ? 0 : 1;
                     String classAttr = (String) tag.getAttributes().get("class");
@@ -99,15 +86,13 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
 
     }
 
-    class ViewPanel extends Panel
-    {
+    class ViewPanel extends Panel {
 
         private static final long serialVersionUID = -8963343622727828504L;
 
         private final int index;
 
-        ViewPanel(ListItem<AuthorModel> item)
-        {
+        ViewPanel(ListItem<AuthorModel> item) {
             super(REPEATING_PANEL_ID);
             index = item.getIndex();
             AuthorListWrapper.AuthorModel authorModel = item.getModelObject();
@@ -117,15 +102,13 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
             Label daiLabel = new Label("daiLabel", infoDai);
             add(daiLabel);
             daiLabel.setVisible(author.hasDigitalAuthorId());
-            add(new WebMarkupContainer("item-demarcation")
-            {
+            add(new WebMarkupContainer("item-demarcation") {
 
                 private static final long serialVersionUID = 1L;
 
                 // puts class="repating0" (first item) or class="repeating1" (next items)
                 @Override
-                protected void onComponentTag(ComponentTag tag)
-                {
+                protected void onComponentTag(ComponentTag tag) {
                     super.onComponentTag(tag);
                     int repeating = index == 0 ? 0 : 1;
                     String classAttr = (String) tag.getAttributes().get("class");

@@ -6,12 +6,10 @@ import nl.knaw.dans.common.lang.os.OS;
 
 import org.junit.Test;
 
-public class SyslogAuditTrailTest
-{
+public class SyslogAuditTrailTest {
 
     @Test
-    public void testSyslogOnCentos5()
-    {
+    public void testSyslogOnCentos5() {
         SyslogAuditTrail syslog = new SyslogAuditTrail();
         syslog.test("you should see this message in");
         syslog.test("whatever your /etc/syslog.conf");
@@ -31,12 +29,10 @@ public class SyslogAuditTrailTest
         syslog.test("6. Verify that this message is in /var/log/easy-audit.log");
         syslog.test("------------------- END OF TEST -------------------------");
 
-        try
-        {
+        try {
             OS.execAndWait("cat /var/log/easy-audit.log", System.out, System.err);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

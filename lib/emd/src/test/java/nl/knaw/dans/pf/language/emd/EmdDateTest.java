@@ -9,12 +9,10 @@ import org.junit.Test;
 
 // ecco: CHECKSTYLE: OFF
 
-public class EmdDateTest
-{
+public class EmdDateTest {
 
     @Test
-    public void testToString()
-    {
+    public void testToString() {
         EmdDate emdDate = new EmdDate();
         Assert.assertEquals("", emdDate.toString());
         Assert.assertEquals("", emdDate.toString(", "));
@@ -48,8 +46,7 @@ public class EmdDateTest
     }
 
     @Test
-    public void testTermToString()
-    {
+    public void testTermToString() {
         EmdDate emdDate = new EmdDate();
         emdDate.getDcDate().add(new BasicDate("bar"));
         emdDate.getEasDate().add(new IsoDate());

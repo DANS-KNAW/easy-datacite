@@ -14,8 +14,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
  * 
  * @author ecco Apr 8, 2009
  */
-public class FormDescriptionValidator extends AbstractXMLBeanValidator<FormDescriptor>
-{
+public class FormDescriptionValidator extends AbstractXMLBeanValidator<FormDescriptor> {
 
     /**
      * The version token for version {@value} .
@@ -31,23 +30,19 @@ public class FormDescriptionValidator extends AbstractXMLBeanValidator<FormDescr
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptionValidator.class);
 
     // singleton
-    private FormDescriptionValidator()
-    {
+    private FormDescriptionValidator() {
 
     }
 
-    public static FormDescriptionValidator instance()
-    {
+    public static FormDescriptionValidator instance() {
         return instance;
     }
 
     @Override
-    public URL getSchemaURL(final String version)
-    {
+    public URL getSchemaURL(final String version) {
         final String name = SCHEMA_FOLDER + File.separator + version + File.separator + SCHEMA_FILENAME;
         final URL url = this.getClass().getResource(name);
-        if (url == null)
-        {
+        if (url == null) {
             logger.warn("No schema at " + name);
         }
         return url;

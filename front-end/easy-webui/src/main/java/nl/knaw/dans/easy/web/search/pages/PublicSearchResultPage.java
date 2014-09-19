@@ -25,75 +25,61 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class PublicSearchResultPage extends AbstractSearchResultPage
-{
+public class PublicSearchResultPage extends AbstractSearchResultPage {
     @SpringBean(name = "searchService")
     private SearchService searchService;
 
-    public PublicSearchResultPage()
-    {
+    public PublicSearchResultPage() {
         super(false);
     }
 
-    public PublicSearchResultPage(SearchModel model)
-    {
+    public PublicSearchResultPage(SearchModel model) {
         super(model);
         model.getRequestBuilder().setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_CREATED_FIELD, SortOrder.DESC));
     }
 
-    public PublicSearchResultPage(PageParameters pm)
-    {
+    public PublicSearchResultPage(PageParameters pm) {
         super(pm);
     }
 
     @Override
-    protected boolean showTips()
-    {
+    protected boolean showTips() {
         return true;
     }
 
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
         // logging for statistics
-        if (request.getFilterQueries().size() == 0)
-        {
+        if (request.getFilterQueries().size() == 0) {
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.SEARCH_TERM, new SearchStatistics(request));
         }
         return searchService.searchPublished(request, getSessionUser());
     }
 
     @Override
-    protected IModel<String> getInitialCriteriumText()
-    {
+    protected IModel<String> getInitialCriteriumText() {
         return new ResourceModel("publicsearch.defaultbreadcrumbtext");
     }
 
     @Override
-    protected IModel<String> getSearchCriteriumText(final String searchText)
-    {
-        return new AbstractReadOnlyModel<String>()
-        {
+    protected IModel<String> getSearchCriteriumText(final String searchText) {
+        return new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 3254972701101566016L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return CriteriumLabel.createFilterText(getString("publicsearch.searchbreadcrumbtext"), searchText);
             }
         };
     }
 
     @Override
-    protected List<FacetConfig> getFacets()
-    {
+    protected List<FacetConfig> getFacets() {
         // remove the state facet from the list
         List<FacetConfig> facets = super.getFacets();
         Iterator<FacetConfig> facetIt = facets.iterator();
-        while (facetIt.hasNext())
-        {
+        while (facetIt.hasNext()) {
             FacetConfig facetConfig = facetIt.next();
-            if (facetConfig.getFacetName().equals(DatasetSB.DS_STATE_FIELD))
-            {
+            if (facetConfig.getFacetName().equals(DatasetSB.DS_STATE_FIELD)) {
                 facetIt.remove();
                 break;
             }

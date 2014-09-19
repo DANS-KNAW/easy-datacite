@@ -4,8 +4,7 @@ import static org.apache.wicket.markup.html.CSSPackageResource.getHeaderContribu
 
 import org.apache.wicket.behavior.HeaderContributor;
 
-public class Style
-{
+public class Style {
     // @formatter:off 
     public static final HeaderContributor
 

@@ -12,18 +12,14 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * Utility class to validate xml against a schema. Validating will stop after a fatal parse error has
- * been detected and all validating methods will throw a {@link SAXException} on such occasions, though
- * this behavior may depend on the implementation of the javax.xml classes used by this implementation.
+ * Utility class to validate xml against a schema. Validating will stop after a fatal parse error has been detected and all validating methods will throw a
+ * {@link SAXException} on such occasions, though this behavior may depend on the implementation of the javax.xml classes used by this implementation.
  * 
  * @author ecco
  */
-public final class XMLValidator
-{
+public final class XMLValidator {
 
-    private XMLValidator()
-    {
-    }
+    private XMLValidator() {}
 
     /**
      * Validate xml against a schema.
@@ -39,8 +35,7 @@ public final class XMLValidator
      *         if an IOException occurs
      * @see XMLErrorHandler
      */
-    public static XMLErrorHandler validate(final Source xmlSource, final Source... schemaSources) throws SAXException, IOException
-    {
+    public static XMLErrorHandler validate(final Source xmlSource, final Source... schemaSources) throws SAXException, IOException {
         final XMLErrorHandler result = new XMLErrorHandler();
         validate(result, xmlSource, schemaSources);
         return result;
@@ -60,8 +55,7 @@ public final class XMLValidator
      *         if an IOException occurs
      * @see XMLErrorHandler
      */
-    public static XMLErrorHandler validate(final Source xmlSource, final Schema schemaGrammar) throws SAXException, IOException
-    {
+    public static XMLErrorHandler validate(final Source xmlSource, final Schema schemaGrammar) throws SAXException, IOException {
         final XMLErrorHandler result = new XMLErrorHandler();
         validate(result, xmlSource, schemaGrammar);
         return result;
@@ -81,8 +75,7 @@ public final class XMLValidator
      * @throws IOException
      *         if an IOException occurs
      */
-    public static void validate(final ErrorHandler handler, final Source xmlSource, final Source... schemaSources) throws SAXException, IOException
-    {
+    public static void validate(final ErrorHandler handler, final Source xmlSource, final Source... schemaSources) throws SAXException, IOException {
         final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         final Schema schemaGrammar = schemaFactory.newSchema(schemaSources);
         validate(handler, xmlSource, schemaGrammar);
@@ -102,8 +95,7 @@ public final class XMLValidator
      * @throws IOException
      *         if an IOException occurs
      */
-    public static void validate(final ErrorHandler handler, final Source xmlSource, final Schema schemaGrammar) throws SAXException, IOException
-    {
+    public static void validate(final ErrorHandler handler, final Source xmlSource, final Schema schemaGrammar) throws SAXException, IOException {
         final Validator schemaValidator = schemaGrammar.newValidator();
         schemaValidator.setErrorHandler(handler);
         schemaValidator.validate(xmlSource);

@@ -3,8 +3,7 @@ package proai.driver;
 import proai.CloseableIterator;
 import proai.error.RepositoryException;
 
-public interface RemoteIterator<T> extends CloseableIterator<T>
-{
+public interface RemoteIterator<T> extends CloseableIterator<T> {
 
     public boolean hasNext() throws RepositoryException;
 

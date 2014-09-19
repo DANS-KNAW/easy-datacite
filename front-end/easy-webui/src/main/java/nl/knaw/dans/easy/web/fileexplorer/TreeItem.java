@@ -14,8 +14,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 /**
  * @author Georgi Khomeriki
  */
-public class TreeItem implements Serializable, ITreeItem
-{
+public class TreeItem implements Serializable, ITreeItem {
     private static final long serialVersionUID = 1L;
 
     // TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file
@@ -34,32 +33,27 @@ public class TreeItem implements Serializable, ITreeItem
     private ItemVO itemVO;
     private boolean loaded;
 
-    public TreeItem(ItemVO itemVO, ITreeItem parent)
-    {
+    public TreeItem(ItemVO itemVO, ITreeItem parent) {
         this.itemVO = itemVO;
         this.parent = parent;
 
-        if (itemVO instanceof FolderItemVO)
-        {
+        if (itemVO instanceof FolderItemVO) {
             // we're dealing with a folder
             FolderItemVO folderItem = (FolderItemVO) itemVO;
             visibleTo = "";
-            for (FolderItemVisibleTo fivt : folderItem.getVisibleToList())
-            {
+            for (FolderItemVisibleTo fivt : folderItem.getVisibleToList()) {
                 visibleTo += makeValueReadable(fivt.getVisibleTo().toString()) + ", ";
             }
             if (visibleTo.length() > 2)
                 visibleTo = visibleTo.substring(0, visibleTo.length() - 2); // remove last comma
             accessibleTo = "";
-            for (FolderItemAccessibleTo fiat : folderItem.getAccessibleToList())
-            {
+            for (FolderItemAccessibleTo fiat : folderItem.getAccessibleToList()) {
                 accessibleTo += makeValueReadable(fiat.getAccessibleTo().toString()) + ", ";
             }
             if (accessibleTo.length() > 2)
                 accessibleTo = accessibleTo.substring(0, accessibleTo.length() - 2); // remove last comma
             creator = "";
-            for (FolderItemCreatorRole role : folderItem.getCreatorRoles())
-            {
+            for (FolderItemCreatorRole role : folderItem.getCreatorRoles()) {
                 creator += makeValueReadable(role.getCreatorRole().toString()) + ", ";
             }
             if (creator.length() > 2)
@@ -68,9 +62,7 @@ public class TreeItem implements Serializable, ITreeItem
             sizeAsString = "";
             type = Type.FOLDER;
             mimeType = "folder";
-        }
-        else
-        {
+        } else {
             // we're dealing with a file
             FileItemVO fileItem = (FileItemVO) itemVO;
             visibleTo = makeValueReadable(fileItem.getVisibleTo().toString());
@@ -83,151 +75,121 @@ public class TreeItem implements Serializable, ITreeItem
         }
     }
 
-    public void addChild(ITreeItem child)
-    {
+    public void addChild(ITreeItem child) {
         ITreeItem item = (ITreeItem) child;
-        if (item.getType().equals(Type.FOLDER))
-        {
+        if (item.getType().equals(Type.FOLDER)) {
             children.add(item);
             childrenWithFiles.add(item);
-        }
-        else if (item.getType().equals(Type.FILE))
-        {
+        } else if (item.getType().equals(Type.FILE)) {
             childrenWithFiles.add(item);
         }
     }
 
     @Override
-    public void removeChild(ITreeItem item)
-    {
-        if (children.contains(item))
-        {
+    public void removeChild(ITreeItem item) {
+        if (children.contains(item)) {
             children.remove(item);
         }
-        if (childrenWithFiles.contains(item))
-        {
+        if (childrenWithFiles.contains(item)) {
             childrenWithFiles.remove(item);
         }
     }
 
     // converts values of Creator, VisibleTo and AccessibleTo to readable values
-    public static String makeValueReadable(String value)
-    {
+    public static String makeValueReadable(String value) {
         String result = "";
         String[] parts = value.split("_");
-        for (String part : parts)
-        {
+        for (String part : parts) {
             String convertedPart = part.charAt(0) + part.substring(1).toLowerCase();
             result += convertedPart + " ";
         }
         return result.length() > 1 ? result.substring(0, result.length() - 1) : result;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return itemVO.getSid();
     }
 
-    public String getName()
-    {
+    public String getName() {
         return itemVO.getName();
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return size;
     }
 
-    public String getSizeAsString()
-    {
+    public String getSizeAsString() {
         return sizeAsString;
     }
 
-    public String getCreator()
-    {
+    public String getCreator() {
         return creator;
     }
 
-    public String getVisibleTo()
-    {
+    public String getVisibleTo() {
         return visibleTo;
     }
 
-    public String getAccessibleTo()
-    {
+    public String getAccessibleTo() {
         return accessibleTo;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return mimeType;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return itemVO.getName();
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new TreeItem(itemVO, parent);
     }
 
-    public boolean hasChildren()
-    {
+    public boolean hasChildren() {
         return children.size() > 0;
     }
 
-    public boolean isLoaded()
-    {
+    public boolean isLoaded() {
         return loaded;
     }
 
-    public void setLoaded(boolean loaded)
-    {
+    public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
 
-    public ArrayList<ITreeItem> getChildren()
-    {
+    public ArrayList<ITreeItem> getChildren() {
         return children;
     }
 
-    public ArrayList<ITreeItem> getChildrenWithFiles()
-    {
+    public ArrayList<ITreeItem> getChildrenWithFiles() {
         return childrenWithFiles;
     }
 
-    public ITreeItem getParent()
-    {
+    public ITreeItem getParent() {
         return parent;
     }
 
-    public void setParent(ITreeItem parent)
-    {
+    public void setParent(ITreeItem parent) {
         this.parent = parent;
     }
 
-    public ItemVO getItemVO()
-    {
+    public ItemVO getItemVO() {
         return itemVO;
     }
 
-    public void setItemVO(ItemVO itemVO)
-    {
+    public void setItemVO(ItemVO itemVO) {
         this.itemVO = itemVO;
     }
 
     @Override
-    public int compareTo(ITreeItem o)
-    {
+    public int compareTo(ITreeItem o) {
         return this.getName().compareTo(o.getName());
     }
 

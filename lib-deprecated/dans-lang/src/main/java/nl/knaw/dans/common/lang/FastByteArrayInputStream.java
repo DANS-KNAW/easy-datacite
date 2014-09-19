@@ -3,11 +3,9 @@ package nl.knaw.dans.common.lang;
 import java.io.InputStream;
 
 /**
- * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ ByteArrayInputStream implementation
- * that does not synchronize methods.
+ * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ ByteArrayInputStream implementation that does not synchronize methods.
  */
-public class FastByteArrayInputStream extends InputStream
-{
+public class FastByteArrayInputStream extends InputStream {
     /**
      * Our byte buffer
      */
@@ -23,24 +21,20 @@ public class FastByteArrayInputStream extends InputStream
      */
     protected int pos = 0;
 
-    public FastByteArrayInputStream(byte[] buf, int count)
-    {
+    public FastByteArrayInputStream(byte[] buf, int count) {
         this.buf = buf;
         this.count = count;
     }
 
-    public final int available()
-    {
+    public final int available() {
         return count - pos;
     }
 
-    public final int read()
-    {
+    public final int read() {
         return (pos < count) ? (buf[pos++] & 0xff) : -1;
     }
 
-    public final int read(byte[] b, int off, int len)
-    {
+    public final int read(byte[] b, int off, int len) {
         if (pos >= count)
             return -1;
 
@@ -52,8 +46,7 @@ public class FastByteArrayInputStream extends InputStream
         return len;
     }
 
-    public final long skip(long n)
-    {
+    public final long skip(long n) {
         if ((pos + n) > count)
             n = count - pos;
         if (n < 0)

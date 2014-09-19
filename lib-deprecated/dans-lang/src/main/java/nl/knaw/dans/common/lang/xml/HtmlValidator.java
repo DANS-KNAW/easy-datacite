@@ -14,8 +14,7 @@ import org.w3c.tidy.TidyMessageListener;
  * 
  * @author ecco
  */
-public class HtmlValidator implements TidyMessageListener
-{
+public class HtmlValidator implements TidyMessageListener {
 
     private static final String HEAD_1 = "<!DOCTYPE html PUBLIC " + "\"-//W3C//DTD XHTML 1.0 Transitional//EN\" "
             + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + "<html xmlns=\"http://www.w3.org/1999/xhtml\">" + "<head><title>";
@@ -33,8 +32,7 @@ public class HtmlValidator implements TidyMessageListener
     private String title = "";
     private boolean printBodyOnly;
 
-    public HtmlValidator()
-    {
+    public HtmlValidator() {
         tidy = new Tidy();
         tidy.setMessageListener(this);
         tidy.setBreakBeforeBR(true);
@@ -44,8 +42,7 @@ public class HtmlValidator implements TidyMessageListener
         resetMessages();
     }
 
-    public void resetMessages()
-    {
+    public void resetMessages() {
         summeryMessages = new ArrayList<TidyMessage>();
         infoMessages = new ArrayList<TidyMessage>();
         warningMessages = new ArrayList<TidyMessage>();
@@ -53,29 +50,24 @@ public class HtmlValidator implements TidyMessageListener
         messages = new ArrayList<TidyMessage>();
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String tidyPartialHtml(String markupPart)
-    {
+    public String tidyPartialHtml(String markupPart) {
         return tidyPartialHtml(markupPart, true);
     }
 
-    public String tidyPartialHtml(String markupPart, boolean printBodyOnly)
-    {
+    public String tidyPartialHtml(String markupPart, boolean printBodyOnly) {
         String markupFeed = HEAD_1 + title + HEAD_2 + markupPart + TAIL;
         return tidyHtml(markupFeed, printBodyOnly);
     }
 
-    public String tidyHtml(String markup, boolean printBodyOnly)
-    {
+    public String tidyHtml(String markup, boolean printBodyOnly) {
         resetMessages();
         this.printBodyOnly = printBodyOnly;
         tidy.setPrintBodyOnly(printBodyOnly);
@@ -86,11 +78,9 @@ public class HtmlValidator implements TidyMessageListener
     }
 
     @Override
-    public void messageReceived(TidyMessage msg)
-    {
+    public void messageReceived(TidyMessage msg) {
         messages.add(msg);
-        switch (msg.getLevel().getCode())
-        {
+        switch (msg.getLevel().getCode()) {
         case 0:
             summeryMessages.add(msg);
             break;
@@ -108,68 +98,53 @@ public class HtmlValidator implements TidyMessageListener
 
     }
 
-    public boolean hasErrors()
-    {
+    public boolean hasErrors() {
         return errorMessages.size() > 0;
     }
 
-    public boolean hasWarnings()
-    {
+    public boolean hasWarnings() {
         return warningMessages.size() > 0;
     }
 
-    public int errorCount()
-    {
+    public int errorCount() {
         return errorMessages.size();
     }
 
-    public int warningCount()
-    {
+    public int warningCount() {
         return warningMessages.size();
     }
 
-    public List<String> getSummeryMessages()
-    {
+    public List<String> getSummeryMessages() {
         return convert(summeryMessages);
     }
 
-    public List<String> getInfoMessages()
-    {
+    public List<String> getInfoMessages() {
         return convert(infoMessages);
     }
 
-    public List<String> getWarningMessages()
-    {
+    public List<String> getWarningMessages() {
         return convert(warningMessages);
     }
 
-    public List<String> getErrorMessages()
-    {
+    public List<String> getErrorMessages() {
         return convert(errorMessages);
     }
 
-    public List<String> getMessages()
-    {
+    public List<String> getMessages() {
         return convert(messages);
     }
 
-    public String getLastMessage()
-    {
-        if (messages.size() == 0)
-        {
+    public String getLastMessage() {
+        if (messages.size() == 0) {
             return "";
-        }
-        else
-        {
+        } else {
             return messages.get(messages.size() - 1).getMessage();
         }
     }
 
-    private List<String> convert(List<TidyMessage> tidyMsgs)
-    {
+    private List<String> convert(List<TidyMessage> tidyMsgs) {
         List<String> msgs = new ArrayList<String>();
-        for (TidyMessage tidyMsg : tidyMsgs)
-        {
+        for (TidyMessage tidyMsg : tidyMsgs) {
             String msg = tidyMsg.getLevel() + ": " + tidyMsg.getMessage() + " line=" + (tidyMsg.getLine() - (printBodyOnly ? 1 : 0)) + " column="
                     + tidyMsg.getColumn();
             msgs.add(msg);
@@ -177,8 +152,7 @@ public class HtmlValidator implements TidyMessageListener
         return msgs;
     }
 
-    public void setHideVarious()
-    {
+    public void setHideVarious() {
         tidy.setHideComments(true);
         tidy.setDropFontTags(true);
         tidy.setDropEmptyParas(true);

@@ -23,15 +23,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MarshallerTest
-{
+public class MarshallerTest {
     private static final Logger logger = LoggerFactory.getLogger(MarshallerTest.class);
 
     boolean verbose = false;
 
     @Test
-    public void marshallAndUnmarshallMethods() throws Exception
-    {
+    public void marshallAndUnmarshallMethods() throws Exception {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(2, emd);
 
@@ -84,8 +82,7 @@ public class MarshallerTest
     }
 
     @Test
-    public void settings() throws Exception
-    {
+    public void settings() throws Exception {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(2, emd);
 
@@ -119,8 +116,7 @@ public class MarshallerTest
     }
 
     @Test
-    public void w3cDomDocumentSettings() throws Exception
-    {
+    public void w3cDomDocumentSettings() throws Exception {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(2, emd);
 
@@ -159,8 +155,7 @@ public class MarshallerTest
     }
 
     @Test
-    public void w3cDomElementSettings() throws Exception
-    {
+    public void w3cDomElementSettings() throws Exception {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(2, emd);
 
@@ -199,8 +194,7 @@ public class MarshallerTest
     }
 
     @Test
-    public void jibxMarshaller1ParaConstructor() throws Exception
-    {
+    public void jibxMarshaller1ParaConstructor() throws Exception {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         JiBXMarshaller jm = new JiBXMarshaller(emd);
 
@@ -210,8 +204,7 @@ public class MarshallerTest
     }
 
     @Test(expected = XMLSerializationException.class)
-    public void jibxMarshaller1ParaConstructor2() throws Exception
-    {
+    public void jibxMarshaller1ParaConstructor2() throws Exception {
         EmdCreator ec = new EmdCreator();
         ec.getDcCreator().add(new BasicString("pietje"));
         JiBXMarshaller jm = new JiBXMarshaller(ec);
@@ -220,8 +213,7 @@ public class MarshallerTest
     }
 
     @Test(expected = XMLSerializationException.class)
-    public void noTopLevelMapping() throws Exception
-    {
+    public void noTopLevelMapping() throws Exception {
         Author author = new Author();
         JiBXMarshaller jm = new JiBXMarshaller(EmdMarshaller.BINDING_NAME, author);
         jm.getXmlString();

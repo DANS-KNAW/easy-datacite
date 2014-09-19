@@ -13,424 +13,343 @@ import nl.knaw.dans.easy.domain.model.user.Group;
 
 import org.joda.time.DateTime;
 
-public class EasyUserAnonymous implements EasyUser
-{
+public class EasyUserAnonymous implements EasyUser {
     private static final long serialVersionUID = 1L;
 
     private static EasyUserAnonymous instance = new EasyUserAnonymous();
 
-    public static EasyUserAnonymous getInstance()
-    {
+    public static EasyUserAnonymous getInstance() {
         return instance;
     }
 
-    public void addGroupId(String groupId)
-    {
+    public void addGroupId(String groupId) {
         throw new AnonymousUserException("Cannot add group id " + groupId + " to an anonymous user.");
     }
 
-    public void addRole(Role role)
-    {
+    public void addRole(Role role) {
         throw new AnonymousUserException("Cannot add role " + role.toString() + " to an anonymous user.");
     }
 
-    public CreatorRole getCreatorRole()
-    {
+    public CreatorRole getCreatorRole() {
         throw new AnonymousUserException("Anonymous user does not have a creator role");
     }
 
-    public Set<String> getGroupIds()
-    {
+    public Set<String> getGroupIds() {
         return Collections.emptySet();
     }
 
-    public Set<Group> getGroups()
-    {
+    public Set<Group> getGroups() {
         return Collections.emptySet();
     }
 
-    public Set<Role> getRoles()
-    {
+    public Set<Role> getRoles() {
         return Collections.emptySet();
     }
 
-    public boolean hasRole(Role... roles)
-    {
+    public boolean hasRole(Role... roles) {
         return false;
     }
 
-    public boolean isMemberOf(Group... groups)
-    {
+    public boolean isMemberOf(Group... groups) {
         return false;
     }
 
-    public boolean isMemberOfGroup(Collection<String> groupIds)
-    {
+    public boolean isMemberOfGroup(Collection<String> groupIds) {
         return false;
     }
 
-    public void joinGroup(Group group)
-    {
+    public void joinGroup(Group group) {
         throw new AnonymousUserException("Anonymous user cannot join group " + group.toString() + ".");
     }
 
-    public boolean leaveGroup(Group group)
-    {
+    public boolean leaveGroup(Group group) {
         throw new AnonymousUserException("Anonymous user cannot leave group " + group.toString() + ", because it can never be part of a group.");
     }
 
-    public boolean removeRole(Role role)
-    {
+    public boolean removeRole(Role role) {
         throw new AnonymousUserException("Anonymous user does not have a role and can therefore not remove the role " + role.toString() + ".");
     }
 
-    public void synchronizeOn(EasyUser otherUser)
-    {
+    public void synchronizeOn(EasyUser otherUser) {
         throw new AnonymousUserException("Cannot synchronize anonymous user.");
     }
 
-    public boolean getAcceptConditionsOfUse()
-    {
+    public boolean getAcceptConditionsOfUse() {
         return false;
     }
 
-    public DateTime getLastLoginDate()
-    {
+    public DateTime getLastLoginDate() {
         throw new AnonymousUserException("Cannot get last login date of an anonymous user.");
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         throw new AnonymousUserException("Cannot get password of an anonymous user.");
     }
 
-    public String getSHAEncryptedPassword()
-    {
+    public String getSHAEncryptedPassword() {
         throw new AnonymousUserException("Cannot get SHA encrypted password of an anonymous user.");
     }
 
-    public State getState()
-    {
+    public State getState() {
         throw new AnonymousUserException("Cannot get state of an anonymous user.");
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return true;
     }
 
-    public boolean isBlocked()
-    {
+    public boolean isBlocked() {
         return false;
     }
 
-    public boolean isFirstLogin()
-    {
+    public boolean isFirstLogin() {
         return false;
     }
 
-    public boolean isQualified()
-    {
+    public boolean isQualified() {
         return false;
     }
 
-    public boolean isUserInfoUpdateRequired()
-    {
+    public boolean isUserInfoUpdateRequired() {
         return false;
     }
 
-    public boolean getOptsForNewsletter()
-    {
+    public boolean getOptsForNewsletter() {
         return false;
     }
 
-    public void setOptsForNewsletter(boolean optsForNewsletter)
-    {
+    public void setOptsForNewsletter(boolean optsForNewsletter) {
         throw new AnonymousUserException("An anonymous user cannot opt for a newsletter.");
     }
 
-    public void setAcceptConditionsOfUse(boolean accept)
-    {
+    public void setAcceptConditionsOfUse(boolean accept) {
         throw new AnonymousUserException("Cannot set accept conditions of use an anonymous user.");
     }
 
-    public void setId(String userId)
-    {
+    public void setId(String userId) {
         throw new AnonymousUserException("Cannot set id of use an anonymous user.");
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         throw new AnonymousUserException("Cannot set password of use an anonymous user.");
     }
 
-    public void setSHAEncryptedPassword(String encryptedPassword)
-    {
+    public void setSHAEncryptedPassword(String encryptedPassword) {
         throw new AnonymousUserException("Cannot set SHA encrypted password of use an anonymous user.");
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         throw new AnonymousUserException("Cannot set state of use an anonymous user.");
     }
 
-    public void synchronizeOn(User otherUser)
-    {
+    public void synchronizeOn(User otherUser) {
         throw new AnonymousUserException("Cannot syncrhonize on an anonymous user.");
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         throw new AnonymousUserException("Cannot get address of an anonymous user.");
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         throw new AnonymousUserException("Cannot get city of an anonymous user.");
     }
 
-    public String getCommonName()
-    {
+    public String getCommonName() {
         return "Anonymous";
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         throw new AnonymousUserException("Cannot get country of an anonymous user.");
     }
 
-    public String getDepartment()
-    {
+    public String getDepartment() {
         throw new AnonymousUserException("Cannot get department of an anonymous user.");
     }
 
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Anonymous";
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         throw new AnonymousUserException("Cannot get email of an anonymous user.");
     }
 
-    public String getFirstname()
-    {
+    public String getFirstname() {
         throw new AnonymousUserException("Cannot get firstname of an anonymous user.");
     }
 
-    public String getFunction()
-    {
+    public String getFunction() {
         throw new AnonymousUserException("Cannot get function of an anonymous user.");
     }
 
-    public String getInitials()
-    {
+    public String getInitials() {
         throw new AnonymousUserException("Cannot get initials of an anonymous user.");
     }
 
-    public String getOrganization()
-    {
+    public String getOrganization() {
         throw new AnonymousUserException("Cannot get organisation of an anonymous user.");
     }
 
-    public String getPostalCode()
-    {
+    public String getPostalCode() {
         throw new AnonymousUserException("Cannot get postal code of an anonymous user.");
     }
 
-    public String getPrefixes()
-    {
+    public String getPrefixes() {
         throw new AnonymousUserException("Cannot get prefixes of an anonymous user.");
     }
 
-    public String getSurname()
-    {
+    public String getSurname() {
         throw new AnonymousUserException("Cannot get surname of an anonymous user.");
     }
 
-    public String getTelephone()
-    {
+    public String getTelephone() {
         throw new AnonymousUserException("Cannot get telephone of an anonymous user.");
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         throw new AnonymousUserException("Cannot get title of an anonymous user.");
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         throw new AnonymousUserException("Cannot set address of an anonymous user.");
     }
 
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         throw new AnonymousUserException("Cannot set city of an anonymous user.");
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         throw new AnonymousUserException("Cannot set country of an anonymous user.");
     }
 
-    public void setDepartment(String department)
-    {
+    public void setDepartment(String department) {
         throw new AnonymousUserException("Cannot set department of an anonymous user.");
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         throw new AnonymousUserException("Cannot set email of an anonymous user.");
     }
 
-    public void setFirstname(String firstname)
-    {
+    public void setFirstname(String firstname) {
         throw new AnonymousUserException("Cannot set firstname of an anonymous user.");
     }
 
-    public void setFunction(String function)
-    {
+    public void setFunction(String function) {
         throw new AnonymousUserException("Cannot set function of an anonymous user.");
     }
 
-    public void setInitials(String initials)
-    {
+    public void setInitials(String initials) {
         throw new AnonymousUserException("Cannot set initials of an anonymous user.");
     }
 
-    public void setOrganization(String organization)
-    {
+    public void setOrganization(String organization) {
         throw new AnonymousUserException("Cannot set organisation of an anonymous user.");
     }
 
-    public void setPostalCode(String postalCode)
-    {
+    public void setPostalCode(String postalCode) {
         throw new AnonymousUserException("Cannot set postal code of an anonymous user.");
     }
 
-    public void setPrefixes(String prefixes)
-    {
+    public void setPrefixes(String prefixes) {
         throw new AnonymousUserException("Cannot set prefixes of an anonymous user.");
     }
 
-    public void setSurname(String surname)
-    {
+    public void setSurname(String surname) {
         throw new AnonymousUserException("Cannot set surname of an anonymous user.");
     }
 
-    public void setTelephone(String telephone)
-    {
+    public void setTelephone(String telephone) {
         throw new AnonymousUserException("Cannot set telephone of an anonymous user.");
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         throw new AnonymousUserException("Cannot set title of an anonymous user.");
     }
 
-    public void synchronizeOn(Person otherPerson)
-    {
+    public void synchronizeOn(Person otherPerson) {
         throw new AnonymousUserException("Cannot synchronize on an anonymous user.");
     }
 
-    public String getId()
-    {
+    public String getId() {
         throw new AnonymousUserException("Cannot get id of an anonymous user.");
     }
 
-    public boolean isAnonymous()
-    {
+    public boolean isAnonymous() {
         return true;
     }
 
     @Override
-    public String getAlternativeTelephone()
-    {
+    public String getAlternativeTelephone() {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public void setAlternativeTelephone(String altTel)
-    {
+    public void setAlternativeTelephone(String altTel) {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "anonymous user";
     }
 
     @Override
-    public boolean isLogMyActions()
-    {
+    public boolean isLogMyActions() {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public void setLogMyActions(boolean logMyActions)
-    {
+    public void setLogMyActions(boolean logMyActions) {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public String getDai()
-    {
+    public String getDai() {
         throw new AnonymousUserException("Cannot get DAI of an anonymous user.");
     }
 
     @Override
-    public void setDai(String dai)
-    {
+    public void setDai(String dai) {
         throw new AnonymousUserException("Cannot set DAI of an anonymous user.");
     }
 
     @Override
-    public void setDiscipline1(String discipline1)
-    {
+    public void setDiscipline1(String discipline1) {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public String getDiscipline1()
-    {
+    public String getDiscipline1() {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public void setDiscipline2(String discipline2)
-    {
+    public void setDiscipline2(String discipline2) {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public String getDiscipline2()
-    {
+    public String getDiscipline2() {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public void setDiscipline3(String discipline3)
-    {
+    public void setDiscipline3(String discipline3) {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public String getDiscipline3()
-    {
+    public String getDiscipline3() {
         throw new AnonymousUserException("Method not supported.");
     }
 
     @Override
-    public boolean hasAcceptedGeneralConditions()
-    {
+    public boolean hasAcceptedGeneralConditions() {
         return false;
     }
 
     @Override
-    public void setAcceptedGeneralConditions(boolean accepted)
-    {
+    public void setAcceptedGeneralConditions(boolean accepted) {
         throw new AnonymousUserException("Method not supported.");
     }
 }

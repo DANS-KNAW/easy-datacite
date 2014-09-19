@@ -64,8 +64,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-public class EasyItemService extends AbstractEasyService implements ItemService
-{
+public class EasyItemService extends AbstractEasyService implements ItemService {
 
     private static final Logger logger = LoggerFactory.getLogger(EasyItemService.class);
 
@@ -146,34 +145,26 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     {
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
 
-        try
-        {
+        try {
             uow.attach(dataset); // most important: dataset and parentContainer may be the same object
             DatasetItemContainer parentContainer;
-            if (parentId == null)
-            {
+            if (parentId == null) {
                 parentContainer = dataset;
-            }
-            else
-            {
+            } else {
                 parentContainer = (DatasetItemContainer) uow.retrieveObject(parentId);
             }
             getItemWorkDispatcher().addDirectoryContents(sessionUser, dataset, parentContainer, rootFile, ingestFilter, uow, delegator, workListeners);
         }
-        catch (final ObjectNotInStoreException e)
-        {
+        catch (final ObjectNotInStoreException e) {
             throw new ObjectNotAvailableException(e);
         }
-        catch (final ApplicationException e)
-        {
+        catch (final ApplicationException e) {
             throw new ServiceException(e);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
@@ -185,24 +176,20 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
             WorkListener... workListeners) throws ServiceException
     {
-        if (sidList.isEmpty())
-        {
+        if (sidList.isEmpty()) {
             return;
         }
 
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
 
-        try
-        {
+        try {
             uow.attach(dataset);
             getItemWorkDispatcher().updateObjects(sessionUser, dataset, sidList, updateInfo, itemFilters, uow, workListeners);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error("Something went wrong trying to update objects.", e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
@@ -211,35 +198,28 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, File file, AdditionalMetadataUpdateStrategy strategy,
             WorkListener... workListeners) throws ServiceException
     {
-        try
-        {
+        try {
             XMLErrorHandler handler = ResourceMetadataListValidator.instance().validate(file, null);
-            if (!handler.passed())
-            {
+            if (!handler.passed()) {
                 logger.warn("Invalid resource metadata: " + handler.getMessages());
                 throw new ServiceException("Invalid resource metadata: " + handler.getMessages());
             }
         }
-        catch (ValidatorException e)
-        {
+        catch (ValidatorException e) {
             throw new ServiceException(e);
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             throw new ServiceException(e);
         }
-        catch (SchemaCreationException e)
-        {
+        catch (SchemaCreationException e) {
             throw new ServiceException(e);
         }
 
-        try
-        {
+        try {
             ResourceMetadataList rmdList = (ResourceMetadataList) JiBXObjectFactory.unmarshal(ResourceMetadataList.class, file);
             updateFileItemMetadata(sessionUser, dataset, rmdList, strategy, workListeners);
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new ServiceException(e);
         }
 
@@ -259,33 +239,26 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     public void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap) throws ServiceException
     {
         final UnitOfWork uow = new EasyUnitOfWork(sessionUser);
-        try
-        {
+        try {
             getItemWorkDispatcher().saveDescriptiveMetadata(sessionUser, uow, dataset, descriptiveMetadataMap);
             uow.commit();
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
-        catch (final UnitOfWorkInterruptException e)
-        {
+        catch (final UnitOfWorkInterruptException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
 
-    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws ServiceException
-    {
-        try
-        {
+    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws ServiceException {
+        try {
             return Data.getFileStoreAccess().getFilenames(parentSid, recursive);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
     }
@@ -294,13 +267,11 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<ItemVO> itemList;
-        try
-        {
+        try {
 
             itemList = Data.getFileStoreAccess().getFilesAndFolders(parentSid, limit, offset, order, filters);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
 
@@ -308,14 +279,11 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return itemList;
     }
 
-    public boolean hasChildItems(final DmoStoreId parentSid) throws ServiceException
-    {
-        try
-        {
+    public boolean hasChildItems(final DmoStoreId parentSid) throws ServiceException {
+        try {
             return Data.getFileStoreAccess().hasChildItems(parentSid);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
     }
@@ -324,12 +292,10 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<FileItemVO> fileItemList;
-        try
-        {
+        try {
             fileItemList = Data.getFileStoreAccess().getFiles(parentSid, limit, offset, order, filters);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
         setAuthzStrategy(sessionUser, dataset, fileItemList);
@@ -340,12 +306,10 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<FolderItemVO> folderItemList;
-        try
-        {
+        try {
             folderItemList = Data.getFileStoreAccess().getFolders(parentSid, limit, offset, order, filters);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
 
@@ -353,15 +317,12 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return folderItemList;
     }
 
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final Collection<DmoStoreId> itemIds) throws ServiceException
-    {
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final Collection<DmoStoreId> itemIds) throws ServiceException {
         List<ItemVO> itemList;
-        try
-        {
+        try {
             itemList = Data.getFileStoreAccess().findFilesAndFoldersById(itemIds);
         }
-        catch (final StoreAccessException e)
-        {
+        catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
 
@@ -380,34 +341,24 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     private Collection<FileItemVO> getFileItemsRecursively(AuthzStrategyProvider provider, final Collection<FileItemVO> items, final ItemFilters filter,
             final DmoStoreId... storeIds) throws ServiceException
     {
-        try
-        {
-            for (final DmoStoreId storeId : storeIds)
-            {
-                if (storeId.isInNamespace(FileItem.NAMESPACE))
-                {
+        try {
+            for (final DmoStoreId storeId : storeIds) {
+                if (storeId.isInNamespace(FileItem.NAMESPACE)) {
                     items.add(Data.getFileStoreAccess().findFileById(storeId));
-                }
-                else
-                {
-                    for (final ItemVO item : Data.getFileStoreAccess().getFilesAndFolders(storeId, 0, 0, null, filter))
-                    {
-                        if (item instanceof FileItemVO)
-                        {
+                } else {
+                    for (final ItemVO item : Data.getFileStoreAccess().getFilesAndFolders(storeId, 0, 0, null, filter)) {
+                        if (item instanceof FileItemVO) {
                             items.add((FileItemVO) item);
                             AuthzStrategy strategy = provider.getAuthzStrategy(item.getAutzStrategyName(), item);
                             ((AbstractItemVO) item).setAuthzStrategy(strategy);
-                        }
-                        else
-                        {
+                        } else {
                             getFileItemsRecursively(provider, items, filter, new DmoStoreId(((FolderItemVO) item).getSid()));
                         }
                     }
                 }
             }
         }
-        catch (StoreAccessException e)
-        {
+        catch (StoreAccessException e) {
             throw new ServiceException(e);
         }
         return items;
@@ -416,11 +367,9 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     /**
      * {@inheritDoc}
      */
-    public FileContentWrapper getContent(EasyUser sessionUser, final Dataset dataset, final DmoStoreId fileItemId) throws ServiceException
-    {
+    public FileContentWrapper getContent(EasyUser sessionUser, final Dataset dataset, final DmoStoreId fileItemId) throws ServiceException {
         final FileContentWrapper fileContentWrapper = getDownloadWorkDispatcher().prepareFileContent(sessionUser, dataset, fileItemId);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Returning file content link for " + fileContentWrapper.toString());
         }
 
@@ -434,80 +383,64 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             throws ServiceException
     {
         final ZipFileContentWrapper zipFileContentWrapper = getDownloadWorkDispatcher().prepareZippedContent(sessionUser, dataset, requestedItems);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Returning zipped files from " + getStoreId(dataset) + " to " + getUserId(sessionUser));
         }
         return zipFileContentWrapper;
     }
 
-    private ItemWorkDispatcher getItemWorkDispatcher()
-    {
-        if (itemWorDispatcher == null)
-        {
+    private ItemWorkDispatcher getItemWorkDispatcher() {
+        if (itemWorDispatcher == null) {
             itemWorDispatcher = new ItemWorkDispatcher();
         }
         return itemWorDispatcher;
     }
 
-    private DownloadWorkDispatcher getDownloadWorkDispatcher()
-    {
-        if (downloadWorkDispatcher == null)
-        {
+    private DownloadWorkDispatcher getDownloadWorkDispatcher() {
+        if (downloadWorkDispatcher == null) {
             downloadWorkDispatcher = new DownloadWorkDispatcher();
         }
         return downloadWorkDispatcher;
     }
 
-    private void setAuthzStrategy(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> itemList)
-    {
+    private void setAuthzStrategy(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> itemList) {
         AuthzStrategyProvider provider = new AuthzStrategyProvider(sessionUser, dataset);
-        for (ItemVO itemVO : itemList)
-        {
+        for (ItemVO itemVO : itemList) {
             AuthzStrategy strategy = provider.getAuthzStrategy(itemVO.getAutzStrategyName(), itemVO);
             ((AbstractItemVO) itemVO).setAuthzStrategy(strategy);
         }
     }
 
-    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
-    {
+    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException {
         FileItem fileItem;
-        try
-        {
+        try {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId()))
-            {
+            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId())) {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             throw new ObjectNotAvailableException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return fileItem;
     }
 
     @Override
-    public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads)
-    {
+    public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads) {
         DownloadRegistration registration = new DownloadRegistration(sessionUser, dataset, downloads);
         registration.registerDownloads();
     }
 
     @Override
-    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException
-    {
+    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
         List<FileItemVO> result = new LinkedList<FileItemVO>();
         Collection<FileItemVO> fileItems = getFileItemsRecursively(sessionUser, dataset, new ArrayList<FileItemVO>(), null, dataset.getDmoStoreId());
 
-        for (FileItemVO fileItem : fileItems)
-        {
-            if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
-            {
+        for (FileItemVO fileItem : fileItems) {
+            if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID)) {
                 DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
                 FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
                 if (null != description.getFileItemMetadata().getStreamingPath())
@@ -518,25 +451,21 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
 
     @Override
-    public URL getStreamingHost()
-    {
+    public URL getStreamingHost() {
         return streamingHost;
     }
 
-    public void setStreamingHost(String streamingHost) throws MalformedURLException
-    {
+    public void setStreamingHost(String streamingHost) throws MalformedURLException {
         this.streamingHost = new URL(streamingHost);
     }
 
     @Override
-    public void setMustProcessAudioVideoInstructions(boolean value)
-    {
+    public void setMustProcessAudioVideoInstructions(boolean value) {
         processAudioVideoInstructions = value;
     }
 
     @Override
-    public boolean mustProcessAudioVideoInstructions()
-    {
+    public boolean mustProcessAudioVideoInstructions() {
         return processAudioVideoInstructions;
     }
 }

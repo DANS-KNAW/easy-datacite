@@ -13,14 +13,13 @@ import org.joda.time.DateTime;
 
 // TODO Move methods involving resource index (RDF, sparql) to another interface and (abstract)class(es).
 // (hb)
-public interface DmoStore extends SidDispenser
-{
+public interface DmoStore extends SidDispenser {
 
     void setConcurrencyGuard(DmoUpdateConcurrencyGuard concurrencyGuard);
 
     /**
-     * Add the StoreEventListeners listed in <code>storeEventListeners</code> to the event listeners of
-     * this Store. Use this method for dependency injection by a framework.
+     * Add the StoreEventListeners listed in <code>storeEventListeners</code> to the event listeners of this Store. Use this method for dependency injection by
+     * a framework.
      * 
      * @param storeEventListeners
      *        a list of StoreEventListeners
@@ -52,8 +51,7 @@ public interface DmoStore extends SidDispenser
     List<DmoStoreEventListener> getListeners();
 
     /**
-     * @return the name of this store. Each store has to be uniquely named and a single entrance to this
-     *         repository.
+     * @return the name of this store. Each store has to be uniquely named and a single entrance to this repository.
      */
     String getName();
 
@@ -82,9 +80,8 @@ public interface DmoStore extends SidDispenser
     DataModelObject retrieve(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException;
 
     /**
-     * Update the given DataModelObject. If the <code>skipDirtyChecking</code> flag is set to
-     * <code>true</code>, will update the entire DataModelObject and all of it's units indiscriminate of
-     * the state of dirty flags of the object and it's units.
+     * Update the given DataModelObject. If the <code>skipDirtyChecking</code> flag is set to <code>true</code>, will update the entire DataModelObject and all
+     * of it's units indiscriminate of the state of dirty flags of the object and it's units.
      * 
      * @param dmo
      *        the DataModelObject to update
@@ -92,8 +89,7 @@ public interface DmoStore extends SidDispenser
      *        <code>true</code> if dirty checking should be skipped, <code>false</code> otherwise
      * @param logMessage
      *        a log message
-     * @return the timestamp of the update according to the store or <code>null</code> if no update took
-     *         place
+     * @return the timestamp of the update according to the store or <code>null</code> if no update took place
      * @throws ConcurrentUpdateException
      *         if a concurrent update took place
      * @throws RepositoryException
@@ -102,9 +98,8 @@ public interface DmoStore extends SidDispenser
     DateTime update(DataModelObject dmo, boolean skipDirtyChecking, String logMessage) throws ConcurrentUpdateException, RepositoryException;
 
     /**
-     * Update the given DataModelObject. If the <code>skipDirtyChecking</code> flag is set to
-     * <code>true</code>, will update the entire DataModelObject and all of it's units indiscriminate of
-     * the state of dirty flags of the object and it's units.
+     * Update the given DataModelObject. If the <code>skipDirtyChecking</code> flag is set to <code>true</code>, will update the entire DataModelObject and all
+     * of it's units indiscriminate of the state of dirty flags of the object and it's units.
      * 
      * @param dmo
      *        the DataModelObject to update
@@ -113,11 +108,9 @@ public interface DmoStore extends SidDispenser
      * @param logMessage
      *        a log message
      * @param updateOwner
-     *        the unique name or id of the person or session that is responsible for the change. This
-     *        string is held to allowe this person/session to overwrite this dmo with an older version of
-     *        itself without getting a concurrenct update exception. Get it?
-     * @return the timestamp of the update according to the store or <code>null</code> if no update took
-     *         place
+     *        the unique name or id of the person or session that is responsible for the change. This string is held to allowe this person/session to overwrite
+     *        this dmo with an older version of itself without getting a concurrenct update exception. Get it?
+     * @return the timestamp of the update according to the store or <code>null</code> if no update took place
      * @throws ConcurrentUpdateException
      *         if a concurrent update took place
      * @throws RepositoryException
@@ -154,15 +147,14 @@ public interface DmoStore extends SidDispenser
     /**
      * Purge the object with the given id permanently from this Store.
      * <p/>
-     * Note that forced purge is not yet supported in Fedora: fedora.server.errors.GeneralException:
-     * Forced object removal is not yet supported. The parameter <code>force</code> only affects on the
-     * level of DmoStore.
+     * Note that forced purge is not yet supported in Fedora: fedora.server.errors.GeneralException: Forced object removal is not yet supported. The parameter
+     * <code>force</code> only affects on the level of DmoStore.
      * 
      * @param storeId
      *        id of the object to be removed
      * @param force
-     *        force the purge, even if it would break a dependency. This can be used to ignore the fact
-     *        that the object is registered for deletion or non-deletable.
+     *        force the purge, even if it would break a dependency. This can be used to ignore the fact that the object is registered for deletion or
+     *        non-deletable.
      * @param logMessage
      *        a log message
      * @return timestamp of removal according to the store
@@ -200,9 +192,8 @@ public interface DmoStore extends SidDispenser
     DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException;
 
     /**
-     * Queries the repository for relations. The parameters that are left out by using null will be
-     * retrieved from the repository. If one or more parameters are filled in they will be combined to
-     * search for relations.
+     * Queries the repository for relations. The parameters that are left out by using null will be retrieved from the repository. If one or more parameters are
+     * filled in they will be combined to search for relations.
      * 
      * @param subject
      *        null or a subject
@@ -298,9 +289,8 @@ public interface DmoStore extends SidDispenser
     List<UnitMetadata> getUnitMetadata(final DmoStoreId dmoStoreId) throws RepositoryException;
 
     /**
-     * Checks if a dmo is invalidated. Invalidation means that the object is not anymore in a
-     * synchronized state with the persisted dmo. If a dmo is invalidated that means the persisted dmo
-     * has changed since the time the dmo was gotten from the repository.
+     * Checks if a dmo is invalidated. Invalidation means that the object is not anymore in a synchronized state with the persisted dmo. If a dmo is invalidated
+     * that means the persisted dmo has changed since the time the dmo was gotten from the repository.
      * 
      * @param dmo
      *        The dmo to check invalidation for
@@ -311,9 +301,8 @@ public interface DmoStore extends SidDispenser
     boolean isInvalidated(DataModelObject dmo) throws RepositoryException;
 
     /**
-     * Can be used to check if a dmo can be changed. A dmo can be changed if it is not invalidated or if
-     * it is of it carries the same session token as the previous dmo with the same store id that was
-     * modified.
+     * Can be used to check if a dmo can be changed. A dmo can be changed if it is not invalidated or if it is of it carries the same session token as the
+     * previous dmo with the same store id that was modified.
      * 
      * @param dmo
      * @return
@@ -322,9 +311,8 @@ public interface DmoStore extends SidDispenser
     boolean isUpdateable(DataModelObject dmo) throws RepositoryException;
 
     /**
-     * Can be used to check if a dmo can be changed. A dmo can be changed if it is not invalidated or if
-     * it is of it carries the same session token as the previous dmo with the same store id that was
-     * modified.
+     * Can be used to check if a dmo can be changed. A dmo can be changed if it is not invalidated or if it is of it carries the same session token as the
+     * previous dmo with the same store id that was modified.
      * 
      * @param dmo
      * @return

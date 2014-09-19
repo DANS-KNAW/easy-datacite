@@ -14,17 +14,14 @@ import org.slf4j.LoggerFactory;
  * @author Herman Suijs
  * @author lobo
  */
-public class ErrorPage extends AbstractEasyNavPage
-{
+public class ErrorPage extends AbstractEasyNavPage {
     public static final String ERROR_PANEL = "errorPanel";
     private static final Logger log = LoggerFactory.getLogger(ErrorPage.class);
 
     private ErrorLevelFeedbackMessageFilter errorFilter = new ErrorLevelFeedbackMessageFilter(FeedbackMessage.ERROR);
 
-    public ErrorPage()
-    {
-        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0)
-        {
+    public ErrorPage() {
+        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0) {
             log.error(DEFAULT_ERROR_MESSAGE, new Throwable().fillInStackTrace());
             errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
         }
@@ -32,10 +29,8 @@ public class ErrorPage extends AbstractEasyNavPage
         addCommonFeedbackPanel(errorFilter);
     }
 
-    public ErrorPage(final String message, final String... params)
-    {
-        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0)
-        {
+    public ErrorPage(final String message, final String... params) {
+        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0) {
             errorMessage(message, params);
         }
 

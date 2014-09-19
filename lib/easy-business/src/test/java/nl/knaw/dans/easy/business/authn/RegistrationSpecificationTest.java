@@ -7,11 +7,9 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 
 import org.junit.Test;
 
-public class RegistrationSpecificationTest
-{
+public class RegistrationSpecificationTest {
     @Test
-    public void hasAllowedUserIdTest()
-    {
+    public void hasAllowedUserIdTest() {
         EasyUserImpl user = new EasyUserImpl("granted");
         Registration reg = new Registration(user);
         assertFalse(RegistrationSpecification.hasAllowedUserID(reg));

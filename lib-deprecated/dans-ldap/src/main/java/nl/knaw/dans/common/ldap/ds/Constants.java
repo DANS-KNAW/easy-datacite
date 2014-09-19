@@ -1,7 +1,6 @@
 package nl.knaw.dans.common.ldap.ds;
 
-public class Constants
-{
+public class Constants {
 
     public static final String CONTEXT_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
     public static final String SIMPLE_AUTHENTICATION = "simple";

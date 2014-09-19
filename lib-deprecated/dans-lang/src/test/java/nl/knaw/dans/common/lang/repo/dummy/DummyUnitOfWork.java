@@ -4,44 +4,37 @@ import nl.knaw.dans.common.lang.repo.AbstractUnitOfWork;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStore;
 
-public class DummyUnitOfWork extends AbstractUnitOfWork
-{
+public class DummyUnitOfWork extends AbstractUnitOfWork {
     private static final long serialVersionUID = -2376953145049383061L;
     private transient DmoStore store;
 
-    public DummyUnitOfWork(DmoStore store)
-    {
+    public DummyUnitOfWork(DmoStore store) {
         super("dummyOwnerId");
         this.store = store;
     }
 
-    public DummyUnitOfWork()
-    {
+    public DummyUnitOfWork() {
         super("dummyOwnerId");
         this.store = new DummyDmoStore();
     }
 
     @Override
-    public DmoStore getStore()
-    {
+    public DmoStore getStore() {
         return store;
     }
 
     @Override
-    protected String getIngestLogMessage(DataModelObject dmo)
-    {
+    protected String getIngestLogMessage(DataModelObject dmo) {
         return "Ingest by dummy unit of work " + dmo.toString();
     }
 
     @Override
-    protected String getPurgeLogMessage(DataModelObject dmo)
-    {
+    protected String getPurgeLogMessage(DataModelObject dmo) {
         return "Purged by dummy unit of work " + dmo.toString();
     }
 
     @Override
-    protected String getUpdateLogMessage(DataModelObject dmo)
-    {
+    protected String getUpdateLogMessage(DataModelObject dmo) {
         return "Updated by dummy unit of work " + dmo.toString();
     }
 

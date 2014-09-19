@@ -17,13 +17,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 // only required to mock final and static methods
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FormComponent.class})
-public class TestExactlyOneFieldRequired
-{
+public class TestExactlyOneFieldRequired {
     private boolean errorCalled = false;
 
     @Test
-    public void twoComponentsOneFilledInIsCorrect() throws Exception
-    {
+    public void twoComponentsOneFilledInIsCorrect() throws Exception {
         FormComponent comp1 = PowerMock.createMock(FormComponent.class);
         FormComponent comp2 = PowerMock.createMock(FormComponent.class);
         expect(comp1.getValue()).andReturn("kalle").anyTimes();
@@ -35,18 +33,15 @@ public class TestExactlyOneFieldRequired
     }
 
     @Test
-    public void twoComponentsTwoFilledInIsNotCorrect() throws Exception
-    {
+    public void twoComponentsTwoFilledInIsNotCorrect() throws Exception {
         FormComponent comp1 = PowerMock.createMock(FormComponent.class);
         FormComponent comp2 = PowerMock.createMock(FormComponent.class);
         expect(comp1.getValue()).andReturn("kalle").anyTimes();
         expect(comp2.getValue()).andReturn("kalle.kivi@kallio.com").anyTimes();
         Form form = PowerMock.createMock(Form.class);
         replayAll();
-        RequireExactlyOneValidator requireExactlyOneValidator = new RequireExactlyOneValidator(comp1, comp2)
-        {
-            public void error(org.apache.wicket.markup.html.form.FormComponent<?> fc)
-            {
+        RequireExactlyOneValidator requireExactlyOneValidator = new RequireExactlyOneValidator(comp1, comp2) {
+            public void error(org.apache.wicket.markup.html.form.FormComponent<?> fc) {
                 errorCalled = true;
             };
         };
@@ -55,8 +50,7 @@ public class TestExactlyOneFieldRequired
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
     }
 }

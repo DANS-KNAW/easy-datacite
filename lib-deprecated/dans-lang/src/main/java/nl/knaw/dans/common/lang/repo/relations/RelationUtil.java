@@ -1,23 +1,18 @@
 package nl.knaw.dans.common.lang.repo.relations;
 
 /*
- * ----------------------------------------------------------------------------- <p><b>License and
- * Copyright: </b>The contents of this file are subject to the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a copy of
- * the License at <a href="http://www.fedora-commons.org/licenses">
- * http://www.fedora-commons.org/licenses.</a></p> <p>Software distributed under the License is
- * distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
- * License for the specific language governing rights and limitations under the License.</p> <p>The
- * entire file consists of original code.</p> <p>Copyright &copy; 2008 Fedora Commons, Inc.<br />
- * <p>Copyright &copy; 2002-2007 The Rector and Visitors of the University of Virginia and Cornell
- * University<br /> All rights reserved.</p>
+ * ----------------------------------------------------------------------------- <p><b>License and Copyright: </b>The contents of this file are subject to the
+ * Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <a
+ * href="http://www.fedora-commons.org/licenses"> http://www.fedora-commons.org/licenses.</a></p> <p>Software distributed under the License is distributed on an
+ * "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the
+ * License.</p> <p>The entire file consists of original code.</p> <p>Copyright &copy; 2008 Fedora Commons, Inc.<br /> <p>Copyright &copy; 2002-2007 The Rector
+ * and Visitors of the University of Virginia and Cornell University<br /> All rights reserved.</p>
  * -----------------------------------------------------------------------------
  */
 
 /*
- * The contents of this file are subject to the license and copyright terms detailed in the license
- * directory at the root of the source tree (also available online at
- * http://fedora-commons.org/license/).
+ * The contents of this file are subject to the license and copyright terms detailed in the license directory at the root of the source tree (also available
+ * online at http://fedora-commons.org/license/).
  */
 
 import java.net.URI;
@@ -34,14 +29,12 @@ import org.jrdf.graph.URIReference;
  * 
  * @author Chris Wilper
  */
-public abstract class RelationUtil
-{
+public abstract class RelationUtil {
 
     /**
      * Tells whether the given nodes are equivalent.
      * <p>
-     * Nodes are equivalent if they are both resources or both literals and they match according to the
-     * rules of those types.
+     * Nodes are equivalent if they are both resources or both literals and they match according to the rules of those types.
      * 
      * @param n1
      *        first node.
@@ -49,18 +42,12 @@ public abstract class RelationUtil
      *        second node.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameNode(Node n1, Node n2)
-    {
-        if (n1 instanceof URIReference && n2 instanceof URIReference)
-        {
+    public static boolean sameNode(Node n1, Node n2) {
+        if (n1 instanceof URIReference && n2 instanceof URIReference) {
             return sameResource((URIReference) n1, (URIReference) n2);
-        }
-        else if (n1 instanceof Literal && n2 instanceof Literal)
-        {
+        } else if (n1 instanceof Literal && n2 instanceof Literal) {
             return sameLiteral((Literal) n1, (Literal) n2);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -76,8 +63,7 @@ public abstract class RelationUtil
      *        second resource.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameResource(URIReference u1, URIReference u2)
-    {
+    public static boolean sameResource(URIReference u1, URIReference u2) {
         return sameResource(u1, u2.getURI().toString());
     }
 
@@ -90,16 +76,14 @@ public abstract class RelationUtil
      *        second resource, given as a URI string.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameResource(URIReference u1, String u2)
-    {
+    public static boolean sameResource(URIReference u1, String u2) {
         return u1.getURI().toString().equals(u2);
     }
 
     /**
      * Tells whether the given literals are equivalent.
      * <p>
-     * Two literals are equivalent if they have the same lexical value, language (which may be
-     * unspecified), and datatype (which may be unspecified).
+     * Two literals are equivalent if they have the same lexical value, language (which may be unspecified), and datatype (which may be unspecified).
      * 
      * @param l1
      *        first literal.
@@ -107,12 +91,10 @@ public abstract class RelationUtil
      *        second literal.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameLiteral(Literal l1, Literal l2)
-    {
+    public static boolean sameLiteral(Literal l1, Literal l2) {
         String type = null;
         URI l2Type = l2.getDatatypeURI();
-        if (l2Type != null)
-        {
+        if (l2Type != null) {
             type = l2Type.toString();
         }
         return sameLiteral(l1, l2.getLexicalForm(), type, l2.getLanguage());
@@ -131,21 +113,14 @@ public abstract class RelationUtil
      *        second literal's language tag string, if applicable.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameLiteral(Literal l1, String l2, String type, String lang)
-    {
-        if (l1.getLexicalForm().equals(l2) && eq(l1.getLanguage(), lang))
-        {
-            if (l1.getDatatypeURI() == null)
-            {
+    public static boolean sameLiteral(Literal l1, String l2, String type, String lang) {
+        if (l1.getLexicalForm().equals(l2) && eq(l1.getLanguage(), lang)) {
+            if (l1.getDatatypeURI() == null) {
                 return type == null;
-            }
-            else
-            {
+            } else {
                 return type != null && type.equals(l1.getDatatypeURI().toString());
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -153,8 +128,7 @@ public abstract class RelationUtil
     /**
      * Tells whether the given subjects are equivalent.
      * <p>
-     * Two subjects are equivalent if they are both resources and they match according to the rules for
-     * resources.
+     * Two subjects are equivalent if they are both resources and they match according to the rules for resources.
      * 
      * @param s1
      *        first subject.
@@ -162,14 +136,10 @@ public abstract class RelationUtil
      *        second subject.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameSubject(SubjectNode s1, SubjectNode s2)
-    {
-        if (s1 instanceof URIReference && s2 instanceof URIReference)
-        {
+    public static boolean sameSubject(SubjectNode s1, SubjectNode s2) {
+        if (s1 instanceof URIReference && s2 instanceof URIReference) {
             return sameResource((URIReference) s1, (URIReference) s2);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -183,14 +153,10 @@ public abstract class RelationUtil
      *        second subject, given as a URI string.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameSubject(SubjectNode s1, String s2)
-    {
-        if (s1 instanceof URIReference)
-        {
+    public static boolean sameSubject(SubjectNode s1, String s2) {
+        if (s1 instanceof URIReference) {
             return sameResource((URIReference) s1, s2);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -206,8 +172,7 @@ public abstract class RelationUtil
      *        second predicate.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean samePredicate(PredicateNode p1, PredicateNode p2)
-    {
+    public static boolean samePredicate(PredicateNode p1, PredicateNode p2) {
         return sameResource((URIReference) p1, (URIReference) p2);
     }
 
@@ -220,8 +185,7 @@ public abstract class RelationUtil
      *        second predicate, given as a URI string.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean samePredicate(PredicateNode p1, String p2)
-    {
+    public static boolean samePredicate(PredicateNode p1, String p2) {
         return sameResource((URIReference) p1, p2);
     }
 
@@ -236,8 +200,7 @@ public abstract class RelationUtil
      *        second object.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameObject(ObjectNode o1, ObjectNode o2)
-    {
+    public static boolean sameObject(ObjectNode o1, ObjectNode o2) {
         return sameNode(o1, o2);
     }
 
@@ -256,31 +219,21 @@ public abstract class RelationUtil
      *        second literal's language tag string, if applicable.
      * @return true if equivalent, false otherwise.
      */
-    public static boolean sameObject(ObjectNode o1, String o2, boolean isLiteral, String type, String lang)
-    {
-        if (o1 instanceof URIReference)
-        {
+    public static boolean sameObject(ObjectNode o1, String o2, boolean isLiteral, String type, String lang) {
+        if (o1 instanceof URIReference) {
             return sameResource((URIReference) o1, o2);
-        }
-        else if (o1 instanceof Literal || isLiteral)
-        {
+        } else if (o1 instanceof Literal || isLiteral) {
             return sameLiteral((Literal) o1, o2, type, lang);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     // test for equality, accounting for null values
-    private static boolean eq(Object a, Object b)
-    {
-        if (a == null)
-        {
+    private static boolean eq(Object a, Object b) {
+        if (a == null) {
             return b == null;
-        }
-        else
-        {
+        } else {
             return b != null && a.equals(b);
         }
     }

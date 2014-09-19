@@ -24,13 +24,11 @@ import org.slf4j.LoggerFactory;
  * @see FedoraDmoStore
  * @author lobo Nov 12, 2009
  */
-public abstract class AbstractDmoStore implements DmoStore
-{
+public abstract class AbstractDmoStore implements DmoStore {
 
     /**
-     * The time in milliseconds this DmoStore gets to try to acquire a lock on a certain data model
-     * object. Since the locking mechanism is currently being shared with the AbstractUnitOfWork this
-     * does not apply to single operations only, but also means waiting for transactions to finish.
+     * The time in milliseconds this DmoStore gets to try to acquire a lock on a certain data model object. Since the locking mechanism is currently being
+     * shared with the AbstractUnitOfWork this does not apply to single operations only, but also means waiting for transactions to finish.
      */
     private static final int DEFAULT_LOCK_TIMEOUT = 1000 * 5 * 60; // 5 mins
 
@@ -43,11 +41,9 @@ public abstract class AbstractDmoStore implements DmoStore
 
     private final List<DmoStoreEventListener> listeners = Collections.synchronizedList(new ArrayList<DmoStoreEventListener>());
 
-    private DmoInvalidator invalidator = new DmoInvalidator()
-    {
+    private DmoInvalidator invalidator = new DmoInvalidator() {
         @Override
-        protected DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException
-        {
+        protected DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException {
             return AbstractDmoStore.this.getLastModified(dmoStoreId);
         }
     };
@@ -66,34 +62,29 @@ public abstract class AbstractDmoStore implements DmoStore
 
     protected abstract DateTime doPurge(DataModelObject dmo, boolean force, String logMessage) throws DmoStoreEventListenerException, RepositoryException;
 
-    public AbstractDmoStore(String name)
-    {
+    public AbstractDmoStore(String name) {
         init(name);
     }
 
-    private void init(String name)
-    {
+    private void init(String name) {
         AbstractDmoFactory.setSidDispenser(this);
         this.name = name;
         DmoStores.get().register(this);
     }
 
     @Override
-    public void setConcurrencyGuard(DmoUpdateConcurrencyGuard concurrencyGuard)
-    {
+    public void setConcurrencyGuard(DmoUpdateConcurrencyGuard concurrencyGuard) {
         this.concurrencyGuard = concurrencyGuard;
     }
 
     /**
      * {@inheritDoc}
      */
-    public String ingest(DataModelObject dmo, String logMessage) throws ObjectExistsException, RepositoryException
-    {
+    public String ingest(DataModelObject dmo, String logMessage) throws ObjectExistsException, RepositoryException {
         String returnId = "";
         DmoStoreId dmoStoreId = dmo.getDmoStoreId();
         acquireLock(dmoStoreId, "ingest");
-        try
-        {
+        try {
             // call listeners
             beforeIngest(dmo);
 
@@ -106,8 +97,7 @@ public abstract class AbstractDmoStore implements DmoStore
             dmo.setDirty(false);
             invalidator.setInvalidated(dmo, false);
             DateTime ingestTime = new DateTime();
-            for (MetadataUnit mdUnit : dmo.getMetadataUnits())
-            {
+            for (MetadataUnit mdUnit : dmo.getMetadataUnits()) {
                 mdUnit.setDirty(false);
                 mdUnit.setTimestamp(ingestTime);
             }
@@ -115,8 +105,7 @@ public abstract class AbstractDmoStore implements DmoStore
             // call listeners
             informIngested(dmo);
         }
-        finally
-        {
+        finally {
             sidSynchronizer.releaseLock(dmoStoreId);
         }
 
@@ -124,31 +113,28 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Update the entire DataModelObject and all of it's units indiscriminate of the state of dirty flags
-     * of the object and it's units. Notice that this operation may be time consuming and inefficient.
+     * Update the entire DataModelObject and all of it's units indiscriminate of the state of dirty flags of the object and it's units. Notice that this
+     * operation may be time consuming and inefficient.
      * 
      * @see #update(DataModelObject, boolean, String)
      * @param dmo
      *        the DataModelObject to update
      * @param logMessage
      *        a log message
-     * @return the timestamp of the update according to the store or <code>null</code> if no update took
-     *         place
+     * @return the timestamp of the update according to the store or <code>null</code> if no update took place
      * @throws ConcurrentUpdateException
      *         if a concurrent update took place
      * @throws RepositoryException
      *         wrapper for exceptions
      */
-    public DateTime update(DataModelObject dmo, String logMessage) throws ConcurrentUpdateException, RepositoryException
-    {
+    public DateTime update(DataModelObject dmo, String logMessage) throws ConcurrentUpdateException, RepositoryException {
         return update(dmo, false, logMessage);
     }
 
     /**
      * {@inheritDoc}
      */
-    public DateTime update(DataModelObject dmo, boolean skipChangeChecking, String logMessage) throws ConcurrentUpdateException, RepositoryException
-    {
+    public DateTime update(DataModelObject dmo, boolean skipChangeChecking, String logMessage) throws ConcurrentUpdateException, RepositoryException {
         return update(dmo, skipChangeChecking, logMessage, null);
     }
 
@@ -160,10 +146,8 @@ public abstract class AbstractDmoStore implements DmoStore
     {
         DmoStoreId dmoStoreId = dmo.getDmoStoreId();
         acquireLock(dmoStoreId, "update");
-        try
-        {
-            if (!isUpdateable(dmo, updateOwner))
-            {
+        try {
+            if (!isUpdateable(dmo, updateOwner)) {
                 throw new ConcurrentUpdateException(dmo.toString() + " is not updateable. Update process halted.");
             }
 
@@ -173,8 +157,7 @@ public abstract class AbstractDmoStore implements DmoStore
             // update
             DateTime returnDateTime = doUpdate(dmo, skipChangeChecking, logMessage);
 
-            if (returnDateTime != null)
-            {
+            if (returnDateTime != null) {
                 // set state
                 ((AbstractDataModelObject) dmo).setStoreName(this.getName());
                 // make sure this next statement is called before
@@ -192,8 +175,7 @@ public abstract class AbstractDmoStore implements DmoStore
 
             return returnDateTime;
         }
-        finally
-        {
+        finally {
             sidSynchronizer.releaseLock(dmoStoreId);
         }
     }
@@ -201,12 +183,10 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public DataModelObject retrieve(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException
-    {
+    public DataModelObject retrieve(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException {
         DataModelObject dmo = null;
         acquireLock(dmoStoreId, "retrieve");
-        try
-        {
+        try {
             dmo = doRetrieve(dmoStoreId);
 
             invalidator.setInvalidated(dmo, false);
@@ -214,13 +194,11 @@ public abstract class AbstractDmoStore implements DmoStore
             dmo.setDirty(false);
             dmo.setLoaded(true);
         }
-        catch (ObjectDeserializationException e)
-        {
+        catch (ObjectDeserializationException e) {
             logger.error("Could not retrieve DMO by its id: {}", dmoStoreId.toString());
             throw e;
         }
-        finally
-        {
+        finally {
             sidSynchronizer.releaseLock(dmoStoreId);
         }
 
@@ -235,15 +213,12 @@ public abstract class AbstractDmoStore implements DmoStore
     {
         DmoStoreId dmoStoreId = dmo.getDmoStoreId();
         acquireLock(dmoStoreId, "purge");
-        try
-        {
-            if ((!dmo.isDeletable() || !dmo.isRegisteredDeleted()) && !force)
-            {
+        try {
+            if ((!dmo.isDeletable() || !dmo.isRegisteredDeleted()) && !force) {
                 throw new ObjectIsNotDeletableException("Object " + dmo.toString() + " is not deletable.");
             }
 
-            if (dmo.isInvalidated())
-            {
+            if (dmo.isInvalidated()) {
                 throw new ConcurrentUpdateException(dmo.toString() + " is not up to date. As a rule it can therefore not be purged.");
             }
 
@@ -253,8 +228,7 @@ public abstract class AbstractDmoStore implements DmoStore
             // therefore 'force' on this level always false.
             DateTime purgeTime = doPurge(dmo, false, logMessage);
 
-            if (purgeTime != null)
-            {
+            if (purgeTime != null) {
                 // set state
                 invalidator.invalidate(dmoStoreId);
 
@@ -264,25 +238,20 @@ public abstract class AbstractDmoStore implements DmoStore
 
             return purgeTime;
         }
-        finally
-        {
+        finally {
             sidSynchronizer.releaseLock(dmoStoreId);
         }
     }
 
-    private void acquireLock(DmoStoreId dmoStoreId, String operationName) throws RepositoryException
-    {
-        try
-        {
+    private void acquireLock(DmoStoreId dmoStoreId, String operationName) throws RepositoryException {
+        try {
             sidSynchronizer.acquireLock(dmoStoreId);
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
             throw new RepositoryException("DmoStore " + getName() + " was interrupted before finishing " + operationName + " operation on " + dmoStoreId + ".",
                     e);
         }
-        catch (LockAcquireTimeoutException e)
-        {
+        catch (LockAcquireTimeoutException e) {
             throw new RepositoryException("DmoStore " + getName() + " timedout trying to get a lock for operation " + operationName + "  on " + dmoStoreId
                     + ".", e);
         }
@@ -291,18 +260,15 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public boolean isInvalidated(DataModelObject dmo) throws RepositoryException
-    {
+    public boolean isInvalidated(DataModelObject dmo) throws RepositoryException {
         return invalidator.isInvalidated(dmo);
     }
 
-    public boolean isUpdateable(DataModelObject dmo) throws RepositoryException
-    {
+    public boolean isUpdateable(DataModelObject dmo) throws RepositoryException {
         return isUpdateable(dmo, null);
     }
 
-    public boolean isUpdateable(DataModelObject dmo, String updateOwner) throws RepositoryException
-    {
+    public boolean isUpdateable(DataModelObject dmo, String updateOwner) throws RepositoryException {
         if (concurrencyGuard == null)
             return true;
         else
@@ -312,10 +278,8 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public void setEventListeners(List<DmoStoreEventListener> storeEventListeners)
-    {
-        for (DmoStoreEventListener listener : storeEventListeners)
-        {
+    public void setEventListeners(List<DmoStoreEventListener> storeEventListeners) {
+        for (DmoStoreEventListener listener : storeEventListeners) {
             addEventListener(listener);
         }
     }
@@ -323,10 +287,8 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public void addEventListener(DmoStoreEventListener storeEventListener)
-    {
-        synchronized (listeners)
-        {
+    public void addEventListener(DmoStoreEventListener storeEventListener) {
+        synchronized (listeners) {
             listeners.add(storeEventListener);
             logger.info("Registered DmoStoreEventListener " + storeEventListener);
         }
@@ -335,13 +297,10 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public boolean removeEventListener(DmoStoreEventListener storeEventListener)
-    {
-        synchronized (listeners)
-        {
+    public boolean removeEventListener(DmoStoreEventListener storeEventListener) {
+        synchronized (listeners) {
             boolean removed = listeners.remove(storeEventListener);
-            if (removed)
-            {
+            if (removed) {
                 logger.info("Removed DmoSoreEventListener " + storeEventListener);
             }
             return removed;
@@ -349,13 +308,10 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Returns a copy of the listeners. This enables thread-safe iteration, without having to lock the
-     * calls on the listeners as well.
+     * Returns a copy of the listeners. This enables thread-safe iteration, without having to lock the calls on the listeners as well.
      */
-    public List<DmoStoreEventListener> getListeners()
-    {
-        synchronized (listeners)
-        {
+    public List<DmoStoreEventListener> getListeners() {
+        synchronized (listeners) {
             return new ArrayList<DmoStoreEventListener>(listeners);
         }
     }
@@ -367,12 +323,9 @@ public abstract class AbstractDmoStore implements DmoStore
      *        the ingested DataModelObject
      * @throws DmoStoreEventListenerException
      */
-    protected void beforeIngest(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void beforeIngest(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.beforeIngest(this, dmo);
             }
         }
@@ -385,12 +338,9 @@ public abstract class AbstractDmoStore implements DmoStore
      *        the ingested DataModelObject
      * @throws DmoStoreEventListenerException
      */
-    protected void informIngested(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void informIngested(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.afterIngest(this, dmo);
             }
         }
@@ -403,12 +353,9 @@ public abstract class AbstractDmoStore implements DmoStore
      *        the updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
-    protected void beforeUpdate(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void beforeUpdate(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.beforeUpdate(this, dmo);
             }
         }
@@ -421,12 +368,9 @@ public abstract class AbstractDmoStore implements DmoStore
      *        the updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
-    protected void informUpdated(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void informUpdated(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.afterUpdate(this, dmo);
             }
         }
@@ -439,12 +383,9 @@ public abstract class AbstractDmoStore implements DmoStore
      *        the storeId of the partially updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
-    protected void informPartialUpdated(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void informPartialUpdated(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.afterPartialUpdate(this, dmo);
             }
         }
@@ -455,12 +396,9 @@ public abstract class AbstractDmoStore implements DmoStore
      * 
      * @throws DmoStoreEventListenerException
      */
-    protected void beforePurged(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void beforePurged(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.beforePurge(this, dmo);
             }
         }
@@ -471,12 +409,9 @@ public abstract class AbstractDmoStore implements DmoStore
      * 
      * @throws DmoStoreEventListenerException
      */
-    protected void informPurged(DataModelObject dmo) throws DmoStoreEventListenerException
-    {
-        synchronized (listeners)
-        {
-            for (DmoStoreEventListener listener : getListeners())
-            {
+    protected void informPurged(DataModelObject dmo) throws DmoStoreEventListenerException {
+        synchronized (listeners) {
+            for (DmoStoreEventListener listener : getListeners()) {
                 listener.afterPurge(this, dmo);
             }
         }
@@ -485,13 +420,11 @@ public abstract class AbstractDmoStore implements DmoStore
     /**
      * {@inheritDoc}
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public IdSynchronizer<DmoStoreId> getSidSynchronizer()
-    {
+    public IdSynchronizer<DmoStoreId> getSidSynchronizer() {
         return sidSynchronizer;
     }
 

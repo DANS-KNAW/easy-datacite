@@ -4,50 +4,40 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PropertyList implements Serializable
-{
+public class PropertyList implements Serializable {
 
     private static final long serialVersionUID = 442071239235827438L;
     private String comment;
     private List<Property> properties = new ArrayList<Property>();;
 
-    public PropertyList()
-    {
+    public PropertyList() {
 
     }
 
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment)
-    {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public List<Property> getProperties()
-    {
+    public List<Property> getProperties() {
         return properties;
     }
 
-    public void addProperty(String key, String value)
-    {
+    public void addProperty(String key, String value) {
         properties.add(new Property(key, value));
     }
 
-    public void setProperties(List<Property> properties)
-    {
+    public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
 
-    public String getValue(String key, String defaultValue)
-    {
+    public String getValue(String key, String defaultValue) {
         String value = defaultValue;
-        for (Property prop : properties)
-        {
-            if (prop.getKey().equals(key))
-            {
+        for (Property prop : properties) {
+            if (prop.getKey().equals(key)) {
                 value = prop.getValue();
                 break;
             }
@@ -55,42 +45,35 @@ public class PropertyList implements Serializable
         return value;
     }
 
-    public static class Property implements Serializable
-    {
+    public static class Property implements Serializable {
 
         private static final long serialVersionUID = 1L;
         private String key;
         private String value;
 
         @SuppressWarnings("unused")
-        private Property()
-        {
+        private Property() {
 
         }
 
-        public Property(String key, String value)
-        {
+        public Property(String key, String value) {
             this.key = key;
             this.value = value;
         }
 
-        public String getKey()
-        {
+        public String getKey() {
             return key;
         }
 
-        public void setKey(String key)
-        {
+        public void setKey(String key) {
             this.key = key;
         }
 
-        public String getValue()
-        {
+        public String getValue() {
             return value;
         }
 
-        public void setValue(String value)
-        {
+        public void setValue(String value) {
             this.value = value;
         }
     }

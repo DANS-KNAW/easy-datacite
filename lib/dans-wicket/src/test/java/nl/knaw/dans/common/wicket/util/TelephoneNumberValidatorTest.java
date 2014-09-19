@@ -12,21 +12,18 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class TelephoneNumberValidatorTest
-{
+public class TelephoneNumberValidatorTest {
     private final String telephone;
     private final boolean valid;
 
-    public TelephoneNumberValidatorTest(final String telephone, final boolean valid)
-    {
+    public TelephoneNumberValidatorTest(final String telephone, final boolean valid) {
         super();
         this.telephone = telephone;
         this.valid = valid;
     }
 
     @Parameters
-    public static Collection<Object[]> getTestData()
-    {
+    public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][] { //
                 //
                         {"+20 123 45 67", true}, //
@@ -46,14 +43,12 @@ public class TelephoneNumberValidatorTest
     }
 
     @Test
-    public void valid()
-    {
+    public void valid() {
         @SuppressWarnings("unchecked")
         IValidatable<String> validatable = EasyMock.createMock(IValidatable.class);
         EasyMock.expect(validatable.getValue()).andReturn(this.telephone).anyTimes();
 
-        if (!this.valid)
-        {
+        if (!this.valid) {
             validatable.error((IValidationError) EasyMock.anyObject());
             EasyMock.expectLastCall().anyTimes();
         }

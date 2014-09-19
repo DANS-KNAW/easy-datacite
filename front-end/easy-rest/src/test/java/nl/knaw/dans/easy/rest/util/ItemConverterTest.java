@@ -14,20 +14,17 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ItemConverterTest
-{
+public class ItemConverterTest {
     private List<ItemVO> items;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         items = new ArrayList<ItemVO>();
         items.add(setUpFile());
         items.add(setUpFolder());
     }
 
-    private FileItemVO setUpFile()
-    {
+    private FileItemVO setUpFile() {
         FileItemVO file = mock(FileItemVO.class);
         when(file.getName()).thenReturn("filename");
         when(file.getSid()).thenReturn("easy-file:1");
@@ -36,8 +33,7 @@ public class ItemConverterTest
         return file;
     }
 
-    private FolderItemVO setUpFolder()
-    {
+    private FolderItemVO setUpFolder() {
         FolderItemVO folder = mock(FolderItemVO.class);
         when(folder.getName()).thenReturn("foldername");
         when(folder.getSid()).thenReturn("easy-folder:1");
@@ -46,14 +42,12 @@ public class ItemConverterTest
     }
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new ItemConverter();
     }
 
     @Test
-    public void conversion()
-    {
+    public void conversion() {
         String xml = ItemConverter.convert(items);
         String expectedXml = "<list>" + "<file>" + "<name>filename</name>" + "<sid>easy-file:1</sid>" + "<path>/path/foo</path>"
                 + "<mediatype>text/plain</mediatype>" + "</file>" + "<folder>" + "<name>foldername</name>" + "<sid>easy-folder:1</sid>"

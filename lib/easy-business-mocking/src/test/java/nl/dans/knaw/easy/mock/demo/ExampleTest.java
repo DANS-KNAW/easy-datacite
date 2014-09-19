@@ -24,8 +24,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-public class ExampleTest
-{
+public class ExampleTest {
     /** In case your project depends on easy-fedora: use for example DobState.Active.toString() */
     private static final String SOME_STATE = "SomeState";
 
@@ -34,31 +33,24 @@ public class ExampleTest
     private BusinessMocker mock;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mock = new BusinessMocker();
     }
 
     @After
-    public void verifyAll()
-    {
+    public void verifyAll() {
         PowerMock.verifyAll();
     }
 
     /**
-     * Demonstrates mocking a complex dataset that changes during the test. The "with" methods of the
-     * mockers create default behavior with stubs. These stubs are a fall back and used when the regular
-     * expectations are exhausted. Stubs are not verified. The order of
-     * {@link DatasetMocker#with(FileMocker...)} and
+     * Demonstrates mocking a complex dataset that changes during the test. The "with" methods of the mockers create default behavior with stubs. These stubs
+     * are a fall back and used when the regular expectations are exhausted. Stubs are not verified. The order of {@link DatasetMocker#with(FileMocker...)} and
      * {@link DatasetMocker#expectGetDatasetFilesOnce(FileMocker...)} does not seem to be relevant.
      * 
-     * @see also <a
-     *      href="http://stackoverflow.com/questions/3740376/easymock-andreturn-vs-andstubreturn">
-     *      stackoverflow</>
+     * @see also <a href="http://stackoverflow.com/questions/3740376/easymock-andreturn-vs-andstubreturn"> stackoverflow</>
      */
     @Test
-    public void purge() throws Exception
-    {
+    public void purge() throws Exception {
         final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.user("archivist");
         mock.dataset(datasetStoreId)//
@@ -101,8 +93,7 @@ public class ExampleTest
 
     /** Demonstrates mocking object content with a test input file. */
     @Test
-    public void openDatasetFile() throws Exception
-    {
+    public void openDatasetFile() throws Exception {
         final String userId = "archivist";
         final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         final String fileStoreId = mock.nextDmoStoreId(FileItem.NAMESPACE);
@@ -127,8 +118,7 @@ public class ExampleTest
     }
 
     @Test
-    public void emptyFolder() throws Exception
-    {
+    public void emptyFolder() throws Exception {
         final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.dataset(storeId).with(mock.folder("a")).with(mock.file("b.txt"));
 
@@ -138,8 +128,7 @@ public class ExampleTest
     }
 
     @Test
-    public void justAnEmptyFolder() throws Exception
-    {
+    public void justAnEmptyFolder() throws Exception {
         final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.dataset(storeId).with(mock.folder("a")).withoutFiles();
 

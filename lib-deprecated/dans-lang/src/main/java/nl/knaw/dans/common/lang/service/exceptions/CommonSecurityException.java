@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.service.exceptions;
 
 import java.util.List;
 
-public class CommonSecurityException extends ServiceException
-{
+public class CommonSecurityException extends ServiceException {
 
     public static final String HINT_DATASET_NULL = "dataset.null";
     public static final String HINT_DATASET_UNDER_EMBARGO = "dataset.under.embargo";
@@ -19,29 +18,24 @@ public class CommonSecurityException extends ServiceException
 
     private List<Object> hints;
 
-    public CommonSecurityException(String message)
-    {
+    public CommonSecurityException(String message) {
         super(message);
     }
 
-    public CommonSecurityException(String message, List<Object> hints)
-    {
+    public CommonSecurityException(String message, List<Object> hints) {
         super(message);
         this.hints = hints;
     }
 
-    public CommonSecurityException(String message, Throwable cause)
-    {
+    public CommonSecurityException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public CommonSecurityException(Throwable cause)
-    {
+    public CommonSecurityException(Throwable cause) {
         super(cause);
     }
 
-    public boolean hasHint(Object object)
-    {
+    public boolean hasHint(Object object) {
         return hints != null && hints.contains(object);
     }
 

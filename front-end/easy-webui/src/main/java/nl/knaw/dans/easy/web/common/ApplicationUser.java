@@ -21,8 +21,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * 
  * @author Herman Suijs
  */
-public class ApplicationUser implements Serializable
-{
+public class ApplicationUser implements Serializable {
     public static final String USER_ID = "userId";
     public static final String TITLE = "title";
     public static final String INITIALS = "initials";
@@ -62,8 +61,7 @@ public class ApplicationUser implements Serializable
     /**
      * Default constructor.
      */
-    public ApplicationUser()
-    {
+    public ApplicationUser() {
         this(new EasyUserImpl());
     }
 
@@ -72,8 +70,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return business user.
      */
-    public EasyUser getBusinessUser()
-    {
+    public EasyUser getBusinessUser() {
         return this.businessUser;
     }
 
@@ -83,8 +80,7 @@ public class ApplicationUser implements Serializable
      * @param user
      *        model user.
      */
-    public ApplicationUser(final EasyUser user)
-    {
+    public ApplicationUser(final EasyUser user) {
         this.businessUser = user;
     }
 
@@ -93,8 +89,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return email.
      */
-    public String getEmail()
-    {
+    public String getEmail() {
         return this.businessUser.getEmail();
     }
 
@@ -103,8 +98,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return user
      */
-    public String getUserId()
-    {
+    public String getUserId() {
         return this.businessUser.getId();
     }
 
@@ -114,8 +108,7 @@ public class ApplicationUser implements Serializable
      * @param email
      *        email
      */
-    public void setEmail(final String email)
-    {
+    public void setEmail(final String email) {
         this.businessUser.setEmail(email);
     }
 
@@ -125,8 +118,7 @@ public class ApplicationUser implements Serializable
      * @param password
      *        password
      */
-    public void setPassword(final String password)
-    {
+    public void setPassword(final String password) {
         this.businessUser.setPassword(password);
         this.password = password;
     }
@@ -136,8 +128,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return password.
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.password;
     }
 
@@ -147,78 +138,63 @@ public class ApplicationUser implements Serializable
      * @param userId
      *        user
      */
-    public void setUserId(final String userId)
-    {
+    public void setUserId(final String userId) {
         this.businessUser.setId(userId);
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.businessUser.setTitle(title);
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return businessUser.getTitle();
     }
 
-    public void setInitials(String initials)
-    {
+    public void setInitials(String initials) {
         businessUser.setInitials(initials);
     }
 
-    public String getInitials()
-    {
+    public String getInitials() {
         return businessUser.getInitials();
     }
 
-    public void setFirstname(String firstname)
-    {
+    public void setFirstname(String firstname) {
         businessUser.setFirstname(firstname);
     }
 
-    public String getFirstname()
-    {
+    public String getFirstname() {
         return businessUser.getFirstname();
     }
 
-    public void setPrefixes(String prefixes)
-    {
+    public void setPrefixes(String prefixes) {
         businessUser.setPrefixes(prefixes);
     }
 
-    public String getPrefixes()
-    {
+    public String getPrefixes() {
         return businessUser.getPrefixes();
     }
 
-    public void setSurname(String surname)
-    {
+    public void setSurname(String surname) {
         businessUser.setSurname(surname);
     }
 
-    public String getSurname()
-    {
+    public String getSurname() {
         return businessUser.getSurname();
     }
 
-    public void setOptsForNewsletter(boolean opts)
-    {
+    public void setOptsForNewsletter(boolean opts) {
         businessUser.setOptsForNewsletter(opts);
     }
 
-    public boolean getOptsForNewsletter()
-    {
+    public boolean getOptsForNewsletter() {
         return businessUser.getOptsForNewsletter();
     }
 
-    public void setLogMyActions(boolean logMyActions)
-    {
+    public void setLogMyActions(boolean logMyActions) {
         businessUser.setLogMyActions(logMyActions);
     }
 
-    public boolean getLogMyActions()
-    {
+    public boolean getLogMyActions() {
         return businessUser.isLogMyActions();
     }
 
@@ -227,8 +203,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return name
      */
-    public String getCommonName()
-    {
+    public String getCommonName() {
         return this.businessUser.getCommonName();
     }
 
@@ -237,8 +212,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return confirm password
      */
-    public String getConfirmPassword()
-    {
+    public String getConfirmPassword() {
         return this.confirmPassword;
     }
 
@@ -248,8 +222,7 @@ public class ApplicationUser implements Serializable
      * @param confirmPassword
      *        password
      */
-    public void setConfirmPassword(final String confirmPassword)
-    {
+    public void setConfirmPassword(final String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 
@@ -258,8 +231,7 @@ public class ApplicationUser implements Serializable
      * 
      * @return <code>true</code> if accepted, <code>false</code> otherwise
      */
-    public boolean getAcceptConditions()
-    {
+    public boolean getAcceptConditions() {
         return businessUser.getAcceptConditionsOfUse();
     }
 
@@ -269,128 +241,103 @@ public class ApplicationUser implements Serializable
      * @param accept
      *        <code>true</code> if accepting the conditions of use, <code>false</code> otherwise
      */
-    public void setAcceptConditions(boolean accept)
-    {
+    public void setAcceptConditions(boolean accept) {
         businessUser.setAcceptConditionsOfUse(accept);
     }
 
-    public String getFunction()
-    {
+    public String getFunction() {
         return businessUser.getFunction();
     }
 
-    public void setFunction(String function)
-    {
+    public void setFunction(String function) {
         businessUser.setFunction(function);
     }
 
-    public String getTelephone()
-    {
+    public String getTelephone() {
         return businessUser.getTelephone();
     }
 
-    public void setTelephone(String telephone)
-    {
+    public void setTelephone(String telephone) {
         businessUser.setTelephone(telephone);
     }
 
-    public KeyValuePair getDiscipline1()
-    {
+    public KeyValuePair getDiscipline1() {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline1());
     }
 
-    public void setDiscipline1(KeyValuePair discipline)
-    {
+    public void setDiscipline1(KeyValuePair discipline) {
         businessUser.setDiscipline1(discipline == null ? null : discipline.getKey());
     }
 
-    public KeyValuePair getDiscipline2()
-    {
+    public KeyValuePair getDiscipline2() {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline2());
     }
 
-    public void setDiscipline2(KeyValuePair discipline)
-    {
+    public void setDiscipline2(KeyValuePair discipline) {
         businessUser.setDiscipline2(discipline == null ? null : discipline.getKey());
     }
 
-    public KeyValuePair getDiscipline3()
-    {
+    public KeyValuePair getDiscipline3() {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline3());
     }
 
-    public void setDiscipline3(KeyValuePair discipline)
-    {
+    public void setDiscipline3(KeyValuePair discipline) {
         businessUser.setDiscipline3(discipline == null ? null : discipline.getKey());
     }
 
-    public String getDai()
-    {
+    public String getDai() {
         return businessUser.getDai();
     }
 
-    public void setDai(String dai)
-    {
+    public void setDai(String dai) {
         businessUser.setDai(dai);
     }
 
-    public String getOrganization()
-    {
+    public String getOrganization() {
         return businessUser.getOrganization();
     }
 
-    public void setOrganization(String organization)
-    {
+    public void setOrganization(String organization) {
         businessUser.setOrganization(organization);
     }
 
-    public String getDepartment()
-    {
+    public String getDepartment() {
         return businessUser.getDepartment();
     }
 
-    public void setDepartment(String department)
-    {
+    public void setDepartment(String department) {
         businessUser.setDepartment(department);
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return businessUser.getAddress();
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         businessUser.setAddress(address);
     }
 
-    public String getPostalCode()
-    {
+    public String getPostalCode() {
         return businessUser.getPostalCode();
     }
 
-    public void setPostalCode(String postalCode)
-    {
+    public void setPostalCode(String postalCode) {
         businessUser.setPostalCode(postalCode);
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return businessUser.getCity();
     }
 
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         businessUser.setCity(city);
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return businessUser.getCountry();
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         businessUser.setCountry(country);
     }
 
@@ -402,19 +349,13 @@ public class ApplicationUser implements Serializable
      * @return true if equal
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         boolean equals = false;
-        if (obj != null)
-        {
-            if (obj == this)
-            {
+        if (obj != null) {
+            if (obj == this) {
                 equals = true;
-            }
-            else
-            {
-                if (obj.getClass() == this.getClass())
-                {
+            } else {
+                if (obj.getClass() == this.getClass()) {
                     final ApplicationUser otherUser = (ApplicationUser) obj;
                     equals = this.getBusinessUser().equals(otherUser.getBusinessUser());
                 }
@@ -429,8 +370,7 @@ public class ApplicationUser implements Serializable
      * @return hashcode.
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(3, 5).append(getBusinessUser()).toHashCode();
     }
 
@@ -440,8 +380,7 @@ public class ApplicationUser implements Serializable
      * @return string representation
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Easy Application user: " + getUserId() + ", named: " + getCommonName();
     }
 

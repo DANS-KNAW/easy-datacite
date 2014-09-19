@@ -9,12 +9,10 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 /**
  * Container for resource properties of category publisher.
  * 
- * @see <a
- *      href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
+ * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
  * @author ecco
  */
-public class EmdPublisher extends AbstractEmdContainer
-{
+public class EmdPublisher extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -31,35 +29,28 @@ public class EmdPublisher extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'publisher' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'publisher' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcPublisher()
-    {
+    public List<BasicString> getDcPublisher() {
         return dcPublisher;
     }
 
     /**
-     * Set a list of resource properties known as 'publisher' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'publisher' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-publisher">dcmi-terms/#terms-publisher</a>
      * @param dcPublisher
      *        a list of resource properties
      */
-    public void setDcPublisher(final List<BasicString> dcPublisher)
-    {
+    public void setDcPublisher(final List<BasicString> dcPublisher) {
         this.dcPublisher = dcPublisher;
     }
 

@@ -42,14 +42,12 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class ThumbnailsResourceTest extends RestTest
-{
+public class ThumbnailsResourceTest extends RestTest {
     private ItemService itemServiceMock;
     private DatasetService datasetServiceMock;
 
     @Before
-    public void setUp() throws ServiceException
-    {
+    public void setUp() throws ServiceException {
         itemServiceMock = mock(ItemService.class);
         datasetServiceMock = mock(DatasetService.class);
 
@@ -60,8 +58,7 @@ public class ThumbnailsResourceTest extends RestTest
         setUpMocks();
     }
 
-    private void setUpMocks() throws ServiceException
-    {
+    private void setUpMocks() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
         when(
@@ -70,8 +67,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbnailIds()
-    {
+    public void getThumbnailIds() {
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
         ClientResponse response = resource.get(ClientResponse.class);
         String entity = response.getEntity(String.class);
@@ -81,8 +77,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbsnailIdsNotFound() throws ServiceException
-    {
+    public void getThumbsnailIdsNotFound() throws ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
@@ -92,14 +87,12 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @SuppressWarnings("unchecked")
-    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
     }
 
     @Test
-    public void getThumbsnailIdsNotAuthorized() throws ServiceException
-    {
+    public void getThumbsnailIdsNotAuthorized() throws ServiceException {
         setUpException(CommonSecurityException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
@@ -109,8 +102,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbsnailIdsInternalServerError() throws ServiceException
-    {
+    public void getThumbsnailIdsInternalServerError() throws ServiceException {
         setUpException(ServiceException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
@@ -122,8 +114,7 @@ public class ThumbnailsResourceTest extends RestTest
     // TODO: un-ignore this after mocking the right methods!
     @Ignore
     @Test
-    public void getThumbnail() throws ServiceException, MalformedURLException
-    {
+    public void getThumbnail() throws ServiceException, MalformedURLException {
         setUpGetFileItem();
         setUpGetFilesAndFolders();
 
@@ -133,18 +124,15 @@ public class ThumbnailsResourceTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpGetFileItem() throws ServiceException, MalformedURLException
-    {
+    private void setUpGetFileItem() throws ServiceException, MalformedURLException {
         FileItem file = mock(FileItem.class);
         when(file.getMimeType()).thenReturn(MediaType.TEXT_PLAIN);
         when(file.getSize()).thenReturn(4l);
-        FileItemMetadataImpl fimi = new FileItemMetadataImpl(new DmoStoreId("easy-file:1"))
-        {
+        FileItemMetadataImpl fimi = new FileItemMetadataImpl(new DmoStoreId("easy-file:1")) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public long getSize()
-            {
+            public long getSize() {
                 return 4l;
             }
         };
@@ -158,8 +146,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @SuppressWarnings("unchecked")
-    private void setUpGetFilesAndFolders() throws ServiceException
-    {
+    private void setUpGetFilesAndFolders() throws ServiceException {
         ArrayList<ItemVO> list = new ArrayList<ItemVO>();
         FolderItemVO folder = new FolderItemVO();
         folder.setName("thumbnails");
@@ -167,25 +154,19 @@ public class ThumbnailsResourceTest extends RestTest
         when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(list);
     }
 
-    private URL setUpUrlMock() throws MalformedURLException
-    {
-        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler()
-        {
+    private URL setUpUrlMock() throws MalformedURLException {
+        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler() {
             @Override
-            protected URLConnection openConnection(URL u) throws IOException
-            {
-                return new URLConnection(u)
-                {
+            protected URLConnection openConnection(URL u) throws IOException {
+                return new URLConnection(u) {
 
                     @Override
-                    public void connect() throws IOException
-                    {
+                    public void connect() throws IOException {
                         // do nothing
                     }
 
                     @Override
-                    public InputStream getInputStream()
-                    {
+                    public InputStream getInputStream() {
                         return new ByteArrayInputStream("test".getBytes());
                     }
                 };
@@ -196,8 +177,7 @@ public class ThumbnailsResourceTest extends RestTest
     // TODO: un-ignore this after mocking the right methods!
     @Ignore
     @Test
-    public void getThumbnailThatsNotAThumbnail() throws ServiceException, IOException
-    {
+    public void getThumbnailThatsNotAThumbnail() throws ServiceException, IOException {
         setUpGetFileItem();
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
@@ -207,8 +187,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbnailNotFound() throws ServiceException
-    {
+    public void getThumbnailNotFound() throws ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
@@ -218,8 +197,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbnailNotAuthorized() throws ServiceException
-    {
+    public void getThumbnailNotAuthorized() throws ServiceException {
         setUpException(CommonSecurityException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
@@ -229,8 +207,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbnailInternalServerError() throws ServiceException
-    {
+    public void getThumbnailInternalServerError() throws ServiceException {
         setUpException(ServiceException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
@@ -240,8 +217,7 @@ public class ThumbnailsResourceTest extends RestTest
     }
 
     @Test
-    public void getThumbnailIOException() throws ServiceException
-    {
+    public void getThumbnailIOException() throws ServiceException {
         setUpException(IOException.class);
 
         WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");

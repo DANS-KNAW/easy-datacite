@@ -5,12 +5,10 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
-public class StoreIdGenerator
-{
+public class StoreIdGenerator {
     private final Map<DmoNamespace, Integer> counters = new HashMap<DmoNamespace, Integer>();
 
-    String getNext(final DmoNamespace namespace)
-    {
+    String getNext(final DmoNamespace namespace) {
         if (counters.containsKey(namespace))
             counters.put(namespace, counters.get(namespace) + 1);
         else

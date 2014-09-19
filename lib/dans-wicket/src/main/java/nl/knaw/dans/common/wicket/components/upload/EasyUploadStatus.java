@@ -11,38 +11,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo This class contains the information concerning the upload process. It is being held by an
- *         UploadProcess class.
+ * @author lobo This class contains the information concerning the upload process. It is being held by an UploadProcess class.
  */
 @SuppressWarnings("serial")
-public class EasyUploadStatus extends UploadStatus
-{
+public class EasyUploadStatus extends UploadStatus {
     /** Log. */
     private static final Logger LOG = LoggerFactory.getLogger(EasyUploadStatus.class);
 
     private Integer uploadId;
 
-    public EasyUploadStatus(Integer uploadId, String message)
-    {
+    public EasyUploadStatus(Integer uploadId, String message) {
         super(message);
         this.uploadId = uploadId;
     }
 
-    public JSONObject toJSONObject()
-    {
+    public JSONObject toJSONObject() {
         JSONObject jobj = new JSONObject();
-        try
-        {
+        try {
             LOG.debug("response: {}\n{}", getMessage(), Arrays.toString(getMessage().toCharArray()));
-            try
-            {
+            try {
                 String encoded = URLEncoder.encode(getMessage(), "UTF-8");
                 LOG.debug("encoded: {}", encoded);
                 LOG.debug("en/de-coded: {}", URLDecoder.decode(encoded, "UTF-8"));
                 jobj.put("message", encoded);
             }
-            catch (UnsupportedEncodingException e)
-            {
+            catch (UnsupportedEncodingException e) {
                 jobj.put("message", getMessage());
             }
             jobj.put("uploadId", uploadId);
@@ -50,8 +43,7 @@ public class EasyUploadStatus extends UploadStatus
             jobj.put("finished", isFinished());
             jobj.put("percentComplete", getPercentComplete());
         }
-        catch (JSONException e)
-        {
+        catch (JSONException e) {
             // TODO: send exception to general exception handler
             LOG.error("Caught error while serializing UploadStatus object to JSON.", e);
             return jobj;
@@ -59,14 +51,12 @@ public class EasyUploadStatus extends UploadStatus
         return jobj;
     }
 
-    public Integer getUploadId()
-    {
+    public Integer getUploadId() {
         return uploadId;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "JSON = " + toJSONObject().toString();
     }
 }

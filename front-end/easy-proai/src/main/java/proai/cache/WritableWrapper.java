@@ -5,15 +5,13 @@ import java.io.*;
 import proai.*;
 import proai.error.*;
 
-public class WritableWrapper implements Writable
-{
+public class WritableWrapper implements Writable {
 
     private String m_prependString;
     private String m_appendString;
     private Writable m_writable;
 
-    public WritableWrapper(String prependString, Writable writable, String appendString)
-    {
+    public WritableWrapper(String prependString, Writable writable, String appendString) {
 
         m_prependString = prependString;
         m_writable = writable;
@@ -21,8 +19,7 @@ public class WritableWrapper implements Writable
 
     }
 
-    public void write(PrintWriter out) throws ServerException
-    {
+    public void write(PrintWriter out) throws ServerException {
         out.print(m_prependString);
         out.flush();
         m_writable.write(out);

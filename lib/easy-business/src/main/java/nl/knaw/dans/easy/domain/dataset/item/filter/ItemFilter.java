@@ -10,8 +10,7 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
  * 
  * @author lobo
  */
-public interface ItemFilter
-{
+public interface ItemFilter {
 
     /**
      * Applies filtering on a list of items. Items are filtered out on the itemList parameter.

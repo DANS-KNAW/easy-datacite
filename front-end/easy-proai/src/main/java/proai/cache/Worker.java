@@ -10,8 +10,7 @@ import org.apache.log4j.Logger;
 import proai.driver.OAIDriver;
 import proai.util.StreamUtil;
 
-public class Worker extends Thread
-{
+public class Worker extends Thread {
 
     private static Logger _LOG = Logger.getLogger(Worker.class.getName());
 
@@ -25,8 +24,7 @@ public class Worker extends Thread
     private long _totalFetchTime;
     private long _totalValidationTime;
 
-    public Worker(int num, int of, Updater updater, OAIDriver driver, RCDisk disk, Validator validator)
-    {
+    public Worker(int num, int of, Updater updater, OAIDriver driver, RCDisk disk, Validator validator) {
         super("Worker-" + num + "of" + of);
         _updater = updater;
         _driver = driver;
@@ -34,29 +32,23 @@ public class Worker extends Thread
         _validator = validator;
     }
 
-    public void run()
-    {
+    public void run() {
 
         _LOG.info("Worker started");
 
         List<QueueItem> queueItems = _updater.getNextBatch(null);
 
-        while (queueItems != null && !_updater.processingShouldStop())
-        {
+        while (queueItems != null && !_updater.processingShouldStop()) {
 
             Iterator<QueueItem> iter = queueItems.iterator();
-            while (iter.hasNext() && !_updater.processingShouldStop())
-            {
+            while (iter.hasNext() && !_updater.processingShouldStop()) {
 
                 attempt(iter.next());
             }
 
-            if (!_updater.processingShouldStop())
-            {
+            if (!_updater.processingShouldStop()) {
                 queueItems = _updater.getNextBatch(queueItems);
-            }
-            else
-            {
+            } else {
                 _LOG.debug("About to finish prematurely because processing should stop");
             }
         }
@@ -64,8 +56,7 @@ public class Worker extends Thread
         _LOG.info("Worker finished");
     }
 
-    private InputStream getRecordStreamForValidation(File recordFile) throws Exception
-    {
+    private InputStream getRecordStreamForValidation(File recordFile) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         builder.append("<OAI-PMH xmlns=\"http://www.openarchives.org/OAI/2.0/\">\n");
@@ -75,8 +66,7 @@ public class Worker extends Thread
         builder.append("<GetRecord>\n");
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(recordFile)));
         String line = reader.readLine();
-        while (line != null)
-        {
+        while (line != null) {
             builder.append(line + "\n");
             line = reader.readLine();
         }
@@ -85,14 +75,12 @@ public class Worker extends Thread
         return new ByteArrayInputStream(builder.toString().getBytes("UTF-8"));
     }
 
-    private void attempt(QueueItem qi)
-    {
+    private void attempt(QueueItem qi) {
 
         RCDiskWriter diskWriter = null;
         long retrievalDelay = 0;
         long validationDelay = 0;
-        try
-        {
+        try {
 
             diskWriter = _disk.getNewWriter();
 
@@ -105,8 +93,7 @@ public class Worker extends Thread
 
             retrievalDelay = endFetchTime - startFetchTime;
 
-            if (_validator != null)
-            {
+            if (_validator != null) {
 
                 _validator.validate(getRecordStreamForValidation(diskWriter.getFile()), RecordCache.OAI_RECORD_SCHEMA_URL);
                 validationDelay = System.currentTimeMillis() - endFetchTime;
@@ -119,13 +106,11 @@ public class Worker extends Thread
             _LOG.info("Successfully processed record");
 
         }
-        catch (Throwable th)
-        {
+        catch (Throwable th) {
 
             _LOG.warn("Failed to process record", th);
 
-            if (diskWriter != null)
-            {
+            if (diskWriter != null) {
                 diskWriter.close();
                 diskWriter.getFile().delete();
             }
@@ -136,31 +121,26 @@ public class Worker extends Thread
             qi.setFailDate(StreamUtil.nowUTCString());
             _failedCount++;
         }
-        finally
-        {
+        finally {
             _attemptedCount++;
             _totalFetchTime += retrievalDelay;
             _totalValidationTime += validationDelay;
         }
     }
 
-    public int getAttemptedCount()
-    {
+    public int getAttemptedCount() {
         return _attemptedCount;
     }
 
-    public int getFailedCount()
-    {
+    public int getFailedCount() {
         return _failedCount;
     }
 
-    public long getTotalFetchTime()
-    {
+    public long getTotalFetchTime() {
         return _totalFetchTime;
     }
 
-    public long getTotalValidationTime()
-    {
+    public long getTotalValidationTime() {
         return _totalValidationTime;
     }
 }

@@ -1,7 +1,6 @@
 package nl.knaw.dans.i.security.annotations;
 
-public interface IA
-{
+public interface IA {
     @SecuredOperation
     void iASecuredOperation();
 

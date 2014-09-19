@@ -5,12 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-public class DateTimeTranslatorTest
-{
+public class DateTimeTranslatorTest {
 
     @Test
-    public void fromAndToLdap()
-    {
+    public void fromAndToLdap() {
         DateTimeTranslator translator = new DateTimeTranslator();
 
         String object = "20100222154032Z";

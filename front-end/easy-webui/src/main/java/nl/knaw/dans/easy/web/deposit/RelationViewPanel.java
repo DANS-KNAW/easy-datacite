@@ -26,15 +26,13 @@ import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RelationViewPanel extends AbstractCustomPanel
-{
+public class RelationViewPanel extends AbstractCustomPanel {
     private static final long serialVersionUID = 4767608404968347974L;
     private static final Logger logger = LoggerFactory.getLogger(RelationViewPanel.class);
 
     private final EmdRelation emdRelations;
 
-    public RelationViewPanel(String id, IModel<EasyMetadata> model)
-    {
+    public RelationViewPanel(String id, IModel<EasyMetadata> model) {
         super(id, model);
         setOutputMarkupId(true);
         EasyMetadata easyMetadata = (EasyMetadata) model.getObject();
@@ -42,34 +40,28 @@ public class RelationViewPanel extends AbstractCustomPanel
     }
 
     @Override
-    protected Panel getCustomComponentPanel()
-    {
+    protected Panel getCustomComponentPanel() {
         return new CustomPanel();
     }
 
-    class CustomPanel extends Panel
-    {
+    class CustomPanel extends Panel {
 
         private static final long serialVersionUID = 3743372292968164208L;
 
-        public CustomPanel()
-        {
+        public CustomPanel() {
             super(CUSTOM_PANEL_ID);
             final ChoiceList choiceList;
-            try
-            {
+            try {
                 choiceList = Services.getDepositService().getChoices(EmdScheme.COMMON_DCTERMS_RELATION.getId(), getLocale());
                 final Map<String, List<BasicIdentifier>> plainRelations = emdRelations.getBasicIdentifierMap();
                 final Map<String, List<Relation>> linkedRelations = emdRelations.getRelationMap();
                 final List<String> keyList = EmdRelation.getQualifierList();
-                ListView<String> listView = new ListView<String>("relationList", keyList)
-                {
+                ListView<String> listView = new ListView<String>("relationList", keyList) {
 
                     private static final long serialVersionUID = 5776812971859283845L;
 
                     @Override
-                    protected void populateItem(ListItem<String> item)
-                    {
+                    protected void populateItem(ListItem<String> item) {
                         String key = item.getDefaultModelObjectAsString();
 
                         Label qualifierLabel = new Label("qualifier", choiceList.getValue(key));
@@ -87,49 +79,39 @@ public class RelationViewPanel extends AbstractCustomPanel
                 add(listView);
 
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 logger.error("Unable to render Relations.", e);
             }
         }
 
         @Override
-        public boolean isVisible()
-        {
+        public boolean isVisible() {
             return !emdRelations.isEmpty();
         }
 
     }
 
-    class InnerListView extends ListView<Serializable>
-    {
+    class InnerListView extends ListView<Serializable> {
 
         private static final long serialVersionUID = 8265036526196753372L;
 
-        public InnerListView(List<Serializable> relations)
-        {
+        public InnerListView(List<Serializable> relations) {
             super("qualifiedList", relations);
         }
 
         @Override
-        protected void populateItem(ListItem<Serializable> item)
-        {
+        protected void populateItem(ListItem<Serializable> item) {
             Serializable mobj = (Serializable) item.getDefaultModelObject();
             String title;
             String href;
-            if (mobj instanceof BasicIdentifier)
-            {
+            if (mobj instanceof BasicIdentifier) {
                 href = "";
                 title = ((BasicIdentifier) mobj).getValue();
-            }
-            else if (mobj instanceof Relation)
-            {
+            } else if (mobj instanceof Relation) {
                 Relation relation = (Relation) mobj;
                 href = relation.getSubjectLink() == null ? "" : relation.getSubjectLink().toString();
                 title = relation.getSubjectTitle().getValue();
-            }
-            else
-            {
+            } else {
                 logger.error("Unknown type in Relations innerList");
                 throw new WicketRuntimeException("Unknown type in Relations innerList");
             }

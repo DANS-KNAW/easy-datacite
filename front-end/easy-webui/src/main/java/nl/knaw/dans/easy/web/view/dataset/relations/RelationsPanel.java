@@ -3,13 +3,11 @@ package nl.knaw.dans.easy.web.view.dataset.relations;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 
-public class RelationsPanel extends AbstractDatasetModelPanel
-{
+public class RelationsPanel extends AbstractDatasetModelPanel {
 
     private static final long serialVersionUID = 1003238896639997725L;
 
-    public RelationsPanel(String wicketId, DatasetModel model)
-    {
+    public RelationsPanel(String wicketId, DatasetModel model) {
         super(wicketId, model);
         setOutputMarkupId(true);
 

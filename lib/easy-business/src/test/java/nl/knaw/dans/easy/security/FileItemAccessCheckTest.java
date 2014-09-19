@@ -27,8 +27,7 @@ import nl.knaw.dans.easy.security.FileItemContentsAccessCheck;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FileItemAccessCheckTest
-{
+public class FileItemAccessCheckTest {
 
     private static final Group TEST_GROUP = new GroupImpl("testGroup");
 
@@ -47,25 +46,21 @@ public class FileItemAccessCheckTest
     int testCounter;
 
     @BeforeClass
-    public static void beforeClass()
-    {
-        for (int i : POSITIVE_STATES)
-        {
+    public static void beforeClass() {
+        for (int i : POSITIVE_STATES) {
             POSITIVE_STATES_LIST.add(i);
         }
     }
 
     @Test
-    public void evaluate() throws Exception
-    {
+    public void evaluate() throws Exception {
         explanations = new StringBuilder();
         testCounter = 0;
 
         TestDataset dataset = new TestDataset(); // null state
         evaluateGroups(dataset);
 
-        for (DatasetState datasetState : DatasetState.values())
-        {
+        for (DatasetState datasetState : DatasetState.values()) {
             dataset.datasetState = datasetState;
             evaluateGroups(dataset);
         }
@@ -73,8 +68,7 @@ public class FileItemAccessCheckTest
         assertEquals(TEST_COUNT, testCounter);
     }
 
-    private void evaluateGroups(TestDataset dataset)
-    {
+    private void evaluateGroups(TestDataset dataset) {
         dataset.datasetGroup = null;
         evaluatePermission(dataset);
 
@@ -82,8 +76,7 @@ public class FileItemAccessCheckTest
         evaluatePermission(dataset);
     }
 
-    private void evaluatePermission(TestDataset dataset)
-    {
+    private void evaluatePermission(TestDataset dataset) {
         dataset.permissionGranted = false;
         evaluateUserState(dataset);
 
@@ -91,34 +84,29 @@ public class FileItemAccessCheckTest
         evaluateUserState(dataset);
     }
 
-    private void evaluateUserState(TestDataset dataset)
-    {
+    private void evaluateUserState(TestDataset dataset) {
         EasyUser anonUser = EasyUserAnonymous.getInstance();
         evaluateUserGroup(anonUser, dataset);
 
         EasyUser user = new EasyUserImpl("testUser");
-        for (State userState : State.values())
-        {
+        for (State userState : State.values()) {
             user.setState(userState);
             user.leaveGroup(TEST_GROUP);
             evaluateUserGroup(user, dataset);
         }
     }
 
-    private void evaluateUserGroup(EasyUser user, TestDataset dataset)
-    {
+    private void evaluateUserGroup(EasyUser user, TestDataset dataset) {
         assertFalse(user.isMemberOf(TEST_GROUP));
         evaluateDatasetDescendancy(user, dataset);
 
-        if (!user.isAnonymous())
-        {
+        if (!user.isAnonymous()) {
             user.joinGroup(TEST_GROUP);
             evaluateDatasetDescendancy(user, dataset);
         }
     }
 
-    private void evaluateDatasetDescendancy(EasyUser user, TestDataset dataset)
-    {
+    private void evaluateDatasetDescendancy(EasyUser user, TestDataset dataset) {
         FileItem fileItem = new FileItemImpl("file:testFileItem");
         evaluateFileItemAccess(user, dataset, fileItem);
 
@@ -126,19 +114,16 @@ public class FileItemAccessCheckTest
         evaluateFileItemAccess(user, dataset, fileItem);
     }
 
-    private void evaluateFileItemAccess(EasyUser user, TestDataset dataset, FileItem fileItem)
-    {
+    private void evaluateFileItemAccess(EasyUser user, TestDataset dataset, FileItem fileItem) {
         evaluate(user, dataset, fileItem); // null accessCat
 
-        for (AccessibleTo accessibleTo : AccessibleTo.values())
-        {
+        for (AccessibleTo accessibleTo : AccessibleTo.values()) {
             fileItem.setAccessibleTo(accessibleTo);
             evaluate(user, dataset, fileItem);
         }
     }
 
-    private void evaluate(EasyUser user, TestDataset dataset, FileItem fileItem)
-    {
+    private void evaluate(EasyUser user, TestDataset dataset, FileItem fileItem) {
         ContextParameters ctxParameters = new ContextParameters(user, dataset, fileItem);
         FileItemContentsAccessCheck officer = new FileItemContentsAccessCheck();
 
@@ -153,23 +138,18 @@ public class FileItemAccessCheckTest
         if (verbose)
             System.out.println(msg);
 
-        if (accessAllowed)
-        {
+        if (accessAllowed) {
             assertTrue("Negative state was allowed." + msg, POSITIVE_STATES_LIST.contains(testCounter));
-        }
-        else
-        {
+        } else {
             assertFalse("Positive state was not allowed." + msg, POSITIVE_STATES_LIST.contains(testCounter));
         }
     }
 
-    class TestDataset extends DatasetImpl
-    {
+    class TestDataset extends DatasetImpl {
 
         private static final long serialVersionUID = 1L;
 
-        public TestDataset()
-        {
+        public TestDataset() {
             super("easy:whatever");
         }
 
@@ -178,25 +158,21 @@ public class FileItemAccessCheckTest
         boolean permissionGranted;
 
         @Override
-        public DatasetState getAdministrativeState()
-        {
+        public DatasetState getAdministrativeState() {
             return datasetState;
         }
 
         @Override
-        public Set<String> getGroupIds()
-        {
+        public Set<String> getGroupIds() {
             Set<String> set = new HashSet<String>();
-            if (datasetGroup != null)
-            {
+            if (datasetGroup != null) {
                 set.add(datasetGroup);
             }
             return set;
         }
 
         @Override
-        public boolean isPermissionGrantedTo(EasyUser user)
-        {
+        public boolean isPermissionGrantedTo(EasyUser user) {
             return permissionGranted;
         }
     }

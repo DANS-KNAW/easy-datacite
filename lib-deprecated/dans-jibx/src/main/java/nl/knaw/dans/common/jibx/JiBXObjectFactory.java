@@ -19,13 +19,11 @@ import org.jibx.runtime.JiBXException;
  * @author ecco Sep 17, 2009
  */
 @SuppressWarnings("unchecked")
-public class JiBXObjectFactory
-{
+public class JiBXObjectFactory {
 
     private static Map<Class, JiBXUtil> jibuMap = Collections.synchronizedMap(new HashMap<Class, JiBXUtil>());
 
-    private JiBXObjectFactory()
-    {
+    private JiBXObjectFactory() {
         // never instantiate
     }
 
@@ -40,75 +38,58 @@ public class JiBXObjectFactory
      * @throws XMLDeserializationException
      *         as a wrapper for {@link JiBXException}s
      */
-    public static Object unmarshal(Class clazz, byte[] objectXML) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, byte[] objectXML) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshal(objectXML);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
     }
 
-    public static Object unmarshal(Class clazz, Document document) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, Document document) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshal(document);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
     }
 
-    public static Object unmarshal(Class clazz, Element element) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, Element element) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshal(element);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
     }
 
-    public static Object unmarshal(Class clazz, File file) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, File file) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshal(file);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new XMLDeserializationException(e);
         }
     }
 
-    public static Object unmarshalFile(Class clazz, String filename) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshalFile(Class clazz, String filename) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshalFile(filename);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new XMLDeserializationException(e);
         }
     }
@@ -126,31 +107,24 @@ public class JiBXObjectFactory
      * @throws IOException
      *         if the InputStream could not be closed
      */
-    public static Object unmarshal(Class clazz, InputStream inStream) throws XMLDeserializationException, IOException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, InputStream inStream) throws XMLDeserializationException, IOException {
+        try {
             return getJiBXUtil(clazz).unmarshal(inStream);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
-        finally
-        {
+        finally {
             inStream.close();
         }
     }
 
-    public static Object unmarshal(Class clazz, String xmlString) throws XMLDeserializationException
-    {
-        try
-        {
+    public static Object unmarshal(Class clazz, String xmlString) throws XMLDeserializationException {
+        try {
             return getJiBXUtil(clazz).unmarshal(xmlString);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             remove(clazz); // no need to keep erronous JiBXUtil
             throw new XMLDeserializationException(e);
         }
@@ -163,13 +137,10 @@ public class JiBXObjectFactory
      *        the implementing JiBX-bound class
      * @return JiBXUtil for the given class
      */
-    public static JiBXUtil getJiBXUtil(Class clazz)
-    {
-        synchronized (jibuMap)
-        {
+    public static JiBXUtil getJiBXUtil(Class clazz) {
+        synchronized (jibuMap) {
             JiBXUtil jibu = jibuMap.get(clazz);
-            if (jibu == null)
-            {
+            if (jibu == null) {
                 jibu = new JiBXUtil(clazz);
                 jibuMap.put(clazz, jibu);
             }
@@ -184,10 +155,8 @@ public class JiBXObjectFactory
      *        the implementing JiBX-bound class
      * @return JiBXUtil for the given class or <code>null</code> if it was not here
      */
-    public static JiBXUtil remove(Class clazz)
-    {
-        synchronized (jibuMap)
-        {
+    public static JiBXUtil remove(Class clazz) {
+        synchronized (jibuMap) {
             return jibuMap.remove(clazz);
         }
     }

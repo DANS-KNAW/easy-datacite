@@ -2,56 +2,45 @@ package nl.knaw.dans.easy.domain.dataset.item;
 
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 
-public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable
-{
+public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID = -2021285396582701318L;
     private long id = -1;
     private AccessibleTo accessibleTo;
     private String folderSid;
 
-    public FolderItemAccessibleTo()
-    {
-    }
+    public FolderItemAccessibleTo() {}
 
-    public FolderItemAccessibleTo(String folderSid, AccessibleTo accessibleTo)
-    {
+    public FolderItemAccessibleTo(String folderSid, AccessibleTo accessibleTo) {
         this.folderSid = folderSid;
         this.accessibleTo = accessibleTo;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(long id)
-    {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public AccessibleTo getAccessibleTo()
-    {
+    public AccessibleTo getAccessibleTo() {
         return this.accessibleTo;
     }
 
-    public void setAccessibleTo(AccessibleTo accessibleTo)
-    {
+    public void setAccessibleTo(AccessibleTo accessibleTo) {
         this.accessibleTo = accessibleTo;
     }
 
-    public void setFolderSid(String folderSid)
-    {
+    public void setFolderSid(String folderSid) {
         this.folderSid = folderSid;
     }
 
-    public String getFolderSid()
-    {
+    public String getFolderSid() {
         return folderSid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((folderSid == null) ? 0 : folderSid.hashCode());
@@ -61,8 +50,7 @@ public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -70,33 +58,27 @@ public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable
         if (getClass() != obj.getClass())
             return false;
         FolderItemAccessibleTo other = (FolderItemAccessibleTo) obj;
-        if (folderSid == null)
-        {
+        if (folderSid == null) {
             if (other.folderSid != null)
                 return false;
-        }
-        else if (!folderSid.equals(other.folderSid))
+        } else if (!folderSid.equals(other.folderSid))
             return false;
         if (id != other.id)
             return false;
-        if (accessibleTo == null)
-        {
+        if (accessibleTo == null) {
             if (other.accessibleTo != null)
                 return false;
-        }
-        else if (!accessibleTo.equals(other.accessibleTo))
+        } else if (!accessibleTo.equals(other.accessibleTo))
             return false;
         return true;
     }
 
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         // if (accessibleTo== null) return "null";
         // return accessibleTo.toString();
 

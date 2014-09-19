@@ -13,8 +13,7 @@ import proai.driver.*;
 import proai.driver.impl.*;
 
 @Ignore
-public class OAIDriverImplTest extends TestCase
-{
+public class OAIDriverImplTest extends TestCase {
 
     public static final String LATEST_DATE = "2005-01-01T08:57:59Z";
 
@@ -37,34 +36,29 @@ public class OAIDriverImplTest extends TestCase
 
     private OAIDriver m_impl;
 
-    public void setUp()
-    {
+    public void setUp() {
         m_impl = new OAIDriverImpl();
         m_impl.init(System.getProperties());
     }
 
     // /////////////////////////////////////////////////////////////////////////
 
-    public void testLatestDate() throws Exception
-    {
+    public void testLatestDate() throws Exception {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String latestDate = df.format(m_impl.getLatestDate());
         System.out.println("Latest Date was " + latestDate);
         assertEquals(latestDate, LATEST_DATE);
     }
 
-    public void testIdentity() throws Exception
-    {
+    public void testIdentity() throws Exception {
         StringWriter writer = new StringWriter();
         m_impl.write(new PrintWriter(writer, true));
         System.out.println("Result of writeIdentity:\n" + writer.toString());
     }
 
-    public void testFormats() throws Exception
-    {
+    public void testFormats() throws Exception {
         Iterator<? extends MetadataFormat> iter = m_impl.listMetadataFormats();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             MetadataFormat format = iter.next();
             String prefix = format.getPrefix();
             String uri = format.getNamespaceURI();
@@ -73,24 +67,19 @@ public class OAIDriverImplTest extends TestCase
             System.out.println("       uri    = " + uri);
             System.out.println("       loc    = " + loc);
             assertTrue(prefix.equals(OAI_DC_PREFIX) || prefix.equals(TEST_FORMAT_PREFIX));
-            if (prefix.equals(OAI_DC_PREFIX))
-            {
+            if (prefix.equals(OAI_DC_PREFIX)) {
                 assertEquals(uri, OAI_DC_URI);
                 assertEquals(loc, OAI_DC_LOC);
-            }
-            else
-            {
+            } else {
                 assertEquals(uri, TEST_FORMAT_URI);
                 assertEquals(loc, TEST_FORMAT_LOC);
             }
         }
     }
 
-    public void testSets() throws Exception
-    {
+    public void testSets() throws Exception {
         Iterator<? extends SetInfo> iter = m_impl.listSetInfo();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             SetInfo info = iter.next();
             String spec = info.getSetSpec();
             System.out.println("Set spec = " + spec);
@@ -101,8 +90,7 @@ public class OAIDriverImplTest extends TestCase
         }
     }
 
-    public void testRecords() throws Exception
-    {
+    public void testRecords() throws Exception {
         Iterator<? extends Record> iter;
         Date fromDate = null;
         Date untilDate = m_impl.getLatestDate();
@@ -145,20 +133,16 @@ public class OAIDriverImplTest extends TestCase
 
     }
 
-    public void checkRecords(Iterator<? extends Record> iter, int[] expecting) throws Exception
-    {
+    public void checkRecords(Iterator<? extends Record> iter, int[] expecting) throws Exception {
         boolean[] saw = new boolean[expecting.length];
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             Record rec = iter.next();
             String id = rec.getItemID();
             System.out.println("  Found Record with itemID = " + id);
             int n = Integer.parseInt(id.substring(id.length() - 1));
             boolean wasExpected = false;
-            for (int i = 0; i < expecting.length; i++)
-            {
-                if (n == expecting[i])
-                {
+            for (int i = 0; i < expecting.length; i++) {
+                if (n == expecting[i]) {
                     saw[i] = true;
                     wasExpected = true;
                 }
@@ -168,26 +152,22 @@ public class OAIDriverImplTest extends TestCase
             ((Writable) rec).write(new PrintWriter(writer, true));
             System.out.println("Result of write: \n" + writer.toString());
         }
-        for (int i = 0; i < saw.length; i++)
-        {
+        for (int i = 0; i < saw.length; i++) {
             assertTrue(saw[i]);
         }
     }
 
     // /////////////////////////////////////////////////////////////////////////
 
-    public void tearDown()
-    {
+    public void tearDown() {
         m_impl.close();
     }
 
-    public OAIDriverImplTest(String name)
-    {
+    public OAIDriverImplTest(String name) {
         super(name);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         junit.textui.TestRunner.run(OAIDriverImplTest.class);
     }
 

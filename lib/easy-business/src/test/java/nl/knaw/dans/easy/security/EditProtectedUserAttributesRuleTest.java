@@ -13,8 +13,7 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EditProtectedUserAttributesRuleTest
-{
+public class EditProtectedUserAttributesRuleTest {
 
     private static SecurityOfficer rule;
     private static EasyUser sessionUser;
@@ -22,8 +21,7 @@ public class EditProtectedUserAttributesRuleTest
     private static ContextParameters ctx;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         rule = new CodedAuthz().getEditProtectedUserAttributesRule();
         sessionUser = EasyMock.createMock(EasyUser.class);
         userUnderEdit = EasyMock.createMock(EasyUser.class);
@@ -31,15 +29,13 @@ public class EditProtectedUserAttributesRuleTest
     }
 
     @Test
-    public void testProposition()
-    {
+    public void testProposition() {
         String proposition = "Split answer: ComponentVisisble <== [SessionUser has role ARCHIVIST or ADMIN] EnableAllowed <== ([SessionUser has role ADMIN] AND NOT([SessionUser is user under edit]))";
         assertEquals(proposition, rule.getProposition());
     }
 
     @Test
-    public void testUser()
-    {
+    public void testUser() {
         EasyMock.reset(sessionUser, userUnderEdit);
         EasyMock.expect(sessionUser.isActive()).andReturn(true).times(2);
         // visible
@@ -56,8 +52,7 @@ public class EditProtectedUserAttributesRuleTest
     }
 
     @Test
-    public void testArchivist()
-    {
+    public void testArchivist() {
         EasyMock.reset(sessionUser, userUnderEdit);
         EasyMock.expect(sessionUser.isActive()).andReturn(true).times(2);
         // visible
@@ -74,8 +69,7 @@ public class EditProtectedUserAttributesRuleTest
     }
 
     @Test
-    public void testAdminNotSelf()
-    {
+    public void testAdminNotSelf() {
         EasyMock.reset(sessionUser, userUnderEdit);
         EasyMock.expect(sessionUser.isActive()).andReturn(true).times(2);
         // visible
@@ -94,8 +88,7 @@ public class EditProtectedUserAttributesRuleTest
     }
 
     @Test
-    public void testAdminButSelf()
-    {
+    public void testAdminButSelf() {
         EasyMock.reset(sessionUser, userUnderEdit);
         EasyMock.expect(sessionUser.isActive()).andReturn(true).times(2);
         // visible
@@ -113,8 +106,7 @@ public class EditProtectedUserAttributesRuleTest
     }
 
     @Test
-    public void testNull()
-    {
+    public void testNull() {
         Object[] args = null;
         ContextParameters ctxParameters = new ContextParameters(args);
         assertFalse(rule.isEnableAllowed(ctxParameters));

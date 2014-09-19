@@ -32,19 +32,16 @@ import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 
-public class DataFilesPanel extends AbstractDatasetModelPanel
-{
+public class DataFilesPanel extends AbstractDatasetModelPanel {
     private static final Model<NoDate> NO_DATE_MODEL = new Model<NoDate>(new NoDate());
     public static final int TAB_INDEX = 2;
     private static final long serialVersionUID = 3634861329844965675L;
 
-    private static class NoDate implements Serializable
-    {
+    private static class NoDate implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @SuppressWarnings("unused")
-        public String toLocalDate()
-        {
+        public String toLocalDate() {
             // used via reflection
             return "";
         }
@@ -53,8 +50,7 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
     @SpringBean(name = "fileStoreAccess")
     private FileStoreAccess fileStoreAccess;
 
-    public DataFilesPanel(final String id, final DatasetModel datasetModel) throws StoreAccessException
-    {
+    public DataFilesPanel(final String id, final DatasetModel datasetModel) throws StoreAccessException {
         /* sits on a tab created in on onBeforeRenderer, so no onBeforeRenderer needed here */
         super(id, datasetModel);
 
@@ -105,27 +101,22 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         add(new FileExplorer("fe", datasetModel).setVisible(showFileExplorer));
     }
 
-    private Label createMessageLabel(final IModel<? extends Object> model, final List<AuthzMessage> messages, final String wicketId)
-    {
+    private Label createMessageLabel(final IModel<? extends Object> model, final List<AuthzMessage> messages, final String wicketId) {
         final Label label = new Label(wicketId, new StringResourceModel(wicketId, model));
         label.setVisible(containsMessage(wicketId, messages));
         return label;
     }
 
-    private boolean containsMessage(final String messageCode, final List<AuthzMessage> messages)
-    {
-        for (final AuthzMessage message : messages)
-        {
-            if (message.getMessageCode().equals(messageCode))
-            {
+    private boolean containsMessage(final String messageCode, final List<AuthzMessage> messages) {
+        for (final AuthzMessage message : messages) {
+            if (message.getMessageCode().equals(messageCode)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean seesAll(final Dataset dataset, final EasyUser user)
-    {
+    private boolean seesAll(final Dataset dataset, final EasyUser user) {
         if (user == null || user.isAnonymous())
             return false;
         if (user.hasRole(Role.ARCHIVIST))
@@ -135,27 +126,22 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         return dataset.getAdministrativeState().equals(DatasetState.DRAFT) || dataset.getState().equals("Active");
     }
 
-    private PageParameters getUrlForFe(final Dataset dataset)
-    {
+    private PageParameters getUrlForFe(final Dataset dataset) {
         return DatasetViewPage.urlParametersFor(dataset.getStoreId(), TAB_INDEX, true);
     }
 
-    private Link<Void> createLink(final String id, final Dataset dataset)
-    {
-        return new Link<Void>(id)
-        {
+    private Link<Void> createLink(final String id, final Dataset dataset) {
+        return new Link<Void>(id) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(new PermissionRequestPage(new DatasetModel(dataset), (AbstractEasyPage) getPage()));
             }
         };
     }
 
-    private Model<? extends Object> getPermissionStateDateModel(final Dataset dataset, final EasyUser user)
-    {
+    private Model<? extends Object> getPermissionStateDateModel(final Dataset dataset, final EasyUser user) {
         final PermissionSequenceList sequenceList = dataset.getPermissionSequenceList();
         if (sequenceList == null || user == null || user.isAnonymous() || !sequenceList.hasSequenceFor(user))
             return NO_DATE_MODEL;

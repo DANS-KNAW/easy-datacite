@@ -13,56 +13,45 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel>
-{
+public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel> {
 
     private static final long serialVersionUID = -2169562395545469665L;
 
     private boolean dropdownVisible;
     private String defaultKey;
 
-    public BasicDatePanel(final String wicketId, final IModel model, final ChoiceList choiceList)
-    {
+    public BasicDatePanel(final String wicketId, final IModel model, final ChoiceList choiceList) {
         super(wicketId, model, choiceList);
     }
 
-    public void setDropdownVisible(boolean dropdownVisible)
-    {
+    public void setDropdownVisible(boolean dropdownVisible) {
         this.dropdownVisible = dropdownVisible;
     }
 
-    public void setDefaultKey(String defaultKey)
-    {
+    public void setDefaultKey(String defaultKey) {
         this.defaultKey = defaultKey;
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(final ListItem item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(final ListItem item) {
+        if (isInEditMode()) {
             return new RepeatingEditModePanel(item);
-        }
-        else
-        {
+        } else {
             return new RepeatingViewModePanel(item);
         }
     }
 
-    class RepeatingEditModePanel extends Panel
-    {
+    class RepeatingEditModePanel extends Panel {
 
         private static final long serialVersionUID = -4387702534243040428L;
 
-        public RepeatingEditModePanel(final ListItem item)
-        {
+        public RepeatingEditModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
 
             final DropDownChoice dropDownChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getModelObject(), "scheme"), getChoiceList()
                     .getChoices(), getRenderer());
             dropDownChoice.setNullValid(isNullValid());
-            if (defaultKey != null && !defaultKey.equals(""))
-            {
+            if (defaultKey != null && !defaultKey.equals("")) {
                 dropDownChoice.setModelValue(new String[] {defaultKey});
             }
             dropDownChoice.setVisible(dropdownVisible);
@@ -76,13 +65,11 @@ public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel>
 
     }
 
-    class RepeatingViewModePanel extends Panel
-    {
+    class RepeatingViewModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        public RepeatingViewModePanel(final ListItem item)
-        {
+        public RepeatingViewModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
             QualifiedModel qModel = (QualifiedModel) item.getDefaultModelObject();
             String qualifierKey = qModel.getQualifier();

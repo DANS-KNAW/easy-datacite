@@ -4,12 +4,10 @@ import java.util.HashMap;
 
 // TODO: expand this
 
-public class MimeTypes
-{
+public class MimeTypes {
     private final static HashMap<String, String> map = new HashMap<String, String>();
 
-    static
-    {
+    static {
         map.put("image/bmp", "bmp");
         map.put("image/x-windows-bmp", "bmp");
         map.put("application/x-msdownload", "dll");
@@ -55,8 +53,7 @@ public class MimeTypes
         map.put("multipart/x-zip", "zip");
     }
 
-    public static String get(String mimeType)
-    {
+    public static String get(String mimeType) {
         return map.containsKey(mimeType) ? map.get(mimeType) : "unknown";
     }
 }

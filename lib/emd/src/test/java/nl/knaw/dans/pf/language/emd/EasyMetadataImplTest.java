@@ -22,19 +22,15 @@ import org.xml.sax.SAXException;
 
 // ecco: CHECKSTYLE: OFF
 
-public class EasyMetadataImplTest
-{
+public class EasyMetadataImplTest {
 
     // @Test // used in javadoc package description
-    public void printContainersAndTerms()
-    {
+    public void printContainersAndTerms() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
-        for (MDContainer mdContainer : MDContainer.values())
-        {
+        for (MDContainer mdContainer : MDContainer.values()) {
             System.out.println(mdContainer.toString());
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
-            for (Term term : emdContainer.getTerms())
-            {
+            for (Term term : emdContainer.getTerms()) {
                 System.out.println("\t" + term.getNamespace().prefix + ":" + term.getName().termName + " ({@link " + term.getType().getName() + "})");
             }
 
@@ -42,18 +38,15 @@ public class EasyMetadataImplTest
     }
 
     // @Test // used for development
-    public void printTerms()
-    {
+    public void printTerms() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
-        for (Term term : emd.getTermsMap().keySet())
-        {
+        for (Term term : emd.getTermsMap().keySet()) {
             System.out.println(term.getQualifiedName());
         }
     }
 
     @Test
-    public void testToString() throws URISyntaxException
-    {
+    public void testToString() throws URISyntaxException {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(3, emd);
         String toString = emd.toString(";");
@@ -63,8 +56,7 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void testContainerToString() throws XMLException, SAXException, SchemaCreationException
-    {
+    public void testContainerToString() throws XMLException, SAXException, SchemaCreationException {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Assert.assertEquals("", emd.toString("&", MDContainer.Audience));
 
@@ -76,8 +68,7 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void testTermToString() throws XMLException, SAXException, SchemaCreationException
-    {
+    public void testTermToString() throws XMLException, SAXException, SchemaCreationException {
         Term term1 = new Term(Term.Name.RIGHTS, Term.Namespace.DC);
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Assert.assertEquals("", emd.toString("*", term1));
@@ -102,16 +93,14 @@ public class EasyMetadataImplTest
     }
 
     @Test(expected = NoSuchTermException.class)
-    public void testNoSuchTermException()
-    {
+    public void testNoSuchTermException() {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Term created = new Term(Term.Name.CREATED, Term.Namespace.DC);
         emd.toString(".. will throw exception ..", created);
     }
 
     @Test
-    public void testGetTermsMap()
-    {
+    public void testGetTermsMap() {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Map<Term, MDContainer> map = emd.getTermsMap();
         // for (Term term : map.keySet())
@@ -126,8 +115,7 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void testGetContainer()
-    {
+    public void testGetContainer() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Assert.assertNull(emd.getContainer(MDContainer.Title, true));
         EmdTitle titleContainer = emd.getEmdTitle();
@@ -137,8 +125,7 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void testGetTerm()
-    {
+    public void testGetTerm() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         List<MetadataItem> titles = emd.getTerm(new Term(Term.Name.TITLE, Term.Namespace.DC));
         Assert.assertNotNull(titles);
@@ -155,20 +142,17 @@ public class EasyMetadataImplTest
     // }
 
     @Test
-    public void testDublinCoreMetadata() throws Exception
-    {
+    public void testDublinCoreMetadata() throws Exception {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         DublinCoreMetadata dc = emd.getDublinCoreMetadata();
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             List<String> values = dc.get(name);
             Assert.assertTrue(values.isEmpty());
         }
 
         EmdHelper.populate(3, (EasyMetadataImpl) emd);
         dc = emd.getDublinCoreMetadata();
-        for (PropertyName name : PropertyName.values())
-        {
+        for (PropertyName name : PropertyName.values()) {
             List<String> values = dc.get(name);
             Assert.assertFalse(values.isEmpty());
             // System.out.println(mdContainer.toString());
@@ -181,15 +165,12 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void visitChildrenNonEmpty()
-    {
+    public void visitChildrenNonEmpty() {
         EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
-        Object object = emd.visitChildren(false, new EmdVisitor()
-        {
+        Object object = emd.visitChildren(false, new EmdVisitor() {
             private int count;
 
-            public Object container(EmdContainer container)
-            {
+            public Object container(EmdContainer container) {
                 return count++;
             }
 
@@ -198,15 +179,12 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void visitChildrenEvenEmpty()
-    {
+    public void visitChildrenEvenEmpty() {
         EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
-        Object object = emd.visitChildren(true, new EmdVisitor()
-        {
+        Object object = emd.visitChildren(true, new EmdVisitor() {
             private int count;
 
-            public Object container(EmdContainer container)
-            {
+            public Object container(EmdContainer container) {
                 // System.out.println(container.getClass());
                 return count++;
             }
@@ -217,8 +195,7 @@ public class EasyMetadataImplTest
     }
 
     @Test
-    public void dcTermsCreated() throws Exception
-    {
+    public void dcTermsCreated() throws Exception {
         EasyMetadata emd = new EasyMetadataImpl();
         BasicDate bd = new BasicDate("bla bla");
         emd.getEmdDate().getTermsCreated().add(bd);

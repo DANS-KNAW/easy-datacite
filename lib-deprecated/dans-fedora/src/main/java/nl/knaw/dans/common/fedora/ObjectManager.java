@@ -28,29 +28,24 @@ import fedora.common.Constants;
 /**
  * Implements object management methods on the APIM interface.
  * <p/>
- * The Fedora Management service defines an open interface for administering the repository, including
- * creating, modifying, and deleting digital objects, or components within digital objects. The
- * Management service interacts with the underlying repository system to read content from and write
- * content to the digital object and datastream storage areas. The Management service exposes a set of
- * operations that enable a client to view and manipulate digital objects from an abstract perspective,
- * meaning that a client does not need to know anything about underlying storage formats, storage media,
- * or storage management schemes for objects. Also, the underlying repository system handles the details
- * of storing datastream content within the repository, as well as mediating connectivity for datastreams
- * that reference external content.
+ * The Fedora Management service defines an open interface for administering the repository, including creating, modifying, and deleting digital objects, or
+ * components within digital objects. The Management service interacts with the underlying repository system to read content from and write content to the
+ * digital object and datastream storage areas. The Management service exposes a set of operations that enable a client to view and manipulate digital objects
+ * from an abstract perspective, meaning that a client does not need to know anything about underlying storage formats, storage media, or storage management
+ * schemes for objects. Also, the underlying repository system handles the details of storing datastream content within the repository, as well as mediating
+ * connectivity for datastreams that reference external content.
  * 
  * @see <a href="http://fedora-commons.org/confluence/display/FCR30/API-M">FedoraCommons APIM</a>
  * @author ecco Sep 6, 2009
  */
-public class ObjectManager
-{
+public class ObjectManager {
     /**
      * Export context, which determines how datastream URLs and content are represented in an export.
      * 
      * @see ObjectManager#export(String, String, ExportContext)
      * @author ecco Sep 6, 2009
      */
-    public enum ExportContext
-    {
+    public enum ExportContext {
         PUBLIC, MIGRATE, ARCHIVE
     }
 
@@ -82,19 +77,16 @@ public class ObjectManager
      * @param repository
      *        Repository to manage
      */
-    public ObjectManager(Repository repository)
-    {
+    public ObjectManager(Repository repository) {
         this.repository = repository;
     }
 
     /**
-     * Gets the serialization of the digital object to XML appropriate for persistent storage in the
-     * repository, ensuring that any URLs that are relative to the local repository are stored with the
-     * Fedora local URL syntax. The Fedora local URL syntax consists of the string "local.fedora.server"
-     * standing in place of the actual "hostname:port" on the URL). Managed Content (M) datastreams are
-     * stored with internal identifiers in dsLocation. Also, within selected inline XML datastreams
-     * (i.e., WSDL and SERVICE_PROFILE) any URLs that are relative to the local repository will also be
-     * stored with the Fedora local URL syntax.
+     * Gets the serialization of the digital object to XML appropriate for persistent storage in the repository, ensuring that any URLs that are relative to the
+     * local repository are stored with the Fedora local URL syntax. The Fedora local URL syntax consists of the string "local.fedora.server" standing in place
+     * of the actual "hostname:port" on the URL). Managed Content (M) datastreams are stored with internal identifiers in dsLocation. Also, within selected
+     * inline XML datastreams (i.e., WSDL and SERVICE_PROFILE) any URLs that are relative to the local repository will also be stored with the Fedora local URL
+     * syntax.
      * 
      * @param sid
      *        The sid of the object
@@ -104,20 +96,16 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public byte[] getObjectXML(String sid) throws ObjectNotInStoreException, RepositoryException
-    {
+    public byte[] getObjectXML(String sid) throws ObjectNotInStoreException, RepositoryException {
         byte[] objectXML = null;
-        try
-        {
+        try {
             objectXML = repository.getFedoraAPIM().getObjectXML(sid);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Retrieved objectXML. sid=" + sid);
             }
 
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to retrieve the objectXML for sid [" + sid + "]: ";
             logger.debug(msg);
             Repository.mapRemoteException(msg, e);
@@ -137,26 +125,20 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DigitalObject getDigitalObject(String sid) throws ObjectNotInStoreException, RepositoryException
-    {
-        try
-        {
+    public DigitalObject getDigitalObject(String sid) throws ObjectNotInStoreException, RepositoryException {
+        try {
             return (DigitalObject) JiBXObjectFactory.unmarshal(DigitalObject.class, getObjectXML(sid));
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new ObjectDeserializationException(e);
         }
     }
 
     /**
-     * Creates a new digital object in the repository. If the XML document does not specify the PID
-     * attribute of the root element, the repository will generate and return a new pid for the object
-     * resulting from this request. That pid will have the namespace of the repository. If the XML
-     * document specifies a pid, it will be assigned to the digital object provided that 1. it conforms
-     * to the Fedora pid Syntax, 2. it uses a namespace that matches the "retainPIDs" value configured
-     * for the repository, and 3. it does not collide with an existing pid of an object in the
-     * repository.
+     * Creates a new digital object in the repository. If the XML document does not specify the PID attribute of the root element, the repository will generate
+     * and return a new pid for the object resulting from this request. That pid will have the namespace of the repository. If the XML document specifies a pid,
+     * it will be assigned to the digital object provided that 1. it conforms to the Fedora pid Syntax, 2. it uses a namespace that matches the "retainPIDs"
+     * value configured for the repository, and 3. it does not collide with an existing pid of an object in the repository.
      * 
      * @param objectXML
      *        The digital object in an XML submission format
@@ -179,19 +161,15 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public String ingest(byte[] objectXML, String format, String logMessage) throws ObjectExistsException, RepositoryException
-    {
+    public String ingest(byte[] objectXML, String format, String logMessage) throws ObjectExistsException, RepositoryException {
         String sid = null;
-        try
-        {
+        try {
             sid = repository.getFedoraAPIM().ingest(objectXML, format, logMessage);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Ingested object. sid=" + sid);
             }
         }
-        catch (final RemoteException e)
-        {
+        catch (final RemoteException e) {
             final String msg = "Unable to ingest an object: \n" + new String(objectXML) + "\n";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -213,21 +191,17 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public String ingest(DigitalObject digitalObject, String logMessage) throws ObjectExistsException, RepositoryException
-    {
+    public String ingest(DigitalObject digitalObject, String logMessage) throws ObjectExistsException, RepositoryException {
         String sid = null;
-        try
-        {
-            if (digitalObject.getSid() == null)
-            {
+        try {
+            if (digitalObject.getSid() == null) {
                 digitalObject.setSid(nextSid(digitalObject.getObjectNamespace()));
             }
 
             sid = ingest(digitalObject.asObjectXML(), digitalObject.getFormat(), logMessage);
             digitalObject.setSid(sid);
         }
-        catch (XMLSerializationException e)
-        {
+        catch (XMLSerializationException e) {
             throw new ObjectSerializationException(e);
         }
         return sid;
@@ -246,26 +220,21 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DateTime purgeObject(String sid, boolean force, String logMessage) throws RepositoryException
-    {
+    public DateTime purgeObject(String sid, boolean force, String logMessage) throws RepositoryException {
         String timeStamp = null;
-        try
-        {
+        try {
             timeStamp = repository.getFedoraAPIM().purgeObject(sid, logMessage, force);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Purged object. sid=" + sid);
             }
         }
-        catch (final RemoteException e)
-        {
+        catch (final RemoteException e) {
             final String msg = "Unable to purge an object. sid=" + sid;
             logger.debug(msg);
             Repository.mapRemoteException(msg, e);
         }
         DateTime purgeTime = null;
-        if (timeStamp != null)
-        {
+        if (timeStamp != null) {
             purgeTime = new DateTime(timeStamp);
         }
         return purgeTime;
@@ -284,24 +253,19 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DateTime purgeObject(DigitalObject digitalObject, boolean force, String logMessage) throws RepositoryException
-    {
+    public DateTime purgeObject(DigitalObject digitalObject, boolean force, String logMessage) throws RepositoryException {
         return purgeObject(digitalObject.getSid(), force, logMessage);
     }
 
-    public DateTime modifyObject(String sid, String state, String label, String ownerId, String logmessage) throws RepositoryException
-    {
+    public DateTime modifyObject(String sid, String state, String label, String ownerId, String logmessage) throws RepositoryException {
         String timeStamp = null;
-        try
-        {
+        try {
             timeStamp = repository.getFedoraAPIM().modifyObject(sid, state, label, ownerId, logmessage);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Modified object. sid=" + sid);
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             final String msg = "Unable to modify an object. sid=" + sid;
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -326,8 +290,7 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DateTime modifyObject(String sid, DobState state, String label, String ownerId, String logmessage) throws RepositoryException
-    {
+    public DateTime modifyObject(String sid, DobState state, String label, String ownerId, String logmessage) throws RepositoryException {
         return modifyObject(sid, state.fedoraQuirck, label, ownerId, logmessage);
     }
 
@@ -341,13 +304,11 @@ public class ObjectManager
      *        a log message
      * @return The timestamp of the operation according to the server
      * @throws ConcurrentUpdateException
-     *         if the timestamp of ObjectProperties is older than the last registered modification of the
-     *         object
+     *         if the timestamp of ObjectProperties is older than the last registered modification of the object
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DateTime modifyObject(DigitalObject digitalObject, String logMessage) throws ConcurrentUpdateException, RepositoryException
-    {
+    public DateTime modifyObject(DigitalObject digitalObject, String logMessage) throws ConcurrentUpdateException, RepositoryException {
         return modifyObject(digitalObject.getSid(), digitalObject.getObjectProperties(), logMessage);
     }
 
@@ -363,16 +324,14 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DateTime modifyObject(String sid, DigitalObjectProperties objProperties, String logMessage) throws RepositoryException
-    {
+    public DateTime modifyObject(String sid, DigitalObjectProperties objProperties, String logMessage) throws RepositoryException {
         DateTime modificationTime = modifyObject(sid, objProperties.getDigitalObjectState(), objProperties.getLabel(), objProperties.getOwnerId(), logMessage);
         objProperties.setTimestamp(modificationTime);
         return modificationTime;
     }
 
     // TODO state needed for oai: find out how to tackle strange behavior of Fedora.
-    public DateTime modifyObjectProperties(StorableObject storable, String logMessage) throws ConcurrentUpdateException, RepositoryException
-    {
+    public DateTime modifyObjectProperties(StorableObject storable, String logMessage) throws ConcurrentUpdateException, RepositoryException {
         DobState dobState = DobState.valueFor(storable.getState());
         String state = dobState == null ? null : dobState.fedoraQuirck;
         DateTime modificationTime = modifyObject(storable.getStoreId(), state, storable.getLabel(), storable.getOwnerId(), logMessage);
@@ -382,8 +341,7 @@ public class ObjectManager
     }
 
     /**
-     * Exports the entire digital object in the specified XML format, and encoded appropriately for the
-     * specified export context.
+     * Exports the entire digital object in the specified XML format, and encoded appropriately for the specified export context.
      * 
      * @see #EXPORT_FORMAT_ATOM1_1
      * @see #EXPORT_FORMAT_ATOM_ZIP1_1
@@ -394,9 +352,8 @@ public class ObjectManager
      * @param sid
      *        sid of the object
      * @param format
-     *        The XML format to export, one of "info:fedora/fedora-system:FOXML-1.1",
-     *        "info:fedora/fedora-system:FOXML-1.0", "info:fedora/fedora-system:METSFedoraExt-1.1",
-     *        "info:fedora/fedora-system:METSFedoraExt-1.0", "info:fedora/fedora-system:ATOM-1.1", or
+     *        The XML format to export, one of "info:fedora/fedora-system:FOXML-1.1", "info:fedora/fedora-system:FOXML-1.0",
+     *        "info:fedora/fedora-system:METSFedoraExt-1.1", "info:fedora/fedora-system:METSFedoraExt-1.0", "info:fedora/fedora-system:ATOM-1.1", or
      *        "info:fedora/fedora-system:ATOMZip-1.1"
      * @param context
      *        The export context, which determines how datastream URLs and content are represented
@@ -404,19 +361,15 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public byte[] export(String sid, String format, ExportContext context) throws RepositoryException
-    {
+    public byte[] export(String sid, String format, ExportContext context) throws RepositoryException {
         byte[] objectXML = null;
-        try
-        {
+        try {
             objectXML = repository.getFedoraAPIM().export(sid, format, context.toString());
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exported object. sid=" + sid + " format=" + format + " context=" + context.toString().toLowerCase());
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             final String msg = "Unable to export an object. sid=" + sid;
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -433,8 +386,7 @@ public class ObjectManager
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public String nextSid(String objectNamespace) throws RepositoryException
-    {
+    public String nextSid(String objectNamespace) throws RepositoryException {
         return getSidList(objectNamespace).nextSid();
     }
 
@@ -443,8 +395,7 @@ public class ObjectManager
      * 
      * @return the common buffer size for sidLists
      */
-    public int getSidListBufferSize()
-    {
+    public int getSidListBufferSize() {
         return sidListBufferSize;
     }
 
@@ -456,10 +407,8 @@ public class ObjectManager
      * @throws IllegalArgumentException
      *         for sidListBufferSize < 1
      */
-    public void setSidListBufferSize(int sidListBufferSize) throws IllegalArgumentException
-    {
-        if (sidListBufferSize < 1)
-        {
+    public void setSidListBufferSize(int sidListBufferSize) throws IllegalArgumentException {
+        if (sidListBufferSize < 1) {
             throw new IllegalArgumentException("Buffer size cannot be less than 1.");
         }
         this.sidListBufferSize = sidListBufferSize;
@@ -472,8 +421,7 @@ public class ObjectManager
      *        a namespace that matches one of the "retainPIDs" values configured for the repository
      * @return buffer size of the sidList for the given namespace
      */
-    public int getSidListBufferSize(String objectNamespace)
-    {
+    public int getSidListBufferSize(String objectNamespace) {
         return getSidList(objectNamespace).getBufferSize();
     }
 
@@ -485,8 +433,7 @@ public class ObjectManager
      * @param bufferSize
      *        buffer size of the sidList for the given namespace
      */
-    public void setSidListBufferSize(String objectNamespace, int bufferSize)
-    {
+    public void setSidListBufferSize(String objectNamespace, int bufferSize) {
         getSidList(objectNamespace).setBufferSize(bufferSize);
         logger.debug("sidListBufferSize of objectNamespace " + objectNamespace + " has been set to " + bufferSize);
     }
@@ -498,14 +445,11 @@ public class ObjectManager
      *        a namespace that matches one of the "retainPIDs" values configured for the repository
      * @return sidList for the given objectNamespae
      */
-    public SidList getSidList(String objectNamespace)
-    {
+    public SidList getSidList(String objectNamespace) {
         SidList sidList;
-        synchronized (sidListMap)
-        {
+        synchronized (sidListMap) {
             sidList = sidListMap.get(objectNamespace);
-            if (sidList == null)
-            {
+            if (sidList == null) {
                 sidList = new SidList(repository, objectNamespace, getSidListBufferSize());
                 sidListMap.put(objectNamespace, sidList);
             }

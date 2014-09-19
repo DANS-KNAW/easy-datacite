@@ -19,62 +19,51 @@ import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RestoreDatasetPanel extends Panel
-{
+public class RestoreDatasetPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(RestoreDatasetPanel.class);
 
-    public RestoreDatasetPanel(final ModalWindow window, final DatasetModel datasetModel)
-    {
+    public RestoreDatasetPanel(final ModalWindow window, final DatasetModel datasetModel) {
         super(window.getContentId());
 
         add(new Label("text", new StringResourceModel("text", this, datasetModel)));
 
-        add(new IndicatingAjaxLink<Void>("yes")
-        {
+        add(new IndicatingAjaxLink<Void>("yes") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 handleRestoreDataset(datasetModel);
                 window.close(target);
             }
         });
 
-        add(new IndicatingAjaxLink<Void>("no")
-        {
+        add(new IndicatingAjaxLink<Void>("no") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 window.close(target);
             }
         });
     }
 
-    protected void handleRestoreDataset(DatasetModel datasetModel)
-    {
-        try
-        {
+    protected void handleRestoreDataset(DatasetModel datasetModel) {
+        try {
             Services.getDatasetService().restoreDataset(EasySession.getSessionUser(), datasetModel.getObject());
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.ERROR_RESTORING_DATASET, datasetModel.getObject().getStoreId());
             logger.error(message, e);
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             final String message = errorMessage(EasyResources.ERROR_RESTORING_DATASET, datasetModel.getObject().getStoreId());
             logger.error(message, e);
         }
     }
 
-    private String errorMessage(final String messageKey, final String... param)
-    {
+    private String errorMessage(final String messageKey, final String... param) {
         return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
 }

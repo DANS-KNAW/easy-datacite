@@ -17,8 +17,7 @@ import org.slf4j.*;
 /**
  * @author Joke Pol
  */
-class ClientRequestParameters
-{
+class ClientRequestParameters {
     private static final Logger logger = LoggerFactory.getLogger(ClientRequestParameters.class);
 
     private static final String DATASET_SID = "datasetSid";
@@ -26,13 +25,11 @@ class ClientRequestParameters
     // update
     static final String SIDS_TO_UPDATE = "dataToUpdate";
 
-    static enum UpdateParameters
-    {
+    static enum UpdateParameters {
         newAccessibleTo, newVisibleTo, newName, delete
     };
 
-    static enum FilterParameters
-    {
+    static enum FilterParameters {
         accessibleToFilter, visibleToFilter, creatorFilter
     };
 
@@ -48,8 +45,7 @@ class ClientRequestParameters
      * @param parameterMap
      *        key-value pairs of the request arguments
      */
-    ClientRequestParameters(final Map<String, String[]> parameterMap)
-    {
+    ClientRequestParameters(final Map<String, String[]> parameterMap) {
         this.parameterMap = parameterMap;
     }
 
@@ -60,88 +56,72 @@ class ClientRequestParameters
      *         should not happen as the url is extracted from the request
      */
     @SuppressWarnings("unchecked")
-    ClientRequestParameters()
-    {
+    ClientRequestParameters() {
         final WebRequest webRequest = ((WebRequest) RequestCycle.get().getRequest());
-        try
-        {
+        try {
             new java.net.URL(webRequest.getHttpServletRequest().getHeader("Referer")).getPath();
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             logger.error("Referer in HttpServletRequest header", e);
         }
         this.parameterMap = webRequest.getHttpServletRequest().getParameterMap();
     }
 
-    public String getWantedSid()
-    {
+    public String getWantedSid() {
         return get(WANTED_SID);
     }
 
-    public DmoStoreId getDatasetSid()
-    {
+    public DmoStoreId getDatasetSid() {
         return new DmoStoreId(getOptional(DATASET_SID));
     }
 
-    public boolean getWantFilesAndFolders()
-    {
+    public boolean getWantFilesAndFolders() {
         return get(FETCH).equals(FILES_AND_FOLDERS);
     }
 
     @SuppressWarnings("unchecked")
-    String getItemsToUpdate()
-    {
+    String getItemsToUpdate() {
         return get(SIDS_TO_UPDATE);
     }
 
-    boolean deleteRequested()
-    {
+    boolean deleteRequested() {
         return null != getOptional(UpdateParameters.delete.name());
     }
 
-    VisibleTo getNewVisibleToValue()
-    {
+    VisibleTo getNewVisibleToValue() {
         String value = getOptional(UpdateParameters.newVisibleTo.name());
         return value == null ? null : VisibleTo.valueOf(value);
     }
 
-    public AccessibleTo getNewAccessibleToValue()
-    {
+    public AccessibleTo getNewAccessibleToValue() {
         String value = getOptional(UpdateParameters.newAccessibleTo.name());
         return value == null ? null : AccessibleTo.valueOf(value);
     }
 
-    public String getNewName()
-    {
+    public String getNewName() {
         return getOptional(UpdateParameters.newName.name());
     }
 
-    ItemFilters getItemFilters(final EasySession easySession)
-    {
+    ItemFilters getItemFilters(final EasySession easySession) {
         final EasyUser user = easySession.getUser();
         Dataset dataset = null;
-        try
-        {
+        try {
             dataset = (Dataset) easySession.getDataset(getDatasetSid());
         }
-        catch (final ServiceException exception)
-        {
+        catch (final ServiceException exception) {
             logger.error("dataset not found, filter won't recognize depositor", exception);
         }
         return ItemFilters.get(user, dataset, getDesiredFilters());
     }
 
-    ItemFilters getDesiredFilters()
-    {
+    ItemFilters getDesiredFilters() {
         final String creators = getOptional(FilterParameters.creatorFilter.name());
         final String visibleTos = getOptional(FilterParameters.visibleToFilter.name());
         final String accessibleTos = getOptional(FilterParameters.accessibleToFilter.name());
         return new ItemFilters(visibleTos, creators, accessibleTos);
     }
 
-    private String get(String key)
-    {
+    private String get(String key) {
         if (!parameterMap.containsKey(key))
             throw new IllegealRequestArgument("Missing argument " + key);
         if (parameterMap.get(key).length != 1)
@@ -149,23 +129,20 @@ class ClientRequestParameters
         return parameterMap.get(key)[0];
     }
 
-    static class IllegealRequestArgument extends IllegalArgumentException
-    {
+    static class IllegealRequestArgument extends IllegalArgumentException {
 
         /**
          *
          */
         private static final long serialVersionUID = 1333745082690101989L;
 
-        public IllegealRequestArgument(String string)
-        {
+        public IllegealRequestArgument(String string) {
             super(string);
         }
 
     }
 
-    private String getOptional(String key)
-    {
+    private String getOptional(String key) {
         if (!parameterMap.containsKey(key))
             return null;
         return get(key);

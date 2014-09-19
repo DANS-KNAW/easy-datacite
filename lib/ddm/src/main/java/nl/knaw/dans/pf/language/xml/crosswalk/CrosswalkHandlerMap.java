@@ -3,11 +3,9 @@ package nl.knaw.dans.pf.language.xml.crosswalk;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public interface CrosswalkHandlerMap<T>
-{
+public interface CrosswalkHandlerMap<T> {
     /**
-     * Get another handler to take over parsing control at the start of the current element. For
-     * description of the arguments see
+     * Get another handler to take over parsing control at the start of the current element. For description of the arguments see
      * {@link CrosswalkHandler#startElement(String, String, String, Attributes)}
      * 
      * @param uri

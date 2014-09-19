@@ -13,48 +13,38 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AbstractAuthenticationPage extends AbstractEasyNavPage
-{
+public class AbstractAuthenticationPage extends AbstractEasyNavPage {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractAuthenticationPage.class);
 
     @SpringBean(name = "userService")
     private UserService userService;
 
-    public AbstractAuthenticationPage()
-    {
+    public AbstractAuthenticationPage() {
         super();
     }
 
-    public AbstractAuthenticationPage(final PageParameters paras)
-    {
+    public AbstractAuthenticationPage(final PageParameters paras) {
         super(paras);
     }
 
-    public AbstractAuthenticationPage(final IPageMap pageMap, final PageParameters paras)
-    {
+    public AbstractAuthenticationPage(final IPageMap pageMap, final PageParameters paras) {
         super(pageMap, paras);
     }
 
-    public boolean signIn(Authentication authentication)
-    {
+    public boolean signIn(Authentication authentication) {
         boolean signedIn;
-        try
-        {
+        try {
             userService.authenticate(authentication);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             LOGGER.error(message);
             throw new InternalWebError();
         }
-        if (authentication.isCompleted())
-        {
+        if (authentication.isCompleted()) {
             signedIn = true;
             getEasySession().setLoggedIn(authentication);
-        }
-        else
-        {
+        } else {
             signedIn = false;
         }
         return signedIn;

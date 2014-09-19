@@ -19,8 +19,7 @@ import nl.knaw.dans.common.lang.search.simple.SimpleField;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-public class SearchBeanTest
-{
+public class SearchBeanTest {
 
     private Date curDate;
     private DateTime d1;
@@ -28,8 +27,7 @@ public class SearchBeanTest
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testBeanCreationAndConversion() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException
-    {
+    public void testBeanCreationAndConversion() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException {
         SimpleDocument d = new SimpleDocument();
         d.addField(new SimpleField<Integer>(DummySB.ID_NAME, 5));
         d.addField(new SimpleField<String>(DummySB.NAME_NAME, "hello world"));
@@ -63,8 +61,7 @@ public class SearchBeanTest
         checkAllProperties(dummy2);
     }
 
-    private void checkAllProperties(DummySB dummy)
-    {
+    private void checkAllProperties(DummySB dummy) {
         assertEquals(new Integer(5), dummy.getId());
         assertEquals("hello world", dummy.getName());
         assertEquals(d1, dummy.getDates().get(0));
@@ -75,8 +72,7 @@ public class SearchBeanTest
     }
 
     @Test(expected = MissingRequiredFieldException.class)
-    public void testRequiredFieldMissing() throws SearchBeanFactoryException, SearchBeanException
-    {
+    public void testRequiredFieldMissing() throws SearchBeanFactoryException, SearchBeanException {
         SimpleDocument d = new SimpleDocument();
         d.addField(new SimpleField<Integer>(DummySB.ID_NAME, 5));
 
@@ -85,8 +81,7 @@ public class SearchBeanTest
 
     @SuppressWarnings("unchecked")
     @Test(expected = MissingRequiredFieldException.class)
-    public void testRequiredFieldMissing2() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException
-    {
+    public void testRequiredFieldMissing2() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException {
         DummySB dummy = new DummySB();
         dummy.setId(2);
         dummy.setName(null);
@@ -97,8 +92,7 @@ public class SearchBeanTest
     }
 
     @Test(expected = PrimaryKeyMissingException.class)
-    public void testMissingPrimaryKey() throws SearchBeanFactoryException, SearchBeanException
-    {
+    public void testMissingPrimaryKey() throws SearchBeanFactoryException, SearchBeanException {
         SimpleDocument d = new SimpleDocument();
         d.addField(new SimpleField<String>(DummySB.NAME_NAME, "hello world"));
 
@@ -107,8 +101,7 @@ public class SearchBeanTest
 
     @SuppressWarnings("unchecked")
     @Test(expected = PrimaryKeyMissingException.class)
-    public void testMissingPrimaryKey2() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException
-    {
+    public void testMissingPrimaryKey2() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException {
         DummySB dummy = new DummySB();
         dummy.setName("hello");
 
@@ -119,8 +112,7 @@ public class SearchBeanTest
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testCopyField() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException
-    {
+    public void testCopyField() throws SearchBeanFactoryException, SearchBeanException, SearchBeanConverterException {
         DummySB dummy = new DummySB();
         dummy.setId(2);
         dummy.setName("hello");

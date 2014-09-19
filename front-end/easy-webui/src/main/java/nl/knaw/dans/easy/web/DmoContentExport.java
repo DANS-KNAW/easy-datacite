@@ -22,8 +22,7 @@ import org.apache.wicket.protocol.http.WebResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DmoContentExport extends DynamicWebResource
-{
+public class DmoContentExport extends DynamicWebResource {
 
     private static final long serialVersionUID = 6186922192776184192L;
 
@@ -35,18 +34,14 @@ public class DmoContentExport extends DynamicWebResource
     private Map<String, DmoContentExportResponse> responses = new HashMap<String, DmoContentExportResponse>();
 
     @Override
-    protected void setHeaders(WebResponse response)
-    {
+    protected void setHeaders(WebResponse response) {
         String storeId = getParameters().getString(PARAM_STORE_ID);
         String unitId = getParameters().getString(PARAM_UNIT_ID);
         DmoContentExportResponse exportResponse = getExportResponse(storeId, unitId);
-        if (exportResponse.hasError())
-        {
+        if (exportResponse.hasError()) {
             sendError(response, exportResponse);
             invalidate();
-        }
-        else
-        {
+        } else {
             super.setHeaders(response);
             UnitMetadata umd = exportResponse.getUnitMetadata();
 
@@ -56,11 +51,9 @@ public class DmoContentExport extends DynamicWebResource
         }
     }
 
-    private DmoContentExportResponse getExportResponse(String storeId, String unitId)
-    {
+    private DmoContentExportResponse getExportResponse(String storeId, String unitId) {
         DmoContentExportResponse exportResponse = responses.get(storeId + unitId);
-        if (exportResponse == null)
-        {
+        if (exportResponse == null) {
             exportResponse = new DmoContentExportResponse(storeId, unitId);
             responses.put(storeId + unitId, exportResponse);
             logger.debug("Cached exportResonses size=" + responses.size());
@@ -68,29 +61,24 @@ public class DmoContentExport extends DynamicWebResource
         return exportResponse;
     }
 
-    private void sendError(WebResponse response, DmoContentExportResponse exportResponse)
-    {
-        try
-        {
+    private void sendError(WebResponse response, DmoContentExportResponse exportResponse) {
+        try {
             response.getHttpServletResponse().sendError(exportResponse.getErrorCode());
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Unable to send error response.", e);
         }
     }
 
     @Override
-    protected ResourceState getResourceState()
-    {
+    protected ResourceState getResourceState() {
         String storeId = getParameters().getString(PARAM_STORE_ID);
         String unitId = getParameters().getString(PARAM_UNIT_ID);
         DmoContentExportResponse exportResponse = responses.remove(storeId + unitId);
         return exportResponse;
     }
 
-    private static class DmoContentExportResponse extends DynamicWebResource.ResourceState
-    {
+    private static class DmoContentExportResponse extends DynamicWebResource.ResourceState {
 
         private static final long serialVersionUID = 5039616045135391720L;
 
@@ -98,17 +86,14 @@ public class DmoContentExport extends DynamicWebResource
         private byte[] data;
         private int errorCode;
 
-        public DmoContentExportResponse(String storeId, String unitId)
-        {
+        public DmoContentExportResponse(String storeId, String unitId) {
             DmoStoreId dmoStoreId = null;
             DsUnitId dsUnitId = null;
-            try
-            {
+            try {
                 dmoStoreId = new DmoStoreId(storeId);
                 dsUnitId = new DsUnitId(unitId);
             }
-            catch (IllegalArgumentException e)
-            {
+            catch (IllegalArgumentException e) {
                 errorCode = HttpServletResponse.SC_BAD_REQUEST;
             }
 
@@ -119,95 +104,72 @@ public class DmoContentExport extends DynamicWebResource
                 retrieveData(dmoStoreId, dsUnitId);
         }
 
-        public UnitMetadata getUnitMetadata()
-        {
+        public UnitMetadata getUnitMetadata() {
             return unitMetadata;
         }
 
         @Override
-        public byte[] getData()
-        {
-            if (data == null)
-            {
+        public byte[] getData() {
+            if (data == null) {
                 throw new IllegalStateException("No data");
-            }
-            else
-            {
+            } else {
                 return data;
             }
         }
 
         @Override
-        public String getContentType()
-        {
-            if (unitMetadata == null)
-            {
+        public String getContentType() {
+            if (unitMetadata == null) {
                 return "text/plain";
-            }
-            else
-            {
+            } else {
                 return unitMetadata.getMimeType();
             }
         }
 
-        public int getErrorCode()
-        {
+        public int getErrorCode() {
             return errorCode;
         }
 
-        public boolean hasError()
-        {
+        public boolean hasError() {
             return errorCode != 0;
         }
 
-        private void retrieveUnitMetadata(DmoStoreId storeId, DsUnitId unitId)
-        {
-            try
-            {
+        private void retrieveUnitMetadata(DmoStoreId storeId, DsUnitId unitId) {
+            try {
                 List<UnitMetadata> umdList = Services.getJumpoffService().getUnitMetadata(EasySession.get().getUser(), storeId, unitId);
-                if (umdList.size() > 0)
-                {
+                if (umdList.size() > 0) {
                     unitMetadata = umdList.get(0);
-                }
-                else
-                {
+                } else {
                     errorCode = HttpServletResponse.SC_NOT_FOUND;
                     logger.info("Returning NOT FOUND for dmo content. storeId=" + storeId + " unitId=" + unitId);
                 }
             }
-            catch (CommonSecurityException e)
-            {
+            catch (CommonSecurityException e) {
                 errorCode = HttpServletResponse.SC_FORBIDDEN;
                 logger.error("Illegal access attempt. storeId=" + storeId + " unitId=" + unitId, e);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }
         }
 
-        private void retrieveData(DmoStoreId storeId, DsUnitId unitId)
-        {
-            try
-            {
+        private void retrieveData(DmoStoreId storeId, DsUnitId unitId) {
+            try {
                 URL url = Services.getJumpoffService().getURL(storeId, unitId);
                 InputStream inStream = url.openStream();
                 data = StreamUtil.getBytes(inStream);
                 inStream.close();
             }
-            catch (CommonSecurityException e)
-            {
+            catch (CommonSecurityException e) {
                 errorCode = HttpServletResponse.SC_FORBIDDEN;
                 logger.error("Illegal access attempt. storeId=" + storeId + " unitId=" + unitId, e);
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }

@@ -34,20 +34,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Shows a single facet. Configure the facet panel with the FacetConfig object. The facet panel works
- * directly with the SearchModel. It uses the search model for reading the facet results and updates the
- * search model's request builder when a facet is clicked with a FacetCriterium. The facet panel is meant
- * to be used by another component, because the facet panel does not execute a search when the search
- * model gets dirty. The onFacetClick method can be component by that component to catch facet click
- * events.
+ * Shows a single facet. Configure the facet panel with the FacetConfig object. The facet panel works directly with the SearchModel. It uses the search model
+ * for reading the facet results and updates the search model's request builder when a facet is clicked with a FacetCriterium. The facet panel is meant to be
+ * used by another component, because the facet panel does not execute a search when the search model gets dirty. The onFacetClick method can be component by
+ * that component to catch facet click events.
  * 
  * @see FacetConfig
  * @see SearchModel
  * @see FacetCriterium
  * @author lobo
  */
-public class FacetPanel extends BaseSearchPanel
-{
+public class FacetPanel extends BaseSearchPanel {
     private static final long serialVersionUID = -8118364638125839710L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchResultPanel.class);
 
@@ -56,41 +53,33 @@ public class FacetPanel extends BaseSearchPanel
      */
     private final FacetConfig config;
 
-    public FacetPanel(String wicketId, SearchModel model, FacetConfig config)
-    {
+    public FacetPanel(String wicketId, SearchModel model, FacetConfig config) {
         super(wicketId, model);
         this.config = config;
         init();
     }
 
-    public FacetConfig getConfig()
-    {
+    public FacetConfig getConfig() {
         return config;
     }
 
-    private String getFacetName()
-    {
+    private String getFacetName() {
         return getConfig().getFacetName();
     }
 
-    private FacetField getFacetField()
-    {
-        try
-        {
+    private FacetField getFacetField() {
+        try {
             return getSearchResult().getFacetByName(getFacetName());
         }
-        catch (FieldNotFoundException e)
-        {
+        catch (FieldNotFoundException e) {
             String msg = fatalMessage(ERROR_FACET_NOT_FOUND, getFacetName());
             LOGGER.error(msg, e);
             throw new InternalWebError();
         }
     }
 
-    private void init()
-    {
-        if (!isVisible())
-        {
+    private void init() {
+        if (!isVisible()) {
             hide("facetName");
             hide("facetValuesUL");
             hide("facetParentValue");
@@ -102,8 +91,7 @@ public class FacetPanel extends BaseSearchPanel
 
         FacetValueCollapser facetCollapser = getConfig().getFacetValueCollapser();
         FacetCriterium parentFacet = null;
-        if (facetCollapser != null)
-        {
+        if (facetCollapser != null) {
             // collapse values
             parentFacet = FacetPanel.getPreviousSelection(getConfig(), getRequestBuilder());
             facetValues = facetCollapser.collapse(facetValues, parentFacet != null ? parentFacet.getFacetValue() : null);
@@ -115,12 +103,9 @@ public class FacetPanel extends BaseSearchPanel
         facetValues = limit(facetValues);
 
         // parent facet
-        if (parentFacet != null && getConfig().showParentFacet())
-        {
+        if (parentFacet != null && getConfig().showParentFacet()) {
             add(new Label("facetParentValue", getFacetValueModel(parentFacet.getFacetValue(), true)));
-        }
-        else
-        {
+        } else {
             hide("facetParentValue");
         }
 
@@ -132,25 +117,21 @@ public class FacetPanel extends BaseSearchPanel
         WebMarkupContainer facetValueUl = new WebMarkupContainer("facetValuesUL");
         add(CSSPackageResource.getHeaderContribution(new ResourceReference(FacetPanel.class, "FacetPanel.css")));
         int colCount = getConfig().getColumnCount();
-        if (colCount > 1)
-        {
+        if (colCount > 1) {
             facetValueUl.add(new AttributeAppender("class", new Model("fvCol" + colCount), " "));
         }
         add(facetValueUl);
 
         // facet values LI
-        ListView<FacetValue<?>> facetValueList = new ListView<FacetValue<?>>("facetValuesLI", facetValues)
-        {
+        ListView<FacetValue<?>> facetValueList = new ListView<FacetValue<?>>("facetValuesLI", facetValues) {
             private static final long serialVersionUID = -711250532805369414L;
 
             @Override
-            protected void populateItem(ListItem<FacetValue<?>> item)
-            {
+            protected void populateItem(ListItem<FacetValue<?>> item) {
                 final FacetValue<?> facetValue = item.getModelObject();
 
                 // facet link
-                Link facetLink = new Link("facetValueLink")
-                {
+                Link facetLink = new Link("facetValueLink") {
                     private static final long serialVersionUID = 1356587833L;
 
                     {
@@ -160,15 +141,12 @@ public class FacetPanel extends BaseSearchPanel
                         add(new Label("facetCount", String.valueOf(facetValue.getCount())));
                     }
 
-                    public void onClick()
-                    {
-                        getRequestBuilder().addCriterium(new FacetCriterium(getFacetName(), facetValue, new AbstractReadOnlyModel<String>()
-                        {
+                    public void onClick() {
+                        getRequestBuilder().addCriterium(new FacetCriterium(getFacetName(), facetValue, new AbstractReadOnlyModel<String>() {
                             private static final long serialVersionUID = 13434324L;
 
                             @Override
-                            public String getObject()
-                            {
+                            public String getObject() {
                                 return CriteriumLabel.createFilterText(getFacetNameDisplay(), getFacetValueDisplay(facetValue));
                             }
                         }));
@@ -184,83 +162,62 @@ public class FacetPanel extends BaseSearchPanel
     }
 
     @Override
-    protected void onBeforeRender()
-    {
+    protected void onBeforeRender() {
         super.onBeforeRender();
     }
 
-    private void pruneEmptyValues(List<FacetValue<?>> facetValues)
-    {
+    private void pruneEmptyValues(List<FacetValue<?>> facetValues) {
         Iterator<FacetValue<?>> it = facetValues.iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             FacetValue<?> facetValue = it.next();
             if (getConfig().hideEmptyFacets() && facetValue.getCount() == 0)
                 it.remove();
         }
     }
 
-    private List<FacetValue<?>> limit(List<FacetValue<?>> facetValues)
-    {
+    private List<FacetValue<?>> limit(List<FacetValue<?>> facetValues) {
         if (getConfig().getLimit() > 0)
             return facetValues.subList(0, Math.min(getConfig().getLimit(), facetValues.size()));
         else
             return facetValues;
     }
 
-    private void sort(List<FacetValue<?>> facetValues)
-    {
-        if (getConfig().getOrder().equals(Order.NONE))
-        {
+    private void sort(List<FacetValue<?>> facetValues) {
+        if (getConfig().getOrder().equals(Order.NONE)) {
             return;
-        }
-        else if (getConfig().getOrder().equals(Order.BY_ALPHABET))
-        {
-            Collections.sort(facetValues, new Comparator<FacetValue<?>>()
-            {
+        } else if (getConfig().getOrder().equals(Order.BY_ALPHABET)) {
+            Collections.sort(facetValues, new Comparator<FacetValue<?>>() {
                 @Override
-                public int compare(FacetValue<?> o1, FacetValue<?> o2)
-                {
+                public int compare(FacetValue<?> o1, FacetValue<?> o2) {
                     IModel<String> v1 = getFacetValueModel(o1, false);
                     IModel<String> v2 = getFacetValueModel(o2, false);
                     return v1.getObject().compareTo(v2.getObject());
                 }
             });
-        }
-        else if (getConfig().getOrder().equals(Order.BY_COUNT))
-        {
-            Collections.sort(facetValues, new Comparator<FacetValue<?>>()
-            {
+        } else if (getConfig().getOrder().equals(Order.BY_COUNT)) {
+            Collections.sort(facetValues, new Comparator<FacetValue<?>>() {
                 @Override
-                public int compare(FacetValue<?> o1, FacetValue<?> o2)
-                {
+                public int compare(FacetValue<?> o1, FacetValue<?> o2) {
                     Integer c1 = new Integer(o1.getCount());
                     Integer c2 = new Integer(o2.getCount());
                     return c2.compareTo(c1);
                 }
             });
-        }
-        else if (getConfig().getOrder().equals(Order.BY_VALUE))
-        {
-            Collections.sort(facetValues, new Comparator<FacetValue<?>>()
-            {
+        } else if (getConfig().getOrder().equals(Order.BY_VALUE)) {
+            Collections.sort(facetValues, new Comparator<FacetValue<?>>() {
                 @Override
-                public int compare(FacetValue<?> o1, FacetValue<?> o2)
-                {
+                public int compare(FacetValue<?> o1, FacetValue<?> o2) {
                     Comparable c1 = (Comparable) o1.getValue();
                     Comparable c2 = (Comparable) o2.getValue();
                     return c1.compareTo(c2);
                 }
             });
-        }
-        else if (getConfig().getOrder().equals(Order.CUSTOM))
-        {
+        } else if (getConfig().getOrder().equals(Order.CUSTOM)) {
             Collections.sort(facetValues, getConfig().getCustomOrderComparator());
         }
     }
 
-    private IModel<String> getFacetNameModel(String facetName)
-    {
+    private IModel<String> getFacetNameModel(String facetName) {
         IModel<String> facetNameModel;
         Translator<String> facetNameTranslator = getConfig().getFacetNameTranslator();
         if (facetNameTranslator != null)
@@ -270,13 +227,11 @@ public class FacetPanel extends BaseSearchPanel
         return facetNameModel;
     }
 
-    private String getFacetNameDisplay()
-    {
+    private String getFacetNameDisplay() {
         return getFacetNameModel(getFacetName()).getObject();
     }
 
-    private IModel<String> getFacetValueModel(final FacetValue<?> facetValue, boolean fullName)
-    {
+    private IModel<String> getFacetValueModel(final FacetValue<?> facetValue, boolean fullName) {
         IModel<String> facetValueModel;
         String sfv = facetValue.getValue().toString();
         Translator<String> translator = getConfig().getFacetValueTranslator();
@@ -287,36 +242,27 @@ public class FacetPanel extends BaseSearchPanel
         return facetValueModel;
     }
 
-    private String getFacetValueDisplay(final FacetValue<?> facetValue)
-    {
+    private String getFacetValueDisplay(final FacetValue<?> facetValue) {
         return getFacetValueModel(facetValue, true).getObject();
     }
 
-    protected void onFacetClick(final FacetValue<?> facetValue)
-    {
-    }
+    protected void onFacetClick(final FacetValue<?> facetValue) {}
 
-    private boolean isFacetAvailable()
-    {
-        try
-        {
+    private boolean isFacetAvailable() {
+        try {
             return getSearchResult().getFacetByName(getFacetName()) != null;
         }
-        catch (FieldNotFoundException e)
-        {
+        catch (FieldNotFoundException e) {
             return false;
         }
     }
 
-    public static boolean isVisible(FacetConfig config, SearchModel searchModel)
-    {
+    public static boolean isVisible(FacetConfig config, SearchModel searchModel) {
         FacetField facetField = null;
-        try
-        {
+        try {
             facetField = searchModel.getObject().getResult().getFacetByName(config.getFacetName());
         }
-        catch (FieldNotFoundException e)
-        {
+        catch (FieldNotFoundException e) {
             return false;
         }
         if (facetField == null)
@@ -326,25 +272,18 @@ public class FacetPanel extends BaseSearchPanel
         // previous selection was not by any chance part of a
         // collapsed facet
         FacetCriterium previousSelection = getPreviousSelection(config, searchModel.getObject().getRequestBuilder());
-        if (previousSelection != null)
-        {
+        if (previousSelection != null) {
             FacetValue oldFacetValue = previousSelection.getFacetValue();
-            if (oldFacetValue instanceof CollapsedFacetValue)
-            {
+            if (oldFacetValue instanceof CollapsedFacetValue) {
                 // if it was selected, but was a collapsed facet value then it might
                 // contain more values that can be selected.
                 CollapsedFacetValue<?> cOldValue = (CollapsedFacetValue<?>) oldFacetValue;
-                if (cOldValue.getCount() <= 1 || cOldValue.getCollapsedValues().size() <= 1)
-                {
+                if (cOldValue.getCount() <= 1 || cOldValue.getCollapsedValues().size() <= 1) {
                     return false;
-                }
-                else
-                {
+                } else {
                     return hasMultipleNonZeroCounts(cOldValue.getCollapsedValues());
                 }
-            }
-            else
-            {
+            } else {
                 // the facet has been selected and was not part of a hierarchy
                 return false;
             }
@@ -352,35 +291,27 @@ public class FacetPanel extends BaseSearchPanel
 
         // if the facet field is available and not already selected and contains multiple facets
         // with one or more values then it can be shown
-        if (facetField.getValue().size() > 0)
-        {
+        if (facetField.getValue().size() > 0) {
             return hasMultipleNonZeroCounts(facetField.getValue());
-        }
-        else
+        } else
             return false;
     }
 
-    private static boolean hasMultipleNonZeroCounts(List facetValues)
-    {
+    private static boolean hasMultipleNonZeroCounts(List facetValues) {
         int facetOneOrMoreCount = 0;
-        for (FacetValue<?> facetValue : (List<FacetValue<?>>) facetValues)
-        {
-            if (facetValue.getCount() > 0)
-            {
+        for (FacetValue<?> facetValue : (List<FacetValue<?>>) facetValues) {
+            if (facetValue.getCount() > 0) {
                 facetOneOrMoreCount++;
             }
         }
         return facetOneOrMoreCount > 0;
     }
 
-    private static FacetCriterium getPreviousSelection(FacetConfig config, SearchRequestBuilder requestBuilder)
-    {
+    private static FacetCriterium getPreviousSelection(FacetConfig config, SearchRequestBuilder requestBuilder) {
         List<SearchCriterium> criteria = requestBuilder.getCriteria();
-        for (int i = criteria.size() - 1; i >= 0; i--)
-        {
+        for (int i = criteria.size() - 1; i >= 0; i--) {
             SearchCriterium criterium = criteria.get(i);
-            if (criterium instanceof FacetCriterium)
-            {
+            if (criterium instanceof FacetCriterium) {
                 FacetCriterium fc = (FacetCriterium) criterium;
                 if (fc.getFacetName().equals(config.getFacetName()))
                     return fc;
@@ -390,8 +321,7 @@ public class FacetPanel extends BaseSearchPanel
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return FacetPanel.isVisible(getConfig(), getSearchModel());
     }
 

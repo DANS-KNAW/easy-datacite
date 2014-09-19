@@ -25,8 +25,7 @@ import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
-public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderItem, DmoContainer
-{
+public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderItem, DmoContainer {
     private static final long serialVersionUID = 2687520091667217809L;
 
     private ItemContainerMetadataImpl itemContainerMetadata;
@@ -35,70 +34,57 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
 
     private DublinCoreMetadata dc;
 
-    public FolderItemImpl(String storeId)
-    {
+    public FolderItemImpl(String storeId) {
         super(storeId);
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
-    public int getChildFileCount()
-    {
+    public int getChildFileCount() {
         return getDatasetItemContainerMetadata().getChildFileCount();
     }
 
-    public int getChildFolderCount()
-    {
+    public int getChildFolderCount() {
         return getDatasetItemContainerMetadata().getChildFolderCount();
     }
 
-    public int getTotalFileCount()
-    {
+    public int getTotalFileCount() {
         return getDatasetItemContainerMetadata().getTotalFileCount();
     }
 
-    public int getTotalFolderCount()
-    {
+    public int getTotalFolderCount() {
         return getDatasetItemContainerMetadata().getTotalFolderCount();
     }
 
-    public int getCreatorRoleFileCount(CreatorRole creatorRole)
-    {
+    public int getCreatorRoleFileCount(CreatorRole creatorRole) {
         return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
     }
 
-    public int getVisibleToFileCount(VisibleTo visibleTo)
-    {
+    public int getVisibleToFileCount(VisibleTo visibleTo) {
         return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
     }
 
-    public int getAccessibleToFileCount(AccessibleTo accessibleTo)
-    {
+    public int getAccessibleToFileCount(AccessibleTo accessibleTo) {
         return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
     }
 
     @Override
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         Set<String> contentModels = super.getContentModels();
         contentModels.add(Constants.CM_FOLDER_1);
         return contentModels;
     }
 
     @Override
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         super.setLabel(label);
         getDatasetItemContainerMetadata().setName(label);
     }
 
-    public DublinCoreMetadata getDublinCoreMetadata()
-    {
-        if (dc == null)
-        {
+    public DublinCoreMetadata getDublinCoreMetadata() {
+        if (dc == null) {
             dc = new JiBXDublinCoreMetadata();
         }
         List<String> label = new ArrayList<String>(1);
@@ -109,15 +95,12 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         return dc;
     }
 
-    public ItemContainerMetadataImpl getDatasetItemMetadata()
-    {
+    public ItemContainerMetadataImpl getDatasetItemMetadata() {
         return getDatasetItemContainerMetadata();
     }
 
-    public ItemContainerMetadataImpl getDatasetItemContainerMetadata()
-    {
-        if (itemContainerMetadata == null)
-        {
+    public ItemContainerMetadataImpl getDatasetItemContainerMetadata() {
+        if (itemContainerMetadata == null) {
             itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
         }
         itemContainerMetadata.setDmoStoreId(getDmoStoreId());
@@ -130,13 +113,11 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
      * @param itemContainerMetadata
      *        ItemContainerMetadataImpl
      */
-    public void setItemContainerMetadata(ItemContainerMetadataImpl itemContainerMetadata)
-    {
+    public void setItemContainerMetadata(ItemContainerMetadataImpl itemContainerMetadata) {
         this.itemContainerMetadata = itemContainerMetadata;
     }
 
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> metadataUnits = super.getMetadataUnits();
 
         metadataUnits.add(getDublinCoreMetadata());
@@ -145,146 +126,117 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         return metadataUnits;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return getTotalFileCount() == 0 && getTotalFolderCount() == 0;
     }
 
-    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole)
-    {
+    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole) {
         getDatasetItemContainerMetadata().onChildStateChange(oldCreatorRole, newCreatorRole);
         DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null)
-        {
+        if (parent != null) {
             parent.onDescendantStateChange(oldCreatorRole, newCreatorRole);
         }
     }
 
-    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath)
-    {
+    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath) {
         getDatasetItemContainerMetadata().onChildStateChange(oldStreamingPath, newStreamingPath);
         DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null)
-        {
+        if (parent != null) {
             parent.onDescendantStateChange(oldStreamingPath, newStreamingPath);
         }
     }
 
-    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo)
-    {
+    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo) {
         getDatasetItemContainerMetadata().onChildStateChange(oldVisibleTo, newVisibleTo);
         DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null)
-        {
+        if (parent != null) {
             parent.onDescendantStateChange(oldVisibleTo, newVisibleTo);
         }
     }
 
-    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo)
-    {
+    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo) {
         getDatasetItemContainerMetadata().onChildStateChange(oldAccessibleTo, newAccessibleTo);
         DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null)
-        {
+        if (parent != null) {
             parent.onDescendantStateChange(oldAccessibleTo, newAccessibleTo);
         }
     }
 
-    public void addChild(DmoContainerItem item) throws RepositoryException
-    {
+    public void addChild(DmoContainerItem item) throws RepositoryException {
         container.addChild(item);
     }
 
-    public void onChildAdded(DatasetItem item)
-    {
+    public void onChildAdded(DatasetItem item) {
         getDatasetItemContainerMetadata().onChildAdded(item);
         callParentOnDescendantAdded(item);
     }
 
-    private void callParentOnDescendantAdded(DatasetItem item)
-    {
-        if (!isRegisteredDeleted())
-        {
+    private void callParentOnDescendantAdded(DatasetItem item) {
+        if (!isRegisteredDeleted()) {
             DmoContainer parent = getParent();
-            if (parent != null && parent instanceof DatasetItemContainer)
-            {
+            if (parent != null && parent instanceof DatasetItemContainer) {
                 ((DatasetItemContainer) parent).onDescendantAdded(item);
             }
         }
     }
 
-    public void onDescendantAdded(DatasetItem item)
-    {
+    public void onDescendantAdded(DatasetItem item) {
         getDatasetItemContainerMetadata().addDescendant(item);
         callParentOnDescendantAdded(item);
     }
 
-    public void removeChild(DmoContainerItem item) throws RepositoryException
-    {
+    public void removeChild(DmoContainerItem item) throws RepositoryException {
         container.removeChild(item);
         onChildRemoved((DatasetItem) item);
     }
 
-    public void onChildRemoved(DatasetItem item)
-    {
+    public void onChildRemoved(DatasetItem item) {
         getDatasetItemContainerMetadata().onChildRemoved(item);
         callParentOnDescendantRemoved(item);
     }
 
-    private void callParentOnDescendantRemoved(DatasetItem item)
-    {
-        if (!isRegisteredDeleted())
-        {
+    private void callParentOnDescendantRemoved(DatasetItem item) {
+        if (!isRegisteredDeleted()) {
             DmoContainer parent = getParent();
-            if (parent != null && parent instanceof DatasetItemContainer)
-            {
+            if (parent != null && parent instanceof DatasetItemContainer) {
                 ((DatasetItemContainer) parent).onDescendantRemoved(item);
             }
         }
     }
 
-    public void onDescendantRemoved(DatasetItem item)
-    {
+    public void onDescendantRemoved(DatasetItem item) {
         getDatasetItemContainerMetadata().onDescendantRemoved(item);
         callParentOnDescendantRemoved(item);
     }
 
-    public List<? extends DmoContainerItem> getChildren() throws RepositoryException
-    {
+    public List<? extends DmoContainerItem> getChildren() throws RepositoryException {
         return container.getChildren();
     }
 
-    public void setChildren(List<? extends DmoContainerItem> children) throws RepositoryException
-    {
+    public void setChildren(List<? extends DmoContainerItem> children) throws RepositoryException {
         container.setChildren(children);
     }
 
-    public Set<DmoStoreId> getChildSids() throws RepositoryException
-    {
+    public Set<DmoStoreId> getChildSids() throws RepositoryException {
         return container.getChildSids();
     }
 
-    public void removeAndDeleteChild(DmoContainerItem item) throws RepositoryException
-    {
+    public void removeAndDeleteChild(DmoContainerItem item) throws RepositoryException {
         container.removeAndDeleteChild(item);
     }
 
-    public void addFileOrFolder(DatasetItem item) throws DomainException
-    {
-        try
-        {
+    public void addFileOrFolder(DatasetItem item) throws DomainException {
+        try {
             container.addChild((DmoContainerItem) item);
             item.setParent(this);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new DomainException(e);
         }
     }
 
     @Override
-    public String getAutzStrategyName()
-    {
+    public String getAutzStrategyName() {
         return "nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy";
     }
 
@@ -293,41 +245,34 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
      * 
      * @author lobo
      */
-    class ContainerPlaceHolder extends AbstractDmoContainer
-    {
+    class ContainerPlaceHolder extends AbstractDmoContainer {
         private static final long serialVersionUID = 134823904823L;
         private FolderItemImpl container;
 
-        public ContainerPlaceHolder(FolderItemImpl folderItemImpl)
-        {
+        public ContainerPlaceHolder(FolderItemImpl folderItemImpl) {
             super(folderItemImpl.getStoreId());
             container = folderItemImpl;
         }
 
-        public DmoNamespace getDmoNamespace()
-        {
+        public DmoNamespace getDmoNamespace() {
             return container.getDmoNamespace();
         }
 
-        public boolean isDeletable()
-        {
+        public boolean isDeletable() {
             return container.isDeletable();
         }
 
         @Override
-        protected DmoContainer getThisDmo()
-        {
+        protected DmoContainer getThisDmo() {
             return container;
         }
 
-        public Set<DmoCollection> getCollections()
-        {
+        public Set<DmoCollection> getCollections() {
             return container.getCollections();
         }
 
         @Override
-        public UnitOfWork getUnitOfWork() throws NoUnitOfWorkAttachedException
-        {
+        public UnitOfWork getUnitOfWork() throws NoUnitOfWorkAttachedException {
             return container.getUnitOfWork();
         }
     }

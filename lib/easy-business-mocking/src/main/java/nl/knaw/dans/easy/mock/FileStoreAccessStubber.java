@@ -28,8 +28,7 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
 /** Responsible for stubs of {@link FileStoreAccess} related to files and folders. */
-class FileStoreAccessStubber
-{
+class FileStoreAccessStubber {
 
     /** The store ID for the mocked dataset */
     private final DmoStoreId datasetStoreId;
@@ -44,14 +43,12 @@ class FileStoreAccessStubber
 
     private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
 
-    FileStoreAccessStubber(final DmoStoreId datasetStoreId, final StoreIdGenerator storeIdGenerator)
-    {
+    FileStoreAccessStubber(final DmoStoreId datasetStoreId, final StoreIdGenerator storeIdGenerator) {
         this.storeIdGenerator = storeIdGenerator;
         this.datasetStoreId = datasetStoreId;
     }
 
-    void createItemExpectations(final FileMocker[] fileMockers, final FolderMocker[] folderMockers) throws Exception
-    {
+    void createItemExpectations(final FileMocker[] fileMockers, final FolderMocker[] folderMockers) throws Exception {
         fileHandler.process(fileMockers);
         folderHandler.process(folderMockers);
 
@@ -68,8 +65,7 @@ class FileStoreAccessStubber
             createChildExpectations(new DmoStoreId(folderMocker.getStoreId()), fileMockers);
     }
 
-    private void createChildExpectations(final DmoStoreId parentStoreId, final FileMocker[] fileMockers) throws Exception
-    {
+    private void createChildExpectations(final DmoStoreId parentStoreId, final FileMocker[] fileMockers) throws Exception {
         final List<FolderItemVO> childFolders = folderHandler.findChildren(addedFolders.values(), parentStoreId);
         final List<FileItemVO> childFiles = fileHandler.findChildren(Arrays.asList(fileMockers), parentStoreId);
         final List<ItemVO> childItems = new ArrayList<ItemVO>();
@@ -88,17 +84,14 @@ class FileStoreAccessStubber
     }
 
     /** @return Store ID's of files and folders */
-    List<DmoStoreId> getDmoStoreIDs()
-    {
+    List<DmoStoreId> getDmoStoreIDs() {
         return dmoStoreIDs;
     }
 
-    private class ItemHandler<VO extends AbstractItemVO, I extends DatasetItem, M extends AbstractItemMocker<VO, I>>
-    {
+    private class ItemHandler<VO extends AbstractItemVO, I extends DatasetItem, M extends AbstractItemMocker<VO, I>> {
         final List<VO> items = new ArrayList<VO>();
 
-        void addItemExpectations(final M mocker) throws Exception
-        {
+        void addItemExpectations(final M mocker) throws Exception {
             final VO itemVO = mocker.getItemVO();
             final I item = mocker.getItem();
             final File file = new File(mocker.getPath());
@@ -114,11 +107,9 @@ class FileStoreAccessStubber
                     .andStubReturn(datasetStoreId.toString());
         }
 
-        List<VO> findChildren(final Collection<M> mockers, final DmoStoreId dmoStoreId)
-        {
+        List<VO> findChildren(final Collection<M> mockers, final DmoStoreId dmoStoreId) {
             final List<VO> itemVO = new ArrayList<VO>();
-            for (final M childMocker : mockers)
-            {
+            for (final M childMocker : mockers) {
                 final String parentStoreId = childMocker.getParentStoreId();
                 if (parentStoreId != null && dmoStoreId.toString().equals(parentStoreId))
                     itemVO.add(childMocker.getItemVO());
@@ -126,8 +117,7 @@ class FileStoreAccessStubber
             return itemVO;
         }
 
-        private DmoStoreId addParentFolder(final String parentPath) throws Exception
-        {
+        private DmoStoreId addParentFolder(final String parentPath) throws Exception {
             if (parentPath == null)
                 return datasetStoreId;
             if (addedFolders.keySet().contains(parentPath))
@@ -148,14 +138,11 @@ class FileStoreAccessStubber
         }
     }
 
-    private class FileHandler extends ItemHandler<FileItemVO, FileItem, FileMocker>
-    {
+    private class FileHandler extends ItemHandler<FileItemVO, FileItem, FileMocker> {
         final Map<String, String> fileNameMap = new HashMap<String, String>();
 
-        void process(final FileMocker[] fileMockers) throws Exception
-        {
-            for (final FileMocker fileMocker : fileMockers)
-            {
+        void process(final FileMocker[] fileMockers) throws Exception {
+            for (final FileMocker fileMocker : fileMockers) {
                 addItemExpectations(fileMocker);
                 final DmoStoreId fileStoreId = new DmoStoreId(fileMocker.getStoreId());
                 final String path = fileMocker.getPath();
@@ -168,12 +155,9 @@ class FileStoreAccessStubber
         }
     }
 
-    private class FolderHandler extends ItemHandler<FolderItemVO, FolderItem, FolderMocker>
-    {
-        void process(final FolderMocker... folderMockers) throws Exception
-        {
-            for (final FolderMocker folderMocker : folderMockers)
-            {
+    private class FolderHandler extends ItemHandler<FolderItemVO, FolderItem, FolderMocker> {
+        void process(final FolderMocker... folderMockers) throws Exception {
+            for (final FolderMocker folderMocker : folderMockers) {
                 addedFolders.put(folderMocker.getPath(), folderMocker);
                 addItemExpectations(folderMocker);
                 final DmoStoreId folderStoreId = new DmoStoreId(folderMocker.getStoreId());

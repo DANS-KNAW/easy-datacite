@@ -15,13 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unzips an incoming file. Explicit rollback is not needed, because the directory gets cleaned on cancel
- * by the EasyUploadProcess.
+ * Unzips an incoming file. Explicit rollback is not needed, because the directory gets cleaned on cancel by the EasyUploadProcess.
  * 
  * @author lobo
  */
-public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
-{
+public class UnzipPostProcess implements IUploadPostProcess, UnzipListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(UnzipPostProcess.class);
 
@@ -33,14 +31,12 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
 
     private File file = new File("");
 
-    public List<File> execute(List<File> files, File destPath, Map<String, String> clientParams) throws UploadPostProcessException
-    {
+    public List<File> execute(List<File> files, File destPath, Map<String, String> clientParams) throws UploadPostProcessException {
         canceled = false;
         if (!needsProcessing(files))
             throw new UploadPostProcessException("file does not need processing");
 
-        try
-        {
+        try {
             file = files.get(0);
             unzipDestPath = destPath;
             if (!unzipDestPath.isDirectory())
@@ -52,26 +48,22 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
             List<File> unzippedFiles = unzip.run();
             return unzippedFiles;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             status.setError("Error while unzipping");
             throw new UploadPostProcessException(e);
         }
     }
 
-    public void cancel()
-    {
+    public void cancel() {
         LOG.info("Unzipping of file '" + file.getName() + "' canceled.");
         canceled = true;
     }
 
-    public UploadStatus getStatus()
-    {
+    public UploadStatus getStatus() {
         return status;
     }
 
-    public boolean needsProcessing(List<File> files)
-    {
+    public boolean needsProcessing(List<File> files) {
         if (files.size() < 1 || files.size() > 1)
             return false;
 
@@ -83,14 +75,12 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
             return filename.substring(idx).equalsIgnoreCase(".zip");
     }
 
-    public void onUnzipStarted(long totalBytes)
-    {
+    public void onUnzipStarted(long totalBytes) {
         status.setMessage("Unzipping '" + file.getName() + "': 0% ");
         status.setPercentComplete(0);
     }
 
-    public boolean onUnzipUpdate(long bytesUnzipped, long total)
-    {
+    public boolean onUnzipUpdate(long bytesUnzipped, long total) {
         Integer percent = new Double((double) bytesUnzipped / total * 100.00).intValue();
         if (percent < 0)
             percent = 0;
@@ -102,14 +92,12 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
         return !canceled;
     }
 
-    private void setPercentage(Integer percent)
-    {
+    private void setPercentage(Integer percent) {
         status.setMessage("Unzipping '" + file.getName() + "': " + percent + "%");
         status.setPercentComplete(percent);
     }
 
-    public void onUnzipComplete(List<File> files, boolean canceled)
-    {
+    public void onUnzipComplete(List<File> files, boolean canceled) {
         // onUnzipComplete also gets called when the upload is canceled
         LOG.info("Unzipping of file '" + file.getName() + "' complete.");
         setPercentage(100);

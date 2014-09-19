@@ -20,30 +20,24 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * This page acts as a staging for the {@link PermissionReplyPage.java}. It is created when a user clicks
- * on a bookmarkable link (set in {@link PageBookmark.java}). This link is mostly clicked from an email
- * send to the user.
+ * This page acts as a staging for the {@link PermissionReplyPage.java}. It is created when a user clicks on a bookmarkable link (set in
+ * {@link PageBookmark.java}). This link is mostly clicked from an email send to the user.
  * <p>
- * Before the PermissionReplyPage is instantiated the authorization is checked using the authorization
- * rule {@link isDepositorOfDataset.java}. For this authorization-rule to work the dataset needs to be
- * added to the ContextParameters. Which isn't the case when a user tries to access the page directly.
+ * Before the PermissionReplyPage is instantiated the authorization is checked using the authorization rule {@link isDepositorOfDataset.java}. For this
+ * authorization-rule to work the dataset needs to be added to the ContextParameters. Which isn't the case when a user tries to access the page directly.
  * <p>
- * This page sets thing up, so it adds the dataset to the ContextParameters and redirects to the
- * PermissionReplyPage properly checking the authorization.
+ * This page sets thing up, so it adds the dataset to the ContextParameters and redirects to the PermissionReplyPage properly checking the authorization.
  */
-public class PermissionReplyPrePage extends AbstractEasyNavPage
-{
+public class PermissionReplyPrePage extends AbstractEasyNavPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionReplyPrePage.class);
 
     private final EasyUser sessionUser;
 
-    public PermissionReplyPrePage(PageParameters parameters)
-    {
+    public PermissionReplyPrePage(PageParameters parameters) {
         sessionUser = EasySession.getSessionUser();
         String datasetId = parameters.getString(PermissionReplyPage.PM_DATASET_ID);
         String requesterId = parameters.getString(PermissionReplyPage.PM_REQUESTER_ID);
-        try
-        {
+        try {
             // Get the dataset using the id in the url
             Dataset dataset = Services.getDatasetService().getDataset(sessionUser, new DmoStoreId(datasetId));
 
@@ -57,8 +51,7 @@ public class PermissionReplyPrePage extends AbstractEasyNavPage
             setResponsePage(new PermissionReplyPage(datasetModel, null, request));
             // setResponsePage(new PermissionReplyPage(parameters));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             errorMessage(EasyResources.DATASET_LOAD, datasetId);
             LOGGER.error("Unable to load model object: ", e);
             throw new InternalWebError();

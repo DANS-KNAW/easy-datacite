@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.domain.dataset.item;
 
-public enum ItemOrderField
-{
+public enum ItemOrderField {
     NAME(new Class[] {FileItemVO.class, FolderItemVO.class}, "name"),
 
     SIZE(new Class[] {FileItemVO.class}, "size"),
@@ -18,8 +17,7 @@ public enum ItemOrderField
     public String propertyName;
 
     @SuppressWarnings("unchecked")
-    ItemOrderField(Class[] voTypes, String propertyName)
-    {
+    ItemOrderField(Class[] voTypes, String propertyName) {
         this.voTypes = voTypes;
         this.propertyName = propertyName;
     }

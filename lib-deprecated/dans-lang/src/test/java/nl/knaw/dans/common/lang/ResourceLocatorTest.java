@@ -10,12 +10,10 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-public class ResourceLocatorTest
-{
+public class ResourceLocatorTest {
 
     @Test
-    public void getLocaleSpecificURL()
-    {
+    public void getLocaleSpecificURL() {
         URL url = ResourceLocator.getURL("test-files/resourceLocator/resource/x", null, "txt");
         assertTrue(url.toString().endsWith("test-files/resourceLocator/resource/x.txt"));
 
@@ -43,27 +41,23 @@ public class ResourceLocatorTest
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getFile1() throws ResourceNotFoundException
-    {
+    public void getFile1() throws ResourceNotFoundException {
         ResourceLocator.getFile("this/file/does/not/exist");
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getFile2() throws ResourceNotFoundException
-    {
+    public void getFile2() throws ResourceNotFoundException {
         ResourceLocator.getFile("test-files/resourceLocator/resource/x");
     }
 
     @Test
-    public void getFile3() throws ResourceNotFoundException
-    {
+    public void getFile3() throws ResourceNotFoundException {
         File file = ResourceLocator.getFile("test-files/resourceLocator/resource/x.txt");
         assertTrue(file.exists());
     }
 
     @Test
-    public void getLocaleSpecificFile() throws ResourceNotFoundException
-    {
+    public void getLocaleSpecificFile() throws ResourceNotFoundException {
         Locale locale = new Locale("nl");
         File file = ResourceLocator.getFile("test-files/resourceLocator/resource/x", locale, "txt");
         assertTrue(file.exists());

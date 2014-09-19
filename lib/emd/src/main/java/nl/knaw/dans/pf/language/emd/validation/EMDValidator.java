@@ -16,8 +16,7 @@ import org.xml.sax.SAXException;
  * 
  * @author ecco
  */
-public final class EMDValidator extends AbstractValidator
-{
+public final class EMDValidator extends AbstractValidator {
 
     /**
      * The version token for version {@value} .
@@ -31,13 +30,11 @@ public final class EMDValidator extends AbstractValidator
     private String schemaLocation;
 
     // singleton
-    private EMDValidator()
-    {
+    private EMDValidator() {
 
     }
 
-    public static EMDValidator instance()
-    {
+    public static EMDValidator instance() {
         return instance;
     }
 
@@ -45,36 +42,29 @@ public final class EMDValidator extends AbstractValidator
      * Parameter <code>version</code> is silently ignored.
      */
     @Override
-    public URL getSchemaURL(final String version)
-    {
+    public URL getSchemaURL(final String version) {
         URL schemaURL;
-        try
-        {
+        try {
             schemaURL = new URL(getSchemaLocation());
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
         return schemaURL;
     }
 
-    public String getSchemaLocation()
-    {
-        if (schemaLocation == null)
-        {
+    public String getSchemaLocation() {
+        if (schemaLocation == null) {
             schemaLocation = SCHEMA_LOCATION;
         }
         return schemaLocation;
     }
 
-    public void setSchemaLocation(String schemaLocation)
-    {
+    public void setSchemaLocation(String schemaLocation) {
         this.schemaLocation = schemaLocation;
     }
 
-    public XMLErrorHandler validate(EasyMetadata emd) throws XMLException, SAXException
-    {
+    public XMLErrorHandler validate(EasyMetadata emd) throws XMLException, SAXException {
         return validate(new EmdMarshaller(emd).getXmlString(), null);
     }
 

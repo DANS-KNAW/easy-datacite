@@ -11,15 +11,13 @@ import org.junit.runners.Parameterized.Parameters;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class HighlightedCharSequenceSubSequenceTest
-{
+public class HighlightedCharSequenceSubSequenceTest {
     private String input;
     private int begin;
     private int end;
     private String expected;
 
-    public HighlightedCharSequenceSubSequenceTest(String input, int begin, int end, String expected)
-    {
+    public HighlightedCharSequenceSubSequenceTest(String input, int begin, int end, String expected) {
         this.input = input;
         this.begin = begin;
         this.end = end;
@@ -27,14 +25,12 @@ public class HighlightedCharSequenceSubSequenceTest
     }
 
     @Test
-    public void test()
-    {
+    public void test() {
         assertEquals(expected, new HighlightedCharSequence(input).subSequence(begin, end));
     }
 
     @Parameters
-    public static Collection<Object[]> parameters()
-    {
+    public static Collection<Object[]> parameters() {
         return Arrays.asList(new Object[][] {
                 // @formatter:off
                 {"012345", 0, 6, "012345"}, {"012345", 1, 6, "12345"}, {"012345", 0, 5, "01234"}, {"<em>012345</em>", 0, 6, "<em>012345</em>"},

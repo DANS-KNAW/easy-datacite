@@ -14,39 +14,32 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 
 @SuppressWarnings("serial")
-public class UploadFileMetadataProcess extends UploadSingleFilePostProcess
-{
+public class UploadFileMetadataProcess extends UploadSingleFilePostProcess {
     private UploadStatus status = new UploadStatus("Processing file metadata");
 
-    public UploadFileMetadataProcess(DatasetModel dataset)
-    {
+    public UploadFileMetadataProcess(DatasetModel dataset) {
         super(dataset);
     }
 
     @Override
-    public boolean needsProcessing(final List<File> files)
-    {
+    public boolean needsProcessing(final List<File> files) {
         return needsProcessing(files, ".xml");
     }
 
     @Override
-    protected void processUploadedFile(final File file) throws UploadPostProcessException
-    {
+    protected void processUploadedFile(final File file) throws UploadPostProcessException {
         AdditionalMetadataUpdateStrategy strategy = new ReplaceAdditionalMetadataStrategy();
         EasyUser sessionUser = EasySession.getSessionUser();
-        try
-        {
+        try {
             Services.getItemService().updateFileItemMetadata(sessionUser, getDataset(), file, strategy);
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             throw new UploadPostProcessException(e);
         }
     }
 
     @Override
-    public UploadStatus getStatus()
-    {
+    public UploadStatus getStatus() {
         return status;
     }
 }

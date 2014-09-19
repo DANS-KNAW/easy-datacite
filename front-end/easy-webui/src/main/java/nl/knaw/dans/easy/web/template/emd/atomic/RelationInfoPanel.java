@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author akmi
  */
-public class RelationInfoPanel extends Panel
-{
+public class RelationInfoPanel extends Panel {
     private static final long serialVersionUID = -5703756567092947861L;
     private static final Logger logger = LoggerFactory.getLogger(RelationInfoPanel.class);
     private ChoiceList qualifierLabels;
@@ -39,30 +38,24 @@ public class RelationInfoPanel extends Panel
      * @param id
      * @param model
      */
-    public RelationInfoPanel(String id, EmdRelation emdRelation)
-    {
+    public RelationInfoPanel(String id, EmdRelation emdRelation) {
         super(id);
         Map<String, List<Relation>> relationMap = emdRelation.getRelationMap();
         qualifierLabels = retrieveLabels(EmdScheme.COMMON_DCTERMS_RELATION);
 
         RepeatingView qualifiedView = new RepeatingView("repeatingQualifier");
-        for (String key : relationMap.keySet())
-        {
+        for (String key : relationMap.keySet()) {
             RepeatingView relationsView = new RepeatingView("repeatingRelation");
-            for (Relation relation : relationMap.get(key))
-            {
-                if (relation.hasEmphasis())
-                {
+            for (Relation relation : relationMap.get(key)) {
+                if (relation.hasEmphasis()) {
                     Component link = createLink(relation);
-                    if (link.isVisible())
-                    {
+                    if (link.isVisible()) {
                         WebMarkupContainer item = addNewItemTo(relationsView);
                         item.add(link);
                     }
                 }
             }
-            if (relationsView.size() != 0)
-            {
+            if (relationsView.size() != 0) {
                 WebMarkupContainer item = addNewItemTo(qualifiedView);
                 item.add(relationsView);
                 item.add(createQualifier(key));
@@ -72,15 +65,13 @@ public class RelationInfoPanel extends Panel
         this.setVisible(qualifiedView.size() != 0);
     }
 
-    private WebMarkupContainer addNewItemTo(RepeatingView view)
-    {
+    private WebMarkupContainer addNewItemTo(RepeatingView view) {
         WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
         view.add(item);
         return item;
     }
 
-    private Component createLink(Relation relation)
-    {
+    private Component createLink(Relation relation) {
         String title = relation.getSubjectTitle() == null ? null : relation.getSubjectTitle().getValue();
         String url = relation.getSubjectLink() == null ? null : relation.getSubjectLink().toString();
         if (title == null || title.trim().length() == 0)
@@ -91,22 +82,18 @@ public class RelationInfoPanel extends Panel
         return new ExternalLink("relation", url, title).setEnabled(enabled).setVisible(visible);
     }
 
-    private Label createQualifier(String key)
-    {
+    private Label createQualifier(String key) {
         String label = qualifierLabels.getValue(key);
         if (label == null)
             label = key; // fall back to less user friendly value
         return new Label("qualifier", label);
     }
 
-    private ChoiceList retrieveLabels(EmdScheme list)
-    {
-        try
-        {
+    private ChoiceList retrieveLabels(EmdScheme list) {
+        try {
             return depositService.getChoices(list.getId(), getLocale());
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.warn("can not get user friendly values for " + list.getId(), e);
         }
         return null;

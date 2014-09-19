@@ -33,8 +33,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Page with a form allowing a user of a data set to (re)view or submit a permission request.
  */
-public class PermissionRequestPage extends AbstractEasyNavPage
-{
+public class PermissionRequestPage extends AbstractEasyNavPage {
     public static final String PM_DATASET_ID = "dsid";
     public static final String PM_REQUESTER_ID = "rqid";
 
@@ -44,8 +43,7 @@ public class PermissionRequestPage extends AbstractEasyNavPage
     private boolean initiated = false;
     private final AbstractEasyPage fromPage;
 
-    public static String urlFor(String datasetId, String requesterId, Component component)
-    {
+    public static String urlFor(String datasetId, String requesterId, Component component) {
         PageParameters parameters = new PageParameters();
         parameters.add(PM_DATASET_ID, datasetId);
         parameters.add(PM_REQUESTER_ID, requesterId);
@@ -55,45 +53,38 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         return bookmarkableLink;
     }
 
-    public PermissionRequestPage(final DatasetModel datasetModel)
-    {
+    public PermissionRequestPage(final DatasetModel datasetModel) {
         super(new DatasetModel(datasetModel));
         this.fromPage = null;
     }
 
-    public PermissionRequestPage(PageParameters parameters)
-    {
+    public PermissionRequestPage(PageParameters parameters) {
         super(parameters);
 
         String datasetId;
         String requesterId;
-        try
-        {
+        try {
             datasetId = parameters.getString(PM_DATASET_ID);
             requesterId = parameters.getString(PM_REQUESTER_ID);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             errorMessage(EasyResources.INSUFFICIENT_PARAMETERS);
             LOGGER.error("Unable to read page parameters: ", e);
             throw new RestartResponseException(new ErrorPage());
         }
         EasyUser user = getSessionUser();
-        if (user == null || user.isAnonymous() || !user.getId().equals(requesterId))
-        {
+        if (user == null || user.isAnonymous() || !user.getId().equals(requesterId)) {
             errorMessage(EasyResources.ILLEGAL_ACCESS);
             LOGGER.error("Identity of user unknown or illegal visit.");
             throw new RestartResponseException(new ErrorPage());
         }
         Dataset dataset;
         DatasetModel datasetModel;
-        try
-        {
+        try {
             dataset = Services.getDatasetService().getDataset(user, new DmoStoreId(datasetId));
             datasetModel = new DatasetModel(dataset);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             errorMessage(EasyResources.DATASET_LOAD, datasetId);
             LOGGER.error("Unable to load model object: ", e);
             throw new InternalWebError();
@@ -102,18 +93,15 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         setResponsePage(new PermissionRequestPage(datasetModel));
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return (Dataset) getDefaultModelObject();
     }
 
-    public PermissionRequestPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage)
-    {
+    public PermissionRequestPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage) {
         super(datasetModel);
         this.fromPage = fromPage;
         EasyUser user = ((EasySession) getSession()).getUser();
-        if (user.isAnonymous() || datasetModel == null)
-        {
+        if (user.isAnonymous() || datasetModel == null) {
             LOGGER.error("No user or no dataset for permission request.");
             pageBack();
 
@@ -121,10 +109,8 @@ public class PermissionRequestPage extends AbstractEasyNavPage
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             setOutputMarkupId(true);
             addComponents();
             DatasetNotification.setDatasetUrlComposer(DatasetUrlComposerImpl.getInstance(getPageMap()));
@@ -134,16 +120,14 @@ public class PermissionRequestPage extends AbstractEasyNavPage
     }
 
     @Override
-    public String getPageTitlePostfix()
-    {
+    public String getPageTitlePostfix() {
         final String[] strings = new String[] {getDataset().getPreferredTitle()};
         final State state = getRequestState();
         final String key = TITLE_KEY + (state == null ? "" : "." + state);
         return new MessageFormat(getString(key)).format(strings);
     }
 
-    private void addComponents()
-    {
+    private void addComponents() {
         add(new Label("title", new Model<String>(getPageTitlePostfix())));
 
         addIfInitialRequest(new Label("intro", new Model<String>(getString(INTRO_KEY))));
@@ -155,35 +139,29 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         final PermissionSequence userSequence = getDataset().getPermissionSequenceList().getSequenceFor(sessionUser);
         final PermissionSequence.State status = initialRequest ? null : userSequence.getState();
         final boolean editMode = initialRequest || (State.Returned.equals(status));
-        if (editMode)
-        {
+        if (editMode) {
             LOGGER.debug("Edit panel");
             add(new PermissionRequestEditPanel("requestPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject())));
-        }
-        else
-        {
+        } else {
             LOGGER.debug("View panel");
             add(new PermissionRequestViewPanel("requestPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject())));
         }
 
     }
 
-    private void addIfInitialRequest(final Label label)
-    {
+    private void addIfInitialRequest(final Label label) {
         label.setVisible(!getDataset().getPermissionSequenceList().hasSequenceFor(getSessionUser()));
         add(label);
     }
 
-    private State getRequestState()
-    {
+    private State getRequestState() {
         PermissionSequenceList list = getDataset().getPermissionSequenceList();
         if (!list.hasSequenceFor(getSessionUser()))
             return null;
         return list.getSequenceFor(getSessionUser()).getState();
     }
 
-    protected void pageBack() throws RestartResponseException
-    {
+    protected void pageBack() throws RestartResponseException {
         if (fromPage == null)
             throw new RestartResponseException(HomePage.class);
         fromPage.refresh();

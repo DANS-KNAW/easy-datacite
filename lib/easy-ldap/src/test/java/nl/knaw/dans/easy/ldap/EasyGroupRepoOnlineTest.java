@@ -22,8 +22,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
-{
+public class EasyGroupRepoOnlineTest extends AbstractOnlineTest {
 
     private static final Logger logger = LoggerFactory.getLogger(EasyGroupRepoOnlineTest.class);
 
@@ -32,27 +31,23 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
     private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         repo = new EasyLdapGroupRepo(getLdapClient(), Tester.getString("ldap.context.groups"));
     }
 
     @Test(expected = ObjectNotInStoreException.class)
-    public void findByIdNonExistent() throws ObjectNotInStoreException, RepositoryException
-    {
+    public void findByIdNonExistent() throws ObjectNotInStoreException, RepositoryException {
         repo.findById("this id does not exist in the ds");
     }
 
     @Test(expected = ObjectNotInStoreException.class)
-    public void findByIdNull() throws ObjectNotInStoreException, RepositoryException
-    {
+    public void findByIdNull() throws ObjectNotInStoreException, RepositoryException {
         String id = null;
         repo.findById(id);
     }
 
     @Test
-    public void add_update_delete() throws ObjectNotInStoreException, RepositoryException
-    {
+    public void add_update_delete() throws ObjectNotInStoreException, RepositoryException {
         Group test1 = new GroupImpl("test1");
 
         // remove player
@@ -74,20 +69,17 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
         assertEquals(rTest1, rrTest1);
 
         repo.delete(test1);
-        try
-        {
+        try {
             repo.findById("test1");
             fail("the object is supposed to be deleted!");
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             // expected
         }
     }
 
     @Test
-    public void operationalAttributes() throws RepositoryException
-    {
+    public void operationalAttributes() throws RepositoryException {
         Group test2 = new GroupImpl("test2");
         // remove player
         if (repo.exists(test2.getId()))
@@ -116,27 +108,22 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findAll() throws RepositoryException
-    {
+    public void findAll() throws RepositoryException {
         List<Group> all = repo.findAll();
         assertNotNull(all);
         if (verbose)
-            for (Group group : all)
-            {
+            for (Group group : all) {
                 logger.debug(group.getId());
             }
     }
 
     @Test
-    public void findList() throws RepositoryException
-    {
+    public void findList() throws RepositoryException {
         Set<String> ids = new HashSet<String>();
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             Group group = new GroupImpl("testGroup" + i);
             group.setDescription("description " + i);
-            if (repo.exists(group.getId()))
-            {
+            if (repo.exists(group.getId())) {
                 repo.delete(group);
             }
             repo.add(group);
@@ -158,8 +145,7 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
         assertEquals("description 9", group7.getDescription());
         assertEquals("testGroup9", group7.getId());
 
-        for (String id : idsToRemove)
-        {
+        for (String id : idsToRemove) {
             repo.delete(id);
         }
     }

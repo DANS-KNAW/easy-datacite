@@ -14,23 +14,18 @@ import org.apache.wicket.util.collections.MiniMap;
 import org.apache.wicket.util.template.TextTemplateHeaderContributor;
 
 /**
- * Detects form modification. This behavior can be added to a {@link Form}. It compares form elements
- * onLoad and onbeforeUnload. If there are differences a confirm-message is displayed. After a submit on
- * the form, comparison parameters are renewed.
+ * Detects form modification. This behavior can be added to a {@link Form}. It compares form elements onLoad and onbeforeUnload. If there are differences a
+ * confirm-message is displayed. After a submit on the form, comparison parameters are renewed.
  * <p/>
- * Sometimes a model object is dynamically updated from different parts of the page and saved to the
- * back-end storage on events other than the classical form-submission. In that case, comparison
- * parameters can be renewed by calling the function {@link #FORM_MODIFICATIONS_SAVED_JS} on an ajax
- * round trip.
+ * Sometimes a model object is dynamically updated from different parts of the page and saved to the back-end storage on events other than the classical
+ * form-submission. In that case, comparison parameters can be renewed by calling the function {@link #FORM_MODIFICATIONS_SAVED_JS} on an ajax round trip.
  * <p>
  * Example
  * </p>
- * Here is an ajax-event handler that updates the save-button and the the state of comparison parameters
- * on the clients machine:
+ * Here is an ajax-event handler that updates the save-button and the the state of comparison parameters on the clients machine:
  * 
  * <pre>
- * public void handleAjaxEvent(AjaxRequestTarget target)
- * {
+ * public void handleAjaxEvent(AjaxRequestTarget target) {
  *     // update button-looks
  *     target.addComponent(saveButton);
  * 
@@ -39,21 +34,17 @@ import org.apache.wicket.util.template.TextTemplateHeaderContributor;
  * }
  * </pre>
  * 
- * Sometimes you want to get rid of form modification detection behavior altogether, like for instance
- * after some other procedure on the page bumped into an error. In that case append
- * {@link #DISABLE_DETECTOR_JS} to the target.
+ * Sometimes you want to get rid of form modification detection behavior altogether, like for instance after some other procedure on the page bumped into an
+ * error. In that case append {@link #DISABLE_DETECTOR_JS} to the target.
  * <p/>
  * The message displayed can be influenced by overriding {@link #getDisplayMessage()}.
  * <p/>
- * See also <a
- * href="http://www.hunlock.com/blogs/Mastering_The_Back_Button_With_Javascript">http://www.hunlock
- * .com/blogs /Mastering_The_Back_Button_With_Javascript</a>
+ * See also <a href="http://www.hunlock.com/blogs/Mastering_The_Back_Button_With_Javascript">http://www.hunlock .com/blogs
+ * /Mastering_The_Back_Button_With_Javascript</a>
  * 
- * @author Sep 2, 2009 Class and js adapted from
- *         http://www.jroller.com/karthikg/entry/modelling_client_side_form_modifications
+ * @author Sep 2, 2009 Class and js adapted from http://www.jroller.com/karthikg/entry/modelling_client_side_form_modifications
  */
-public class FormModificationDetectorBehavior extends AbstractBehavior
-{
+public class FormModificationDetectorBehavior extends AbstractBehavior {
 
     public static final String FORM_MODIFICATIONS_SAVED_JS = "setFormOnRender();";
 
@@ -65,10 +56,8 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
     // a Component and that's nice as we need access to the Form
     // component.
 
-    public void bind(Component component)
-    {
-        if (!(component instanceof Form))
-        {
+    public void bind(Component component) {
+        if (!(component instanceof Form)) {
             throw new WicketRuntimeException(getClass() + " behavior can be bound only to a Form component");
         }
         Form<?> form = (Form<?>) component;
@@ -95,23 +84,19 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
     // TextTemplateHeaderContributor expects to be supplied with a Map
     // as the backing Model. It will use the map to perform variable substitution.
 
-    class FormModificationDetectorModel extends AbstractReadOnlyModel<Map<String, Object>>
-    {
+    class FormModificationDetectorModel extends AbstractReadOnlyModel<Map<String, Object>> {
 
         private static final long serialVersionUID = -7377791430281874480L;
         private Map<String, Object> variables;
         private String formMarkupid;
 
-        FormModificationDetectorModel(String formMarkupid)
-        {
+        FormModificationDetectorModel(String formMarkupid) {
             this.formMarkupid = formMarkupid;
         }
 
         // return the Map as the model object
-        public Map<String, Object> getObject()
-        {
-            if (variables == null)
-            {
+        public Map<String, Object> getObject() {
+            if (variables == null) {
                 // Use Wicket's built-in MiniMap when the
                 // number of Map entries are known upfront.
                 // A nice way of controlling Wicket's memory usage.
@@ -133,8 +118,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
      * 
      * @return the message displayed in a confirm dialog
      */
-    protected String getDisplayMessage()
-    {
+    protected String getDisplayMessage() {
         return "The form on this page has unsaved changes.";
     }
 }

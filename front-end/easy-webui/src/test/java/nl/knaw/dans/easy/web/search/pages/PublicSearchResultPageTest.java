@@ -37,14 +37,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class PublicSearchResultPageTest
-{
+public class PublicSearchResultPageTest {
     private static final String FACET_VALUE_LINK = "searchResultPanel:refineFacetsEnclosure:refineFacets:2:facet:facetValuesUL:facetValuesLI:0:facetValueLink";
     private EasyApplicationContextMock applicationContext;
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
@@ -52,14 +50,12 @@ public class PublicSearchResultPageTest
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
     }
 
     @Test
-    public void noDatasets() throws Exception
-    {
+    public void noDatasets() throws Exception {
         expect(applicationContext.getSearchService().searchPublished(isA(SearchRequest.class), isA(EasyUser.class)))//
                 .andStubReturn(null);
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, PublicSearchResultPage.class);
@@ -70,8 +66,7 @@ public class PublicSearchResultPageTest
     }
 
     @Test
-    public void noMatch() throws Exception
-    {
+    public void noMatch() throws Exception {
         expect(applicationContext.getSearchService().searchPublished(isA(SearchRequest.class), isA(EasyUser.class)))//
                 .andStubReturn(null);
         final PageParameters parameters = new PageParameters();
@@ -84,8 +79,7 @@ public class PublicSearchResultPageTest
     }
 
     @Test
-    public void oneDataset() throws Exception
-    {
+    public void oneDataset() throws Exception {
         mockDisciplineService();
         final SearchResultMock searchResult = mockSearchResult(createHits(mockDatasetSB("mocked title 1")));
         mockGetFacetByName(searchResult, "emd_audience", new ArrayList<FacetValue<?>>());
@@ -100,8 +94,7 @@ public class PublicSearchResultPageTest
     }
 
     @Test
-    public void datasets() throws Exception
-    {
+    public void datasets() throws Exception {
         mockDisciplineService();
         final SearchResultMock searchResult = mockSearchResult(createHits(mockDatasetSB("mocked title 1"), mockDatasetSB("mocked title 2")));
         mockGetFacetByName(searchResult, "emd_audience", new ArrayList<FacetValue<?>>());
@@ -121,15 +114,13 @@ public class PublicSearchResultPageTest
         assertFacet(tester);
     }
 
-    private void mockDisciplineService() throws ServiceException, ObjectNotFoundException
-    {
+    private void mockDisciplineService() throws ServiceException, ObjectNotFoundException {
         final DisciplineCollectionService disciplineCollectionService = PowerMock.createMock(DisciplineCollectionService.class);
         EasyMock.expect(disciplineCollectionService.getDisciplineName(isA(DmoStoreId.class))).andStubReturn("mocked Discipline");
         applicationContext.putBean("disciplineService", disciplineCollectionService);
     }
 
-    private EasyDatasetSB mockDatasetSB(final String string)
-    {
+    private EasyDatasetSB mockDatasetSB(final String string) {
         final EasyDatasetSB datasetSB = new EasyDatasetSB();
         datasetSB.setState(DatasetState.PUBLISHED);
         datasetSB.setDcTitle(createList(string));
@@ -140,21 +131,18 @@ public class PublicSearchResultPageTest
         return datasetSB;
     }
 
-    private ArrayList<SearchHit<DatasetSB>> createHits(final DatasetSB... datasetSBs)
-    {
+    private ArrayList<SearchHit<DatasetSB>> createHits(final DatasetSB... datasetSBs) {
         final ArrayList<SearchHit<DatasetSB>> hits = new ArrayList<SearchHit<DatasetSB>>();
         for (final DatasetSB datasetSB : datasetSBs)
             hits.add(new SimpleSearchHit<DatasetSB>(datasetSB));
         return hits;
     }
 
-    public static interface SearchResultMock extends SearchResult<DatasetSB>
-    {
+    public static interface SearchResultMock extends SearchResult<DatasetSB> {
         // PowerMock.createMock needs a simple class, not a generic.
     };
 
-    private SearchResultMock mockSearchResult(final ArrayList<SearchHit<DatasetSB>> hits) throws ServiceException
-    {
+    private SearchResultMock mockSearchResult(final ArrayList<SearchHit<DatasetSB>> hits) throws ServiceException {
         final SearchResultMock searchResult = PowerMock.createMock(SearchResultMock.class);
         EasyMock.expect(searchResult.getTotalHits()).andStubReturn(hits.size());
         EasyMock.expect(searchResult.getHits()).andStubReturn(hits);
@@ -165,13 +153,11 @@ public class PublicSearchResultPageTest
         return searchResult;
     }
 
-    private List<String> createList(final String... strings)
-    {
+    private List<String> createList(final String... strings) {
         return Arrays.asList(strings);
     }
 
-    private ArrayList<FacetValue<?>> mockFacetValues(final int count) throws Exception
-    {
+    private ArrayList<FacetValue<?>> mockFacetValues(final int count) throws Exception {
         final ArrayList<FacetValue<?>> audienceFacets = new ArrayList<FacetValue<?>>();
         final CollapsedFacetValue<AccessCategory> facetValue = new CollapsedFacetValue<AccessCategory>();
         facetValue.setCount(count);
@@ -186,8 +172,7 @@ public class PublicSearchResultPageTest
         EasyMock.expect(searchResult.getFacetByName(facetFieldName)).andStubReturn(new SimpleFacetField(facetFieldName, value));
     }
 
-    private void assertFacet(final EasyWicketTester tester)
-    {
+    private void assertFacet(final EasyWicketTester tester) {
         tester.assertRenderedPage(PublicSearchResultPage.class);
         tester.assertLabelContains("searchResultPanel:resultMessage", "<b>2</b>");
         final String hitsPath = "searchResultPanel:searchHits:";

@@ -18,8 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMember implements DmoContainerItem
-{
+public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMember implements DmoContainerItem {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDmoContainerItem.class);
     private static final long serialVersionUID = 2083740106599096049L;
@@ -28,20 +27,17 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
 
     private List<DmoContainer> addedParents = new ArrayList<DmoContainer>();
 
-    public AbstractDmoContainerItem(String storeId)
-    {
+    public AbstractDmoContainerItem(String storeId) {
         super(storeId);
     }
 
     @Override
-    protected Relations newRelationsObject()
-    {
+    protected Relations newRelationsObject() {
         return new DmoContainerItemRelations(this);
     }
 
     @Override
-    public Set<String> getContentModels()
-    {
+    public Set<String> getContentModels() {
         Set<String> contentModels = super.getContentModels();
         contentModels.add(CONTENT_MODEL);
         return contentModels;
@@ -49,8 +45,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
 
     // ---- ADD
 
-    public void addParent(DmoContainer container) throws RepositoryException
-    {
+    public void addParent(DmoContainer container) throws RepositoryException {
         checkDmoCompatible(container);
 
         // store sid in relationships
@@ -63,8 +58,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         addedParents.add(container);
     }
 
-    public void addParentSid(DmoStoreId parentDmoStoreId) throws ObjectIsNotPartOfCollection, NoUnitOfWorkAttachedException, RepositoryException
-    {
+    public void addParentSid(DmoStoreId parentDmoStoreId) throws ObjectIsNotPartOfCollection, NoUnitOfWorkAttachedException, RepositoryException {
         checkSidCompatible(parentDmoStoreId);
 
         ((DmoContainerItemRelations) getRelations()).addParent(parentDmoStoreId);
@@ -72,31 +66,25 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
 
     // GET
 
-    public Set<DmoStoreId> getParentSids() throws RepositoryException
-    {
+    public Set<DmoStoreId> getParentSids() throws RepositoryException {
         return new HashSet<DmoStoreId>(((DmoContainerItemRelations) getRelations()).getParents());
     }
 
-    private DmoContainer getParentObject(DmoStoreId parentDmoStoreId) throws RepositoryException
-    {
+    private DmoContainer getParentObject(DmoStoreId parentDmoStoreId) throws RepositoryException {
         // try to get the object form the unit of work
         DmoContainer uowParent = (DmoContainer) tryGetObjectFromUnitOfWork(parentDmoStoreId);
-        if (uowParent != null)
-        {
+        if (uowParent != null) {
             return uowParent;
         }
 
         // check if parent was added already
-        for (DmoContainer addedParent : addedParents)
-        {
-            if (addedParent.getDmoStoreId().equals(parentDmoStoreId))
-            {
+        for (DmoContainer addedParent : addedParents) {
+            if (addedParent.getDmoStoreId().equals(parentDmoStoreId)) {
                 return addedParent;
             }
         }
 
-        if (isLoaded())
-        {
+        if (isLoaded()) {
             // other wise get the object from the store
             DataModelObject dmo = getStore().retrieve(parentDmoStoreId);
             if (!(dmo instanceof DmoContainer))
@@ -106,18 +94,15 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
             tryAttachToUnitOfWork(dmo);
 
             return (DmoContainer) dmo;
-        }
-        else
+        } else
             return null;
     }
 
-    public List<? extends DmoContainer> getParents() throws RepositoryException
-    {
+    public List<? extends DmoContainer> getParents() throws RepositoryException {
         Set<DmoStoreId> parentSids = getParentSids();
         List<DmoContainer> resultList = new ArrayList<DmoContainer>();
 
-        for (DmoStoreId parentSid : parentSids)
-        {
+        for (DmoStoreId parentSid : parentSids) {
             DmoContainer dmo = getParentObject(parentSid);
             if (dmo != null)
                 resultList.add(dmo);
@@ -128,8 +113,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         return resultList;
     }
 
-    public DmoContainer getParent() throws RepositoryException
-    {
+    public DmoContainer getParent() throws RepositoryException {
         DmoStoreId parentSid = getParentSid();
         if (getParentSid() != null && !StringUtils.isBlank(getParentSid().getId()))
             return getParentObject(parentSid);
@@ -137,28 +121,24 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
             return null;
     }
 
-    public DmoStoreId getParentSid() throws RepositoryException
-    {
+    public DmoStoreId getParentSid() throws RepositoryException {
         Set<DmoStoreId> parents = getParentSids();
         return parents.size() > 0 ? parents.iterator().next() : null;
     }
 
     // ---- SET
 
-    private void clear()
-    {
+    private void clear() {
         ((DmoContainerItemRelations) getRelations()).clearParents();
         addedParents.clear();
     }
 
-    public void setParent(DmoContainer container) throws RepositoryException
-    {
+    public void setParent(DmoContainer container) throws RepositoryException {
         clear();
         addParent(container);
     }
 
-    public void setParentSid(DmoStoreId parentDmoStoreId) throws RepositoryException
-    {
+    public void setParentSid(DmoStoreId parentDmoStoreId) throws RepositoryException {
         clear();
 
         addParentSid(parentDmoStoreId);
@@ -167,35 +147,29 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         setParentSids(parentSids);
     }
 
-    public void setParentSids(Set<DmoStoreId> parentSids) throws RepositoryException
-    {
+    public void setParentSids(Set<DmoStoreId> parentSids) throws RepositoryException {
         clear();
 
         for (DmoStoreId parentSid : parentSids)
             addParentSid(parentSid);
     }
 
-    public void setParents(List<? extends DmoContainer> parents) throws RepositoryException
-    {
+    public void setParents(List<? extends DmoContainer> parents) throws RepositoryException {
         clear();
 
-        for (DmoContainer parent : parents)
-        {
+        for (DmoContainer parent : parents) {
             addParent(parent);
         }
     }
 
     // ---- REMOVE
 
-    public void removeParent(DmoContainer container) throws RepositoryException
-    {
+    public void removeParent(DmoContainer container) throws RepositoryException {
         // remove from added parents
         Iterator<DmoContainer> apIt = addedParents.iterator();
-        while (apIt.hasNext())
-        {
+        while (apIt.hasNext()) {
             DmoContainer addedParent = apIt.next();
-            if (container == addedParent || addedParent.getStoreId().equals(container.getStoreId()))
-            {
+            if (container == addedParent || addedParent.getStoreId().equals(container.getStoreId())) {
                 apIt.remove();
                 break;
             }
@@ -205,8 +179,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         removeParentSid(container.getDmoStoreId());
     }
 
-    public void removeParentSid(DmoStoreId parentDmoStoreId) throws RepositoryException
-    {
+    public void removeParentSid(DmoStoreId parentDmoStoreId) throws RepositoryException {
         ((DmoContainerItemRelations) getRelations()).removeParent(parentDmoStoreId);
     }
 

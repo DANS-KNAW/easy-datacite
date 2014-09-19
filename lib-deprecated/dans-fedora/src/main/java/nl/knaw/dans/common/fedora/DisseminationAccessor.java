@@ -13,14 +13,12 @@ import fedora.server.types.gen.MIMETypedStream;
 import fedora.server.types.gen.ObjectMethodsDef;
 import fedora.server.types.gen.Property;
 
-public class DisseminationAccessor
-{
+public class DisseminationAccessor {
     private static final Logger logger = LoggerFactory.getLogger(DisseminationAccessor.class);
 
     private final Repository repository;
 
-    public DisseminationAccessor(Repository repository)
-    {
+    public DisseminationAccessor(Repository repository) {
         this.repository = repository;
     }
 
@@ -29,16 +27,13 @@ public class DisseminationAccessor
     {
         MIMETypedStream mimeTypedStream = null;
         String asOfDateTimeString = Converter.serializeToXml(asOfDateTime);
-        try
-        {
+        try {
             mimeTypedStream = repository.getFedoraAPIA().getDissemination(sid, serviceDefinitionSid, methodName, parameters, asOfDateTimeString);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Got dissemination. sid=" + sid + " serviceDefinitionSid=" + serviceDefinitionSid + "methodName=" + methodName);
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to get datastream dissemination: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -46,20 +41,16 @@ public class DisseminationAccessor
         return mimeTypedStream;
     }
 
-    public ObjectMethodsDef[] listMethods(String sid, DateTime asOfDateTime) throws RepositoryException
-    {
+    public ObjectMethodsDef[] listMethods(String sid, DateTime asOfDateTime) throws RepositoryException {
         ObjectMethodsDef[] methodDefs = null;
         String asOfDateTimeString = Converter.serializeToXml(asOfDateTime);
-        try
-        {
+        try {
             methodDefs = repository.getFedoraAPIA().listMethods(sid, asOfDateTimeString);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Got object method definitions. sid=" + sid);
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to get object method definitions: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);

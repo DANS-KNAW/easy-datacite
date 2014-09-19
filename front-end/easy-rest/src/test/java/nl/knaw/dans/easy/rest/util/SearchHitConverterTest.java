@@ -15,15 +15,13 @@ import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SearchHitConverterTest
-{
+public class SearchHitConverterTest {
 
     private List<SimpleSearchHit<?>> hits;
 
     @SuppressWarnings("unchecked")
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         hits = new ArrayList<SimpleSearchHit<?>>();
         EasyDatasetSB hit = setUpHit();
         EasyDatasetSB hit2 = setUpHit();
@@ -39,8 +37,7 @@ public class SearchHitConverterTest
         hits.add(ssh3);
     }
 
-    private EasyDatasetSB setUpHit()
-    {
+    private EasyDatasetSB setUpHit() {
         EasyDatasetSB hit = mock(EasyDatasetSB.class);
         when(hit.getDcTitleSortable()).thenReturn("title");
         when(hit.getStoreId()).thenReturn("easy-dataset:1");
@@ -59,8 +56,7 @@ public class SearchHitConverterTest
         return hit;
     }
 
-    private EasyDatasetSB setUpNullHit()
-    {
+    private EasyDatasetSB setUpNullHit() {
         EasyDatasetSB hit = mock(EasyDatasetSB.class);
         when(hit.getDcTitleSortable()).thenReturn("title");
         when(hit.getStoreId()).thenReturn("easy-dataset:1");
@@ -74,22 +70,19 @@ public class SearchHitConverterTest
     }
 
     @Test(expected = AssertionError.class)
-    public void notInstantiable()
-    {
+    public void notInstantiable() {
         new SearchHitConverter();
     }
 
     @Test
-    public void emptyConversion()
-    {
+    public void emptyConversion() {
         String xml = SearchHitConverter.convert(new ArrayList<SimpleSearchHit<?>>());
         String expectedXml = "<hits></hits>";
         assertEquals(expectedXml, xml);
     }
 
     @Test
-    public void normalConversion()
-    {
+    public void normalConversion() {
         String xml = SearchHitConverter.convert(hits);
         String normalHit = "<hit>" + "<title>title</title>" + "<storeId>easy-dataset:1</storeId>" + "<creator>creator</creator>"
                 + "<dateCreated>13-13-13</dateCreated>" + "<description>description</description>" + "<identifier>identifier</identifier>"

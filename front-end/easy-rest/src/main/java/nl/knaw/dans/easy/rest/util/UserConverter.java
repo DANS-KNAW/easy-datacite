@@ -8,8 +8,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class UserConverter extends SimpleXmlWriter
-{
+public class UserConverter extends SimpleXmlWriter {
 
     /**
      * A simple method that returns a XML String containing the information from the given EasyUser.
@@ -18,8 +17,7 @@ public class UserConverter extends SimpleXmlWriter
      *        The EasyUser from which to extract the information.
      * @return A String containing the user information in XML format.
      */
-    public static String convert(EasyUser user)
-    {
+    public static String convert(EasyUser user) {
         String xml = startNode("account");
         xml += addNode("username", user.getCommonName());
         xml += addNode("displayName", user.getDisplayName());

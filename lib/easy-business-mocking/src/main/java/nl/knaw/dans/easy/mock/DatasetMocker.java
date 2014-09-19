@@ -31,8 +31,7 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
-public class DatasetMocker
-{
+public class DatasetMocker {
     /** the mocked dataset */
     private final Dataset dataset;
 
@@ -49,16 +48,15 @@ public class DatasetMocker
     private IdMap idMap;
 
     /**
-     * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
-     * possible/expected behavior of the instance, and related methods of {@link FileStoreAccess}.
+     * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of possible/expected behavior of the instance, and
+     * related methods of {@link FileStoreAccess}.
      * 
      * @param storeId
      *        of the dataset
      * @param storeIdGenerator
      *        to generate ID's for files and folders
      */
-    DatasetMocker(final String storeId, final StoreIdGenerator storeIdGenerator) throws Exception
-    {
+    DatasetMocker(final String storeId, final StoreIdGenerator storeIdGenerator) throws Exception {
         this.storeIdGenerator = storeIdGenerator;
         datasetStoreId = new DmoStoreId(storeId);
         dataset = PowerMock.createMock(Dataset.class);
@@ -71,14 +69,12 @@ public class DatasetMocker
         expect(Data.getMigrationRepo().exists(eq(datasetStoreId.toString()))).andStubReturn(true);
     }
 
-    public DatasetMocker accessedByAny() throws Exception
-    {
+    public DatasetMocker accessedByAny() throws Exception {
         EasyMock.expect(Services.getDatasetService().getDataset(EasyMock.isA(EasyUser.class), EasyMock.eq(datasetStoreId))).andStubReturn(dataset);
         return this;
     }
 
-    public DatasetMocker withDownloadHistoryFor(final DateTime dateTime) throws Exception
-    {
+    public DatasetMocker withDownloadHistoryFor(final DateTime dateTime) throws Exception {
         final String period = DownloadList.printPeriod(DownloadList.TYPE_ALL, dateTime);
         final String storeId = storeIdGenerator.getNext(DownloadHistory.NAMESPACE);
         final DownloadHistory dlh = new DownloadHistory(storeId, DownloadList.TYPE_ALL, Level.DATASET, datasetStoreId.getStoreId());
@@ -86,8 +82,7 @@ public class DatasetMocker
         return this;
     }
 
-    public DatasetMocker withoutDownloadHistoryFor(final DateTime dateTime) throws Exception
-    {
+    public DatasetMocker withoutDownloadHistoryFor(final DateTime dateTime) throws Exception {
         final String period = DownloadList.printPeriod(DownloadList.TYPE_MONTH, dateTime);
         final String storeId = storeIdGenerator.getNext(DownloadHistory.NAMESPACE);
         final DownloadHistory dlh = new DownloadHistory(storeId, DownloadList.TYPE_ALL, Level.DATASET, datasetStoreId.getStoreId());
@@ -98,36 +93,31 @@ public class DatasetMocker
         return this;
     }
 
-    public DatasetMocker withPid(final String persitentIdentifier)
-    {
+    public DatasetMocker withPid(final String persitentIdentifier) {
         if (idMap != null)
             idMap = new IdMap(idMap.getStoreId(), idMap.getAipId(), persitentIdentifier, idMap.getMigrationDate());
         expect(dataset.getPersistentIdentifier()).andStubReturn(persitentIdentifier);
         return this;
     }
 
-    public DatasetMocker with(final DatasetState state)
-    {
+    public DatasetMocker with(final DatasetState state) {
         expect(dataset.getAdministrativeState()).andStubReturn(state);
         return this;
     }
 
-    public DatasetMocker with(final AccessCategory category)
-    {
+    public DatasetMocker with(final AccessCategory category) {
         expect(dataset.getAccessCategory()).andStubReturn(category);
         return this;
     }
 
-    public DatasetMocker with(final DatasetState administrativeSate, final String state)
-    {
+    public DatasetMocker with(final DatasetState administrativeSate, final String state) {
         expect(dataset.getAdministrativeState()).andStubReturn(administrativeSate);
         expect(dataset.getState()).andStubReturn(state);
         return this;
     }
 
     /** note That withPid must be called later to be effective in the IdMap. */
-    public DatasetMocker withAipId(final String aipId) throws Exception
-    {
+    public DatasetMocker withAipId(final String aipId) throws Exception {
         idMap = new IdMap(datasetStoreId.getStoreId(), aipId, "somepid", new DateTime("2013-07-12"));
         expect(Data.getMigrationRepo().findById(EasyMock.eq(datasetStoreId.getStoreId()))).andStubReturn(idMap);
         expect(Data.getMigrationRepo().getMostRecentByAipId(EasyMock.eq(aipId))).andStubReturn(idMap);
@@ -135,62 +125,54 @@ public class DatasetMocker
     }
 
     /**
-     * Links the mocked folders with the mocked {@link Dataset}. Note that expectations are created
-     * together with {@link #with(FileMocker...)} or {@link #withoutFiles()} because relations can only
-     * be established using both files and folders.
+     * Links the mocked folders with the mocked {@link Dataset}. Note that expectations are created together with {@link #with(FileMocker...)} or
+     * {@link #withoutFiles()} because relations can only be established using both files and folders.
      * 
      * @param folderMockers
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker with(final FolderMocker... folderMockers) throws Exception
-    {
+    public DatasetMocker with(final FolderMocker... folderMockers) throws Exception {
         this.folderMockers = folderMockers;
         return this;
     }
 
     /**
-     * Creates stubs for {@link FileStoreAccess} to relate mocked files and folders with one another and
-     * with the mocked {@link Dataset}. Mocked folders are created for parent folders that were not yet
-     * created.
+     * Creates stubs for {@link FileStoreAccess} to relate mocked files and folders with one another and with the mocked {@link Dataset}. Mocked folders are
+     * created for parent folders that were not yet created.
      * 
      * @param fileMockers
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker with(final FileMocker... fileMockers) throws Exception
-    {
+    public DatasetMocker with(final FileMocker... fileMockers) throws Exception {
         withFilesAndFolders(fileMockers);
         return this;
     }
 
     /**
-     * Creates expectations for {@link FileStoreAccess#getAllFiles(DmoStoreId)} and
-     * {@link FileStoreAccess#getDatasetFiles(DmoStoreId)} for the mocked {@link Dataset}.
+     * Creates expectations for {@link FileStoreAccess#getAllFiles(DmoStoreId)} and {@link FileStoreAccess#getDatasetFiles(DmoStoreId)} for the mocked
+     * {@link Dataset}.
      * 
      * @return
      * @throws Exception
      */
-    public DatasetMocker withoutFiles() throws Exception
-    {
+    public DatasetMocker withoutFiles() throws Exception {
         withFilesAndFolders(new FileMocker[0]);
         return this;
     }
 
-    private void withFilesAndFolders(final FileMocker[] fileMockers) throws Exception
-    {
+    private void withFilesAndFolders(final FileMocker[] fileMockers) throws Exception {
         final FileStoreAccessStubber stubber = new FileStoreAccessStubber(datasetStoreId, storeIdGenerator);
         stubber.createItemExpectations(fileMockers, folderMockers);
         subOrdinates.addAll(stubber.getDmoStoreIDs());
     }
 
     /**
-     * Creates the expectation that {@link FileStoreAccess#getDatasetFiles(DmoStoreId)} once returns the
-     * mocked file objects for the mocked {@link Dataset}.
+     * Creates the expectation that {@link FileStoreAccess#getDatasetFiles(DmoStoreId)} once returns the mocked file objects for the mocked {@link Dataset}.
      * 
      * @param files
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker expectGetDatasetFilesOnce(final FileMocker... files) throws Exception
-    {
+    public DatasetMocker expectGetDatasetFilesOnce(final FileMocker... files) throws Exception {
         final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
         for (final FileMocker mocker : files)
             fileItems.add(mocker.getItemVO());
@@ -199,47 +181,39 @@ public class DatasetMocker
     }
 
     /**
-     * Configures the expectation that
-     * {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called
-     * exactly once for the mocked {@link Dataset} with any value for the other arguments.<br/>
-     * Note that the mocked purge does not change anything to the mocked datasets or files. The mocked
-     * objects are already in replay mode and therefore their behavior can't be changed any more. After
-     * calling the mocked purge the dataset will keep showing up.
+     * Configures the expectation that {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called exactly once for the
+     * mocked {@link Dataset} with any value for the other arguments.<br/>
+     * Note that the mocked purge does not change anything to the mocked datasets or files. The mocked objects are already in replay mode and therefore their
+     * behavior can't be changed any more. After calling the mocked purge the dataset will keep showing up.
      * 
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker expectPurgeAt(final DateTime dateTime) throws Exception
-    {
+    public DatasetMocker expectPurgeAt(final DateTime dateTime) throws Exception {
         expectPurgeFromEasyStore(dateTime);
         return this;
     }
 
     /**
-     * Configures the expectation that
-     * {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called
-     * exactly once for the mocked {@link Dataset} with any value for the other arguments.<br/>
-     * Note that the mocked purge does not change anything to the mocked datasets or files. The mocked
-     * objects are already in replay mode and therefore their behavior can't be changed any more. After
-     * calling the mocked purge the dataset will keep showing up.
+     * Configures the expectation that {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called exactly once for the
+     * mocked {@link Dataset} with any value for the other arguments.<br/>
+     * Note that the mocked purge does not change anything to the mocked datasets or files. The mocked objects are already in replay mode and therefore their
+     * behavior can't be changed any more. After calling the mocked purge the dataset will keep showing up.
      * 
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker expectMigrationPurgeAt(final DateTime dateTime) throws Exception
-    {
+    public DatasetMocker expectMigrationPurgeAt(final DateTime dateTime) throws Exception {
         expectPurgeFromEasyStore(dateTime);
         Data.getMigrationRepo().delete(eq(datasetStoreId.toString()));
         EasyMock.expectLastCall().once();
         return this;
     }
 
-    private void expectPurgeFromEasyStore(final DateTime dateTime) throws RepositoryException
-    {
+    private void expectPurgeFromEasyStore(final DateTime dateTime) throws RepositoryException {
         expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
     }
 
     /** @return the mocked dataset */
-    public Dataset getDataset()
-    {
+    public Dataset getDataset() {
         return dataset;
     }
 }

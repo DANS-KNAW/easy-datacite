@@ -14,14 +14,12 @@ import org.datacontract.schemas._2004._07.Sikb0102_WebService.ValidationMessage;
 import org.tempuri.BasicHttpBinding_ISikb0102ServiceStub;
 import org.tempuri.Sikb0102ServiceLocator;
 
-public class SOAPClient
-{
+public class SOAPClient {
     private static final String WSSE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
     private static String username = "bergh";
     private static String password = "cC!XzlKK";
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         Sikb0102ServiceLocator service = new Sikb0102ServiceLocator();
 
         BasicHttpBinding_ISikb0102ServiceStub stub = (BasicHttpBinding_ISikb0102ServiceStub) service.getBasicHttpBinding_ISikb0102Service();
@@ -51,12 +49,10 @@ public class SOAPClient
 
         ValidateXmlResponse response = null;
 
-        try
-        {
+        try {
             response = stub.validate(request);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -69,10 +65,8 @@ public class SOAPClient
         System.err.println();
         System.err.println("version=" + response.getVersion());
         System.err.println("success=" + response.getSuccess());
-        if (response.getErrorMessages() != null)
-        {
-            for (String error : response.getErrorMessages())
-            {
+        if (response.getErrorMessages() != null) {
+            for (String error : response.getErrorMessages()) {
                 System.err.println("error=" + error);
             }
         }
@@ -81,10 +75,8 @@ public class SOAPClient
         System.err.println("getErrorCount=" + validation.getErrorCount());
         System.err.println("getWarningCount=" + validation.getWarningCount());
         System.err.println("getValidXml=" + validation.getValidXml());
-        if (validation.getMessages() != null)
-        {
-            for (ValidationMessage vm : validation.getMessages())
-            {
+        if (validation.getMessages() != null) {
+            for (ValidationMessage vm : validation.getMessages()) {
                 System.err.println();
                 System.err.println("getGroupName=" + vm.getGroupName());
                 System.err.println("getMessage=" + vm.getMessage());
@@ -94,8 +86,7 @@ public class SOAPClient
         }
     }
 
-    private static String getXml() throws FileNotFoundException, IOException
-    {
+    private static String getXml() throws FileNotFoundException, IOException {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         // InputStream in = new FileInputStream("src/test/resources/test-files/pakbon_valid.xml");
         // String xml = IOUtils.toString(in);

@@ -9,8 +9,7 @@ import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class DatasetSubmissionImpl implements DatasetSubmission
-{
+public class DatasetSubmissionImpl implements DatasetSubmission {
 
     private static final long serialVersionUID = 8588377037969121311L;
 
@@ -26,8 +25,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
     private boolean mailSend;
     private boolean completed;
 
-    public DatasetSubmissionImpl(FormDefinition formDefinition, Dataset dataset, EasyUser sessionUser)
-    {
+    public DatasetSubmissionImpl(FormDefinition formDefinition, Dataset dataset, EasyUser sessionUser) {
         this.dataset = dataset;
         this.formDefinition = formDefinition;
         this.sessionUser = sessionUser;
@@ -39,8 +37,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * @param submission
      *        submission to copy
      */
-    protected DatasetSubmissionImpl(DatasetSubmissionImpl submission)
-    {
+    protected DatasetSubmissionImpl(DatasetSubmissionImpl submission) {
         this.dataset = submission.dataset;
         this.sessionUser = submission.sessionUser;
         this.formDefinition = null;
@@ -56,40 +53,33 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#clearAllMessages()
      */
-    public void clearAllMessages()
-    {
+    public void clearAllMessages() {
         clearMetadataErrors();
         globalErrorMessages.clear();
         globalInfoMessages.clear();
     }
 
-    protected boolean isMetadataValid()
-    {
+    protected boolean isMetadataValid() {
         return metadataValid;
     }
 
-    protected void setMetadataValid(boolean metadataValid)
-    {
+    protected void setMetadataValid(boolean metadataValid) {
         this.metadataValid = metadataValid;
     }
 
-    public boolean isMailSend()
-    {
+    public boolean isMailSend() {
         return mailSend;
     }
 
-    protected void setMailSend(boolean mailSend)
-    {
+    protected void setMailSend(boolean mailSend) {
         this.mailSend = mailSend;
     }
 
-    public boolean isSubmitted()
-    {
+    public boolean isSubmitted() {
         return submitted;
     }
 
-    protected void setSubmitted(boolean submitted)
-    {
+    protected void setSubmitted(boolean submitted) {
         this.submitted = submitted;
     }
 
@@ -97,23 +87,19 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#isCompleted()
      */
-    public boolean isCompleted()
-    {
+    public boolean isCompleted() {
         return completed;
     }
 
-    protected void setCompleted(boolean completed)
-    {
+    protected void setCompleted(boolean completed) {
         this.completed = completed;
     }
 
-    protected String getDatasetId()
-    {
+    protected String getDatasetId() {
         return dataset.getStoreId();
     }
 
-    protected FormDefinition getFormDefinition()
-    {
+    protected FormDefinition getFormDefinition() {
         return formDefinition;
     }
 
@@ -121,8 +107,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getDataset()
      */
-    public Dataset getDataset()
-    {
+    public Dataset getDataset() {
         return dataset;
     }
 
@@ -130,8 +115,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getSessionUser()
      */
-    public EasyUser getSessionUser()
-    {
+    public EasyUser getSessionUser() {
         return sessionUser;
     }
 
@@ -139,8 +123,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#hasMetadataErrors()
      */
-    public boolean hasMetadataErrors()
-    {
+    public boolean hasMetadataErrors() {
         return getFirstErrorPage() != null;
     }
 
@@ -148,15 +131,11 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getFirstErrorPage()
      */
-    public FormPage getFirstErrorPage()
-    {
+    public FormPage getFirstErrorPage() {
         FormPage firstErrorPage = null;
-        if (formDefinition != null)
-        {
-            for (FormPage formPage : formDefinition.getFormPages())
-            {
-                if (formPage.hasErrors())
-                {
+        if (formDefinition != null) {
+            for (FormPage formPage : formDefinition.getFormPages()) {
+                if (formPage.hasErrors()) {
                     firstErrorPage = formPage;
                     break;
                 }
@@ -165,12 +144,9 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         return firstErrorPage;
     }
 
-    protected void clearMetadataErrors()
-    {
-        if (formDefinition != null)
-        {
-            for (FormPage formPage : formDefinition.getFormPages())
-            {
+    protected void clearMetadataErrors() {
+        if (formDefinition != null) {
+            for (FormPage formPage : formDefinition.getFormPages()) {
                 formPage.clearErrorMessages();
             }
         }
@@ -180,13 +156,11 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getGlobalErrorMessages()
      */
-    public List<String> getGlobalErrorMessages()
-    {
+    public List<String> getGlobalErrorMessages() {
         return globalErrorMessages;
     }
 
-    protected void addGlobalErrorMessage(String msgKey)
-    {
+    protected void addGlobalErrorMessage(String msgKey) {
         globalErrorMessages.add(msgKey);
     }
 
@@ -194,13 +168,11 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getGlobalInfoMessages()
      */
-    public List<String> getGlobalInfoMessages()
-    {
+    public List<String> getGlobalInfoMessages() {
         return globalInfoMessages;
     }
 
-    protected void addGlobalInfoMessage(String msgKey)
-    {
+    protected void addGlobalInfoMessage(String msgKey) {
         globalInfoMessages.add(msgKey);
     }
 
@@ -208,8 +180,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#hasGlobalMessages()
      */
-    public boolean hasGlobalMessages()
-    {
+    public boolean hasGlobalMessages() {
         return !globalErrorMessages.isEmpty() || !globalInfoMessages.isEmpty();
     }
 
@@ -217,8 +188,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getDatasetTitle()
      */
-    public String getDatasetTitle()
-    {
+    public String getDatasetTitle() {
         return getDataset().getPreferredTitle();
     }
 
@@ -226,8 +196,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
      * (non-Javadoc)
      * @see nl.knaw.dans.easy.business.dataset.DatasetSubmission#getState()
      */
-    public String getState()
-    {
+    public String getState() {
         StringBuilder sb = new StringBuilder("Dataset submission");
         sb.append(" [datasetId=");
         sb.append(getDatasetId());
@@ -244,8 +213,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         return sb.toString();
     }
 
-    public String getPersistentIdentifier()
-    {
+    public String getPersistentIdentifier() {
         return getDataset().getPersistentIdentifier();
     }
 }

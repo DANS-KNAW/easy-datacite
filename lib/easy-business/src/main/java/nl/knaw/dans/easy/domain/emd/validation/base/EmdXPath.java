@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
-public enum EmdXPath
-{
+public enum EmdXPath {
     SPATIAL_COVERAGE("/emd:easymetadata/emd:coverage/eas:spatial/"), RIGHTS("/emd:easymetadata/emd:rights/dcterms:accessRights/"), RELATION(
             "/emd:easymetadata/emd:relation/dcterms:relation/"), EMBARGO("/emd:easymetadata/emd:date/dcterms:available/");
     /**
@@ -42,13 +41,11 @@ public enum EmdXPath
 
     private final String xPath;
 
-    private EmdXPath(String xPath)
-    {
+    private EmdXPath(String xPath) {
         this.xPath = xPath;
     }
 
-    public String getXPath()
-    {
+    public String getXPath() {
         return xPath;
     }
 }

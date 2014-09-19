@@ -17,13 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The reindexer can be used to get the dmo store and the search engine into a synchronized state. Note:
- * this class has not been properly tested nor is it complete.
+ * The reindexer can be used to get the dmo store and the search engine into a synchronized state. Note: this class has not been properly tested nor is it
+ * complete.
  * 
  * @author lobo
  */
-public class Reindexer
-{
+public class Reindexer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Reindexer.class);
 
     private DmoStore store;
@@ -34,18 +33,15 @@ public class Reindexer
 
     private int commitFrequency = 20;
 
-    public Reindexer(DmoStore store, SearchEngine searchEngine, PrintStream stdOut)
-    {
+    public Reindexer(DmoStore store, SearchEngine searchEngine, PrintStream stdOut) {
         this.store = store;
         this.searchEngine = searchEngine;
         this.stdOut = stdOut;
     }
 
-    public ReindexReport reindexByContentModel(List<String> contentModelList, List<DmoStoreId> excludeSids) throws ReindexException, RepositoryException
-    {
+    public ReindexReport reindexByContentModel(List<String> contentModelList, List<DmoStoreId> excludeSids) throws ReindexException, RepositoryException {
         List<DmoStoreId> sids = new ArrayList<DmoStoreId>();
-        for (String contentModel : contentModelList)
-        {
+        for (String contentModel : contentModelList) {
             LOGGER.info("Getting sid list for all data model object with content model " + contentModel);
             sids.addAll(store.getSidsByContentModel(new DmoStoreId(contentModel)));
         }
@@ -54,8 +50,7 @@ public class Reindexer
         return reindex(sids, excludeSids);
     }
 
-    public ReindexReport reindex(List<DmoStoreId> sids, List<DmoStoreId> excludeSids) throws ReindexException
-    {
+    public ReindexReport reindex(List<DmoStoreId> sids, List<DmoStoreId> excludeSids) throws ReindexException {
         if (excludeSids == null)
             excludeSids = Collections.emptyList();
 
@@ -65,10 +60,8 @@ public class Reindexer
 
         LOGGER.debug("Now starting reindex process");
         int count = 0;
-        for (DmoStoreId sid : sids)
-        {
-            if (excludeSids != null)
-            {
+        for (DmoStoreId sid : sids) {
+            if (excludeSids != null) {
                 if (excludeSids.contains(sid))
                     continue; // skip
             }
@@ -76,12 +69,10 @@ public class Reindexer
             LOGGER.debug("Getting object " + sid + " from store");
 
             DataModelObject dmo = null;
-            try
-            {
+            try {
                 dmo = store.retrieve(sid);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 LOGGER.warn("Error while getting object " + sid + " from store. Reindex will continue.", e);
                 errors.add(new ReindexError(e, sid, "retrieve"));
                 continue;
@@ -89,29 +80,23 @@ public class Reindexer
 
             LOGGER.debug("Successfully got object " + sid + " from store");
 
-            if (commitFrequency > 1)
-            {
+            if (commitFrequency > 1) {
                 searchEngine.beginTransaction();
             }
 
-            if (dmo instanceof HasSearchBeans)
-            {
+            if (dmo instanceof HasSearchBeans) {
                 // get search documents
                 Collection<? extends Object> sbeans = ((HasSearchBeans) dmo).getSearchBeans();
-                if (sbeans != null)
-                {
-                    for (Object sb : sbeans)
-                    {
+                if (sbeans != null) {
+                    for (Object sb : sbeans) {
                         if (sb instanceof RepoSearchBean)
                             ((RepoSearchBean) sb).setPropertiesByDmo(dmo);
                     }
 
-                    try
-                    {
+                    try {
                         searchEngine.indexBeans(sbeans);
                     }
-                    catch (SearchEngineException e)
-                    {
+                    catch (SearchEngineException e) {
                         LOGGER.warn("Error while reindexing object " + sid + ". Reindex will continue.", e);
                         errors.add(new ReindexError(e, sid, "reindex"));
                         continue;
@@ -127,38 +112,29 @@ public class Reindexer
                         String msg = "Reindexed " + count + " objects.";
                         stdOut.println(msg);
                     }
-                    if (commitFrequency > 1)
-                    {
-                        if (count % commitFrequency == 0)
-                        {
-                            try
-                            {
+                    if (commitFrequency > 1) {
+                        if (count % commitFrequency == 0) {
+                            try {
                                 searchEngine.commit();
                                 searchEngine.beginTransaction();
                             }
-                            catch (SearchEngineException e)
-                            {
+                            catch (SearchEngineException e) {
                                 LOGGER.error("Reindexer caught error while commiting. Stopping.", e);
                                 throw new ReindexException(e, report);
                             }
                         }
                     }
-                }
-                else
-                {
+                } else {
                     LOGGER.debug(sid + " had nothing to reindex");
                 }
             }
         }
 
-        if (commitFrequency > 1)
-        {
-            try
-            {
+        if (commitFrequency > 1) {
+            try {
                 searchEngine.commit();
             }
-            catch (SearchEngineException e)
-            {
+            catch (SearchEngineException e) {
                 LOGGER.error("Reindexer caught error while commiting. Stopping.", e);
                 throw new ReindexException(e, report);
             }
@@ -169,13 +145,11 @@ public class Reindexer
         return report;
     }
 
-    public void setCommitFrequency(int commitFrequency)
-    {
+    public void setCommitFrequency(int commitFrequency) {
         this.commitFrequency = commitFrequency;
     }
 
-    public int getCommitFrequency()
-    {
+    public int getCommitFrequency() {
         return commitFrequency;
     }
 }

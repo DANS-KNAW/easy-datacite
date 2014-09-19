@@ -23,8 +23,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PublicationProgressPanel extends AbstractEasyPanel
-{
+public class PublicationProgressPanel extends AbstractEasyPanel {
 
     public static final String AJAX_EVENT_ADMIN_METADATA_SAVED = PublicationProgressPanel.class.getName() + " administrative metadata saved";
 
@@ -35,43 +34,35 @@ public class PublicationProgressPanel extends AbstractEasyPanel
 
     private boolean initiated;
 
-    public PublicationProgressPanel(String wicketId, DatasetModel datasetModel)
-    {
+    public PublicationProgressPanel(String wicketId, DatasetModel datasetModel) {
         super(wicketId);
         this.datasetModel = datasetModel;
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return datasetModel.getObject();
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState()) || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
-        WorkflowProgressPanel pubProgress = new WorkflowProgressPanel("pubProgress", getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow())
-        {
+    private void init() {
+        WorkflowProgressPanel pubProgress = new WorkflowProgressPanel("pubProgress", getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow()) {
             private static final long serialVersionUID = -5454750325730819797L;
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 // NOTE: GK: the publication progress has been disabled, remove if truly unnecessary
                 // return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
                 // || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
@@ -81,19 +72,16 @@ public class PublicationProgressPanel extends AbstractEasyPanel
         };
         add(pubProgress);
 
-        try
-        {
+        try {
             IModel model = new PropertyModel(new AssignModel(getDataset().getAdministrativeMetadata().getWorkflowData()), "userId");
-            Form assignToForm = new Form("assignToForm")
-            {
+            Form assignToForm = new Form("assignToForm") {
                 /**
                  * 
                  */
                 private static final long serialVersionUID = -7872676803301019518L;
 
                 @Override
-                protected void onSubmit()
-                {
+                protected void onSubmit() {
                     saveChanges();
                 }
             };
@@ -104,54 +92,45 @@ public class PublicationProgressPanel extends AbstractEasyPanel
             assignToForm.add(new SubmitLink("submitLink"));
             add(assignToForm);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.ERROR_GETTING_ARCHIVISTS_LIST);
             logger.error(message, e);
         }
 
     }
 
-    protected void saveChanges()
-    {
-        try
-        {
+    protected void saveChanges() {
+        try {
             Services.getDatasetService().saveAdministrativeMetadata(getSessionUser(), getDataset());
             final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
             logger.info(message);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.ERROR_SAVING_ADMINISTRATIVE_METADATA);
             logger.error(message, e);
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             final String message = errorMessage(EasyResources.ERROR_SAVING_ADMINISTRATIVE_METADATA);
             logger.error(message, e);
         }
 
     }
 
-    protected static class AssignModel implements Serializable
-    {
+    protected static class AssignModel implements Serializable {
 
         private static final long serialVersionUID = -6033853618498949502L;
 
         private final WorkflowData workflowData;
 
-        protected AssignModel(WorkflowData workflowData)
-        {
+        protected AssignModel(WorkflowData workflowData) {
             this.workflowData = workflowData;
         }
 
-        public KeyValuePair getUserId()
-        {
+        public KeyValuePair getUserId() {
             return new KeyValuePair(workflowData.getAssigneeId(), null);
         }
 
-        public void setUserId(KeyValuePair kvp)
-        {
+        public void setUserId(KeyValuePair kvp) {
             workflowData.setAssigneeId(kvp.getKey());
         }
 

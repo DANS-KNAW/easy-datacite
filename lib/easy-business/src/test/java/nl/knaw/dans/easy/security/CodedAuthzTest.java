@@ -15,11 +15,9 @@ import org.joda.time.DateTime;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class CodedAuthzTest
-{
+public class CodedAuthzTest {
     @Test
-    public void testGetSecurityOfficer()
-    {
+    public void testGetSecurityOfficer() {
         Authz authz = createCodedAuthz();
         SecurityOfficer na = authz.getSecurityOfficer("foo");
         assertFalse(na.isComponentVisible(null));
@@ -27,8 +25,7 @@ public class CodedAuthzTest
         assertEquals("(" + CodedAuthz.NO_SIGNATURE_OFFICER_PROPOSITION + " AND [read only mode is false])", na.getProposition());
     }
 
-    private CodedAuthz createCodedAuthz()
-    {
+    private CodedAuthz createCodedAuthz() {
         CodedAuthz codedAuthz = new CodedAuthz();
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
@@ -36,8 +33,7 @@ public class CodedAuthzTest
     }
 
     @Test
-    public void testGetItem()
-    {
+    public void testGetItem() {
         String item = "nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish";
         Authz authz = createCodedAuthz();
         assertTrue(authz.hasSecurityOfficer(item));

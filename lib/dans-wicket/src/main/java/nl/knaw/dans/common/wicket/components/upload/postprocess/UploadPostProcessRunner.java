@@ -10,8 +10,7 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UploadPostProcessRunner
-{
+public class UploadPostProcessRunner {
     private static final Logger LOG = LoggerFactory.getLogger(UploadPostProcessRunner.class);
 
     private List<IUploadPostProcess> postProcessors;
@@ -25,8 +24,7 @@ public class UploadPostProcessRunner
     private boolean finished = false;
     private Object currentStepLock = new Object();
 
-    public UploadPostProcessRunner(List<IUploadPostProcess> postProcessesors, List<File> files, File basePath, Map<String, String> clientParams)
-    {
+    public UploadPostProcessRunner(List<IUploadPostProcess> postProcessesors, List<File> files, File basePath, Map<String, String> clientParams) {
         super();
         this.postProcessors = postProcessesors;
         this.basePath = basePath;
@@ -34,23 +32,18 @@ public class UploadPostProcessRunner
         this.clientParams = clientParams;
     }
 
-    private void error(String errorMsg, Throwable e)
-    {
+    private void error(String errorMsg, Throwable e) {
         this.errorMsg = errorMsg;
         LOG.error(e.getMessage(), e);
     }
 
-    public void run()
-    {
+    public void run() {
         Iterator<IUploadPostProcess> i = postProcessors.iterator();
         currentStep = 0;
         currentPostProcess = null;
-        try
-        {
-            while ((i.hasNext()))
-            {
-                synchronized (currentStepLock)
-                {
+        try {
+            while ((i.hasNext())) {
+                synchronized (currentStepLock) {
                     if (canceled)
                         break;
                     currentPostProcess = i.next();
@@ -59,14 +52,12 @@ public class UploadPostProcessRunner
                 }
                 files = currentPostProcess.execute(files, basePath, clientParams);
             }
-            if (!canceled)
-            {
+            if (!canceled) {
                 finished = true;
                 onSuccess(basePath, files);
             }
         }
-        catch (UploadPostProcessException e)
-        {
+        catch (UploadPostProcessException e) {
             String processErrorMsg = "Error during postprocessing.";
             if (currentPostProcess.getStatus().isError())
                 processErrorMsg = currentPostProcess.getStatus().getMessage();
@@ -76,64 +67,51 @@ public class UploadPostProcessRunner
     }
 
     /**
-     * The cancel functions cancels the post processing. It must of course be called from another thread
-     * because this thread will not be able to interrupt into the execution process of the post
-     * processing.
+     * The cancel functions cancels the post processing. It must of course be called from another thread because this thread will not be able to interrupt into
+     * the execution process of the post processing.
      */
-    public void cancel()
-    {
+    public void cancel() {
         if (finished)
             // too late
             return;
 
-        synchronized (currentStepLock)
-        {
+        synchronized (currentStepLock) {
             canceled = true;
 
             if (currentStep < 0 || currentPostProcess == null)
                 // postprocessing has not yet started
                 return;
 
-            try
-            {
+            try {
                 currentPostProcess.cancel();
             }
-            catch (UploadPostProcessException e)
-            {
+            catch (UploadPostProcessException e) {
                 error("Error canceling upload process", e);
             }
         }
     }
 
-    public UploadStatus getStatus()
-    {
-        synchronized (currentStepLock)
-        {
-            if (errorMsg.length() > 0)
-            {
+    public UploadStatus getStatus() {
+        synchronized (currentStepLock) {
+            if (errorMsg.length() > 0) {
                 UploadStatus errorStatus = new UploadStatus(errorMsg);
                 errorStatus.setError(true);
                 return errorStatus;
             }
-            if (currentPostProcess == null)
-            {
+            if (currentPostProcess == null) {
                 return new UploadStatus("Initializing ...");
             }
             return currentPostProcess.getStatus();
         }
     }
 
-    public Integer getCurrentStep()
-    {
+    public Integer getCurrentStep() {
         return currentStep;
     }
 
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return finished;
     }
 
-    public void onSuccess(File basePath, List<File> files)
-    {
-    }
+    public void onSuccess(File basePath, List<File> files) {}
 }

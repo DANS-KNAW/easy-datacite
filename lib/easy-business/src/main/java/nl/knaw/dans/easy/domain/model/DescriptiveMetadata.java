@@ -8,8 +8,7 @@ import org.dom4j.Element;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 
-public interface DescriptiveMetadata extends MetadataUnit
-{
+public interface DescriptiveMetadata extends MetadataUnit {
 
     public static final String UNIT_ID = "DMD";
 

@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public interface PermissionSequenceList extends MetadataUnitXMLBean
-{
+public interface PermissionSequenceList extends MetadataUnitXMLBean {
 
     String UNIT_ID = "PRSQL";
 
@@ -26,8 +25,7 @@ public interface PermissionSequenceList extends MetadataUnitXMLBean
     List<PermissionSequence> getPermissionSequences();
 
     /**
-     * Get a list of permission sequences for the dataset this PermissionSequenceList belongs to that are
-     * of a certain state.
+     * Get a list of permission sequences for the dataset this PermissionSequenceList belongs to that are of a certain state.
      * 
      * @param state
      *        the state of the permission sequences to be returned

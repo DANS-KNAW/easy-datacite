@@ -19,8 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class ChangePasswordPage extends AbstractAuthenticationPage
-{
+public class ChangePasswordPage extends AbstractAuthenticationPage {
     public static final String PM_REQUEST_TIME = "requestTime";
     public static final String PM_REQUEST_TOKEN = "requestToken";
     public static final String PM_USER_ID = "userId";
@@ -33,16 +32,12 @@ public class ChangePasswordPage extends AbstractAuthenticationPage
     /**
      * No-argument constructor for displaying the change password page for the current user.
      */
-    public ChangePasswordPage()
-    {
+    public ChangePasswordPage() {
         EasyUser currentUser = ((EasySession) getSession()).getUser();
-        if (currentUser.isAnonymous())
-        {
+        if (currentUser.isAnonymous()) {
             logger.error(getString(EasyResources.ANONYMOUS_USER).replace("$1", this.getClass().getSimpleName()));
             throw new RestartResponseException(HomePage.class);
-        }
-        else
-        {
+        } else {
             ChangePasswordMessenger messenger = new ChangePasswordMessenger(currentUser, false);
             init(messenger);
         }
@@ -58,47 +53,39 @@ public class ChangePasswordPage extends AbstractAuthenticationPage
      * @param paras
      *        parameters from url previously sent by mail
      */
-    public ChangePasswordPage(PageParameters paras)
-    {
+    public ChangePasswordPage(PageParameters paras) {
         super(paras);
         final String userId = paras.getString(PM_USER_ID);
         final String requestTime = paras.getString(PM_REQUEST_TIME);
         final String requestToken = paras.getString(PM_REQUEST_TOKEN);
 
-        if (StringUtils.isBlank(userId) || StringUtils.isBlank(requestTime) || StringUtils.isBlank(requestToken))
-        {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(requestTime) || StringUtils.isBlank(requestToken)) {
             final String message = errorMessage(EasyResources.URL_PARAMETERS);
             logger.error(message);
             throw new InternalWebError();
         }
 
         ForgottenPasswordMailAuthentication authentication;
-        try
-        {
+        try {
             authentication = userService.newForgottenPasswordMailAuthentication(userId, requestTime, requestToken);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message);
             throw new InternalWebError();
         }
 
-        if (signIn(authentication))
-        {
+        if (signIn(authentication)) {
             ChangePasswordMessenger messenger = new ChangePasswordMessenger(authentication.getUser(), true);
             init(messenger);
-        }
-        else
-        {
+        } else {
             final String message = errorMessage(EasyResources.URL_AUTHENTICATION);
             logger.error(message);
             throw new InternalWebError();
         }
     }
 
-    private void init(ChangePasswordMessenger messenger)
-    {
+    private void init(ChangePasswordMessenger messenger) {
         add(new ChangePasswordPanel(WI_CHANGE_PASSWORD_PANEL, messenger));
     }
 

@@ -14,14 +14,12 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class DummyDmoStoreTest
-{
+public class DummyDmoStoreTest {
     private static DummyDmoStore dmoStore;
     private static RepoTester repoTester;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         dmoStore = new DummyDmoStore();
         repoTester = new RepoTester(dmoStore);
     }
@@ -33,8 +31,7 @@ public class DummyDmoStoreTest
     // }
 
     @Test
-    public void testBasicFunctions() throws Exception
-    {
+    public void testBasicFunctions() throws Exception {
         DummyDmo dmo1 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
         repoTester.update(dmo1);
         repoTester.purge(dmo1);
@@ -50,8 +47,7 @@ public class DummyDmoStoreTest
      *  id is changed the store will set the state of all other 
      *  active objects with that id to invalidated.
      */
-    public void testDmoInvalidation1() throws Exception
-    {
+    public void testDmoInvalidation1() throws Exception {
         DummyDmo dmo1 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
         DummyDmo dmo2 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
         DummyDmo dmo3 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:2"));
@@ -80,8 +76,7 @@ public class DummyDmoStoreTest
      * has changed in the last 2 hours by a list that it 
      * maintains.
      */
-    public void testDmoInvalidation2() throws Exception
-    {
+    public void testDmoInvalidation2() throws Exception {
         DummyDmo dmo1 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
         DummyDmo dmo3 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:2"));
 
@@ -119,8 +114,7 @@ public class DummyDmoStoreTest
      * the store queries the repository to see if the 
      * last modified date has been changed.
      */
-    public void testDmoInvalidation3() throws Exception
-    {
+    public void testDmoInvalidation3() throws Exception {
         DummyDmo dmo1 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
         DummyDmo dmo2 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:1"));
 

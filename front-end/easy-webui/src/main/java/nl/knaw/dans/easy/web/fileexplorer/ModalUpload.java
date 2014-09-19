@@ -14,25 +14,21 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
-public abstract class ModalUpload extends Panel
-{
+public abstract class ModalUpload extends Panel {
     private static final long serialVersionUID = 1L;
 
-    public ModalUpload(final ModalWindow window, final DatasetModel dataset, final ITreeItem folder)
-    {
+    public ModalUpload(final ModalWindow window, final DatasetModel dataset, final ITreeItem folder) {
         super(window.getContentId());
 
         add(new Label("folder", "'" + folder.getName() + "'"));
 
         add(buildUploadPanel(dataset, folder.getId()));
 
-        add(new IndicatingAjaxLink<Void>("close")
-        {
+        add(new IndicatingAjaxLink<Void>("close") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 onCustomCloseButtonClick(target);
                 window.close(target);
             }
@@ -42,8 +38,7 @@ public abstract class ModalUpload extends Panel
 
     abstract protected void onCustomCloseButtonClick(AjaxRequestTarget target);
 
-    private WebMarkupContainer buildUploadPanel(final DatasetModel model, final String folderSid)
-    {
+    private WebMarkupContainer buildUploadPanel(final DatasetModel model, final String folderSid) {
         final WebMarkupContainer uploadPanelContainer = new WebMarkupContainer("uploadPanel");
         final EasyUpload easyUpload = new EasyUpload("easyUploadPanel");
         easyUpload.registerPostProcess(new UnzipPostProcess());

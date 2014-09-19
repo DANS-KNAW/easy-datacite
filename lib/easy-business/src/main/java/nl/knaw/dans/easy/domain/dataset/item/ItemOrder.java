@@ -1,39 +1,31 @@
 package nl.knaw.dans.easy.domain.dataset.item;
 
-public class ItemOrder
-{
+public class ItemOrder {
 
     private ItemOrderField field;
 
     private boolean ascending;
 
-    public ItemOrder()
-    {
-    }
+    public ItemOrder() {}
 
-    public ItemOrder(ItemOrderField field, boolean ascending)
-    {
+    public ItemOrder(ItemOrderField field, boolean ascending) {
         this.setField(field);
         this.setAscending(ascending);
     }
 
-    public void setField(ItemOrderField field)
-    {
+    public void setField(ItemOrderField field) {
         this.field = field;
     }
 
-    public ItemOrderField getField()
-    {
+    public ItemOrderField getField() {
         return field;
     }
 
-    public void setAscending(boolean ascending)
-    {
+    public void setAscending(boolean ascending) {
         this.ascending = ascending;
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 }

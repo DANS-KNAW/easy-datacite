@@ -9,12 +9,10 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 /**
  * Container for resource properties of category description.
  * 
- * @see <a
- *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+ * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
  * @author ecco
  */
-public class EmdDescription extends AbstractEmdContainer
-{
+public class EmdDescription extends AbstractEmdContainer {
 
     /**
      * Terms contained.
@@ -37,89 +35,70 @@ public class EmdDescription extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getDcDescription()
-    {
+    public List<BasicString> getDcDescription() {
         return dcDescription;
     }
 
     /**
-     * Set a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
      * @param dcDescription
      *        a list of resource properties
      */
-    public void setDcDescription(final List<BasicString> dcDescription)
-    {
+    public void setDcDescription(final List<BasicString> dcDescription) {
         this.dcDescription = dcDescription;
     }
 
     /**
-     * Get a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Get a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getTermsTableOfContents()
-    {
+    public List<BasicString> getTermsTableOfContents() {
         return termsTableOfContents;
     }
 
     /**
-     * Set a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Set a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
      * @param termsTableOfContents
      *        a list of resource properties
      */
-    public void setTermsTableOfContents(final List<BasicString> termsTableOfContents)
-    {
+    public void setTermsTableOfContents(final List<BasicString> termsTableOfContents) {
         this.termsTableOfContents = termsTableOfContents;
     }
 
     /**
-     * Get a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
      * @return a list of resource properties
      */
-    public List<BasicString> getTermsAbstract()
-    {
+    public List<BasicString> getTermsAbstract() {
         return termsAbstract;
     }
 
     /**
-     * Set a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
      * @param termsAbstract
      *        a list of resource properties
      */
-    public void setTermsAbstract(final List<BasicString> termsAbstract)
-    {
+    public void setTermsAbstract(final List<BasicString> termsAbstract) {
         this.termsAbstract = termsAbstract;
     }
 }

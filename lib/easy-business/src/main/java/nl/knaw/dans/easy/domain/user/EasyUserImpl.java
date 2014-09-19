@@ -19,8 +19,7 @@ import nl.knaw.dans.easy.util.StringUtil;
  * Representation for the user of Easy.
  */
 @LdapObject(objectClasses = {"easyUser", "dansUser", "inetOrgPerson", "organizationalPerson", "person"})
-public class EasyUserImpl extends UserImpl implements EasyUser
-{
+public class EasyUserImpl extends UserImpl implements EasyUser {
     /**
      * Serial version UID.
      */
@@ -53,13 +52,11 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     /**
      * Default constructor.
      */
-    public EasyUserImpl()
-    {
+    public EasyUserImpl() {
         super();
     }
 
-    public EasyUserImpl(String userId)
-    {
+    public EasyUserImpl(String userId) {
         super(userId);
     }
 
@@ -71,22 +68,18 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * @param email
      *        email address.
      */
-    public EasyUserImpl(final String userId, final String email)
-    {
+    public EasyUserImpl(final String userId, final String email) {
         super(userId, email);
     }
 
-    public EasyUserImpl(final Role... roles)
-    {
-        for (Role role : roles)
-        {
+    public EasyUserImpl(final Role... roles) {
+        for (Role role : roles) {
             addRole(role);
         }
     }
 
     @LdapAttribute(id = "easyRoles")
-    public Set<Role> getRoles()
-    {
+    public Set<Role> getRoles() {
         return roles;
     }
 
@@ -95,77 +88,62 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * 
      * @param roles
      */
-    public void setRoles(Set<Role> roles)
-    {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
     @LdapAttribute(id = "easyRoles")
-    public void addRole(Role role)
-    {
+    public void addRole(Role role) {
         roles.add(role);
     }
 
-    public boolean removeRole(Role role)
-    {
+    public boolean removeRole(Role role) {
         return roles.remove(role);
     }
 
-    public boolean hasRole(Role... roles)
-    {
+    public boolean hasRole(Role... roles) {
         boolean hasRole = false;
-        if (roles != null)
-        {
-            for (int i = 0; i < roles.length && !hasRole; i++)
-            {
+        if (roles != null) {
+            for (int i = 0; i < roles.length && !hasRole; i++) {
                 hasRole = this.roles.contains(roles[i]);
             }
         }
         return hasRole;
     }
 
-    public Set<Group> getGroups()
-    {
+    public Set<Group> getGroups() {
         return new LinkedHashSet<Group>(RepoAccess.getDelegator().getGroups(this));
     }
 
-    public void joinGroup(Group group)
-    {
+    public void joinGroup(Group group) {
         groupIds.add(group.getId());
     }
 
-    public boolean leaveGroup(Group group)
-    {
+    public boolean leaveGroup(Group group) {
         return removeGroupId(group.getId());
     }
 
-    public boolean isMemberOf(Group... groups)
-    {
+    public boolean isMemberOf(Group... groups) {
         boolean isMemberOf = false;
-        if (groups != null)
-        {
-            for (int i = 0; i < groups.length && !isMemberOf; i++)
-            {
+        if (groups != null) {
+            for (int i = 0; i < groups.length && !isMemberOf; i++) {
                 isMemberOf = groupIds.contains(groups[i].getId());
             }
         }
         return isMemberOf;
     }
 
-    public boolean isMemberOfGroup(Collection<String> groupIds)
-    {
+    public boolean isMemberOfGroup(Collection<String> groupIds) {
         boolean isMemberOf = false;
         Iterator<String> iter = groupIds.iterator();
-        while (iter.hasNext() && !isMemberOf)
-        {
+        while (iter.hasNext() && !isMemberOf) {
             isMemberOf = this.groupIds.contains(iter.next());
         }
         return isMemberOf;
     }
 
     @LdapAttribute(id = "easyGroups")
-    public Set<String> getGroupIds()
-    {
+    public Set<String> getGroupIds() {
         return groupIds;
     }
 
@@ -174,50 +152,39 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * 
      * @param groupIds
      */
-    public void setGroupIds(Set<String> groupIds)
-    {
+    public void setGroupIds(Set<String> groupIds) {
         this.groupIds = groupIds;
     }
 
     @LdapAttribute(id = "easyGroups")
-    public void addGroupId(String groupId)
-    {
+    public void addGroupId(String groupId) {
         groupIds.add(groupId);
     }
 
-    public boolean removeGroupId(String groupId)
-    {
+    public boolean removeGroupId(String groupId) {
         return groupIds.remove(groupId);
     }
 
-    public CreatorRole getCreatorRole()
-    {
-        if (creatorRole == null)
-        {
-            if (hasRole(Role.ARCHIVIST, Role.ADMIN))
-            {
+    public CreatorRole getCreatorRole() {
+        if (creatorRole == null) {
+            if (hasRole(Role.ARCHIVIST, Role.ADMIN)) {
                 creatorRole = CreatorRole.ARCHIVIST;
-            }
-            else
-            {
+            } else {
                 creatorRole = CreatorRole.DEPOSITOR;
             }
         }
         return creatorRole;
     }
 
-    public String getDisplayRoles()
-    {
+    public String getDisplayRoles() {
         return StringUtil.commaSeparatedList(roles);
     }
 
-    public String getDisplayGroups()
-    {
+    public String getDisplayGroups() {
         return StringUtil.commaSeparatedList(groupIds);
     }
 
-    public void synchronizeOn(EasyUser otherUser)
-    {
+    public void synchronizeOn(EasyUser otherUser) {
         super.synchronizeOn(otherUser);
         setGroupIds(otherUser.getGroupIds());
         setRoles(otherUser.getRoles());
@@ -229,8 +196,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * @return string representation
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString();
     }
 
@@ -242,31 +208,24 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * @return true if object is equal.
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         return super.equals(obj);
     }
 
-    public boolean rolesAreEqual(EasyUserImpl otherUser)
-    {
+    public boolean rolesAreEqual(EasyUserImpl otherUser) {
         boolean equal = roles.size() == otherUser.roles.size();
-        if (equal)
-        {
-            for (Role role : roles)
-            {
+        if (equal) {
+            for (Role role : roles) {
                 equal &= otherUser.hasRole(role);
             }
         }
         return equal;
     }
 
-    public boolean groupsAreEqual(EasyUserImpl otherUser)
-    {
+    public boolean groupsAreEqual(EasyUserImpl otherUser) {
         boolean equal = groupIds.size() == otherUser.groupIds.size();
-        if (equal)
-        {
-            for (String groupId : groupIds)
-            {
+        if (equal) {
+            for (String groupId : groupIds) {
                 equal &= otherUser.groupIds.contains(groupId);
             }
         }
@@ -279,85 +238,71 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * @return hashcode
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return super.hashCode();
     }
 
-    public boolean isAnonymous()
-    {
+    public boolean isAnonymous() {
         return false;
     }
 
     @Override
-    public boolean isLogMyActions()
-    {
+    public boolean isLogMyActions() {
         return logMyActions;
     }
 
     @Override
-    public void setLogMyActions(boolean logMyActions)
-    {
+    public void setLogMyActions(boolean logMyActions) {
         this.logMyActions = logMyActions;
     }
 
     @Override
-    public String getDai()
-    {
+    public String getDai() {
         return dai;
     }
 
     @Override
-    public void setDai(String dai)
-    {
+    public void setDai(String dai) {
         this.dai = dai;
     }
 
     @Override
-    public void setDiscipline1(String discipline1)
-    {
+    public void setDiscipline1(String discipline1) {
         this.discipline1 = discipline1;
     }
 
     @Override
-    public String getDiscipline1()
-    {
+    public String getDiscipline1() {
         return discipline1;
     }
 
     @Override
-    public void setDiscipline2(String discipline2)
-    {
+    public void setDiscipline2(String discipline2) {
         this.discipline2 = discipline2;
     }
 
     @Override
-    public String getDiscipline2()
-    {
+    public String getDiscipline2() {
         return discipline2;
     }
 
     @Override
-    public void setDiscipline3(String discipline3)
-    {
+    public void setDiscipline3(String discipline3) {
         this.discipline3 = discipline3;
     }
 
     @Override
-    public String getDiscipline3()
-    {
+    public String getDiscipline3() {
         return discipline3;
     }
 
     @Override
-    public boolean hasAcceptedGeneralConditions()
-    {
+    public boolean hasAcceptedGeneralConditions() {
         return acceptedGeneralConditions;
     }
 
     @Override
-    public void setAcceptedGeneralConditions(boolean acceptedGeneralConditions)
-    {
+    public void setAcceptedGeneralConditions(boolean acceptedGeneralConditions) {
         this.acceptedGeneralConditions = acceptedGeneralConditions;
     }
 

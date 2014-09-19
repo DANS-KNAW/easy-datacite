@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.repo;
 
 import java.io.Serializable;
 
-public interface Unit extends Serializable
-{
+public interface Unit extends Serializable {
 
     /**
      * Get the string representing the global id of the group of units this Unit is part of.

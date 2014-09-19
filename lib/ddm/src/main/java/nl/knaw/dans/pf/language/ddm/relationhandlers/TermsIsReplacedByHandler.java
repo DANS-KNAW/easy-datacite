@@ -5,11 +5,9 @@ import org.xml.sax.SAXException;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
-public class TermsIsReplacedByHandler extends BasicIdentifierHandler
-{
+public class TermsIsReplacedByHandler extends BasicIdentifierHandler {
     @Override
-    public void finishElement(final String uri, final String localName) throws SAXException
-    {
+    public void finishElement(final String uri, final String localName) throws SAXException {
         final BasicIdentifier relation = createIdentifier(uri, localName);
         if (relation != null)
             getTarget().getEmdRelation().getTermsIsReplacedBy().add(relation);

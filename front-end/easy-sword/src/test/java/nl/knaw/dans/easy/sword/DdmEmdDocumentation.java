@@ -40,8 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Shows how/which DDM fields appear in a license document as meta data */
-public class DdmEmdDocumentation
-{
+public class DdmEmdDocumentation {
     /** Same test file as in CrosswalkInlineTest */
     private static final File INPUT = new File("src/test/resources/input/demoDDM.xml");
 
@@ -52,16 +51,14 @@ public class DdmEmdDocumentation
     private static final Logger logger = LoggerFactory.getLogger(DdmEmdDocumentation.class);
 
     @BeforeClass
-    public static void init() throws Exception
-    {
+    public static void init() throws Exception {
         setHome();
         new Services().setDisciplineService(mockDisciplineService());
         new File("target/doc").mkdirs();
     }
 
     @Test
-    public void crosswalk() throws Exception
-    {
+    public void crosswalk() throws Exception {
         final EasyMetadata emd = crosswalker.createFrom(readFile(INPUT));
         logger.info(crosswalker.getXmlErrorHandler().getMessages());
         writeFile(new File(OUTPUT), new EmdMarshaller(emd).getXmlString());
@@ -70,13 +67,10 @@ public class DdmEmdDocumentation
         assertThat(crosswalker.getXmlErrorHandler().getFatalErrors().size(), is(0));
     }
 
-    private String getMetadataAsHTML(final EasyMetadata emd) throws Exception, LicenseComposerException
-    {
+    private String getMetadataAsHTML(final EasyMetadata emd) throws Exception, LicenseComposerException {
         // get just a section of the license document
-        return new LicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true)
-        {
-            String getMetadataAsHTML() throws Exception
-            {
+        return new LicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true) {
+            String getMetadataAsHTML() throws Exception {
                 // no import because of conflicts with dom4j
                 final com.lowagie.text.Document document = new com.lowagie.text.Document();
                 final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -90,11 +84,9 @@ public class DdmEmdDocumentation
     }
 
     @Test
-    public void handlerMapCoverage() throws Exception
-    {
+    public void handlerMapCoverage() throws Exception {
         final Document document = new SAXReader().read(INPUT);
-        for (final String key : Ddm2EmdHandlerMap.getInstance().getKeys())
-        {
+        for (final String key : Ddm2EmdHandlerMap.getInstance().getKeys()) {
             final String[] split = key.split("/");
             final String tag = split[1];
             final String localNameOfType = split[0];
@@ -105,29 +97,24 @@ public class DdmEmdDocumentation
                 xpath = "//" + tag + "[contains(@xsi:type,'" + localNameOfType + "')]";
             if (tag.equals("ddm:additional-xml"))
                 ;
-            else
-            {
+            else {
                 final String msg = "<" + tag + "> with attribute xsi:type " + localNameOfType + " not in xml";
                 assertTrue(msg, document.selectNodes(xpath).size() > 0);
             }
         }
     }
 
-    private Dataset mockDataset(final EasyMetadata emd) throws Exception
-    {
+    private Dataset mockDataset(final EasyMetadata emd) throws Exception {
         final Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getEasyMetadata()).andStubReturn(emd);
         EasyMock.replay(dataset);
         return dataset;
     }
 
-    private static DisciplineCollectionService mockDisciplineService() throws Exception
-    {
+    private static DisciplineCollectionService mockDisciplineService() throws Exception {
         final Map<String, String> disciplines = new MapFromXSD(NameSpace.NARCIS_TYPE.xsd).getAppInfo2doc();
-        return new EasyDisciplineCollectionService()
-        {
-            public DisciplineContainer getDisciplineById(final DmoStoreId dmoStoreId)
-            {
+        return new EasyDisciplineCollectionService() {
+            public DisciplineContainer getDisciplineById(final DmoStoreId dmoStoreId) {
                 final String key = dmoStoreId.toString();
                 final String value = disciplines.get(key);
                 final DisciplineContainer container = EasyMock.createMock(DisciplineContainer.class);
@@ -139,39 +126,31 @@ public class DdmEmdDocumentation
         };
     }
 
-    private String readFile(final File file) throws Exception
-    {
+    private String readFile(final File file) throws Exception {
         final byte[] xml = StreamUtil.getBytes(new FileInputStream(file));
         return new String(xml, Encoding.UTF8);
     }
 
-    private void writeFile(final File file, final String string) throws Exception
-    {
+    private void writeFile(final File file, final String string) throws Exception {
         final FileOutputStream os = new FileOutputStream(file);
-        try
-        {
+        try {
             os.write(string.getBytes());
         }
-        finally
-        {
+        finally {
             os.close();
         }
     }
 
-    public static void setHome()
-    {
+    public static void setHome() {
         final String home = (String) System.getProperties().get("EASY_SWORD_HOME");
-        final HomeDirectory homeDirectory = new HomeDirectory()
-        {
+        final HomeDirectory homeDirectory = new HomeDirectory() {
             @Override
-            public File getHomeDirectory()
-            {
+            public File getHomeDirectory() {
                 return new File(home);
             }
 
             @Override
-            public String getHome()
-            {
+            public String getHome() {
                 return home;
             }
         };

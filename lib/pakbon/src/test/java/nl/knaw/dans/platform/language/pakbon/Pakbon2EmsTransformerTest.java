@@ -12,14 +12,12 @@ import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-public class Pakbon2EmsTransformerTest
-{
+public class Pakbon2EmsTransformerTest {
 
     private static final String PB_VALID = "src/test/resources/test-files/pakbon_valid.xml";
 
     @Test
-    public void transformToString() throws Exception
-    {
+    public void transformToString() throws Exception {
         Pakbon2EmdTransformer p2e = new Pakbon2EmdTransformer();
         // Note that the xslt used by transform specifies that the output is UTF-8
         String out = new String(p2e.transform(new FileInputStream(PB_VALID)), "UTF-8");
@@ -27,8 +25,7 @@ public class Pakbon2EmsTransformerTest
     }
 
     @Test
-    public void transformToEmd() throws Exception
-    {
+    public void transformToEmd() throws Exception {
         Pakbon2EmdTransformer p2e = new Pakbon2EmdTransformer();
         EasyMetadata emd = p2e.transformToEmd(new FileInputStream(PB_VALID));
         XMLErrorHandler handler = EMDValidator.instance().validate(emd);

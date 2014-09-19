@@ -4,12 +4,10 @@ import java.io.File;
 
 import org.junit.Test;
 
-public class ReporterTest
-{
+public class ReporterTest {
 
     @Test
-    public void reporting() throws Exception
-    {
+    public void reporting() throws Exception {
         File file = new File("target/test-reports");
         file.mkdirs();
         Reporter reporter = new Reporter(file, false);

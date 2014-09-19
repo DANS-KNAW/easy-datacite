@@ -17,16 +17,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FolderItemTest
-{
+public class FolderItemTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FolderItemTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void addChildEarlyBinding() throws XMLSerializationException, RepositoryException, DomainException
-    {
+    public void addChildEarlyBinding() throws XMLSerializationException, RepositoryException, DomainException {
         FolderItem fo1 = new FolderItemImpl("folder:1");
 
         assertEquals(0, fo1.getChildFileCount());
@@ -82,8 +80,7 @@ public class FolderItemTest
     }
 
     @Test
-    public void addChildLateBindingAndRemove() throws XMLSerializationException, RepositoryException, DomainException
-    {
+    public void addChildLateBindingAndRemove() throws XMLSerializationException, RepositoryException, DomainException {
         FolderItem fo1 = new FolderItemImpl("folder:1");
 
         assertEquals(0, fo1.getChildFileCount());
@@ -130,8 +127,7 @@ public class FolderItemTest
     }
 
     @Test
-    public void setParentTest() throws XMLSerializationException, RepositoryException, DomainException
-    {
+    public void setParentTest() throws XMLSerializationException, RepositoryException, DomainException {
         FolderItem fo1 = new FolderItemImpl("folder:1");
         FolderItem fo2 = new FolderItemImpl("folder:2");
 

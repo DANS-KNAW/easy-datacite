@@ -10,8 +10,7 @@ import org.apache.wicket.model.IModel;
  * 
  * @author Herman Suijs
  */
-public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel
-{
+public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel {
 
     /**
      * 
@@ -24,8 +23,7 @@ public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel
      * @param wicketId
      *        wicket id
      */
-    public AbstractEasyStatelessPanel(final String wicketId)
-    {
+    public AbstractEasyStatelessPanel(final String wicketId) {
         super(wicketId);
     }
 
@@ -37,8 +35,7 @@ public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel
      * @param model
      *        model
      */
-    public AbstractEasyStatelessPanel(final String wicketId, final IModel model)
-    {
+    public AbstractEasyStatelessPanel(final String wicketId, final IModel model) {
         super(wicketId, model);
     }
 

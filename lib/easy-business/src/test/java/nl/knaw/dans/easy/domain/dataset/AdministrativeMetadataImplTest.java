@@ -24,28 +24,24 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AdministrativeMetadataImplTest
-{
+public class AdministrativeMetadataImplTest {
     private static EasyUserRepo userRepo;
     private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         userRepo = EasyMock.createMock(EasyUserRepo.class);
         new Data().setUserRepo(userRepo);
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setUserRepo(null);
     }
 
     @Test
-    public void getDepositor() throws ObjectNotInStoreException, RepositoryException
-    {
+    public void getDepositor() throws ObjectNotInStoreException, RepositoryException {
         EasyUser willem = new EasyUserImpl("willem");
         EasyUser jan = new EasyUserImpl("jan");
 
@@ -171,8 +167,7 @@ public class AdministrativeMetadataImplTest
     }
 
     @Test
-    public void testDatasetState()
-    {
+    public void testDatasetState() {
         AdministrativeMetadata amd = new AdministrativeMetadataImpl();
         DateTime nullStateChange = amd.getLastStateChange();
         assertNotNull(nullStateChange);
@@ -192,8 +187,7 @@ public class AdministrativeMetadataImplTest
     }
 
     @Test
-    public void testStateChangeDate()
-    {
+    public void testStateChangeDate() {
         AdministrativeMetadata amd = new AdministrativeMetadataImpl();
 
         // since draft is the first state no state change is seen
@@ -237,14 +231,11 @@ public class AdministrativeMetadataImplTest
         assertTrue(first.isBefore(last));
     }
 
-    private void pause(long millis)
-    {
-        try
-        {
+    private void pause(long millis) {
+        try {
             Thread.sleep(millis);
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e) {
             //
         }
     }

@@ -19,12 +19,10 @@ import org.junit.Test;
 
 // ecco: CHECKSTYLE: OFF
 
-public class TermTest
-{
+public class TermTest {
 
     @Test
-    public void testConstructor()
-    {
+    public void testConstructor() {
         Term term = new Term("abstract");
         assertEquals(Name.ABSTRACT, term.getName());
 
@@ -41,14 +39,12 @@ public class TermTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructor2()
-    {
+    public void testConstructor2() {
         new Term("foo");
     }
 
     @Test
-    public void getContainer()
-    {
+    public void getContainer() {
         EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
         Term term = new Term("dc.title");
         Map<Term, MDContainer> termsMap = emd.getTermsMap();
@@ -58,8 +54,7 @@ public class TermTest
     }
 
     @Test
-    public void getMetadataListByTerm()
-    {
+    public void getMetadataListByTerm() {
         EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
         Term term = new Term("dc.title");
         List<MetadataItem> titles = emd.getTerm(term);
@@ -69,8 +64,7 @@ public class TermTest
     }
 
     @Test
-    public void getMethodName()
-    {
+    public void getMethodName() {
         Term term = new Term("dc.title");
         assertEquals("DCTITLE", term.getMethodName());
     }

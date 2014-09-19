@@ -9,23 +9,19 @@ import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
 /** Wraps mocked instances of a {@link FolderItem} and a {@link FolderItemVO} */
-public class FolderMocker extends AbstractItemMocker<FolderItemVO, FolderItem>
-{
+public class FolderMocker extends AbstractItemMocker<FolderItemVO, FolderItem> {
     /**
-     * Creates mocked instances of a {@link FolderItem} a {@link FolderItemVO}. A fluent interface allows
-     * further configuration of possible/expected behavior of the objects, and how {@link EasyStore} and
-     * {@link ItemService} treat them.
+     * Creates mocked instances of a {@link FolderItem} a {@link FolderItemVO}. A fluent interface allows further configuration of possible/expected behavior of
+     * the objects, and how {@link EasyStore} and {@link ItemService} treat them.
      * 
      * @param path
      * @throws Exception
      */
-    FolderMocker(final String path, final String storeId) throws Exception
-    {
+    FolderMocker(final String path, final String storeId) throws Exception {
         super(path, storeId, PowerMock.createMock(FolderItemVO.class), PowerMock.createMock(FolderItem.class));
     }
 
-    public FolderMocker expectPurgeAt(final DateTime dateTime) throws Exception
-    {
+    public FolderMocker expectPurgeAt(final DateTime dateTime) throws Exception {
         return (FolderMocker) super.expectPurgeAt(dateTime);
     }
 }

@@ -12,8 +12,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-public @interface LdapAttribute
-{
+public @interface LdapAttribute {
     /**
      * The attrID of the mapped attribute.
      * 
@@ -22,8 +21,7 @@ public @interface LdapAttribute
     String id();
 
     /**
-     * Sets whether the attribute is required (must) by the ldap objectClass or not (may). The default is
-     * <code>false</code>.
+     * Sets whether the attribute is required (must) by the ldap objectClass or not (may). The default is <code>false</code>.
      * 
      * @return <code>true</code> for required fields (must), <code>false</code> otherwise
      */
@@ -32,16 +30,14 @@ public @interface LdapAttribute
     boolean readOnly() default false;
 
     /**
-     * Sets whether the field or method value should be one-way-encrypted to the attribute value. The
-     * default is <code>false</code>.
+     * Sets whether the field or method value should be one-way-encrypted to the attribute value. The default is <code>false</code>.
      * 
      * @return <code>true</code> if the value should be one-way-encrypted, <code>false</code> otherwise
      */
     boolean oneWayEncrypted() default false;
 
     /**
-     * Sets whether the field or method value is encrypted to the attribute value. The default is
-     * <code>""</code>.
+     * Sets whether the field or method value is encrypted to the attribute value. The default is <code>""</code>.
      * 
      * @return the encryption method
      */

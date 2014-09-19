@@ -3,11 +3,9 @@ package nl.knaw.dans.common.lang.repo;
 import java.io.File;
 import java.io.IOException;
 
-public interface BinaryUnit extends Unit
-{
+public interface BinaryUnit extends Unit {
 
-    public enum UnitControlGroup
-    {
+    public enum UnitControlGroup {
         ExternallyReferencedContent, ManagedContent, RedirectedContent, InlineXML
     }
 
@@ -42,11 +40,9 @@ public interface BinaryUnit extends Unit
     void setBinaryContent(byte[] bytes, String label, String mimeType);
 
     /**
-     * The binary content as set by {@link #setBinaryContent(byte[], String, String)}. Always returns
-     * <code>null</code> after an object is retrieved from store.
+     * The binary content as set by {@link #setBinaryContent(byte[], String, String)}. Always returns <code>null</code> after an object is retrieved from store.
      * 
-     * @return The binary content as set by setBinaryContent, <code>null</code> after retrieval of an
-     *         object
+     * @return The binary content as set by setBinaryContent, <code>null</code> after retrieval of an object
      */
     byte[] getBinaryContent();
 

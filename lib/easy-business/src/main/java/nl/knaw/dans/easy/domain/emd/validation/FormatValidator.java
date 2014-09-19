@@ -15,27 +15,22 @@ import nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidato
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
-public class FormatValidator implements Validator
-{
+public class FormatValidator implements Validator {
 
     private static FormatValidator INSTANCE;
 
     private static Map<MetadataFormat, Validator> VALIDATOR_MAP = Collections.synchronizedMap(new HashMap<MetadataFormat, Validator>());
 
-    private FormatValidator()
-    {
+    private FormatValidator() {
         VALIDATOR_MAP.put(MetadataFormat.ARCHAEOLOGY, ArchaeologyFormatValidator.instance());
         VALIDATOR_MAP.put(MetadataFormat.HISTORY, HistoryFormatValidator.instance());
         VALIDATOR_MAP.put(MetadataFormat.SOCIOLOGY, SociologyFormatValidator.instance());
         VALIDATOR_MAP.put(MetadataFormat.UNSPECIFIED, OtherFormatValidator.instance());
     }
 
-    public static FormatValidator instance()
-    {
-        synchronized (VALIDATOR_MAP)
-        {
-            if (INSTANCE == null)
-            {
+    public static FormatValidator instance() {
+        synchronized (VALIDATOR_MAP) {
+            if (INSTANCE == null) {
                 INSTANCE = new FormatValidator();
             }
         }
@@ -43,26 +38,20 @@ public class FormatValidator implements Validator
     }
 
     @Override
-    public void validate(EasyMetadata emd, ValidationReporter reporter)
-    {
+    public void validate(EasyMetadata emd, ValidationReporter reporter) {
         MetadataFormat format = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-        if (format == null)
-        {
+        if (format == null) {
             handleNullFormat(reporter);
-        }
-        else
-        {
+        } else {
             Validator formatValidator = VALIDATOR_MAP.get(format);
-            if (formatValidator == null)
-            {
+            if (formatValidator == null) {
                 throw new ApplicationException("No FormatValidator for format " + format.toString());
             }
             formatValidator.validate(emd, reporter);
         }
     }
 
-    private void handleNullFormat(ValidationReporter reporter)
-    {
+    private void handleNullFormat(ValidationReporter reporter) {
         reporter.setMetadataValid(false);
         ValidationReport report = new ValidationReport("MetadataFormat is null.", this);
         reporter.addError(report);

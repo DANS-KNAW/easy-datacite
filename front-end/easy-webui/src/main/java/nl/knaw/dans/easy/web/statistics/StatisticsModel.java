@@ -2,17 +2,14 @@ package nl.knaw.dans.easy.web.statistics;
 
 import java.util.HashMap;
 
-public abstract class StatisticsModel<T>
-{
+public abstract class StatisticsModel<T> {
     private T obj;
 
-    public StatisticsModel(T obj)
-    {
+    public StatisticsModel(T obj) {
         this.obj = obj;
     }
 
-    public T getObject()
-    {
+    public T getObject() {
         return obj;
     }
 

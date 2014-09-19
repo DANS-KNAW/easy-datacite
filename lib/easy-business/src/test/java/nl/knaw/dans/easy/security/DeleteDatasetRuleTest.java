@@ -18,8 +18,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DeleteDatasetRuleTest
-{
+public class DeleteDatasetRuleTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetRuleTest.class);
 
@@ -31,8 +30,7 @@ public class DeleteDatasetRuleTest
     private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         rule = new CodedAuthz().getDeleteDatasetRule();
         dataset = EasyMock.createMock(Dataset.class);
         user = EasyMock.createMock(EasyUser.class);
@@ -40,8 +38,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void testProposition()
-    {
+    public void testProposition() {
         String proposition = "(([SessionUser is depositor of dataset] AND [Dataset state is DRAFT]) OR ([SessionUser has role ARCHIVIST] AND [Dataset state is DRAFT or SUBMITTED or PUBLISHED or MAINTENANCE]))";
 
         assertEquals(proposition, rule.getProposition());
@@ -56,8 +53,7 @@ public class DeleteDatasetRuleTest
     // @formatter:on
 
     @Test
-    public void test0x0x()
-    {
+    public void test0x0x() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
@@ -71,8 +67,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void test100x()
-    {
+    public void test100x() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(true).times(2);
@@ -87,8 +82,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void test11xx()
-    {
+    public void test11xx() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(true).times(2);
@@ -101,8 +95,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void test0x10()
-    {
+    public void test0x10() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
@@ -118,8 +111,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void test0x11()
-    {
+    public void test0x11() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
@@ -135,8 +127,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void testNull()
-    {
+    public void testNull() {
         Object[] args = null;
         ContextParameters ctxParameters = new ContextParameters(args);
         assertFalse(rule.isEnableAllowed(ctxParameters));
@@ -144,8 +135,7 @@ public class DeleteDatasetRuleTest
     }
 
     @Test
-    public void testExplain()
-    {
+    public void testExplain() {
         Object[] args = null;
         ContextParameters ctxParameters = new ContextParameters(args);
         if (verbose)

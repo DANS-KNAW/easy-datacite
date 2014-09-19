@@ -21,8 +21,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public abstract class ReindexerCmdLine
-{
+public abstract class ReindexerCmdLine {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReindexerCmdLine.class);
 
     public static final String STORE_NAME = "store-name";
@@ -47,15 +46,12 @@ public abstract class ReindexerCmdLine
 
     private OptionParser parser;
 
-    public ReindexerCmdLine()
-    {
+    public ReindexerCmdLine() {
         initParser();
     }
 
-    protected void initParser()
-    {
-        parser = new OptionParser()
-        {
+    protected void initParser() {
+        parser = new OptionParser() {
             {
                 accepts(CONTENT_MODELS, "A comma separated list of content models that need to be reindexed.").withRequiredArg().ofType(String.class);
 
@@ -85,42 +81,34 @@ public abstract class ReindexerCmdLine
     /**
      * @return the option parser. You can extend the options through this parser object.
      */
-    public OptionParser getParser()
-    {
+    public OptionParser getParser() {
         return parser;
     }
 
     /**
-     * Execute the command line tool version of the reindexer tool. Run with -? to see a list of all
-     * parameters.
+     * Execute the command line tool version of the reindexer tool. Run with -? to see a list of all parameters.
      */
-    public void execute(String[] args)
-    {
+    public void execute(String[] args) {
         OptionParser optionParser = getParser();
 
         // PARSE OPTIONS AND/OR SHOW HELP
         OptionSet options = null;
-        try
-        {
-            try
-            {
+        try {
+            try {
                 options = optionParser.parse(args);
 
-                if (options.has("?") || options.has("h") || args.length == 0)
-                {
+                if (options.has("?") || options.has("h") || args.length == 0) {
                     optionParser.printHelpOn(System.out);
                     return;
                 }
             }
-            catch (OptionException e)
-            {
+            catch (OptionException e) {
                 System.out.println(e.getMessage() + "\n\n");
                 optionParser.printHelpOn(System.out);
                 return;
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             LOGGER.error("IOException during parsing options", e);
             return;
         }
@@ -147,71 +135,57 @@ public abstract class ReindexerCmdLine
 
         // READ EXCLUDE LIST
         List<DmoStoreId> excludeSidList = null;
-        try
-        {
-            if (excludeSidListFile != null)
-            {
-                if (!excludeSidListFile.exists())
-                {
+        try {
+            if (excludeSidListFile != null) {
+                if (!excludeSidListFile.exists()) {
                     LOGGER.error("SidList file " + excludeSidListFile.getAbsolutePath() + " does not exist.");
                     return;
                 }
                 excludeSidList = SidListFile.readSidList(excludeSidListFile);
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             LOGGER.error("Error reading SidList file " + excludeSidListFile.getAbsolutePath(), e);
             return;
         }
 
         // START REINDEXING
         ReindexReport report = null;
-        try
-        {
+        try {
             System.out.print("Starting reindex process..\n");
 
             reindex = new Reindexer(store, searchEngine, System.out);
             report = reindex.reindexByContentModel(contentModelList, excludeSidList);
         }
-        catch (ReindexException reindexException)
-        {
+        catch (ReindexException reindexException) {
             LOGGER.error("Fatal runtime error during reindexing. Reindexing aborted. Currently no rollback!", reindexException);
             report = reindexException.getReindexReport();
         }
-        catch (Throwable t)
-        {
+        catch (Throwable t) {
             LOGGER.error("Fatal runtime error during reindexing. Reindexing aborted. Currently no rollback!", t);
             return;
         }
 
         // WRITE TO OUTPUT
-        if (report != null)
-        {
-            if (!report.getReindexed().isEmpty() && outputSidListFile != null)
-            {
-                try
-                {
+        if (report != null) {
+            if (!report.getReindexed().isEmpty() && outputSidListFile != null) {
+                try {
                     if (!outputSidListFile.exists())
                         outputSidListFile.createNewFile();
                     report.writeReindexSidList(outputSidListFile);
                 }
-                catch (IOException e)
-                {
+                catch (IOException e) {
                     LOGGER.error("Error writing to output sid list file " + outputSidListFile.getAbsolutePath(), e);
                 }
             }
 
-            if (!report.getErrors().isEmpty() && outputErrorFile != null)
-            {
-                try
-                {
+            if (!report.getErrors().isEmpty() && outputErrorFile != null) {
+                try {
                     if (!outputErrorFile.exists())
                         outputErrorFile.createNewFile();
                     report.writeErrors(outputErrorFile);
                 }
-                catch (IOException e)
-                {
+                catch (IOException e) {
                     LOGGER.error("Error writing to error file " + outputErrorFile.getAbsolutePath(), e);
                 }
             }

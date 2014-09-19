@@ -21,8 +21,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnlinkAccountsPanel extends ModalYesNoPanel
-{
+public class UnlinkAccountsPanel extends ModalYesNoPanel {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(UnlinkAccountsPanel.class);
@@ -34,8 +33,7 @@ public class UnlinkAccountsPanel extends ModalYesNoPanel
 
     private Component caller;
 
-    public UnlinkAccountsPanel(final ModalWindow window, final List<FederativeUserIdMap> list, final Component caller)
-    {
+    public UnlinkAccountsPanel(final ModalWindow window, final List<FederativeUserIdMap> list, final Component caller) {
         super(window);
         this.list = list;
         this.caller = caller;
@@ -45,29 +43,24 @@ public class UnlinkAccountsPanel extends ModalYesNoPanel
     }
 
     @Override
-    protected void handleYesClicked()
-    {
-        try
-        {
+    protected void handleYesClicked() {
+        try {
             for (FederativeUserIdMap idMap : list)
                 federativeUserRepo.delete(idMap);
             // works in the unit test but field is not updated in real life
             caller.setVisible(false);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             String message = WicketUtil.commonMessage(this, EasyResources.INTERNAL_ERROR, FeedbackMessage.ERROR, new String[] {});
             logger.error(message, e);
             throw new InternalWebError();
         }
         // refresh the page for real life
         Page page = getPage();
-        if (page != null && page instanceof AbstractEasyPage)
-        {
+        if (page != null && page instanceof AbstractEasyPage) {
             ((AbstractEasyPage) page).refresh();
         }
-        if (page != null)
-        {
+        if (page != null) {
             setResponsePage(page);
         }
     }

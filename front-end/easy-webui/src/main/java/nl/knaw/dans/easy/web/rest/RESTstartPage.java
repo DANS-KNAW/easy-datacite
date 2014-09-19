@@ -7,8 +7,7 @@ import nl.knaw.dans.common.wicket.rest.PageDescription;
 import nl.knaw.dans.common.wicket.rest.RESTcascadePage;
 import nl.knaw.dans.easy.web.rest.dataset.RESTdatasetsPage;
 
-public class RESTstartPage extends RESTcascadePage
-{
+public class RESTstartPage extends RESTcascadePage {
 
     public static final String NAME = "rest";
     public static final String RESOURCE_KEY = "rest";
@@ -17,16 +16,13 @@ public class RESTstartPage extends RESTcascadePage
 
     private static Map<String, PageDescription> CHILDREN;
 
-    public RESTstartPage()
-    {
+    public RESTstartPage() {
         super();
     }
 
     @Override
-    public Map<String, PageDescription> getChildren()
-    {
-        if (CHILDREN == null)
-        {
+    public Map<String, PageDescription> getChildren() {
+        if (CHILDREN == null) {
             CHILDREN = new LinkedHashMap<String, PageDescription>();
 
             String name = RESTdatasetsPage.NAME;
@@ -38,26 +34,22 @@ public class RESTstartPage extends RESTcascadePage
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return NAME;
     }
 
     @Override
-    public String getResourceKey()
-    {
+    public String getResourceKey() {
         return RESOURCE_KEY;
     }
 
     @Override
-    public int getLevel()
-    {
+    public int getLevel() {
         return LEVEL;
     }
 
     @Override
-    public boolean isStartPage()
-    {
+    public boolean isStartPage() {
         return true;
     }
 

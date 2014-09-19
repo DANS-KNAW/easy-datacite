@@ -19,8 +19,7 @@ import fedora.client.HttpInputStream;
  * 
  * @author Edwin Shin, cwilper@cs.cornell.edu
  */
-public class FedoraOAIDriver implements OAIDriver
-{
+public class FedoraOAIDriver implements OAIDriver {
 
     private static final String _DC_SCHEMALOCATION = "xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ "
             + "http://www.openarchives.org/OAI/2.0/oai_dc.xsd\"";
@@ -97,16 +96,13 @@ public class FedoraOAIDriver implements OAIDriver
 
     private InvocationSpec m_setSpecDiss;
 
-    public FedoraOAIDriver()
-    {
-    }
+    public FedoraOAIDriver() {}
 
     // ////////////////////////////////////////////////////////////////////////
     // /////////////////// Methods from proai.driver.OAIDriver ////////////////
     // ////////////////////////////////////////////////////////////////////////
 
-    public void init(Properties props) throws RepositoryException
-    {
+    public void init(Properties props) throws RepositoryException {
 
         m_fedoraBaseURL = getRequired(props, PROP_BASEURL);
         if (!m_fedoraBaseURL.endsWith("/"))
@@ -115,29 +111,24 @@ public class FedoraOAIDriver implements OAIDriver
         m_fedoraPass = getRequired(props, PROP_PASS);
         m_metadataFormats = getMetadataFormats(props);
 
-        try
-        {
+        try {
             m_identify = new URL(getRequired(props, PROP_IDENTIFY));
         }
-        catch (MalformedURLException e)
-        {
+        catch (MalformedURLException e) {
             throw new RepositoryException("Identify property is not a valid URL: " + props.getProperty(PROP_IDENTIFY), e);
         }
 
         String className = getRequired(props, PROP_QUERY_FACTORY);
-        try
-        {
+        try {
             m_fedora = new FedoraClient(m_fedoraBaseURL, m_fedoraUser, m_fedoraPass);
             m_fedora.TIMEOUT_SECONDS = getRequiredInt(props, PROP_DISS_CONN_TIMEOUT);
             m_fedora.SOCKET_TIMEOUT_SECONDS = getRequiredInt(props, PROP_DISS_SOCK_TIMEOUT);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new RepositoryException("Error parsing baseURL", e);
         }
 
-        try
-        {
+        try {
             Class<?> queryFactoryClass = Class.forName(className);
             m_queryFactory = (QueryFactory) queryFactoryClass.newInstance();
             FedoraClient queryClient = new FedoraClient(m_fedoraBaseURL, m_fedoraUser, m_fedoraPass);
@@ -145,73 +136,58 @@ public class FedoraOAIDriver implements OAIDriver
             queryClient.SOCKET_TIMEOUT_SECONDS = getRequiredInt(props, PROP_QUERY_SOCK_TIMEOUT);
             m_queryFactory.init(m_fedora, queryClient, props);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new RepositoryException("Unable to initialize " + className, e);
         }
 
         m_setSpecDiss = InvocationSpec.getInstance(getOptional(props, PROP_SETSPEC_DESC_DISSTYPE));
     }
 
-    public void write(PrintWriter out) throws RepositoryException
-    {
+    public void write(PrintWriter out) throws RepositoryException {
         HttpInputStream in = null;
-        try
-        {
+        try {
             in = m_fedora.get(m_identify.toString(), true);
             writeStream(in, out, m_identify.toString());
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("Error getting identify.xml from " + m_identify.toString(), e);
         }
-        finally
-        {
+        finally {
             if (in != null)
-                try
-                {
+                try {
                     in.close();
                 }
-                catch (Exception e)
-                {
-                }
+                catch (Exception e) {}
         }
     }
 
     // TODO: date for volatile disseminations?
-    public Date getLatestDate() throws RepositoryException
-    {
+    public Date getLatestDate() throws RepositoryException {
         return m_queryFactory.latestRecordDate(m_metadataFormats.values().iterator());
     }
 
-    public RemoteIterator<FedoraMetadataFormat> listMetadataFormats() throws RepositoryException
-    {
+    public RemoteIterator<FedoraMetadataFormat> listMetadataFormats() throws RepositoryException {
         return new RemoteIteratorImpl<FedoraMetadataFormat>(m_metadataFormats.values().iterator());
     }
 
-    public RemoteIterator<SetInfo> listSetInfo() throws RepositoryException
-    {
+    public RemoteIterator<SetInfo> listSetInfo() throws RepositoryException {
 
         return m_queryFactory.listSetInfo(m_setSpecDiss);
     }
 
-    public RemoteIterator<FedoraRecord> listRecords(Date from, Date until, String mdPrefix) throws RepositoryException
-    {
-        if (from != null && until != null && from.after(until))
-        {
+    public RemoteIterator<FedoraRecord> listRecords(Date from, Date until, String mdPrefix) throws RepositoryException {
+        if (from != null && until != null && from.after(until)) {
             throw new RepositoryException("from date cannot be later than until date.");
         }
 
         return m_queryFactory.listRecords(from, until, m_metadataFormats.get(mdPrefix));
     }
 
-    public void writeRecordXML(String itemID, String mdPrefix, String sourceInfo, PrintWriter out) throws RepositoryException
-    {
+    public void writeRecordXML(String itemID, String mdPrefix, String sourceInfo, PrintWriter out) throws RepositoryException {
 
         // Parse the sourceInfo string
         String[] parts = sourceInfo.trim().split(" ");
-        if (parts.length < 4)
-        {
+        if (parts.length < 4) {
             throw new RepositoryException("Error parsing sourceInfo (expecting " + "4 or more parts): '" + sourceInfo + "'");
         }
         String dissURI = parts[0];
@@ -219,69 +195,54 @@ public class FedoraOAIDriver implements OAIDriver
         boolean deleted = parts[2].equalsIgnoreCase("true");
         String date = parts[3];
         List<String> setSpecs = new ArrayList<String>();
-        for (int i = 4; i < parts.length; i++)
-        {
+        for (int i = 4; i < parts.length; i++) {
             setSpecs.add(parts[i]);
         }
 
         out.println("<record>");
         writeRecordHeader(itemID, deleted, date, setSpecs, out);
-        if (!deleted)
-        {
+        if (!deleted) {
             writeRecordMetadata(dissURI, out);
-            if (!aboutDissURI.equals("null"))
-            {
+            if (!aboutDissURI.equals("null")) {
                 writeRecordAbouts(aboutDissURI, out);
             }
-        }
-        else
-        {
+        } else {
             logger.info("Record was marked deleted: " + itemID + "/" + mdPrefix);
         }
         out.println("</record>");
     }
 
-    private static void writeRecordHeader(String itemID, boolean deleted, String date, List<String> setSpecs, PrintWriter out)
-    {
-        if (deleted)
-        {
+    private static void writeRecordHeader(String itemID, boolean deleted, String date, List<String> setSpecs, PrintWriter out) {
+        if (deleted) {
             out.println("  <header status=\"deleted\">");
-        }
-        else
-        {
+        } else {
             out.println("  <header>");
         }
         out.println("    <identifier>" + itemID + "</identifier>");
         out.println("    <datestamp>" + date + "</datestamp>");
-        for (int i = 0; i < setSpecs.size(); i++)
-        {
+        for (int i = 0; i < setSpecs.size(); i++) {
             out.println("    <setSpec>" + (String) setSpecs.get(i) + "</setSpec>");
         }
         out.println("  </header>");
     }
 
-    private void writeRecordMetadata(String dissURI, PrintWriter out) throws RepositoryException
-    {
+    private void writeRecordMetadata(String dissURI, PrintWriter out) throws RepositoryException {
 
         InputStream in = null;
-        try
-        {
+        try {
             in = m_fedora.get(dissURI, true);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuffer buf = new StringBuffer();
             String line = reader.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 buf.append(line + "\n");
                 line = reader.readLine();
             }
             String xml = buf.toString().replaceAll("\\s*<\\?xml.*?\\?>\\s*", "");
-            if ((dissURI.split("/").length == 3) && (dissURI.endsWith("/DC")))
-            {
+            if ((dissURI.split("/").length == 3) && (dissURI.endsWith("/DC"))) {
                 // If it's a DC datastream dissemination, inject the
                 // xsi:schemaLocation attribute if needed
-                if (xml.indexOf(_XSI_URI) == -1)
-                {
+                if (xml.indexOf(_XSI_URI) == -1) {
                     xml = xml.replaceAll("<oai_dc:dc ", "<oai_dc:dc " + _XSI_DECLARATION + " " + _DC_SCHEMALOCATION + " ");
                 }
             }
@@ -289,36 +250,28 @@ public class FedoraOAIDriver implements OAIDriver
             out.print(xml);
             out.println("  </metadata>");
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("IO error reading " + dissURI, e);
         }
-        finally
-        {
+        finally {
             if (in != null)
-                try
-                {
+                try {
                     in.close();
                 }
-                catch (IOException e)
-                {
-                }
+                catch (IOException e) {}
         }
     }
 
-    private void writeRecordAbouts(String aboutDissURI, PrintWriter out) throws RepositoryException
-    {
+    private void writeRecordAbouts(String aboutDissURI, PrintWriter out) throws RepositoryException {
         String aboutWrapperStart = "<abouts>";
         String aboutWrapperEnd = "</abouts>";
         InputStream in = null;
-        try
-        {
+        try {
             in = m_fedora.get(aboutDissURI, true);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuffer buf = new StringBuffer();
             String line = reader.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 buf.append(line + "\n");
                 line = reader.readLine();
             }
@@ -333,25 +286,19 @@ public class FedoraOAIDriver implements OAIDriver
                 throw new RepositoryException("Bad abouts xml: closing " + aboutWrapperEnd + " not found");
             out.print(xml.substring(0, i));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("IO error reading aboutDiss " + aboutDissURI, e);
         }
-        finally
-        {
+        finally {
             if (in != null)
-                try
-                {
+                try {
                     in.close();
                 }
-                catch (IOException e)
-                {
-                }
+                catch (IOException e) {}
         }
     }
 
-    public void close() throws RepositoryException
-    {
+    public void close() throws RepositoryException {
         // TODO Auto-generated method stub
 
     }
@@ -363,16 +310,14 @@ public class FedoraOAIDriver implements OAIDriver
     /**
      * @param props
      */
-    public Map<String, FedoraMetadataFormat> getMetadataFormats(Properties props) throws RepositoryException
-    {
+    public Map<String, FedoraMetadataFormat> getMetadataFormats(Properties props) throws RepositoryException {
         String formats[], prefix, namespaceURI, schemaLocation;
         FedoraMetadataFormat mf;
         Map<String, FedoraMetadataFormat> map = new HashMap<String, FedoraMetadataFormat>();
 
         // step through formats, getting appropriate properties for each
         formats = getRequired(props, PROP_FORMATS).split(" ");
-        for (int i = 0; i < formats.length; i++)
-        {
+        for (int i = 0; i < formats.length; i++) {
             prefix = formats[i];
             namespaceURI = getRequired(props, PROP_FORMAT_START + prefix + PROP_FORMAT_URI_END);
             schemaLocation = getRequired(props, PROP_FORMAT_START + prefix + PROP_FORMAT_LOC_END);
@@ -391,26 +336,21 @@ public class FedoraOAIDriver implements OAIDriver
         return map;
     }
 
-    public static String getRequired(Properties props, String key) throws RepositoryException
-    {
+    public static String getRequired(Properties props, String key) throws RepositoryException {
         String val = props.getProperty(key);
-        if (val == null)
-        {
+        if (val == null) {
             throw new RepositoryException("Required property is not set: " + key);
         }
         logger.debug("Required property: " + key + " = " + val);
         return val.trim();
     }
 
-    public static int getRequiredInt(Properties props, String key) throws RepositoryException
-    {
+    public static int getRequiredInt(Properties props, String key) throws RepositoryException {
         String val = getRequired(props, key);
-        try
-        {
+        try {
             return Integer.parseInt(val);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new RepositoryException("Value of property " + key + " is not an integer: " + val);
         }
     }
@@ -420,44 +360,34 @@ public class FedoraOAIDriver implements OAIDriver
      * @param key
      * @return the value associated with key or the empty String ("")
      */
-    public static String getOptional(Properties props, String key)
-    {
+    public static String getOptional(Properties props, String key) {
         String val = props.getProperty(key);
         logger.debug(key + " = " + val);
-        if (val == null)
-        {
+        if (val == null) {
             return "";
         }
         return val.trim();
     }
 
-    private void writeStream(InputStream in, PrintWriter out, String source) throws RepositoryException
-    {
+    private void writeStream(InputStream in, PrintWriter out, String source) throws RepositoryException {
         BufferedReader reader = null;
-        try
-        {
+        try {
             reader = new BufferedReader(new InputStreamReader(in));
             String line = reader.readLine();
-            while (line != null)
-            {
+            while (line != null) {
                 out.println(line);
                 line = reader.readLine();
             }
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new RepositoryException("Error reading " + source, e);
         }
-        finally
-        {
+        finally {
             if (reader != null)
-                try
-                {
+                try {
                     reader.close();
                 }
-                catch (Exception e)
-                {
-                }
+                catch (Exception e) {}
         }
     }
 }

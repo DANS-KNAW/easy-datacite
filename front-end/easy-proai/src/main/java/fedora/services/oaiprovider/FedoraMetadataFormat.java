@@ -5,8 +5,7 @@ import proai.MetadataFormat;
 /**
  * @author Edwin Shin
  */
-public class FedoraMetadataFormat implements MetadataFormat
-{
+public class FedoraMetadataFormat implements MetadataFormat {
 
     private final String m_prefix;
 
@@ -18,8 +17,7 @@ public class FedoraMetadataFormat implements MetadataFormat
 
     private final InvocationSpec m_aboutSpec;
 
-    public FedoraMetadataFormat(String prefix, String namespaceURI, String schemaLocation, InvocationSpec mdSpec, InvocationSpec aboutSpec)
-    {
+    public FedoraMetadataFormat(String prefix, String namespaceURI, String schemaLocation, InvocationSpec mdSpec, InvocationSpec aboutSpec) {
         m_prefix = prefix;
         m_namespaceURI = namespaceURI;
         m_schemaLocation = schemaLocation;
@@ -27,28 +25,23 @@ public class FedoraMetadataFormat implements MetadataFormat
         m_aboutSpec = aboutSpec;
     }
 
-    public String getPrefix()
-    {
+    public String getPrefix() {
         return m_prefix;
     }
 
-    public String getNamespaceURI()
-    {
+    public String getNamespaceURI() {
         return m_namespaceURI;
     }
 
-    public String getSchemaLocation()
-    {
+    public String getSchemaLocation() {
         return m_schemaLocation;
     }
 
-    public InvocationSpec getMetadataSpec()
-    {
+    public InvocationSpec getMetadataSpec() {
         return m_mdSpec;
     }
 
-    public InvocationSpec getAboutSpec()
-    {
+    public InvocationSpec getAboutSpec() {
         return m_aboutSpec;
     }
 }

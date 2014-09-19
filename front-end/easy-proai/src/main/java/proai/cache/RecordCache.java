@@ -37,8 +37,7 @@ import proai.util.StreamUtil;
  * 
  * @author Chris Wilper
  */
-public class RecordCache extends Thread
-{
+public class RecordCache extends Thread {
 
     public static final String OAI_RECORD_SCHEMA_URL = "http://proai.sourceforge.net/schemas/OAI-PMH-record.xsd";
 
@@ -79,8 +78,7 @@ public class RecordCache extends Thread
     private RCDatabase m_rcdb;
     private RCDisk m_rcDisk;
 
-    public RecordCache(Properties props) throws ServerException
-    {
+    public RecordCache(Properties props) throws ServerException {
 
         String baseDir = getRequiredParam(props, PROP_BASEDIR);
         String oaiDriverClassName = getRequiredParam(props, PROP_OAIDRIVERCLASSNAME);
@@ -88,18 +86,15 @@ public class RecordCache extends Thread
 
         boolean mySQLTrickling = false;
         String mt = props.getProperty(PROP_DB_MYSQL_TRICKLING);
-        if (mt != null && mt.equalsIgnoreCase("true"))
-        {
+        if (mt != null && mt.equalsIgnoreCase("true")) {
             mySQLTrickling = true;
         }
 
         OAIDriver driver;
-        try
-        {
+        try {
             driver = (OAIDriver) Class.forName(oaiDriverClassName).newInstance();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new ServerException("Unable to initialize OAIDriver: " + oaiDriverClassName, e);
         }
         driver.init(props);
@@ -114,52 +109,43 @@ public class RecordCache extends Thread
 
         logger.info("Initializing database connection pool...");
         BasicDataSource pool;
-        try
-        {
+        try {
             Class.forName(dbDriverClassName);
             pool = (BasicDataSource) BasicDataSourceFactory.createDataSource(getDBProperties(props, false));
             pool.setDriverClassName(dbDriverClassName);
             Properties connProps = getDBProperties(props, true);
             Enumeration<?> e = connProps.propertyNames();
-            while (e.hasMoreElements())
-            {
+            while (e.hasMoreElements()) {
                 String name = (String) e.nextElement();
                 pool.addConnectionProperty(name, (String) connProps.getProperty(name));
             }
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new ServerException("Unable to initialize DataSource", e);
         }
 
         DDLConverter ddlc = null;
-        try
-        {
+        try {
             String ddlcProp = dbDriverClassName + ".ddlConverter";
             String ddlcClassName = getRequiredParam(props, ddlcProp);
             ddlc = (DDLConverter) Class.forName(ddlcClassName).newInstance();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new ServerException("Unable to initialize DDLConverter", e);
         }
 
         boolean backslashIsEscape = true;
         String s = props.getProperty(dbDriverClassName + ".backslashIsEscape");
-        if (s != null && s.trim().equalsIgnoreCase("false"))
-        {
+        if (s != null && s.trim().equalsIgnoreCase("false")) {
             backslashIsEscape = false;
         }
 
         File schemaDir = null;
         boolean validateUpdates = true;
         String vu = props.getProperty(PROP_VALIDATEUPDATES);
-        if (vu != null && vu.equalsIgnoreCase("false"))
-        {
+        if (vu != null && vu.equalsIgnoreCase("false")) {
             validateUpdates = false;
-        }
-        else
-        {
+        } else {
             schemaDir = new File(getRequiredParam(props, PROP_SCHEMADIR));
         }
 
@@ -192,43 +178,35 @@ public class RecordCache extends Thread
 
         // init RCDatabase (creates tables if needed)
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             m_rcdb = new RCDatabase(conn, ddlc, mySQLTrickling, backslashIsEscape, pollingEnabled, m_rcDisk);
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Database connection problem", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
 
         // initialize the validator if needed
         Validator validator = null;
-        if (validateUpdates)
-        {
+        if (validateUpdates) {
 
             // make sure schemaDir exists
-            if (!schemaDir.exists())
-            {
+            if (!schemaDir.exists()) {
                 schemaDir.mkdirs();
-                if (!schemaDir.exists())
-                {
+                if (!schemaDir.exists()) {
                     throw new ServerException("Cannot create schema dir: " + schemaDir.getPath());
                 }
             }
 
             Map<ValidatorOption, String> opts = new HashMap<ValidatorOption, String>();
             opts.put(ValidatorOption.CACHE_PARSED_GRAMMARS, "true");
-            try
-            {
+            try {
                 validator = ValidatorFactory.getValidator(SchemaLanguage.XSD, createLocator(schemaDir), opts);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 throw new ServerException("Unable to initialize schema " + "validator", e);
             }
         }
@@ -239,34 +217,28 @@ public class RecordCache extends Thread
         m_updater.start();
     }
 
-    private SchemaLocator createLocator(File schemaDir) throws Exception
-    {
+    private SchemaLocator createLocator(File schemaDir) throws Exception {
 
         SchemaIndex index = new FileSchemaIndex(new File(schemaDir, "index.dat"));
         SchemaCatalog cacheCatalog = new DiskSchemaCatalog(index, schemaDir);
 
         // if not already there, add predefined schemas to cache catalog
         addToCatalog(cacheCatalog, OAI_RECORD_SCHEMA_URL, "schemas/OAI-PMH-record.xsd");
-        for (int i = 0; i < EXAMPLE_SCHEMAS.length; i++)
-        {
+        for (int i = 0; i < EXAMPLE_SCHEMAS.length; i++) {
             addToCatalog(cacheCatalog, "http://example.org/" + EXAMPLE_SCHEMAS[i], "schemas/" + EXAMPLE_SCHEMAS[i]);
         }
 
         return new CachingSchemaLocator(new MemorySchemaCatalog(), cacheCatalog, new URLSchemaLocator());
     }
 
-    private static void addToCatalog(SchemaCatalog catalog, String url, String path) throws Exception
-    {
+    private static void addToCatalog(SchemaCatalog catalog, String url, String path) throws Exception {
 
-        if (!catalog.contains(url))
-        {
+        if (!catalog.contains(url)) {
             InputStream in = null;
-            try
-            {
+            try {
                 in = RecordCache.class.getClassLoader().getResourceAsStream(path);
             }
-            catch (Throwable th)
-            {
+            catch (Throwable th) {
                 in = ClassLoader.getSystemResourceAsStream(path);
             }
             catalog.put(url, in);
@@ -276,104 +248,78 @@ public class RecordCache extends Thread
     /**
      * Get a connection from the pool.
      */
-    protected static Connection getConnection() throws SQLException
-    {
-        if (s_pool == null)
-        {
+    protected static Connection getConnection() throws SQLException {
+        if (s_pool == null) {
             throw new RuntimeException("RecordCache has not been constructed " + "so the db connection pool does not exist!");
         }
         long startTime = System.currentTimeMillis();
         Connection conn = s_pool.getConnection(); // may block
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             long delay = System.currentTimeMillis() - startTime;
             logger.debug("Got db connection from pool after " + delay + "ms.  Now idle = " + s_pool.getNumIdle() + " and active = " + s_pool.getNumActive());
         }
         return conn;
     }
 
-    protected static void releaseConnection(Connection conn)
-    {
-        if (s_pool == null)
-        {
+    protected static void releaseConnection(Connection conn) {
+        if (s_pool == null) {
             throw new RuntimeException("RecordCache has not been constructed " + "so the db connection pool does not exist!");
         }
-        if (conn != null)
-        {
-            try
-            {
+        if (conn != null) {
+            try {
                 conn.close();
-                if (logger.isDebugEnabled())
-                {
+                if (logger.isDebugEnabled()) {
                     logger.debug("Released db connection to pool.  Now idle = " + s_pool.getNumIdle() + " and active = " + s_pool.getNumActive());
                 }
             }
-            catch (Throwable th)
-            {
+            catch (Throwable th) {
                 logger.warn("Unable to release db connection to pool", th);
             }
         }
     }
 
-    private static String getRequiredParam(Properties props, String propName) throws ServerException
-    {
+    private static String getRequiredParam(Properties props, String propName) throws ServerException {
         String val = props.getProperty(propName);
-        if (val == null)
-        {
+        if (val == null) {
             throw new ServerException(propMissing + propName);
-        }
-        else
-        {
+        } else {
             logger.debug("Got required property: " + propName + " = " + val);
         }
         return val.trim();
     }
 
-    private static int getRequiredInt(Properties props, String propName, int minValue, int maxValue) throws ServerException
-    {
+    private static int getRequiredInt(Properties props, String propName, int minValue, int maxValue) throws ServerException {
         String val = getRequiredParam(props, propName);
-        try
-        {
+        try {
             int intVal = Integer.parseInt(val);
-            if (intVal < minValue)
-            {
+            if (intVal < minValue) {
                 throw new ServerException("Bad value for " + propName + ": smallest valid value is " + minValue);
             }
-            if (intVal > maxValue)
-            {
+            if (intVal > maxValue) {
                 throw new ServerException("Bad value for " + propName + ": largest valid value is " + minValue);
             }
             return intVal;
         }
-        catch (NumberFormatException nfe)
-        {
+        catch (NumberFormatException nfe) {
             throw new ServerException("Bad value for " + propName + ": must be an integer");
         }
     }
 
-    private static final Properties getDBProperties(Properties props, boolean conn)
-    {
+    private static final Properties getDBProperties(Properties props, boolean conn) {
         Properties dbProps = new Properties();
         Enumeration<?> e = props.propertyNames();
-        while (e.hasMoreElements())
-        {
+        while (e.hasMoreElements()) {
             String name = (String) e.nextElement();
-            if (name.startsWith(dbpfx))
-            {
+            if (name.startsWith(dbpfx)) {
                 String value = props.getProperty(name);
-                if (name.startsWith(dbconnpfx))
-                {
-                    if (conn)
-                    {
+                if (name.startsWith(dbconnpfx)) {
+                    if (conn) {
                         String newPropName = name.substring(dbconnpfx.length());
                         logger.debug("Set per-connection property: " + newPropName + " = " + value);
                         dbProps.setProperty(newPropName, value);
                     }
-                }
-                else
-                {
-                    if (!conn)
-                    {
+                } else {
+                    if (!conn) {
                         String newPropName = name.substring(dbpfx.length());
                         logger.debug("Set connection pool property: " + newPropName + " = " + value);
                         dbProps.setProperty(newPropName, value);
@@ -386,8 +332,7 @@ public class RecordCache extends Thread
 
     // ////////////////////////////////////////////////////////////////////////
 
-    public File getFile(String cachePath)
-    {
+    public File getFile(String cachePath) {
         return m_rcDisk.getFile(cachePath);
     }
 
@@ -396,181 +341,145 @@ public class RecordCache extends Thread
     /**
      * Return the specified record, or null if it doesn't exist.
      */
-    public Writable getRecordContent(String identifier, String metadataPrefix) throws ServerException
-    {
+    public Writable getRecordContent(String identifier, String metadataPrefix) throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             String[] info = m_rcdb.getRecordInfo(conn, identifier, metadataPrefix);
             if (info == null)
                 return null;
             return new WritableWrapper("<GetRecord>\n", m_rcDisk.getContent(info[0], info[1], false), "\n</GetRecord>");
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    public Writable getIdentifyContent() throws ServerException
-    {
+    public Writable getIdentifyContent() throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             String path = m_rcdb.getIdentifyPath(conn);
-            if (path == null)
-            {
+            if (path == null) {
                 throw new ServerException("Identify.xml does not yet exist in the cache");
             }
             return m_rcDisk.getContent(path);
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    public Writable getMetadataFormatsContent(String identifier) throws ServerException
-    {
+    public Writable getMetadataFormatsContent(String identifier) throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             List<CachedMetadataFormat> formats = m_rcdb.getFormats(conn, identifier);
             if (identifier != null && formats.size() == 0)
                 return null;
             return new CachedContent(getFormatsXMLString(formats));
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    public CloseableIterator<SetInfo> getSetInfoContent() throws ServerException
-    {
+    public CloseableIterator<SetInfo> getSetInfoContent() throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             List<SetInfo> list = m_rcdb.getSetInfo(conn);
             CloseableIterator<SetInfo> setInfo = new proai.driver.impl.RemoteIteratorImpl<SetInfo>(list.iterator());
             return setInfo;
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    public CloseableIterator<String[]> getSetInfoPaths() throws ServerException
-    {
+    public CloseableIterator<String[]> getSetInfoPaths() throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             List<String[]> list = m_rcdb.getSetInfoPaths(conn);
             CloseableIterator<String[]> setInfo = new proai.driver.impl.RemoteIteratorImpl<String[]>(list.iterator());
             return setInfo;
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    public CloseableIterator<CachedContent> getRecordsContent(Date from, Date until, String prefix, String set, boolean identifiers) throws ServerException
-    {
-        if (until == null)
-        {
+    public CloseableIterator<CachedContent> getRecordsContent(Date from, Date until, String prefix, String set, boolean identifiers) throws ServerException {
+        if (until == null) {
             // If given as null, use the current date as from date.
             // This is done so that records with dates after the request date
             // are not returned by the query.
             until = StreamUtil.nowUTC();
         }
-        try
-        {
+        try {
             return new CachedRecordContentIterator(m_rcdb.findRecordInfo(getConnection(), from, until, prefix, set), m_rcDisk, identifiers);
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
     }
 
-    public CloseableIterator<String[]> getRecordsPaths(Date from, Date until, String prefix, String set) throws ServerException
-    {
-        if (until == null)
-        {
+    public CloseableIterator<String[]> getRecordsPaths(Date from, Date until, String prefix, String set) throws ServerException {
+        if (until == null) {
             // If given as null, use the current date as from date.
             // This is done so that records with dates after the request date
             // are not returned by the query.
             until = StreamUtil.nowUTC();
         }
-        try
-        {
+        try {
             return m_rcdb.findRecordInfo(getConnection(), from, until, prefix, set);
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
     }
 
-    public boolean formatExists(String mdPrefix) throws ServerException
-    {
+    public boolean formatExists(String mdPrefix) throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             Iterator<CachedMetadataFormat> iter = m_rcdb.getFormats(conn).iterator();
-            while (iter.hasNext())
-            {
+            while (iter.hasNext()) {
                 MetadataFormat fmt = iter.next();
                 if (fmt.getPrefix().equals(mdPrefix))
                     return true;
             }
             return false;
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
-    private String getFormatsXMLString(List<? extends MetadataFormat> formats)
-    {
+    private String getFormatsXMLString(List<? extends MetadataFormat> formats) {
         StringBuffer buf = new StringBuffer();
         buf.append("<ListMetadataFormats>\n");
         Iterator<? extends MetadataFormat> iter = formats.iterator();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             MetadataFormat fmt = iter.next();
             buf.append("  <metadataFormat>\n");
             buf.append("    <metadataPrefix>" + fmt.getPrefix() + "</metadataPrefix>\n");
@@ -582,42 +491,34 @@ public class RecordCache extends Thread
         return buf.toString();
     }
 
-    public boolean itemExists(String identifier) throws ServerException
-    {
+    public boolean itemExists(String identifier) throws ServerException {
         Connection conn = null;
-        try
-        {
+        try {
             conn = getConnection();
             return m_rcdb.itemExists(conn, identifier);
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new ServerException("Error getting a database connection", e);
         }
-        finally
-        {
+        finally {
             releaseConnection(conn);
         }
     }
 
     // ////////////////////////////////////////////////////////////////////////
 
-    public void close() throws ServerException
-    {
+    public void close() throws ServerException {
 
-        if (s_pool != null)
-        { // if it's not already closed
+        if (s_pool != null) { // if it's not already closed
 
             m_updater.shutdown(true);
 
             // shut down db pool, etc.
-            try
-            {
+            try {
                 s_pool.close();
                 s_pool = null;
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 throw new ServerException("Error closing DataSource", e);
             }
             logger.info("RecordCache shutdown complete.");
@@ -627,8 +528,7 @@ public class RecordCache extends Thread
     /**
      * Ensure close has occurred at GC-time.
      */
-    public void finalize() throws ServerException
-    {
+    public void finalize() throws ServerException {
         close();
     }
 

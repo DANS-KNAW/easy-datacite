@@ -22,8 +22,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
-public class RecursivePanel extends Panel
-{
+public class RecursivePanel extends Panel {
 
     public static final String DEFAULT_CSS_CONTAINER = "recursiveContainerL";
 
@@ -53,8 +52,7 @@ public class RecursivePanel extends Panel
     // 3. It saves a lot of instantiating.
     private Map<String, Panel> panelMap = new HashMap<String, Panel>();
 
-    public RecursivePanel(final String id, final IPanelFactory panelFactory, final FormPage formPage)
-    {
+    public RecursivePanel(final String id, final IPanelFactory panelFactory, final FormPage formPage) {
         this(id, panelFactory);
         headResourceKey = formPage.getLabelResourceKey();
         panelDefinitions = formPage.getPanelDefinitions();
@@ -73,46 +71,38 @@ public class RecursivePanel extends Panel
         this.editable = editable;
     }
 
-    private RecursivePanel(final String id, final IPanelFactory panelFactory)
-    {
+    private RecursivePanel(final String id, final IPanelFactory panelFactory) {
         super(id);
         setOutputMarkupId(true);
         this.panelFactory = panelFactory;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         // logger.debug("Init of RecursivePanel");
-        final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer")
-        {
+        final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer") {
             private static final long serialVersionUID = -8613158818378626261L;
 
             @Override
-            protected void onComponentTag(final ComponentTag tag)
-            {
+            protected void onComponentTag(final ComponentTag tag) {
                 super.onComponentTag(tag);
                 tag.put("class", getCssContainerClassName() + level);
             }
         };
 
-        final Label head = new Label("head", new ResourceModel(headResourceKey, ""))
-        {
+        final Label head = new Label("head", new ResourceModel(headResourceKey, "")) {
             private static final long serialVersionUID = -4062236676467096778L;
 
             @Override
-            protected void onComponentTag(final ComponentTag tag)
-            {
+            protected void onComponentTag(final ComponentTag tag) {
                 super.onComponentTag(tag);
                 tag.put("class", getCssHeadingClassName() + level);
             }
@@ -122,56 +112,44 @@ public class RecursivePanel extends Panel
 
         final WebMarkupContainer listViewContainer = new WebMarkupContainer("recursivePanelContainer");
         @SuppressWarnings({"rawtypes", "unchecked"})
-        final ListView listView = new ListView("recursivePanels", panelDefinitions)
-        {
+        final ListView listView = new ListView("recursivePanels", panelDefinitions) {
 
             private static final long serialVersionUID = 4962786970363087231L;
 
             @Override
-            protected void populateItem(final ListItem item)
-            {
+            protected void populateItem(final ListItem item) {
                 final PanelDefinition panelDefinition = (PanelDefinition) item.getDefaultModelObject();
                 // /
                 // System.err.println(panelDefinition.getId() + " " +
                 // panelDefinition.getParent().getId());
                 //
-                if (panelDefinition instanceof SubHeadingDefinition)
-                {
+                if (panelDefinition instanceof SubHeadingDefinition) {
                     final SubHeadingDefinition spDef = (SubHeadingDefinition) panelDefinition;
                     item.add(new RecursivePanel(PANEL_WICKET_ID, panelFactory, spDef, level + 1, panelMap, editable));
-                }
-                else if (panelDefinition instanceof StandardPanelDefinition)
-                {
+                } else if (panelDefinition instanceof StandardPanelDefinition) {
 
                     Panel panel = getPanel(panelDefinition);
                     final String label = getString(panelDefinition.getLabelResourceKey());
 
-                    if (panel instanceof SkeletonPanel)
-                    {
+                    if (panel instanceof SkeletonPanel) {
                         SkeletonPanel skeletonPanel = (SkeletonPanel) panel;
                         skeletonPanel.setInEditMode(editable);
 
-                        if (skeletonPanel.takesErrorMessages())
-                        {
-                            for (String msgKey : panelDefinition.getErrorMessages())
-                            {
+                        if (skeletonPanel.takesErrorMessages()) {
+                            for (String msgKey : panelDefinition.getErrorMessages()) {
                                 String msg = getString(msgKey, new Model(new LabelGetter(label)));
                                 skeletonPanel.error(msg);
                             }
                         }
                     }
 
-                    if (panel instanceof AbstractRepeaterPanel)
-                    {
+                    if (panel instanceof AbstractRepeaterPanel) {
                         AbstractRepeaterPanel<?> repeaterPanel = (AbstractRepeaterPanel<?>) panel;
 
-                        if (repeaterPanel.takesErrorMessages())
-                        {
-                            for (Map.Entry<Integer, List<String>> entry : panelDefinition.getItemErrorMessages().entrySet())
-                            {
+                        if (repeaterPanel.takesErrorMessages()) {
+                            for (Map.Entry<Integer, List<String>> entry : panelDefinition.getItemErrorMessages().entrySet()) {
                                 int index = entry.getKey();
-                                for (String msgKey : entry.getValue())
-                                {
+                                for (String msgKey : entry.getValue()) {
                                     String msg = getString(msgKey, new Model(new LabelGetter(label)));
                                     repeaterPanel.error(index, msg);
                                 }
@@ -182,9 +160,7 @@ public class RecursivePanel extends Panel
                     item.setOutputMarkupId(true);
                     item.add(panel);
 
-                }
-                else
-                {
+                } else {
                     throw new PanelFactoryException("Unknown panel definition: " + panelDefinition.getClass());
                 }
             }
@@ -198,11 +174,9 @@ public class RecursivePanel extends Panel
 
     }
 
-    private Panel getPanel(PanelDefinition panelDefinition)
-    {
+    private Panel getPanel(PanelDefinition panelDefinition) {
         Panel panel = panelMap.get(panelDefinition.getId());
-        if (panel == null)
-        {
+        if (panel == null) {
             panel = panelFactory.createPanel((StandardPanelDefinition) panelDefinition);
             panelMap.put(panelDefinition.getId(), panel);
         }
@@ -212,10 +186,8 @@ public class RecursivePanel extends Panel
     /**
      * @return the cssContainerClassName
      */
-    public String getCssContainerClassName()
-    {
-        if (cssContainerClassName == null)
-        {
+    public String getCssContainerClassName() {
+        if (cssContainerClassName == null) {
             cssContainerClassName = DEFAULT_CSS_CONTAINER;
         }
         return cssContainerClassName;
@@ -225,18 +197,15 @@ public class RecursivePanel extends Panel
      * @param cssContainerClassName
      *        the cssContainerClassName to set
      */
-    public void setCssContainerClassName(String cssContainerClassName)
-    {
+    public void setCssContainerClassName(String cssContainerClassName) {
         this.cssContainerClassName = cssContainerClassName;
     }
 
     /**
      * @return the cssHeadingClassName
      */
-    public String getCssHeadingClassName()
-    {
-        if (cssHeadingClassName == null)
-        {
+    public String getCssHeadingClassName() {
+        if (cssHeadingClassName == null) {
             cssHeadingClassName = DEFAULT_CSS_HEADING;
         }
         return cssHeadingClassName;
@@ -246,34 +215,28 @@ public class RecursivePanel extends Panel
      * @param cssHeadingClassName
      *        the cssHeadingClassName to set
      */
-    public void setCssHeadingClassName(String cssHeadingClassName)
-    {
+    public void setCssHeadingClassName(String cssHeadingClassName) {
         this.cssHeadingClassName = cssHeadingClassName;
     }
 
-    public boolean isHeadVisible()
-    {
+    public boolean isHeadVisible() {
         return headVisible;
     }
 
-    public void setHeadVisible(boolean headVisible)
-    {
+    public void setHeadVisible(boolean headVisible) {
         this.headVisible = headVisible;
     }
 
-    private class LabelGetter implements Serializable
-    {
+    private class LabelGetter implements Serializable {
 
         private static final long serialVersionUID = 7606106662188748296L;
         private final String label;
 
-        public LabelGetter(String label)
-        {
+        public LabelGetter(String label) {
             this.label = label;
         }
 
-        public String getLabel()
-        {
+        public String getLabel() {
             return label;
         }
     }

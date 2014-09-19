@@ -14,14 +14,12 @@ import fedora.client.FedoraClient;
  * 
  * @author Edwin Shin
  */
-public interface QueryFactory
-{
+public interface QueryFactory {
 
     public void init(FedoraClient client, FedoraClient queryClient, Properties props);
 
     /**
-     * Queries the Fedora Resource Index for the latest last-modified date of all disseminations that act
-     * as metadata for the OAI provider.
+     * Queries the Fedora Resource Index for the latest last-modified date of all disseminations that act as metadata for the OAI provider.
      * 
      * @param fedoraMetadataFormats
      *        the list of all FedoraMetadataFormats

@@ -16,30 +16,25 @@ import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 
-public class EasyLdapFederativeUserRepo extends AbstractGenericRepo<FederativeUserIdMap> implements FederativeUserRepo
-{
+public class EasyLdapFederativeUserRepo extends AbstractGenericRepo<FederativeUserIdMap> implements FederativeUserRepo {
     public static final String RDN = "fedUserId";
 
     private static final Logger logger = LoggerFactory.getLogger(EasyLdapFederativeUserRepo.class);
 
-    public EasyLdapFederativeUserRepo(LdapClient client, String context)
-    {
+    public EasyLdapFederativeUserRepo(LdapClient client, String context) {
         super(client, context, RDN, new LdapMapper<FederativeUserIdMap>(FederativeUserIdMap.class));
     }
 
     @Override
-    protected FederativeUserIdMap unmarshal(Attributes attrs) throws LdapMappingException
-    {
+    protected FederativeUserIdMap unmarshal(Attributes attrs) throws LdapMappingException {
         return getLdapMapper().unmarshal(new FederativeUserIdMap(), attrs);
     }
 
     @Override
-    public List<FederativeUserIdMap> findByDansUserId(String dansUserId) throws RepositoryException
-    {
+    public List<FederativeUserIdMap> findByDansUserId(String dansUserId) throws RepositoryException {
         String filter = "(&(objectClass=" + getObjectClassName() + ")(dansUserId=" + dansUserId + "))";
         List<FederativeUserIdMap> idMaps = search(filter);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Find by dansUserId " + dansUserId + ", found " + idMaps.size() + " idMaps.");
         }
         return idMaps;

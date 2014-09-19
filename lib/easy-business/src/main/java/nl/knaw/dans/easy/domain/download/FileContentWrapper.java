@@ -7,8 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 
-public class FileContentWrapper implements Serializable, DownloadInfo
-{
+public class FileContentWrapper implements Serializable, DownloadInfo {
 
     private static final long serialVersionUID = 677620380637265652L;
 
@@ -20,64 +19,51 @@ public class FileContentWrapper implements Serializable, DownloadInfo
 
     private URL url;
 
-    public FileContentWrapper(String fileItemId)
-    {
+    public FileContentWrapper(String fileItemId) {
         this.fileItemId = fileItemId;
     }
 
-    public String getFileItemId()
-    {
+    public String getFileItemId() {
         return fileItemId;
     }
 
-    public URL getURL()
-    {
+    public URL getURL() {
         return url;
     }
 
-    public void setURL(URL url)
-    {
+    public void setURL(URL url) {
         this.url = url;
     }
 
-    public void setFileItemVO(FileItemVO fileItemVO)
-    {
+    public void setFileItemVO(FileItemVO fileItemVO) {
         this.fileItemVO = fileItemVO;
         this.fileName = fileItemVO.getName();
     }
 
-    public FileItemVO getFileItemVO()
-    {
+    public FileItemVO getFileItemVO() {
         return fileItemVO;
     }
 
-    public String getFileName()
-    {
+    public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName)
-    {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder(this.getClass().getName()).append(" fileItemId=").append(fileItemId);
-        if (url == null)
-        {
+        if (url == null) {
             sb.append(" url=").append("null");
-        }
-        else
-        {
+        } else {
             sb.append(" url=").append(url.toString());
         }
         return sb.toString();
     }
 
     @Override
-    public List<String> getFileNames()
-    {
+    public List<String> getFileNames() {
         return Arrays.asList(fileItemVO.getPath());
     }
 

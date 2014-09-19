@@ -31,20 +31,17 @@ import nl.knaw.dans.easy.domain.user.GroupImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyUserRepoOnlineTest extends AbstractOnlineTest
-{
+public class EasyUserRepoOnlineTest extends AbstractOnlineTest {
 
     private static EasyLdapUserRepo repo;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         repo = new EasyLdapUserRepo(getLdapClient(), Tester.getString("ldap.context.users"));
     }
 
     @Test
-    public void add_update_delete() throws RepositoryException
-    {
+    public void add_update_delete() throws RepositoryException {
         EasyUser jan = new EasyUserImpl();
         jan.setId("acc_jan"); // uid
         jan.setSurname("Janssen"); // sn
@@ -95,20 +92,17 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         assertEquals(0, rrjan.getGroupIds().size());
 
         repo.delete(rrjan);
-        try
-        {
+        try {
             repo.findById(uid);
             fail("the object is supposed to be deleted!");
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             // expected
         }
     }
 
     @Test
-    public void addWithExistingUserId() throws RepositoryException
-    {
+    public void addWithExistingUserId() throws RepositoryException {
         EasyUser zyxwvuts = new EasyUserImpl();
         zyxwvuts.setId("zyxwvuts");
         zyxwvuts.setSurname("Six");
@@ -123,13 +117,11 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         applicant.setId("zyxwvuts");
         applicant.setSurname("Pplicant");
 
-        try
-        {
+        try {
             repo.add(applicant);
             fail("Expected IdNotUniqueException.");
         }
-        catch (ObjectExistsException e)
-        {
+        catch (ObjectExistsException e) {
             // expected
         }
 
@@ -138,23 +130,20 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test(expected = MissingAttributeException.class)
-    public void addWithInsufficientData_1() throws RepositoryException
-    {
+    public void addWithInsufficientData_1() throws RepositoryException {
         EasyUser zyxwvuts = new EasyUserImpl();
         repo.add(zyxwvuts);
     }
 
     @Test(expected = RepositoryException.class)
-    public void addWithInsufficientData_2() throws RepositoryException
-    {
+    public void addWithInsufficientData_2() throws RepositoryException {
         EasyUser zyxwvuts = new EasyUserImpl();
         zyxwvuts.setId("");
         repo.add(zyxwvuts);
     }
 
     @Test
-    public void findByEmail() throws RepositoryException
-    {
+    public void findByEmail() throws RepositoryException {
         EasyUser piet = new EasyUserImpl();
         piet.setId("piet");
         piet.setSurname("Pietersen");
@@ -175,8 +164,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findByRole() throws RepositoryException
-    {
+    public void findByRole() throws RepositoryException {
         EasyUser piet = new EasyUserImpl();
         piet.setId("piet");
         piet.setSurname("Pietersen");
@@ -211,8 +199,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findByCommonNameStub() throws RepositoryException
-    {
+    public void findByCommonNameStub() throws RepositoryException {
         EasyUser piet = new EasyUserImpl();
         piet.setId("piet");
         piet.setSurname("Pietersen");
@@ -242,8 +229,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         assertEquals(1, idNameMap.size());
 
         idNameMap = repo.findByCommonNameStub("pi(ter", 10L);
-        for (String id : idNameMap.keySet())
-        {
+        for (String id : idNameMap.keySet()) {
             System.out.println(id + " | " + idNameMap.get(id));
         }
         assertTrue(idNameMap.containsKey("piet"));
@@ -255,8 +241,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void authenticate() throws RepositoryException
-    {
+    public void authenticate() throws RepositoryException {
         EasyUser piet = new EasyUserImpl();
         piet.setId("piet");
         piet.setSurname("Pietersen");
@@ -300,8 +285,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void updatePassword() throws RepositoryException
-    {
+    public void updatePassword() throws RepositoryException {
         EasyUser test = new EasyUserImpl();
         test.setId("test");
         test.setSurname("Pietersen");
@@ -330,8 +314,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void isPasswordStored() throws RepositoryException
-    {
+    public void isPasswordStored() throws RepositoryException {
         EasyUser test = new EasyUserImpl();
         test.setId("test");
         test.setSurname("Pietersen");
@@ -357,15 +340,13 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findAll() throws RepositoryException
-    {
+    public void findAll() throws RepositoryException {
         List<EasyUser> users = repo.findAll();
         assertNotNull(users);
     }
 
     @Test
-    public void easyUserAttributes() throws RepositoryException
-    {
+    public void easyUserAttributes() throws RepositoryException {
         EasyUser easy = createAUser();
 
         // remove players
@@ -397,8 +378,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void testSetEncryptedPassword() throws RepositoryException, NoSuchAlgorithmException
-    {
+    public void testSetEncryptedPassword() throws RepositoryException, NoSuchAlgorithmException {
 
         EasyUser user = new EasyUserImpl();
         user.setTitle("dr.");
@@ -425,24 +405,21 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void getGroups() throws RepositoryException
-    {
+    public void getGroups() throws RepositoryException {
         EasyLdapGroupRepo groupRepo = new EasyLdapGroupRepo(getLdapClient(), Tester.getString("ldap.context.groups"));
         Data data = new Data();
         data.setGroupRepo(groupRepo);
 
         Group userTest1 = new GroupImpl("userTest1");
         userTest1.setDescription("userTest1 description");
-        if (groupRepo.exists(userTest1.getId()))
-        {
+        if (groupRepo.exists(userTest1.getId())) {
             groupRepo.delete(userTest1);
         }
         groupRepo.add(userTest1);
 
         Group userTest2 = new GroupImpl("userTest2");
         userTest2.setDescription("userTest2 description");
-        if (groupRepo.exists(userTest2.getId()))
-        {
+        if (groupRepo.exists(userTest2.getId())) {
             groupRepo.delete(userTest2);
         }
         groupRepo.add(userTest2);
@@ -479,20 +456,17 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         assertEquals("userTest2 description", foundGroup.getDescription());
 
         // clean up
-        if (groupRepo.exists(userTest1.getId()))
-        {
+        if (groupRepo.exists(userTest1.getId())) {
             groupRepo.delete(userTest1);
         }
-        if (groupRepo.exists(userTest2.getId()))
-        {
+        if (groupRepo.exists(userTest2.getId())) {
             groupRepo.delete(userTest2);
         }
         if (repo.exists(easy.getId()))
             repo.delete(easy);
     }
 
-    private EasyUser createAUser()
-    {
+    private EasyUser createAUser() {
 
         EasyUser user = new EasyUserImpl();
         user.setTitle("dr.");
@@ -520,8 +494,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         return user;
     }
 
-    private static String hashPassword(final String password, final String algorithm) throws NoSuchAlgorithmException
-    {
+    private static String hashPassword(final String password, final String algorithm) throws NoSuchAlgorithmException {
         // Calculate hash value
         MessageDigest md = MessageDigest.getInstance(algorithm);
         md.update(password.getBytes());

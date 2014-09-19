@@ -9,12 +9,10 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class ArgsTest
-{
+public class ArgsTest {
 
     @Test
-    public void serializeDeserialize() throws Exception
-    {
+    public void serializeDeserialize() throws Exception {
         Args vmArgs = new Args();
         assertFalse(vmArgs.isReadOnly());
 
@@ -41,8 +39,7 @@ public class ArgsTest
     }
 
     @Test
-    public void singleValues() throws Exception
-    {
+    public void singleValues() throws Exception {
         String[] args = {"single value", "this=that", "foo=bar", "other single value"};
         Args vmArgs = new Args(args);
 
@@ -58,8 +55,7 @@ public class ArgsTest
     }
 
     @Test
-    public void readFromPropertiesFile() throws Exception
-    {
+    public void readFromPropertiesFile() throws Exception {
         String propFileName = createPropertiesFile();
         String[] args = {Args.propFileName(propFileName)};
 
@@ -70,8 +66,7 @@ public class ArgsTest
         assertEquals("nl.knaw.dans.foo.BarConfiguration", vmArgs.getConfigurationClassName());
     }
 
-    private String createPropertiesFile() throws IOException
-    {
+    private String createPropertiesFile() throws IOException {
         String propFileName = "target/test-args.properties";
 
         Args vmArgs = new Args();
@@ -83,15 +78,12 @@ public class ArgsTest
         vmArgs.setLoggingToConsole(true);
 
         FileWriter out = null;
-        try
-        {
+        try {
             out = new FileWriter(propFileName);
             vmArgs.printArguments(out);
         }
-        finally
-        {
-            if (out != null)
-            {
+        finally {
+            if (out != null) {
                 out.close();
             }
         }

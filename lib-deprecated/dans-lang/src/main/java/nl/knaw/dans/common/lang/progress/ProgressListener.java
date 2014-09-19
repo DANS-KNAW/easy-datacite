@@ -1,7 +1,6 @@
 package nl.knaw.dans.common.lang.progress;
 
-public interface ProgressListener
-{
+public interface ProgressListener {
 
     void onStartProcess(String processId);
 

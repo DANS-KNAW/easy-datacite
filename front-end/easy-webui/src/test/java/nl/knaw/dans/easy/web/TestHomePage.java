@@ -22,8 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class TestHomePage
-{
+public class TestHomePage {
 
     private WicketTester tester;
     private EasyUser normalUser;
@@ -32,8 +31,7 @@ public class TestHomePage
     private SearchService searchServiceMock;
 
     @Test
-    public void testRenderLoggedOff() throws Exception
-    {
+    public void testRenderLoggedOff() throws Exception {
         startPage(mockContext());
         tester.dumpPage();
 
@@ -45,8 +43,7 @@ public class TestHomePage
         assertManagementPanelNotRendered();
     }
 
-    private EasyApplicationContextMock mockContext() throws Exception
-    {
+    private EasyApplicationContextMock mockContext() throws Exception {
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.expectStandardSecurity(false);
         ctx.expectDefaultResources();
@@ -54,15 +51,13 @@ public class TestHomePage
         return ctx;
     }
 
-    private EasyApplicationContextMock mockContext(EasyUser user) throws Exception, ServiceException
-    {
+    private EasyApplicationContextMock mockContext(EasyUser user) throws Exception, ServiceException {
         EasyApplicationContextMock ctx = mockContext();
         ctx.expectAuthenticatedAs(user);
         return ctx;
     }
 
-    private void startPage(EasyApplicationContextMock ctx)
-    {
+    private void startPage(EasyApplicationContextMock ctx) {
         tester = EasyWicketTester.create(ctx);
         replayAll();
         tester.startPage(HomePage.class);
@@ -70,50 +65,42 @@ public class TestHomePage
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         setUpUsers();
         setupSearchServiceMock();
     }
 
-    private void assertLinkVisibilityConformsToLoggedOffStatus()
-    {
+    private void assertLinkVisibilityConformsToLoggedOffStatus() {
         tester.assertVisible("login");
         tester.assertVisible("register");
         tester.assertInvisible("logoff");
     }
 
-    private void assertHomeBrowseAdvSearchVisible()
-    {
+    private void assertHomeBrowseAdvSearchVisible() {
         tester.assertVisible("homePage");
         tester.assertVisible("browsePage");
         tester.assertVisible("advancedSearchPage");
     }
 
-    private void assertNavDepositVisible()
-    {
+    private void assertNavDepositVisible() {
         tester.assertVisible("navDeposit");
     }
 
-    private void assertPersonalBarItemsNotRendered()
-    {
+    private void assertPersonalBarItemsNotRendered() {
         assertNull("MyDatasets rendered but should not be", tester.getTagByWicketId("myDatasets"));
         assertNull("MyRequests rendered but should not be", tester.getTagByWicketId("myRequests"));
     }
 
-    private void assertManagementPanelNotRendered()
-    {
+    private void assertManagementPanelNotRendered() {
         assertNull("Management bar panel rendered but should not be", tester.getTagByWicketId("managementBarPanel"));
     }
 
-    private void assertNormalUserNameInDisplayName()
-    {
+    private void assertNormalUserNameInDisplayName() {
         tester.assertLabel("displayName", "Norman Normal");
     }
 
     @Test
-    public void testRenderLoggedInAsUser() throws Exception
-    {
+    public void testRenderLoggedInAsUser() throws Exception {
         startPage(mockContext(normalUser));
         tester.dumpPage();
 
@@ -126,16 +113,14 @@ public class TestHomePage
         assertNormalUserNameInDisplayName();
     }
 
-    private void assertLinkVisibilityConformsToLoggedInStatus()
-    {
+    private void assertLinkVisibilityConformsToLoggedInStatus() {
         tester.assertInvisible("login");
         tester.assertInvisible("register");
         tester.assertVisible("logoff");
     }
 
     @Test
-    public void testRenderLoggedInAsArchivist() throws Exception
-    {
+    public void testRenderLoggedInAsArchivist() throws Exception {
         startPage(mockContext(archivistUser));
         tester.dumpPage();
 
@@ -149,8 +134,7 @@ public class TestHomePage
     }
 
     @Test
-    public void testRenderLoggedInAsAdmin() throws Exception
-    {
+    public void testRenderLoggedInAsAdmin() throws Exception {
         startPage(mockContext(adminUser));
         tester.dumpPage();
 
@@ -163,8 +147,7 @@ public class TestHomePage
         tester.assertLabel("displayName", "Ad Administrator (Administrator)");
     }
 
-    private void setUpUsers()
-    {
+    private void setUpUsers() {
         normalUser = new EasyUserTestImpl("normal");
         normalUser.setFirstname("Norman");
         normalUser.setSurname("Normal");
@@ -186,8 +169,7 @@ public class TestHomePage
         adminUser.setState(State.ACTIVE);
     }
 
-    private void setupSearchServiceMock() throws Exception
-    {
+    private void setupSearchServiceMock() throws Exception {
         searchServiceMock = PowerMock.createMock(SearchService.class);
         // we want those items to be visible on the Personal bar
         expect(searchServiceMock.getNumberOfDatasets(isA(EasyUser.class))).andReturn(1).anyTimes();
@@ -201,19 +183,16 @@ public class TestHomePage
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         resetAll();
     }
 
-    private void assertPersonalBarItemsVisible()
-    {
+    private void assertPersonalBarItemsVisible() {
         tester.assertVisible("myDatasets");
         tester.assertVisible("myRequests");
     }
 
-    private void assertArchivistManagementPanelVisible()
-    {
+    private void assertArchivistManagementPanelVisible() {
         tester.assertVisible("managementBarPanel:myWork");
         tester.assertVisible("managementBarPanel:ourWork");
         tester.assertVisible("managementBarPanel:allWork");
@@ -222,8 +201,7 @@ public class TestHomePage
         tester.assertVisible("managementBarPanel:editableContent");
     }
 
-    private void assertAdminManagementPanelVisible()
-    {
+    private void assertAdminManagementPanelVisible() {
         tester.assertVisible("managementBarPanel:trashCan");
         tester.assertVisible("managementBarPanel:userInfo");
         tester.assertVisible("managementBarPanel:editableContent");

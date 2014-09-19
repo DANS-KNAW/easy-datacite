@@ -12,8 +12,7 @@ import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
  * 
  * @author Herman Suijs
  */
-public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
-{
+public class RequireOneValidator extends AbstractRelatedFormFieldsValidator {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -22,8 +21,7 @@ public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
      * @param components
      *        FormComponents at least two components of which at least one must be filled
      */
-    public RequireOneValidator(final FormComponent... components)
-    {
+    public RequireOneValidator(final FormComponent... components) {
         super(components);
     }
 
@@ -34,23 +32,19 @@ public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
      *        The form to validate.
      * @see org.apache.wicket.markup.html.form.validation.IFormValidator#validate(org.apache.wicket.markup.html.form.Form)
      */
-    public void validate(Form form)
-    {
+    public void validate(Form form) {
         boolean anyNotEmpty = false;
 
         // Check content size for every component
-        for (FormComponent component : this.dependentComponents)
-        {
-            if (component.getValue().trim().length() > 0)
-            {
+        for (FormComponent component : this.dependentComponents) {
+            if (component.getValue().trim().length() > 0) {
                 anyNotEmpty = true;
                 break;
             }
         }
 
         // If every component is empty
-        if (!anyNotEmpty)
-        {
+        if (!anyNotEmpty) {
             error(this.dependentComponents[0]);
         }
     }

@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.web.wicket;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
-public abstract class SwitchPanel extends Panel
-{
+public abstract class SwitchPanel extends Panel {
 
     public static final String SWITCH_PANEL_WI = "switchPanel";
 
@@ -11,20 +10,17 @@ public abstract class SwitchPanel extends Panel
 
     private boolean editMode;
 
-    public SwitchPanel(String wicketId)
-    {
+    public SwitchPanel(String wicketId) {
         super(wicketId);
     }
 
-    public SwitchPanel(String wicketId, boolean inEditMode)
-    {
+    public SwitchPanel(String wicketId, boolean inEditMode) {
         super(wicketId);
         editMode = inEditMode;
         setContentPanel();
     }
 
-    public void switchMode()
-    {
+    public void switchMode() {
         editMode = !editMode;
         setContentPanel();
     }
@@ -33,14 +29,10 @@ public abstract class SwitchPanel extends Panel
 
     public abstract Panel getDisplayPanel();
 
-    private void setContentPanel()
-    {
-        if (editMode)
-        {
+    private void setContentPanel() {
+        if (editMode) {
             addOrReplace(getEditPanel());
-        }
-        else
-        {
+        } else {
             addOrReplace(getDisplayPanel());
         }
     }

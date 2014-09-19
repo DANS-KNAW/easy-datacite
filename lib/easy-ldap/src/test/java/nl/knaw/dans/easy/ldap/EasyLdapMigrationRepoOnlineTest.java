@@ -14,20 +14,17 @@ import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
-{
+public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest {
 
     private static EasyLdapMigrationRepo repo;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         repo = new EasyLdapMigrationRepo(getLdapClient(), Tester.getString("ldap.context.migration"));
     }
 
     @Test
-    public void add_update_delete() throws Exception
-    {
+    public void add_update_delete() throws Exception {
         DateTime migrationDate = new DateTime();
         IdMap idm1 = new IdMap("easy-dataset:123", "twips.dans.knaw.nl--7354684735049108415-1167745265100", "urn:nbn:nl:ui:13-9hp-3ap", migrationDate);
 
@@ -62,8 +59,7 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findByAipId() throws Exception
-    {
+    public void findByAipId() throws Exception {
         String aipId = "twips.dans.knaw.nl--7354684735049108415-1167745265100";
         String persistentIdentifier = "urn:nbn:nl:ui:13-9hp-3ap";
         String id1 = insertFirst(aipId, persistentIdentifier);
@@ -79,15 +75,13 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void findByAipId2() throws Exception
-    {
+    public void findByAipId2() throws Exception {
         List<IdMap> idMaps = repo.findByAipId("this.aipId.does.not.exist");
         assertTrue(idMaps.isEmpty());
     }
 
     @Test
-    public void findByPersistentIdentifier() throws Exception
-    {
+    public void findByPersistentIdentifier() throws Exception {
         String aipId = "twips.dans.knaw.nl--7354684735049108415-1167745265100";
         String persistentIdentifier = "urn:nbn:nl:ui:13-9hp-3ap";
         String id1 = insertFirst(aipId, persistentIdentifier);
@@ -103,8 +97,7 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void getMostRecentByAipId() throws Exception
-    {
+    public void getMostRecentByAipId() throws Exception {
         String aipId = "twips.dans.knaw.nl--7354684735049108415-1167745265100";
         String persistentIdentifier = "urn:nbn:nl:ui:13-9hp-3ap";
         insertFirst(aipId, persistentIdentifier);
@@ -114,8 +107,7 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void getMostRecentByPersistentIdentifier() throws Exception
-    {
+    public void getMostRecentByPersistentIdentifier() throws Exception {
         String aipId = "twips.dans.knaw.nl--7354684735049108415-1167745265100";
         String persistentIdentifier = "urn:nbn:nl:ui:13-9hp-3ap";
         insertFirst(aipId, persistentIdentifier);
@@ -125,8 +117,7 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
     }
 
     @Test
-    public void deleteAllEntries() throws Exception
-    {
+    public void deleteAllEntries() throws Exception {
         String aipId = "twips.dans.knaw.nl--tobedeleted";
         String persistentIdentifier = "urn:nbn:nl:ui:13-9hp-3ap";
         insertFirst(aipId, persistentIdentifier);
@@ -135,8 +126,7 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
         List<String> ids = repo.findAllEntries(0);
         assertTrue(ids.size() >= 2);
 
-        for (String id : ids)
-        {
+        for (String id : ids) {
             repo.delete(id);
         }
 
@@ -144,24 +134,21 @@ public class EasyLdapMigrationRepoOnlineTest extends AbstractOnlineTest
         assertEquals(0, ids.size());
     }
 
-    private String insertFirst(String aipId, String persistentIdentifier) throws RepositoryException, ObjectExistsException
-    {
+    private String insertFirst(String aipId, String persistentIdentifier) throws RepositoryException, ObjectExistsException {
         DateTime migrationDate1 = new DateTime().minusMinutes(1);
         IdMap idm1 = new IdMap("easy-dataset:123", aipId, persistentIdentifier, migrationDate1);
 
         return insertIdMap(idm1);
     }
 
-    private String insertSecond(String aipId, String persistentIdentifier) throws RepositoryException, ObjectExistsException
-    {
+    private String insertSecond(String aipId, String persistentIdentifier) throws RepositoryException, ObjectExistsException {
         DateTime migrationDate2 = new DateTime();
         IdMap idm2 = new IdMap("easy-dataset:124", aipId, persistentIdentifier, migrationDate2);
 
         return insertIdMap(idm2);
     }
 
-    private String insertIdMap(IdMap idm) throws RepositoryException, ObjectExistsException
-    {
+    private String insertIdMap(IdMap idm) throws RepositoryException, ObjectExistsException {
         // remove player
         if (repo.exists(idm.getId()))
             repo.delete(idm);

@@ -11,14 +11,12 @@ import java.net.URL;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class UrlConverter
-{
+public class UrlConverter {
 
     /**
      * Throw an AssertionError if this class is instantiated.
      */
-    protected UrlConverter()
-    {
+    protected UrlConverter() {
         throw new AssertionError("Instantiating utility class...");
     }
 
@@ -33,14 +31,12 @@ public class UrlConverter
      * @throws IOException
      *         If something goes wrong while parsing the URL.
      */
-    public static byte[] toByteArray(URL url, long size) throws IOException
-    {
+    public static byte[] toByteArray(URL url, long size) throws IOException {
         InputStream input = url.openStream();
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         byte[] buffer = new byte[Integer.parseInt("" + size)];
         int bytesRead;
-        while ((bytesRead = input.read(buffer)) != -1)
-        {
+        while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
         return output.toByteArray();

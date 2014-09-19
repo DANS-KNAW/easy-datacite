@@ -9,19 +9,16 @@ import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 
 import org.junit.Test;
 
-public class EasyFileItemAutzStrategyTest
-{
+public class EasyFileItemAutzStrategyTest {
 
     @Test(expected = IllegalArgumentException.class)
-    public void constructor1()
-    {
+    public void constructor1() {
         EasyFileItemAuthzStrategy strategy = new EasyFileItemAuthzStrategy();
         strategy.checkAttributes();
     }
 
     @Test
-    public void timeTest()
-    {
+    public void timeTest() {
         EasyUser user = getAnonymousUser();
         Dataset dataset = new DatasetImpl("foo:dataset");
         FileItem fileItem = new FileItemImpl("foo:fileItem");
@@ -29,8 +26,7 @@ public class EasyFileItemAutzStrategyTest
 
         EasyFileItemAuthzStrategy strategy = new EasyFileItemAuthzStrategy(user, fileItem, dataset);
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++)
-        {
+        for (int i = 0; i < 10000; i++) {
             EasyFileItemAuthzStrategy strategy2 = strategy.sameStrategy(fileItem);
             strategy2.canChildrenBeDiscovered();
             strategy2.canChildrenBeRead();
@@ -39,8 +35,7 @@ public class EasyFileItemAutzStrategyTest
         System.out.println(end - start);
     }
 
-    private EasyUser getAnonymousUser()
-    {
+    private EasyUser getAnonymousUser() {
         return EasyUserAnonymous.getInstance();
     }
 

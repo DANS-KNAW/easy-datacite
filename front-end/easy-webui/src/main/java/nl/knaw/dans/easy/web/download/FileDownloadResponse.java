@@ -15,8 +15,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileDownloadResponse
-{
+public class FileDownloadResponse {
     // key for the downloadParameters in the valueMap
     public static final String PARAMS = "params";
 
@@ -37,27 +36,21 @@ public class FileDownloadResponse
     private int statusCode;
     private AbstractDownloadHandler downloadHandler;
 
-    public FileDownloadResponse(ValueMap parameters)
-    {
+    public FileDownloadResponse(ValueMap parameters) {
         this.valueMap = parameters;
     }
 
-    protected ValueMap getValueMap()
-    {
+    protected ValueMap getValueMap() {
         return valueMap;
     }
 
-    protected JSONObject getClientObject() throws DownloadException
-    {
-        if (jsonObject == null)
-        {
+    protected JSONObject getClientObject() throws DownloadException {
+        if (jsonObject == null) {
             String downloadParameters = getValueMap().getString(PARAMS);
-            try
-            {
+            try {
                 jsonObject = new JSONObject(downloadParameters);
             }
-            catch (JSONException e)
-            {
+            catch (JSONException e) {
                 String msg = "Unable to read client parameters: ";
                 setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
                 logger.error(msg, e);
@@ -67,37 +60,30 @@ public class FileDownloadResponse
         return jsonObject;
     }
 
-    protected String getDownloadType() throws DownloadException
-    {
+    protected String getDownloadType() throws DownloadException {
         String downloadType = DOWNLOAD_TYPE_ZIP;
-        try
-        {
+        try {
             downloadType = getClientObject().getString(DOWNLOAD_TYPE);
         }
-        catch (JSONException e)
-        {
+        catch (JSONException e) {
             logger.error("Unable to determine download type: ", e);
             // in this case we default to download type zip.
         }
         return downloadType;
     }
 
-    protected String getMandatoryStringParam(final String key) throws DownloadException
-    {
+    protected String getMandatoryStringParam(final String key) throws DownloadException {
         String value;
-        try
-        {
+        try {
             value = getClientObject().getString(key);
-            if (StringUtils.isBlank(value))
-            {
+            if (StringUtils.isBlank(value)) {
                 String msg = "Unable to read parameter " + key + ": ";
                 setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
                 logger.error(msg);
                 throw new DownloadException(msg);
             }
         }
-        catch (JSONException e)
-        {
+        catch (JSONException e) {
             String msg = "Unable to read parameter " + key + ": ";
             setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             logger.error(msg, e);
@@ -106,22 +92,18 @@ public class FileDownloadResponse
         return value;
     }
 
-    protected List<RequestedItem> getDownloadRequestItems()
-    {
+    protected List<RequestedItem> getDownloadRequestItems() {
         List<RequestedItem> wantedItems = new ArrayList<RequestedItem>();
-        try
-        {
+        try {
             JSONArray jsonArray = getClientObject().getJSONArray(SELECTED_ITEM_LIST);
 
             int numberOfSelectedItems = jsonArray.length();
 
-            for (int i = 0; i < numberOfSelectedItems; i++)
-            {
+            for (int i = 0; i < numberOfSelectedItems; i++) {
                 wantedItems.add(new RequestedItem(jsonArray.getString(i)));
             }
         }
-        catch (JSONException e)
-        {
+        catch (JSONException e) {
             String msg = "Unable to read parameters for zip download: ";
             setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
             logger.error(msg, e);
@@ -130,40 +112,30 @@ public class FileDownloadResponse
         return wantedItems;
     }
 
-    public boolean hasStatusError()
-    {
+    public boolean hasStatusError() {
         return statusCode > 0;
     }
 
-    public int getStatusCode()
-    {
+    public int getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode)
-    {
+    public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
 
-    public AbstractDownloadHandler getResourceStream()
-    {
-        if (downloadHandler == null)
-        {
-            try
-            {
+    public AbstractDownloadHandler getResourceStream() {
+        if (downloadHandler == null) {
+            try {
                 String downloadType = getDownloadType();
-                if (downloadType.equals(DOWNLOAD_TYPE_ZIP))
-                {
+                if (downloadType.equals(DOWNLOAD_TYPE_ZIP)) {
                     downloadHandler = new ZipDownloadHandler(this);
-                }
-                else
-                {
+                } else {
                     downloadHandler = new SingleFileDownloadHandler(this);
                 }
 
             }
-            catch (DownloadException e)
-            {
+            catch (DownloadException e) {
                 setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
                 downloadHandler = null;
             }

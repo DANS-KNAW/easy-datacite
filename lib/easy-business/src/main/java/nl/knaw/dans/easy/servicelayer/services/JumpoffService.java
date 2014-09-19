@@ -11,8 +11,7 @@ import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public interface JumpoffService extends EasyService
-{
+public interface JumpoffService extends EasyService {
 
     JumpoffDmo getJumpoffDmoFor(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException;
 

@@ -4,8 +4,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 
-public class PossiblyDisabledTextArea<T> extends TextArea<T>
-{
+public class PossiblyDisabledTextArea<T> extends TextArea<T> {
     private static final long serialVersionUID = 1L;
     private boolean editMode;
 
@@ -13,8 +12,7 @@ public class PossiblyDisabledTextArea<T> extends TextArea<T>
      * @param id
      * @param model
      * @param editMode
-     *        if true the following attributes are added: readonly="true" class="readonly". Add to your
-     *        css something like:
+     *        if true the following attributes are added: readonly="true" class="readonly". Add to your css something like:
      * 
      *        <pre>
      *  textarea.readonly  {
@@ -23,16 +21,14 @@ public class PossiblyDisabledTextArea<T> extends TextArea<T>
      *  }
      * </pre>
      */
-    public PossiblyDisabledTextArea(String id, IModel<T> model, boolean editMode)
-    {
+    public PossiblyDisabledTextArea(String id, IModel<T> model, boolean editMode) {
         super(id, model);
         this.editMode = editMode;
         setEnabled(editMode);
     }
 
     @Override
-    protected void onComponentTag(ComponentTag tag)
-    {
+    protected void onComponentTag(ComponentTag tag) {
         super.onComponentTag(tag);
         if (editMode)
             return;

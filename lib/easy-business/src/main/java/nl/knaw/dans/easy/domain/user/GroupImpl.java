@@ -8,8 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @LdapObject(objectClasses = {"easyGroup", "organizationalUnit"})
-public class GroupImpl implements Group
-{
+public class GroupImpl implements Group {
 
     private static final long serialVersionUID = 1012313686311702776L;
 
@@ -25,38 +24,31 @@ public class GroupImpl implements Group
     /**
      * NOT PART OF PUBLIC API - only used for deserialization.
      */
-    public GroupImpl()
-    {
+    public GroupImpl() {
 
     }
 
-    public GroupImpl(String groupId)
-    {
+    public GroupImpl(String groupId) {
         this.groupId = groupId;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return groupId;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         this.state = state;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -68,19 +60,13 @@ public class GroupImpl implements Group
      * @return true if object is equal.
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         boolean equals = false;
-        if (obj != null)
-        {
-            if (obj == this)
-            {
+        if (obj != null) {
+            if (obj == this) {
                 equals = true;
-            }
-            else
-            {
-                if (obj.getClass() == this.getClass())
-                {
+            } else {
+                if (obj.getClass() == this.getClass()) {
                     final GroupImpl otherGroup = (GroupImpl) obj;
                     equals = new EqualsBuilder().append(this.groupId, otherGroup.groupId).append(this.state, otherGroup.state)
                             .append(this.description, otherGroup.description).isEquals();
@@ -97,14 +83,12 @@ public class GroupImpl implements Group
      * @return hashcode
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(1, 3).append(this.groupId).append(this.state).toHashCode();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getDescription();
     }
 

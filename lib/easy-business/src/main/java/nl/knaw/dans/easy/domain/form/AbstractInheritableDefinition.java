@@ -14,8 +14,7 @@ import org.jibx.runtime.JiBXException;
  * 
  * @author ecco Apr 22, 2009
  */
-public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObject<T>
-{
+public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObject<T> {
 
     private static final long serialVersionUID = -3247134648110523055L;
 
@@ -34,13 +33,11 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     /**
      * Constructor used by JiBX.
      */
-    protected AbstractInheritableDefinition()
-    {
+    protected AbstractInheritableDefinition() {
         super();
     }
 
-    protected AbstractInheritableDefinition(String id)
-    {
+    protected AbstractInheritableDefinition(String id) {
         super();
         this.id = id;
     }
@@ -48,16 +45,14 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     /**
      * @return the id
      */
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
     /**
      * @return the parent
      */
-    public AbstractInheritableDefinition<?> getParent()
-    {
+    public AbstractInheritableDefinition<?> getParent() {
         return parent;
     }
 
@@ -65,27 +60,21 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param parent
      *        the parent to set
      */
-    protected void setParent(final AbstractInheritableDefinition<?> parent)
-    {
+    protected void setParent(final AbstractInheritableDefinition<?> parent) {
         this.parent = parent;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return parent.getVersion();
     }
 
     /**
      * @return the labelResourceKey
      */
-    public String getLabelResourceKey()
-    {
-        if (labelResourceKey == null && parent != null)
-        {
+    public String getLabelResourceKey() {
+        if (labelResourceKey == null && parent != null) {
             return parent.getLabelResourceKey();
-        }
-        else
-        {
+        } else {
             return labelResourceKey;
         }
     }
@@ -94,22 +83,17 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param labelResourceKey
      *        the labelResourceKey to set
      */
-    public void setLabelResourceKey(final String labelResourceKey)
-    {
+    public void setLabelResourceKey(final String labelResourceKey) {
         this.labelResourceKey = labelResourceKey;
     }
 
     /**
      * @return the shortHelpResourceKey
      */
-    public String getShortHelpResourceKey()
-    {
-        if (shortHelpResourceKey == null && parent != null)
-        {
+    public String getShortHelpResourceKey() {
+        if (shortHelpResourceKey == null && parent != null) {
             return parent.getShortHelpResourceKey();
-        }
-        else
-        {
+        } else {
             return shortHelpResourceKey;
         }
     }
@@ -118,22 +102,17 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param shortHelpResourceKey
      *        the shortHelpResourceKey to set
      */
-    public void setShortHelpResourceKey(final String shortHelpResourceKey)
-    {
+    public void setShortHelpResourceKey(final String shortHelpResourceKey) {
         this.shortHelpResourceKey = shortHelpResourceKey;
     }
 
     /**
      * @return the helpItem
      */
-    public String getHelpItem()
-    {
-        if (helpItem == null && parent != null)
-        {
+    public String getHelpItem() {
+        if (helpItem == null && parent != null) {
             return parent.getHelpItem();
-        }
-        else
-        {
+        } else {
             return helpItem;
         }
     }
@@ -142,22 +121,17 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param helpItem
      *        the helpItem to set
      */
-    public void setHelpItem(final String helpItem)
-    {
+    public void setHelpItem(final String helpItem) {
         this.helpItem = helpItem;
     }
 
     /**
      * @return the helpFile
      */
-    public String getHelpFile()
-    {
-        if (helpFile == null && parent != null)
-        {
+    public String getHelpFile() {
+        if (helpFile == null && parent != null) {
             return parent.getHelpFile();
-        }
-        else
-        {
+        } else {
             return helpFile;
         }
     }
@@ -166,22 +140,17 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param helpFile
      *        the helpFile to set
      */
-    public void setHelpFile(final String helpFile)
-    {
+    public void setHelpFile(final String helpFile) {
         this.helpFile = helpFile;
     }
 
     /**
      * @return the instructionFile
      */
-    public String getInstructionFile()
-    {
-        if (instructionFile == null && parent != null)
-        {
+    public String getInstructionFile() {
+        if (instructionFile == null && parent != null) {
             return parent.getInstructionFile();
-        }
-        else
-        {
+        } else {
             return instructionFile;
         }
     }
@@ -190,22 +159,17 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param instructionFile
      *        the instructionFile to set
      */
-    public void setInstructionFile(final String instructionFile)
-    {
+    public void setInstructionFile(final String instructionFile) {
         this.instructionFile = instructionFile;
     }
 
     /**
      * @return the licenseFile
      */
-    public String getLicenseFile()
-    {
-        if (licenseFile == null && parent != null)
-        {
+    public String getLicenseFile() {
+        if (licenseFile == null && parent != null) {
             return parent.getLicenseFile();
-        }
-        else
-        {
+        } else {
             return licenseFile;
         }
     }
@@ -214,27 +178,23 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      * @param licenseFile
      *        the licenseFile to set
      */
-    public void setLicenseFile(final String licenseFile)
-    {
+    public void setLicenseFile(final String licenseFile) {
         this.licenseFile = licenseFile;
     }
 
     /**
-     * Get the custom property by the given <code>name</code> or <code>null</code> if the property could
-     * not be found.
+     * Get the custom property by the given <code>name</code> or <code>null</code> if the property could not be found.
      * 
      * @param name
      *        name of the property
      * @return value of the property
      */
-    public String getCustomProperty(final String name)
-    {
+    public String getCustomProperty(final String name) {
         return getCustomProperty(name, null);
     }
 
     /**
-     * Get the custom property by the given <code>name</code> or the given <code>defaultValue</code> if
-     * the property could not be found.
+     * Get the custom property by the given <code>name</code> or the given <code>defaultValue</code> if the property could not be found.
      * 
      * @param name
      *        name of the property
@@ -242,82 +202,59 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
      *        the default value
      * @return value of the property
      */
-    public String getCustomProperty(final String name, final String defaultValue)
-    {
+    public String getCustomProperty(final String name, final String defaultValue) {
         String value = customPropertiesMap.get(name);
-        if (value == null && parent != null)
-        {
+        if (value == null && parent != null) {
             value = parent.getCustomProperty(name, defaultValue);
         }
-        if (value == null)
-        {
+        if (value == null) {
             value = defaultValue;
         }
         return value;
     }
 
-    public void putCustomProperty(final String name, final String value)
-    {
-        synchronized (customPropertiesMap)
-        {
+    public void putCustomProperty(final String name, final String value) {
+        synchronized (customPropertiesMap) {
             customPropertiesMap.put(name, value);
         }
     }
 
-    protected StandardPanelDefinition getStandardPanelDefinition(final String panelId)
-    {
-        if (parent != null)
-        {
+    protected StandardPanelDefinition getStandardPanelDefinition(final String panelId) {
+        if (parent != null) {
             return parent.getStandardPanelDefinition(panelId);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    protected TermPanelDefinition getTermPanelDefinition(final String panelId)
-    {
-        if (parent != null)
-        {
+    protected TermPanelDefinition getTermPanelDefinition(final String panelId) {
+        if (parent != null) {
             return parent.getTermPanelDefinition(panelId);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    protected SubHeadingDefinition getSubHeadingDefinition(final String panelId)
-    {
-        if (parent != null)
-        {
+    protected SubHeadingDefinition getSubHeadingDefinition(final String panelId) {
+        if (parent != null) {
             return parent.getSubHeadingDefinition(panelId);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    protected PanelDefinition getPanelDefinition(final String panelId)
-    {
-        if (parent != null)
-        {
+    protected PanelDefinition getPanelDefinition(final String panelId) {
+        if (parent != null) {
             return parent.getPanelDefinition(panelId);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
     protected abstract AbstractInheritableDefinition<?> clone();
 
-    protected void clone(final AbstractInheritableDefinition<?> clone)
-    {
-        synchronized (customPropertiesMap)
-        {
+    protected void clone(final AbstractInheritableDefinition<?> clone) {
+        synchronized (customPropertiesMap) {
             clone.customPropertiesMap.putAll(customPropertiesMap);
         }
         clone.helpFile = helpFile;
@@ -330,13 +267,10 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     }
 
     // JiBX
-    protected List<CustomProperty> getCustomProperties()
-    {
+    protected List<CustomProperty> getCustomProperties() {
         final List<CustomProperty> customProps = new ArrayList<CustomProperty>();
-        synchronized (customPropertiesMap)
-        {
-            for (final String name : customPropertiesMap.keySet())
-            {
+        synchronized (customPropertiesMap) {
+            for (final String name : customPropertiesMap.keySet()) {
                 customProps.add(new CustomProperty(name, customPropertiesMap.get(name)));
             }
         }
@@ -344,19 +278,14 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     }
 
     // JiBX
-    protected void postAbstractJiBXProcess() throws JiBXException
-    {
+    protected void postAbstractJiBXProcess() throws JiBXException {
         mapCustomProperties();
     }
 
-    private void mapCustomProperties()
-    {
-        if (customProperties != null)
-        {
-            synchronized (customPropertiesMap)
-            {
-                for (final CustomProperty prop : customProperties)
-                {
+    private void mapCustomProperties() {
+        if (customProperties != null) {
+            synchronized (customPropertiesMap) {
+                for (final CustomProperty prop : customProperties) {
                     customPropertiesMap.put(prop.getName(), prop.getValue());
                 }
             }

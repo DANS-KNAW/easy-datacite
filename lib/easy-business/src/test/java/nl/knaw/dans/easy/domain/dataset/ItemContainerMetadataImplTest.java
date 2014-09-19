@@ -22,16 +22,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ItemContainerMetadataImplTest
-{
+public class ItemContainerMetadataImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemContainerMetadataImplTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeFull() throws XMLException
-    {
+    public void serializeDeserializeFull() throws XMLException {
         DmoStoreId folderItemId = new DmoStoreId("foo:123");
         DmoStoreId datasetId = new DmoStoreId("dataset:123");
 
@@ -52,8 +50,7 @@ public class ItemContainerMetadataImplTest
     }
 
     @Test
-    public void administration() throws XMLSerializationException, RepositoryException
-    {
+    public void administration() throws XMLSerializationException, RepositoryException {
         ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(new DmoStoreId("foo:123"));
         assertEquals(0, icmd.getChildFileCount());
         assertEquals(0, icmd.getTotalFileCount());
@@ -94,8 +91,7 @@ public class ItemContainerMetadataImplTest
     }
 
     @Test
-    public void dirtyChecking() throws RepositoryException, DomainException
-    {
+    public void dirtyChecking() throws RepositoryException, DomainException {
         if (verbose)
             Tester.printClassAndFieldHierarchy(ItemContainerMetadataImpl.class);
 

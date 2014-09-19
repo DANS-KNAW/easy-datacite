@@ -18,25 +18,21 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ForgottenPasswordSpecificationTest extends TestHelper
-{
+public class ForgottenPasswordSpecificationTest extends TestHelper {
 
     @BeforeClass
-    public static void before()
-    {
+    public static void before() {
         before(ForgottenPasswordSpecificationTest.class);
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         new Data().setUserRepo(null);
     }
 
     @Test
-    public void testInSufficientData()
-    {
+    public void testInSufficientData() {
         ForgottenPasswordMessenger messenger = new ForgottenPasswordMessenger();
         assertFalse(ForgottenPasswordSpecification.isSatisfiedBy(messenger));
         assertEquals(State.InsufficientData, messenger.getState());
@@ -44,8 +40,7 @@ public class ForgottenPasswordSpecificationTest extends TestHelper
     }
 
     @Test
-    public void testUserCanBeFoundByUserId() throws RepositoryException
-    {
+    public void testUserCanBeFoundByUserId() throws RepositoryException {
         EasyUserRepo repo = EasyMock.createMock(EasyUserRepo.class);
         Data data = new Data();
         data.setUserRepo(repo);
@@ -65,8 +60,7 @@ public class ForgottenPasswordSpecificationTest extends TestHelper
     }
 
     @Test
-    public void testUserCanNOTBeFoundByUserId() throws RepositoryException
-    {
+    public void testUserCanNOTBeFoundByUserId() throws RepositoryException {
         EasyUserRepo repo = EasyMock.createMock(EasyUserRepo.class);
         Data data = new Data();
         data.setUserRepo(repo);
@@ -82,8 +76,7 @@ public class ForgottenPasswordSpecificationTest extends TestHelper
     }
 
     @Test
-    public void testSystemError() throws RepositoryException
-    {
+    public void testSystemError() throws RepositoryException {
         EasyUserRepo repo = EasyMock.createMock(EasyUserRepo.class);
         Data data = new Data();
         data.setUserRepo(repo);

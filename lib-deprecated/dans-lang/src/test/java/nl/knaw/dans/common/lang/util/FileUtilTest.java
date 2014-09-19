@@ -13,12 +13,10 @@ import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.Test;
 
-public class FileUtilTest
-{
+public class FileUtilTest {
 
     @Test
-    public void getMimeType() throws ResourceNotFoundException, IOException
-    {
+    public void getMimeType() throws ResourceNotFoundException, IOException {
         File docFile = Tester.getFile("test-files/fileUtil/kubler.doc");
         // File docFile = new File("src/test/resources/test-files/fileUtil/kubler.doc");
         String mimeType = FileUtil.getMimeType(docFile);
@@ -31,8 +29,7 @@ public class FileUtilTest
 
     // A file that does not exist is neither file nor directory.
     @Test
-    public void copyFile1()
-    {
+    public void copyFile1() {
         File file = new File("doesnotexist");
         assertFalse(file.exists());
         assertFalse(file.isDirectory());
@@ -41,8 +38,7 @@ public class FileUtilTest
 
     // If 'original' does not exist it cannot be copied.
     @Test(expected = FileNotFoundException.class)
-    public void copyFile2() throws Exception
-    {
+    public void copyFile2() throws Exception {
         File original = new File("doesnotexist");
         File destination = new File("doesnotexisteither");
         FileUtil.copyFile(original, destination);
@@ -50,8 +46,7 @@ public class FileUtilTest
 
     // If 'original' and 'destination' are equal, no copy can be made.
     @Test(expected = IOException.class)
-    public void copyFile3() throws Exception
-    {
+    public void copyFile3() throws Exception {
         String filename = "src/test/resources/test-files/fileUtil/kubler.doc";
         File original = new File(filename);
         File destination = new File(filename);
@@ -60,8 +55,7 @@ public class FileUtilTest
 
     // If 'original' is a directory and 'destination' is a file, it cannot be copied.
     @Test(expected = IOException.class)
-    public void copyFile4() throws Exception
-    {
+    public void copyFile4() throws Exception {
         File original = new File("src/test/resources/test-files/fileUtil");
         File destination = new File("src/test/resources/test-files/fileUtil/kubler.doc");
         FileUtil.copyFile(original, destination);
@@ -69,12 +63,10 @@ public class FileUtilTest
 
     // Copy a simple file in existing directory.
     @Test
-    public void copyFile5() throws Exception
-    {
+    public void copyFile5() throws Exception {
         File original = new File("src/test/resources/test-files/fileUtil/kubler.doc");
         File destination = new File("target/test-files/fileUtil");
-        if (destination.exists())
-        {
+        if (destination.exists()) {
             FileUtil.deleteDirectory(destination);
         }
         destination.mkdirs();
@@ -86,12 +78,10 @@ public class FileUtilTest
 
     // Copy a simple file in existing directory.
     @Test
-    public void copyFile6() throws Exception
-    {
+    public void copyFile6() throws Exception {
         File original = new File("src/test/resources/test-files/fileUtil/kubler.doc");
         File destination = new File("target/test-files/fileUtil/kublerCopy.doc");
-        if (destination.exists())
-        {
+        if (destination.exists()) {
             assertTrue(destination.delete());
         }
         destination.getParentFile().mkdirs();
@@ -103,20 +93,14 @@ public class FileUtilTest
 
     // Copy a directory.
     @Test
-    public void copyFile7() throws Exception
-    {
+    public void copyFile7() throws Exception {
 
         File destination = new File("target/test-files/fileUtilCopy");
-        if (destination.exists())
-        {
-            for (File file : destination.listFiles())
-            {
-                if (file.isFile())
-                {
+        if (destination.exists()) {
+            for (File file : destination.listFiles()) {
+                if (file.isFile()) {
                     assertTrue(file.delete());
-                }
-                else
-                {
+                } else {
                     FileUtil.deleteDirectory(file);
                 }
             }

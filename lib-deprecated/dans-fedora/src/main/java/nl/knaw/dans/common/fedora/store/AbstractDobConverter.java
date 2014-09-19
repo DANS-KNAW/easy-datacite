@@ -27,23 +27,19 @@ import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.DocumentException;
 
-public abstract class AbstractDobConverter<T extends DataModelObject> implements DobConverter<T>
-{
+public abstract class AbstractDobConverter<T extends DataModelObject> implements DobConverter<T> {
 
     private final DmoNamespace converterId;
 
-    public AbstractDobConverter(DmoNamespace objectNamespace)
-    {
+    public AbstractDobConverter(DmoNamespace objectNamespace) {
         this.converterId = objectNamespace;
     }
 
-    public DmoNamespace getObjectNamespace()
-    {
+    public DmoNamespace getObjectNamespace() {
         return converterId;
     }
 
-    public DigitalObject serialize(T dataModelObject) throws ObjectSerializationException
-    {
+    public DigitalObject serialize(T dataModelObject) throws ObjectSerializationException {
         final DigitalObject dob = new DigitalObject(dataModelObject.getDmoNamespace().getValue());
 
         // copy sid
@@ -53,8 +49,7 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
         dob.readObjectProperties(dataModelObject);
 
         // inline xml datastreams
-        for (MetadataUnit mdUnit : dataModelObject.getMetadataUnits())
-        {
+        for (MetadataUnit mdUnit : dataModelObject.getMetadataUnits()) {
             Datastream ds = dob.addDatastream(mdUnit.getUnitId(), ControlGroup.X);
             ds.setFedoraUri(mdUnit.getUnitFormatURI());
             ds.setState(Datastream.State.A);
@@ -62,23 +57,19 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
 
             DatastreamVersion dv = ds.addDatastreamVersion(null, FoxConstants.MIMETYPE_XML);
             dv.setLabel(mdUnit.getUnitLabel());
-            try
-            {
+            try {
                 dv.setXmlContent(mdUnit.asObjectXML());
             }
-            catch (XMLSerializationException e)
-            {
+            catch (XMLSerializationException e) {
                 throw new ObjectSerializationException("Could not serialize MetadataUnit with unitId " + mdUnit.getUnitId(), e);
             }
-            catch (DocumentException e)
-            {
+            catch (DocumentException e) {
                 throw new ObjectSerializationException("Could not serialize MetadataUnit with unitId " + mdUnit.getUnitId(), e);
             }
         }
 
         // binary content streams
-        for (BinaryUnit binUnit : dataModelObject.getBinaryUnits())
-        {
+        for (BinaryUnit binUnit : dataModelObject.getBinaryUnits()) {
             Datastream ds = dob.addDatastream(binUnit.getUnitId(), convertControlGroup(binUnit.getUnitControlGroup()));
             ds.setState(State.A);
             ds.setVersionable(binUnit.isVersionable());
@@ -86,12 +77,9 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
             dsv.setContentDigest(ContentDigestType.DISABLED, null);
             dsv.setLabel(binUnit.getUnitLabel());
 
-            if (binUnit.hasFile())
-            {
+            if (binUnit.hasFile()) {
                 dsv.setContentLocation(Type.URL, URI.create(binUnit.getLocation()));
-            }
-            else if (binUnit.hasBinaryContent())
-            {
+            } else if (binUnit.hasBinaryContent()) {
                 dsv.setBinaryContent(binUnit.getBinaryContent());
             }
         }
@@ -99,8 +87,7 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
         // relations
         String rdf = FedoraRelationsConverter.generateRdf(dataModelObject);
 
-        if (!StringUtils.isBlank(rdf))
-        {
+        if (!StringUtils.isBlank(rdf)) {
             Datastream ds = dob.addDatastream(FoxConstants.STREAM_ID_EXT, ControlGroup.X);
             ds.setFedoraUri(FoxConstants.RELS_EXT_FORMAT_URI_EXT);
             ds.setState(Datastream.State.A);
@@ -108,12 +95,10 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
 
             DatastreamVersion dv = ds.addDatastreamVersion(null, FoxConstants.MIMETYPE_XML);
             dv.setLabel("rels-ext");
-            try
-            {
+            try {
                 dv.setXmlContent(rdf);
             }
-            catch (DocumentException e)
-            {
+            catch (DocumentException e) {
                 throw new ObjectSerializationException(e);
             }
         }
@@ -121,19 +106,15 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
     }
 
     // override if needed.
-    public void prepareForUpdate(T dmo) throws ObjectSerializationException
-    {
-    };
+    public void prepareForUpdate(T dmo) throws ObjectSerializationException {};
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected void deserializeRelationships(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException
-    {
+    protected void deserializeRelationships(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException {
         Relations relObj = dmo.getRelations();
         if (!(relObj instanceof AbstractRelations))
             return;
 
-        try
-        {
+        try {
             String streamId = FoxConstants.STREAM_ID_EXT;
             DatastreamVersion relsVersion = dob.getLatestVersion(streamId);
             if (relsVersion == null)
@@ -144,14 +125,12 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
             ((AbstractRelations) relObj).setDirty(false);
 
         }
-        catch (InvalidRelationshipException e)
-        {
+        catch (InvalidRelationshipException e) {
             throw new ObjectDeserializationException(e);
         }
     }
 
-    public void deserialize(DigitalObject dob, T dmo) throws ObjectDeserializationException
-    {
+    public void deserialize(DigitalObject dob, T dmo) throws ObjectDeserializationException {
         checkNamespace(dob, dmo);
 
         dob.writeObjectProperties(dmo);
@@ -159,17 +138,14 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
         deserializeRelationships(dob, dmo);
     }
 
-    protected void checkNamespace(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException
-    {
-        if (!dob.getSid().startsWith(dmo.getDmoNamespace().getValue()))
-        {
+    protected void checkNamespace(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException {
+        if (!dob.getSid().startsWith(dmo.getDmoNamespace().getValue())) {
             throw new ObjectDeserializationException("Wrong object. DigitalObject " + dob.getSid() + " does not belong to the DataModelObject namespace "
                     + dmo.getDmoNamespace());
         }
     }
 
-    protected ControlGroup convertControlGroup(BinaryUnit.UnitControlGroup unitControlGroup)
-    {
+    protected ControlGroup convertControlGroup(BinaryUnit.UnitControlGroup unitControlGroup) {
         return ControlGroup.values()[unitControlGroup.ordinal()];
     }
 

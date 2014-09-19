@@ -5,13 +5,11 @@ import java.util.Set;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 
 /**
- * An object that is member of a collection. This object stores it's relations through the relations
- * object of the DataModelObject
+ * An object that is member of a collection. This object stores it's relations through the relations object of the DataModelObject
  * 
  * @author lobo
  */
-public interface DmoCollectionMember extends DataModelObject
-{
+public interface DmoCollectionMember extends DataModelObject {
     /**
      * @return a list of the collections that this object is part of
      */

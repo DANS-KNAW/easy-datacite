@@ -14,14 +14,13 @@ import nl.knaw.dans.easy.rest.resources.SearchResource;
 import nl.knaw.dans.easy.rest.resources.TestResource;
 
 /**
- * The Application class that locates all the resource classes to initialize the REST service. This can
- * be achieved without such a class but the other methods are not compatible with Spring injection.
+ * The Application class that locates all the resource classes to initialize the REST service. This can be achieved without such a class but the other methods
+ * are not compatible with Spring injection.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class RestApplication extends Application
-{
+public class RestApplication extends Application {
 
     /**
      * Returns the Resource classes that will be used to map the REST service.
@@ -29,8 +28,7 @@ public class RestApplication extends Application
      * @return A Set containing the Resource classes.
      */
     @Override
-    public Set<Class<?>> getClasses()
-    {
+    public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<Class<?>>();
         s.add(TestResource.class);
         s.add(DatasetResource.class);

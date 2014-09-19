@@ -10,8 +10,7 @@ import nl.knaw.dans.common.lang.search.bean.annotation.SearchField;
 import org.joda.time.DateTime;
 
 @SearchBean(defaultIndex = DummyIndex.class, typeIdentifier = "dummy")
-public class DummySB
-{
+public class DummySB {
 
     public final static String ID_NAME = "id";
     @SearchField(name = ID_NAME)
@@ -35,58 +34,47 @@ public class DummySB
     @SearchField(name = DATES_NAME)
     private List<DateTime> dates;
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getName2()
-    {
+    public String getName2() {
         return name + "_copied";
     }
 
-    public void setAddresses(List<String> addresses)
-    {
+    public void setAddresses(List<String> addresses) {
         this.addresses = addresses;
     }
 
-    public List<String> getAddresses()
-    {
+    public List<String> getAddresses() {
         return addresses;
     }
 
-    public void setDates(List<DateTime> dates)
-    {
+    public void setDates(List<DateTime> dates) {
         this.dates = dates;
     }
 
-    public List<DateTime> getDates()
-    {
+    public List<DateTime> getDates() {
         return dates;
     }
 
-    public void setCurrentDate(Date currentDate)
-    {
+    public void setCurrentDate(Date currentDate) {
         this.currentDate = currentDate;
     }
 
-    public Date getCurrentDate()
-    {
+    public Date getCurrentDate() {
         return currentDate;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 }

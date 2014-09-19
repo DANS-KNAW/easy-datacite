@@ -12,12 +12,10 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class LettersAndDigitsValidatorTest
-{
+public class LettersAndDigitsValidatorTest {
 
     @Parameters
-    public static Collection<Object[]> getTestData()
-    {
+    public static Collection<Object[]> getTestData() {
         return Arrays.asList(new Object[][] { //
                 //
                         {"123", true}, //
@@ -39,21 +37,18 @@ public class LettersAndDigitsValidatorTest
     private final String input;
     private final boolean valid;
 
-    public LettersAndDigitsValidatorTest(String input, boolean valid)
-    {
+    public LettersAndDigitsValidatorTest(String input, boolean valid) {
         this.input = input;
         this.valid = valid;
     }
 
     @Test
-    public void valid()
-    {
+    public void valid() {
         @SuppressWarnings("unchecked")
         IValidatable<String> validatable = EasyMock.createMock(IValidatable.class);
         EasyMock.expect(validatable.getValue()).andReturn(this.input).anyTimes();
 
-        if (!this.valid)
-        {
+        if (!this.valid) {
             validatable.error((IValidationError) EasyMock.anyObject());
             EasyMock.expectLastCall().anyTimes();
         }

@@ -10,50 +10,43 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Collects validating errors and warnings and prints them to the log-facility. At which log-level
- * messages will be printed is dependent on the {@link XMLErrorHandler.Reporter}.
+ * Collects validating errors and warnings and prints them to the log-facility. At which log-level messages will be printed is dependent on the
+ * {@link XMLErrorHandler.Reporter}.
  * 
  * @author ecco
  */
-public class XMLErrorHandler implements ErrorHandler
-{
+public class XMLErrorHandler implements ErrorHandler {
 
     /**
      * Decides at which log-level notification messages are logged.
      * 
      * @author ecco
      */
-    public enum Reporter
-    {
+    public enum Reporter {
         /**
          * No reporting.
          */
-        off
-        {
+        off {
 
             /**
              * {@inheritDoc}
              */
             @Override
-            void evaluate(final SAXParseException parseException, final String severity, final int msgCount)
-            {
+            void evaluate(final SAXParseException parseException, final String severity, final int msgCount) {
                 // off means no reporting.
             }
         },
         /**
          * Report at DEBUG level.
          */
-        debug
-        {
+        debug {
 
             /**
              * {@inheritDoc}
              */
             @Override
-            void evaluate(final SAXParseException parseException, final String severity, final int msgCount)
-            {
-                if (LOGGER.isDebugEnabled())
-                {
+            void evaluate(final SAXParseException parseException, final String severity, final int msgCount) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug(getMessage(parseException, severity, msgCount));
                 }
             }
@@ -61,17 +54,14 @@ public class XMLErrorHandler implements ErrorHandler
         /**
          * Report at WARN level.
          */
-        warn
-        {
+        warn {
 
             /**
              * {@inheritDoc}
              */
             @Override
-            void evaluate(final SAXParseException parseException, final String severity, final int msgCount)
-            {
-                if (LOGGER.isWarnEnabled())
-                {
+            void evaluate(final SAXParseException parseException, final String severity, final int msgCount) {
+                if (LOGGER.isWarnEnabled()) {
                     LOGGER.warn(getMessage(parseException, severity, msgCount));
                 }
             }
@@ -79,17 +69,14 @@ public class XMLErrorHandler implements ErrorHandler
         /**
          * Report at ERROR level.
          */
-        error
-        {
+        error {
 
             /**
              * {@inheritDoc}
              */
             @Override
-            void evaluate(final SAXParseException parseException, final String severity, final int msgCount)
-            {
-                if (LOGGER.isErrorEnabled())
-                {
+            void evaluate(final SAXParseException parseException, final String severity, final int msgCount) {
+                if (LOGGER.isErrorEnabled()) {
                     LOGGER.error(getMessage(parseException, severity, msgCount));
                 }
             }
@@ -139,8 +126,7 @@ public class XMLErrorHandler implements ErrorHandler
     /**
      * Constructs a new XMLErrorHandler with a Reporter set to {@link Reporter#debug}.
      */
-    public XMLErrorHandler()
-    {
+    public XMLErrorHandler() {
         super();
         reporter = Reporter.debug;
     }
@@ -151,8 +137,7 @@ public class XMLErrorHandler implements ErrorHandler
      * @param reporter
      *        the reporter to use
      */
-    public XMLErrorHandler(final Reporter reporter)
-    {
+    public XMLErrorHandler(final Reporter reporter) {
         super();
         this.reporter = reporter;
     }
@@ -162,8 +147,7 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return reporter for logging notifications.
      */
-    public Reporter getReporter()
-    {
+    public Reporter getReporter() {
         return reporter;
     }
 
@@ -173,16 +157,14 @@ public class XMLErrorHandler implements ErrorHandler
      * @param reporter
      *        reporter for logging notifications.
      */
-    public void setReporter(Reporter reporter)
-    {
+    public void setReporter(Reporter reporter) {
         this.reporter = reporter;
     }
 
     /**
      * Reset this XMLErrorHandler to it's original state.
      */
-    public void reset()
-    {
+    public void reset() {
         warnings.clear();
         errors.clear();
         fatalErrors.clear();
@@ -192,8 +174,7 @@ public class XMLErrorHandler implements ErrorHandler
     /**
      * {@inheritDoc}
      */
-    public void error(final SAXParseException parseException) throws SAXException
-    {
+    public void error(final SAXParseException parseException) throws SAXException {
         errors.add(parseException);
         reporter.evaluate(parseException, SEVERITY_ERROR, ++notifications);
     }
@@ -201,8 +182,7 @@ public class XMLErrorHandler implements ErrorHandler
     /**
      * {@inheritDoc}
      */
-    public void fatalError(final SAXParseException parseException) throws SAXException
-    {
+    public void fatalError(final SAXParseException parseException) throws SAXException {
         fatalErrors.add(parseException);
         reporter.evaluate(parseException, SEVERITY_FATAL_ERROR, ++notifications);
     }
@@ -210,8 +190,7 @@ public class XMLErrorHandler implements ErrorHandler
     /**
      * {@inheritDoc}
      */
-    public void warning(final SAXParseException parseException) throws SAXException
-    {
+    public void warning(final SAXParseException parseException) throws SAXException {
         warnings.add(parseException);
         reporter.evaluate(parseException, SEVERITY_WARNING, ++notifications);
     }
@@ -221,8 +200,7 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return the list with warnings
      */
-    public List<SAXParseException> getWarnings()
-    {
+    public List<SAXParseException> getWarnings() {
         return warnings;
     }
 
@@ -231,19 +209,16 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return the list of errors
      */
-    public List<SAXParseException> getErrors()
-    {
+    public List<SAXParseException> getErrors() {
         return errors;
     }
 
     /**
-     * Get the list of fatal errors. There can only be one fatal error in this list, since parsing stops
-     * after a fatal error.
+     * Get the list of fatal errors. There can only be one fatal error in this list, since parsing stops after a fatal error.
      * 
      * @return the list of fatal errors
      */
-    public List<SAXParseException> getFatalErrors()
-    {
+    public List<SAXParseException> getFatalErrors() {
         return fatalErrors;
     }
 
@@ -252,8 +227,7 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return all the notifications
      */
-    public List<SAXParseException> getNotifications()
-    {
+    public List<SAXParseException> getNotifications() {
         final List<SAXParseException> allErrors = new ArrayList<SAXParseException>(getWarnings());
         allErrors.addAll(getErrors());
         allErrors.addAll(getFatalErrors());
@@ -265,19 +239,16 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return the number of notifications this XMLErrorHandler received
      */
-    public int getNotificationCount()
-    {
+    public int getNotificationCount() {
         return notifications;
     }
 
     /**
      * Was this ErrorHandler free of notification of any errors?
      * 
-     * @return <code>false</code> if we did receive notification of validating errors, <code>true</code>
-     *         otherwise
+     * @return <code>false</code> if we did receive notification of validating errors, <code>true</code> otherwise
      */
-    public boolean passed()
-    {
+    public boolean passed() {
         return notifications == 0;
     }
 
@@ -286,27 +257,22 @@ public class XMLErrorHandler implements ErrorHandler
      * 
      * @return all the SAXParseException messages as a string
      */
-    public String getMessages()
-    {
+    public String getMessages() {
         int msgCount = 0;
         final StringBuilder builder = new StringBuilder();
-        for (SAXParseException parseException : getFatalErrors())
-        {
+        for (SAXParseException parseException : getFatalErrors()) {
             builder.append(getMessage(parseException, SEVERITY_FATAL_ERROR, ++msgCount));
         }
-        for (SAXParseException parseException : getErrors())
-        {
+        for (SAXParseException parseException : getErrors()) {
             builder.append(getMessage(parseException, SEVERITY_ERROR, ++msgCount));
         }
-        for (SAXParseException parseException : getWarnings())
-        {
+        for (SAXParseException parseException : getWarnings()) {
             builder.append(getMessage(parseException, SEVERITY_WARNING, ++msgCount));
         }
         return builder.toString();
     }
 
-    private static String getMessage(final SAXParseException parseException, final String severity, final int count)
-    {
+    private static String getMessage(final SAXParseException parseException, final String severity, final int count) {
         final StringBuilder builder = new StringBuilder();
         builder.append(parseException.getClass().getName());
         builder.append(" severity=");

@@ -28,12 +28,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo This panel provides an upload component with progressbar, cancel option, maximum file
- *         size detection, error handling, extensible postprocessing on a separate thread, unzipping and
- *         extensible javascript through event handling. To get this baby to work a few shared resources
- *         need to be registered by the wicket application (1) and the webrequest factory method on the
- *         wicket application object needs to be overriden (2). 1. Place this code on your
- *         WebApplication.init() method
+ * @author lobo This panel provides an upload component with progressbar, cancel option, maximum file size detection, error handling, extensible postprocessing
+ *         on a separate thread, unzipping and extensible javascript through event handling. To get this baby to work a few shared resources need to be
+ *         registered by the wicket application (1) and the webrequest factory method on the wicket application object needs to be overriden (2). 1. Place this
+ *         code on your WebApplication.init() method
  * 
  *         <pre>
  * EasyUploadStatusCommand uploadStatusResource = new EasyUploadStatusCommand();
@@ -46,18 +44,15 @@ import org.slf4j.LoggerFactory;
  * 
  *         <pre>
  * &#064;Override
- * protected WebRequest newWebRequest(HttpServletRequest servletRequest)
- * {
+ * protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
  *     return new EasyUploadWebRequest(servletRequest);
  * }
  * </pre>
  * 
- *         Override the onReceivedFiles method of this object to handle upload completion events. For
- *         more control create our own postprocessor and register it to this component through the
- *         registerPostProcessor method.
+ *         Override the onReceivedFiles method of this object to handle upload completion events. For more control create our own postprocessor and register it
+ *         to this component through the registerPostProcessor method.
  */
-public class EasyUpload extends Panel
-{
+public class EasyUpload extends Panel {
 
     private static final long serialVersionUID = -1313908092922713274L;
 
@@ -77,19 +72,15 @@ public class EasyUpload extends Panel
      * @param a
      *        list of files received
      */
-    public void onReceivedFiles(Map<String, String> clientParams, String basePath, List<File> files)
-    {
-    }
+    public void onReceivedFiles(Map<String, String> clientParams, String basePath, List<File> files) {}
 
     /**
-     * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine
-     * will be used for writing the uploads to disk.
+     * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine will be used for writing the uploads to disk.
      * 
      * @param id
      *        the id of the wicket component.
      */
-    public EasyUpload(String id)
-    {
+    public EasyUpload(String id) {
         this(id, new EasyUploadConfig());
     }
 
@@ -101,20 +92,17 @@ public class EasyUpload extends Panel
      * @param basePath
      *        the path to which all uploads are written (directories will be created for each upload)
      */
-    public EasyUpload(String id, String basePath)
-    {
+    public EasyUpload(String id, String basePath) {
         this(id, new EasyUploadConfig(basePath));
     }
 
     /**
-     * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine
-     * will be used for writing the uploads to disk.
+     * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine will be used for writing the uploads to disk.
      * 
      * @param id
      *        the id of the wicket component.
      */
-    public EasyUpload(String id, EasyUploadConfig config)
-    {
+    public EasyUpload(String id, EasyUploadConfig config) {
         super(id);
 
         this.setConfig(config);
@@ -132,13 +120,11 @@ public class EasyUpload extends Panel
         add(JavascriptPackageResource.getHeaderContribution(new ResourceReference(EasyUpload.class, "js/EasyUpload.js")));
 
         // add UploadPanel javascript configuration (server to client)
-        IModel variablesModel = new AbstractReadOnlyModel()
-        {
+        IModel variablesModel = new AbstractReadOnlyModel() {
             private static final long serialVersionUID = 7602363940615595891L;
 
             @SuppressWarnings("unchecked")
-            public Map getObject()
-            {
+            public Map getObject() {
                 Map<String, CharSequence> variables = new HashMap<String, CharSequence>(1);
                 ResourceReference uploadStatusRef = new ResourceReference(EasyUploadStatusCommand.RESOURCE_NAME);
                 ResourceReference uploadCancelRef = new ResourceReference(EasyUploadCancelCommand.RESOURCE_NAME);
@@ -153,11 +139,9 @@ public class EasyUpload extends Panel
         add(TextTemplateHeaderContributor.forJavaScript(EasyUpload.class, "js/EasyUploadConfig.js", variablesModel));
     }
 
-    protected void onBeforeRender()
-    {
+    protected void onBeforeRender() {
         super.onBeforeRender();
-        if (uploadIFrame == null)
-        {
+        if (uploadIFrame == null) {
             // the iframe should be attached to a page to be able to get its pagemap,
             // that's why i'm adding it in onBeforRender
             addUploadIFrame();
@@ -170,22 +154,18 @@ public class EasyUpload extends Panel
         }
     }
 
-    private void addUploadIFrame()
-    {
-        IPageLink iFrameLink = new IPageLink()
-        {
+    private void addUploadIFrame() {
+        IPageLink iFrameLink = new IPageLink() {
             private static final long serialVersionUID = -6200934928206624082L;
 
-            public Page getPage()
-            {
+            public Page getPage() {
                 // use the markup id to set the component id of the new frame
                 EasyUploadIFrame uiframe = new EasyUploadIFrame(getMarkupId());
                 uiframe.setEasyUpload(EasyUpload.this);
                 return uiframe;
             }
 
-            public Class<? extends WebPage> getPageIdentity()
-            {
+            public Class<? extends WebPage> getPageIdentity() {
                 return EasyUploadIFrame.class;
             }
         };
@@ -198,13 +178,11 @@ public class EasyUpload extends Panel
      * 
      * @return the path where files are upload to
      */
-    public String getBasePath()
-    {
+    public String getBasePath() {
         return config.getBasePath();
     }
 
-    public void cancel()
-    {
+    public void cancel() {
         EasyUploadProcesses.getInstance().cancelUploadsByEasyUpload(this);
     }
 
@@ -216,28 +194,23 @@ public class EasyUpload extends Panel
     // extends IUploadPostProcess>>();
     private List<IUploadPostProcess> postProcesses = new LinkedList<IUploadPostProcess>();
 
-    public void registerPostProcess(IUploadPostProcess postProcess)
-    {
+    public void registerPostProcess(IUploadPostProcess postProcess) {
         postProcesses.add(postProcess);
     }
 
-    public void unregisterPostProcess(IUploadPostProcess postProcess)
-    {
+    public void unregisterPostProcess(IUploadPostProcess postProcess) {
         postProcesses.remove(postProcess);
     }
 
-    public List<IUploadPostProcess> getPostProcesses(String filename)
-    {
+    public List<IUploadPostProcess> getPostProcesses(String filename) {
         List<File> files = new ArrayList<File>(1);
         files.add(new File(filename));
         return getPostProcesses(files);
     }
 
-    public List<IUploadPostProcess> getPostProcesses(List<File> files)
-    {
+    public List<IUploadPostProcess> getPostProcesses(List<File> files) {
         List<IUploadPostProcess> rtn = new ArrayList<IUploadPostProcess>();
-        for (int i = 0; i < postProcesses.size(); i++)
-        {
+        for (int i = 0; i < postProcesses.size(); i++) {
             IUploadPostProcess postProcess = postProcesses.get(i);
             if (postProcess.needsProcessing(files))
                 rtn.add(postProcess);
@@ -245,13 +218,11 @@ public class EasyUpload extends Panel
         return rtn;
     }
 
-    public void setConfig(EasyUploadConfig config)
-    {
+    public void setConfig(EasyUploadConfig config) {
         this.config = config;
     }
 
-    public EasyUploadConfig getConfig()
-    {
+    public EasyUploadConfig getConfig() {
         return config;
     }
 

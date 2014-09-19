@@ -4,8 +4,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.joda.time.DateTime;
 
-public interface AuditRecord<T>
-{
+public interface AuditRecord<T> {
 
     DateTime getDate();
 

@@ -32,11 +32,9 @@ import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
 import org.dom4j.Element;
 
-public class ItemWorkDispatcher
-{
+public class ItemWorkDispatcher {
 
-    public ItemWorkDispatcher()
-    {
+    public ItemWorkDispatcher() {
 
     }
 
@@ -72,8 +70,7 @@ public class ItemWorkDispatcher
         worker.saveDescriptiveMetadata(dataset, descriptiveMetadataMap);
     }
 
-    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
-    {
+    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException {
         FileItem fileItem = getFileItem(dataset, fileItemId);
         String name = fileItem.getAutzStrategyName();
         AuthzStrategy strategy = AuthzStrategyProvider.newAuthzStrategy(name, sessionUser, fileItem, dataset);
@@ -81,105 +78,83 @@ public class ItemWorkDispatcher
         return fileItem;
     }
 
-    public FolderItem getFolderItem(EasyUser sessionUser, Dataset dataset, DmoStoreId folderItemId) throws ServiceException
-    {
+    public FolderItem getFolderItem(EasyUser sessionUser, Dataset dataset, DmoStoreId folderItemId) throws ServiceException {
         FolderItem folderItem = getFolderItem(dataset, folderItemId);
 
         return folderItem;
     }
 
-    public FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException
-    {
+    public FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException {
         FileItemVO fileItemVO;
-        try
-        {
+        try {
             fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getDmoStoreId(), path);
         }
-        catch (StoreAccessException e)
-        {
+        catch (StoreAccessException e) {
             throw new ServiceException(e);
         }
-        if (fileItemVO == null)
-        {
+        if (fileItemVO == null) {
             throw new ObjectNotAvailableException("FileItem not found: datasetId=" + dataset.getStoreId() + " path=" + path);
         }
         return getFileItem(sessionUser, dataset, new DmoStoreId(fileItemVO.getSid()));
     }
 
-    public FolderItem getFolderItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException
-    {
+    public FolderItem getFolderItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException {
         FolderItemVO folderItemVO;
-        try
-        {
+        try {
             folderItemVO = Data.getFileStoreAccess().findFolderByPath(dataset.getDmoStoreId(), path);
         }
-        catch (StoreAccessException e)
-        {
+        catch (StoreAccessException e) {
             throw new ServiceException(e);
         }
-        if (folderItemVO == null)
-        {
+        if (folderItemVO == null) {
             throw new ObjectNotAvailableException("FileItem not found: datasetId=" + dataset.getStoreId() + " path=" + path);
         }
         return getFolderItem(sessionUser, dataset, new DmoStoreId(folderItemVO.getSid()));
     }
 
-    public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException
-    {
+    public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException {
         return new FileItemDescription(fileItem.getFileItemMetadata(), fileItem.getDescriptiveMetadata());
     }
 
-    public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException
-    {
+    public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException {
         URL url = Data.getEasyStore().getFileURL(fileItem.getDmoStoreId());
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
-    {
+    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException {
         URL url = Data.getEasyStore().getDescriptiveMetadataURL(fileItemId);
         return url;
     }
 
-    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
-    {
+    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException {
         FileItem fileItem;
-        try
-        {
+        try {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId()))
-            {
+            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId())) {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             throw new ObjectNotAvailableException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return fileItem;
     }
 
-    private FolderItem getFolderItem(Dataset dataset, DmoStoreId folderItemId) throws ObjectNotAvailableException, ServiceException
-    {
+    private FolderItem getFolderItem(Dataset dataset, DmoStoreId folderItemId) throws ObjectNotAvailableException, ServiceException {
         FolderItem folderItem;
-        try
-        {
+        try {
             folderItem = (FolderItem) Data.getEasyStore().retrieve(folderItemId);
-            if (!folderItem.getDatasetId().equals(dataset.getDmoStoreId()))
-            {
+            if (!folderItem.getDatasetId().equals(dataset.getDmoStoreId())) {
                 throw new ObjectNotAvailableException("FolderItem '" + folderItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             throw new ObjectNotAvailableException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return folderItem;

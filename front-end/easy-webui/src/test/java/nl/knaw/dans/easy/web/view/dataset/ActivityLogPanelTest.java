@@ -28,8 +28,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class ActivityLogPanelTest extends ActivityLogFixture implements Serializable
-{
+public class ActivityLogPanelTest extends ActivityLogFixture implements Serializable {
     private static final EasyUserImpl ADMIN = new EasyUserImpl(Role.ADMIN);
     private static final EasyUserImpl USER = new EasyUserImpl(Role.USER);
     private static final EasyUserImpl ARCHIVIST = new EasyUserImpl(Role.ARCHIVIST);
@@ -38,8 +37,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     private static final String PATH_DOWNLOAD = "panel:downloadActivityLogPanel:download_csv";
 
     @Test
-    public void noList() throws Exception
-    {
+    public void noList() throws Exception {
         final Dataset dataset = mockDataset(null, ARCHIVIST, false, false, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -48,8 +46,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void emptyList() throws Exception
-    {
+    public void emptyList() throws Exception {
         final Dataset dataset = mockDataset(createDownloadList(), ARCHIVIST, false, false, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -59,8 +56,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow01() throws Exception
-    {
+    public void singleRow01() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, false, false, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -69,8 +65,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow02() throws Exception
-    {
+    public void singleRow02() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, true, false, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -79,8 +74,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow03() throws Exception
-    {
+    public void singleRow03() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, false, true, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -89,8 +83,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow04() throws Exception
-    {
+    public void singleRow04() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, true, true, true);
 
         final WicketTester tester = run(ARCHIVIST, dataset);
@@ -99,8 +92,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow05() throws Exception
-    {
+    public void singleRow05() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), USER, false, false, true);
 
         final WicketTester tester = run(USER, dataset);
@@ -109,8 +101,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow06() throws Exception
-    {
+    public void singleRow06() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), USER, true, false, true);
 
         final WicketTester tester = run(USER, dataset);
@@ -119,8 +110,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow07() throws Exception
-    {
+    public void singleRow07() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), USER, false, true, true);
 
         final WicketTester tester = run(USER, dataset);
@@ -129,8 +119,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow08() throws Exception
-    {
+    public void singleRow08() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), USER, true, true, true);
 
         final WicketTester tester = run(USER, dataset);
@@ -139,8 +128,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow09() throws Exception
-    {
+    public void singleRow09() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, false, false, true);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -149,8 +137,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow10() throws Exception
-    {
+    public void singleRow10() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, true, false, true);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -159,8 +146,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow11() throws Exception
-    {
+    public void singleRow11() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, false, true, true);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -169,8 +155,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow12() throws Exception
-    {
+    public void singleRow12() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, true, true, true);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -179,8 +164,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow13() throws Exception
-    {
+    public void singleRow13() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, false, false, false);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -189,8 +173,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow14() throws Exception
-    {
+    public void singleRow14() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, true, false, false);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -199,8 +182,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow15() throws Exception
-    {
+    public void singleRow15() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, false, true, false);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -209,8 +191,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void singleRow16() throws Exception
-    {
+    public void singleRow16() throws Exception {
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ADMIN, true, true, false);
 
         final WicketTester tester = run(ADMIN, dataset);
@@ -219,8 +200,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void noDownLoader() throws Exception
-    {
+    public void noDownLoader() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         final Dataset dataset = mockDataset(downloadList, ARCHIVIST, false, false, true);
@@ -230,8 +210,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void noUserFound() throws Exception
-    {
+    public void noUserFound() throws Exception {
         EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ObjectNotAvailableException(""));
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, false, false, true);
 
@@ -240,8 +219,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void noUserService() throws Exception
-    {
+    public void noUserService() throws Exception {
         EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ServiceException(""));
         final Dataset dataset = mockDataset(createDownloadRow(false, false), ARCHIVIST, false, false, true);
 
@@ -250,8 +228,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test(expected = InternalWebError.class)
-    public void noDatasetService() throws Exception
-    {
+    public void noDatasetService() throws Exception {
         EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class)))//
                 .andStubThrow(new ServiceException(""));
         final Dataset dataset = mockDataset(null, ARCHIVIST, false, false, true);
@@ -260,8 +237,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void formActions() throws Exception
-    {
+    public void formActions() throws Exception {
         final DownloadList downloadList = createDownloadList();
         final Dataset dataset = mockDataset(downloadList, ARCHIVIST, false, false, true);
 
@@ -278,8 +254,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void archivistFeb2013issue560() throws Exception
-    {
+    public void archivistFeb2013issue560() throws Exception {
         final String[] expectedRows = MockedDLHL36028.getArchivistExpectation().split("\n");
         final DownloadList downloadList = new MockedDLHL36028(userService, ARCHIVIST).getList();
         final Dataset dataset = mockDataset(downloadList, ARCHIVIST, false, false, true);
@@ -294,8 +269,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void datasetOwnerFeb2013issue560() throws Exception
-    {
+    public void datasetOwnerFeb2013issue560() throws Exception {
         final String[] expectedRows = MockedDLHL36028.getDepositorExpectation().split("\n");
         final DownloadList downloadList = new MockedDLHL36028(userService, USER).getList();
         final Dataset dataset = mockDataset(downloadList, USER, true, false, true);
@@ -309,18 +283,15 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         assertPanelEqualsDownload(tester, MockedDLHL36028.getNrOfFilesPerRow(), expectedRows);
     }
 
-    private DownloadList createDownloadRow(final boolean downloaderIsAnonymous, final boolean logDownloaderActions) throws Exception
-    {
+    private DownloadList createDownloadRow(final boolean downloaderIsAnonymous, final boolean logDownloaderActions) throws Exception {
         final EasyUser downloader = downloaderIsAnonymous ? EasyUserAnonymous.getInstance() : mockUser(logDownloaderActions);
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, downloader, DOWNLOAD_DATE_TIME);
         return downloadList;
     }
 
-    private void assertPanelEqualsDownload(final WicketTester tester, final Integer[] filesPerRow, final String[] expectedRows) throws Exception
-    {
-        for (int i = 0, j = 0; j < expectedRows.length; j += filesPerRow[i++])
-        {
+    private void assertPanelEqualsDownload(final WicketTester tester, final Integer[] filesPerRow, final String[] expectedRows) throws Exception {
+        for (int i = 0, j = 0; j < expectedRows.length; j += filesPerRow[i++]) {
             final String[] cols = expectedRows[j].split(";");
             final String path = PATH_VIEW + i;
             tester.assertLabel(path + ":downloadTime", cols[0].split("T")[0]);// shown as a date
@@ -339,18 +310,15 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         }
     }
 
-    private void assertRows(final WicketTester tester, final int numberOfRows, final Integer... filesPerRow)
-    {
+    private void assertRows(final WicketTester tester, final int numberOfRows, final Integer... filesPerRow) {
         // tester.debugComponentTrees();
         // tester.dumpPage();
         int expectedComponentCount = (filesPerRow.length * 9) + 15;
-        for (int i = 0; i < filesPerRow.length; i++)
-        {
+        for (int i = 0; i < filesPerRow.length; i++) {
             final String path = PATH_VIEW + i + ":fileCount";
             if (filesPerRow[i] == null)
                 tester.assertInvisible(path);
-            else
-            {
+            else {
                 tester.assertLabel(path, filesPerRow[i] + "");
                 expectedComponentCount++;
             }
@@ -359,31 +327,25 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         tester.assertLabel("panel:downloadListPanel:downloadCount", numberOfRows + "");
     }
 
-    private WicketTester run(final EasyUser sessionUser, final Dataset dataset) throws Exception
-    {
+    private WicketTester run(final EasyUser sessionUser, final Dataset dataset) throws Exception {
         final Session session = mockSessionFor_Component_isActionAuthourized();
         PowerMock.replayAll();
 
         final WicketTester tester = createWicketTester();
-        tester.startPage(new TestPanelPage(new ITestPanelSource()
-        {
+        tester.startPage(new TestPanelPage(new ITestPanelSource() {
             private static final long serialVersionUID = 1L;
 
-            public Panel getTestPanel(final String panelId)
-            {
-                return new ActivityLogPanel(panelId, dataset)
-                {
+            public Panel getTestPanel(final String panelId) {
+                return new ActivityLogPanel(panelId, dataset) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public EasyUser getSessionUser()
-                    {
+                    public EasyUser getSessionUser() {
                         return sessionUser;
                     }
 
                     @Override
-                    public Session getSession()
-                    {
+                    public Session getSession() {
                         return session;
                     }
                 };

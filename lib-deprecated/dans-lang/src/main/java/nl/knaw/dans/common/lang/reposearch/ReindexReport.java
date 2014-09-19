@@ -10,38 +10,31 @@ import java.util.List;
 import nl.knaw.dans.common.lang.file.SidListFile;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
-public class ReindexReport
-{
+public class ReindexReport {
     private final List<DmoStoreId> reindexed;
 
     private final List<ReindexError> errors;
 
-    public ReindexReport(List<DmoStoreId> reindexed, List<ReindexError> errors)
-    {
+    public ReindexReport(List<DmoStoreId> reindexed, List<ReindexError> errors) {
         this.reindexed = reindexed;
         this.errors = errors;
     }
 
-    public List<DmoStoreId> getReindexed()
-    {
+    public List<DmoStoreId> getReindexed() {
         return reindexed;
     }
 
-    public List<ReindexError> getErrors()
-    {
+    public List<ReindexError> getErrors() {
         return errors;
     }
 
-    public void writeErrors(File errorFile) throws IOException
-    {
+    public void writeErrors(File errorFile) throws IOException {
         FileOutputStream out = null;
         PrintStream ps = null;
-        try
-        {
+        try {
             out = new FileOutputStream(errorFile);
             ps = new PrintStream(out);
-            for (ReindexError error : errors)
-            {
+            for (ReindexError error : errors) {
                 printLn(out, "-----------------------------------------------");
                 printLn(out, "Error during " + error.getSid() + " on " + error.getOperation() + "\r\n");
                 printLn(out, "Exception = " + error.getException().getMessage());
@@ -49,8 +42,7 @@ public class ReindexReport
                 printLn(out, "-----------------------------------------------");
             }
         }
-        finally
-        {
+        finally {
             if (out != null)
                 out.close();
             if (ps != null)
@@ -58,13 +50,11 @@ public class ReindexReport
         }
     }
 
-    private void printLn(OutputStream out, String line) throws IOException
-    {
+    private void printLn(OutputStream out, String line) throws IOException {
         out.write(new String(line + "\r\n").getBytes());
     }
 
-    public void writeReindexSidList(File outputSidListFile) throws IOException
-    {
+    public void writeReindexSidList(File outputSidListFile) throws IOException {
         SidListFile.writeSidList(outputSidListFile, getReindexed());
     }
 

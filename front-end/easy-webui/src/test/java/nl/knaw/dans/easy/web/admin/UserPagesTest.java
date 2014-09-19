@@ -29,8 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class UserPagesTest
-{
+public class UserPagesTest {
     private static final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
     private static final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";
     private static final String FORM_PATH = "userDetailsPanel:switchPanel:userInfoForm";
@@ -39,8 +38,7 @@ public class UserPagesTest
     private EasyUserImpl sessionUser;
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         sessionUser = new EasyUserTestImpl("mocked-user:archivist");
         sessionUser.setInitials("Archi");
         sessionUser.setSurname("Vist");
@@ -55,14 +53,12 @@ public class UserPagesTest
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
     }
 
     @Test
-    public void smokeTestNoUsers() throws Exception
-    {
+    public void smokeTestNoUsers() throws Exception {
         prepareOveriew(new ArrayList<EasyUser>());
         EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
         tester.assertRenderedPage(UsersOverviewPage.class);
@@ -70,8 +66,7 @@ public class UserPagesTest
     }
 
     @Test
-    public void smokeTestOneUser() throws Exception
-    {
+    public void smokeTestOneUser() throws Exception {
         final EasyUserImpl user = new EasyUserTestImpl("mocked-user:visitor1");
         user.setInitials("Visi");
         user.setSurname("Tor");
@@ -87,8 +82,7 @@ public class UserPagesTest
     }
 
     @Test
-    public void smokeTestMultipleUsers() throws Exception
-    {
+    public void smokeTestMultipleUsers() throws Exception {
         prepareOveriew(prepareDetails());
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
         tester.dumpPage();
@@ -102,8 +96,7 @@ public class UserPagesTest
     }
 
     @Test
-    public void detailsPageWithoutParameters() throws Exception
-    {
+    public void detailsPageWithoutParameters() throws Exception {
         prepareDetails();
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class);
@@ -112,8 +105,7 @@ public class UserPagesTest
     }
 
     @Test
-    public void editUserDetails() throws Exception
-    {
+    public void editUserDetails() throws Exception {
         prepareDetails();
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class, PAGE_PARAMETERS);
@@ -138,8 +130,7 @@ public class UserPagesTest
     }
 
     @Test
-    public void cancelEditUserDetails() throws Exception
-    {
+    public void cancelEditUserDetails() throws Exception {
         prepareDetails();
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class, PAGE_PARAMETERS);
@@ -153,8 +144,7 @@ public class UserPagesTest
         tester.assertRenderedPage(UserDetailsPage.class);
     }
 
-    private ArrayList<EasyUser> prepareDetails() throws ServiceException, ObjectNotAvailableException
-    {
+    private ArrayList<EasyUser> prepareDetails() throws ServiceException, ObjectNotAvailableException {
         final EasyUserImpl user = new EasyUserTestImpl("mocked-user:visitor1");
         user.setInitials("Visi");
         user.setSurname("Tor");
@@ -185,8 +175,7 @@ public class UserPagesTest
         return users;
     }
 
-    private void prepareOveriew(final ArrayList<EasyUser> users) throws ServiceException
-    {
+    private void prepareOveriew(final ArrayList<EasyUser> users) throws ServiceException {
         EasyMock.expect(applicationContext.getUserService().getAllUsers()).andStubReturn(users);
     }
 }

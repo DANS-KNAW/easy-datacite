@@ -7,12 +7,10 @@ import nl.knaw.dans.common.lang.repo.dummy.DummyDmo;
 
 import org.junit.Test;
 
-public class DmoUpdateConcurrencyGuardTest
-{
+public class DmoUpdateConcurrencyGuardTest {
 
     @Test
-    public void testGuardingChange() throws RepositoryException
-    {
+    public void testGuardingChange() throws RepositoryException {
         DummyDmo sessionAInstanceA = new DummyDmo("123");
         DummyDmo sessionAInstanceB = new DummyDmo("123");
         DummyDmo sessionBInstanceA = new DummyDmo("123");
@@ -54,8 +52,7 @@ public class DmoUpdateConcurrencyGuardTest
     }
 
     @Test
-    public void testWithNullChangeOwner()
-    {
+    public void testWithNullChangeOwner() {
 
     }
 

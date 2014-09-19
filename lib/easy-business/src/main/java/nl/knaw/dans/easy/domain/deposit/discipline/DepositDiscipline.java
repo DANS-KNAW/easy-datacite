@@ -5,8 +5,7 @@ import java.io.Serializable;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
-public interface DepositDiscipline extends Serializable
-{
+public interface DepositDiscipline extends Serializable {
     public static final String EMD_DEPOSITFORM_WIZARD = "emd-deposit-wizard";
 
     public static final String EMD_DEPOSITFORM_ARCHIVIST = "emd-archivist-deposit-form";

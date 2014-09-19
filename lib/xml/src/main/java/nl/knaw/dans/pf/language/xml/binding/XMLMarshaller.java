@@ -16,8 +16,7 @@ import org.dom4j.Element;
  * 
  * @author ecco
  */
-public interface XMLMarshaller
-{
+public interface XMLMarshaller {
     /**
      * Value for parameter 'indent' when no new lines and no indent are wanted.
      */
@@ -46,8 +45,8 @@ public interface XMLMarshaller
     String getEncoding();
 
     /**
-     * Set the indent for the produced xml. Setting an indent of {@link #NO_INDENT} or
-     * {@link #NEW_LINE_ONLY} will produce xml with no indent or only new lines respectively.
+     * Set the indent for the produced xml. Setting an indent of {@link #NO_INDENT} or {@link #NEW_LINE_ONLY} will produce xml with no indent or only new lines
+     * respectively.
      * <p/>
      * Default is 4 spaces.
      * 
@@ -64,11 +63,9 @@ public interface XMLMarshaller
     int getIndent();
 
     /**
-     * If there is a xml-declaration, sets the standalone attribute. The standalone declaration indicates
-     * whether a document relies on information from an external source, such as external document type
-     * definition (DTD), for its content. If the standalone declaration has a value of "yes", for
-     * example, <code>&lt;?xml version="1.0" standalone="yes"?></code>, the parser will report an error
-     * if the document references an external DTD or external entities.
+     * If there is a xml-declaration, sets the standalone attribute. The standalone declaration indicates whether a document relies on information from an
+     * external source, such as external document type definition (DTD), for its content. If the standalone declaration has a value of "yes", for example,
+     * <code>&lt;?xml version="1.0" standalone="yes"?></code>, the parser will report an error if the document references an external DTD or external entities.
      * <p/>
      * Default is <code>true</code>, meaning "yes".
      * 
@@ -85,8 +82,7 @@ public interface XMLMarshaller
     boolean getStandalone();
 
     /**
-     * Set whether to omit the xml-declaration. Omit the xml-declaration if the output is to be used as
-     * part of a parent-document.
+     * Set whether to omit the xml-declaration. Omit the xml-declaration if the output is to be used as part of a parent-document.
      * <p/>
      * Default is false, meaning output starts with:
      * 
@@ -172,9 +168,8 @@ public interface XMLMarshaller
     Source getXmlSource() throws XMLSerializationException;
 
     /**
-     * Get a org.dom4j.Document with the marshalled wrapped bean. Settings for
-     * {@link #setOmitXmlDeclaration(boolean)} have no influence on this serialization, the produced
-     * document will always have a xml-declaration. Mark the difference in the following code-snippet.
+     * Get a org.dom4j.Document with the marshalled wrapped bean. Settings for {@link #setOmitXmlDeclaration(boolean)} have no influence on this serialization,
+     * the produced document will always have a xml-declaration. Mark the difference in the following code-snippet.
      * 
      * <pre>
      * (1)   XMarshaller m = new XMarshaller(myBean);
@@ -183,8 +178,7 @@ public interface XMLMarshaller
      * (4)   System.out.println(doc.getRootElement().asXML());
      * </pre>
      * 
-     * Line (3) produces xml with an xml-declaration, line (4) produces the same xml without an
-     * xml-declaration.
+     * Line (3) produces xml with an xml-declaration, line (4) produces the same xml without an xml-declaration.
      * 
      * @return org.dom4j.Document with the marshalled wrapped bean.
      * @throws XMLSerializationException
@@ -193,9 +187,8 @@ public interface XMLMarshaller
     Document getXmlDocument() throws XMLSerializationException;
 
     /**
-     * Get a org.dom4j.Element with the marshalled wrapped bean. Settings for
-     * {@link #setOmitXmlDeclaration(boolean)} have no influence on this serialization, the produced
-     * element will never have a xml-declaration.
+     * Get a org.dom4j.Element with the marshalled wrapped bean. Settings for {@link #setOmitXmlDeclaration(boolean)} have no influence on this serialization,
+     * the produced element will never have a xml-declaration.
      * 
      * @return org.dom4j.Element with the marshalled wrapped bean.
      * @throws XMLSerializationException

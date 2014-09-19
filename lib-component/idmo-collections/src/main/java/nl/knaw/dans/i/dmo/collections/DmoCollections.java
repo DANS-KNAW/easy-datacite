@@ -16,8 +16,7 @@ import nl.knaw.dans.i.security.SecurityAgent;
 /**
  * @author henkb
  */
-public interface DmoCollections
-{
+public interface DmoCollections {
 
     /**
      * Get a set of ids of secured operations.
@@ -27,9 +26,8 @@ public interface DmoCollections
     Set<String> getSecuredOperationIds();
 
     /**
-     * Configure this DmoCollections with the given configuration. DmoCollections can also be configured
-     * with the three operations {@link #registerNamespace(DmoNamespace)},
-     * {@link #setContentModelOAISet(DmoStoreId)} and {@link #setSecurityAgents(List)}.
+     * Configure this DmoCollections with the given configuration. DmoCollections can also be configured with the three operations
+     * {@link #registerNamespace(DmoNamespace)}, {@link #setContentModelOAISet(DmoStoreId)} and {@link #setSecurityAgents(List)}.
      * 
      * @param configuration
      *        configuration used for initializing this DmoCollections.
@@ -37,8 +35,7 @@ public interface DmoCollections
     void setConfiguration(Configuration configuration);
 
     /**
-     * Register the namespace for a collection-tree. Partial configuration. Only registered namespaces
-     * can be managed by the {@link CollectionManager}.
+     * Register the namespace for a collection-tree. Partial configuration. Only registered namespaces can be managed by the {@link CollectionManager}.
      * 
      * @param namespace
      *        DmoNamespace to register.
@@ -90,13 +87,12 @@ public interface DmoCollections
     XMLErrorHandler validateXml(URL xmlTreeUrl) throws ValidatorException;
 
     /**
-     * Filter the given list for OAI end nodes. A DmoCollection is an OAI end node if it is published as
-     * OAI set and none of its descendant id's are in the given set of <code>memeberIds</code>.
+     * Filter the given list for OAI end nodes. A DmoCollection is an OAI end node if it is published as OAI set and none of its descendant id's are in the
+     * given set of <code>memeberIds</code>.
      * 
      * @param memberIds
      *        set of DmoStoreIds
-     * @return set of DmoStoreIds of collections that are published as OAI set and are end nodes relative
-     *         to the given set of <code>memberIds</code>.
+     * @return set of DmoStoreIds of collections that are published as OAI set and are end nodes relative to the given set of <code>memberIds</code>.
      * @throws NoSuchCollectionException
      * @throws CollectionsException
      */

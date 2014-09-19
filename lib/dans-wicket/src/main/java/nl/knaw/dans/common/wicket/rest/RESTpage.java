@@ -35,8 +35,7 @@ import org.apache.wicket.markup.html.list.ListView;
  * 
  * @see {@link RESTcascadePage}, {@link RESTdisseminationPage}
  */
-public abstract class RESTpage extends WebPage
-{
+public abstract class RESTpage extends WebPage {
 
     private static final String PATH = "/ui";
 
@@ -44,30 +43,21 @@ public abstract class RESTpage extends WebPage
 
     private final String[] urlFragments;
 
-    public RESTpage()
-    {
+    public RESTpage() {
         this(new PageParameters());
     }
 
-    public RESTpage(PageParameters parameters)
-    {
+    public RESTpage(PageParameters parameters) {
         super(parameters);
         url = getRequest().getURL();
         urlFragments = url.split("/");
-        if (isDisseminationPage())
-        {
+        if (isDisseminationPage()) {
             ((RESTdisseminationPage) this).disseminate();
-        }
-        else if (urlFragments.length == getLevel())
-        {
+        } else if (urlFragments.length == getLevel()) {
             initPage();
-        }
-        else if (isCascadePage() && urlFragments.length == getLevel() + 1)
-        {
+        } else if (isCascadePage() && urlFragments.length == getLevel() + 1) {
             doDefaultDissemination();
-        }
-        else
-        {
+        } else {
             cascadeToChild();
         }
     }
@@ -83,8 +73,7 @@ public abstract class RESTpage extends WebPage
     /**
      * Initiates the page.
      */
-    protected void doDefaultDissemination()
-    {
+    protected void doDefaultDissemination() {
         initPage();
     }
 
@@ -93,68 +82,55 @@ public abstract class RESTpage extends WebPage
      * 
      * @return false
      */
-    public boolean isStartPage()
-    {
+    public boolean isStartPage() {
         return false;
     }
 
-    public boolean isCascadePage()
-    {
+    public boolean isCascadePage() {
         return !isStartPage() && (this instanceof RESTcascadePage);
     }
 
-    public boolean isDisseminationPage()
-    {
+    public boolean isDisseminationPage() {
         return this instanceof RESTdisseminationPage;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public String[] getUrlFragments()
-    {
+    public String[] getUrlFragments() {
         return urlFragments;
     }
 
-    public String getUrlFragment(int level)
-    {
+    public String getUrlFragment(int level) {
         return urlFragments[level];
     }
 
-    protected String composeUrl(int index, String... names)
-    {
+    protected String composeUrl(int index, String... names) {
         StringBuilder sb = new StringBuilder(PATH);
-        for (int i = 0; i < index; i++)
-        {
+        for (int i = 0; i < index; i++) {
             sb.append("/") //
                     .append(getUrlFragments()[i]);
         }
-        for (int i = 0; i < names.length; i++)
-        {
+        for (int i = 0; i < names.length; i++) {
             sb.append("/") //
                     .append(names[i]);
         }
         return sb.toString();
     }
 
-    protected void initPage()
-    {
+    protected void initPage() {
         createNavigationBar();
     }
 
-    protected void createNavigationBar()
-    {
+    protected void createNavigationBar() {
         List<String> fragments = Arrays.asList(getUrlFragments()).subList(0, getLevel() - 1);
-        ListView<String> navigation = new ListView<String>("navigation", fragments)
-        {
+        ListView<String> navigation = new ListView<String>("navigation", fragments) {
 
             private static final long serialVersionUID = -4008784545857808172L;
 
             @Override
-            protected void populateItem(ListItem<String> item)
-            {
+            protected void populateItem(ListItem<String> item) {
                 final String targetUrl = composeUrl(item.getIndex() + 1);
                 ExternalLink eLink = new ExternalLink("fragment", targetUrl, item.getModelObject());
                 item.add(eLink);

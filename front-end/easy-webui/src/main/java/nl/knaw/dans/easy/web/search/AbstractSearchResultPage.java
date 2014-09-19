@@ -49,21 +49,18 @@ import org.slf4j.LoggerFactory;
  * 
  * @author lobo
  */
-public abstract class AbstractSearchResultPage extends AbstractSearchPage
-{
+public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     /*--------------------------------------------------------
      * --- PROTECTED METHODS TO OVERRIDE OR IMPLEMENT --------
      *-------------------------------------------------------*/
 
     protected abstract IModel<String> getInitialCriteriumText();
 
-    protected IModel<String> getSearchCriteriumText(String searchText)
-    {
+    protected IModel<String> getSearchCriteriumText(String searchText) {
         return new Model<String>(CriteriumLabel.createFilterText("Search", searchText));
     }
 
-    protected boolean showTips()
-    {
+    protected boolean showTips() {
         return false;
     }
 
@@ -84,11 +81,9 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
 
     private static final String SEARCHRESULT_PANEL = "searchResultPanel";
 
-    public AbstractSearchResultPage(boolean needAuthentication)
-    {
+    public AbstractSearchResultPage(boolean needAuthentication) {
         super();
-        if (needAuthentication && !getEasySession().isAuthenticated())
-        {
+        if (needAuthentication && !getEasySession().isAuthenticated()) {
             /* might be a link from a notification */
             redirectToInterceptPage(new LoginPage());
             return;
@@ -96,27 +91,23 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         init(null);
     }
 
-    public AbstractSearchResultPage(SearchModel model)
-    {
+    public AbstractSearchResultPage(SearchModel model) {
         super(model);
         init(null);
     }
 
-    public AbstractSearchResultPage(final PageParameters parameters)
-    {
+    public AbstractSearchResultPage(final PageParameters parameters) {
         super(parameters);
         String queryString = parameters.getString(SearchBar.QUERY_PARAM);
         if (getDefaultModel() == null)
             init(queryString);
     }
 
-    protected void init(final String searchText)
-    {
+    protected void init(final String searchText) {
         add(Style.SEARCH_HEADER_CONTRIBUTION);
         add(new Label("headerLabel", getInitialCriteriumText()));
 
-        if (getSearchModel() == null)
-        {
+        if (getSearchModel() == null) {
             SearchCriterium criterium;
             if (!StringUtils.isBlank(searchText))
                 criterium = new TextSearchCriterium(searchText, getSearchCriteriumText(searchText));
@@ -125,19 +116,15 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
             setSearchModel(new SearchModel(criterium));
         }
 
-        EasySearchResultPanel panel = new EasySearchResultPanel(SEARCHRESULT_PANEL, getSearchModel(), showTips(), getSearchResultConfig())
-        {
+        EasySearchResultPanel panel = new EasySearchResultPanel(SEARCHRESULT_PANEL, getSearchModel(), showTips(), getSearchResultConfig()) {
             private static final long serialVersionUID = 4389340592804783670L;
 
             @Override
-            public SearchResult<?> search(SimpleSearchRequest request)
-            {
-                try
-                {
+            public SearchResult<?> search(SimpleSearchRequest request) {
+                try {
                     return AbstractSearchResultPage.this.doSearch(request);
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     String msg = errorMessage(SEARCH_FAILURE);
                     LOGGER.error(msg, e);
                     throw new InternalWebError();
@@ -146,23 +133,20 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
 
             @SuppressWarnings("unchecked")
             @Override
-            protected void onBrowseMoreClicked(SearchModel searchModel)
-            {
+            protected void onBrowseMoreClicked(SearchModel searchModel) {
                 setResponsePage(new BrowsePage(searchModel, (Class<? extends AbstractSearchResultPage>) getPage().getClass()));
             }
 
             @SuppressWarnings("unchecked")
             @Override
-            protected void onAdvancedSearchClicked(SearchModel searchModel)
-            {
+            protected void onAdvancedSearchClicked(SearchModel searchModel) {
                 setResponsePage(new AdvSearchPage(searchModel, (Class<? extends AbstractSearchResultPage>) getPage().getClass()));
             }
         };
         add(panel);
     }
 
-    protected SearchResultConfig getSearchResultConfig()
-    {
+    protected SearchResultConfig getSearchResultConfig() {
         SearchResultConfig config = new SearchResultConfig();
         config.setResultCount(10);
         config.setShowBrowseMore(false);
@@ -174,8 +158,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         return config;
     }
 
-    protected List<FacetConfig> getFacets()
-    {
+    protected List<FacetConfig> getFacets() {
         FacetConfig facetConfig;
         ArrayList<FacetConfig> refineFacets = new ArrayList<FacetConfig>();
 
@@ -210,8 +193,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         return refineFacets;
     }
 
-    protected List<SortLinkConfig> getSortLinks()
-    {
+    protected List<SortLinkConfig> getSortLinks() {
         List<SortLinkConfig> sortLinks = new ArrayList<SortLinkConfig>();
         sortLinks.add(new SortLinkConfig("relevance", SortType.BY_RELEVANCE_SCORE, SortOrder.DESC));
         sortLinks.add(new SortLinkConfig(DatasetSB.DC_TITLE_SORTFIELD, SortType.BY_VALUE));
@@ -223,8 +205,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_PUBLISHED_FIELD, SortType.BY_VALUE, SortOrder.DESC, DatasetState.PUBLISHED,
                 DatasetState.MAINTENANCE));
         sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE));
-        if (EasySession.get().getUser().hasRole(Role.ARCHIVIST))
-        {
+        if (EasySession.get().getUser().hasRole(Role.ARCHIVIST)) {
             sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE));
             sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE));
         }
@@ -232,21 +213,18 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
     }
 
     @Override
-    public String getPageTitlePostfix()
-    {
+    public String getPageTitlePostfix() {
         return getInitialCriteriumText().getObject();
     }
 
     @Override
-    public void refresh()
-    {
+    public void refresh() {
         SearchModel model = getSearchModel();
         if (model != null)
             model.getObject().setDirty(true);
     }
 
-    protected void setSorting(SearchRequestBuilder builder)
-    {
+    protected void setSorting(SearchRequestBuilder builder) {
         builder.setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_DRAFT_SAVED_FIELD, SortOrder.DESC));
     }
 

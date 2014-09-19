@@ -17,23 +17,20 @@ import javax.xml.stream.FactoryConfigurationError;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ResourceResponseTest
-{
+public class ResourceResponseTest {
     private Resource resource;
     private HttpHeaders requestHeadersMock;
     private static final String bodyXML = "<xml>foobar</xml>";
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         resource = new Resource();
         requestHeadersMock = mock(HttpHeaders.class);
         resource.setRequestHeaders(requestHeadersMock);
     }
 
     @Test
-    public void testResponseNoAcceptHeader()
-    {
+    public void testResponseNoAcceptHeader() {
         when(requestHeadersMock.getRequestHeader(isA(String.class))).thenReturn(new ArrayList<String>());
         Response response = resource.responseXmlOrJson(bodyXML.getBytes());
         assertEquals(200, response.getStatus());
@@ -41,14 +38,12 @@ public class ResourceResponseTest
         assertContentType(MediaType.APPLICATION_XML_TYPE, response);
     }
 
-    private void assertContentType(MediaType expectedType, Response response)
-    {
+    private void assertContentType(MediaType expectedType, Response response) {
         assertTrue(response.getMetadata().get("Content-Type").contains(expectedType));
     }
 
     @Test
-    public void testResponseWrongAcceptHeader()
-    {
+    public void testResponseWrongAcceptHeader() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_OCTET_STREAM_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -57,8 +52,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void testWantsTextXml()
-    {
+    public void testWantsTextXml() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.TEXT_XML_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -68,8 +62,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void testWantsApplicationXml()
-    {
+    public void testWantsApplicationXml() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_XML_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -79,8 +72,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void testWantsJson()
-    {
+    public void testWantsJson() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_JSON_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -90,8 +82,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void testWantsJsonWrongXML()
-    {
+    public void testWantsJsonWrongXML() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_JSON_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -101,8 +92,7 @@ public class ResourceResponseTest
 
     @SuppressWarnings("unchecked")
     @Test
-    public void responseXmlOrJsonIOException()
-    {
+    public void responseXmlOrJsonIOException() {
         when(requestHeadersMock.getAcceptableMediaTypes()).thenThrow(IOException.class);
         Response response = resource.responseXmlOrJson(bodyXML);
         assertEquals(500, response.getStatus());
@@ -110,16 +100,14 @@ public class ResourceResponseTest
 
     @SuppressWarnings("unchecked")
     @Test
-    public void responseXmlOrJsonFactoryConfigurationException()
-    {
+    public void responseXmlOrJsonFactoryConfigurationException() {
         when(requestHeadersMock.getAcceptableMediaTypes()).thenThrow(FactoryConfigurationError.class);
         Response response = resource.responseXmlOrJson(bodyXML);
         assertEquals(500, response.getStatus());
     }
 
     @Test
-    public void optionsResponseWantsXml()
-    {
+    public void optionsResponseWantsXml() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_XHTML_XML_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -128,8 +116,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void optionsResponseWantsJson()
-    {
+    public void optionsResponseWantsJson() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_JSON_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -138,8 +125,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void optionsResponseNotAcceptable()
-    {
+    public void optionsResponseNotAcceptable() {
         ArrayList<MediaType> acceptHeaders = new ArrayList<MediaType>();
         acceptHeaders.add(MediaType.APPLICATION_OCTET_STREAM_TYPE);
         when(requestHeadersMock.getAcceptableMediaTypes()).thenReturn(acceptHeaders);
@@ -148,8 +134,7 @@ public class ResourceResponseTest
     }
 
     @Test
-    public void simpleResponseOnlyCode()
-    {
+    public void simpleResponseOnlyCode() {
         Response response = resource.simpleResponse(200);
         assertEquals(200, response.getStatus());
     }

@@ -15,23 +15,20 @@ import nl.knaw.dans.i.security.annotations.SecuredOperation;
  * 
  * @author henkb
  */
-public interface CollectionManager
-{
+public interface CollectionManager {
 
     /**
      * Is there a collection tree under the given namespace.
      * 
      * @param namespace
      *        DmoNamespace to test
-     * @return <code>true</code> if there is a collection tree with the given namespace,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> if there is a collection tree with the given namespace, <code>false</code> otherwise.
      * @throws CollectionsException
      */
     boolean exists(DmoNamespace namespace) throws CollectionsException;
 
     /**
-     * Ingest and creates the collection tree described in the xml that the given URL is pointing to. The
-     * xml is validated against the schema at
+     * Ingest and creates the collection tree described in the xml that the given URL is pointing to. The xml is validated against the schema at
      * https://eof12.dans.knaw.nl/schema/collections/dmo-collection.xsd
      * <p/>
      * <p/>
@@ -40,8 +37,7 @@ public interface CollectionManager
      * @param xmlTreeUrl
      *        URL pointing to xml
      * @param generateIds
-     *        <code>true</code> if ids in the xml are to be ignored and generated, <code>false</code> for
-     *        keeping the ids in the xml.
+     *        <code>true</code> if ids in the xml are to be ignored and generated, <code>false</code> for keeping the ids in the xml.
      * @return root of DmoCollection tree
      * @throws CollectionsException
      *         for invalid url, invalid xml; if the DmoNamespace for the new tree is already taken.
@@ -69,8 +65,7 @@ public interface CollectionManager
     /**
      * Create a new DmoCollection as a child of the given parent, with given label and short name.
      * <p/>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.i.dmo.collections.CollectionManager.createCollection")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.createCollection")
      * 
      * @param parent
      *        DmoCollection that is the parent of the newly created DmoCollection.
@@ -128,8 +123,7 @@ public interface CollectionManager
      * <li>parent and child are not the same object.</li>
      * </ul>
      * <p/>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.i.dmo.collections.CollectionManager.attachCollection")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.attachCollection")
      * 
      * @param parent
      *        parent DmoCollection
@@ -143,8 +137,7 @@ public interface CollectionManager
     /**
      * Detach the given collection from its parent.
      * <p/>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.i.dmo.collections.CollectionManager.detachCollection")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.detachCollection")
      * 
      * @param collection
      *        DmoCollection to detach from its parent
@@ -154,13 +147,11 @@ public interface CollectionManager
     void detachCollection(DmoCollection collection) throws CollectionsException;
 
     /**
-     * Publish the given collection as OAI-set. All ancestors of the given collection will be published
-     * as OAI-set as well.
+     * Publish the given collection as OAI-set. All ancestors of the given collection will be published as OAI-set as well.
      * <p>
      * <b>NO GUARANTEE</b> is given that members of this collection will be published as OAI-set-member.
      * </p>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.i.dmo.collections.CollectionManager.publishAsOAISet")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.publishAsOAISet")
      * 
      * @param collection
      *        DmoCollection to publish
@@ -170,14 +161,11 @@ public interface CollectionManager
     void publishAsOAISet(DmoCollection collection) throws CollectionsException;
 
     /**
-     * Unpublish the given collection as OAI-set. All descendants of the given collection will be
-     * unpublished as OAI-set as well.
+     * Unpublish the given collection as OAI-set. All descendants of the given collection will be unpublished as OAI-set as well.
      * <p>
-     * <b>NO GUARANTEE</b> is given that members of this collection will be unpublished as
-     * OAI-set-member.
+     * <b>NO GUARANTEE</b> is given that members of this collection will be unpublished as OAI-set-member.
      * </p>
-     * {@literal @}SecuredOperation(id =
-     * "nl.knaw.dans.i.dmo.collections.CollectionManager.unpublishAsOAISet")
+     * {@literal @}SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.unpublishAsOAISet")
      * 
      * @param collection
      *        DmoCollection to unpublish

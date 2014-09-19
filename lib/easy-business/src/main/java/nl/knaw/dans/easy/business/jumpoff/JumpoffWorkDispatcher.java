@@ -17,127 +17,99 @@ import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.domain.annotations.MutatesJumpoffDmo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class JumpoffWorkDispatcher
-{
+public class JumpoffWorkDispatcher {
 
-    public JumpoffDmo getJumpoffDmo(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException
-    {
+    public JumpoffDmo getJumpoffDmo(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException {
         JumpoffDmo jumpoffDmo = null;
-        try
-        {
+        try {
             jumpoffDmo = Data.getEasyStore().findJumpoffDmoFor(storeId);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
         return jumpoffDmo;
     }
 
     @MutatesJumpoffDmo
-    public void saveJumpoffDmo(EasyUser sessionUser, JumpoffDmo jumpoffDmo, DataModelObject containerDmo) throws ServiceException
-    {
+    public void saveJumpoffDmo(EasyUser sessionUser, JumpoffDmo jumpoffDmo, DataModelObject containerDmo) throws ServiceException {
         jumpoffDmo.setObjectId(containerDmo.getStoreId());
         jumpoffDmo.getJumpoffDmoMetadata().getDefaultMarkupMetadata().setLastEditedBy(sessionUser.getId());
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
-        try
-        {
-            if (jumpoffDmo.getStoreId() == null)
-            {
+        try {
+            if (jumpoffDmo.getStoreId() == null) {
                 String storeId = Data.getEasyStore().nextSid(JumpoffDmo.NAMESPACE);
                 jumpoffDmo.setStoreId(storeId);
             }
             uow.attach(jumpoffDmo);
             uow.commit();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
-        catch (UnitOfWorkInterruptException e)
-        {
+        catch (UnitOfWorkInterruptException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
 
-    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser, JumpoffDmo jumpoffDmo) throws ServiceException
-    {
-        try
-        {
+    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser, JumpoffDmo jumpoffDmo) throws ServiceException {
+        try {
             return Data.getEasyStore().getUnitMetadata(jumpoffDmo.getDmoStoreId());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
-    public List<UnitMetadata> retrieveUnitMetadata(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
-    {
-        try
-        {
+    public List<UnitMetadata> retrieveUnitMetadata(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException {
+        try {
             return Data.getEasyStore().getUnitMetadata(storeId, unitId);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
-    public URL retrieveURL(DmoStoreId storeId, DsUnitId unitId) throws ServiceException
-    {
+    public URL retrieveURL(DmoStoreId storeId, DsUnitId unitId) throws ServiceException {
         return Data.getEasyStore().getFileURL(storeId, unitId);
     }
 
     @MutatesJumpoffDmo
-    public void deleteUnit(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, String logMessage) throws ServiceException
-    {
-        try
-        {
+    public void deleteUnit(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, String logMessage) throws ServiceException {
+        try {
             Data.getEasyStore().purgeUnit(storeId, unitId, null, logMessage);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @MutatesJumpoffDmo
-    public void deleteJumpoff(EasyUser sessionUser, JumpoffDmo jumpoffDmo, DataModelObject containerDmo, String logMessage) throws ServiceException
-    {
+    public void deleteJumpoff(EasyUser sessionUser, JumpoffDmo jumpoffDmo, DataModelObject containerDmo, String logMessage) throws ServiceException {
         jumpoffDmo.registerDeleted();
-        try
-        {
+        try {
             Data.getEasyStore().purge(jumpoffDmo, false, logMessage);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @MutatesJumpoffDmo
-    public void toggleEditorMode(EasyUser sessionUser, JumpoffDmo jumpoffDmo) throws ServiceException
-    {
+    public void toggleEditorMode(EasyUser sessionUser, JumpoffDmo jumpoffDmo) throws ServiceException {
         jumpoffDmo.toggleEditorMode();
-        if (jumpoffDmo.isLoaded())
-        {
-            try
-            {
+        if (jumpoffDmo.isLoaded()) {
+            try {
                 UnitOfWork uow = new EasyUnitOfWork(sessionUser);
                 uow.attach(jumpoffDmo);
                 uow.commit();
             }
-            catch (RepositoryException e)
-            {
+            catch (RepositoryException e) {
                 throw new ServiceException(e);
             }
-            catch (UnitOfWorkInterruptException e)
-            {
+            catch (UnitOfWorkInterruptException e) {
                 throw new ServiceException(e);
             }
         }

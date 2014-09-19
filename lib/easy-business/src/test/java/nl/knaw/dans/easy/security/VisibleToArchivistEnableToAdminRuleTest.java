@@ -11,31 +11,27 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class VisibleToArchivistEnableToAdminRuleTest
-{
+public class VisibleToArchivistEnableToAdminRuleTest {
 
     private static SecurityOfficer rule;
     private static EasyUser user;
     private static ContextParameters ctx;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         rule = new CodedAuthz().getVisibleToArchivistEnableToAdminRule();
         user = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(user);
     }
 
     @Test
-    public void testProposition()
-    {
+    public void testProposition() {
         String proposition = "Split answer: ComponentVisisble <== [SessionUser has role ARCHIVIST or ADMIN] EnableAllowed <== [SessionUser has role ADMIN]";
         assertEquals(proposition, rule.getProposition());
     }
 
     @Test
-    public void testUser()
-    {
+    public void testUser() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(false).times(1);
@@ -49,8 +45,7 @@ public class VisibleToArchivistEnableToAdminRuleTest
     }
 
     @Test
-    public void testArchivist()
-    {
+    public void testArchivist() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(1);
@@ -64,8 +59,7 @@ public class VisibleToArchivistEnableToAdminRuleTest
     }
 
     @Test
-    public void testAdmin()
-    {
+    public void testAdmin() {
         EasyMock.reset(user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(1);
@@ -79,8 +73,7 @@ public class VisibleToArchivistEnableToAdminRuleTest
     }
 
     @Test
-    public void testNull()
-    {
+    public void testNull() {
         ContextParameters ctxParameters = new ContextParameters();
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));

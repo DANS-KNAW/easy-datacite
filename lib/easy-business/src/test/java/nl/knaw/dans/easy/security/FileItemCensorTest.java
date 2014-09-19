@@ -19,12 +19,10 @@ import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
 import org.junit.Test;
 
-public class FileItemCensorTest
-{
+public class FileItemCensorTest {
 
     @Test
-    public void censor1() throws DomainException
-    {
+    public void censor1() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.ANONYMOUS);
@@ -42,8 +40,7 @@ public class FileItemCensorTest
     }
 
     @Test
-    public void censor2() throws DomainException
-    {
+    public void censor2() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.ANONYMOUS);
@@ -61,8 +58,7 @@ public class FileItemCensorTest
     }
 
     @Test
-    public void censor3() throws DomainException
-    {
+    public void censor3() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.KNOWN);
@@ -81,8 +77,7 @@ public class FileItemCensorTest
     }
 
     @Test
-    public void censor4() throws DomainException
-    {
+    public void censor4() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.ANONYMOUS);
@@ -101,8 +96,7 @@ public class FileItemCensorTest
     }
 
     @Test
-    public void censor5() throws DomainException
-    {
+    public void censor5() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.KNOWN);
@@ -121,8 +115,7 @@ public class FileItemCensorTest
     }
 
     @Test
-    public void censor6() throws DomainException
-    {
+    public void censor6() throws DomainException {
         List<FileItemVO> items = new ArrayList<FileItemVO>();
         FileItemVO fivo = new FileItemVO();
         fivo.setAccessibleTo(AccessibleTo.KNOWN);

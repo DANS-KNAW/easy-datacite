@@ -13,8 +13,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 
-public interface FileStoreAccess
-{
+public interface FileStoreAccess {
 
     FileItemVO findFileById(DmoStoreId dmoStoreId) throws StoreAccessException;
 
@@ -30,9 +29,8 @@ public interface FileStoreAccess
     List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
     /**
-     * Gets a list of files from a folder or dataset (based on parentSid). Folders are listed first, the
-     * files after, unless sorting is applied to a field that both items (folder and file) have. Paging,
-     * filtering and ordering is applied optionally.
+     * Gets a list of files from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field that
+     * both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param parentSid
      *        the system id of the parent object
@@ -50,9 +48,8 @@ public interface FileStoreAccess
     public List<FileItemVO> getFiles(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException;
 
     /**
-     * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first,
-     * the files after, unless sorting is applied to a field that both items (folder and file) have.
-     * Paging, filtering and ordering is applied optionally.
+     * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field
+     * that both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param parentSid
      *        the system id of the parent object
@@ -70,9 +67,8 @@ public interface FileStoreAccess
     public List<FolderItemVO> getFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException;
 
     /**
-     * Gets a list of files and folders from a folder or dataset (based on parentSid). Folders are listed
-     * first, the files after, unless sorting is applied to a field that both items (folder and file)
-     * have. Paging, filtering and ordering is applied optionally.
+     * Gets a list of files and folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a
+     * field that both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param parentSid
      *        the system id of the parent object
@@ -91,10 +87,9 @@ public interface FileStoreAccess
             throws StoreAccessException;
 
     /**
-     * Returns a list of filenames with their full path. First the files are listed then the folders. If
-     * recursive is on the folders and their files are separated by a backslash (/) sign. Folders are not
-     * listed separately unless they are empty. Empty folders also have a trailing backslash, thus making
-     * it possible for the user to always distinguish between a folder and a file.
+     * Returns a list of filenames with their full path. First the files are listed then the folders. If recursive is on the folders and their files are
+     * separated by a backslash (/) sign. Folders are not listed separately unless they are empty. Empty folders also have a trailing backslash, thus making it
+     * possible for the user to always distinguish between a folder and a file.
      * 
      * @param parentSid
      *        the system id of the parent object

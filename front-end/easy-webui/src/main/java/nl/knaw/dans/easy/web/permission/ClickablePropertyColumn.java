@@ -11,38 +11,30 @@ import org.apache.wicket.model.PropertyModel;
 
 // TODO promote to commons
 
-public abstract class ClickablePropertyColumn<T> extends AbstractColumn<T>
-{
+public abstract class ClickablePropertyColumn<T> extends AbstractColumn<T> {
     private final String property;
 
-    public ClickablePropertyColumn(IModel<String> displayModel, String property)
-    {
+    public ClickablePropertyColumn(IModel<String> displayModel, String property) {
         this(displayModel, property, null);
     }
 
-    public ClickablePropertyColumn(IModel<String> displayModel, String property, String sort)
-    {
+    public ClickablePropertyColumn(IModel<String> displayModel, String property, String sort) {
         super(displayModel, sort);
         this.property = property;
     }
 
-    public void populateItem(Item<ICellPopulator<T>> cellItem, String componentId, IModel<T> rowModel)
-    {
+    public void populateItem(Item<ICellPopulator<T>> cellItem, String componentId, IModel<T> rowModel) {
         cellItem.add(new LinkPanel(componentId, rowModel, new PropertyModel<Object>(rowModel, property)));
     }
 
     protected abstract void onClick(IModel<T> clicked);
 
-    private class LinkPanel extends Panel
-    {
-        public LinkPanel(String id, IModel<T> rowModel, IModel<?> labelModel)
-        {
+    private class LinkPanel extends Panel {
+        public LinkPanel(String id, IModel<T> rowModel, IModel<?> labelModel) {
             super(id);
-            Link<T> link = new Link<T>("link", rowModel)
-            {
+            Link<T> link = new Link<T>("link", rowModel) {
                 @Override
-                public void onClick()
-                {
+                public void onClick() {
                     ClickablePropertyColumn.this.onClick(getModel());
                 }
             };

@@ -12,12 +12,10 @@ import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 
 import org.dom4j.Element;
 
-public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData> implements WorkflowData
-{
+public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData> implements WorkflowData {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an
-     * xml-stream might be obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String VERSION = "0.1";
 
@@ -30,104 +28,83 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
 
     private boolean dirty;
 
-    protected WorkflowDataImpl()
-    {
+    protected WorkflowDataImpl() {
 
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getVersion()
-    {
-        if (version == null)
-        {
+    public String getVersion() {
+        if (version == null) {
             version = VERSION;
         }
         return version;
     }
 
-    public void setAssigneeId(String assigneeId)
-    {
+    public void setAssigneeId(String assigneeId) {
         String assigneeIdToSet = assigneeId == null ? NOT_ASSIGNED : assigneeId;
-        if (evaluateDirty(this.assigneeId, assigneeIdToSet))
-        {
+        if (evaluateDirty(this.assigneeId, assigneeIdToSet)) {
             assignee = null;
             this.assigneeId = assigneeIdToSet;
         }
 
     }
 
-    public String getAssigneeId()
-    {
+    public String getAssigneeId() {
         return assigneeId;
     }
 
     public EasyUser getAssignee() // throws ObjectNotFoundException, DataAccessException
     {
-        if (assignee == null && !NOT_ASSIGNED.equals(assigneeId))
-        {
+        if (assignee == null && !NOT_ASSIGNED.equals(assigneeId)) {
             assignee = RepoAccess.getDelegator().getUser(assigneeId);
         }
         return assignee;
     }
 
-    public void setAssignee(EasyUser assignee)
-    {
+    public void setAssignee(EasyUser assignee) {
         this.assignee = assignee;
         setAssigneeId(assignee == null ? null : assignee.getId());
     }
 
-    public WorkflowStep getWorkflow()
-    {
-        if (workflow == null)
-        {
+    public WorkflowStep getWorkflow() {
+        if (workflow == null) {
             workflow = WorkflowFactory.newDatasetWorkflow();
         }
         return workflow;
     }
 
-    public void setWorkflow(WorkflowStep root)
-    {
+    public void setWorkflow(WorkflowStep root) {
         this.workflow = root;
     }
 
-    protected Element getWorkflowElement() throws XMLSerializationException
-    {
+    protected Element getWorkflowElement() throws XMLSerializationException {
         return workflow == null ? null : workflow.asElement();
     }
 
-    protected void setWorkflowElement(Element workflowElement) throws XMLDeserializationException
-    {
-        if (workflowElement != null)
-        {
+    protected void setWorkflowElement(Element workflowElement) throws XMLDeserializationException {
+        if (workflowElement != null) {
             workflow = (WorkflowStep) JiBXObjectFactory.unmarshal(WorkflowStep.class, workflowElement);
         }
     }
 
-    public boolean isDirty()
-    {
+    public boolean isDirty() {
         return dirty || (workflow != null && getWorkflow().isDirty());
     }
 
-    public void setDirty(boolean dirty)
-    {
+    public void setDirty(boolean dirty) {
         this.dirty = dirty;
-        if (!dirty && workflow != null)
-        {
+        if (!dirty && workflow != null) {
             getWorkflow().setDirty(dirty);
         }
     }
 
-    protected boolean evaluateDirty(Object obj1, Object obj2)
-    {
+    protected boolean evaluateDirty(Object obj1, Object obj2) {
         boolean dirty = false;
-        if (obj2 == null)
-        {
+        if (obj2 == null) {
             dirty = obj1 != null;
-        }
-        else
-        {
+        } else {
             dirty = !obj2.equals(obj1);
         }
         if (dirty)

@@ -9,21 +9,18 @@ import nl.knaw.dans.easy.security.Security;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SecurityAspectTest
-{
+public class SecurityAspectTest {
 
     private static ItemWorkDispatcher workDispatcher;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         new Security(new CodedAuthz());
         workDispatcher = new ItemWorkDispatcher();
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void testSomeMethod() throws ServiceException
-    {
+    public void testSomeMethod() throws ServiceException {
         workDispatcher.addDirectoryContents(null, null, null, null, null, null, null);
     }
 

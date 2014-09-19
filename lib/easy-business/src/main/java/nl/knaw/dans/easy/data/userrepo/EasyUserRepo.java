@@ -12,8 +12,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
  * 
  * @author ecco
  */
-public interface EasyUserRepo extends UserRepo<EasyUser>
-{
+public interface EasyUserRepo extends UserRepo<EasyUser> {
 
     List<EasyUser> findByRole(Role role) throws RepositoryException;
 

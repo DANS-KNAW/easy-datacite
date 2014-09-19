@@ -30,15 +30,13 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class FileMetadataResourceTest extends RestTest
-{
+public class FileMetadataResourceTest extends RestTest {
     private DatasetService datasetServiceMock;
     private ItemService itemServiceMock;
     private FileItem fileItemMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         Services services = new Services();
         itemServiceMock = mock(ItemService.class);
         services.setItemService(itemServiceMock);
@@ -46,15 +44,13 @@ public class FileMetadataResourceTest extends RestTest
         services.setDatasetService(datasetServiceMock);
     }
 
-    private void setUpServiceMethods() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpServiceMethods() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
         when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenReturn(fileItemMock);
     }
 
-    private void setUpFileItem()
-    {
+    private void setUpFileItem() {
         fileItemMock = mock(FileItem.class);
         ArrayList<MetadataUnit> metadata = new ArrayList<MetadataUnit>();
         metadata.add(new FileItemMetadataImpl(new DmoStoreId("easy-file:1")));
@@ -63,8 +59,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getFileItemMetadataByPath() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataByPath() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpFileItem();
         setUpServiceMethods();
 
@@ -75,8 +70,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getFileItemMetadataNotAvailable() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataNotAvailable() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpFileItemWithNoMetadata();
         setUpServiceMethods();
 
@@ -87,8 +81,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcFileItemMetadataByPath() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getDcFileItemMetadataByPath() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpFileItem();
         setUpServiceMethods();
 
@@ -98,15 +91,13 @@ public class FileMetadataResourceTest extends RestTest
         assertEquals(200, response.getStatus());
     }
 
-    private void setUpFileItemWithNoMetadata()
-    {
+    private void setUpFileItemWithNoMetadata() {
         fileItemMock = mock(FileItem.class);
         when(fileItemMock.getMetadataUnits()).thenReturn(new ArrayList<MetadataUnit>());
     }
 
     @Test
-    public void getFileItemMetadataNotAvailableWithException() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataNotAvailableWithException() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/file-metadata/folder/file.txt");
@@ -116,14 +107,12 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @SuppressWarnings("unchecked")
-    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
     }
 
     @Test
-    public void getFileItemMetadataNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataNotFound() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ObjectNotAvailableException.class);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/file-metadata/folder/file.txt");
@@ -133,8 +122,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getFileItemMetadataNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataNotAuthorized() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(CommonSecurityException.class);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/file-metadata/folder/file.txt");
@@ -144,8 +132,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getFileItemMetadataXmlSerializationException() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataXmlSerializationException() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(XMLSerializationException.class);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/file-metadata/folder/file.txt");
@@ -155,8 +142,7 @@ public class FileMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getFileItemMetadataInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public void getFileItemMetadataInternalServerError() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         setUpException(ServiceException.class);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/file-metadata/folder/file.txt");

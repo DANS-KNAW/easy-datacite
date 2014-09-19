@@ -33,8 +33,7 @@ import org.slf4j.LoggerFactory;
  * @param <T>
  *        the type that is handled by this AbstractRepo
  */
-public abstract class AbstractGenericRepo<T extends RepoEntry> implements GenericRepo<T>
-{
+public abstract class AbstractGenericRepo<T extends RepoEntry> implements GenericRepo<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractGenericRepo.class);
 
@@ -54,8 +53,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
 
     private String[] objectClassNamesArray;
 
-    public AbstractGenericRepo(LdapClient client, String context, String rdn, LdapMapper<T> ldapMapper)
-    {
+    public AbstractGenericRepo(LdapClient client, String context, String rdn, LdapMapper<T> ldapMapper) {
         this.client = client;
         this.context = context;
         this.rdn = rdn;
@@ -68,8 +66,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * 
      * @return the LdapClient this Repo talks to
      */
-    public LdapClient getClient()
-    {
+    public LdapClient getClient() {
         return client;
     }
 
@@ -78,8 +75,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * 
      * @return the distinguished name of the entry where type entries are kept
      */
-    public String getContext()
-    {
+    public String getContext() {
         return context;
     }
 
@@ -88,8 +84,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * 
      * @return name of the objectClass
      */
-    public String getObjectClassName()
-    {
+    public String getObjectClassName() {
         return objectClassName;
     }
 
@@ -109,8 +104,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * 
      * @return LdapMapper for type T
      */
-    protected LdapMapper<T> getLdapMapper()
-    {
+    protected LdapMapper<T> getLdapMapper() {
         return ldapMapper;
     }
 
@@ -119,15 +113,12 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * 
      * @return the ldap objectClasses of T
      */
-    public Set<String> getObjectClasses()
-    {
+    public Set<String> getObjectClasses() {
         return getLdapMapper().getObjectClasses();
     }
 
-    public String[] getObjectClassesArray()
-    {
-        if (objectClassNamesArray == null)
-        {
+    public String[] getObjectClassesArray() {
+        if (objectClassNamesArray == null) {
             objectClassNamesArray = getObjectClasses().toArray(new String[] {});
         }
         return objectClassNamesArray;
@@ -136,15 +127,12 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public boolean exists(String id) throws RepositoryException
-    {
+    public boolean exists(String id) throws RepositoryException {
         boolean exists = true;
-        try
-        {
+        try {
             findById(id);
         }
-        catch (ObjectNotInStoreException e)
-        {
+        catch (ObjectNotInStoreException e) {
             exists = false;
         }
         return exists;
@@ -153,39 +141,31 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public T findById(String id) throws ObjectNotInStoreException, RepositoryException
-    {
+    public T findById(String id) throws ObjectNotInStoreException, RepositoryException {
         T entry = null;
-        try
-        {
+        try {
             Attributes attrs = client.getAttributes(getRdn(id), context);
             entry = unmarshal(attrs);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Found entry with id '" + id + "' in " + context + ".");
             }
         }
-        catch (NameNotFoundException e)
-        {
+        catch (NameNotFoundException e) {
             throw new ObjectNotInStoreException(e);
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return entry;
     }
 
-    public List<T> findById(Collection<String> ids) throws ObjectNotInStoreException, RepositoryException
-    {
-        if (ids.size() == 0)
-        {
+    public List<T> findById(Collection<String> ids) throws ObjectNotInStoreException, RepositoryException {
+        if (ids.size() == 0) {
             return Collections.emptyList();
         }
 
         StringBuilder filter = new StringBuilder("(&(objectClass=").append(objectClassName).append(")(|");
-        for (String id : ids)
-        {
+        for (String id : ids) {
             filter.append("(").append(getRdn(id)).append(")");
         }
         filter.append("))");
@@ -197,30 +177,24 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public String add(T entry) throws ObjectExistsException, RepositoryException
-    {
+    public String add(T entry) throws ObjectExistsException, RepositoryException {
         final String id = entry.getId();
-        if (exists(id))
-        {
+        if (exists(id)) {
             final String msg = "An entry with id " + id + " already exists in " + context + ".";
             logger.debug(msg);
             throw new ObjectExistsException(msg);
         }
         Attributes attrs = getLdapMapper().marshal(entry, false);
-        try
-        {
+        try {
             client.addEntry(getRdn(id), context, attrs);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Added entry with id '" + id + "' to " + context + ".");
             }
         }
-        catch (NameAlreadyBoundException e)
-        {
+        catch (NameAlreadyBoundException e) {
             throw new ObjectExistsException(e);
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return id;
@@ -229,20 +203,16 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public String update(T entry) throws RepositoryException
-    {
+    public String update(T entry) throws RepositoryException {
         final String id = entry.getId();
         Attributes attrs = getLdapMapper().marshal(entry, true);
-        try
-        {
+        try {
             client.modifyEntry(getRdn(id), context, attrs);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Updated entry with id '" + id + "' in " + context + ".");
             }
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return id;
@@ -251,18 +221,14 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public void delete(String id) throws RepositoryException
-    {
-        try
-        {
+    public void delete(String id) throws RepositoryException {
+        try {
             client.deleteEntry(getRdn(id), context);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Deleted entry with id '" + id + "' from " + context + ".");
             }
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
     }
@@ -270,27 +236,23 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public void delete(T entry) throws RepositoryException
-    {
+    public void delete(T entry) throws RepositoryException {
         delete(entry.getId());
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<T> findAll() throws RepositoryException
-    {
+    public List<T> findAll() throws RepositoryException {
         String filter = "(objectClass=" + objectClassName + ")";
         List<T> entries = search(filter);
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Find all found " + entries.size() + " entries in context " + context + ".");
         }
         return entries;
     }
 
-    public List<String> findAllEntries(int maxCount) throws RepositoryException
-    {
+    public List<String> findAllEntries(int maxCount) throws RepositoryException {
         List<String> ids = new ArrayList<String>();
         String filter = "(&(objectClass=" + getObjectClassName() + ")(" + getRdn("*") + "))";
         SearchControls ctls = new SearchControls();
@@ -298,22 +260,18 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
         ctls.setCountLimit(maxCount);
         ctls.setReturningAttributes(new String[] {getRdn()});
 
-        try
-        {
+        try {
             NamingEnumeration<SearchResult> resultEnum = getClient().search(getContext(), filter, ctls);
-            while (resultEnum.hasMoreElements())
-            {
+            while (resultEnum.hasMoreElements()) {
                 SearchResult result = resultEnum.next();
                 Attributes attrs = result.getAttributes();
                 ids.add((String) attrs.get(getRdn()).get());
             }
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Found " + ids.size() + " " + getRdn() + "'s in " + getContext());
             }
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return ids;
@@ -322,27 +280,21 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public OperationalAttributes getOperationalAttributes(String id) throws RepositoryException
-    {
+    public OperationalAttributes getOperationalAttributes(String id) throws RepositoryException {
         LdapOperationalAttributes opa = new LdapOperationalAttributes();
-        try
-        {
+        try {
             Attributes attrs = client.getAttributes(getRdn(id), context, new String[] {CREATE_TIMESTAMP_ID, MODIFY_TIMESTAMP_ID});
-            if (attrs.size() > 0)
-            {
+            if (attrs.size() > 0) {
                 opa.setCreateTime((String) attrs.get(CREATE_TIMESTAMP_ID).get());
             }
-            if (attrs.size() > 1)
-            {
+            if (attrs.size() > 1) {
                 opa.setModifyTime((String) attrs.get(MODIFY_TIMESTAMP_ID).get());
             }
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Got " + attrs.size() + " attribute(s) for '" + id + "' from " + context + ".");
             }
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return opa;
@@ -351,8 +303,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     /**
      * {@inheritDoc}
      */
-    public void close() throws RepositoryException
-    {
+    public void close() throws RepositoryException {
         // nothing to close?
     }
 
@@ -363,13 +314,11 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      *        the id of an entry of type T
      * @return the RDN of the entry
      */
-    protected String getRdn(String id)
-    {
+    protected String getRdn(String id) {
         return rdn + "=" + id;
     }
 
-    protected String getRdn()
-    {
+    protected String getRdn() {
         return rdn;
     }
 
@@ -382,8 +331,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * @throws RepositoryException
      *         if there is an exception during data access
      */
-    protected List<T> search(String filter) throws RepositoryException
-    {
+    protected List<T> search(String filter) throws RepositoryException {
         SearchControls ctls = new SearchControls();
         ctls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
         return search(filter, ctls);
@@ -400,55 +348,45 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
      * @throws RepositoryException
      *         if there is an exception during data access
      */
-    protected List<T> search(String filter, SearchControls ctls) throws RepositoryException
-    {
+    protected List<T> search(String filter, SearchControls ctls) throws RepositoryException {
         List<T> entries = new ArrayList<T>();
-        try
-        {
+        try {
             NamingEnumeration<SearchResult> resultEnum = client.search(context, filter, ctls);
-            while (resultEnum.hasMore())
-            {
+            while (resultEnum.hasMore()) {
                 SearchResult result = resultEnum.next();
                 T entry = unmarshal(result.getAttributes());
                 entries.add(entry);
             }
         }
-        catch (LdapMappingException e)
-        {
+        catch (LdapMappingException e) {
             throw new RepositoryException(e);
         }
-        catch (NamingException e)
-        {
+        catch (NamingException e) {
             throw new RepositoryException(e);
         }
         return entries;
     }
 
     /**
-     * Censors humanoid search phrases. Humanoids have the inclination to come up with search phrases
-     * that can get an Ldap server totally upset. This method censors the given stub and returns a text
-     * suitable for Ldap digestion.
+     * Censors humanoid search phrases. Humanoids have the inclination to come up with search phrases that can get an Ldap server totally upset. This method
+     * censors the given stub and returns a text suitable for Ldap digestion.
      * 
      * @param stub
      *        uncensored search phrase
      * @return censored search phrase
      */
-    protected static String censorHumanoidSearchPhrase(String stub)
-    {
+    protected static String censorHumanoidSearchPhrase(String stub) {
         String text = stub.replaceAll("[\\(\\)\\\\\\[\\]{}]", "*");
         text = text.replaceAll("\\A\\**", "");
         return text;
     }
 
     @SuppressWarnings("unused")
-    private void printAttributes(Attributes attrs) throws NamingException
-    {
+    private void printAttributes(Attributes attrs) throws NamingException {
         NamingEnumeration<? extends Attribute> attrEnum = attrs.getAll();
-        while (attrEnum.hasMore())
-        {
+        while (attrEnum.hasMore()) {
             Attribute attr = attrEnum.next();
-            for (int i = 0; i < attr.size(); i++)
-            {
+            for (int i = 0; i < attr.size(); i++) {
                 logger.debug(attr.getID() + "=" + attr.get(i));
             }
         }

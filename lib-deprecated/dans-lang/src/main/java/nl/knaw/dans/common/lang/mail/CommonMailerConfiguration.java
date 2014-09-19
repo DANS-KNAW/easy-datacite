@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author joke
  */
-public abstract class CommonMailerConfiguration implements MailerConfiguration
-{
+public abstract class CommonMailerConfiguration implements MailerConfiguration {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(CommonMailer.class);
     private String smtpHost = null;
@@ -37,8 +36,7 @@ public abstract class CommonMailerConfiguration implements MailerConfiguration
      * @throws IllegalArgumentException
      *         If the input stream contains a malformed UniCode escape sequence.
      */
-    public CommonMailerConfiguration(final InputStream inputStream) throws IOException
-    {
+    public CommonMailerConfiguration(final InputStream inputStream) throws IOException {
         final Properties properties = new Properties();
         if (inputStream != null)
             properties.load(inputStream);
@@ -50,97 +48,78 @@ public abstract class CommonMailerConfiguration implements MailerConfiguration
         smtpPassword = properties.getProperty(SMTP_PASSWORD_KEY);
         smtpUserName = properties.getProperty(SMTP_USERNAME_KEY);
         setSmtpSessionAuthorisation(properties.getProperty(SMTP_SESSION_ATHORISATION_KEY, SMTP_SESSION_ATHORISATION_DEFAULT));
-        for (String key : properties.keySet().toArray(new String[properties.size()]))
-        {
-            if (key.startsWith(IMAGE_KEY_PREFIX))
-            {
+        for (String key : properties.keySet().toArray(new String[properties.size()])) {
+            if (key.startsWith(IMAGE_KEY_PREFIX)) {
                 images.put(key.replace(IMAGE_KEY_PREFIX, ""), (String) properties.get(key));
             }
         }
     }
 
-    public CommonMailerConfiguration() throws IOException
-    {
+    public CommonMailerConfiguration() throws IOException {
         this((InputStream) null);
     }
 
-    public void setSmtpHost(String smtpHost)
-    {
+    public void setSmtpHost(String smtpHost) {
         this.smtpHost = smtpHost;
     }
 
-    public void setSmtpPassword(String smtpPassword)
-    {
+    public void setSmtpPassword(String smtpPassword) {
         this.smtpPassword = smtpPassword;
     }
 
-    public void setSmtpUserName(String smtpUserName)
-    {
+    public void setSmtpUserName(String smtpUserName) {
         this.smtpUserName = smtpUserName;
     }
 
-    public void setTransportType(String transportType)
-    {
+    public void setTransportType(String transportType) {
         this.transportType = transportType;
     }
 
-    public void setSenderName(String fromName)
-    {
+    public void setSenderName(String fromName) {
         this.fromName = fromName;
     }
 
-    public void setFromAddress(String fromAddress)
-    {
+    public void setFromAddress(String fromAddress) {
         this.fromAddress = fromAddress;
     }
 
-    public void setSmtpSessionAuthorisation(String smtpSessionAuthorisation)
-    {
+    public void setSmtpSessionAuthorisation(String smtpSessionAuthorisation) {
         this.smtpSessionAuthorisation = smtpSessionAuthorisation;
     }
 
-    public void setImageMap(Map<String, String> imageMap)
-    {
+    public void setImageMap(Map<String, String> imageMap) {
         this.images = imageMap;
     }
 
-    public String getSmtpSessionAuthorisation()
-    {
+    public String getSmtpSessionAuthorisation() {
         return smtpSessionAuthorisation;
     }
 
-    public String getSmtpHost()
-    {
+    public String getSmtpHost() {
         return smtpHost;
     }
 
-    public String getSmtpPassword()
-    {
+    public String getSmtpPassword() {
         return smtpPassword;
     }
 
-    public String getSmtpUserName()
-    {
+    public String getSmtpUserName() {
         return smtpUserName;
     }
 
-    public String getTransportType()
-    {
+    public String getTransportType() {
         return transportType;
     }
 
-    public String getSenderName()
-    {
+    public String getSenderName() {
         return fromName;
     }
 
-    public String getFromAddress()
-    {
+    public String getFromAddress() {
         return fromAddress;
     }
 
-    public Map<String, String> getImageMap()
-    {
+    public Map<String, String> getImageMap() {
         return images;
     }
 

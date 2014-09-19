@@ -23,8 +23,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class DownloadActivityLogPanelTest extends ActivityLogFixture implements Serializable
-{
+public class DownloadActivityLogPanelTest extends ActivityLogFixture implements Serializable {
     private static final EasyUserImpl ARCHIVIST = new EasyUserImpl(Role.ARCHIVIST);
     private static final EasyUserImpl USER = new EasyUserImpl(Role.USER);
 
@@ -35,114 +34,99 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     private static final String PANEL_DOWNLOAD_CSV = PANEL + ":" + DownloadActivityLogPanel.DOWNLOAD_CSV;
 
     @Test
-    public void noDLH() throws Exception
-    {
+    public void noDLH() throws Exception {
         expectInvisible(null, ARCHIVIST);
     }
 
     @Test
-    public void emptyDLH() throws Exception
-    {
+    public void emptyDLH() throws Exception {
         expectInvisible(createDownloadList(), ARCHIVIST);
     }
 
     @Test
-    public void byUser() throws Exception
-    {
+    public void byUser() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expectInvisible(downloadList, new EasyUserImpl(Role.USER));
     }
 
     @Test
-    public void byAdmin() throws Exception
-    {
+    public void byAdmin() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expectInvisible(downloadList, new EasyUserImpl(Role.ADMIN));
     }
 
     @Test
-    public void withoutUser() throws Exception
-    {
+    public void withoutUser() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
-    public void withAnonymous() throws Exception
-    {
+    public void withAnonymous() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, EasyUserAnonymous.getInstance(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
-    public void userWantsNoActionLog() throws Exception
-    {
+    public void userWantsNoActionLog() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;surname;email;organization;function;null;\n");
     }
 
     @Test
-    public void withKnownUser() throws Exception
-    {
+    public void withKnownUser() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;surname;email;organization;function;null;\n");
     }
 
     @Test
-    public void withNotFoundUser() throws Exception
-    {
+    public void withNotFoundUser() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUser(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
-    public void withEmptyUserValues() throws Exception
-    {
+    public void withEmptyUserValues() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUserWithEmptyValues(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;;null;null;null;null;\n");
     }
 
     @Test
-    public void withEmptyDownloaderID() throws Exception
-    {
+    public void withEmptyDownloaderID() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, new EasyUserImpl(""), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
-    public void withNotFoundUserService() throws Exception
-    {
+    public void withNotFoundUserService() throws Exception {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUserService(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
-    public void withNotFoundDatasetService() throws Exception
-    {
+    public void withNotFoundDatasetService() throws Exception {
         EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class))).andStubThrow(
                 new ServiceException(""));
         expectInvisible(null, new EasyUserImpl(Role.USER));
     }
 
     @Test
-    public void archivistFeb2013issue560() throws Exception
-    {
+    public void archivistFeb2013issue560() throws Exception {
         expect(new MockedDLHL36028(userService, ARCHIVIST).getList(), ARCHIVIST, MockedDLHL36028.getArchivistExpectation());
     }
 
     @Test
-    public void datasetOwnerFeb2013issue560() throws Exception
-    {
+    public void datasetOwnerFeb2013issue560() throws Exception {
         WicketTester tester = run(new MockedDLHL36028(userService, USER).getList(), USER);
         tester.assertInvisible(PANEL);
         tester.assertInvisible(PANEL_DOWNLOAD_CSV);
@@ -150,15 +134,13 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         // code smell: invisible but enabled
     }
 
-    private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
-    {
+    private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception {
         final WicketTester tester = run(downloadList, easyUser);
         tester.assertInvisible(PANEL);
         tester.assertInvisible(PANEL_DOWNLOAD_CSV);
     }
 
-    private void expect(final DownloadList downloadList, EasyUser sessionUser, final String lines) throws Exception
-    {
+    private void expect(final DownloadList downloadList, EasyUser sessionUser, final String lines) throws Exception {
         final WicketTester tester = run(downloadList, sessionUser);
         tester.assertVisible(PANEL);
         tester.assertVisible(PANEL_DOWNLOAD_CSV);
@@ -169,27 +151,22 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         assertThat(downloadWithoutHeaderLine, is(lines));
     }
 
-    private WicketTester run(final DownloadList downloadList, final EasyUser sessionUser) throws Exception
-    {
+    private WicketTester run(final DownloadList downloadList, final EasyUser sessionUser) throws Exception {
         // the boolean arguments are for dataset owners viewing the web page, hence not important here
         final Dataset mockedDataset = mockDataset(downloadList, sessionUser, false, false, true);
         final Session mockedSession = mockSessionFor_Component_isActionAuthourized();
         PowerMock.replayAll();
 
         final WicketTester tester = createWicketTester();
-        tester.startPanel(new ITestPanelSource()
-        {
+        tester.startPanel(new ITestPanelSource() {
             private static final long serialVersionUID = 1L;
 
-            public Panel getTestPanel(final String panelId)
-            {
-                return new DownloadActivityLogPanel(panelId, mockedDataset, sessionUser)
-                {
+            public Panel getTestPanel(final String panelId) {
+                return new DownloadActivityLogPanel(panelId, mockedDataset, sessionUser) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public Session getSession()
-                    {
+                    public Session getSession() {
                         return mockedSession;
                     }
                 };

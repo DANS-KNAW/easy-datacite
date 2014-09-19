@@ -29,46 +29,39 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.search.RecursiveListCache;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 
-public class EasySearchService extends AbstractEasyService implements SearchService
-{
+public class EasySearchService extends AbstractEasyService implements SearchService {
     private static final Logger log = LoggerFactory.getLogger(EasySearchService.class);
 
-    public SearchResult<? extends DatasetSB> searchAllWork(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchAllWork(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByStates(request, new DatasetState[] {DatasetState.SUBMITTED, DatasetState.MAINTENANCE});
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchMyDataset(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchMyDataset(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByDepositorId(request, user.getId());
         addFilterByStates(request, new DatasetState[] {DatasetState.DRAFT, DatasetState.SUBMITTED, DatasetState.PUBLISHED, DatasetState.MAINTENANCE});
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchMyRequests(SearchRequest request, EasyUser requester) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchMyRequests(SearchRequest request, EasyUser requester) throws ServiceException {
         final String requesterId = requester.getId();
         log.debug("Search my requests for user: '{}'", requesterId);
         addFilterByRequesterId(request, requesterId);
         addFilterByStates(request, new DatasetState[] {DatasetState.PUBLISHED, DatasetState.MAINTENANCE});
 
         final SearchResult<? extends DatasetSB> searchResult = doSearch(request);
-        try
-        {
+        try {
             // dirty solution for ticket 544: user "abc" sees also requests of user "abc123"
             log.debug("Filtering my requests for false hits");
             final List<?> hits = searchResult.getHits();
             final List<Object> falseHits = new ArrayList<Object>();
-            for (final Object hit : hits)
-            {
+            for (final Object hit : hits) {
                 boolean found = false;
                 final EasyDatasetSB dataset = ((SimpleSearchHit<EasyDatasetSB>) hit).getData();
                 log.debug("Found dataset {}. Looking for requester '{}' ...", dataset.getStoreId(), requesterId);
-                for (final PermissionRequestSearchInfo permissionRequest : dataset.getPermissionStatusList())
-                {
+                for (final PermissionRequestSearchInfo permissionRequest : dataset.getPermissionStatusList()) {
                     log.debug("  Found '{}'", permissionRequest.getRequesterId());
                     found = false || requesterId.equals(permissionRequest.getRequesterId());
                 }
@@ -79,50 +72,43 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
             for (final Object hit : falseHits)
                 hits.remove(hit);
         }
-        catch (final ClassCastException e)
-        {
+        catch (final ClassCastException e) {
             log.error("Error in cast! Ignoring.", e);
         }
         return searchResult;
     }
 
-    public SearchResult<? extends DatasetSB> searchMyWork(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchMyWork(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByStates(request, new DatasetState[] {DatasetState.SUBMITTED, DatasetState.MAINTENANCE});
         addFilterByAssigneeId(request, user.getId());
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchOurWork(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchOurWork(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByStates(request, new DatasetState[] {DatasetState.SUBMITTED, DatasetState.MAINTENANCE});
         addFilterByAssigneeId(request, WorkflowData.NOT_ASSIGNED);
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchPublished(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchPublished(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByStates(request, new DatasetState[] {DatasetState.PUBLISHED, DatasetState.MAINTENANCE});
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchTrashcan(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchTrashcan(SearchRequest request, EasyUser user) throws ServiceException {
         addFilterByState(request, DatasetState.DELETED);
 
         return doSearch(request);
     }
 
-    public SearchResult<? extends DatasetSB> searchAll(SearchRequest request, EasyUser user) throws ServiceException
-    {
+    public SearchResult<? extends DatasetSB> searchAll(SearchRequest request, EasyUser user) throws ServiceException {
         return doSearch(request);
     }
 
-    public int getNumberOfRequests(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfRequests(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -134,8 +120,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    public int getNumberOfDatasets(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfDatasets(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -147,8 +132,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    public int getNumberOfItemsInAllWork(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfItemsInAllWork(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -160,8 +144,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    public int getNumberOfItemsInOurWork(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfItemsInOurWork(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -173,8 +156,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    public int getNumberOfItemsInMyWork(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfItemsInMyWork(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -186,8 +168,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    public int getNumberOfItemsInTrashcan(EasyUser user) throws ServiceException
-    {
+    public int getNumberOfItemsInTrashcan(EasyUser user) throws ServiceException {
         if (user.isAnonymous())
             return 0;
         SearchRequest request = new SimpleSearchRequest();
@@ -199,14 +180,12 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         return searchResult.getTotalHits();
     }
 
-    private void addFilterByState(SearchRequest request, DatasetState state) throws ServiceException
-    {
+    private void addFilterByState(SearchRequest request, DatasetState state) throws ServiceException {
         addFilterByStates(request, new DatasetState[] {state});
     }
 
     @SuppressWarnings("unchecked")
-    private void addFilterByStates(SearchRequest request, DatasetState... states) throws ServiceException
-    {
+    private void addFilterByStates(SearchRequest request, DatasetState... states) throws ServiceException {
         // check if an existing filter is not already a subset of the
         // allowed states. This is a simple solution to the problem
         // that an incoming request might be a subset of the request
@@ -214,18 +193,13 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         // and a bigger set would be returned if it were not for this
         // small piece of simplistic code.
         Field<?> existingFilter = request.getFilterQueries().getByFieldName(EasyDatasetSB.DS_STATE_FIELD);
-        if (existingFilter != null)
-        {
+        if (existingFilter != null) {
             Object filterVal = existingFilter.getValue();
-            for (DatasetState state : states)
-            {
-                if (filterVal instanceof DatasetState)
-                {
+            for (DatasetState state : states) {
+                if (filterVal instanceof DatasetState) {
                     if (filterVal.equals(state))
                         return;
-                }
-                else if (filterVal instanceof String)
-                {
+                } else if (filterVal instanceof String) {
                     if (filterVal.equals(state.toString()))
                         return;
                 }
@@ -236,47 +210,37 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         request.addFilterQuery(new SimpleField(EasyDatasetSB.DS_STATE_FIELD, q));
     }
 
-    private void addFilterByDepositorId(SearchRequest request, String depositorId) throws ServiceException
-    {
+    private void addFilterByDepositorId(SearchRequest request, String depositorId) throws ServiceException {
         request.addFilterQuery(new SimpleField<String>(EasyDatasetSB.DEPOSITOR_ID_FIELD, depositorId));
     }
 
-    private void addFilterByAssigneeId(SearchRequest request, String assigneeId) throws ServiceException
-    {
+    private void addFilterByAssigneeId(SearchRequest request, String assigneeId) throws ServiceException {
         request.addFilterQuery(new SimpleField<String>(EasyDatasetSB.ASSIGNEE_ID_FIELD, assigneeId));
     }
 
-    private void addFilterByRequesterId(SearchRequest request, String requesterId)
-    {
+    private void addFilterByRequesterId(SearchRequest request, String requesterId) {
         request.addFilterQuery(new SimpleField<String>(EasyDatasetSB.PERMISSION_STATUS_FIELD, requesterId));
     }
 
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
-        try
-        {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
+        try {
             return Data.getDatasetSearch().search(request);
         }
-        catch (SearchEngineException e)
-        {
+        catch (SearchEngineException e) {
             throw new ServiceException(e);
         }
-        catch (SearchBeanFactoryException e)
-        {
+        catch (SearchBeanFactoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException
-    {
+    public RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException {
         RecursiveList recursiveList;
-        try
-        {
+        try {
             recursiveList = RecursiveListCache.getInstance().getList(listId, locale);
         }
-        catch (CacheException e)
-        {
+        catch (CacheException e) {
             throw new ServiceException(e);
         }
         return recursiveList;

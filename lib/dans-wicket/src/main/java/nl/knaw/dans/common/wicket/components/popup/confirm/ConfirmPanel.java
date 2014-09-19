@@ -10,8 +10,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 
-public abstract class ConfirmPanel extends Panel
-{
+public abstract class ConfirmPanel extends Panel {
 
     private static final long serialVersionUID = 2837409577443616047L;
 
@@ -19,26 +18,22 @@ public abstract class ConfirmPanel extends Panel
     protected ConfirmationAnswer answer;
     protected Map<String, String> modifiersToApply;
 
-    public ConfirmPanel(String id, String buttonName, String modalMessageText, String modalTitleText)
-    {
+    public ConfirmPanel(String id, String buttonName, String modalMessageText, String modalTitleText) {
         super(id);
         answer = new ConfirmationAnswer(false);
         addElements(id, buttonName, modalMessageText, modalTitleText);
     }
 
-    protected void addElements(String id, String buttonName, String modalMessageText, String modalTitleText)
-    {
+    protected void addElements(String id, String buttonName, String modalMessageText, String modalTitleText) {
         confirmModal = createConfirmModal(id, modalMessageText, modalTitleText);
         Form<?> form = new Form("confirmForm");
         add(form);
 
-        AjaxSubmitLink confirmButton = new AjaxSubmitLink("confirmButton")
-        {
+        AjaxSubmitLink confirmButton = new AjaxSubmitLink("confirmButton") {
             private static final long serialVersionUID = 8077215621843817611L;
 
             @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-            {
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 confirmModal.show(target);
             }
         };
@@ -51,8 +46,7 @@ public abstract class ConfirmPanel extends Panel
 
     protected abstract void onCancel(AjaxRequestTarget target);
 
-    protected ModalWindow createConfirmModal(String id, String modalMessageText, String modalTitleText)
-    {
+    protected ModalWindow createConfirmModal(String id, String modalMessageText, String modalTitleText) {
         ModalWindow modalWindow = new ModalWindow("confirmModal");
         modalWindow.setTitle(modalTitleText);
         modalWindow.setUseInitialHeight(false);
@@ -61,19 +55,14 @@ public abstract class ConfirmPanel extends Panel
 
         modalWindow.setContent(new YesNoPanel(modalWindow, modalMessageText, answer));
 
-        modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
-        {
+        modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
             private static final long serialVersionUID = -3911323073933533800L;
 
             @Override
-            public void onClose(AjaxRequestTarget target)
-            {
-                if (answer.isAnswer())
-                {
+            public void onClose(AjaxRequestTarget target) {
+                if (answer.isAnswer()) {
                     onConfirm(target);
-                }
-                else
-                {
+                } else {
                     onCancel(target);
                 }
             }
@@ -81,24 +70,20 @@ public abstract class ConfirmPanel extends Panel
         return modalWindow;
     }
 
-    public class ConfirmationAnswer implements Serializable
-    {
+    public class ConfirmationAnswer implements Serializable {
         private static final long serialVersionUID = -7876765511746536180L;
 
         private boolean answer;
 
-        public ConfirmationAnswer(boolean answer)
-        {
+        public ConfirmationAnswer(boolean answer) {
             this.answer = answer;
         }
 
-        public boolean isAnswer()
-        {
+        public boolean isAnswer() {
             return answer;
         }
 
-        public void setAnswer(boolean answer)
-        {
+        public void setAnswer(boolean answer) {
             this.answer = answer;
         }
     }

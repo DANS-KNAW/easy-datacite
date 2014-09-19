@@ -8,8 +8,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
-public class ECollectionEntry implements Serializable
-{
+public class ECollectionEntry implements Serializable {
 
     private static final long serialVersionUID = -6365235991824244529L;
 
@@ -22,10 +21,8 @@ public class ECollectionEntry implements Serializable
     private boolean member;
     private boolean publishedAsOAISet;
 
-    public ECollectionEntry(DmoCollection collection, int level)
-    {
-        if (!ECollection.isECollection(collection))
-        {
+    public ECollectionEntry(DmoCollection collection, int level) {
+        if (!ECollection.isECollection(collection)) {
             throw new IllegalArgumentException("Not a ECollection: " + collection.getStoreId());
         }
         this.collectionId = collection.getDmoStoreId();
@@ -35,62 +32,50 @@ public class ECollectionEntry implements Serializable
         this.level = level;
     }
 
-    public boolean isMember()
-    {
+    public boolean isMember() {
         return member;
     }
 
-    public void setMember(boolean member)
-    {
+    public void setMember(boolean member) {
         this.member = member;
     }
 
-    public boolean isPublishedAsOAISet()
-    {
+    public boolean isPublishedAsOAISet() {
         return publishedAsOAISet;
     }
 
-    public void setPublishedAsOAISet(boolean publishedAsOAISet)
-    {
-        if (isOaiSetEnabled())
-        {
+    public void setPublishedAsOAISet(boolean publishedAsOAISet) {
+        if (isOaiSetEnabled()) {
             this.publishedAsOAISet = publishedAsOAISet;
         }
     }
 
-    public DmoStoreId getCollectionId()
-    {
+    public DmoStoreId getCollectionId() {
         return collectionId;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public String getShortName()
-    {
+    public String getShortName() {
         return shortName;
     }
 
-    public String getLevelName()
-    {
+    public String getLevelName() {
         return StringUtils.repeat("-", level - 1) + shortName;
     }
 
-    public boolean isOaiSetEnabled()
-    {
+    public boolean isOaiSetEnabled() {
         return oaiSetEnabled;
     }
 
-    public int getLevel()
-    {
+    public int getLevel() {
         return level;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new StringBuilder(this.getClass().getSimpleName()) //
                 .append(" [") //
                 .append(collectionId) //

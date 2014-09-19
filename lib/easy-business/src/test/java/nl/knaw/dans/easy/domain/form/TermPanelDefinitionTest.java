@@ -6,11 +6,9 @@ import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 
 import org.junit.Test;
 
-public class TermPanelDefinitionTest
-{
+public class TermPanelDefinitionTest {
     @Test
-    public void testClone() throws XMLSerializationException
-    {
+    public void testClone() throws XMLSerializationException {
         TermPanelDefinition tpDef = new TermPanelDefinition("panelId", "namespacePrefix", "termName");
         tpDef.setHelpFile("helpFile");
         tpDef.setHelpItem("helpItem");

@@ -27,23 +27,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class AdminTabTest
-{
+public class AdminTabTest {
     private static final String TAB_PATH = "tabs:tabs-container:tabs:3:link";
     private EasyApplicationContextMock applicationContext;
     private static DatasetImpl dataset;
     private InMemoryDatabase inMemoryDatabase;
 
-    static public class PageWrapper extends DatasetViewPage
-    {
-        public PageWrapper()
-        {
+    static public class PageWrapper extends DatasetViewPage {
+        public PageWrapper() {
             super(dataset, DatasetViewPage.Mode.VIEW);
         }
     }
 
-    private DatasetService mockDataset() throws Exception
-    {
+    private DatasetService mockDataset() throws Exception {
         final EasyUserImpl depositor = new EasyUserTestImpl("x:y");
         depositor.setInitials("D.E.");
         depositor.setSurname("Positor");
@@ -66,20 +62,17 @@ public class AdminTabTest
         return datasetService;
     }
 
-    private void initInMemoryDatabase() throws StoreAccessException
-    {
+    private void initInMemoryDatabase() throws StoreAccessException {
         inMemoryDatabase = new InMemoryDatabase();
         inMemoryDatabase.insertFile(1, dataset, "tmp.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
         inMemoryDatabase.flush();
         FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
         applicationContext.putBean("fileStoreAccess", fileStoreAccess);
-        new Data().setFileStoreAccess(fileStoreAccess);
-        ;
+        new Data().setFileStoreAccess(fileStoreAccess);;
     }
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
@@ -91,23 +84,20 @@ public class AdminTabTest
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
         inMemoryDatabase.close();
     }
 
     @Test
-    public void adminTabInVisible() throws Exception
-    {
+    public void adminTabInVisible() throws Exception {
         applicationContext.expectAuthenticatedAsVisitor();
         final EasyWicketTester tester = startPage();
         tester.assertInvisible(TAB_PATH);
     }
 
     @Test
-    public void adminTabVisible() throws Exception
-    {
+    public void adminTabVisible() throws Exception {
         applicationContext.expectAuthenticatedAsVisitor().addRole(Role.ARCHIVIST);
         final EasyWicketTester tester = startPage();
         tester.dumpPage();
@@ -117,8 +107,7 @@ public class AdminTabTest
     }
 
     @Test
-    public void adminTab() throws Exception
-    {
+    public void adminTab() throws Exception {
         applicationContext.expectAuthenticatedAsVisitor().addRole(Role.ARCHIVIST);
         final EasyWicketTester tester = startPage();
         tester.clickLink(TAB_PATH);
@@ -126,8 +115,7 @@ public class AdminTabTest
         tester.debugComponentTrees();
     }
 
-    private EasyWicketTester startPage()
-    {
+    private EasyWicketTester startPage() {
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         PowerMock.replayAll();
         tester.startPage(PageWrapper.class);

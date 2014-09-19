@@ -15,20 +15,17 @@ import nl.knaw.dans.common.lang.user.User;
  * AuthzStrategy strategy = AuthzStrategyProvider.new AuthzStrategy(name, user, target, contextObjects);
  * </pre>
  * <p/>
- * To obtain multiple AuthzStrategies for a given context, instantiate this class for the context, and
- * use the object method:
+ * To obtain multiple AuthzStrategies for a given context, instantiate this class for the context, and use the object method:
  * 
  * <pre>
  * AuthzStrategyProvider provider = new AuthzStrategyProvider(user, contextObjects);
- * for (TargetableObject target : targetObjects)
- * {
+ * for (TargetableObject target : targetObjects) {
  *     AuthzStrategy strategy = provider.getAuthzStrategy(name, target);
  *     target.setAuthzStrategy(strategy);
  * }
  * </pre>
  */
-public class AuthzStrategyProvider
-{
+public class AuthzStrategyProvider {
 
     private static Map<String, AuthzStrategy> STRATEGIES;
 
@@ -37,40 +34,31 @@ public class AuthzStrategyProvider
 
     private Map<String, AuthzStrategy> loadedStrategies = new HashMap<String, AuthzStrategy>();
 
-    public AuthzStrategyProvider(User user, Object... contextObjects)
-    {
+    public AuthzStrategyProvider(User user, Object... contextObjects) {
         this.user = user;
         this.contextObjects = contextObjects;
     }
 
-    public AuthzStrategy getAuthzStrategy(String name, Object target)
-    {
+    public AuthzStrategy getAuthzStrategy(String name, Object target) {
         AuthzStrategy strategy = loadedStrategies.get(name);
-        if (strategy == null)
-        {
+        if (strategy == null) {
             strategy = newAuthzStrategy(name, user, target, contextObjects);
             loadedStrategies.put(name, strategy);
         }
         return strategy.sameStrategy(target);
     }
 
-    public static AuthzStrategy newAuthzStrategy(String name, User user, Object target, Object... contextObjects)
-    {
+    public static AuthzStrategy newAuthzStrategy(String name, User user, Object target, Object... contextObjects) {
         AuthzStrategy aStrategy = getStrategies().get(name);
-        if (aStrategy == null)
-        {
+        if (aStrategy == null) {
             throw new IllegalStateException("Unknown AuthzStrategy: " + name);
-        }
-        else
-        {
+        } else {
             return aStrategy.newStrategy(user, target, contextObjects);
         }
     }
 
-    private static Map<String, AuthzStrategy> getStrategies()
-    {
-        if (STRATEGIES == null)
-        {
+    private static Map<String, AuthzStrategy> getStrategies() {
+        if (STRATEGIES == null) {
             STRATEGIES = new HashMap<String, AuthzStrategy>();
             addToStrategies(new EasyFileItemAuthzStrategy());
             addToStrategies(new EasyFileItemVOAuthzStrategy());
@@ -80,8 +68,7 @@ public class AuthzStrategyProvider
         return STRATEGIES;
     }
 
-    private static void addToStrategies(AuthzStrategy strategy)
-    {
+    private static void addToStrategies(AuthzStrategy strategy) {
         STRATEGIES.put(strategy.getClass().getName(), strategy);
     }
 

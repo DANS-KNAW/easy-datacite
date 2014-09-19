@@ -23,17 +23,14 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.powermock.api.easymock.PowerMock;
 
 /**
- * One of the two helper classes to ease unit testing of the easy webui application, see also
- * {@link EasyApplicationContextMock}.<br>
+ * One of the two helper classes to ease unit testing of the easy webui application, see also {@link EasyApplicationContextMock}.<br>
  * <br>
- * Pages may call setResponsePage or throw a {@link AbstractRestartResponseException}. The expected
- * rendered page would be another than the started page. In those cases you can't assert the rendered
- * page when the page was started with {@link #startPage(ITestPageSource)}. Consider to create a subclass
- * of the page under test to invoke the desired constructor.<br>
+ * Pages may call setResponsePage or throw a {@link AbstractRestartResponseException}. The expected rendered page would be another than the started page. In
+ * those cases you can't assert the rendered page when the page was started with {@link #startPage(ITestPageSource)}. Consider to create a subclass of the page
+ * under test to invoke the desired constructor.<br>
  * <br>
- * Below a common pattern, the tests in the packages nl.dans.easy.web.authn.* may serve as the first
- * working examples. The method tester.debugComponentTrees() shows the paths and contents of the fields
- * on the rendered page, a very handy resource to set up your expectations.
+ * Below a common pattern, the tests in the packages nl.dans.easy.web.authn.* may serve as the first working examples. The method tester.debugComponentTrees()
+ * shows the paths and contents of the fields on the rendered page, a very handy resource to set up your expectations.
  * 
  * <pre>
  * // preparation
@@ -61,30 +58,24 @@ import org.powermock.api.easymock.PowerMock;
  * PowerMock.resetAll();
  * </pre>
  */
-public class EasyWicketTester extends WicketTester
-{
-    private EasyWicketTester(final WebApplication application)
-    {
+public class EasyWicketTester extends WicketTester {
+    private EasyWicketTester(final WebApplication application) {
         super(application);
     }
 
     /**
-     * Creates a WicketTester that does not flood target/work with files, collects rendered pages at
-     * target/pageDumps and gives a few clearer messages in case of failed assertions. A user provided to
-     * {@link EasyApplicationContextMock#expectAuthenticatedAs} is forwarded to
-     * {@link EasySession#setLoggedIn}. A usage scenario is given at class level.
+     * Creates a WicketTester that does not flood target/work with files, collects rendered pages at target/pageDumps and gives a few clearer messages in case
+     * of failed assertions. A user provided to {@link EasyApplicationContextMock#expectAuthenticatedAs} is forwarded to {@link EasySession#setLoggedIn}. A
+     * usage scenario is given at class level.
      * 
      * @param applicationContextMock
      *        mock for the file applicationContext.xml
      * @return
      */
-    public static EasyWicketTester create(final EasyApplicationContextMock applicationContextMock)
-    {
-        final EasyWicketApplication application = new EasyWicketApplication()
-        {
+    public static EasyWicketTester create(final EasyApplicationContextMock applicationContextMock) {
+        final EasyWicketApplication application = new EasyWicketApplication() {
             @Override
-            public Session newSession(final Request request, final Response response)
-            {
+            public Session newSession(final Request request, final Response response) {
                 final UsernamePasswordAuthentication authentication = applicationContextMock.getAuthentication();
                 final EasySession session = new EasySession(request);
                 if (authentication != null)
@@ -93,8 +84,7 @@ public class EasyWicketTester extends WicketTester
             }
 
             @Override
-            protected ISessionStore newSessionStore()
-            {
+            protected ISessionStore newSessionStore() {
                 // Copied via stackoverflow.com from WicketTester:
                 // "Don't use a filestore, or we spawn lots of threads, which makes things slow."
                 // It also appears it leaves the folder target/work empty what saves the need for
@@ -115,8 +105,7 @@ public class EasyWicketTester extends WicketTester
      * @param pageClass
      * @return
      */
-    public static EasyWicketTester startPage(final EasyApplicationContextMock applicationContext, final Class<? extends WebPage> pageClass)
-    {
+    public static EasyWicketTester startPage(final EasyApplicationContextMock applicationContext, final Class<? extends WebPage> pageClass) {
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         PowerMock.replayAll();
         tester.startPage(pageClass);
@@ -142,32 +131,27 @@ public class EasyWicketTester extends WicketTester
     }
 
     /**
-     * Dumps the source of the last rendered <code>Page</code> in
-     * target/pageDumps/[package]/[test-class]/[calling-method].html
+     * Dumps the source of the last rendered <code>Page</code> in target/pageDumps/[package]/[test-class]/[calling-method].html
      */
     @Override
-    public void dumpPage()
-    {
+    public void dumpPage() {
         final StackTraceElement caller = new Exception().getStackTrace()[1];
         dump(createDumpFileName("", caller));
     }
 
     /**
-     * Dumps the source of the last rendered <code>Page</code> in
-     * target/pageDumps/[package]/[test-class]/[calling-method][-suffix].html
+     * Dumps the source of the last rendered <code>Page</code> in target/pageDumps/[package]/[test-class]/[calling-method][-suffix].html
      * 
      * @param suffix
      *        the last portion of the created file name
      * @throws Exception
      */
-    public void dumpPage(final String suffix) throws Exception
-    {
+    public void dumpPage(final String suffix) throws Exception {
         final StackTraceElement caller = new Exception().getStackTrace()[1];
         dump(createDumpFileName("-" + suffix, caller));
     }
 
-    private File createDumpFileName(final String suffix, final StackTraceElement caller)
-    {
+    private File createDumpFileName(final String suffix, final StackTraceElement caller) {
         final String testPackage = caller.getClassName().replaceAll("[.][^.]*$", "");
         final String testClass = caller.getClassName().replaceAll(".*[.]", "");
         final String testMethod = caller.getMethodName();
@@ -175,22 +159,18 @@ public class EasyWicketTester extends WicketTester
         return file;
     }
 
-    private void dump(final File file)
-    {
-        try
-        {
+    private void dump(final File file) {
+        try {
             final String document = hackLookAndFeel(getServletResponse().getDocument());
             file.getParentFile().mkdirs();
             FileUtils.write(file, document);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             super.dumpPage();
         }
     }
 
-    private String hackLookAndFeel(final String document) throws IOException
-    {
+    private String hackLookAndFeel(final String document) throws IOException {
         final String webuiHome = new File(".").getCanonicalPath().replaceAll("/\\.$", "");
         final String dansWicketHome = new File("../../lib/dans-wicket").getCanonicalPath().replaceAll("/\\.$", "");
         return document//
@@ -214,25 +194,21 @@ public class EasyWicketTester extends WicketTester
     }
 
     @Override
-    public void assertLabel(final String path, final String expected)
-    {
+    public void assertLabel(final String path, final String expected) {
         final String label = getLabelValue(path, expected);
         if (label != null && !label.equals(expected))
             fail(path + " expected to equal [" + expected + "] but got [" + label + "]");
     }
 
-    public void assertLabelContains(final String path, final String expected)
-    {
+    public void assertLabelContains(final String path, final String expected) {
         final String label = getLabelValue(path, expected);
         if (label != null && !label.contains(expected))
             fail(path + " expected to contain [" + expected + "] but got [" + label + "]");
     }
 
-    private String getLabelValue(final String path, final String expected)
-    {
+    private String getLabelValue(final String path, final String expected) {
         final Component component = getComponentFromLastRenderedPage(path);
-        if (component == null)
-        {
+        if (component == null) {
             fail(path + " expected [" + expected + "] but was not found ");
             return null;
         }

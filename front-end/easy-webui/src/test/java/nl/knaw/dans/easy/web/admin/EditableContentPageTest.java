@@ -43,8 +43,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class EditableContentPageTest
-{
+public class EditableContentPageTest {
     private static final String MOCKED_EDITABLE = "target/mockedEditable";
     private static final String ORIGINAL_EDITABLE = "src/main/assembly/dist/res/example/editable";
     private EasyApplicationContextMock applicationContext;
@@ -52,17 +51,14 @@ public class EditableContentPageTest
 
     private static EasyUser sessionUser; // static for the inner Wrapper class
 
-    public static class EditableInfoPageWrapper extends EditableInfoPage
-    {
-        public EditableInfoPageWrapper()
-        {
+    public static class EditableInfoPageWrapper extends EditableInfoPage {
+        public EditableInfoPageWrapper() {
             super(DepositPanel.INFO_PAGE, DepositPanel.EDITABLE_DEPOSIT_COMPLETE_TEMPLATE, sessionUser);
         }
     }
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         sessionUser = new EasyUserTestImpl("mocked-user:archivist");
         sessionUser.setInitials("Archi");
         sessionUser.setSurname("Vist");
@@ -80,28 +76,24 @@ public class EditableContentPageTest
         applicationContext.expectAuthenticatedAs(sessionUser);
     }
 
-    private void mockDisciplines() throws ServiceException
-    {
+    private void mockDisciplines() throws ServiceException {
         applicationContext.setMockedDepositService();
         EasyMock.expect(applicationContext.getDepositService().getDisciplines()).andStubReturn(new ArrayList<DepositDiscipline>());
     }
 
-    private FileSystemHomeDirectory mockEditableFiles() throws IOException
-    {
+    private FileSystemHomeDirectory mockEditableFiles() throws IOException {
         final File mockedEditable = new File(MOCKED_EDITABLE);
         FileUtils.copyDirectory(new File(ORIGINAL_EDITABLE), mockedEditable);
         return new FileSystemHomeDirectory(mockedEditable);
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         PowerMock.resetAll();
     }
 
     @Test
-    public void commonWorkflow() throws Exception
-    {
+    public void commonWorkflow() throws Exception {
         startPage(EditableContentPage.class);
         tester.dumpPage();
 
@@ -115,8 +107,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void editBanner() throws Exception
-    {
+    public void editBanner() throws Exception {
         startPage(EditableContentPage.class);
         tester.dumpPage();
         doClicks("adminBanner");
@@ -125,8 +116,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void editHomePage() throws Exception
-    {
+    public void editHomePage() throws Exception {
         startPage(HomePage.class);
         tester.dumpPage();
         doClicks("editablePanel");
@@ -135,8 +125,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void depositIntroPage() throws Exception
-    {
+    public void depositIntroPage() throws Exception {
         mockDisciplines();
         startPage(DepositIntroPage.class);
         tester.dumpPage();
@@ -146,8 +135,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void editableInfoPage() throws Exception
-    {
+    public void editableInfoPage() throws Exception {
         mockDisciplines();
         startPage(EditableInfoPageWrapper.class);
         tester.dumpPage();
@@ -159,8 +147,7 @@ public class EditableContentPageTest
     @Ignore
     // the emulated click does not change the modeLink, with a manual test the scenario works
     @Test
-    public void registrationForm() throws Exception
-    {
+    public void registrationForm() throws Exception {
         // unusual use case but it is a bookmarkable page
         // so a logged-in archivist can reach this page
         // with easy.dans.knaw.nl/ui/register
@@ -173,8 +160,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void myDatasetsSearchResultPage() throws Exception
-    {
+    public void myDatasetsSearchResultPage() throws Exception {
         EasyMock.expect(applicationContext.getSearchService().searchMyDataset(isA(SearchRequest.class), isA(EasyUser.class))).andStubReturn(null);
         startPage(MyDatasetsSearchResultPage.class);
         tester.dumpPage();
@@ -184,8 +170,7 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void myRequestSearchResultPage() throws Exception
-    {
+    public void myRequestSearchResultPage() throws Exception {
         EasyMock.expect(applicationContext.getSearchService().searchMyRequests(isA(SearchRequest.class), isA(EasyUser.class))).andStubReturn(null);
         startPage(MyRequestsSearchResultPage.class);
         tester.dumpPage();
@@ -195,35 +180,28 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void permissionRequestEditPanel() throws Exception
-    {
+    public void permissionRequestEditPanel() throws Exception {
         /*
-         * The panel also uses a template. However, apply doClinks to
-         * DatasetPermissionTest.issueFirstRequest with an archivist as sessionUser is hardly worth the
-         * trouble. Available test at least shows the content of the template.
+         * The panel also uses a template. However, apply doClinks to DatasetPermissionTest.issueFirstRequest with an archivist as sessionUser is hardly worth
+         * the trouble. Available test at least shows the content of the template.
          */
     }
 
     @Test
-    public void dwonloadPanel() throws Exception
-    {
+    public void dwonloadPanel() throws Exception {
         /*
-         * TODO consider applying doClicks to the DownloadPanel when DatasetViewPage tests are
-         * implemented and cover the DescriptionPanel.
+         * TODO consider applying doClicks to the DownloadPanel when DatasetViewPage tests are implemented and cover the DescriptionPanel.
          */
     }
 
     @Test
-    public void licensePanel() throws Exception
-    {
+    public void licensePanel() throws Exception {
         /*
-         * TODO consider applying doClicks when Deposit tests are implemented and cover the
-         * EmdPanelFactory.createLicensePanel.
+         * TODO consider applying doClicks when Deposit tests are implemented and cover the EmdPanelFactory.createLicensePanel.
          */
     }
 
-    private void doClicks(final String containerPath) throws Exception
-    {
+    private void doClicks(final String containerPath) throws Exception {
         final String cancelPath = containerPath + ":form:cancelLink";
         final String modePath = containerPath + ":form:modeLink";
         final String modeLabelPath = containerPath + ":form:modeLink:modeLinkLabel";
@@ -254,8 +232,7 @@ public class EditableContentPageTest
         tester.clickLink(modePath);
     }
 
-    private void assertWhiteSpaceCHanges(final String template) throws IOException
-    {
+    private void assertWhiteSpaceCHanges(final String template) throws IOException {
         final String saved = assertSavedContent(template);
         final String original2 = new TextFileModel(new File(ORIGINAL_EDITABLE, template)).getObject();
         Assert.assertThat(saved + "\n", equalTo(original2));
@@ -264,8 +241,7 @@ public class EditableContentPageTest
         // buffer.append(String.format("%n"));
     }
 
-    private String assertSavedContent(String template) throws IOException
-    {
+    private String assertSavedContent(String template) throws IOException {
         final String saved = FileUtils.readFileToString(new File(MOCKED_EDITABLE, template));
         final String original = FileUtils.readFileToString(new File(ORIGINAL_EDITABLE, template));
         Assert.assertThat(saved, equalToIgnoringWhiteSpace(original));
@@ -273,16 +249,13 @@ public class EditableContentPageTest
     }
 
     @Test
-    public void allTemplates() throws Exception
-    {
+    public void allTemplates() throws Exception {
         checkProvidedTemplateFiles(checkLinkedTemplates());
     }
 
-    private void checkProvidedTemplateFiles(final Collection<String> usedFiles)
-    {
+    private void checkProvidedTemplateFiles(final Collection<String> usedFiles) {
         final Iterator<File> availableFiles = FileUtils.iterateFiles(new File(ORIGINAL_EDITABLE), null, true);
-        for (final Iterator<File> iter = availableFiles; iter.hasNext();)
-        {
+        for (final Iterator<File> iter = availableFiles; iter.hasNext();) {
             final String availableFile = iter.next().toString().replace(ORIGINAL_EDITABLE, "");
             if (!ignore(availableFile))
                 assertTrue("obsolete template: " + availableFile, usedFiles.contains(availableFile));
@@ -290,20 +263,16 @@ public class EditableContentPageTest
     }
 
     /**
-     * Detects missing example files and misspelled place holders. Please overwrite
-     * "src/main/assembly/dist/res/example/editable" with "easy.dans.knaw.nl:/opt/easy-webui-editable/"
-     * after updates.
+     * Detects missing example files and misspelled place holders. Please overwrite "src/main/assembly/dist/res/example/editable" with
+     * "easy.dans.knaw.nl:/opt/easy-webui-editable/" after updates.
      * 
      * @throws Exception
      */
-    private Collection<String> checkLinkedTemplates() throws Exception
-    {
+    private Collection<String> checkLinkedTemplates() throws Exception {
         final Collection<String> usedFiles = new ArrayList<String>();
-        for (final ComponentData obj : getComponentData(startPage(EditableContentPage.class).getLastRenderedPage()))
-        {
+        for (final ComponentData obj : getComponentData(startPage(EditableContentPage.class).getLastRenderedPage())) {
             final String path = obj.path;
-            if (path.endsWith("EditLink"))
-            {
+            if (path.endsWith("EditLink")) {
                 tester.clickLink(path);
                 tester.assertRenderedPage(EditableTextPage.class);
                 tester.dumpPage(path);
@@ -317,14 +286,12 @@ public class EditableContentPageTest
         return usedFiles;
     }
 
-    private boolean ignore(final String availableFile)
-    {
+    private boolean ignore(final String availableFile) {
         // for example .DS_Store
         return availableFile.startsWith("/mail/images/") || availableFile.startsWith("/.") || availableFile.endsWith(".properties");
     }
 
-    private EasyWicketTester startPage(final Class<? extends AbstractEasyPage> pageClass)
-    {
+    private EasyWicketTester startPage(final Class<? extends AbstractEasyPage> pageClass) {
         tester = EasyWicketTester.startPage(applicationContext, pageClass);
         tester.assertRenderedPage(pageClass);
         return tester;

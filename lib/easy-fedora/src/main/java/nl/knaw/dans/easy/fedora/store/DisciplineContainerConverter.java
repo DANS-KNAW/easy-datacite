@@ -15,39 +15,31 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DisciplineContainerConverter extends AbstractDobConverter<DisciplineContainer>
-{
+public class DisciplineContainerConverter extends AbstractDobConverter<DisciplineContainer> {
     private static final Logger logger = LoggerFactory.getLogger(DisciplineContainerConverter.class);
 
-    public DisciplineContainerConverter()
-    {
+    public DisciplineContainerConverter() {
         super(DisciplineContainer.NAMESPACE);
     }
 
     @Override
-    public void deserialize(DigitalObject digitalObject, DisciplineContainer dmo) throws ObjectDeserializationException
-    {
+    public void deserialize(DigitalObject digitalObject, DisciplineContainer dmo) throws ObjectDeserializationException {
         super.deserialize(digitalObject, dmo);
         DisciplineContainerImpl discipline = (DisciplineContainerImpl) dmo;
 
-        try
-        {
+        try {
             DatastreamVersion dmdVersion = digitalObject.getLatestVersion(DisciplineMetadata.UNIT_ID);
-            if (dmdVersion != null)
-            {
+            if (dmdVersion != null) {
                 Element element = dmdVersion.getXmlContentElement();
                 DisciplineMetadataImpl dmd = (DisciplineMetadataImpl) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, element);
                 dmd.setTimestamp(dmdVersion.getTimestamp());
                 dmd.setDirty(false);
                 discipline.setDisciplineMetadata(dmd);
-            }
-            else
-            {
+            } else {
                 logger.warn("No discipline metadata found on retrieved digital object. sid=" + digitalObject.getSid());
             }
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new ObjectDeserializationException(e);
         }
     }

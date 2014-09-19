@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.dataset;
 
 import nl.knaw.dans.common.lang.util.StateUtil;
 
-public enum AccessCategory
-{
+public enum AccessCategory {
     /**
      * An anonymous user is enabled, must agree with license.
      */
@@ -75,8 +74,7 @@ public enum AccessCategory
      */
     public static final int SINGLE_REQUEST_PERMISSION = UTIL.getBitMask(REQUEST_PERMISSION);
 
-    public static boolean isAccessible(AccessCategory category)
-    {
+    public static boolean isAccessible(AccessCategory category) {
         int mask = 1 << category.ordinal();
         return !((MASK_INACCESSIBLE & mask) == mask);
     }
@@ -90,11 +88,10 @@ public enum AccessCategory
      * 
      * @param category
      *        AccessCategory to test
-     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or
-     *         OPEN_ACCESS_FOR_REGISTERED_USERS or FREELY_AVAILABLE, <code>false</code> otherwise
+     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS_FOR_REGISTERED_USERS or FREELY_AVAILABLE, <code>false</code>
+     *         otherwise
      */
-    public static boolean isOpenAccess(AccessCategory category)
-    {
+    public static boolean isOpenAccess(AccessCategory category) {
         int mask = 1 << category.ordinal();
         return ((MASK_KNOWN & mask) == mask);
     }

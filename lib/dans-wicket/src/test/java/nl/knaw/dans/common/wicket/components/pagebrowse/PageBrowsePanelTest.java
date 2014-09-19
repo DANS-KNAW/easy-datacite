@@ -6,11 +6,9 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Test;
 
-public class PageBrowsePanelTest
-{
+public class PageBrowsePanelTest {
     @Test
-    public void computeLinks()
-    {
+    public void computeLinks() {
         new WicketTester();
         int pageSize = 10;
         int[] totalHits = {1, 15, 15, 15, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
@@ -28,8 +26,7 @@ public class PageBrowsePanelTest
                 "9 true previous|1 true 1|-1 false ...|6 true 6|7 true 7|8 true 8|9 true 9|10 false 10|"
 
         };
-        for (int i = 0; i < expected.length; i++)
-        {
+        for (int i = 0; i < expected.length; i++) {
             PageBrowseData data = new PageBrowseData(pageStart[i], pageSize, totalHits[i], 2);
             PageBrowsePanel panel = new PageBrowsePanel("test", new Model<PageBrowseData>(data), null);
             assertEquals(expected[i], panel.printLinks());

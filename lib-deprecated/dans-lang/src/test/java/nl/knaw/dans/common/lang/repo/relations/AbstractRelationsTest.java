@@ -7,26 +7,21 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
 import org.junit.Test;
 
-public class AbstractRelationsTest
-{
+public class AbstractRelationsTest {
 
     @Test
-    public void addRemove() throws Exception
-    {
-        DataModelObject dmo = new AbstractDataModelObject("foo:test")
-        {
+    public void addRemove() throws Exception {
+        DataModelObject dmo = new AbstractDataModelObject("foo:test") {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean isDeletable()
-            {
+            public boolean isDeletable() {
                 return false;
             }
 
             @Override
-            public DmoNamespace getDmoNamespace()
-            {
+            public DmoNamespace getDmoNamespace() {
                 return null;
             }
         };
@@ -64,11 +59,9 @@ public class AbstractRelationsTest
 
     }
 
-    class RelationsImpl extends AbstractRelations<DataModelObject>
-    {
+    class RelationsImpl extends AbstractRelations<DataModelObject> {
 
-        public RelationsImpl(DataModelObject subject)
-        {
+        public RelationsImpl(DataModelObject subject) {
             super(subject);
         }
 

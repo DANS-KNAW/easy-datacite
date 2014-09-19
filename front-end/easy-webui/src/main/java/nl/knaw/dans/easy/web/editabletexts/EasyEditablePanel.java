@@ -8,12 +8,10 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.wicketutil.EditableContentHomeBasedTextFileModel;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
-public class EasyEditablePanel extends EditablePanel
-{
+public class EasyEditablePanel extends EditablePanel {
     private static final long serialVersionUID = 7660924727415870315L;
 
-    public EasyEditablePanel(final String id, final String contentPath, final Object... placeholders)
-    {
+    public EasyEditablePanel(final String id, final String contentPath, final Object... placeholders) {
         this(id, contentPath);
         setViewModeProcessor(new CompositeProcessor( //
                 new PlainTextViewProcessor(contentPath.toUpperCase().endsWith(".TXT")), //
@@ -24,21 +22,17 @@ public class EasyEditablePanel extends EditablePanel
     }
 
     @SuppressWarnings("serial")
-    public EasyEditablePanel(final String id, final String contentPath)
-    {
+    public EasyEditablePanel(final String id, final String contentPath) {
         super(id, new EditableContentHomeBasedTextFileModel(contentPath), getTinyMceSettings(contentPath));
-        setSessionContext(new EditablePanel.SessionContext()
-        {
+        setSessionContext(new EditablePanel.SessionContext() {
             @Override
-            public boolean isEditModeAllowed()
-            {
+            public boolean isEditModeAllowed() {
                 return (EasySession.getSessionUser().hasRole(Role.ADMIN, Role.ARCHIVIST));
             }
         });
     }
 
-    private static TinyMCESettings getTinyMceSettings(final String contentPath)
-    {
+    private static TinyMCESettings getTinyMceSettings(final String contentPath) {
         return contentPath.toUpperCase().endsWith(".TXT") ? null : new DansTinyMCESettings();
     }
 }

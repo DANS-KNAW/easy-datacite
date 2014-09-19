@@ -17,8 +17,7 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InfosegmentPanel extends AbstractDatasetModelPanel
-{
+public class InfosegmentPanel extends AbstractDatasetModelPanel {
 
     private static final long serialVersionUID = -1476532905888130291L;
 
@@ -28,61 +27,51 @@ public class InfosegmentPanel extends AbstractDatasetModelPanel
 
     private boolean initiated;
 
-    public InfosegmentPanel(String id, DatasetModel datasetModel, Mode mode)
-    {
+    public InfosegmentPanel(String id, DatasetModel datasetModel, Mode mode) {
         super(id, datasetModel);
         this.mode = mode;
     }
 
-    public Mode getMode()
-    {
+    public Mode getMode() {
         return mode;
     }
 
-    public boolean isInitiated()
-    {
+    public boolean isInitiated() {
         return initiated;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         boolean showStatus = Mode.VIEW.equals(getMode());
         AbstractEasyPanel statusPanel = new StatusPanel("statusPanel", getDatasetModel(), getMode());
         statusPanel.setVisible(showStatus);
         add(statusPanel);
 
-        Label depositorName = new Label("depositorName", new Model<String>()
-        {
+        Label depositorName = new Label("depositorName", new Model<String>() {
             private static final long serialVersionUID = -1964060298891182555L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return getDataset().getAdministrativeMetadata().getDepositor().getDisplayName();
             }
 
         });
         add(depositorName);
 
-        Link changeDepositorLink = new Link("changeDepositorLink")
-        {
+        Link changeDepositorLink = new Link("changeDepositorLink") {
 
             private static final long serialVersionUID = -8501231770764062401L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("changeDepositorLink clicked");
                 setResponsePage(new DatasetIntermediatePage(getDatasetModel(), IntermediatePage.Mode.CHANGE_DEPOSITOR));
             }
@@ -93,36 +82,29 @@ public class InfosegmentPanel extends AbstractDatasetModelPanel
 
     }
 
-    protected void handleRestoreDataset()
-    {
-        try
-        {
+    protected void handleRestoreDataset() {
+        try {
             Services.getDatasetService().restoreDataset(getSessionUser(), getDataset());
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.ERROR_RESTORING_DATASET, getDataset().getStoreId());
             logger.error(message, e);
             throw new InternalWebError();
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             final String message = errorMessage(EasyResources.ERROR_RESTORING_DATASET, getDataset().getStoreId());
             logger.error(message, e);
             throw new InternalWebError();
         }
     }
 
-    private class DatasetIntermediatePage extends IntermediatePage
-    {
-        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
-        {
+    private class DatasetIntermediatePage extends IntermediatePage {
+        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode) {
             super(datasetModel, mode);
         }
 
         @Override
-        Page getReturnToPage()
-        {
+        Page getReturnToPage() {
             return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
         }
     }

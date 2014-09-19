@@ -11,12 +11,10 @@ import nl.knaw.dans.easy.business.services.EasyDepositService;
 
 import org.junit.Test;
 
-public class SanityCheckEmdFormsConfiguration
-{
+public class SanityCheckEmdFormsConfiguration {
     // TODO move implicit sanity check to easy web-ui ?
     @Test
-    public void generatePackagingDoc() throws Exception
-    {
+    public void generatePackagingDoc() throws Exception {
         String helpDir = System.getProperties().get("EASY_WEBUI_HOME") + "/res/example/editable/help/";
         if (helpDir == null || !new File(helpDir).exists())
             throw new IllegalArgumentException("please set/correct ${EASY_WEBUI_HOME} " + helpDir);

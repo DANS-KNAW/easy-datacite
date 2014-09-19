@@ -15,8 +15,7 @@ import org.joda.time.DateTime;
  * @param <T>
  *        enum expressing the state of the processes this Messenger is involved in
  */
-public class Messenger<T extends Enum<T>> implements Serializable
-{
+public class Messenger<T extends Enum<T>> implements Serializable {
 
     /**
      * Prefix for state key, used in resource lookups.
@@ -50,22 +49,20 @@ public class Messenger<T extends Enum<T>> implements Serializable
     private String token;
 
     /**
-     * Constructs a new Messenger with it's state set to the first enumConstant of stateType. Also the
-     * (final) request time and a (final) random string are instantiated.
+     * Constructs a new Messenger with it's state set to the first enumConstant of stateType. Also the (final) request time and a (final) random string are
+     * instantiated.
      * <p/>
-     * In order to let the method {@link #isCompleted()} work properly, the last enumConstant of
-     * stateType should also be the last and final state this Messenger can be in.
+     * In order to let the method {@link #isCompleted()} work properly, the last enumConstant of stateType should also be the last and final state this
+     * Messenger can be in.
      * <p/>
-     * More formal: the state of this Messenger after instantiation is equal to the enumConstant with
-     * ordinal 0.
+     * More formal: the state of this Messenger after instantiation is equal to the enumConstant with ordinal 0.
      * 
      * @param stateType
      *        Class of the enumConstants used
      * @throws ArrayIndexOutOfBoundsException
      *         if T is an empty enum
      */
-    public Messenger(final Class<? extends T> stateType)
-    {
+    public Messenger(final Class<? extends T> stateType) {
         super();
         this.stateType = stateType;
         state = stateType.getEnumConstants()[0];
@@ -79,8 +76,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return Class of the enumConstants
      */
-    public Class<? extends Enum<T>> getStateType()
-    {
+    public Class<? extends Enum<T>> getStateType() {
         return stateType;
     }
 
@@ -93,10 +89,8 @@ public class Messenger<T extends Enum<T>> implements Serializable
      *         if state == null
      * @see #getAccumelatedStates()
      */
-    protected void setState(final T state)
-    {
-        if (state == null)
-        {
+    protected void setState(final T state) {
+        if (state == null) {
             throw new IllegalArgumentException("State cannot be null.");
         }
         this.state = state;
@@ -114,8 +108,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      *         if state == null
      * @see #getAccumelatedStates()
      */
-    protected void setState(T state, Throwable e)
-    {
+    protected void setState(T state, Throwable e) {
         setState(state);
         addException(e);
     }
@@ -125,8 +118,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return enumConstant of stateType
      */
-    public T getState()
-    {
+    public T getState() {
         return state;
     }
 
@@ -135,8 +127,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return the accumulation of states this Messenger was in
      */
-    public LinkedHashSet<T> getAccumelatedStates()
-    {
+    public LinkedHashSet<T> getAccumelatedStates() {
         return accumulatedStates;
     }
 
@@ -146,8 +137,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * @return key for resource lookup
      * @see #STATE_KEY_PREFIX
      */
-    public String getStateKey()
-    {
+    public String getStateKey() {
         return getStateKeyFor(state);
     }
 
@@ -156,11 +146,9 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return a list of accumulated state keys
      */
-    public List<String> getAccumulatedStateKeys()
-    {
+    public List<String> getAccumulatedStateKeys() {
         List<String> stateKeys = new ArrayList<String>();
-        for (T accumulatedState : accumulatedStates)
-        {
+        for (T accumulatedState : accumulatedStates) {
             stateKeys.add(getStateKeyFor(accumulatedState));
         }
         return stateKeys;
@@ -171,8 +159,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return system time at which this messenger was instantiated
      */
-    public DateTime getRequestTime()
-    {
+    public DateTime getRequestTime() {
         return requestTime;
     }
 
@@ -181,8 +168,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return the system time at which this messenger was instantiated as a String
      */
-    public String getRequestTimeAsString()
-    {
+    public String getRequestTimeAsString() {
         return Long.valueOf(requestTime.getMillis()).toString();
     }
 
@@ -194,23 +180,20 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * @see #getToken()
      * @see #verifyToken()
      */
-    public String getRandomString()
-    {
+    public String getRandomString() {
         return randomString;
     }
 
     /**
-     * Get the token set on this messenger. A random string, composed at instantiation time, can make a
-     * round trip via a hidden field on a html form and, on submit of the form, be picked up by the
-     * {@link #setToken(String)} method. Token and random string can than be verified to be equal.
+     * Get the token set on this messenger. A random string, composed at instantiation time, can make a round trip via a hidden field on a html form and, on
+     * submit of the form, be picked up by the {@link #setToken(String)} method. Token and random string can than be verified to be equal.
      * 
      * @return token set on this Messenger
      * @see #getRandomString()
      * @see #setToken(String)
      * @see #verifyToken()
      */
-    public String getToken()
-    {
+    public String getToken() {
         return token;
     }
 
@@ -223,24 +206,20 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * @see #getToken()
      * @see #verifyToken()
      */
-    public void setToken(String token)
-    {
+    public void setToken(String token) {
         this.token = token;
     }
 
     /**
      * Verify the integrity of a html form submit.
      * 
-     * @return <code>true</code> if this random string is equal to this token, <code>false</code>
-     *         otherwise
+     * @return <code>true</code> if this random string is equal to this token, <code>false</code> otherwise
      * @see #getRandomString()
      * @see #setToken(String)
      * @see #getToken()
-     * @deprecated Only works the way it should after refresh of page in browser. (Otherwise we get a
-     *             cache.)
+     * @deprecated Only works the way it should after refresh of page in browser. (Otherwise we get a cache.)
      */
-    public boolean verifyToken()
-    {
+    public boolean verifyToken() {
         return randomString.equals(token);
     }
 
@@ -250,8 +229,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * @param e
      *        Throwable to be recorded
      */
-    public void addException(Throwable e)
-    {
+    public void addException(Throwable e) {
         exceptions.add(e);
     }
 
@@ -260,8 +238,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return a list of Throwables
      */
-    public List<Throwable> getExceptions()
-    {
+    public List<Throwable> getExceptions() {
         return exceptions;
     }
 
@@ -270,12 +247,10 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return recorded Throwables as a String
      */
-    public String getExceptionsAsString()
-    {
+    public String getExceptionsAsString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Exception.count=" + exceptions.size());
-        for (Throwable t : exceptions)
-        {
+        for (Throwable t : exceptions) {
             sb.append("\n\t");
             sb.append(t.getClass().getName() + " message=" + t.getMessage());
         }
@@ -287,8 +262,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return list of all states
      */
-    public List<? extends Enum<T>> getAllStates()
-    {
+    public List<? extends Enum<T>> getAllStates() {
         return Arrays.asList(stateType.getEnumConstants());
     }
 
@@ -297,11 +271,9 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @return list of all state keys
      */
-    public List<String> getAllStateKeys()
-    {
+    public List<String> getAllStateKeys() {
         List<String> allStateKeys = new ArrayList<String>();
-        for (Enum<T> st : getAllStates())
-        {
+        for (Enum<T> st : getAllStates()) {
             allStateKeys.add(getStateKeyFor(st));
         }
         return allStateKeys;
@@ -310,10 +282,8 @@ public class Messenger<T extends Enum<T>> implements Serializable
     /**
      * Prints all state keys to System.out.
      */
-    public void dumpAllStateKeys()
-    {
-        for (String stateKey : getAllStateKeys())
-        {
+    public void dumpAllStateKeys() {
+        for (String stateKey : getAllStateKeys()) {
             System.out.println(stateKey);
         }
     }
@@ -325,19 +295,16 @@ public class Messenger<T extends Enum<T>> implements Serializable
      *        enumConstant of stateType
      * @return state key for the given state
      */
-    public String getStateKeyFor(Enum<T> state)
-    {
+    public String getStateKeyFor(Enum<T> state) {
         return STATE_KEY_PREFIX + state.name();
     }
 
     /**
      * Has this Messenger reached it's last state?
      * 
-     * @return <code>true</code> the state of this Messenger is equal to the enumConstant with the
-     *         highest ordinal, <code>false</code> otherwise.
+     * @return <code>true</code> the state of this Messenger is equal to the enumConstant with the highest ordinal, <code>false</code> otherwise.
      */
-    public boolean isCompleted()
-    {
+    public boolean isCompleted() {
         return stateType.getEnumConstants()[stateType.getEnumConstants().length - 1].equals(state);
     }
 
@@ -348,8 +315,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      *        the id of a domain object, i.e. userId
      * @return a unique token that can be used in mail authentication
      */
-    public String createMailToken(String id)
-    {
+    public String createMailToken(String id) {
         return Integer.valueOf(SecurityUtil.generateHashCode(id, getRequestTimeAsString(), getRandomString())).toString();
     }
 

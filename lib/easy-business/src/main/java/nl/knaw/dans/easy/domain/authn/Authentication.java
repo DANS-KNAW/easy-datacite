@@ -8,15 +8,13 @@ import nl.knaw.dans.easy.util.Messenger;
  * 
  * @author ecco Feb 18, 2009
  */
-public class Authentication extends Messenger<Authentication.State>
-{
+public class Authentication extends Messenger<Authentication.State> {
     /**
      * State of the authentication.
      * 
      * @author ecco Mar 14, 2009
      */
-    public enum State
-    {
+    public enum State {
         /**
          * Is at start.
          */
@@ -67,69 +65,57 @@ public class Authentication extends Messenger<Authentication.State>
     private String credentials;
     private EasyUser user;
 
-    public Authentication()
-    {
+    public Authentication() {
         super(Authentication.State.class);
     }
 
-    protected Authentication(final String userId, final String credentials)
-    {
+    protected Authentication(final String userId, final String credentials) {
         super(Authentication.State.class);
         this.userId = userId;
         this.credentials = credentials;
     }
 
-    public String getUserId()
-    {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(final String userId)
-    {
+    public void setUserId(final String userId) {
         this.userId = userId;
     }
 
-    public String getCredentials()
-    {
+    public String getCredentials() {
         return credentials;
     }
 
-    public void setCredentials(final String credentials)
-    {
+    public void setCredentials(final String credentials) {
         this.credentials = credentials;
     }
 
-    public void setState(final State state)
-    {
+    public void setState(final State state) {
         super.setState(state);
     }
 
-    public void setState(final State state, final Throwable e)
-    {
+    public void setState(final State state, final Throwable e) {
         super.setState(state, e);
     }
 
-    public boolean checkCredentials(final String userId, final String credentials)
-    {
+    public boolean checkCredentials(final String userId, final String credentials) {
         boolean valid = true;
         valid &= this.userId.equals(userId);
         valid &= this.credentials.equals(credentials);
         return valid;
     }
 
-    public EasyUser getUser()
-    {
+    public EasyUser getUser() {
         return user;
     }
 
-    public void setUser(final EasyUser user)
-    {
+    public void setUser(final EasyUser user) {
         this.user = user;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + " [state=" + getState() + " userId=" + userId + " user=" + (user == null ? "null" : user.toString()) + "] "
                 + getExceptionsAsString();
     }

@@ -27,8 +27,7 @@ import org.mortbay.jetty.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IntegrationFixture
-{
+public class IntegrationFixture {
 
     protected static String URL;
     protected static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("user", "dev");
@@ -37,14 +36,12 @@ public class IntegrationFixture
     private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
 
     @After
-    public void reset() throws Exception
-    {
+    public void reset() throws Exception {
         Context.getSystemReadOnlyStatus().setReadOnly(false);
     }
 
     @BeforeClass
-    public static void start() throws Exception
-    {
+    public static void start() throws Exception {
         new Context().setSystemReadOnlyStatus(createSystemReadOnlyBean());
         // zero implies a random port and allows the test to run along with an active server on port 8083
         server = Start.createServer(0, 0);
@@ -54,15 +51,13 @@ public class IntegrationFixture
 
     }
 
-    private static SystemReadOnlyStatus createSystemReadOnlyBean()
-    {
+    private static SystemReadOnlyStatus createSystemReadOnlyBean() {
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
         return systemReadOnlyStatus;
     }
 
     @AfterClass
-    public static void stop() throws Exception
-    {
+    public static void stop() throws Exception {
         if (server == null)
             return;
         server.stop();
@@ -70,8 +65,7 @@ public class IntegrationFixture
         log.debug("stopped " + URL.toString());
     }
 
-    protected static void assertResponseCode(final HttpMethod method, final int expectedResponseCode)
-    {
+    protected static void assertResponseCode(final HttpMethod method, final int expectedResponseCode) {
         if (method.getStatusCode() == expectedResponseCode)
             return;
         if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
@@ -79,14 +73,11 @@ public class IntegrationFixture
         fail("Unexpected response code: " + method.getStatusLine().toString());
     }
 
-    protected String getResponse(final HttpMethod method, final HttpClient client) throws IOException, HttpException
-    {
+    protected String getResponse(final HttpMethod method, final HttpClient client) throws IOException, HttpException {
         String responseBody = null;
-        try
-        {
+        try {
             client.executeMethod(method);
-            switch (method.getStatusCode())
-            {
+            switch (method.getStatusCode()) {
             case HttpStatus.SC_ACCEPTED:
                 ;// already logged by org.purl.sword.base.DepositResponse
             case HttpStatus.SC_OK:
@@ -97,8 +88,7 @@ public class IntegrationFixture
                 log.info("\n" + responseBody + "\n\t");
             }
         }
-        finally
-        {
+        finally {
             method.releaseConnection();
         }
         final StringBuffer message = new StringBuffer();
@@ -120,8 +110,7 @@ public class IntegrationFixture
         return responseBody;
     }
 
-    protected static PostMethod createPostMethod(final RequestEntity request, final Boolean noOp, final Boolean verbose)
-    {
+    protected static PostMethod createPostMethod(final RequestEntity request, final Boolean noOp, final Boolean verbose) {
         final PostMethod method = new PostMethod(URL + "deposit");
         method.setRequestEntity(request);
         if (noOp != null)
@@ -131,8 +120,7 @@ public class IntegrationFixture
         return method;
     }
 
-    protected static HttpClient createClient(final UsernamePasswordCredentials credentials, final Integer timeout)
-    {
+    protected static HttpClient createClient(final UsernamePasswordCredentials credentials, final Integer timeout) {
         final HttpClient client = new HttpClient();
         client.getState().setCredentials(AuthScope.ANY, credentials);
         if (timeout != null)
@@ -140,8 +128,7 @@ public class IntegrationFixture
         return client;
     }
 
-    protected static RequestEntity createRequest(final File file) throws FileNotFoundException
-    {
+    protected static RequestEntity createRequest(final File file) throws FileNotFoundException {
         log.info("======== creating request with " + file);
         return new InputStreamRequestEntity(new FileInputStream(file));
     }

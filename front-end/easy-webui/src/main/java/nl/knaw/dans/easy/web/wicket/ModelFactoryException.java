@@ -1,26 +1,20 @@
 package nl.knaw.dans.easy.web.wicket;
 
-public class ModelFactoryException extends RuntimeException
-{
+public class ModelFactoryException extends RuntimeException {
 
     private static final long serialVersionUID = -3394580684121784899L;
 
-    public ModelFactoryException()
-    {
-    }
+    public ModelFactoryException() {}
 
-    public ModelFactoryException(String message)
-    {
+    public ModelFactoryException(String message) {
         super(message);
     }
 
-    public ModelFactoryException(Throwable cause)
-    {
+    public ModelFactoryException(Throwable cause) {
         super(cause);
     }
 
-    public ModelFactoryException(String message, Throwable cause)
-    {
+    public ModelFactoryException(String message, Throwable cause) {
         super(message, cause);
     }
 

@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 
  */
-public abstract class AbstractEasyStatelessForm<T> extends AbstractEasyForm<T>
-{
+public abstract class AbstractEasyStatelessForm<T> extends AbstractEasyForm<T> {
     /**
      * Serial version uid.
      */
@@ -22,8 +21,7 @@ public abstract class AbstractEasyStatelessForm<T> extends AbstractEasyForm<T>
      */
     static final Logger LOGGER = LoggerFactory.getLogger(AbstractEasyStatelessForm.class);
 
-    public AbstractEasyStatelessForm(final String wicketId, final IModel<T> model)
-    {
+    public AbstractEasyStatelessForm(final String wicketId, final IModel<T> model) {
         super(wicketId, model);
     }
 
@@ -33,8 +31,7 @@ public abstract class AbstractEasyStatelessForm<T> extends AbstractEasyForm<T>
      * @return True if super.process is true.
      */
     @Override
-    public boolean process()
-    {
+    public boolean process() {
         // set redirect to true for a stateless form.
         setRedirect(true);
         return super.process();

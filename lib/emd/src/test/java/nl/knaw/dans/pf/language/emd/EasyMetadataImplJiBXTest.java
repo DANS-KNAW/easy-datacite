@@ -24,24 +24,21 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EasyMetadataImplJiBXTest
-{
+public class EasyMetadataImplJiBXTest {
 
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataImplJiBXTest.class);
 
     private boolean verbose = false;
 
     @Test
-    public void constructEmpty() throws Exception
-    {
+    public void constructEmpty() throws Exception {
         EasyMetadata emd = new EasyMetadataImpl();
         if (verbose)
             System.err.println(new EmdMarshaller(emd).getXmlString());
     }
 
     @Test
-    public void testEtc() throws Exception
-    {
+    public void testEtc() throws Exception {
         EasyMetadata emd = new EasyMetadataImpl();
         EmdOther emdOther = emd.getEmdOther();
 
@@ -62,8 +59,7 @@ public class EasyMetadataImplJiBXTest
     }
 
     @Test
-    public void testIdentifier() throws Exception
-    {
+    public void testIdentifier() throws Exception {
         EasyMetadata emd = new EasyMetadataImpl();
         BasicIdentifier bi = new BasicIdentifier("123");
         bi.setScheme(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
@@ -80,8 +76,7 @@ public class EasyMetadataImplJiBXTest
     }
 
     @Test
-    public void testSerialization() throws Exception
-    {
+    public void testSerialization() throws Exception {
         BasicIdentifier bi = new BasicIdentifier("123");
         bi.setScheme(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         bi.setIdentificationSystem(URI.create("http://foo.com"));
@@ -93,8 +88,7 @@ public class EasyMetadataImplJiBXTest
 
     }
 
-    private void serialize(Serializable so, String filename) throws IOException
-    {
+    private void serialize(Serializable so, String filename) throws IOException {
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         fos = new FileOutputStream(filename);
@@ -103,8 +97,7 @@ public class EasyMetadataImplJiBXTest
         out.close();
     }
 
-    private Object deserialize(String filename) throws IOException, ClassNotFoundException
-    {
+    private Object deserialize(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(filename);
         ObjectInputStream in = new ObjectInputStream(fis);
         Object so = in.readObject();

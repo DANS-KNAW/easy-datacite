@@ -15,8 +15,7 @@ import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 
-public abstract class JumpoffPanel extends CommonPanel
-{
+public abstract class JumpoffPanel extends CommonPanel {
     private static final long serialVersionUID = 1899985393302979412L;
     private static final String WI_CONTENTPANEL = "viewEditJumpoffPanel";
 
@@ -28,41 +27,33 @@ public abstract class JumpoffPanel extends CommonPanel
 
     private final String resourceAlias;
 
-    public JumpoffPanel(String id, DataModelObject targetDmo, String resourceAlias)
-    {
+    public JumpoffPanel(String id, DataModelObject targetDmo, String resourceAlias) {
         super(id);
         this.targetDmo = targetDmo;
         this.resourceAlias = resourceAlias;
     }
 
-    public String getResourceAlias()
-    {
+    public String getResourceAlias() {
         return resourceAlias;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         JumpoffDmo jumpoffDmo = getJumpoffDmoFor(targetDmo);
 
         jumpoffExists = jumpoffDmo != null;
-        if (jumpoffExists)
-        {
+        if (jumpoffExists) {
             setDefaultModel(createModel(jumpoffDmo));
             viewEditJumpoffPanel = new JumpoffViewPanel(WI_CONTENTPANEL, getJumpoffDmoModel());
-        }
-        else
-        {
+        } else {
             setDefaultModel(createModel(new JumpoffDmo(targetDmo)));
             viewEditJumpoffPanel = new Label(WI_CONTENTPANEL, "");
         }
@@ -70,72 +61,60 @@ public abstract class JumpoffPanel extends CommonPanel
         viewEditJumpoffPanel.setOutputMarkupId(true);
         add(viewEditJumpoffPanel);
 
-        add(new Link("addButton")
-        {
+        add(new Link("addButton") {
 
             private static final long serialVersionUID = 8599836125938720374L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 switchEditMode();
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return !jumpoffExists && !inEditMode;
             }
 
         });
-        add(new Link("editButton")
-        {
+        add(new Link("editButton") {
             private static final long serialVersionUID = 5444183424272535973L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 switchEditMode();
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return !inEditMode && jumpoffExists;
             }
 
         });
 
-        Link deleteButton = new Link("deleteButton")
-        {
+        Link deleteButton = new Link("deleteButton") {
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 deleteJumpoff();
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return jumpoffExists;
             }
         };
         deleteButton.add(new SimpleAttributeModifier("onclick", "return confirm('Are you sure you want to delete " + "this jumpoff page?');"));
         add(deleteButton);
 
-        Link toggleEditorButton = new Link("toggleEditorButton")
-        {
+        Link toggleEditorButton = new Link("toggleEditorButton") {
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 toggleEditorMode(getJumpoffDmo());
                 refreshPanel();
             }
 
             @Override
-            public boolean isVisible()
-            {
+            public boolean isVisible() {
                 return jumpoffExists || inEditMode;
             }
 
@@ -144,8 +123,7 @@ public abstract class JumpoffPanel extends CommonPanel
     }
 
     /**
-     * Get the JumpoffDmo for the given targetDmo. If no JumpoffDmo for the given targetDmo exists
-     * <code>null</code> must be returned.
+     * Get the JumpoffDmo for the given targetDmo. If no JumpoffDmo for the given targetDmo exists <code>null</code> must be returned.
      * 
      * @param targetDmo
      *        the DMO that is the object of the jump off page
@@ -164,24 +142,19 @@ public abstract class JumpoffPanel extends CommonPanel
     public abstract void toggleEditorMode(JumpoffDmo jumpoffDmo);
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return true;
     }
 
-    private DMOModel<JumpoffDmo> createModel(JumpoffDmo jumpoffDmo)
-    {
-        return new DMOModel<JumpoffDmo>(jumpoffDmo)
-        {
+    private DMOModel<JumpoffDmo> createModel(JumpoffDmo jumpoffDmo) {
+        return new DMOModel<JumpoffDmo>(jumpoffDmo) {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected JumpoffDmo loadDmo()
-            {
+            protected JumpoffDmo loadDmo() {
                 JumpoffDmo jumpoffDmo = getJumpoffDmoFor(targetDmo);
-                if (jumpoffDmo == null)
-                {
+                if (jumpoffDmo == null) {
                     jumpoffDmo = new JumpoffDmo(targetDmo);
                 }
                 return jumpoffDmo;
@@ -190,59 +163,49 @@ public abstract class JumpoffPanel extends CommonPanel
     }
 
     @SuppressWarnings("unchecked")
-    private DMOModel<JumpoffDmo> getJumpoffDmoModel()
-    {
+    private DMOModel<JumpoffDmo> getJumpoffDmoModel() {
         DMOModel<JumpoffDmo> model = (DMOModel<JumpoffDmo>) getDefaultModel();
         return model;
     }
 
-    private JumpoffDmo getJumpoffDmo()
-    {
+    private JumpoffDmo getJumpoffDmo() {
         return getJumpoffDmoModel().getObject();
     }
 
-    private void switchEditMode()
-    {
+    private void switchEditMode() {
         inEditMode = true;
-        viewEditJumpoffPanel = new JumpoffEditPanel(WI_CONTENTPANEL, getJumpoffDmoModel())
-        {
+        viewEditJumpoffPanel = new JumpoffEditPanel(WI_CONTENTPANEL, getJumpoffDmoModel()) {
 
             private static final long serialVersionUID = 45871822412975505L;
 
             @Override
-            public void onCancelButtonClicked()
-            {
+            public void onCancelButtonClicked() {
                 switchViewMode();
             }
 
             @Override
-            public void onSaveButtonClicked()
-            {
+            public void onSaveButtonClicked() {
                 saveContents();
             }
 
             @Override
-            public void onViewButtonClicked()
-            {
+            public void onViewButtonClicked() {
                 saveContents();
                 switchViewMode();
             }
 
             @Override
-            public void onFileUpload()
-            {
+            public void onFileUpload() {
                 saveContents();
             }
 
             @Override
-            public List<ResourceRef> getUploadedResources()
-            {
+            public List<ResourceRef> getUploadedResources() {
                 return JumpoffPanel.this.getUploadedResources();
             }
 
             @Override
-            public void onDelete(ResourceRef resourceRef)
-            {
+            public void onDelete(ResourceRef resourceRef) {
                 deleteResource(resourceRef);
             }
 
@@ -250,44 +213,34 @@ public abstract class JumpoffPanel extends CommonPanel
         addOrReplace(viewEditJumpoffPanel);
     }
 
-    private void switchViewMode()
-    {
+    private void switchViewMode() {
         inEditMode = false;
         viewEditJumpoffPanel = new JumpoffViewPanel(WI_CONTENTPANEL, getJumpoffDmoModel());
         addOrReplace(viewEditJumpoffPanel);
     }
 
-    private void refreshPanel()
-    {
-        if (inEditMode)
-        {
+    private void refreshPanel() {
+        if (inEditMode) {
             switchEditMode();
-        }
-        else
-        {
+        } else {
             switchViewMode();
         }
     }
 
-    private void saveContents()
-    {
+    private void saveContents() {
         saveJumpoffDmo(targetDmo, getJumpoffDmo());
         jumpoffExists = true;
     }
 
-    private List<ResourceRef> getUploadedResources()
-    {
+    private List<ResourceRef> getUploadedResources() {
         List<ResourceRef> resourceRefs = new ArrayList<ResourceRef>();
         JumpoffDmo jumpoffDmo = getJumpoffDmo();
         String containerId = jumpoffDmo.getStoreId();
-        if (containerId != null)
-        {
+        if (containerId != null) {
             String markup = getJumpoffDmo().getHtmlMarkup().getHtml();
             List<UnitMetadata> umdList = getUnitMetadata(jumpoffDmo);
-            for (UnitMetadata umd : umdList)
-            {
-                if (umd.getId().startsWith(JumpoffFile.UNIT_ID_PREFIX))
-                {
+            for (UnitMetadata umd : umdList) {
+                if (umd.getId().startsWith(JumpoffFile.UNIT_ID_PREFIX)) {
                     ResourceRef rr = new ResourceRef(containerId, umd, resourceAlias);
                     rr.setReferenced(markup.contains(rr.getHref().replaceAll("&", "&amp;")));
                     resourceRefs.add(rr);
@@ -297,14 +250,12 @@ public abstract class JumpoffPanel extends CommonPanel
         return resourceRefs;
     }
 
-    private void deleteResource(ResourceRef resourceRef)
-    {
+    private void deleteResource(ResourceRef resourceRef) {
         deleteResource(targetDmo, resourceRef);
         info("Removed file: " + resourceRef.getFilename());
     }
 
-    private void deleteJumpoff()
-    {
+    private void deleteJumpoff() {
         deleteJumpoffDmo(targetDmo, getJumpoffDmo());
         info("Removed jumpoff page from " + targetDmo.getStoreId());
         jumpoffExists = false;

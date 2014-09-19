@@ -33,8 +33,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements EasyResources
-{
+public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements EasyResources {
     private static final String WR_CHANGE_PASSWORD_LINK = "changePasswordLink";
 
     private static final long serialVersionUID = 2646103426056079L;
@@ -51,8 +50,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
     @SpringBean(name = "federativeUserRepo")
     private FederativeUserRepo federativeUserRepo;
 
-    public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
-    {
+    public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch) {
         super(SwitchPanel.SWITCH_PANEL_WI);
         this.parent = parent;
         this.enableModeSwitch = enableModeSwitch;
@@ -61,44 +59,36 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         constructPanel(user);
     }
 
-    private EasyUser fetchUser(final String userId)
-    {
+    private EasyUser fetchUser(final String userId) {
         EasyUser user = null;
-        try
-        {
+        try {
             user = userService.getUserById(getSessionUser(), userId);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.USER_NOT_FOUND, userId);
             logger.error(message);
             throw new RestartResponseException(new ErrorPage());
         }
 
-        if (user == null)
-        {
+        if (user == null) {
             throw new RestartResponseException(new ErrorPage());
         }
         return user;
     }
 
-    private void checkHasPassword(final EasyUser user)
-    {
+    private void checkHasPassword(final EasyUser user) {
         // federation users might not have it.
-        try
-        {
+        try {
             hasPassword = userService.isUserWithStoredPassword(user);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
         }
     }
 
-    private void constructPanel(EasyUser user)
-    {
+    private void constructPanel(EasyUser user) {
         super.setDefaultModel(new CompoundPropertyModel<UserProperties>(user));
 
         addCommonFeedbackPanel();
@@ -137,22 +127,18 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(createPasswordLink().setVisible(hasPassword));
     }
 
-    private Component createLinkedAccountsLabel(int count)
-    {
+    private Component createLinkedAccountsLabel(int count) {
         String format = getString("user.institution.accounts.format");
         String createInstituetionAccountsMessage = MessageFormat.format(format, count);
         return new Label("institutionAccounts", createInstituetionAccountsMessage).setVisible(count > 0);
     }
 
-    private Component createUnlinkInstitutionAccountsButton(final List<FederativeUserIdMap> linkedAccountsList, final ModalWindow popup)
-    {
-        return new AjaxLink<Void>("unlinkInstitutionAccountsLink")
-        {
+    private Component createUnlinkInstitutionAccountsButton(final List<FederativeUserIdMap> linkedAccountsList, final ModalWindow popup) {
+        return new AjaxLink<Void>("unlinkInstitutionAccountsLink") {
             private static final long serialVersionUID = 3429899621436517328L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 target.prependJavascript("Wicket.Window.unloadConfirmation = false;");
                 logger.debug("Unlink institution account clicked.");
                 popup.setTitle("Unlink institution accounts");
@@ -163,57 +149,46 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         }.setVisible(linkedAccountsList.size() > 0);
     }
 
-    private Label createRadio(EasyUser user, String wicketId, String resourceKey)
-    {
+    private Label createRadio(EasyUser user, String wicketId, String resourceKey) {
         return new Label(wicketId, new StringResourceModel(resourceKey, this, new Model<EasyUser>(user)));
     }
 
-    private Component createPasswordLink()
-    {
-        return new Link<String>(WR_CHANGE_PASSWORD_LINK)
-        {
+    private Component createPasswordLink() {
+        return new Link<String>(WR_CHANGE_PASSWORD_LINK) {
 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 setResponsePage(ChangePasswordPage.class);
             }
         };
     }
 
-    private Component createEditLink()
-    {
-        return new Link<String>(EDIT_LINK)
-        {
+    private Component createEditLink() {
+        return new Link<String>(EDIT_LINK) {
 
             private static final long serialVersionUID = -804946462543838511L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 parent.switchMode();
             }
 
         };
     }
 
-    private List<FederativeUserIdMap> getLinkedAccounts(EasyUser user)
-    {
-        try
-        {
+    private List<FederativeUserIdMap> getLinkedAccounts(EasyUser user) {
+        try {
             return federativeUserRepo.findByDansUserId(user.getId().toString());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
             throw new InternalWebError();
         }
     }
 
-    private String fetchDisciplineString(String id)
-    {
+    private String fetchDisciplineString(String id) {
         KeyValuePair result = DisciplineUtils.getDisciplineItemById(id);
 
         return result == null ? "" : result.getValue();

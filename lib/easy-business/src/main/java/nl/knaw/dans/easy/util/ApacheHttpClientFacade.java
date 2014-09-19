@@ -17,58 +17,46 @@ import org.apache.http.impl.client.HttpClients;
 /**
  * Implementation of {@link HttpClientFacade} that uses Apache HTTP Client.
  */
-public class ApacheHttpClientFacade implements HttpClientFacade
-{
+public class ApacheHttpClientFacade implements HttpClientFacade {
     @Override
-    public int post(String url, String content) throws ServiceException
-    {
+    public int post(String url, String content) throws ServiceException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);
         httppost.setEntity(createHttpEntity(content));
         CloseableHttpResponse response = null;
-        try
-        {
+        try {
             response = httpclient.execute(httppost);
         }
-        catch (ClientProtocolException e)
-        {
+        catch (ClientProtocolException e) {
             throw new ServiceException("Client Protocol Exception during HTTP exchange", e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ServiceException("I/O Exception during HTTP exchange", e);
         }
         return response.getStatusLine().getStatusCode();
     }
 
-    private HttpEntity createHttpEntity(String content)
-    {
-        try
-        {
+    private HttpEntity createHttpEntity(String content) {
+        try {
             return new StringEntity(content, "UTF-8");
         }
-        catch (UnsupportedEncodingException e)
-        {
+        catch (UnsupportedEncodingException e) {
             throw new IllegalStateException("Could not use UTF-8 to encode HTTP entity ??");
         }
     }
 
     @Override
-    public int delete(String url) throws ServiceException
-    {
+    public int delete(String url) throws ServiceException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpDelete delete = new HttpDelete(url);
         CloseableHttpResponse response = null;
-        try
-        {
+        try {
             response = httpclient.execute(delete);
         }
-        catch (ClientProtocolException e)
-        {
+        catch (ClientProtocolException e) {
             throw new ServiceException("Client Protocol Exception during HTTP exchange", e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ServiceException("I/O Exception during HTTP exchange", e);
         }
         return response.getStatusLine().getStatusCode();

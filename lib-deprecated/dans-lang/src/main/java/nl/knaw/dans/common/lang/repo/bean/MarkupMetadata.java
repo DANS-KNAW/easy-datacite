@@ -4,8 +4,7 @@ import nl.knaw.dans.common.lang.repo.bean.JumpoffDmoMetadata.MarkupVersionID;
 
 import org.joda.time.DateTime;
 
-public interface MarkupMetadata
-{
+public interface MarkupMetadata {
 
     String getLastEditedBy();
 

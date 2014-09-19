@@ -6,8 +6,7 @@ import java.io.IOException;
 import nl.knaw.dans.common.lang.repo.AbstractBinaryUnit;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 
-public class LicenseUnit extends AbstractBinaryUnit
-{
+public class LicenseUnit extends AbstractBinaryUnit {
 
     public static final String UNIT_LABEL = "license.pdf";
 
@@ -17,40 +16,32 @@ public class LicenseUnit extends AbstractBinaryUnit
 
     private static final long serialVersionUID = 7132858587281181036L;
 
-    public LicenseUnit(byte[] licenseContent)
-    {
+    public LicenseUnit(byte[] licenseContent) {
         super(UnitControlGroup.ManagedContent);
-        try
-        {
+        try {
             setFileContent(licenseContent, UNIT_LABEL, MIME_TYPE);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ApplicationException(e);
         }
     }
 
-    public LicenseUnit(File file)
-    {
+    public LicenseUnit(File file) {
         super(UnitControlGroup.ManagedContent);
-        try
-        {
+        try {
             setFile(file);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ApplicationException(e);
         }
     }
 
     @Override
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return true;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return UNIT_ID;
     }
 

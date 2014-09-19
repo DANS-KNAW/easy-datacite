@@ -56,8 +56,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco
  */
-public class EasyDatasetService extends AbstractEasyService implements DatasetService
-{
+public class EasyDatasetService extends AbstractEasyService implements DatasetService {
 
     /**
      * Logger for logging.
@@ -70,20 +69,17 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 
     private static final String LANGUAGE_LITERATURE_DISCIPLINE_ID = "easy-discipline:14";
 
-    public EasyDatasetService()
-    {
+    public EasyDatasetService() {
         this(DisciplineCollectionImpl.getInstance());
     }
 
     // used for unit testing
-    protected EasyDatasetService(final DisciplineCollection disciplineCollection)
-    {
+    protected EasyDatasetService(final DisciplineCollection disciplineCollection) {
         this.disciplineCollection = disciplineCollection;
     }
 
     @Override
-    public void doBeanPostProcessing() throws ServiceException
-    {
+    public void doBeanPostProcessing() throws ServiceException {
         MemoryLane.printMemory("at startup");
     }
 
@@ -93,8 +89,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
      * @return a short description of this service
      */
     @Override
-    public String getServiceDescription()
-    {
+    public String getServiceDescription() {
         return "Service for handling datasets.";
     }
 
@@ -103,61 +98,50 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
      * 
      * @throws ServiceException
      */
-    public Dataset newDataset(final MetadataFormat mdFormat) throws ServiceException
-    {
-        try
-        {
+    public Dataset newDataset(final MetadataFormat mdFormat) throws ServiceException {
+        try {
             final Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             dataset.getEasyMetadata().getEmdOther().getEasApplicationSpecific().setMetadataFormat(mdFormat);
             prepareDataset(dataset);
 
             return dataset;
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Dataset newDataset(EasyMetadata emd, AdministrativeMetadata amd) throws ServiceException
-    {
+    public Dataset newDataset(EasyMetadata emd, AdministrativeMetadata amd) throws ServiceException {
         DatasetImpl dataset;
-        try
-        {
+        try {
             dataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             dataset.setEasyMetadata(emd);
             dataset.setAdministrativeMetadata(amd);
             prepareDataset(dataset);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
 
         return dataset;
     }
 
-    private void prepareDataset(final Dataset dataset)
-    {
+    private void prepareDataset(final Dataset dataset) {
         final EasyMetadata easyMetadata = dataset.getEasyMetadata();
         MetadataFormat mdFormat = easyMetadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         easyMetadata.getEmdIdentifier().setDatasetId(dataset.getStoreId());
 
         // set standard settings for ARCHAEOLOGY metadata
-        if (mdFormat.equals(MetadataFormat.ARCHAEOLOGY))
-        {
+        if (mdFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
             DisciplineContainer arch;
-            try
-            {
+            try {
                 arch = disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name());
             }
-            catch (final ObjectNotFoundException e)
-            {
+            catch (final ObjectNotFoundException e) {
                 throw new ApplicationException(e);
             }
-            catch (final DomainException e)
-            {
+            catch (final DomainException e) {
                 throw new ApplicationException(e);
             }
 
@@ -167,15 +151,12 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             easyMetadata.getEmdAudience().getTermsAudience().add(archAudience);
 
             easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId());
-        }
-        else if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE))
-        {
+        } else if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE)) {
             final BasicString langlitAudience = new BasicString();
             langlitAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
             langlitAudience.setValue(LANGUAGE_LITERATURE_DISCIPLINE_ID);
             easyMetadata.getEmdAudience().getTermsAudience().add(langlitAudience);
-        }
-        else
+        } else
         // set default metadata settings
         {
             easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
@@ -185,8 +166,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public Dataset getDataset(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException
-    {
+    public Dataset getDataset(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException {
         Dataset dataset = (Dataset) getDataModelObject(sessionUser, dmoStoreId);
         String name = dataset.getAutzStrategyName();
         AuthzStrategy strategy = AuthzStrategyProvider.newAuthzStrategy(name, sessionUser, dataset, dataset);
@@ -197,35 +177,28 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public DataModelObject getDataModelObject(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException
-    {
+    public DataModelObject getDataModelObject(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException {
         final DataModelObject dmo = getDatasetWorkDispatcher().getDataModelObject(sessionUser, dmoStoreId);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' retrieved object " + getStoreId(dmo));
         }
         return dmo;
     }
 
     @Override
-    public byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         byte[] objectXml = getDatasetWorkDispatcher().getObjectXml(sessionUser, dataset);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' retrieved object xml " + getStoreId(dataset));
         }
         return objectXml;
     }
 
-    public boolean exists(DmoStoreId storeId) throws ServiceException
-    {
-        try
-        {
+    public boolean exists(DmoStoreId storeId) throws ServiceException {
+        try {
             return Data.getEasyStore().exists(storeId);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
@@ -233,11 +206,9 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public Dataset cloneDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException
-    {
+    public Dataset cloneDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException {
         final Dataset clonedDataset = getDatasetWorkDispatcher().cloneDataset(sessionUser, dataset);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' cloned dataset " + getStoreId(dataset));
         }
         return clonedDataset;
@@ -252,8 +223,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             DataIntegrityException
     {
         getDatasetWorkDispatcher().saveEasyMetadata(sessionUser, dataset, workListeners);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' saved EasyMetadata of dataset " + getStoreId(dataset));
         }
     }
@@ -267,8 +237,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             DataIntegrityException
     {
         getDatasetWorkDispatcher().saveAdministrativeMetadata(sessionUser, dataset, workListeners);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' saved AdministrativeMetadata of dataset " + getStoreId(dataset));
         }
     }
@@ -278,14 +247,12 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
      * 
      * @throws DataIntegrityException
      */
-    public void submitDataset(final DatasetSubmission submission, final WorkListener... workListeners) throws ServiceException, DataIntegrityException
-    {
+    public void submitDataset(final DatasetSubmission submission, final WorkListener... workListeners) throws ServiceException, DataIntegrityException {
         final Dataset dataset = submission.getDataset();
         final EasyUser sessionUser = submission.getSessionUser();
 
         getDatasetWorkDispatcher().submitDataset(sessionUser, dataset, submission, workListeners);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(submission.getState());
         }
     }
@@ -299,8 +266,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             DataIntegrityException
     {
         getDatasetWorkDispatcher().unsubmitDataset(sessionUser, dataset, mustNotifyDepositor);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Unsubmitted dataset with sid " + dataset.getStoreId());
         }
     }
@@ -314,8 +280,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             throws ServiceException, DataIntegrityException
     {
         getDatasetWorkDispatcher().publishDataset(sessionUser, dataset, mustNotifyDepositor, mustIncludeLicense);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Published dataset with sid " + dataset.getStoreId());
         }
     }
@@ -329,8 +294,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             DataIntegrityException
     {
         getDatasetWorkDispatcher().unpublishDataset(sessionUser, dataset, mustNotifyDepositor);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Unpublished dataset with sid " + dataset.getStoreId());
         }
     }
@@ -344,8 +308,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             DataIntegrityException
     {
         getDatasetWorkDispatcher().maintainDataset(sessionUser, dataset, mustNotifyDepositor);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Maintained dataset with sid " + dataset.getStoreId());
         }
     }
@@ -359,8 +322,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             throws ServiceException, DataIntegrityException
     {
         getDatasetWorkDispatcher().republishDataset(sessionUser, dataset, mustNotifyDepositor, mustIncludeLicense);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Republished dataset with sid " + dataset.getStoreId());
         }
     }
@@ -368,18 +330,14 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public void deleteDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException
-    {
-        try
-        {
+    public void deleteDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException {
+        try {
             getDatasetWorkDispatcher().deleteDataset(sessionUser, dataset);
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             LOGGER.warn("Dataset not valid: ", e);
         }
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Deleted dataset with sid " + dataset.getStoreId());
         }
     }
@@ -389,11 +347,9 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
      * 
      * @throws DataIntegrityException
      */
-    public void restoreDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException, DataIntegrityException
-    {
+    public void restoreDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException, DataIntegrityException {
         getDatasetWorkDispatcher().restoreDataset(sessionUser, dataset);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Restored dataset with sid " + dataset.getStoreId());
         }
     }
@@ -407,8 +363,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             final boolean mustNotifyNewDepositor) throws ServiceException, DataIntegrityException
     {
         getDatasetWorkDispatcher().changeDepositor(sessionUser, dataset, newDepositor, mustNotifyDepositor, mustNotifyNewDepositor);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Changed depositor of dataset with sid " + dataset.getStoreId());
         }
     }
@@ -417,8 +372,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             final WorkListener... workListeners) throws ServiceException
     {
         getDatasetWorkDispatcher().savePermissionRequest(sessionUser, dataset, requestModel, workListeners);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' saved PermissionRequest of dataset " + getStoreId(dataset));
         }
     }
@@ -427,78 +381,62 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             final WorkListener... workListeners) throws ServiceException
     {
         getDatasetWorkDispatcher().savePermissionReply(sessionUser, dataset, replyModel, workListeners);
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' saved PermissionReply of dataset " + getStoreId(dataset));
         }
     }
 
-    public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException
-    {
+    public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException {
         return getDatasetWorkDispatcher().getUnitMetadataURL(sessionUser, dataset, unitMetadata);
     }
 
     @Override
-    public URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException
-    {
+    public URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException {
         URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
         return url;
     }
 
-    public DownloadHistory getDownloadHistoryFor(final EasyUser sessionUser, final Dataset dataset, final DateTime date) throws ServiceException
-    {
+    public DownloadHistory getDownloadHistoryFor(final EasyUser sessionUser, final Dataset dataset, final DateTime date) throws ServiceException {
         return getDatasetWorkDispatcher().getDownloadHistoryFor(sessionUser, dataset, date);
     }
 
-    private DatasetWorkDispatcher getDatasetWorkDispatcher()
-    {
-        if (datasetWorkDispatcher == null)
-        {
+    private DatasetWorkDispatcher getDatasetWorkDispatcher() {
+        if (datasetWorkDispatcher == null) {
             datasetWorkDispatcher = new DatasetWorkDispatcher();
         }
         return datasetWorkDispatcher;
     }
 
-    public CommonDataset getCommonDataset(final DmoStoreId sid) throws ServiceException
-    {
-        try
-        {
+    public CommonDataset getCommonDataset(final DmoStoreId sid) throws ServiceException {
+        try {
             return (CommonDataset) Data.getEasyStore().retrieve(sid);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
-    public List<UnitMetadata> getAdditionalLicenseVersions(final Dataset dataset) throws ServiceException
-    {
+    public List<UnitMetadata> getAdditionalLicenseVersions(final Dataset dataset) throws ServiceException {
         // TODO add security: only depositor and archivist
-        try
-        {
+        try {
             return Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
-    private class CompareByCreationDate implements Comparator<UnitMetadata>
-    {
-        public int compare(final UnitMetadata arg0, final UnitMetadata arg1)
-        {
+    private class CompareByCreationDate implements Comparator<UnitMetadata> {
+        public int compare(final UnitMetadata arg0, final UnitMetadata arg1) {
             ReadableInstant ri0 = arg0.getCreationDate();
             ReadableInstant ri1 = arg1.getCreationDate();
             return -ri0.compareTo(ri1);
         }
     }
 
-    public UnitMetadata getAdditionalLicense(final Dataset dataset) throws ServiceException
-    {
+    public UnitMetadata getAdditionalLicense(final Dataset dataset) throws ServiceException {
         // TODO add security: any user who can download the dataset
-        try
-        {
+        try {
             // code smell: same sort done in UnitMetaDataPanel, can't we just get the last from the
             // store?
             // see also Data.getEasyStore().getFileURL(storeId, unitId, dateTime)
@@ -508,21 +446,17 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             Collections.sort(list, new CompareByCreationDate());
             return list.get(0);
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
-    public List<UnitMetadata> getLicenseVersions(final Dataset dataset) throws ServiceException
-    {
+    public List<UnitMetadata> getLicenseVersions(final Dataset dataset) throws ServiceException {
         // TODO add security: only known users
-        try
-        {
+        try {
             return Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
         }
-        catch (final RepositoryException e)
-        {
+        catch (final RepositoryException e) {
             throw new ServiceException(e);
         }
     }
@@ -530,33 +464,26 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     public void saveAdditionalLicense(EasyUser sessionUser, Dataset dataset, final WorkListener... workListeners) throws ServiceException,
             DataIntegrityException
     {
-        try
-        {
+        try {
             // TODO currently we need the same security for both, butt better split them
             getDatasetWorkDispatcher().saveAdministrativeMetadata(sessionUser, dataset, workListeners);
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new ServiceException(e);
         }
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' saved Additional License of dataset " + getStoreId(dataset));
         }
     }
 
-    public void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate) throws ServiceException
-    {
-        try
-        {
+    public void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate) throws ServiceException {
+        try {
             getDatasetWorkDispatcher().deleteAdditionalLicense(sessionUser, storeId, unitId, creationDate, "purged by " + getUserId(sessionUser));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new ServiceException(e);
         }
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' deleted Additional License " + unitId.getUnitId() + " of dataset " + storeId.getStoreId());
         }
     }

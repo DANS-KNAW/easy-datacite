@@ -7,12 +7,10 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-public class MailComposerTest
-{
+public class MailComposerTest {
 
     @Test
-    public void getRawString() throws Exception
-    {
+    public void getRawString() throws Exception {
         MailComposer composer = new MailComposer();
         InputStream inStream = new FileInputStream("src/test/resources/test-files/mail/test-mail_01.txt");
         String raw = composer.composeMessage(inStream, false);
@@ -20,8 +18,7 @@ public class MailComposerTest
     }
 
     @Test
-    public void getValue() throws Exception
-    {
+    public void getValue() throws Exception {
         TestObject to = new TestObject();
         MailComposer composer = new MailComposer(to);
 
@@ -45,8 +42,7 @@ public class MailComposerTest
     }
 
     @Test(expected = MailComposerException.class)
-    public void getValueWithWrongObject() throws Exception
-    {
+    public void getValueWithWrongObject() throws Exception {
         TestObject to = new TestObject();
         MailComposer composer = new MailComposer(to);
 
@@ -55,8 +51,7 @@ public class MailComposerTest
     }
 
     @Test(expected = MailComposerException.class)
-    public void getValueWithWrongMethod() throws Exception
-    {
+    public void getValueWithWrongMethod() throws Exception {
         TestObject to = new TestObject();
         MailComposer composer = new MailComposer(to);
 
@@ -65,8 +60,7 @@ public class MailComposerTest
     }
 
     @Test
-    public void compose() throws Exception
-    {
+    public void compose() throws Exception {
         TestObject to = new TestObject();
         MailComposer composer = new MailComposer(to);
         InputStream inStream = new FileInputStream("src/test/resources/test-files/mail/test-mail_02.txt");
@@ -75,35 +69,28 @@ public class MailComposerTest
         // System.out.println(message);
     }
 
-    static class TestObject
-    {
-        public String getThis()
-        {
+    static class TestObject {
+        public String getThis() {
             return "something";
         }
 
-        public String getThat()
-        {
+        public String getThat() {
             return "another thing";
         }
 
-        public int getInt()
-        {
+        public int getInt() {
             return 6;
         }
 
-        public boolean getBoolean()
-        {
+        public boolean getBoolean() {
             return true;
         }
 
-        public Integer getInteger()
-        {
+        public Integer getInteger() {
             return new Integer(42);
         }
 
-        public Object getNull()
-        {
+        public Object getNull() {
             return null;
         }
     }

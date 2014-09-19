@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
 import fedora.server.types.gen.DatastreamDef;
 import fedora.server.types.gen.MIMETypedStream;
 
-public class DatastreamAccessor
-{
+public class DatastreamAccessor {
 
     private static final Logger logger = LoggerFactory.getLogger(DatastreamAccessor.class);
 
@@ -32,8 +31,7 @@ public class DatastreamAccessor
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DatastreamAccessor(Repository repository)
-    {
+    public DatastreamAccessor(Repository repository) {
         this.repository = repository;
     }
 
@@ -45,14 +43,12 @@ public class DatastreamAccessor
      * @param streamId
      *        the datastream id
      * @param asOfDateTime
-     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use
-     *        the most recent version.
+     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use the most recent version.
      * @return MIMETypedStream
      *         <ul>
      *         <li>String MIMEType The mimetype of the stream</li>
      *         <li>byte[] stream The contents of the Stream</li>
-     *         <li>Property[] header The header will be empty, or if applicable, contain the http header
-     *         as name/value pairs.</li>
+     *         <li>Property[] header The header will be empty, or if applicable, contain the http header as name/value pairs.</li>
      *         <ul>
      *         <li>String name</li>
      *         <li>String value</li>
@@ -61,20 +57,16 @@ public class DatastreamAccessor
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public MIMETypedStream getDatastreamDissemination(String sid, String streamId, DateTime asOfDateTime) throws RepositoryException
-    {
+    public MIMETypedStream getDatastreamDissemination(String sid, String streamId, DateTime asOfDateTime) throws RepositoryException {
         MIMETypedStream mimeTypedStream = null;
         String asOfDateTimeString = Converter.serializeToXml(asOfDateTime);
-        try
-        {
+        try {
             mimeTypedStream = repository.getFedoraAPIA().getDatastreamDissemination(sid, streamId, asOfDateTimeString);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Got datastream dissemination. sid=" + sid + " streamId=" + streamId);
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to get datastream dissemination: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -88,42 +80,34 @@ public class DatastreamAccessor
      * @param sid
      *        the sid of the object
      * @param asOfDateTime
-     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use
-     *        the most recent version.
+     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use the most recent version.
      * @return DublinCoreMetadata
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
-    public DublinCoreMetadata getDublinCoreMetadata(String sid, DateTime asOfDateTime) throws RepositoryException
-    {
+    public DublinCoreMetadata getDublinCoreMetadata(String sid, DateTime asOfDateTime) throws RepositoryException {
         DublinCoreMetadata dcMetadata = null;
         MIMETypedStream mts = getDatastreamDissemination(sid, DublinCoreMetadata.UNIT_ID, asOfDateTime);
-        try
-        {
+        try {
             dcMetadata = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, mts.getStream());
             // dcMetadata.setTimestamp(repository.getServerDate()); lacks millisecond precision
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new ObjectDeserializationException(e);
         }
         return dcMetadata;
     }
 
-    public DatastreamDef[] listDatastreams(String sid, DateTime asOfDateTime) throws RepositoryException
-    {
+    public DatastreamDef[] listDatastreams(String sid, DateTime asOfDateTime) throws RepositoryException {
         DatastreamDef[] streamDefs = null;
         String asOfDateTimeString = Converter.serializeToXml(asOfDateTime);
-        try
-        {
+        try {
             streamDefs = repository.getFedoraAPIA().listDatastreams(sid, asOfDateTimeString);
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Got datastream definitions. sid=" + sid);
             }
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to list datastream definitions: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);

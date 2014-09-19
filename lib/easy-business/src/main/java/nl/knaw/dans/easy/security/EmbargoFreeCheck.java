@@ -7,37 +7,29 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 
 import org.joda.time.DateTime;
 
-public class EmbargoFreeCheck extends AbstractCheck
-{
+public class EmbargoFreeCheck extends AbstractCheck {
 
     @Override
-    public boolean evaluate(ContextParameters ctxParameters)
-    {
+    public boolean evaluate(ContextParameters ctxParameters) {
         return evaluate(ctxParameters.getDataset());
     }
 
-    public boolean evaluate(Dataset dataset)
-    {
+    public boolean evaluate(Dataset dataset) {
         boolean conditionMet = false;
-        if (dataset != null)
-        {
+        if (dataset != null) {
             conditionMet = !dataset.isUnderEmbargo();
         }
         return conditionMet;
     }
 
     @Override
-    protected String explain(ContextParameters ctxParameters)
-    {
+    protected String explain(ContextParameters ctxParameters) {
         StringBuilder sb = super.startExplain(ctxParameters);
 
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset == null)
-        {
+        if (dataset == null) {
             sb.append("\n\tdataset = null");
-        }
-        else
-        {
+        } else {
             sb.append("\n\tdataset.isUnderEmbargo = " + dataset.isUnderEmbargo(new DateTime()));
         }
         sb.append("\n\tcondition met = ");
@@ -45,25 +37,19 @@ public class EmbargoFreeCheck extends AbstractCheck
         return sb.toString();
     }
 
-    public String getProposition()
-    {
+    public String getProposition() {
         return "[Dataset is not under embargo at current date]";
     }
 
     @Override
-    public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-    {
+    public boolean getHints(ContextParameters ctxParameters, List<Object> hints) {
         Dataset dataset = ctxParameters.getDataset();
         boolean conditionMet = false;
-        if (dataset == null)
-        {
+        if (dataset == null) {
             hints.add(CommonSecurityException.HINT_DATASET_NULL);
-        }
-        else
-        {
+        } else {
             conditionMet = evaluate(ctxParameters);
-            if (!conditionMet)
-            {
+            if (!conditionMet) {
                 hints.add(CommonSecurityException.HINT_DATASET_UNDER_EMBARGO);
             }
         }

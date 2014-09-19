@@ -15,42 +15,35 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 
-public class ContentCollector extends ProgressSubject implements Collector<List<? extends ItemVO>>
-{
+public class ContentCollector extends ProgressSubject implements Collector<List<? extends ItemVO>> {
 
     private final Collector<List<? extends ItemVO>> collector;
     private final ZipOutputStream zipOut;
 
-    public ContentCollector(Collector<List<? extends ItemVO>> collector, ZipOutputStream zipOut)
-    {
+    public ContentCollector(Collector<List<? extends ItemVO>> collector, ZipOutputStream zipOut) {
         this.collector = collector;
         this.zipOut = zipOut;
     }
 
     @Override
-    public List<? extends ItemVO> collect() throws CollectorException
-    {
+    public List<? extends ItemVO> collect() throws CollectorException {
         List<? extends ItemVO> itemVOList = collector.collect();
 
         onStartProcess();
         int totalItems = itemVOList.size();
         int currentItem = 0;
 
-        for (ItemVO itemVO : itemVOList)
-        {
+        for (ItemVO itemVO : itemVOList) {
             ZipItem zipItem = new ZipItem(itemVO.getPath());
-            if (itemVO instanceof FileItemVO)
-            {
+            if (itemVO instanceof FileItemVO) {
                 URL url = Data.getEasyStore().getFileURL(new DmoStoreId(itemVO.getSid()));
                 zipItem.setStreamUrl(url);
             }
-            try
-            {
+            try {
                 ZipUtil.addZipEntry(zipOut, zipItem);
                 onProgress(totalItems, ++currentItem);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 throw new CollectorException("While adding zip content: ", e);
             }
         }

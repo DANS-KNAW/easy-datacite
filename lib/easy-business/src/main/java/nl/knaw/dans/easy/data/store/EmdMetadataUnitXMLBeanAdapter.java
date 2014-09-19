@@ -22,8 +22,7 @@ import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
-public class EmdMetadataUnitXMLBeanAdapter extends AbstractTimestampedObject implements MetadataUnitXMLBean
-{
+public class EmdMetadataUnitXMLBeanAdapter extends AbstractTimestampedObject implements MetadataUnitXMLBean {
 
     public static final int DEFAULT_INDENT = 4;
 
@@ -32,188 +31,148 @@ public class EmdMetadataUnitXMLBeanAdapter extends AbstractTimestampedObject imp
     private final transient EmdMarshaller emdMarshaller;
     private final EasyMetadataImpl emd;
 
-    public EmdMetadataUnitXMLBeanAdapter(EasyMetadata emd)
-    {
+    public EmdMetadataUnitXMLBeanAdapter(EasyMetadata emd) {
         emdMarshaller = new EmdMarshaller(emd);
         this.emd = (EasyMetadataImpl) emd;
     }
 
     @Override
-    public byte[] asObjectXML() throws XMLSerializationException
-    {
+    public byte[] asObjectXML() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlByteArray();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public byte[] asObjectXML(int indent) throws XMLSerializationException
-    {
+    public byte[] asObjectXML(int indent) throws XMLSerializationException {
         emdMarshaller.setIndent(indent);
-        try
-        {
+        try {
             return emdMarshaller.getXmlByteArray();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public Document asDocument() throws XMLSerializationException
-    {
+    public Document asDocument() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlDocument();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public String asXMLString() throws XMLSerializationException
-    {
+    public String asXMLString() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlString();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public String asXMLString(int indent) throws XMLSerializationException
-    {
+    public String asXMLString(int indent) throws XMLSerializationException {
         emdMarshaller.setIndent(indent);
-        try
-        {
+        try {
             return emdMarshaller.getXmlString();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public InputStream asXMLInputStream() throws XMLSerializationException
-    {
+    public InputStream asXMLInputStream() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlInputStream();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public InputStream asXMLInputStream(int indent) throws XMLSerializationException
-    {
+    public InputStream asXMLInputStream(int indent) throws XMLSerializationException {
         emdMarshaller.setIndent(indent);
-        try
-        {
+        try {
             return emdMarshaller.getXmlInputStream();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public Source asSource() throws XMLSerializationException
-    {
+    public Source asSource() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlSource();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public void serializeTo(OutputStream outStream) throws XMLSerializationException
-    {
+    public void serializeTo(OutputStream outStream) throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             emdMarshaller.write(outStream);
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
 
     }
 
     @Override
-    public void serializeTo(OutputStream outStream, int indent) throws XMLSerializationException
-    {
+    public void serializeTo(OutputStream outStream, int indent) throws XMLSerializationException {
         emdMarshaller.setIndent(indent);
-        try
-        {
+        try {
             emdMarshaller.write(outStream);
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
 
     }
 
     @Override
-    public void serializeTo(File file) throws XMLSerializationException
-    {
+    public void serializeTo(File file) throws XMLSerializationException {
         serializeTo(file, DEFAULT_INDENT);
     }
 
     @Override
-    public void serializeTo(File file, int indent) throws XMLSerializationException
-    {
+    public void serializeTo(File file, int indent) throws XMLSerializationException {
         OutputStream outStream = null;
         emdMarshaller.setIndent(indent);
-        try
-        {
+        try {
             outStream = new BufferedOutputStream(new FileOutputStream(file));
             emdMarshaller.write(outStream);
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
             throw new XMLSerializationException(e);
         }
-        finally
-        {
-            if (outStream != null)
-            {
-                try
-                {
+        finally {
+            if (outStream != null) {
+                try {
                     outStream.close();
                 }
-                catch (IOException e)
-                {
+                catch (IOException e) {
                     throw new XMLSerializationException(e);
                 }
             }
@@ -221,84 +180,69 @@ public class EmdMetadataUnitXMLBeanAdapter extends AbstractTimestampedObject imp
     }
 
     @Override
-    public void serializeTo(String encoding, Writer out) throws XMLSerializationException
-    {
+    public void serializeTo(String encoding, Writer out) throws XMLSerializationException {
         serializeTo(encoding, out, DEFAULT_INDENT);
     }
 
     @Override
-    public void serializeTo(String encoding, Writer out, int indent) throws XMLSerializationException
-    {
+    public void serializeTo(String encoding, Writer out, int indent) throws XMLSerializationException {
         emdMarshaller.setIndent(indent);
         String enc = emdMarshaller.getEncoding();
         emdMarshaller.setEncoding(encoding);
-        try
-        {
+        try {
             emdMarshaller.write(out);
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
-        finally
-        {
+        finally {
             emdMarshaller.setEncoding(enc);
         }
     }
 
     @Override
-    public Element asElement() throws XMLSerializationException
-    {
+    public Element asElement() throws XMLSerializationException {
         emdMarshaller.setIndent(DEFAULT_INDENT);
-        try
-        {
+        try {
             return emdMarshaller.getXmlElement();
         }
-        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e)
-        {
+        catch (nl.knaw.dans.pf.language.xml.exc.XMLSerializationException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public String getVersion()
-    {
+    public String getVersion() {
         return emd.getVersion();
     }
 
     @Override
-    public String getUnitFormat()
-    {
+    public String getUnitFormat() {
         return EasyMetadata.UNIT_FORMAT;
     }
 
     @Override
-    public URI getUnitFormatURI()
-    {
+    public URI getUnitFormatURI() {
         return EasyMetadata.UNIT_FORMAT_URI;
     }
 
     @Override
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return EasyMetadata.UNIT_ID;
     }
 
     @Override
-    public String getUnitLabel()
-    {
+    public String getUnitLabel() {
         return EasyMetadata.UNIT_LABEL;
     }
 
     @Override
-    public boolean isVersionable()
-    {
+    public boolean isVersionable() {
         return emd.isVersionable();
     }
 
     @Override
-    public void setVersionable(boolean versionable)
-    {
+    public void setVersionable(boolean versionable) {
         emd.setVersionable(versionable);
     }
 

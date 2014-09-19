@@ -6,23 +6,19 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
-public class CheckboxPanel extends Panel
-{
+public class CheckboxPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     private AjaxCheckBox cb;
 
-    public CheckboxPanel(String name, Model<Boolean> model)
-    {
+    public CheckboxPanel(String name, Model<Boolean> model) {
         super(name, model);
         Form<Void> form = new Form<Void>("form");
-        cb = new AjaxCheckBox("checkbox", model)
-        {
+        cb = new AjaxCheckBox("checkbox", model) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void onUpdate(AjaxRequestTarget target)
-            {
+            protected void onUpdate(AjaxRequestTarget target) {
                 onSelectionChange(target);
             }
         };
@@ -30,8 +26,7 @@ public class CheckboxPanel extends Panel
         add(form);
     }
 
-    public void onSelectionChange(AjaxRequestTarget target)
-    {
+    public void onSelectionChange(AjaxRequestTarget target) {
         // please mister, Override me
     }
 }

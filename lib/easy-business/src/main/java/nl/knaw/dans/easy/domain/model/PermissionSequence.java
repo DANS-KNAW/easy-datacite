@@ -8,11 +8,9 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.joda.time.DateTime;
 
-public interface PermissionSequence extends Serializable, XMLBean
-{
+public interface PermissionSequence extends Serializable, XMLBean {
 
-    public enum State
-    {
+    public enum State {
         Submitted, Returned, Granted, Denied
     }
 

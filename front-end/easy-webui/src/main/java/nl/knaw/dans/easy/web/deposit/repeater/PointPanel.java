@@ -11,8 +11,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class PointPanel extends AbstractChoicePanel<PointModel>
-{
+public class PointPanel extends AbstractChoicePanel<PointModel> {
 
     private static final long serialVersionUID = -822413494904086019L;
 
@@ -26,36 +25,28 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
      * @param choices
      *        a list of choices
      */
-    public PointPanel(final String wicketId, final IModel model, final ChoiceList choiceList)
-    {
+    public PointPanel(final String wicketId, final IModel model, final ChoiceList choiceList) {
         super(wicketId, model, choiceList);
     }
 
-    public PointPanel(final String wicketId, final ListWrapper<PointModel> listWrapper, final ChoiceList choiceList)
-    {
+    public PointPanel(final String wicketId, final ListWrapper<PointModel> listWrapper, final ChoiceList choiceList) {
         super(wicketId, listWrapper, choiceList);
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(final ListItem item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(final ListItem item) {
+        if (isInEditMode()) {
             return new RepeatingEditModePanel(item);
-        }
-        else
-        {
+        } else {
             return new RepeatingViewModePanel(item);
         }
     }
 
-    class RepeatingEditModePanel extends Panel
-    {
+    class RepeatingEditModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingEditModePanel(final ListItem item)
-        {
+        RepeatingEditModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
             // add(new FeedbackPanel(REPEATING_PANEL_ID + ".feedback"));
             final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(), "scheme"), getChoiceList()
@@ -73,13 +64,11 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
 
     }
 
-    class RepeatingViewModePanel extends Panel
-    {
+    class RepeatingViewModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem item)
-        {
+        RepeatingViewModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
             String s = (String) new PropertyModel(item.getDefaultModel(), "schemeToken").getObject();
             String x = (String) new PropertyModel(item.getDefaultModel(), "x").getObject();

@@ -12,8 +12,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.*;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class WizardNavigationPanel extends Panel
-{
+public class WizardNavigationPanel extends Panel {
 
     private static final long serialVersionUID = 8137149138691417525L;
 
@@ -26,62 +25,50 @@ public class WizardNavigationPanel extends Panel
     @SpringBean(name = "staticContentBaseUrl")
     private String staticContentBaseUrl;
 
-    public WizardNavigationPanel(String id, FormDefinition formDefinition, WizardNavigationListener listener)
-    {
+    public WizardNavigationPanel(String id, FormDefinition formDefinition, WizardNavigationListener listener) {
         super(id);
         this.listener = listener;
         this.formDefinition = formDefinition;
     }
 
-    public String getLabelResourceKey()
-    {
+    public String getLabelResourceKey() {
         return labelResourceKey;
     }
 
-    public void setLabelResourceKey(String labelResourceKey)
-    {
+    public void setLabelResourceKey(String labelResourceKey) {
         this.labelResourceKey = labelResourceKey;
     }
 
-    public FormPage getCurrentPage()
-    {
+    public FormPage getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(FormPage currentPage)
-    {
+    public void setCurrentPage(FormPage currentPage) {
         this.currentPage = currentPage;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
-        final ListView pageLinks = new ListView("listView", formDefinition.getFormPages())
-        {
+    private void init() {
+        final ListView pageLinks = new ListView("listView", formDefinition.getFormPages()) {
 
             private static final long serialVersionUID = 6265957616943932059L;
 
             @Override
-            protected void populateItem(ListItem item)
-            {
+            protected void populateItem(ListItem item) {
                 final FormPage formPage = (FormPage) item.getDefaultModelObject();
-                SubmitLink submitLink = new SubmitLink("pageLink")
-                {
+                SubmitLink submitLink = new SubmitLink("pageLink") {
                     private static final long serialVersionUID = -6058708083767256426L;
 
                     @Override
-                    public void onSubmit()
-                    {
+                    public void onSubmit() {
                         listener.onPageClick(formPage);
                     }
 
@@ -101,8 +88,7 @@ public class WizardNavigationPanel extends Panel
         add(new ExternalLink("instructionLink_NL", staticContentBaseUrl + "/" + instructionFileNameBase + "NL.pdf" + "", "Nederlands"));
     }
 
-    private String getInstructionFileNameBase()
-    {
+    private String getInstructionFileNameBase() {
         return currentPage.getInstructionFile() == null ? currentPage.getParent().getInstructionFile() : currentPage.getInstructionFile();
     }
 }

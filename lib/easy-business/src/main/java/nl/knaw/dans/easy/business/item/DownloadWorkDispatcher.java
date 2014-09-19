@@ -11,8 +11,7 @@ import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class DownloadWorkDispatcher
-{
+public class DownloadWorkDispatcher {
 
     public FileContentWrapper prepareFileContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws CommonSecurityException, ServiceException
     {

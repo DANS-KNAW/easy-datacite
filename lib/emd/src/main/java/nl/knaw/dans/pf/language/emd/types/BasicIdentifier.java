@@ -4,13 +4,11 @@ import java.net.URI;
 import java.util.Locale;
 
 /**
- * A {@link BasicString} who's value is most likely an encoding in compliance with a certain scheme that
- * has a formal identification system expressed as a URI.
+ * A {@link BasicString} who's value is most likely an encoding in compliance with a certain scheme that has a formal identification system expressed as a URI.
  * 
  * @author ecco
  */
-public class BasicIdentifier extends BasicString
-{
+public class BasicIdentifier extends BasicString {
 
     private static final long serialVersionUID = 3064530380288101430L;
 
@@ -19,8 +17,7 @@ public class BasicIdentifier extends BasicString
     /**
      * Constructs a BasicIdentifier.
      */
-    public BasicIdentifier()
-    {
+    public BasicIdentifier() {
         super();
     }
 
@@ -37,8 +34,7 @@ public class BasicIdentifier extends BasicString
      *         if a language token could not be parsed from the given locale
      * @see #setLanguage(Locale)
      */
-    public BasicIdentifier(final String value, final Locale locale, final String scheme) throws InvalidLanguageTokenException
-    {
+    public BasicIdentifier(final String value, final Locale locale, final String scheme) throws InvalidLanguageTokenException {
         super(value, locale, scheme);
     }
 
@@ -53,8 +49,7 @@ public class BasicIdentifier extends BasicString
      *         if a language token could not be parsed from the given locale
      * @see #setLanguage(Locale)
      */
-    public BasicIdentifier(final String value, final Locale locale) throws InvalidLanguageTokenException
-    {
+    public BasicIdentifier(final String value, final Locale locale) throws InvalidLanguageTokenException {
         super(value, locale);
     }
 
@@ -70,8 +65,7 @@ public class BasicIdentifier extends BasicString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regular expression in {@link #LANGUAGE_TOKEN}
      */
-    public BasicIdentifier(final String value, final String language, final String scheme) throws InvalidLanguageTokenException
-    {
+    public BasicIdentifier(final String value, final String language, final String scheme) throws InvalidLanguageTokenException {
         super(value, language, scheme);
     }
 
@@ -85,8 +79,7 @@ public class BasicIdentifier extends BasicString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regex in {@link #LANGUAGE_TOKEN}
      */
-    public BasicIdentifier(final String value, final String language) throws InvalidLanguageTokenException
-    {
+    public BasicIdentifier(final String value, final String language) throws InvalidLanguageTokenException {
         super(value, language);
     }
 
@@ -96,8 +89,7 @@ public class BasicIdentifier extends BasicString
      * @param value
      *        the value of this BasicIdentifier
      */
-    public BasicIdentifier(final String value)
-    {
+    public BasicIdentifier(final String value) {
         super(value);
     }
 
@@ -106,8 +98,7 @@ public class BasicIdentifier extends BasicString
      * 
      * @return the formal identification system
      */
-    public URI getIdentificationSystem()
-    {
+    public URI getIdentificationSystem() {
         return identificationSystem;
     }
 
@@ -117,8 +108,7 @@ public class BasicIdentifier extends BasicString
      * @param identificationSystem
      *        the formal identification system
      */
-    public void setIdentificationSystem(final URI identificationSystem)
-    {
+    public void setIdentificationSystem(final URI identificationSystem) {
         this.identificationSystem = identificationSystem;
     }
 

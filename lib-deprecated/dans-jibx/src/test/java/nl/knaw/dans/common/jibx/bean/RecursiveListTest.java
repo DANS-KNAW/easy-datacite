@@ -9,16 +9,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecursiveListTest
-{
+public class RecursiveListTest {
 
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws Exception
-    {
+    public void serializeDeserializeEmpty() throws Exception {
         JiBXRecursiveList rl = new JiBXRecursiveList("foo");
         if (verbose)
             logger.debug("\n" + rl.asXMLString(4) + "\n");
@@ -27,8 +25,7 @@ public class RecursiveListTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws Exception
-    {
+    public void serializeDeserializeFull() throws Exception {
         JiBXRecursiveList rl = new JiBXRecursiveList("foo");
 
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();

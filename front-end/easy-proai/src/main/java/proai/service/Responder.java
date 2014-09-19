@@ -11,20 +11,16 @@ import proai.error.*;
 /**
  * Provides transport-neutral responses to OAI-PMH requests.
  * <p>
- * A single <code>Responder</code> instance handles multiple concurrent OAI-PMH requests and provides
- * responses without regard to the transport protocol.
+ * A single <code>Responder</code> instance handles multiple concurrent OAI-PMH requests and provides responses without regard to the transport protocol.
  * <p>
- * Responses are provided via <code>ResponseData</code> objects that can write their XML to a given
- * PrintWriter. The XML provided does not include an XML declaration or an OAI-PMH response header --
- * this is the responsibility of higher-level application code.
+ * Responses are provided via <code>ResponseData</code> objects that can write their XML to a given PrintWriter. The XML provided does not include an XML
+ * declaration or an OAI-PMH response header -- this is the responsibility of higher-level application code.
  * <p>
- * At this level, errors are signaled by exceptions. Serializing them for transport is the responsibility
- * of higher-level application code.
+ * At this level, errors are signaled by exceptions. Serializing them for transport is the responsibility of higher-level application code.
  * 
  * @author Chris Wilper
  */
-public class Responder
-{
+public class Responder {
 
     private static final String _PFX = "proai.";
 
@@ -54,30 +50,25 @@ public class Responder
 
     private SessionManager m_sessionManager;
 
-    public Responder(Properties props) throws ServerException
-    {
+    public Responder(Properties props) throws ServerException {
         init(new RecordCache(props), new SessionManager(props), nonNegativeValue(props, PROP_INCOMPLETEIDENTIFIERLISTSIZE, true),
                 nonNegativeValue(props, PROP_INCOMPLETERECORDLISTSIZE, true), nonNegativeValue(props, PROP_INCOMPLETESETLISTSIZE, true));
     }
 
-    private int nonNegativeValue(Properties props, String name, boolean nonZero) throws ServerException
-    {
+    private int nonNegativeValue(Properties props, String name, boolean nonZero) throws ServerException {
         String v = props.getProperty(name);
         if (v == null)
             throw new ServerException("Required property missing: " + name);
-        try
-        {
+        try {
             int val = Integer.parseInt(v);
             if (val < 0)
                 throw new ServerException("Property value cannot be negative: " + name);
-            if (nonZero && val == 0)
-            {
+            if (nonZero && val == 0) {
                 throw new ServerException("Property value cannot be zero: " + name);
             }
             return val;
         }
-        catch (NumberFormatException e)
-        {
+        catch (NumberFormatException e) {
             throw new ServerException("Bad integer '" + v + "' specified for property: " + name);
         }
     }
@@ -108,8 +99,7 @@ public class Responder
      * @throws BadArgumentException
      *         if either of the required parameters are null.
      * @throws CannotDisseminateFormatException
-     *         if the value of the metadataPrefix argument is not supported by the item identified by the
-     *         value of the identifier argument.
+     *         if the value of the metadataPrefix argument is not supported by the item identified by the value of the identifier argument.
      * @throws IdDoesNotExistException
      *         if the value of the identifier argument is unknown or illegal in this repository.
      * @throws ServerException
@@ -119,34 +109,27 @@ public class Responder
             IdDoesNotExistException, ServerException
     {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Entered getRecord(" + q(identifier) + ", " + q(metadataPrefix) + ")");
         }
 
-        try
-        {
+        try {
 
             checkIdentifier(identifier);
             checkMetadataPrefix(metadataPrefix);
 
             Writable content = m_cache.getRecordContent(identifier, metadataPrefix);
 
-            if (content == null)
-            {
+            if (content == null) {
                 checkItemExists(identifier);
                 throw new CannotDisseminateFormatException(ERR_BAD_FORMAT_FOR_ITEM);
-            }
-            else
-            {
+            } else {
                 ResponseDataImpl data = new ResponseDataImpl(content);
                 return data;
             }
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exiting getRecord(" + q(identifier) + ", " + q(metadataPrefix) + ")");
             }
         }
@@ -158,18 +141,15 @@ public class Responder
      * @throws ServerException
      *         if a low-level (non-protocol) error occurred.
      */
-    public ResponseData identify() throws ServerException
-    {
+    public ResponseData identify() throws ServerException {
 
         logger.debug("Entered identify()");
 
-        try
-        {
+        try {
             ResponseData data = new ResponseDataImpl(m_cache.getIdentifyContent());
             return data;
         }
-        finally
-        {
+        finally {
             logger.debug("Exiting identify()");
         }
     }
@@ -182,24 +162,19 @@ public class Responder
      * @param until
      *        optional UTC date specifying an upper bound for datestamp-based selective harvesting.
      * @param metadataPrefix
-     *        specifies that headers should be returned only if the metadata format matching the supplied
-     *        metadataPrefix is available (or has been deleted).
+     *        specifies that headers should be returned only if the metadata format matching the supplied metadataPrefix is available (or has been deleted).
      * @param set
-     *        optional argument with a setSpec value, which specifies set criteria for selective
-     *        harvesting.
+     *        optional argument with a setSpec value, which specifies set criteria for selective harvesting.
      * @param resumptionToken
-     *        exclusive argument with a value that is the flow control token returned by a previous
-     *        ListIdentifiers request that issued an incomplete list.
+     *        exclusive argument with a value that is the flow control token returned by a previous ListIdentifiers request that issued an incomplete list.
      * @throws BadArgumentException
-     *         if resumptionToken is specified with any other parameters, or if resumptionToken is
-     *         unspecified and any required parameters are not.
+     *         if resumptionToken is specified with any other parameters, or if resumptionToken is unspecified and any required parameters are not.
      * @throws BadResumptionTokenException
      *         if the value of the resumptionToken argument is invalid or expired.
      * @throws CannotDisseminateFormatException
      *         if the value of the metadataPrefix argument is not supported by the repository.
      * @throws NoRecordsMatchException
-     *         if the combination of the values of the from, until, and set arguments results in an empty
-     *         list.
+     *         if the combination of the values of the from, until, and set arguments results in an empty list.
      * @throws NoSetHierarchyException
      *         if set is specified and the repository does not support sets.
      * @throws ServerException
@@ -209,19 +184,15 @@ public class Responder
             BadResumptionTokenException, CannotDisseminateFormatException, NoRecordsMatchException, NoSetHierarchyException, ServerException
     {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Entered listIdentifiers(" + q(from) + ", " + q(until) + ", " + q(metadataPrefix) + ", " + q(set) + ", " + q(resumptionToken) + ")");
         }
 
-        try
-        {
+        try {
             return listRecords(from, until, metadataPrefix, set, resumptionToken, true, m_incompleteIdentifierListSize);
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exiting listIdentifiers(" + q(from) + ", " + q(until) + ", " + q(metadataPrefix) + ", " + q(set) + ", " + q(resumptionToken)
                         + ")");
             }
@@ -233,8 +204,7 @@ public class Responder
             NoSetHierarchyException, ServerException
     {
 
-        if (resumptionToken == null)
-        {
+        if (resumptionToken == null) {
 
             Date fromDate = validDate(from);
             Date untilDate = validDate(until);
@@ -244,11 +214,8 @@ public class Responder
             ListProvider<CachedContent> provider = new RecordListProvider(m_cache, incompleteListSize, identifiersOnly, fromDate, untilDate, metadataPrefix,
                     set);
             return m_sessionManager.list(provider);
-        }
-        else
-        {
-            if (from != null || until != null || metadataPrefix != null || set != null)
-            {
+        } else {
+            if (from != null || until != null || metadataPrefix != null || set != null) {
                 throw new BadArgumentException(ERR_RESUMPTION_EXCLUSIVE);
             }
             return m_sessionManager.getResponseData(resumptionToken);
@@ -259,9 +226,8 @@ public class Responder
      * Get the response for a ListMetadataFormats request.
      * 
      * @param identifier
-     *        an optional argument that specifies the unique identifier of the item for which available
-     *        metadata formats are being requested. If this argument is omitted, then the response
-     *        includes all metadata formats supported by this repository.
+     *        an optional argument that specifies the unique identifier of the item for which available metadata formats are being requested. If this argument
+     *        is omitted, then the response includes all metadata formats supported by this repository.
      * @throws IdDoesNotExistException
      *         if the value of the identifier argument is unknown or illegal in this repository.
      * @throws NoMetadataFormats
@@ -269,30 +235,24 @@ public class Responder
      * @throws ServerException
      *         if a low-level (non-protocol) error occurred.
      */
-    public ResponseData listMetadataFormats(String identifier) throws IdDoesNotExistException, NoMetadataFormatsException, ServerException
-    {
+    public ResponseData listMetadataFormats(String identifier) throws IdDoesNotExistException, NoMetadataFormatsException, ServerException {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Entered listMetadataFormats(" + q(identifier) + ")");
         }
 
-        try
-        {
+        try {
             Writable content = null;
             content = m_cache.getMetadataFormatsContent(identifier);
-            if (content == null && identifier != null)
-            {
+            if (content == null && identifier != null) {
                 checkItemExists(identifier);
                 throw new NoMetadataFormatsException(ERR_NO_FORMATS_FOR_ITEM);
             }
             ResponseData data = new ResponseDataImpl(content);
             return data;
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exiting listMetadataFormats(" + q(identifier) + ")");
             }
         }
@@ -306,24 +266,19 @@ public class Responder
      * @param until
      *        optional UTC date specifying an upper bound for datestamp-based selective harvesting.
      * @param metadataPrefix
-     *        specifies that records should be returned only if the metadata format matching the supplied
-     *        metadataPrefix is available (or has been deleted).
+     *        specifies that records should be returned only if the metadata format matching the supplied metadataPrefix is available (or has been deleted).
      * @param set
-     *        optional argument with a setSpec value, which specifies set criteria for selective
-     *        harvesting.
+     *        optional argument with a setSpec value, which specifies set criteria for selective harvesting.
      * @param resumptionToken
-     *        exclusive argument with a value that is the flow control token returned by a previous
-     *        ListIdentifiers request that issued an incomplete list.
+     *        exclusive argument with a value that is the flow control token returned by a previous ListIdentifiers request that issued an incomplete list.
      * @throws BadArgumentException
-     *         if resumptionToken is specified with any other parameters, or if resumptionToken is
-     *         unspecified and any required parameters are not.
+     *         if resumptionToken is specified with any other parameters, or if resumptionToken is unspecified and any required parameters are not.
      * @throws BadResumptionTokenException
      *         if the value of the resumptionToken argument is invalid or expired.
      * @throws CannotDisseminateFormatException
      *         if the value of the metadataPrefix argument is not supported by the repository.
      * @throws NoRecordsMatchException
-     *         if the combination of the values of the from, until, and set arguments results in an empty
-     *         list.
+     *         if the combination of the values of the from, until, and set arguments results in an empty list.
      * @throws NoSetHierarchyException
      *         if set is specified and the repository does not support sets.
      * @throws ServerException
@@ -333,18 +288,14 @@ public class Responder
             BadResumptionTokenException, CannotDisseminateFormatException, NoRecordsMatchException, NoSetHierarchyException, ServerException
     {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Entered listRecords(" + q(from) + ", " + q(until) + ", " + q(metadataPrefix) + ", " + q(set) + ", " + q(resumptionToken) + ")");
         }
-        try
-        {
+        try {
             return listRecords(from, until, metadataPrefix, set, resumptionToken, false, m_incompleteRecordListSize);
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exiting listRecords(" + q(from) + ", " + q(until) + ", " + q(metadataPrefix) + ", " + q(set) + ", " + q(resumptionToken) + ")");
             }
         }
@@ -354,8 +305,7 @@ public class Responder
      * Get the response for a ListSets request.
      * 
      * @param resumptionToken
-     *        exclusive argument with a value that is the flow control token returned by a previous
-     *        ListSets request that issued an incomplete list.
+     *        exclusive argument with a value that is the flow control token returned by a previous ListSets request that issued an incomplete list.
      * @throws BadResumptionTokenException
      *         if the value of the resumptionToken argument is invalid or expired.
      * @throws NoSetHierarchyException
@@ -363,42 +313,30 @@ public class Responder
      * @throws ServerException
      *         if a low-level (non-protocol) error occurred.
      */
-    public ResponseData listSets(String resumptionToken) throws BadResumptionTokenException, NoSetHierarchyException, ServerException
-    {
+    public ResponseData listSets(String resumptionToken) throws BadResumptionTokenException, NoSetHierarchyException, ServerException {
 
-        if (logger.isDebugEnabled())
-        {
+        if (logger.isDebugEnabled()) {
             logger.debug("Entered listSets(" + q(resumptionToken) + ")");
         }
-        try
-        {
-            if (resumptionToken == null)
-            {
+        try {
+            if (resumptionToken == null) {
                 ListProvider<SetInfo> provider = new SetListProvider(m_cache, m_incompleteSetListSize);
                 return m_sessionManager.list(provider);
-            }
-            else
-            {
+            } else {
                 return m_sessionManager.getResponseData(resumptionToken);
             }
         }
-        finally
-        {
-            if (logger.isDebugEnabled())
-            {
+        finally {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Exiting listSets(" + q(resumptionToken) + ")");
             }
         }
     }
 
-    private static String q(String s)
-    {
-        if (s == null)
-        {
+    private static String q(String s) {
+        if (s == null) {
             return null;
-        }
-        else
-        {
+        } else {
             return "\"" + s + "\"";
         }
     }
@@ -406,8 +344,7 @@ public class Responder
     /**
      * Release any resources held by the session manager and the cache.
      */
-    public void close() throws ServerException
-    {
+    public void close() throws ServerException {
         m_sessionManager.close();
         m_cache.close();
     }
@@ -417,50 +354,38 @@ public class Responder
     /**
      * Throw a <code>BadArgumentException<code> if <code>identifier</code> is <code>null</code> or empty.
      */
-    private static void checkIdentifier(String identifier) throws BadArgumentException
-    {
-        if (identifier == null || identifier.length() == 0)
-        {
+    private static void checkIdentifier(String identifier) throws BadArgumentException {
+        if (identifier == null || identifier.length() == 0) {
             throw new BadArgumentException(ERR_MISSING_IDENTIFIER);
         }
     }
 
     /**
-     * Throw a <code>BadArgumentException<code> if <code>metadataPrefix</code> is <code>null</code> or
-     * empty.
+     * Throw a <code>BadArgumentException<code> if <code>metadataPrefix</code> is <code>null</code> or empty.
      */
-    private static void checkMetadataPrefix(String metadataPrefix) throws BadArgumentException
-    {
-        if (metadataPrefix == null || metadataPrefix.length() == 0)
-        {
+    private static void checkMetadataPrefix(String metadataPrefix) throws BadArgumentException {
+        if (metadataPrefix == null || metadataPrefix.length() == 0) {
             throw new BadArgumentException(ERR_MISSING_PREFIX);
         }
     }
 
     /**
-     * Parse and return a <code>Date</code> for the given string, or return <code>null</code> if the
-     * string is <code>null</code>. Validation ensures that the string is in one of the two formats
-     * recognized by the protocol.
+     * Parse and return a <code>Date</code> for the given string, or return <code>null</code> if the string is <code>null</code>. Validation ensures that the
+     * string is in one of the two formats recognized by the protocol.
      */
-    private static Date validDate(String dateString) throws BadArgumentException
-    {
+    private static Date validDate(String dateString) throws BadArgumentException {
         if (dateString == null)
             return null;
         DateFormat parser;
-        if (dateString.length() == 10)
-        {
+        if (dateString.length() == 10) {
             parser = new SimpleDateFormat("yyyy-MM-dd");
-        }
-        else
-        {
+        } else {
             parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         }
-        try
-        {
+        try {
             return parser.parse(dateString);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new BadArgumentException(ERR_DATE_FORMAT);
         }
     }
@@ -468,25 +393,20 @@ public class Responder
     /**
      * Checks that the granularity of the from and until arguments match.
      */
-    private static void checkGranularity(String from, String until) throws BadArgumentException
-    {
-        if (from != null && until != null)
-        {
-            if (((from.endsWith("Z")) && (!until.endsWith("Z"))) || ((until.endsWith("Z")) && (!from.endsWith("Z"))))
-            {
+    private static void checkGranularity(String from, String until) throws BadArgumentException {
+        if (from != null && until != null) {
+            if (((from.endsWith("Z")) && (!until.endsWith("Z"))) || ((until.endsWith("Z")) && (!from.endsWith("Z")))) {
                 throw new BadArgumentException("Date granularities of from and " + "until arguments do not match.");
             }
         }
     }
 
     /**
-     * If <code>from</code> is later than <code>until</code>, throw a <code>BadArgumentException</code>.
-     * If either is <code>null</code>, no exception will be thrown.
+     * If <code>from</code> is later than <code>until</code>, throw a <code>BadArgumentException</code>. If either is <code>null</code>, no exception will be
+     * thrown.
      */
-    private static void checkFromUntil(Date from, Date until) throws BadArgumentException
-    {
-        if (from != null && until != null && from.getTime() > until.getTime())
-        {
+    private static void checkFromUntil(Date from, Date until) throws BadArgumentException {
+        if (from != null && until != null && from.getTime() > until.getTime()) {
             throw new BadArgumentException(ERR_FROM_UNTIL);
         }
     }
@@ -495,10 +415,8 @@ public class Responder
      * Throw an <code>IdDoesNotExistException<code> if the given item does
      * not exist in the cache.
      */
-    private void checkItemExists(String identifier) throws IdDoesNotExistException, ServerException
-    {
-        if (!m_cache.itemExists(identifier))
-        {
+    private void checkItemExists(String identifier) throws IdDoesNotExistException, ServerException {
+        if (!m_cache.itemExists(identifier)) {
             throw new IdDoesNotExistException(ERR_ITEM_DOESNT_EXIST);
         }
     }

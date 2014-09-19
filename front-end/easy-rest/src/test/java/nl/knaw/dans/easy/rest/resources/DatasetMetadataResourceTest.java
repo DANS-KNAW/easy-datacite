@@ -33,16 +33,14 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 @SuppressWarnings("unchecked")
-public class DatasetMetadataResourceTest extends RestTest
-{
+public class DatasetMetadataResourceTest extends RestTest {
     private DatasetService datasetServiceMock;
     private Dataset datasetMock;
     private EasyMetadata metadataMock;
     private DublinCoreMetadata dcMetadataMock;
 
     @Before
-    public void setUp() throws ServiceException
-    {
+    public void setUp() throws ServiceException {
         setUpServices();
 
         datasetMock = Mockito.mock(Dataset.class);
@@ -52,8 +50,7 @@ public class DatasetMetadataResourceTest extends RestTest
         when(datasetMock.getEasyMetadata()).thenReturn(metadataMock);
     }
 
-    private void setUpServices()
-    {
+    private void setUpServices() {
         Services services = new Services();
 
         datasetServiceMock = Mockito.mock(DatasetService.class);
@@ -62,8 +59,7 @@ public class DatasetMetadataResourceTest extends RestTest
 
     @Ignore
     @Test
-    public void getMetadata() throws ServiceException, XMLSerializationException
-    {
+    public void getMetadata() throws ServiceException, XMLSerializationException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
         String metadataXml = "<metadata><title>TEST</title></metadata>";
 
@@ -77,8 +73,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getNonExistentMetadata() throws ServiceException
-    {
+    public void getNonExistentMetadata() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ObjectNotAvailableException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").head();
@@ -87,8 +82,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getMetadataUnauthorized() throws ServiceException
-    {
+    public void getMetadataUnauthorized() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").head();
@@ -97,8 +91,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getMetadataInternalError() throws ServiceException
-    {
+    public void getMetadataInternalError() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").head();
@@ -107,8 +100,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getMetadataIllegalArgument() throws ServiceException
-    {
+    public void getMetadataIllegalArgument() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(IllegalArgumentException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").head();
@@ -117,8 +109,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getMetadataXmlSerializationProblem() throws ServiceException
-    {
+    public void getMetadataXmlSerializationProblem() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(XMLSerializationException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").head();
@@ -128,8 +119,7 @@ public class DatasetMetadataResourceTest extends RestTest
 
     @Test
     @Ignore("Returns the wrong content-type")
-    public void headMetadata() throws ServiceException
-    {
+    public void headMetadata() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/metadata");
@@ -141,8 +131,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsMetadata() throws ServiceException
-    {
+    public void optionsMetadata() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/metadata");
@@ -155,8 +144,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsMetadataNotAvailable() throws ServiceException
-    {
+    public void optionsMetadataNotAvailable() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ObjectNotAvailableException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").options(ClientResponse.class);
@@ -165,8 +153,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsMetadataNotAuthorized() throws ServiceException
-    {
+    public void optionsMetadataNotAuthorized() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").options(ClientResponse.class);
@@ -175,8 +162,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsMetadataInternalServerError() throws ServiceException
-    {
+    public void optionsMetadataInternalServerError() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/metadata").options(ClientResponse.class);
@@ -185,8 +171,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcMetadata() throws ServiceException, XMLSerializationException
-    {
+    public void getDcMetadata() throws ServiceException, XMLSerializationException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
         String metadataXml = "<dc:metadata><dc:title>TEST</dc:title></dc:metadata>";
         when(metadataMock.getDublinCoreMetadata()).thenReturn(dcMetadataMock);
@@ -201,8 +186,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getNonExistentDcMetadata() throws ServiceException
-    {
+    public void getNonExistentDcMetadata() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ObjectNotAvailableException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").head();
@@ -211,8 +195,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcMetadataUnauthorized() throws ServiceException
-    {
+    public void getDcMetadataUnauthorized() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").head();
@@ -221,8 +204,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcMetadataInternalError() throws ServiceException
-    {
+    public void getDcMetadataInternalError() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").head();
@@ -231,8 +213,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcMetadataIllegalArgument() throws ServiceException
-    {
+    public void getDcMetadataIllegalArgument() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(IllegalArgumentException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").head();
@@ -241,8 +222,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void getDcMetadataXmlSerializationProblem() throws ServiceException
-    {
+    public void getDcMetadataXmlSerializationProblem() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(XMLSerializationException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").head();
@@ -251,8 +231,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void headDcMetadata() throws ServiceException, XMLSerializationException
-    {
+    public void headDcMetadata() throws ServiceException, XMLSerializationException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
         String metadataXml = "<dc:metadata><dc:title>TEST</dc:title></dc:metadata>";
         when(metadataMock.getDublinCoreMetadata()).thenReturn(dcMetadataMock);
@@ -267,8 +246,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsDcMetadata() throws ServiceException
-    {
+    public void optionsDcMetadata() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/dc-metadata");
@@ -281,8 +259,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsDcMetadataNotAvailable() throws ServiceException
-    {
+    public void optionsDcMetadataNotAvailable() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ObjectNotAvailableException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").options(ClientResponse.class);
@@ -291,8 +268,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsDcMetadataNotAuthorized() throws ServiceException
-    {
+    public void optionsDcMetadataNotAuthorized() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(CommonSecurityException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").options(ClientResponse.class);
@@ -301,8 +277,7 @@ public class DatasetMetadataResourceTest extends RestTest
     }
 
     @Test
-    public void optionsDcMetadataInternalServerError() throws ServiceException
-    {
+    public void optionsDcMetadataInternalServerError() throws ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(ServiceException.class);
 
         ClientResponse response = resource().path("dataset/easy-dataset:1/dc-metadata").options(ClientResponse.class);

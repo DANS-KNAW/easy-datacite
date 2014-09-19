@@ -21,39 +21,34 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AuthenticatedResourceTest
-{
+public class AuthenticatedResourceTest {
 
     private AuthenticatedResource resource;
     private HttpHeaders requestHeadersMock;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         resource = new AuthenticatedResource();
         requestHeadersMock = mock(HttpHeaders.class);
         resource.setRequestHeaders(requestHeadersMock);
     }
 
     @Test
-    public void authenticateWithNullHeaders() throws ServiceException
-    {
+    public void authenticateWithNullHeaders() throws ServiceException {
         when(requestHeadersMock.getRequestHeader(isA(String.class))).thenReturn(null);
         EasyUser user = resource.authenticate();
         assertTrue(user instanceof EasyUserAnonymous);
     }
 
     @Test
-    public void authenticateWithEmptyHeaders() throws ServiceException
-    {
+    public void authenticateWithEmptyHeaders() throws ServiceException {
         when(requestHeadersMock.getRequestHeader(isA(String.class))).thenReturn(new ArrayList<String>());
         EasyUser user = resource.authenticate();
         assertTrue(user instanceof EasyUserAnonymous);
     }
 
     @Test
-    public void authenticateWithIncorrectType() throws ServiceException
-    {
+    public void authenticateWithIncorrectType() throws ServiceException {
         ArrayList<String> authHeader = new ArrayList<String>();
         authHeader.add("Digest dXNlcm5hbWU6cGFzc3dvcmQ="); // username:password
         when(requestHeadersMock.getRequestHeader(isA(String.class))).thenReturn(authHeader);
@@ -62,8 +57,7 @@ public class AuthenticatedResourceTest
     }
 
     @Test
-    public void authenticateWithIncorrectUsernamePasswordPattern() throws ServiceException
-    {
+    public void authenticateWithIncorrectUsernamePasswordPattern() throws ServiceException {
         ArrayList<String> authHeader = new ArrayList<String>();
         authHeader.add("Basic dXNlcm5hbWUgcGFzc3dvcmQ="); // username password
         when(requestHeadersMock.getRequestHeader(isA(String.class))).thenReturn(authHeader);
@@ -72,8 +66,7 @@ public class AuthenticatedResourceTest
     }
 
     @Test
-    public void authenticateWithNullUserReturned() throws ServiceException
-    {
+    public void authenticateWithNullUserReturned() throws ServiceException {
         setUpUserService(null);
         ArrayList<String> authHeader = new ArrayList<String>();
         authHeader.add("Basic dXNlcm5hbWU6cGFzc3dvcmQ="); // username:password
@@ -82,13 +75,10 @@ public class AuthenticatedResourceTest
         assertTrue(user instanceof EasyUserAnonymous);
     }
 
-    private void setUpUserService(final EasyUser user)
-    {
+    private void setUpUserService(final EasyUser user) {
         Services services = new Services();
-        EasyUserService userService = new EasyUserService()
-        {
-            public void authenticate(Authentication authentication) throws ServiceException
-            {
+        EasyUserService userService = new EasyUserService() {
+            public void authenticate(Authentication authentication) throws ServiceException {
                 authentication.setUser(user);
             }
         };
@@ -96,8 +86,7 @@ public class AuthenticatedResourceTest
     }
 
     @Test
-    public void authenticateSuccesfull() throws ServiceException
-    {
+    public void authenticateSuccesfull() throws ServiceException {
         EasyUser user = new EasyUserImpl();
         setUpUserService(user);
         ArrayList<String> authHeader = new ArrayList<String>();

@@ -14,12 +14,10 @@ import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
-public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetItemContainerMetadata> implements DatasetItemContainerMetadata
-{
+public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetItemContainerMetadata> implements DatasetItemContainerMetadata {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an
-     * xml-stream might be obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String VERSION = "0.1";
 
@@ -39,64 +37,50 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
 
     private String version;
 
-    protected ItemContainerMetadataImpl()
-    {
+    protected ItemContainerMetadataImpl() {
         super();
     }
 
-    public ItemContainerMetadataImpl(DmoStoreId sid)
-    {
+    public ItemContainerMetadataImpl(DmoStoreId sid) {
         super(sid);
     }
 
-    public String getVersion()
-    {
-        if (version == null)
-        {
+    public String getVersion() {
+        if (version == null) {
             version = VERSION;
         }
         return version;
     }
 
     // ///////////////////////////////////////////
-    protected void setNop(List<?> list)
-    {
+    protected void setNop(List<?> list) {
         // needed for jiBx deserialization
     }
 
-    public List<CreatorRole> getCreatorRoles()
-    {
+    public List<CreatorRole> getCreatorRoles() {
         List<CreatorRole> creatorRoles = new ArrayList<CreatorRole>();
-        for (int i = 0; i < creatorRoleArray.length; i++)
-        {
-            if (creatorRoleArray[i] > 0)
-            {
+        for (int i = 0; i < creatorRoleArray.length; i++) {
+            if (creatorRoleArray[i] > 0) {
                 creatorRoles.add(CreatorRole.values()[i]);
             }
         }
         return creatorRoles;
     }
 
-    public List<VisibleTo> getVisibleToList()
-    {
+    public List<VisibleTo> getVisibleToList() {
         List<VisibleTo> visibleToList = new ArrayList<VisibleTo>();
-        for (int i = 0; i < visibleToArray.length; i++)
-        {
-            if (visibleToArray[i] > 0)
-            {
+        for (int i = 0; i < visibleToArray.length; i++) {
+            if (visibleToArray[i] > 0) {
                 visibleToList.add(VisibleTo.values()[i]);
             }
         }
         return visibleToList;
     }
 
-    public List<AccessibleTo> getAccessibleToList()
-    {
+    public List<AccessibleTo> getAccessibleToList() {
         List<AccessibleTo> accessibleToList = new ArrayList<AccessibleTo>();
-        for (int i = 0; i < accessibleToArray.length; i++)
-        {
-            if (accessibleToArray[i] > 0)
-            {
+        for (int i = 0; i < accessibleToArray.length; i++) {
+            if (accessibleToArray[i] > 0) {
                 accessibleToList.add(AccessibleTo.values()[i]);
             }
         }
@@ -104,22 +88,18 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
     }
 
     @Override
-    public List<AccessCategory> getChildVisibility()
-    {
+    public List<AccessCategory> getChildVisibility() {
         List<AccessCategory> visibilityCategories = new ArrayList<AccessCategory>();
-        for (VisibleTo vt : getVisibleToList())
-        {
+        for (VisibleTo vt : getVisibleToList()) {
             visibilityCategories.add(VisibleTo.translate(vt));
         }
         return visibilityCategories;
     }
 
     @Override
-    public List<AccessCategory> getChildAccessibility()
-    {
+    public List<AccessCategory> getChildAccessibility() {
         List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
-        for (AccessibleTo at : getAccessibleToList())
-        {
+        for (AccessibleTo at : getAccessibleToList()) {
             accessibilityCategories.add(AccessibleTo.translate(at));
         }
         return accessibilityCategories;
@@ -127,69 +107,55 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
 
     // ////////////////////////////////////////////
 
-    public int getTotalFileCount()
-    {
+    public int getTotalFileCount() {
         return totalFileCount;
     }
 
-    public int getChildFileCount()
-    {
+    public int getChildFileCount() {
         return childFileCount;
     }
 
-    public int getTotalFolderCount()
-    {
+    public int getTotalFolderCount() {
         return totalFolderCount;
     }
 
-    public int getChildFolderCount()
-    {
+    public int getChildFolderCount() {
         return childFolderCount;
     }
 
-    public int getCreatorRoleFileCount(CreatorRole creatorRole)
-    {
+    public int getCreatorRoleFileCount(CreatorRole creatorRole) {
         return creatorRoleArray[creatorRole.ordinal()];
     }
 
-    public int getVissibleToFileCount(VisibleTo visibleTo)
-    {
+    public int getVissibleToFileCount(VisibleTo visibleTo) {
         return visibleToArray[visibleTo.ordinal()];
     }
 
-    public int getAccessibleToFileCount(AccessibleTo accessibleTo)
-    {
+    public int getAccessibleToFileCount(AccessibleTo accessibleTo) {
         return accessibleToArray[accessibleTo.ordinal()];
     }
 
-    public void addDescendant(DatasetItem item)
-    {
+    public void addDescendant(DatasetItem item) {
         addRemoveItem(item, true, true);
     }
 
-    public void onChildAdded(DatasetItem item)
-    {
+    public void onChildAdded(DatasetItem item) {
         addRemoveItem(item, false, true);
     }
 
-    public void onChildRemoved(DatasetItem item)
-    {
+    public void onChildRemoved(DatasetItem item) {
         addRemoveItem(item, false, false);
     }
 
-    public void onDescendantRemoved(DatasetItem item)
-    {
+    public void onDescendantRemoved(DatasetItem item) {
         addRemoveItem(item, true, false);
     }
 
-    protected void addRemoveItem(DatasetItem item, boolean descendant, boolean add)
-    {
+    protected void addRemoveItem(DatasetItem item, boolean descendant, boolean add) {
         int count = add ? 1 : -1;
 
-        try
-        {
-            if (item instanceof FileItem)
-            {
+        try {
+            if (item instanceof FileItem) {
                 FileItem fileItem = (FileItem) item;
 
                 if (!descendant) // direct child
@@ -204,9 +170,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
                     visibleToArray[fileItem.getVisibleTo().ordinal()] = Math.max(0, visibleToArray[fileItem.getVisibleTo().ordinal()] + count);
                 if (fileItem.getAccessibleTo() != null)
                     accessibleToArray[fileItem.getAccessibleTo().ordinal()] = Math.max(0, accessibleToArray[fileItem.getAccessibleTo().ordinal()] + count);
-            }
-            else if (item instanceof FolderItem)
-            {
+            } else if (item instanceof FolderItem) {
                 FolderItem folderItem = (FolderItem) item;
 
                 if (!descendant) // direct child
@@ -217,24 +181,20 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
 
                 totalFileCount += (folderItem.getTotalFileCount() * count);
                 totalFolderCount += (folderItem.getTotalFolderCount() * count);
-                for (int i = 0; i < creatorRoleArray.length; i++)
-                {
+                for (int i = 0; i < creatorRoleArray.length; i++) {
                     creatorRoleArray[i] = Math.max(0, creatorRoleArray[i] + (folderItem.getCreatorRoleFileCount(CreatorRole.values()[i]) * count));
                 }
 
-                for (int i = 0; i < visibleToArray.length; i++)
-                {
+                for (int i = 0; i < visibleToArray.length; i++) {
                     visibleToArray[i] = Math.max(0, visibleToArray[i] + (folderItem.getVisibleToFileCount(VisibleTo.values()[i]) * count));
                 }
 
-                for (int i = 0; i < accessibleToArray.length; i++)
-                {
+                for (int i = 0; i < accessibleToArray.length; i++) {
                     accessibleToArray[i] = Math.max(0, accessibleToArray[i] + (folderItem.getAccessibleToFileCount(AccessibleTo.values()[i]) * count));
                 }
             }
         }
-        finally
-        {
+        finally {
             if (childFileCount < 0)
                 childFileCount = 0;
             if (totalFileCount < 0)
@@ -248,67 +208,53 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         }
     }
 
-    protected void onChildStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole)
-    {
-        if (oldCreatorRole != null)
-        {
+    protected void onChildStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole) {
+        if (oldCreatorRole != null) {
             creatorRoleArray[oldCreatorRole.ordinal()]--;
         }
-        if (newCreatorRole != null)
-        {
+        if (newCreatorRole != null) {
             creatorRoleArray[newCreatorRole.ordinal()]++;
         }
         setDirty(true);
     }
 
-    public void onChildStateChange(String oldStreamingPath, String newStreamingPath)
-    {
+    public void onChildStateChange(String oldStreamingPath, String newStreamingPath) {
         setDirty(true);
     }
 
-    protected void onChildStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo)
-    {
-        if (oldVisibleTo != null)
-        {
+    protected void onChildStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo) {
+        if (oldVisibleTo != null) {
             visibleToArray[oldVisibleTo.ordinal()]--;
         }
-        if (newVisibleTo != null)
-        {
+        if (newVisibleTo != null) {
             visibleToArray[newVisibleTo.ordinal()]++;
         }
         setDirty(true);
     }
 
-    protected void onChildStateChange(AccessibleTo oldAcessibleTo, AccessibleTo newAccessibleTo)
-    {
-        if (oldAcessibleTo != null)
-        {
+    protected void onChildStateChange(AccessibleTo oldAcessibleTo, AccessibleTo newAccessibleTo) {
+        if (oldAcessibleTo != null) {
             accessibleToArray[oldAcessibleTo.ordinal()]--;
         }
-        if (newAccessibleTo != null)
-        {
+        if (newAccessibleTo != null) {
             accessibleToArray[newAccessibleTo.ordinal()]++;
         }
         setDirty(true);
     }
 
-    public String getUnitFormat()
-    {
+    public String getUnitFormat() {
         return UNIT_FORMAT;
     }
 
-    public URI getUnitFormatURI()
-    {
+    public URI getUnitFormatURI() {
         return UNIT_FORMAT_URI;
     }
 
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return UNIT_ID;
     }
 
-    public String getUnitLabel()
-    {
+    public String getUnitLabel() {
         return UNIT_LABEL;
     }
 

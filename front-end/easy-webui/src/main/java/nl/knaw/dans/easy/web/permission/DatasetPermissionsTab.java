@@ -31,8 +31,7 @@ import org.apache.wicket.model.StringResourceModel;
 /**
  * Tab for a depositor with an overview of permission requests on his/her data set.
  */
-public class DatasetPermissionsTab extends AbstractDatasetModelPanel
-{
+public class DatasetPermissionsTab extends AbstractDatasetModelPanel {
     private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +42,7 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     // PBoon: use 50 for now
     public static int MAX_REQUESTS_IN_LIST = 50;
 
-    public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user, final AbstractEasyPage currentPage)
-    {
+    public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user, final AbstractEasyPage currentPage) {
         super(panelId, datasetModel);
         final List<PermissionSequence> requests = datasetModel.getObject().getPermissionSequenceList().getPermissionSequences();
 
@@ -56,8 +54,7 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
                 "requester.displayName")
         {
             @Override
-            protected void onClick(IModel<PermissionSequence> clicked)
-            {
+            protected void onClick(IModel<PermissionSequence> clicked) {
                 // The dataset is not in de contextparameters, add it because the authorization needs it.
                 getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
                 PermissionReplyPage permissionReplyPage = new PermissionReplyPage(datasetModel, currentPage, clicked.getObject());
@@ -69,13 +66,11 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
         columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("requester.department", this, null), "requester.department",
                 "requester.department"));
         columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("state", this, null), "state", "state"));
-        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("lastStateChange", this, null), "lastStateChange", "lastStateChange")
-        {
+        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("lastStateChange", this, null), "lastStateChange", "lastStateChange") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void populateItem(Item<ICellPopulator<PermissionSequence>> item, String componentId, IModel<PermissionSequence> rowModel)
-            {
+            public void populateItem(Item<ICellPopulator<PermissionSequence>> item, String componentId, IModel<PermissionSequence> rowModel) {
                 PermissionSequence sequence = rowModel.getObject();
                 item.add(new DateTimeLabel(componentId, getString(DATE_TIME_FORMAT), new Model(sequence.getLastStateChange())));
             }

@@ -7,8 +7,7 @@ import java.net.URI;
  * 
  * @author ecco Oct 9, 2009
  */
-public interface MetadataUnit extends Unit, TimestampedMinimalXMLBean
-{
+public interface MetadataUnit extends Unit, TimestampedMinimalXMLBean {
 
     String getUnitFormat();
 

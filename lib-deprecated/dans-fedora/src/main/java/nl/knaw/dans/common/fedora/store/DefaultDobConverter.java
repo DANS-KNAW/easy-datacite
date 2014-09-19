@@ -11,23 +11,19 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 
 import org.dom4j.Element;
 
-public class DefaultDobConverter extends AbstractDobConverter<DataModelObject>
-{
+public class DefaultDobConverter extends AbstractDobConverter<DataModelObject> {
 
     public static String NO_NAMESPACE = "no-namespace";
 
-    public DefaultDobConverter()
-    {
+    public DefaultDobConverter() {
         super(new DmoNamespace(NO_NAMESPACE));
     }
 
     @Override
-    public void deserialize(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException
-    {
+    public void deserialize(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException {
         super.deserialize(dob, dmo);
         DmoFactory<?> factory = AbstractDmoFactory.factoryFor(dmo.getDmoNamespace());
-        for (Datastream datastream : dob.getDatastreams())
-        {
+        for (Datastream datastream : dob.getDatastreams()) {
             String mdUnitId = datastream.getStreamId();
             DatastreamVersion version = datastream.getLatestVersion();
             Element element = version.getXmlContentElement();

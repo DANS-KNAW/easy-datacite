@@ -20,11 +20,9 @@ import org.easymock.EasyMock;
  * Mocks http://easy.dans.knaw.nl:8080/fedora/objects/easy-dlh:36028/datastreams/DLHL/content <br>
  * to replicate https://drivenbydata.atlassian.net/browse/EASY-560 <br>
  * <br>
- * User IDs are altered, but the LogMyActions flags match. Files are visible for anonymous anyway, so no
- * further need for scrambling the data.
+ * User IDs are altered, but the LogMyActions flags match. Files are visible for anonymous anyway, so no further need for scrambling the data.
  */
-public class MockedDLHL36028
-{
+public class MockedDLHL36028 {
 
     private static final Integer[] NR_OF_FILES_PER_ROW = {1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1};
     private static final String ARCHIVIST_EXPECTATION = ""
@@ -67,14 +65,12 @@ public class MockedDLHL36028
     private final UserService userService;
     private EasyUser sessionUser;
 
-    public MockedDLHL36028(final UserService userService, final EasyUser sessionUser)
-    {
+    public MockedDLHL36028(final UserService userService, final EasyUser sessionUser) {
         this.userService = userService;
         this.sessionUser = sessionUser;
     }
 
-    public DownloadList getList() throws Exception
-    {
+    public DownloadList getList() throws Exception {
         final byte[] data = FileUtil.readFile(new File("src/test/resources/mock-xml/issue560-dlh36028.xml"));
 
         // assertions deduce the display name from the email, so exactly one dot in the name portion
@@ -104,19 +100,16 @@ public class MockedDLHL36028
         EasyMock.expect(userService.getUserById(eq(sessionUser), eq(id))).andStubReturn(user);
     }
 
-    public static Integer[] getNrOfFilesPerRow()
-    {
+    public static Integer[] getNrOfFilesPerRow() {
         return NR_OF_FILES_PER_ROW;
     }
 
-    public static String getArchivistExpectation()
-    {
+    public static String getArchivistExpectation() {
         // a getter prevents the need for recompiling (clear project) when the value changes
         return ARCHIVIST_EXPECTATION;
     }
 
-    public static String getDepositorExpectation()
-    {
+    public static String getDepositorExpectation() {
         // expectations are formatted as download but is also used to test the panel content
         return DEPOSITOR_EXPECTATION;
     }

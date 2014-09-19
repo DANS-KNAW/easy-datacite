@@ -20,8 +20,7 @@ import org.junit.runners.Parameterized.Parameters;
  * @author Herman Suijs
  */
 @RunWith(Parameterized.class)
-public class PasswordPolicyValidatorTest
-{
+public class PasswordPolicyValidatorTest {
     /**
      * Password to test.
      */
@@ -40,8 +39,7 @@ public class PasswordPolicyValidatorTest
      * @param valid
      *        true if password is valid
      */
-    public PasswordPolicyValidatorTest(String password, boolean valid)
-    {
+    public PasswordPolicyValidatorTest(String password, boolean valid) {
         super();
         this.password = password;
         this.valid = valid;
@@ -54,8 +52,7 @@ public class PasswordPolicyValidatorTest
      * @return collection of passwords
      */
     @Parameters
-    public static Collection<Object[]> getValidPasswords()
-    {
+    public static Collection<Object[]> getValidPasswords() {
         return Arrays.asList(new Object[][] { {"test1ValidPa$$", true}, {"an0th3rP@ssword", true}, {"invalid", false}, {"invalidpassword", false},
                 {"invalidPassword", false}, {"1nvalid", false}, {"noDig1Ts", false}, {"n0Sp3cialChars", false}, {"N0LOWERCASE#", false},
                 {"n0uppercase&", false}});
@@ -66,14 +63,12 @@ public class PasswordPolicyValidatorTest
      * Test valid passwords.
      */
     @Test
-    public void testValidPasswords()
-    {
+    public void testValidPasswords() {
         IValidatable validatable = EasyMock.createMock(IValidatable.class);
 
         EasyMock.expect(validatable.getValue()).andReturn(this.password).anyTimes();
 
-        if (!this.valid)
-        {
+        if (!this.valid) {
             validatable.error((IValidationError) EasyMock.anyObject());
             EasyMock.expectLastCall().anyTimes();
         }
@@ -89,8 +84,7 @@ public class PasswordPolicyValidatorTest
     /**
      * Test invalid passwords.
      */
-    public void testInvalidPasswords()
-    {
+    public void testInvalidPasswords() {
         IValidatable validatable = EasyMock.createMock(IValidatable.class);
 
         EasyMock.expect(validatable.getValue()).andReturn("testPassword@").anyTimes();

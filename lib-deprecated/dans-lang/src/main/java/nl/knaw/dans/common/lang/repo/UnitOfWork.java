@@ -8,13 +8,12 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 
 /**
- * Maintains a list of objects affected by a business transaction and coordinates the writing out of
- * changes to a store, database or repository. (partly from Fowler).
+ * Maintains a list of objects affected by a business transaction and coordinates the writing out of changes to a store, database or repository. (partly from
+ * Fowler).
  * 
  * @author ecco Oct 29, 2009
  */
-public interface UnitOfWork extends Serializable
-{
+public interface UnitOfWork extends Serializable {
     void addListener(UnitOfWorkListener listener);
 
     void addListeners(UnitOfWorkListener... unitOfWorkListeners);

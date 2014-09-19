@@ -12,8 +12,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
-public abstract class SkeletonPanel extends AbstractEasyPanel
-{
+public abstract class SkeletonPanel extends AbstractEasyPanel {
 
     private static final long serialVersionUID = -8285574501580736346L;
 
@@ -28,13 +27,11 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
 
     private StandardPanelDefinition panelDefinition;
 
-    public SkeletonPanel(final String id)
-    {
+    public SkeletonPanel(final String id) {
         super(id);
     }
 
-    public SkeletonPanel(final String id, final IModel<EasyMetadata> model)
-    {
+    public SkeletonPanel(final String id, final IModel<EasyMetadata> model) {
         super(id, model);
     }
 
@@ -44,10 +41,8 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
      * @param definition
      *        definition to set
      */
-    public void setPanelDefinition(final StandardPanelDefinition definition)
-    {
-        if (isInitiated())
-        {
+    public void setPanelDefinition(final StandardPanelDefinition definition) {
+        if (isInitiated()) {
             throw new IllegalStateException("Cannot set representation state after rendering.");
         }
         this.panelDefinition = definition;
@@ -57,8 +52,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
         this.required = definition.isRequired();
     }
 
-    public StandardPanelDefinition getPanelDefinition()
-    {
+    public StandardPanelDefinition getPanelDefinition() {
         return panelDefinition;
     }
 
@@ -67,10 +61,8 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
      * 
      * @param helpItem
      */
-    public void setHelpItem(final String helptem)
-    {
-        if (isInitiated())
-        {
+    public void setHelpItem(final String helptem) {
+        if (isInitiated()) {
             throw new IllegalStateException("Cannot set representation state after rendering.");
         }
         this.helpItem = helptem;
@@ -82,22 +74,18 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
      * @param required
      *        <code>true</code> if required, <code>false</code> otherwise
      */
-    public void setRequired(final boolean required)
-    {
-        if (isInitiated())
-        {
+    public void setRequired(final boolean required) {
+        if (isInitiated()) {
             throw new IllegalStateException("Cannot set representation state after rendering.");
         }
         this.required = required;
     }
 
-    public boolean isInEditMode()
-    {
+    public boolean isInEditMode() {
         return inEditMode;
     }
 
-    public void setInEditMode(final boolean editMode)
-    {
+    public void setInEditMode(final boolean editMode) {
         // TODO fix violation by RecursivePanel in case of refresh of any deposit panel
         // if (isInitiated())
         // {
@@ -106,8 +94,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
         this.inEditMode = editMode;
     }
 
-    public boolean takesErrorMessages()
-    {
+    public boolean takesErrorMessages() {
         return isInEditMode();
     }
 
@@ -116,59 +103,49 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
      * 
      * @return <code>true</code> if initiated, <code>false</code> otherwise
      */
-    protected boolean isInitiated()
-    {
+    protected boolean isInitiated() {
         return initiated;
     }
 
     /**
      * Set the state of this SkeletonPanel to initiated, after rendering.
      */
-    protected void setInitiated()
-    {
+    protected void setInitiated() {
         initiated = true;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!isInitiated())
-        {
+    protected void onBeforeRender() {
+        if (!isInitiated()) {
             init();
             setInitiated();
         }
         super.onBeforeRender();
     }
 
-    protected void init()
-    {
+    protected void init() {
         add(createFeedbackPanel());
         add(createSimpleLabel());
         add(createShortHelp());
     }
 
-    private Label createShortHelp()
-    {
+    private Label createShortHelp() {
         final Label label = new Label("shortHelp", new ResourceModel(shortHelpResourceKey, ""));
         label.setEscapeModelStrings(false);
         return label;
     }
 
-    private SimpleLabelPanel createSimpleLabel()
-    {
+    private SimpleLabelPanel createSimpleLabel() {
         final SimpleLabelPanel panel = new SimpleLabelPanel("label", labelResourceKey, helpItem, required);
         panel.setPopUpButtonIsVisible(isInEditMode());
         return panel;
     }
 
-    private FeedbackPanel createFeedbackPanel()
-    {
-        return new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter()
-        {
+    private FeedbackPanel createFeedbackPanel() {
+        return new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter() {
             private static final long serialVersionUID = 6414413128618876823L;
 
-            public boolean accept(final FeedbackMessage message)
-            {
+            public boolean accept(final FeedbackMessage message) {
                 if (message.getReporter() == null)
                     return false;
                 final String reporterPath = message.getReporter().getPath();

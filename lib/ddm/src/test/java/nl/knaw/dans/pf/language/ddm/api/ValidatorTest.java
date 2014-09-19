@@ -10,12 +10,10 @@ import nl.knaw.dans.pf.language.xml.validation.XMLValidator;
 
 import org.junit.Test;
 
-public class ValidatorTest
-{
+public class ValidatorTest {
 
     @Test
-    public void testValidation() throws Exception
-    {
+    public void testValidation() throws Exception {
         // XMLErrorHandler handler = DDMValidator.instance().validate(
         // new File("src/test/resources/input/spatial.xml"), "bla");
         // System.err.println(handler.getMessages());

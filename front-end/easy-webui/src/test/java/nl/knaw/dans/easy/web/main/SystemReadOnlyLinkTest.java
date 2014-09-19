@@ -25,47 +25,37 @@ import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
 
-public class SystemReadOnlyLinkTest
-{
+public class SystemReadOnlyLinkTest {
     private static EasyApplicationContextMock applicationContext;
     private static Object initialAnonymousUser;
 
-    public static class TestPanel extends Panel
-    {
+    public static class TestPanel extends Panel {
         private static final long serialVersionUID = 1L;
 
-        public TestPanel(String id)
-        {
+        public TestPanel(String id) {
             super(id);
             add(new SystemReadOnlyLink());
         }
     }
 
-    public static class TestNestedPage extends AbstractEasyPage
-    {
-        public TestNestedPage()
-        {
+    public static class TestNestedPage extends AbstractEasyPage {
+        public TestNestedPage() {
             add(new TestPanel("panel"));
         }
     }
 
-    public static class TestPage extends AbstractEasyPage
-    {
-        public TestPage()
-        {
+    public static class TestPage extends AbstractEasyPage {
+        public TestPage() {
             add(new SystemReadOnlyLink());
         }
     }
 
     @Test
-    public void noSecurityOfficerForPanel()
-    {
-        try
-        {
+    public void noSecurityOfficerForPanel() {
+        try {
             createTester().startPage(TestNestedPage.class);
         }
-        catch (WicketRuntimeException e)
-        {
+        catch (WicketRuntimeException e) {
             // TODO rather something like:
             // assertThat(e.getCause().getClass(), isThrowable(SecurityException.class));
             String message = "expected cause " + SecurityException.class.getName() + " but got " + e.getCause().getClass().getName();
@@ -74,16 +64,14 @@ public class SystemReadOnlyLinkTest
     }
 
     @Test
-    public void linkInvisibleForAnonymous()
-    {
+    public void linkInvisibleForAnonymous() {
         EasyWicketTester tester = createTester();
         tester.startPage(TestPage.class);
         tester.assertInvisible(WICKET_ID_LINK);
     }
 
     @Test
-    public void linkInvisibleWithoutAdminRole()
-    {
+    public void linkInvisibleWithoutAdminRole() {
         EasyWicketTester tester = createTester();
         Whitebox.setInternalState(tester.getWicketSession(), EasyUser.class, mockAnonymousAsActiveUser(false));
         PowerMock.replayAll();
@@ -93,8 +81,7 @@ public class SystemReadOnlyLinkTest
     }
 
     @Test
-    public void adminClicksLink()
-    {
+    public void adminClicksLink() {
         EasyWicketTester tester = createTester();
         Whitebox.setInternalState(tester.getWicketSession(), EasyUser.class, mockAnonymousAsActiveUser(true));
         PowerMock.replayAll();
@@ -114,8 +101,7 @@ public class SystemReadOnlyLinkTest
         tester.assertLabel(labelPath, "system allows read and write");
     }
 
-    private EasyWicketTester createTester()
-    {
+    private EasyWicketTester createTester() {
         EasyWicketTester tester = EasyWicketTester.create(applicationContext);
 
         // tell resource locator were to find test HTML
@@ -125,8 +111,7 @@ public class SystemReadOnlyLinkTest
     }
 
     @BeforeClass
-    public static void mockApplicationContext() throws Exception
-    {
+    public static void mockApplicationContext() throws Exception {
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.properties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
@@ -140,8 +125,7 @@ public class SystemReadOnlyLinkTest
         initialAnonymousUser = EasyUserAnonymous.getInstance();
     }
 
-    private EasyUserAnonymous mockAnonymousAsActiveUser(boolean isAdmin)
-    {
+    private EasyUserAnonymous mockAnonymousAsActiveUser(boolean isAdmin) {
         EasyUserAnonymous admin = PowerMock.createMock(EasyUserAnonymous.class);
         EasyMock.expect(admin.isAnonymous()).andStubReturn(false);
         EasyMock.expect(admin.isActive()).andStubReturn(true);
@@ -152,8 +136,7 @@ public class SystemReadOnlyLinkTest
     }
 
     @After
-    public void resetAnonymousUser()
-    {
+    public void resetAnonymousUser() {
         Whitebox.setInternalState(EasyUserAnonymous.class, EasyUserAnonymous.getInstance(), initialAnonymousUser);
     }
 }

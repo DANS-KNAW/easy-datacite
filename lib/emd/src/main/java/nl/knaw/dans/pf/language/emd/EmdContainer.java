@@ -11,8 +11,7 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * 
  * @author ecco
  */
-public interface EmdContainer extends EmdBean, Serializable
-{
+public interface EmdContainer extends EmdBean, Serializable {
 
     /**
      * Get a list of terms this container contains.
@@ -22,10 +21,9 @@ public interface EmdContainer extends EmdBean, Serializable
     List<Term> getTerms();
 
     /**
-     * Get the list of the specified term. This method checks all contained lists against the name and
-     * the name space of the given term and returns the list, if found. If a term with no name space is
-     * given, the method checks all contained lists against the name, indiscriminate of name space, and
-     * returns an aggregated list of all the lists found.
+     * Get the list of the specified term. This method checks all contained lists against the name and the name space of the given term and returns the list, if
+     * found. If a term with no name space is given, the method checks all contained lists against the name, indiscriminate of name space, and returns an
+     * aggregated list of all the lists found.
      * 
      * @param term
      *        specifies which list to get
@@ -36,8 +34,8 @@ public interface EmdContainer extends EmdBean, Serializable
     List<MetadataItem> get(Term term) throws NoSuchTermException;
 
     /**
-     * Get the list of items of the given term name. The method checks all contained lists against the
-     * name, indiscriminate of name space, and returns an aggregated list of all the lists found.
+     * Get the list of items of the given term name. The method checks all contained lists against the name, indiscriminate of name space, and returns an
+     * aggregated list of all the lists found.
      * 
      * @param termName
      *        the term name to get the list of
@@ -55,9 +53,8 @@ public interface EmdContainer extends EmdBean, Serializable
     List<String> getValues();
 
     /**
-     * Tells if this container has items or not. This method complies to the general contract of
-     * {@link List#isEmpty()}, meaning that if there are any null-items contained in this container it is
-     * not empty.
+     * Tells if this container has items or not. This method complies to the general contract of {@link List#isEmpty()}, meaning that if there are any
+     * null-items contained in this container it is not empty.
      * 
      * @return <code>true</code> if this container is empty, <code>false</code> otherwise
      */
@@ -71,16 +68,14 @@ public interface EmdContainer extends EmdBean, Serializable
     int size();
 
     /**
-     * Get a string-representation of this container. Items are separated with the
-     * {@link EasyMetadata#DEFAULT_ITEM_SEPARATOR}.
+     * Get a string-representation of this container. Items are separated with the {@link EasyMetadata#DEFAULT_ITEM_SEPARATOR}.
      * 
      * @return a string-representation of this container
      */
     String toString();
 
     /**
-     * Get a string-representation of this container, consisting of the items of this container separated
-     * with <code>separator</code>.
+     * Get a string-representation of this container, consisting of the items of this container separated with <code>separator</code>.
      * 
      * @param separator
      *        the string used to separate the items of this container
@@ -91,18 +86,16 @@ public interface EmdContainer extends EmdBean, Serializable
     /**
      * This method has two forms:
      * <ul>
-     * <li>If <code>includeTerm is false</code>: Get a string-representation of this container,
-     * consisting of the items of this container separated with <code>separator</code>.</li>
-     * <li>If <code>includeTerm is true</code>: Get a string-representation of this container, consisting
-     * of name, name space and the items of this container separated with <code>separator</code>. Each
-     * term is separated with the {@link EasyMetadata#DEFAULT_LINE_SEPERATOR} .</li>
+     * <li>If <code>includeTerm is false</code>: Get a string-representation of this container, consisting of the items of this container separated with
+     * <code>separator</code>.</li>
+     * <li>If <code>includeTerm is true</code>: Get a string-representation of this container, consisting of name, name space and the items of this container
+     * separated with <code>separator</code>. Each term is separated with the {@link EasyMetadata#DEFAULT_LINE_SEPERATOR} .</li>
      * </ul>
      * 
      * @param separator
      *        the separator to use
      * @param includeTerm
-     *        <code>true</code> if name and name space of the term should be included, <code>false</code>
-     *        otherwise
+     *        <code>true</code> if name and name space of the term should be included, <code>false</code> otherwise
      * @return a string-representation of this container
      */
     String toString(String separator, boolean includeTerm);

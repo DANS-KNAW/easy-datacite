@@ -18,14 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Shows the list of selected criteria and makes it possible for a user to remove one or more of these
- * criteria. This panel does not update the SearchModel when it gets dirty, but does dirty the
- * SearchModel.
+ * Shows the list of selected criteria and makes it possible for a user to remove one or more of these criteria. This panel does not update the SearchModel when
+ * it gets dirty, but does dirty the SearchModel.
  * 
  * @author lobo
  */
-public class SearchCriteriaPanel extends BaseSearchPanel
-{
+public class SearchCriteriaPanel extends BaseSearchPanel {
     private static final long serialVersionUID = 713695445090703764L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchCriteriaPanel.class);
 
@@ -33,18 +31,15 @@ public class SearchCriteriaPanel extends BaseSearchPanel
 
     private boolean firstCriteriumDisabled;
 
-    public SearchCriteriaPanel(String wicketId, SearchModel model)
-    {
+    public SearchCriteriaPanel(String wicketId, SearchModel model) {
         super(wicketId, model);
 
         firstCriteriumDisabled = getCriteria().size() > 0;
 
-        add(new ListView<SearchCriterium>("criteriumLinks", new AbstractReadOnlyModel<List<SearchCriterium>>()
-        {
+        add(new ListView<SearchCriterium>("criteriumLinks", new AbstractReadOnlyModel<List<SearchCriterium>>() {
             private static final long serialVersionUID = 1L;
 
-            public List<SearchCriterium> getObject()
-            {
+            public List<SearchCriterium> getObject() {
                 return getCriteria();
             }
         })
@@ -52,8 +47,7 @@ public class SearchCriteriaPanel extends BaseSearchPanel
             private static final long serialVersionUID = 4136872716659659458L;
 
             @Override
-            protected void populateItem(final ListItem<SearchCriterium> item)
-            {
+            protected void populateItem(final ListItem<SearchCriterium> item) {
                 final SearchCriterium criterium = item.getModelObject();
 
                 // @formatter:off
@@ -90,21 +84,18 @@ public class SearchCriteriaPanel extends BaseSearchPanel
                 // @formatter:on
                 item.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
 
-                item.add(new Link("removeLink")
-                {
+                item.add(new Link("removeLink") {
                     private static final long serialVersionUID = -1063707405830738778L;
 
                     {
                         add(new Image("closeImage", new ResourceReference(SearchCriteriaPanel.class, "close-icon.png")));
                     }
 
-                    public void onClick()
-                    {
+                    public void onClick() {
                         getRequestBuilder().removeCriterium(criterium);
                     };
 
-                    public boolean isVisible()
-                    {
+                    public boolean isVisible() {
                         return !(criterium instanceof InitialSearchCriterium);
                     };
                 });
@@ -114,29 +105,23 @@ public class SearchCriteriaPanel extends BaseSearchPanel
         });
     }
 
-    private List<SearchCriterium> getCriteria()
-    {
+    private List<SearchCriterium> getCriteria() {
         return getRequestBuilder().getCriteria();
     }
 
-    private int getCriteriaIdx(SearchCriterium criterium)
-    {
+    private int getCriteriaIdx(SearchCriterium criterium) {
         List<SearchCriterium> criteria = getCriteria();
         int idx = criteria.indexOf(criterium);
-        if (idx >= 0)
-        {
+        if (idx >= 0) {
             return idx;
-        }
-        else
-        {
+        } else {
             LOGGER.error("Could not find criterium " + getModelObject().toString());
             throw new InternalWebError();
         }
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         int criteria = getCriteria().size();
         int hits = getSearchResult().getTotalHits();
         return !(criteria <= 1 && hits == 0);

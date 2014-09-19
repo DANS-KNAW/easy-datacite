@@ -6,9 +6,8 @@ import java.util.List;
 import nl.knaw.dans.common.lang.search.FacetValue;
 
 /**
- * A facet value collapser can be used to display facet values as part of a hierarchy. The facet values
- * come in as a single flat list (unfortunately solr 1.4 does not support hierarchical facets). Then the
- * implementor of this object takes those original values and collapses them all for a single node in the
+ * A facet value collapser can be used to display facet values as part of a hierarchy. The facet values come in as a single flat list (unfortunately solr 1.4
+ * does not support hierarchical facets). Then the implementor of this object takes those original values and collapses them all for a single node in the
  * hierarchy (the selected value). An example: if I have a hierarchy of:
  * 
  * <pre>
@@ -51,14 +50,12 @@ import nl.knaw.dans.common.lang.search.FacetValue;
  *  D = 2
  * </pre>
  * 
- * It is up to the implementor of this interface to understand the hierarchy and how the values map onto
- * it.
+ * It is up to the implementor of this interface to understand the hierarchy and how the values map onto it.
  * 
  * @param <T>
  *        the facet value type
  * @author lobo
  */
-public interface FacetValueCollapser<T> extends Serializable
-{
+public interface FacetValueCollapser<T> extends Serializable {
     List<CollapsedFacetValue<T>> collapse(List<FacetValue<T>> originalValues, FacetValue<T> selectedValue);
 }

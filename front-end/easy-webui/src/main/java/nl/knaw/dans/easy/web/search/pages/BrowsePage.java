@@ -27,14 +27,12 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BrowsePage extends AbstractSearchPage
-{
+public class BrowsePage extends AbstractSearchPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BrowsePage.class);
 
     private Class<? extends AbstractSearchResultPage> resultPage;
 
-    public BrowsePage()
-    {
+    public BrowsePage() {
         this.resultPage = isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class;
 
         ResourceModel clabelModel;
@@ -48,34 +46,28 @@ public class BrowsePage extends AbstractSearchPage
         setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
     }
 
-    public BrowsePage(SearchModel model, Class<? extends AbstractSearchResultPage> resultPage)
-    {
+    public BrowsePage(SearchModel model, Class<? extends AbstractSearchResultPage> resultPage) {
         super(model);
         this.resultPage = resultPage;
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         add(Style.SEARCH_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
-        add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig())
-        {
+        add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig()) {
             private static final long serialVersionUID = 6303400676242763157L;
 
             @Override
-            public SearchResult<?> search(SimpleSearchRequest request)
-            {
-                try
-                {
+            public SearchResult<?> search(SimpleSearchRequest request) {
+                try {
                     if (resultPage.equals(SearchAllSearchResultPage.class))
                         return Services.getSearchService().searchAll(request, getSessionUser());
                     else
                         return Services.getSearchService().searchPublished(request, getSessionUser());
                 }
-                catch (ServiceException e)
-                {
+                catch (ServiceException e) {
                     String msg = errorMessage(EasyResources.BROWSE_SEARCH_FAILURE);
                     LOGGER.error(msg, e);
                     throw new InternalWebError();
@@ -83,15 +75,13 @@ public class BrowsePage extends AbstractSearchPage
             }
 
             @Override
-            public void onShowButtonClicked(SearchModel model)
-            {
+            public void onShowButtonClicked(SearchModel model) {
                 setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
             }
         });
     }
 
-    protected BrowseConfig getBrowseConfig()
-    {
+    protected BrowseConfig getBrowseConfig() {
         List<FacetConfig> facetConfigs = new ArrayList<FacetConfig>();
 
         FacetConfig facetConfig;
@@ -110,8 +100,7 @@ public class BrowsePage extends AbstractSearchPage
         facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
         facetConfigs.add(facetConfig);
 
-        if (resultPage.equals(SearchAllSearchResultPage.class))
-        {
+        if (resultPage.equals(SearchAllSearchResultPage.class)) {
             facetConfig = new FacetConfig(EasyDatasetSB.DS_STATE_FIELD);
             facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
             facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());

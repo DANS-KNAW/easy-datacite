@@ -10,8 +10,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VersionPanel extends Panel
-{
+public class VersionPanel extends Panel {
 
     private static final String UNKNOWN = "unknown";
 
@@ -26,91 +25,70 @@ public class VersionPanel extends Panel
 
     private boolean initiated;
 
-    public VersionPanel(String id)
-    {
+    public VersionPanel(String id) {
         super(id);
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         add(new Label("version", getVersion()));
         add(new Label("buildDate", getBuildDate()));
     }
 
-    public static String getVersion()
-    {
-        if (version == null)
-        {
+    public static String getVersion() {
+        if (version == null) {
             version = getVersionProps().getProperty("easy.version", UNKNOWN);
-            if ("${project.version}".equals(version))
-            {
+            if ("${project.version}".equals(version)) {
                 version = UNKNOWN;
             }
         }
         return version;
     }
 
-    public static String getBuildDate()
-    {
-        if (buildDate == null)
-        {
+    public static String getBuildDate() {
+        if (buildDate == null) {
             String buildTime = getVersionProps().getProperty("easy.buildTime");
-            if (buildTime == null || "${timestamp}".equals(buildTime))
-            {
+            if (buildTime == null || "${timestamp}".equals(buildTime)) {
                 buildDate = UNKNOWN;
-            }
-            else
-            {
+            } else {
                 buildDate = buildTime;
             }
         }
         return buildDate;
     }
 
-    public static Properties getVersionProps()
-    {
-        if (versionProps == null)
-        {
-            try
-            {
+    public static Properties getVersionProps() {
+        if (versionProps == null) {
+            try {
                 loadVersionProps();
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 logger.error("Unable to close InputStream: ", e);
             }
         }
         return versionProps;
     }
 
-    private static void loadVersionProps() throws IOException
-    {
+    private static void loadVersionProps() throws IOException {
         versionProps = new Properties();
         InputStream inStream = null;
-        try
-        {
+        try {
             inStream = VersionPanel.class.getClassLoader().getResourceAsStream(VERSION_FILE);
             versionProps.load(inStream);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             logger.error("Unable to load version properties: ", e);
         }
-        finally
-        {
-            if (inStream != null)
-            {
+        finally {
+            if (inStream != null) {
                 inStream.close();
             }
         }

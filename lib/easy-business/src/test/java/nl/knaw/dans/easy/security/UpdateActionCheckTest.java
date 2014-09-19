@@ -13,14 +13,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UpdateActionCheckTest
-{
+public class UpdateActionCheckTest {
 
     private static final Logger logger = LoggerFactory.getLogger(UpdateActionCheckTest.class);
 
     @Test
-    public void explain()
-    {
+    public void explain() {
         SecurityOfficer officer = new UpdateActionCheck(Action.DELETE, Action.RENAME);
         UpdateInfo info = new UpdateInfo();
         info.updateAccessibleTo(AccessibleTo.KNOWN);

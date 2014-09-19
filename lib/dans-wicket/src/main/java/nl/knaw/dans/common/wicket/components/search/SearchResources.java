@@ -5,8 +5,7 @@ package nl.knaw.dans.common.wicket.components.search;
  * 
  * @author lobo
  */
-public interface SearchResources
-{
+public interface SearchResources {
     String SEARCHRESULTPANEL_CRITERIUMTEXT_REFINE_SEARCH = "searchresultpanel.refine_search";
 
     String RI_RESULTMESSAGE = "searchresultpanel.resultMessage";

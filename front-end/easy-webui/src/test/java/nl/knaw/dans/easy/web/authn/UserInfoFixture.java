@@ -26,8 +26,7 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import org.junit.After;
 import org.junit.Before;
 
-public class UserInfoFixture
-{
+public class UserInfoFixture {
 
     protected EasyApplicationContextMock applicationContext;
     protected EasyUserImpl shownUser;
@@ -35,8 +34,7 @@ public class UserInfoFixture
     protected FederativeUserRepo mockdFederativeUserRepo;
 
     @Before
-    public void mockApplicationContext() throws Exception
-    {
+    public void mockApplicationContext() throws Exception {
         final String shownUserId = "shownUserId";
         shownUser = new EasyUserImpl(shownUserId);
         shownUser.setInitials("s.");
@@ -59,8 +57,7 @@ public class UserInfoFixture
     }
 
     /** Mock drop-down list for a discipline. */
-    private DepositService mockDespositChoices() throws ServiceException
-    {
+    private DepositService mockDespositChoices() throws ServiceException {
         final ArrayList<KeyValuePair> choices = new ArrayList<KeyValuePair>();
         choices.add(new KeyValuePair("custom.Disciplines", "mockedDisciplines"));
 
@@ -70,8 +67,7 @@ public class UserInfoFixture
     }
 
     @After
-    public void verify()
-    {
+    public void verify() {
         verifyAll();
         resetAll();
     }

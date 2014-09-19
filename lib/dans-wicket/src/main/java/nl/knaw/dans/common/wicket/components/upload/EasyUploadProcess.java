@@ -23,15 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo This object is the upload workflow controller. It has an UploadStatus object which is the
- *         model. It's role is not only to keep the UploadStatus object up to date but also to handle the
- *         different steps of the uploading process. It delegates this action to the an
- *         UploadPostProcessThread, staying in close contact. This class does its own error handling; it
- *         does not throw exceptions. It is assumed to be used from within an ajax or multi-part upload
- *         environment.
+ * @author lobo This object is the upload workflow controller. It has an UploadStatus object which is the model. It's role is not only to keep the UploadStatus
+ *         object up to date but also to handle the different steps of the uploading process. It delegates this action to the an UploadPostProcessThread,
+ *         staying in close contact. This class does its own error handling; it does not throw exceptions. It is assumed to be used from within an ajax or
+ *         multi-part upload environment.
  */
-public class EasyUploadProcess
-{
+public class EasyUploadProcess {
     private static final Logger LOG = LoggerFactory.getLogger(EasyUploadProcess.class);
 
     private final Integer uploadId;
@@ -56,8 +53,7 @@ public class EasyUploadProcess
 
     private UploadPostProcessRunner postProcessorThread = null;
 
-    public EasyUploadProcess(Integer uploadId, String filename, Map<String, String> clientParams, EasyUpload easyUpload)
-    {
+    public EasyUploadProcess(Integer uploadId, String filename, Map<String, String> clientParams, EasyUpload easyUpload) {
         this.uploadId = uploadId;
         this.filename = FileUtil.getBasicFilename(filename);
         this.easyUpload = easyUpload;
@@ -72,16 +68,14 @@ public class EasyUploadProcess
         steps = postProcessesors.size();
     }
 
-    public EasyUploadStatus getStatus()
-    {
+    public EasyUploadStatus getStatus() {
         // the upload process is set to finished after the postProcessorThread finished
         if (status.isFinished())
             return status;
 
         // update status according to postProcessing if process not finished and thread
         // still exists
-        if (postProcessorThread != null)
-        {
+        if (postProcessorThread != null) {
             UploadStatus poststat = postProcessorThread.getStatus();
             status.setPercentComplete(poststat.getPercentComplete());
             if (poststat.isError())
@@ -95,8 +89,7 @@ public class EasyUploadProcess
         return status;
     }
 
-    private String getStepMessage()
-    {
+    private String getStepMessage() {
         int currentStep = 1;
         if (postProcessorThread != null)
             currentStep = postProcessorThread.getCurrentStep();
@@ -107,40 +100,33 @@ public class EasyUploadProcess
         return "(step " + currentStep + "/" + steps + ")";
     }
 
-    protected void error(String userMessage, Exception e)
-    {
+    protected void error(String userMessage, Exception e) {
         if (e != null)
             LOG.error(e.getMessage(), e);
         status.setError(userMessage);
         rollBack();
     }
 
-    protected void error(String userMessage, String logMessage)
-    {
+    protected void error(String userMessage, String logMessage) {
         LOG.error(logMessage);
         error(userMessage, (Exception) null);
     }
 
-    public void onUploadStarted(int totalBytes)
-    {
+    public void onUploadStarted(int totalBytes) {
         setPercentage(0);
     }
 
-    public void onUploadUpdate(int bytesUploaded, int total)
-    {
+    public void onUploadUpdate(int bytesUploaded, int total) {
         int percent = new Double((double) bytesUploaded / total * 100.00).intValue();
         setPercentage(percent);
     }
 
-    private String dump(String s)
-    {
+    private String dump(String s) {
         return s + Arrays.toString(s.toCharArray()) + Arrays.toString(s.getBytes());
     }
 
-    public void onUploadCompleted(FileItem file)
-    {
-        if (canceled)
-        {
+    public void onUploadCompleted(FileItem file) {
+        if (canceled) {
             LOG.info("Rolling back upload for file: '" + filename + "'");
             file.delete();
             return;
@@ -154,8 +140,7 @@ public class EasyUploadProcess
         String uploadedFilename = FileUtil.getBasicFilename(file.getName());
         // String uploadedFilename = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()),
         // Normalizer.Form.NFC);
-        if (!uploadedFilename.equals(filename))
-        {
+        if (!uploadedFilename.equals(filename)) {
             LOG.warn("UploadProcess.filename != uploadedFilename");
             LOG.warn("UploadProcess.filename = " + dump(filename));
             LOG.warn("uploadedFilename       = " + dump(uploadedFilename));
@@ -167,12 +152,10 @@ public class EasyUploadProcess
         }
 
         // make sure file is on disk and in the right location
-        try
-        {
+        try {
             basePath = FileUtil.createTempDirectory(new File(easyUpload.getBasePath()), "upload");
         }
-        catch (IOException e1)
-        {
+        catch (IOException e1) {
             error("Could not write to disk.", "createUniquePath failed");
             return;
         }
@@ -181,19 +164,15 @@ public class EasyUploadProcess
 
         // try to move the uploaded file
         boolean fileMoved = false;
-        if (!file.isInMemory() && file instanceof DiskFileItem)
-        {
-            try
-            {
+        if (!file.isInMemory() && file instanceof DiskFileItem) {
+            try {
                 fileMoved = ((DiskFileItem) file).getStoreLocation().renameTo(uploadedFile);
-                if (fileMoved == false)
-                {
+                if (fileMoved == false) {
                     LOG.error("Error occured while moving uploaded file from temporary location '" + ((DiskFileItem) file).getStoreLocation().getAbsolutePath()
                             + "' to '" + uploadedFile + "'");
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // write error to log, but continue execution. fileMoved == false means fallback
                 // mechanism.
                 LOG.error("Exception occured while moving uploaded file from temp. location '" + ((DiskFileItem) file).getStoreLocation().getAbsolutePath()
@@ -202,28 +181,23 @@ public class EasyUploadProcess
         }
 
         // if file moving failed, copy it to disk (from memory or disk)
-        if (fileMoved == false)
-        {
-            try
-            {
+        if (fileMoved == false) {
+            try {
                 OutputStream outputStream = new FileOutputStream(uploadedFile);
                 InputStream inputStream = file.getInputStream();
                 byte[] buffer = new byte[8192];
                 int length;
-                while (((length = inputStream.read(buffer)) != -1) && (!canceled))
-                {
+                while (((length = inputStream.read(buffer)) != -1) && (!canceled)) {
                     outputStream.write(buffer, 0, length);
                 }
                 inputStream.close();
                 outputStream.close();
             }
-            catch (FileNotFoundException e)
-            {
+            catch (FileNotFoundException e) {
                 error("File could not be created on disk", e);
                 return;
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 error("Error writing file to disk", e);
                 return;
             }
@@ -239,27 +213,21 @@ public class EasyUploadProcess
             files.add(uploadedFile);
         else
             addDiacriticVariants(files);
-        if (postProcessesors.size() > 0)
-        {
+        if (postProcessesors.size() > 0) {
             // start post processor thread
-            postProcessorThread = new UploadPostProcessRunner(postProcessesors, files, basePath, clientParams)
-            {
+            postProcessorThread = new UploadPostProcessRunner(postProcessesors, files, basePath, clientParams) {
                 @Override
-                public void onSuccess(File basePath, List<File> files)
-                {
+                public void onSuccess(File basePath, List<File> files) {
                     setUploadCompleted(files);
                 }
             };
             postProcessorThread.run();
-        }
-        else
-        {
+        } else {
             setUploadCompleted(files);
         }
     }
 
-    private void setPercentage(int percent)
-    {
+    private void setPercentage(int percent) {
         if (percent < 0)
             percent = 0;
         if (percent > 100)
@@ -268,8 +236,7 @@ public class EasyUploadProcess
         status.setPercentComplete(percent);
     }
 
-    public void rollBack()
-    {
+    public void rollBack() {
         if (basePath == null)
             // means nothings to rol lback
             return;
@@ -278,29 +245,24 @@ public class EasyUploadProcess
         cleanFiles();
     }
 
-    public void cleanFiles()
-    {
+    public void cleanFiles() {
         if (basePath == null)
             // means nothings to clean
             return;
 
         LOG.info("Deleting directory '" + basePath + "'");
-        try
-        {
+        try {
             FileUtils.deleteDirectory(basePath);
             basePath = null;
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             LOG.error("Deleting of directory " + basePath + " failed", e);
         }
     }
 
-    protected void setUploadCompleted(List<File> files)
-    {
+    protected void setUploadCompleted(List<File> files) {
         String msg = "Upload of '" + filename + "' complete";
-        if (files.size() > 1 && !files.get(0).getName().equals(filename))
-        {
+        if (files.size() > 1 && !files.get(0).getName().equals(filename)) {
             if (!hasDiacritics() || !hasInitialDiacriticFileNames(files))
                 msg += " (" + files.size() + " files and folders)";
         }
@@ -313,13 +275,11 @@ public class EasyUploadProcess
             cleanFiles();
     }
 
-    private boolean hasInitialDiacriticFileNames(List<File> files)
-    {
+    private boolean hasInitialDiacriticFileNames(List<File> files) {
         return files.size() == 2 && files.get(0).getName().equals(toNFC(filename)) && files.get(1).getName().equals(toNFD(filename));
     }
 
-    private void addDiacriticVariants(List<File> files)
-    {
+    private void addDiacriticVariants(List<File> files) {
         // depending on JVM/OS Files.listFiles() may use different normalization
         // we add both variants
         // thus the filter of ItemIngester.workAddDirectoryContents() finds the uploaded file
@@ -327,25 +287,21 @@ public class EasyUploadProcess
         files.add(new File(toNFD(uploadedFile.getPath())));
     }
 
-    private String toNFD(String path)
-    {
+    private String toNFD(String path) {
         return Normalizer.normalize(path, Normalizer.Form.NFD);
     }
 
-    private String toNFC(String path)
-    {
+    private String toNFC(String path) {
         return Normalizer.normalize(path, Normalizer.Form.NFC);
     }
 
-    private boolean hasDiacritics()
-    {
+    private boolean hasDiacritics() {
         String s2 = Normalizer.normalize(uploadedFile.getPath(), Normalizer.Form.NFD);
         boolean matches = s2.matches("(?s).*\\p{InCombiningDiacriticalMarks}.*");
         return matches;
     }
 
-    public void cancel()
-    {
+    public void cancel() {
         if (status.isFinished())
             // too late
             return;
@@ -354,18 +310,15 @@ public class EasyUploadProcess
         rollBack();
     }
 
-    public Map<String, String> getClientParams()
-    {
+    public Map<String, String> getClientParams() {
         return clientParams;
     }
 
-    public EasyUpload getEasyUpload()
-    {
+    public EasyUpload getEasyUpload() {
         return easyUpload;
     }
 
-    public Integer getUploadId()
-    {
+    public Integer getUploadId() {
         return uploadId;
     }
 }

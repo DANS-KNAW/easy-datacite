@@ -13,12 +13,10 @@ import nl.knaw.dans.pf.language.emd.types.Relation;
 /**
  * Container for resource properties of category relation.
  * 
- * @see <a
- *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+ * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
  * @author ecco
  */
-public class EmdRelation extends AbstractEmdContainer
-{
+public class EmdRelation extends AbstractEmdContainer {
 
     private static List<String> QUALIFIER_LIST;
 
@@ -97,10 +95,8 @@ public class EmdRelation extends AbstractEmdContainer
     public static final String IS_REQUIRED_BY = "isRequiredBy";
     public static final String IS_VERSION_OF = "isVersionOf";
 
-    public static List<String> getQualifierList()
-    {
-        if (QUALIFIER_LIST == null)
-        {
+    public static List<String> getQualifierList() {
+        if (QUALIFIER_LIST == null) {
             QUALIFIER_LIST = new ArrayList<String>();
             QUALIFIER_LIST.add(RELATION);
             QUALIFIER_LIST.add(CONFORMS_TO);
@@ -120,8 +116,7 @@ public class EmdRelation extends AbstractEmdContainer
         return Collections.unmodifiableList(QUALIFIER_LIST);
     }
 
-    public Map<String, List<Relation>> getRelationMap()
-    {
+    public Map<String, List<Relation>> getRelationMap() {
         Map<String, List<Relation>> map = new HashMap<String, List<Relation>>();
         map.put(RELATION, this.getEasRelation());
         map.put(CONFORMS_TO, this.getEasConformsTo());
@@ -141,8 +136,7 @@ public class EmdRelation extends AbstractEmdContainer
         return map;
     }
 
-    public Map<String, List<BasicIdentifier>> getBasicIdentifierMap()
-    {
+    public Map<String, List<BasicIdentifier>> getBasicIdentifierMap() {
         Map<String, List<BasicIdentifier>> map = new HashMap<String, List<BasicIdentifier>>();
         map.put(RELATION, this.getDcRelation());
         map.put(CONFORMS_TO, this.getTermsConformsTo());
@@ -168,878 +162,681 @@ public class EmdRelation extends AbstractEmdContainer
     /**
      * {@inheritDoc}
      */
-    public List<Term> getTerms()
-    {
+    public List<Term> getTerms() {
         return Arrays.asList(TERMS);
     }
 
     /**
-     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getDcRelation()
-    {
-        if (dcRelation == null)
-        {
+    public List<BasicIdentifier> getDcRelation() {
+        if (dcRelation == null) {
             dcRelation = new ArrayList<BasicIdentifier>();
         }
         return dcRelation;
     }
 
     /**
-     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @param list
      *        a list of resource properties
      */
-    public void setDcRelation(final List<BasicIdentifier> list)
-    {
+    public void setDcRelation(final List<BasicIdentifier> list) {
         this.dcRelation = list;
     }
 
     /**
-     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsConformsTo()
-    {
-        if (termsConformsTo == null)
-        {
+    public List<BasicIdentifier> getTermsConformsTo() {
+        if (termsConformsTo == null) {
             termsConformsTo = new ArrayList<BasicIdentifier>();
         }
         return termsConformsTo;
     }
 
     /**
-     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsConformsTo(final List<BasicIdentifier> list)
-    {
+    public void setTermsConformsTo(final List<BasicIdentifier> list) {
         this.termsConformsTo = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsVersionOf()
-    {
-        if (termsIsVersionOf == null)
-        {
+    public List<BasicIdentifier> getTermsIsVersionOf() {
+        if (termsIsVersionOf == null) {
             termsIsVersionOf = new ArrayList<BasicIdentifier>();
         }
         return termsIsVersionOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsVersionOf(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsVersionOf(final List<BasicIdentifier> list) {
         this.termsIsVersionOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsHasVersion()
-    {
-        if (termsHasVersion == null)
-        {
+    public List<BasicIdentifier> getTermsHasVersion() {
+        if (termsHasVersion == null) {
             termsHasVersion = new ArrayList<BasicIdentifier>();
         }
         return termsHasVersion;
     }
 
     /**
-     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsHasVersion(final List<BasicIdentifier> list)
-    {
+    public void setTermsHasVersion(final List<BasicIdentifier> list) {
         this.termsHasVersion = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsReplacedBy()
-    {
-        if (termsIsReplacedBy == null)
-        {
+    public List<BasicIdentifier> getTermsIsReplacedBy() {
+        if (termsIsReplacedBy == null) {
             termsIsReplacedBy = new ArrayList<BasicIdentifier>();
         }
         return termsIsReplacedBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsReplacedBy(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsReplacedBy(final List<BasicIdentifier> list) {
         this.termsIsReplacedBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsReplaces()
-    {
-        if (termsReplaces == null)
-        {
+    public List<BasicIdentifier> getTermsReplaces() {
+        if (termsReplaces == null) {
             termsReplaces = new ArrayList<BasicIdentifier>();
         }
         return termsReplaces;
     }
 
     /**
-     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsReplaces(final List<BasicIdentifier> list)
-    {
+    public void setTermsReplaces(final List<BasicIdentifier> list) {
         this.termsReplaces = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsRequiredBy()
-    {
-        if (termsIsRequiredBy == null)
-        {
+    public List<BasicIdentifier> getTermsIsRequiredBy() {
+        if (termsIsRequiredBy == null) {
             termsIsRequiredBy = new ArrayList<BasicIdentifier>();
         }
         return termsIsRequiredBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsRequiredBy(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsRequiredBy(final List<BasicIdentifier> list) {
         this.termsIsRequiredBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsRequires()
-    {
-        if (termsRequires == null)
-        {
+    public List<BasicIdentifier> getTermsRequires() {
+        if (termsRequires == null) {
             termsRequires = new ArrayList<BasicIdentifier>();
         }
         return termsRequires;
     }
 
     /**
-     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsRequires(final List<BasicIdentifier> list)
-    {
+    public void setTermsRequires(final List<BasicIdentifier> list) {
         this.termsRequires = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsPartOf()
-    {
-        if (termsIsPartOf == null)
-        {
+    public List<BasicIdentifier> getTermsIsPartOf() {
+        if (termsIsPartOf == null) {
             termsIsPartOf = new ArrayList<BasicIdentifier>();
         }
         return termsIsPartOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsPartOf(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsPartOf(final List<BasicIdentifier> list) {
         this.termsIsPartOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsHasPart()
-    {
-        if (termsHasPart == null)
-        {
+    public List<BasicIdentifier> getTermsHasPart() {
+        if (termsHasPart == null) {
             termsHasPart = new ArrayList<BasicIdentifier>();
         }
         return termsHasPart;
     }
 
     /**
-     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsHasPart(final List<BasicIdentifier> list)
-    {
+    public void setTermsHasPart(final List<BasicIdentifier> list) {
         this.termsHasPart = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsReferencedBy()
-    {
-        if (termsIsReferencedBy == null)
-        {
+    public List<BasicIdentifier> getTermsIsReferencedBy() {
+        if (termsIsReferencedBy == null) {
             termsIsReferencedBy = new ArrayList<BasicIdentifier>();
         }
         return termsIsReferencedBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsReferencedBy(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsReferencedBy(final List<BasicIdentifier> list) {
         this.termsIsReferencedBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsReferences()
-    {
-        if (termsReferences == null)
-        {
+    public List<BasicIdentifier> getTermsReferences() {
+        if (termsReferences == null) {
             termsReferences = new ArrayList<BasicIdentifier>();
         }
         return termsReferences;
     }
 
     /**
-     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsReferences(final List<BasicIdentifier> list)
-    {
+    public void setTermsReferences(final List<BasicIdentifier> list) {
         this.termsReferences = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsIsFormatOf()
-    {
-        if (termsIsFormatOf == null)
-        {
+    public List<BasicIdentifier> getTermsIsFormatOf() {
+        if (termsIsFormatOf == null) {
             termsIsFormatOf = new ArrayList<BasicIdentifier>();
         }
         return termsIsFormatOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsIsFormatOf(final List<BasicIdentifier> list)
-    {
+    public void setTermsIsFormatOf(final List<BasicIdentifier> list) {
         this.termsIsFormatOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @return a list of resource properties
      */
-    public List<BasicIdentifier> getTermsHasFormat()
-    {
-        if (termsHasFormat == null)
-        {
+    public List<BasicIdentifier> getTermsHasFormat() {
+        if (termsHasFormat == null) {
             termsHasFormat = new ArrayList<BasicIdentifier>();
         }
         return termsHasFormat;
     }
 
     /**
-     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @param list
      *        a list of resource properties
      */
-    public void setTermsHasFormat(final List<BasicIdentifier> list)
-    {
+    public void setTermsHasFormat(final List<BasicIdentifier> list) {
         this.termsHasFormat = list;
     }
 
     // ////////////////
 
     /**
-     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasRelation()
-    {
-        if (easRelation == null)
-        {
+    public List<Relation> getEasRelation() {
+        if (easRelation == null) {
             easRelation = new ArrayList<Relation>();
         }
         return easRelation;
     }
 
     /**
-     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
-     * name space.
+     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasRelation(final List<Relation> list)
-    {
+    public void setEasRelation(final List<Relation> list) {
         this.easRelation = list;
     }
 
     /**
-     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasConformsTo()
-    {
-        if (easConformsTo == null)
-        {
+    public List<Relation> getEasConformsTo() {
+        if (easConformsTo == null) {
             easConformsTo = new ArrayList<Relation>();
         }
         return easConformsTo;
     }
 
     /**
-     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasConformsTo(final List<Relation> list)
-    {
+    public void setEasConformsTo(final List<Relation> list) {
         this.easConformsTo = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsVersionOf()
-    {
-        if (easIsVersionOf == null)
-        {
+    public List<Relation> getEasIsVersionOf() {
+        if (easIsVersionOf == null) {
             easIsVersionOf = new ArrayList<Relation>();
         }
         return easIsVersionOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsVersionOf(final List<Relation> list)
-    {
+    public void setEasIsVersionOf(final List<Relation> list) {
         this.easIsVersionOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasHasVersion()
-    {
-        if (easHasVersion == null)
-        {
+    public List<Relation> getEasHasVersion() {
+        if (easHasVersion == null) {
             easHasVersion = new ArrayList<Relation>();
         }
         return easHasVersion;
     }
 
     /**
-     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasHasVersion(final List<Relation> list)
-    {
+    public void setEasHasVersion(final List<Relation> list) {
         this.easHasVersion = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsReplacedBy()
-    {
-        if (easIsReplacedBy == null)
-        {
+    public List<Relation> getEasIsReplacedBy() {
+        if (easIsReplacedBy == null) {
             easIsReplacedBy = new ArrayList<Relation>();
         }
         return easIsReplacedBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsReplacedBy(final List<Relation> list)
-    {
+    public void setEasIsReplacedBy(final List<Relation> list) {
         this.easIsReplacedBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasReplaces()
-    {
-        if (easReplaces == null)
-        {
+    public List<Relation> getEasReplaces() {
+        if (easReplaces == null) {
             easReplaces = new ArrayList<Relation>();
         }
         return easReplaces;
     }
 
     /**
-     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasReplaces(final List<Relation> list)
-    {
+    public void setEasReplaces(final List<Relation> list) {
         this.easReplaces = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsRequiredBy()
-    {
-        if (easIsRequiredBy == null)
-        {
+    public List<Relation> getEasIsRequiredBy() {
+        if (easIsRequiredBy == null) {
             easIsRequiredBy = new ArrayList<Relation>();
         }
         return easIsRequiredBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsRequiredBy(final List<Relation> list)
-    {
+    public void setEasIsRequiredBy(final List<Relation> list) {
         this.easIsRequiredBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasRequires()
-    {
-        if (easRequires == null)
-        {
+    public List<Relation> getEasRequires() {
+        if (easRequires == null) {
             easRequires = new ArrayList<Relation>();
         }
         return easRequires;
     }
 
     /**
-     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasRequires(final List<Relation> list)
-    {
+    public void setEasRequires(final List<Relation> list) {
         this.easRequires = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsPartOf()
-    {
-        if (easIsPartOf == null)
-        {
+    public List<Relation> getEasIsPartOf() {
+        if (easIsPartOf == null) {
             easIsPartOf = new ArrayList<Relation>();
         }
         return easIsPartOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsPartOf(final List<Relation> list)
-    {
+    public void setEasIsPartOf(final List<Relation> list) {
         this.easIsPartOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasHasPart()
-    {
-        if (easHasPart == null)
-        {
+    public List<Relation> getEasHasPart() {
+        if (easHasPart == null) {
             easHasPart = new ArrayList<Relation>();
         }
         return easHasPart;
     }
 
     /**
-     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasHasPart(final List<Relation> list)
-    {
+    public void setEasHasPart(final List<Relation> list) {
         this.easHasPart = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsReferencedBy()
-    {
-        if (easIsReferencedBy == null)
-        {
+    public List<Relation> getEasIsReferencedBy() {
+        if (easIsReferencedBy == null) {
             easIsReferencedBy = new ArrayList<Relation>();
         }
         return easIsReferencedBy;
     }
 
     /**
-     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
-     * name space.
+     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsReferencedBy(final List<Relation> list)
-    {
+    public void setEasIsReferencedBy(final List<Relation> list) {
         this.easIsReferencedBy = list;
     }
 
     /**
-     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasReferences()
-    {
-        if (easReferences == null)
-        {
+    public List<Relation> getEasReferences() {
+        if (easReferences == null) {
             easReferences = new ArrayList<Relation>();
         }
         return easReferences;
     }
 
     /**
-     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasReferences(final List<Relation> list)
-    {
+    public void setEasReferences(final List<Relation> list) {
         this.easReferences = list;
     }
 
     /**
-     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasIsFormatOf()
-    {
-        if (easIsFormatOf == null)
-        {
+    public List<Relation> getEasIsFormatOf() {
+        if (easIsFormatOf == null) {
             easIsFormatOf = new ArrayList<Relation>();
         }
         return easIsFormatOf;
     }
 
     /**
-     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasIsFormatOf(final List<Relation> list)
-    {
+    public void setEasIsFormatOf(final List<Relation> list) {
         this.easIsFormatOf = list;
     }
 
     /**
-     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @return a list of resource properties
      */
-    public List<Relation> getEasHasFormat()
-    {
-        if (easHasFormat == null)
-        {
+    public List<Relation> getEasHasFormat() {
+        if (easHasFormat == null) {
             easHasFormat = new ArrayList<Relation>();
         }
         return easHasFormat;
     }
 
     /**
-     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
-     * space.
+     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
      * 
-     * @see <a
-     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @param list
      *        a list of resource properties
      */
-    public void setEasHasFormat(final List<Relation> list)
-    {
+    public void setEasHasFormat(final List<Relation> list) {
         this.easHasFormat = list;
     }
 

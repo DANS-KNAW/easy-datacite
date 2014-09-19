@@ -14,18 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This object aids in synchronization of lists of objects by their ID. This is especially handy for
- * implementing thread-safe transaction handling. A transaction involving several objects cannot start
- * until another transaction that is busy with one or more of the same objects. Example: If one thread
- * has several objects with the IDs A, B and C and wants to do some operation on them, but another thread
- * wants to do an operation on object C and D then the second thread cannot start until the first thread
- * finishes and if a third thread wants to do some operation on D then it has to wait for the second
- * thread to finish first, etc.
+ * This object aids in synchronization of lists of objects by their ID. This is especially handy for implementing thread-safe transaction handling. A
+ * transaction involving several objects cannot start until another transaction that is busy with one or more of the same objects. Example: If one thread has
+ * several objects with the IDs A, B and C and wants to do some operation on them, but another thread wants to do an operation on object C and D then the second
+ * thread cannot start until the first thread finishes and if a third thread wants to do some operation on D then it has to wait for the second thread to finish
+ * first, etc.
  * 
  * @author lobo
  */
-public class IdSynchronizer<T>
-{
+public class IdSynchronizer<T> {
     /**
      * key = ID value = the lock
      */
@@ -44,43 +41,33 @@ public class IdSynchronizer<T>
 
     private ThreadLocal<Boolean> logEnabled = new ThreadLocal<Boolean>();
 
-    private class IdLock
-    {
+    private class IdLock {
         public ReentrantLock lock;
         public int threadCount;
         public T id;
 
-        public IdLock(T id, boolean useFairPolicy)
-        {
+        public IdLock(T id, boolean useFairPolicy) {
             lock = new ReentrantLock(useFairPolicy);
             threadCount = 1;
             this.id = id;
         }
 
-        public void lock(int timeout) throws LockAcquireTimeoutException, InterruptedException
-        {
-            if (!lock.tryLock(0, TimeUnit.MILLISECONDS))
-            {
+        public void lock(int timeout) throws LockAcquireTimeoutException, InterruptedException {
+            if (!lock.tryLock(0, TimeUnit.MILLISECONDS)) {
                 LOGGER.debug("Thread " + Thread.currentThread().toString() + " blocking for " + id);
 
-                if (timeout >= 0)
-                {
-                    if (!lock.tryLock(timeout, TimeUnit.MILLISECONDS))
-                    {
+                if (timeout >= 0) {
+                    if (!lock.tryLock(timeout, TimeUnit.MILLISECONDS)) {
                         LOGGER.debug("Thread " + Thread.currentThread().toString() + " timedout trying to get lock for " + id);
 
                         throw new LockAcquireTimeoutException();
                     }
-                }
-                else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         // now only god can stop us, so better say your prayers :)
                         lock.lock();
                     }
-                    catch (Throwable t)
-                    {
+                    catch (Throwable t) {
                         // god did not listen to your prayers
                         if (t instanceof InterruptedException)
                             throw (InterruptedException) t;
@@ -93,85 +80,70 @@ public class IdSynchronizer<T>
             }
         }
 
-        public void unlock()
-        {
-            try
-            {
+        public void unlock() {
+            try {
                 lock.unlock();
             }
-            catch (IllegalMonitorStateException e)
-            {
+            catch (IllegalMonitorStateException e) {
                 warn("Unlock called on " + this.id + " for thread that did not hold that lock", e);
             }
         }
     }
 
-    public IdSynchronizer()
-    {
+    public IdSynchronizer() {
         this(-1, false);
     }
 
     /**
      * @param defaultLockTimeout
-     *        the default timeout value for trying to acquire a lock in milliseconds. Set to -1 for no
-     *        timeout, but possible infinite wait.
+     *        the default timeout value for trying to acquire a lock in milliseconds. Set to -1 for no timeout, but possible infinite wait.
      * @param useFairPolicy
-     *        see {@see ReentrantLock}. It's basically that the first thread to try to acquire a lock
-     *        gets it first (fifo).
+     *        see {@see ReentrantLock}. It's basically that the first thread to try to acquire a lock gets it first (fifo).
      */
-    public IdSynchronizer(int defaultLockTimeout, boolean useFairPolicy)
-    {
+    public IdSynchronizer(int defaultLockTimeout, boolean useFairPolicy) {
         this.setDefaultLockTimeout(defaultLockTimeout);
         this.useFairPolicy = useFairPolicy;
     }
 
-    private void warn(String msg)
-    {
+    private void warn(String msg) {
         warn(msg, null);
     }
 
-    private void warn(String msg, Throwable t)
-    {
+    private void warn(String msg, Throwable t) {
         if (isLoggingEnabled())
             LOGGER.warn(msg, t);
     }
 
-    private boolean isLoggingEnabled()
-    {
+    private boolean isLoggingEnabled() {
         return logEnabled.get() == null || logEnabled.get().equals(Boolean.TRUE);
     }
 
-    private void disableLogging()
-    {
+    private void disableLogging() {
         logEnabled.set(Boolean.FALSE);
     }
 
-    private void enableLogging()
-    {
+    private void enableLogging() {
         logEnabled.set(Boolean.TRUE);
     }
 
     /**
-     * Convenience method. Beware not to call this in a loop for multiple sids as that could lead to dead
-     * locks. Think of thread 1 asking for a lock on A and B while thread 2 asking for a lock on B and A
-     * asking for one lock at a time, they might get stuck waiting on each other.
+     * Convenience method. Beware not to call this in a loop for multiple sids as that could lead to dead locks. Think of thread 1 asking for a lock on A and B
+     * while thread 2 asking for a lock on B and A asking for one lock at a time, they might get stuck waiting on each other.
      * 
      * @param id
      * @throws InterruptedException
      * @throws LockAcquireTimeoutException
      */
-    public void acquireLock(T id) throws InterruptedException, LockAcquireTimeoutException
-    {
+    public void acquireLock(T id) throws InterruptedException, LockAcquireTimeoutException {
         List<T> ids = new ArrayList<T>(1);
         ids.add(id);
         acquireLock(ids);
     }
 
     /**
-     * Locks on a list of IDs. If one of the IDs was already locked then this method will block until
-     * those locks are unlocked. If an exception is thrown it can be assumed that no locks are held
-     * anymore. So either this method returns and all locks have been acquired or this method throws an
-     * exception and no locks are acquired.
+     * Locks on a list of IDs. If one of the IDs was already locked then this method will block until those locks are unlocked. If an exception is thrown it can
+     * be assumed that no locks are held anymore. So either this method returns and all locks have been acquired or this method throws an exception and no locks
+     * are acquired.
      * 
      * @param ids
      *        a list of IDs
@@ -180,25 +152,19 @@ public class IdSynchronizer<T>
      * @throws LockAcquireTimeoutException
      *         thrown if the thread could not acquire the lock within the defaultLockTimeout time.
      */
-    public void acquireLock(final Collection<T> ids) throws InterruptedException, LockAcquireTimeoutException
-    {
+    public void acquireLock(final Collection<T> ids) throws InterruptedException, LockAcquireTimeoutException {
         List<IdLock> lockList = null;
-        synchronized (idLocks)
-        {
+        synchronized (idLocks) {
             Map<T, Integer> localIds = threadLocalIds.get();
             if (localIds == null)
                 localIds = new HashMap<T, Integer>();
 
-            for (T id : ids)
-            {
+            for (T id : ids) {
                 Integer useCount = localIds.get(id);
-                if (useCount == null)
-                {
+                if (useCount == null) {
                     useCount = new Integer(1);
                     localIds.put(id, useCount);
-                }
-                else
-                {
+                } else {
                     useCount++;
                     localIds.put(id, useCount);
                     // skip locking: thread is already locked
@@ -206,15 +172,12 @@ public class IdSynchronizer<T>
                 }
 
                 IdLock idLock = idLocks.get(id);
-                if (idLock == null)
-                {
+                if (idLock == null) {
                     // new lock
                     idLock = new IdLock(id, useFairPolicy);
                     idLock.lock(defaultLockTimeout); // first time lock
                     idLocks.put(id, idLock);
-                }
-                else
-                {
+                } else {
                     // existing lock
                     idLock.threadCount += 1;
                     if (lockList == null)
@@ -230,17 +193,13 @@ public class IdSynchronizer<T>
         // otherwise the blocking of the lock will block
         // the entire synchronized block, which will then
         // block every other call to aquireLock or releaseLock
-        if (lockList != null)
-        {
-            try
-            {
-                for (IdLock idLock : lockList)
-                {
+        if (lockList != null) {
+            try {
+                for (IdLock idLock : lockList) {
                     idLock.lock(defaultLockTimeout);
                 }
             }
-            catch (InterruptedException e)
-            {
+            catch (InterruptedException e) {
                 disableLogging();
                 releaseLock(ids);
                 enableLogging();
@@ -254,8 +213,7 @@ public class IdSynchronizer<T>
         }
     }
 
-    public void releaseLock(T id)
-    {
+    public void releaseLock(T id) {
         List<T> ids = new ArrayList<T>(1);
         ids.add(id);
         releaseLock(ids);
@@ -264,47 +222,36 @@ public class IdSynchronizer<T>
     /**
      * Releases the lock or locks acquired by called acquireLock.
      */
-    public void releaseLock(Collection<T> ids)
-    {
-        synchronized (idLocks)
-        {
+    public void releaseLock(Collection<T> ids) {
+        synchronized (idLocks) {
             Map<T, Integer> localIds = threadLocalIds.get();
-            if (localIds == null)
-            {
+            if (localIds == null) {
                 warn("releaseLock called by thread that does not own " + "any locks.");
                 return;
             }
 
-            for (T id : ids)
-            {
+            for (T id : ids) {
                 Integer useCount = localIds.get(id);
-                if (useCount == null)
-                {
+                if (useCount == null) {
                     warn("releaseLock called on invalid ID '" + id.toString() + "'. " + "This ID was not locked by this thread.");
                     continue;
                 }
                 useCount--;
 
-                if (useCount == 0)
-                {
+                if (useCount == 0) {
                     IdLock idLock = idLocks.get(id);
-                    if (idLock != null)
-                    {
+                    if (idLock != null) {
                         idLock.unlock();
                         idLock.threadCount--;
                         if (idLock.threadCount == 0)
                             idLocks.remove(id);
-                    }
-                    else
-                    {
+                    } else {
                         // log this case but do no interrupt runtime
                         LOGGER.error("lock in thread list, but not found: " + "this should not happen. Programming mistake in " + this.getClass() + " class.");
                     }
 
                     localIds.remove(id);
-                }
-                else
-                {
+                } else {
                     localIds.put(id, useCount);
                 }
             }
@@ -317,10 +264,8 @@ public class IdSynchronizer<T>
     /**
      * @return the number of id's that are currently locked
      */
-    protected int getLockIdCount()
-    {
-        synchronized (idLocks)
-        {
+    protected int getLockIdCount() {
+        synchronized (idLocks) {
             return idLocks.size();
         }
     }
@@ -328,10 +273,8 @@ public class IdSynchronizer<T>
     /**
      * @return the number of threads waiting for a lock on a id
      */
-    protected int getLockThreadCount(T id)
-    {
-        synchronized (idLocks)
-        {
+    protected int getLockThreadCount(T id) {
+        synchronized (idLocks) {
             IdLock idLock = idLocks.get(id);
             if (idLock != null)
                 return idLock.threadCount;
@@ -343,23 +286,17 @@ public class IdSynchronizer<T>
     /**
      * @return the number of times a thread acquired a lock for a single ID
      */
-    protected int getLockThreadUseCount(T id)
-    {
-        synchronized (idLocks)
-        {
+    protected int getLockThreadUseCount(T id) {
+        synchronized (idLocks) {
             Map<T, Integer> localIds = threadLocalIds.get();
-            if (localIds == null)
-            {
+            if (localIds == null) {
                 return 0;
             }
 
             Integer useCount = localIds.get(id);
-            if (useCount == null)
-            {
+            if (useCount == null) {
                 return 0;
-            }
-            else
-            {
+            } else {
                 return useCount;
             }
         }
@@ -368,24 +305,21 @@ public class IdSynchronizer<T>
     /**
      * Sets the default timeout value in milliseconds for this class to acquire a lock.
      */
-    public void setDefaultLockTimeout(int defaultLockTimeout)
-    {
+    public void setDefaultLockTimeout(int defaultLockTimeout) {
         this.defaultLockTimeout = defaultLockTimeout;
     }
 
     /**
      * Gets the default timeout value in milliseconds for this class to acquire a lock.
      */
-    public int getDefaultLockTimeout()
-    {
+    public int getDefaultLockTimeout() {
         return defaultLockTimeout;
     }
 
     /**
      * @return true if the attempt to get the lock will be based on a fair use policy (fifo).
      */
-    public boolean isUsingFairPolicy()
-    {
+    public boolean isUsingFairPolicy() {
         return useFairPolicy;
     }
 

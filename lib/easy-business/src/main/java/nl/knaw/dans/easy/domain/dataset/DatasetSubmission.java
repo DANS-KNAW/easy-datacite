@@ -7,8 +7,7 @@ import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public interface DatasetSubmission extends Serializable
-{
+public interface DatasetSubmission extends Serializable {
 
     void clearAllMessages();
 

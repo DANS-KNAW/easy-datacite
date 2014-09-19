@@ -13,8 +13,7 @@ import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 
-public class ChoiceListGetter
-{
+public class ChoiceListGetter {
     private static ChoiceListGetter INSTANCE = new ChoiceListGetter();
 
     public static final String CHOICELIST_CUSTOM_PREFIX = "custom.";
@@ -26,8 +25,7 @@ public class ChoiceListGetter
      * 
      * @return singleton instance of ChoiceListCache
      */
-    public static ChoiceListGetter getInstance()
-    {
+    public static ChoiceListGetter getInstance() {
         return INSTANCE;
     }
 
@@ -42,22 +40,18 @@ public class ChoiceListGetter
      * @throws DomainException
      * @throws ObjectNotFoundException
      */
-    public ChoiceList getChoiceList(String listId, Locale locale) throws CacheException, ResourceNotFoundException, DomainException, ObjectNotFoundException
-    {
-        if (listId.startsWith(CHOICELIST_CUSTOM_PREFIX))
-        {
+    public ChoiceList getChoiceList(String listId, Locale locale) throws CacheException, ResourceNotFoundException, DomainException, ObjectNotFoundException {
+        if (listId.startsWith(CHOICELIST_CUSTOM_PREFIX)) {
             String customListId = listId.substring(CHOICELIST_CUSTOM_PREFIX.length());
             if (customListId.equals(CHOICELIST_DISCIPLINES_POSTFIX))
                 return getDisciplinesChoiceList(listId, locale);
             else
                 throw new ResourceNotFoundException("A custom choicelist with id '" + listId + "' was not found.");
-        }
-        else
+        } else
             return ChoiceListCache.getInstance().getList(listId, locale);
     }
 
-    private ChoiceList getDisciplinesChoiceList(String listId, Locale locale) throws DomainException, ObjectNotFoundException
-    {
+    private ChoiceList getDisciplinesChoiceList(String listId, Locale locale) throws DomainException, ObjectNotFoundException {
         DisciplineContainer rootDiscipline = DisciplineCollectionImpl.getInstance().getRootDiscipline();
 
         List<KeyValuePair> disciplineList = new ArrayList<KeyValuePair>();
@@ -66,16 +60,14 @@ public class ChoiceListGetter
         return new ChoiceList(disciplineList);
     }
 
-    private void createDisciplineKvpList(int indent, List<KeyValuePair> disciplineList, DisciplineContainer parentDiscipline) throws DomainException
-    {
+    private void createDisciplineKvpList(int indent, List<KeyValuePair> disciplineList, DisciplineContainer parentDiscipline) throws DomainException {
         List<DisciplineContainer> disciplines = parentDiscipline.getSubDisciplines();
         SortedMap<Integer, DisciplineContainer> disciplineMap = new TreeMap<Integer, DisciplineContainer>();
 
         for (DisciplineContainer discipline : disciplines)
             disciplineMap.put(discipline.getDisciplineMetadata().getOrder(), discipline);
 
-        for (DisciplineContainer discipline : disciplineMap.values())
-        {
+        for (DisciplineContainer discipline : disciplineMap.values()) {
             String name = discipline.getName();
             KeyValuePair kvp = new KeyValuePair(discipline.getStoreId(), name);
             kvp.setIndent(indent);

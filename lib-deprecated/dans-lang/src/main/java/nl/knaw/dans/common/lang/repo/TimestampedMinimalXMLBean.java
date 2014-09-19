@@ -8,7 +8,6 @@ import nl.knaw.dans.common.lang.xml.MinimalXMLBean;
  * 
  * @author ecco Sep 27, 2009
  */
-public interface TimestampedMinimalXMLBean extends MinimalXMLBean, TimestampedObject
-{
+public interface TimestampedMinimalXMLBean extends MinimalXMLBean, TimestampedObject {
 
 }

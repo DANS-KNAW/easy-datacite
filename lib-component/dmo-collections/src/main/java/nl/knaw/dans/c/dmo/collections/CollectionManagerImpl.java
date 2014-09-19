@@ -29,33 +29,27 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CollectionManagerImpl implements CollectionManager
-{
+public class CollectionManagerImpl implements CollectionManager {
     private static final Logger logger = LoggerFactory.getLogger(CollectionManagerImpl.class);
 
     private final String ownerId;
 
-    protected CollectionManagerImpl(String ownerId)
-    {
+    protected CollectionManagerImpl(String ownerId) {
         this.ownerId = ownerId;
     }
 
-    public String getOwnerId()
-    {
+    public String getOwnerId() {
         return ownerId;
     }
 
     @Override
-    public boolean exists(DmoNamespace namespace) throws CollectionsException
-    {
+    public boolean exists(DmoNamespace namespace) throws CollectionsException {
         boolean exists = false;
-        try
-        {
+        try {
             DmoCollection root = CollectionsCache.instance().getRoot(namespace);
             exists = root != null;
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return exists;
@@ -63,59 +57,48 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.createRoot")
-    public DmoCollection createRoot(URL xmlTree, boolean generateIds) throws CollectionsException
-    {
+    public DmoCollection createRoot(URL xmlTree, boolean generateIds) throws CollectionsException {
         DmoCollection root;
-        try
-        {
+        try {
             root = JiBXCollectionConverter.convert(xmlTree, generateIds);
             checkNamespaceUnique(root.getDmoNamespace());
             complementDcMetadata(root, new DateTime().toString());
             storeDescending(root);
             logger.debug("Stored DmoCollection tree with namespace '" + root.getDmoNamespace().getValue());
         }
-        catch (XMLDeserializationException e)
-        {
+        catch (XMLDeserializationException e) {
             throw new CollectionsException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new CollectionsException(e);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return root;
     }
 
-    private void complementDcMetadata(DmoCollection collection, String date)
-    {
+    private void complementDcMetadata(DmoCollection collection, String date) {
         collection.getDcMetadata().addCreator(getOwnerId());
         collection.getDcMetadata().addDate(date);
         collection.getDcMetadata().addIdentifier(collection.getStoreId());
-        for (DmoCollection kid : collection.getChildren())
-        {
+        for (DmoCollection kid : collection.getChildren()) {
             complementDcMetadata(kid, date);
         }
     }
 
-    private void checkNamespaceUnique(DmoNamespace dmoNamespace) throws RepositoryException, NamespaceNotUniqueException
-    {
+    private void checkNamespaceUnique(DmoNamespace dmoNamespace) throws RepositoryException, NamespaceNotUniqueException {
         DmoCollection root = CollectionsCache.instance().getRoot(dmoNamespace);
-        if (root != null)
-        {
+        if (root != null) {
             throw new NamespaceNotUniqueException("The namespace '" + dmoNamespace + "' already exists and cannot be added.");
         }
     }
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.createRoot")
-    public DmoCollection createRoot(DmoNamespace namespace) throws CollectionsException
-    {
+    public DmoCollection createRoot(DmoNamespace namespace) throws CollectionsException {
         DmoCollection root;
-        try
-        {
+        try {
             checkNamespaceUnique(namespace);
             root = new DmoCollectionImpl(new DmoStoreId(namespace, DmoCollection.ROOT_ID));
             root.setLabel("Root of " + namespace + " collection");
@@ -124,8 +107,7 @@ public class CollectionManagerImpl implements CollectionManager
             store(root);
             logger.debug("Stored DmoCollection root with namespace '" + namespace + "'");
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return root;
@@ -133,12 +115,10 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.createCollection")
-    public DmoCollection createCollection(DmoCollection parent, String label, String shortName) throws CollectionsException
-    {
+    public DmoCollection createCollection(DmoCollection parent, String label, String shortName) throws CollectionsException {
         DmoCollection child;
         CollectionsCache.instance().checkContainsAllInstances(true, parent);
-        try
-        {
+        try {
             DmoStoreId dmoStoreId = Store.getStoreManager().nextDmoStoreId(parent.getDmoNamespace());
             child = new DmoCollectionImpl(dmoStoreId);
             child.setLabel(label);
@@ -148,46 +128,37 @@ public class CollectionManagerImpl implements CollectionManager
             storeDescending(parent);
             logger.debug("Stored DmoCollection '" + dmoStoreId.getStoreId());
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return child;
     }
 
     @Override
-    public DmoCollection getRoot(DmoNamespace namespace) throws NoSuchCollectionException, CollectionsException
-    {
+    public DmoCollection getRoot(DmoNamespace namespace) throws NoSuchCollectionException, CollectionsException {
         DmoCollection root;
-        try
-        {
+        try {
             root = CollectionsCache.instance().getRoot(namespace);
-            if (root == null)
-            {
+            if (root == null) {
                 throw new NoSuchCollectionException("Not found: " + namespace);
             }
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return root;
     }
 
     @Override
-    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws NoSuchCollectionException, CollectionsException
-    {
+    public DmoCollection getCollection(DmoStoreId dmoStoreId) throws NoSuchCollectionException, CollectionsException {
         DmoCollection collection;
-        try
-        {
+        try {
             collection = CollectionsCache.instance().getCollection(dmoStoreId);
-            if (collection == null)
-            {
+            if (collection == null) {
                 throw new NoSuchCollectionException("Not found: " + dmoStoreId);
             }
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
         return collection;
@@ -195,29 +166,23 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.update")
-    public void update(DmoCollection collection) throws CollectionsException
-    {
-        try
-        {
+    public void update(DmoCollection collection) throws CollectionsException {
+        try {
             store(collection);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
     }
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.attachCollection")
-    public void attachCollection(DmoCollection parent, DmoCollection child) throws CollectionsException
-    {
+    public void attachCollection(DmoCollection parent, DmoCollection child) throws CollectionsException {
         ((DmoCollectionImpl) parent).addChild(child);
-        try
-        {
+        try {
             storeDescending(parent);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             ((DmoCollectionImpl) parent).removeChild(child);
             throw new CollectionsException(e);
         }
@@ -225,20 +190,16 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.detachCollection")
-    public void detachCollection(DmoCollection collection) throws CollectionsException
-    {
+    public void detachCollection(DmoCollection collection) throws CollectionsException {
         DmoCollection parent = collection.getParent();
-        if (parent == null)
-        {
+        if (parent == null) {
             throw new CollectionsException("No parent to detach from: " + collection);
         }
         ((DmoCollectionImpl) parent).removeChild(collection);
-        try
-        {
+        try {
             store(parent, collection);
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             ((DmoCollectionImpl) parent).addChild(collection);
             throw new CollectionsException(e);
         }
@@ -246,18 +207,14 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.publishAsOAISet")
-    public void publishAsOAISet(DmoCollection collection) throws CollectionsException
-    {
+    public void publishAsOAISet(DmoCollection collection) throws CollectionsException {
         boolean wasPublished = collection.isPublishedAsOAISet();
         ((DmoCollectionImpl) collection).publishAsOAISet();
-        try
-        {
+        try {
             storeAscending(collection);
         }
-        catch (RepositoryException e)
-        {
-            if (!wasPublished)
-            {
+        catch (RepositoryException e) {
+            if (!wasPublished) {
                 ((DmoCollectionImpl) collection).unpublishAsOAISet();
             }
             throw new CollectionsException(e);
@@ -266,18 +223,14 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.unpublishAsOAISet")
-    public void unpublishAsOAISet(DmoCollection collection) throws CollectionsException
-    {
+    public void unpublishAsOAISet(DmoCollection collection) throws CollectionsException {
         boolean wasPublished = collection.isPublishedAsOAISet();
         ((DmoCollectionImpl) collection).unpublishAsOAISet();
-        try
-        {
+        try {
             storeDescending(collection);
         }
-        catch (RepositoryException e)
-        {
-            if (wasPublished)
-            {
+        catch (RepositoryException e) {
+            if (wasPublished) {
                 ((DmoCollectionImpl) collection).publishAsOAISet();
             }
             throw new CollectionsException(e);
@@ -286,136 +239,110 @@ public class CollectionManagerImpl implements CollectionManager
 
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.purge")
-    public void purge(DmoCollection collection) throws CollectionsException
-    {
-        if (collection.hasParent())
-        {
+    public void purge(DmoCollection collection) throws CollectionsException {
+        if (collection.hasParent()) {
             throw new CollectionsException("Purge not allowed: collection has parent.");
         }
 
-        if (collection.isPublishedAsOAISet())
-        {
+        if (collection.isPublishedAsOAISet()) {
             throw new CollectionsException("Purge not allowed: collection is published as OAI-set.");
         }
 
         StoreSession session = Store.newStoreSession(getOwnerId());
         List<DmoStoreId> storeIds = new ArrayList<DmoStoreId>();
-        try
-        {
+        try {
             purge((DmoCollectionImpl) collection, session, storeIds);
             session.commit();
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new CollectionsException(e);
         }
-        finally
-        {
+        finally {
             session.close();
         }
-        for (DmoStoreId dmoStoreId : storeIds)
-        {
+        for (DmoStoreId dmoStoreId : storeIds) {
             CollectionsCache.instance().remove(dmoStoreId);
         }
     }
 
-    private void purge(DmoCollectionImpl parent, StoreSession session, List<DmoStoreId> storeIds) throws RepositoryException, CollectionsException
-    {
+    private void purge(DmoCollectionImpl parent, StoreSession session, List<DmoStoreId> storeIds) throws RepositoryException, CollectionsException {
         parent.registerDeleted();
         storeIds.add(parent.getDmoStoreId());
         session.attach(parent);
-        for (DmoCollection kid : parent.getChildren())
-        {
+        for (DmoCollection kid : parent.getChildren()) {
             parent.removeChild(kid);
             purge((DmoCollectionImpl) kid, session, storeIds);
         }
     }
 
     @Override
-    public XMLBean getXmlBean(DmoNamespace namespace) throws CollectionsException
-    {
+    public XMLBean getXmlBean(DmoNamespace namespace) throws CollectionsException {
         DmoCollection root = getRoot(namespace);
         JiBXCollection jibRoot = JiBXCollectionConverter.convert(root, true);
         return jibRoot;
     }
 
     @Override
-    public XMLBean getXmlBean(DmoStoreId dmoStoreId) throws CollectionsException
-    {
+    public XMLBean getXmlBean(DmoStoreId dmoStoreId) throws CollectionsException {
         DmoCollection collection = getCollection(dmoStoreId);
         JiBXCollection jibCol = JiBXCollectionConverter.convert(collection, false);
         return jibCol;
     }
 
     @Override
-    public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException
-    {
+    public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException {
         DmoCollection root = getRoot(namespace);
         RecursiveList recursiveList = RecursiveListConverter.convert(root);
         return recursiveList;
     }
 
-    private void storeDescending(DmoCollection collection) throws RepositoryException
-    {
+    private void storeDescending(DmoCollection collection) throws RepositoryException {
         StoreSession session = Store.newStoreSession(getOwnerId());
-        try
-        {
+        try {
             storeDescending(session, collection);
             session.commit();
             CollectionsCache.instance().putDescending(collection);
         }
-        finally
-        {
+        finally {
             session.close();
         }
     }
 
-    private void storeDescending(StoreSession session, DmoCollection collection) throws RepositoryException
-    {
+    private void storeDescending(StoreSession session, DmoCollection collection) throws RepositoryException {
         session.attach(collection);
-        for (DmoCollection kid : collection.getChildren())
-        {
+        for (DmoCollection kid : collection.getChildren()) {
             storeDescending(session, kid);
         }
     }
 
-    private void store(DmoCollection... collections) throws RepositoryException
-    {
+    private void store(DmoCollection... collections) throws RepositoryException {
         StoreSession session = Store.newStoreSession(getOwnerId());
-        try
-        {
-            for (DmoCollection collection : collections)
-            {
+        try {
+            for (DmoCollection collection : collections) {
                 session.attach(collection);
             }
             session.commit();
-            for (DmoCollection collection : collections)
-            {
+            for (DmoCollection collection : collections) {
                 CollectionsCache.instance().put(collection);
             }
         }
-        finally
-        {
+        finally {
             session.close();
         }
     }
 
-    private void storeAscending(DmoCollection collection) throws RepositoryException
-    {
+    private void storeAscending(DmoCollection collection) throws RepositoryException {
         StoreSession session = Store.newStoreSession(getOwnerId());
         DmoCollection parent = collection;
-        try
-        {
-            while (parent != null)
-            {
+        try {
+            while (parent != null) {
                 session.attach(parent);
                 parent = parent.getParent();
             }
             session.commit();
             CollectionsCache.instance().putAscending(collection);
         }
-        finally
-        {
+        finally {
             session.close();
         }
     }

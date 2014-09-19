@@ -15,16 +15,14 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class RestoreDatasetRuleTest
-{
+public class RestoreDatasetRuleTest {
     private static SecurityOfficer rule;
     private static Dataset dataset;
     private static EasyUser user;
     private static ContextParameters ctx;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         rule = new CodedAuthz().getRestoreDatasetRule();
         dataset = EasyMock.createMock(Dataset.class);
         user = EasyMock.createMock(EasyUser.class);
@@ -32,15 +30,13 @@ public class RestoreDatasetRuleTest
     }
 
     @Test
-    public void testProposition()
-    {
+    public void testProposition() {
         String proposition = "([SessionUser has role ADMIN] AND [Dataset state is DELETED])";
         assertEquals(proposition, rule.getProposition());
     }
 
     @Test
-    public void test10()
-    {
+    public void test10() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.ADMIN)).andReturn(false).times(2);
@@ -53,8 +49,7 @@ public class RestoreDatasetRuleTest
     }
 
     @Test
-    public void test11()
-    {
+    public void test11() {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.DELETED).times(2);
@@ -68,8 +63,7 @@ public class RestoreDatasetRuleTest
     }
 
     @Test
-    public void testNull()
-    {
+    public void testNull() {
         ContextParameters ctxParameters = new ContextParameters();
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));

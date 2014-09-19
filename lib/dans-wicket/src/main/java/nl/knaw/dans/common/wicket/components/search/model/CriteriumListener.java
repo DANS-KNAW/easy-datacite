@@ -6,11 +6,9 @@ import java.util.List;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
 
 /**
- * A CriteriumListener is notified of updates in searchCriteria and when an initial list of
- * {@link FacetConfig}s is set on the {@link SearchRequestBuilder}.
+ * A CriteriumListener is notified of updates in searchCriteria and when an initial list of {@link FacetConfig}s is set on the {@link SearchRequestBuilder}.
  */
-public interface CriteriumListener extends Serializable
-{
+public interface CriteriumListener extends Serializable {
 
     /**
      * A searchCriterium was added to the requestBuilder.

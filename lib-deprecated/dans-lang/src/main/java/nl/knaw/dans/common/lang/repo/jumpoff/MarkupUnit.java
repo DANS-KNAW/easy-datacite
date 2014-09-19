@@ -15,8 +15,7 @@ import nl.knaw.dans.common.lang.repo.AbstractBinaryUnit;
  * 
  * The content is then stored as managed content in datastream pointing to a file, not as inline xhtml.
  */
-public class MarkupUnit extends AbstractBinaryUnit
-{
+public class MarkupUnit extends AbstractBinaryUnit {
 
     public static final String MIME_TYPE = "text/html";
 
@@ -34,15 +33,13 @@ public class MarkupUnit extends AbstractBinaryUnit
     private boolean contentChanged;
     private String html;
 
-    public MarkupUnit(String unitId, String unitLabel)
-    {
+    public MarkupUnit(String unitId, String unitLabel) {
         this.unitId = unitId;
         this.unitLabel = unitLabel;
     }
 
     @Override
-    public String getUnitId()
-    {
+    public String getUnitId() {
         return unitId;
     }
 
@@ -52,29 +49,21 @@ public class MarkupUnit extends AbstractBinaryUnit
      * @param markup
      *        html to store
      */
-    public void setHtml(String markup)
-    {
+    public void setHtml(String markup) {
         contentChanged = true;
-        if (markup == null || "".equals(markup))
-        {
+        if (markup == null || "".equals(markup)) {
             html = "";
-        }
-        else
-        {
-            if (markup.trim().startsWith(CLASS_START_ELEMENT))
-            {
+        } else {
+            if (markup.trim().startsWith(CLASS_START_ELEMENT)) {
                 html = markup;
-            }
-            else
-            {
+            } else {
                 html = CLASS_START_ELEMENT + "\n" + markup + "\n" + CLASS_END_ELEMENT;
             }
         }
     }
 
     @Override
-    public boolean hasFile()
-    {
+    public boolean hasFile() {
         return contentChanged;
     }
 
@@ -82,8 +71,7 @@ public class MarkupUnit extends AbstractBinaryUnit
      * Prepares this HtmlMarkup for storage, by writing the content to a temporary file.
      */
     @Override
-    public void prepareForStorage() throws IOException
-    {
+    public void prepareForStorage() throws IOException {
         setFileContent(getHtml().getBytes(), unitLabel, MIME_TYPE);
     }
 
@@ -103,10 +91,8 @@ public class MarkupUnit extends AbstractBinaryUnit
      * 
      * @return content of this HtmlMarkupUnit
      */
-    public String getHtml()
-    {
-        if (html == null)
-        {
+    public String getHtml() {
+        if (html == null) {
             byte[] fileContent = getBinaryContent();
             html = fileContent == null ? "" : new String(fileContent);
         }

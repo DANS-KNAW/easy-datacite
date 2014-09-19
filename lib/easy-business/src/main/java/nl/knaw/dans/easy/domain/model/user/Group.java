@@ -2,11 +2,9 @@ package nl.knaw.dans.easy.domain.model.user;
 
 import nl.knaw.dans.common.lang.user.RepoEntry;
 
-public interface Group extends RepoEntry
-{
+public interface Group extends RepoEntry {
 
-    public enum State
-    {
+    public enum State {
         ACTIVE, INACTIVE
     }
 

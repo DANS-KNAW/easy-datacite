@@ -53,8 +53,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(AbstractDmoFactory.class)
-public class EasyItemServiceTest extends TestHelper
-{
+public class EasyItemServiceTest extends TestHelper {
 
     private static EasyStore easyStore;
     private static FileStoreAccess fileStoreAccess;
@@ -62,8 +61,7 @@ public class EasyItemServiceTest extends TestHelper
     private static EasyItemService service;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         new Security(new CodedAuthz());
 
         easyStore = EasyMock.createMock(EasyStore.class);
@@ -77,8 +75,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setEasyStore(null);
@@ -86,8 +83,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @Test
-    public void getFileItemDescription() throws Exception
-    {
+    public void getFileItemDescription() throws Exception {
         EasyUser sessionUser = getTestUser();
         Dataset dataset = new DatasetImpl("easy-dataset:1");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
@@ -110,8 +106,7 @@ public class EasyItemServiceTest extends TestHelper
 
     @Ignore("SydSynchronizer is not mockable")
     @Test
-    public void addDirectoryContents() throws ResourceNotFoundException, ServiceException, ObjectNotInStoreException, RepositoryException
-    {
+    public void addDirectoryContents() throws ResourceNotFoundException, ServiceException, ObjectNotInStoreException, RepositoryException {
         TestReporter reporter = new TestReporter();
         EasyUser sessionUser = getTestUser();
         List<File> filesToIngest = new ArrayList<File>();
@@ -153,8 +148,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void updateObjects() throws ServiceException
-    {
+    public void updateObjects() throws ServiceException {
         Dataset dataset = new DatasetImpl("easy-dataset:1");
 
         List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
@@ -164,8 +158,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @Test(expected = ServiceException.class)
-    public void addDirectoryContentsWithRuntimeException() throws ResourceNotFoundException, ObjectNotInStoreException, RepositoryException, ServiceException
-    {
+    public void addDirectoryContentsWithRuntimeException() throws ResourceNotFoundException, ObjectNotInStoreException, RepositoryException, ServiceException {
         TestReporter reporter = new TestReporter();
         EasyUser sessionUser = getTestUser();
         List<File> filesToIngest = new ArrayList<File>();
@@ -193,8 +186,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void testEmbargoOngetZippedContent() throws Exception
-    {
+    public void testEmbargoOngetZippedContent() throws Exception {
         EasyUser testUser = getTestUser();
         Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED).anyTimes();
@@ -209,8 +201,7 @@ public class EasyItemServiceTest extends TestHelper
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void testEmbargoOngetContent() throws Exception
-    {
+    public void testEmbargoOngetContent() throws Exception {
         EasyUser testUser = getTestUser();
         Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED).anyTimes();
@@ -223,37 +214,32 @@ public class EasyItemServiceTest extends TestHelper
         EasyMock.verify(dataset);
     }
 
-    private EasyUser getTestUser()
-    {
+    private EasyUser getTestUser() {
         EasyUser sessionUser = new EasyUserImpl("testUser");
         sessionUser.setState(State.ACTIVE);
         return sessionUser;
     }
 
-    private static class TestReporter extends WorkReporter
-    {
+    private static class TestReporter extends WorkReporter {
 
         List<Throwable> reportedExceptions = new ArrayList<Throwable>();
         boolean workStarted;
         boolean workEnded;
 
         @Override
-        public void onException(Throwable t)
-        {
+        public void onException(Throwable t) {
             super.onException(t);
             reportedExceptions.add(t);
         }
 
         @Override
-        public boolean onWorkStart()
-        {
+        public boolean onWorkStart() {
             workStarted = true;
             return super.onWorkStart();
         }
 
         @Override
-        public void onWorkEnd()
-        {
+        public void onWorkEnd() {
             workEnded = true;
             super.onWorkEnd();
         }

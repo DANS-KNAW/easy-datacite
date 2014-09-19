@@ -27,8 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
-public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderContributor
-{
+public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderContributor {
     private static final Logger logger = LoggerFactory.getLogger(VideoPanel.class);
 
     private String streamingUrl = "";
@@ -40,11 +39,9 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
     @SpringBean(name = "itemService")
     private ItemService itemService;
 
-    public VideoPanel(String id, DatasetModel model, final List<FileItemVO> videoFiles, PageParameters pageParameters)
-    {
+    public VideoPanel(String id, DatasetModel model, final List<FileItemVO> videoFiles, PageParameters pageParameters) {
         super(id, model);
-        for (FileItemVO videoFile : videoFiles)
-        {
+        for (FileItemVO videoFile : videoFiles) {
             addVideoFile(videoFile);
             // now only one video is show; break statement after the first video
             break;
@@ -52,42 +49,34 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
     }
 
     @Override
-    public void renderHead(IHeaderResponse response)
-    {
+    public void renderHead(IHeaderResponse response) {
         response.renderString("<script> var presentation = \"" + streamingUrl + "\"; </script><script> var ticket_value = \"" + ticketValue + "\"; </script>");
     }
 
-    private void addVideoFile(final FileItemVO videoFile)
-    {
-        try
-        {
+    private void addVideoFile(final FileItemVO videoFile) {
+        try {
             FileItemDescription description = itemService
                     .getFileItemDescription(EasySession.getSessionUser(), getDataset(), new DmoStoreId(videoFile.getSid()));
             List<KeyValuePair> metadata = description.getMetadataForAnonKnown();
-            for (KeyValuePair kvp : metadata)
-            {
-                if (kvp.getKey().toLowerCase().equals("streaming url"))
-                {
+            for (KeyValuePair kvp : metadata) {
+                if (kvp.getKey().toLowerCase().equals("streaming url")) {
                     ticketValue = UUID.randomUUID().toString();
                     streamingUrl = kvp.getValue();
                     securedStreamingService.addSecurityTicketToResource(ticketValue, streamingUrl);
                 }
             }
         }
-        catch (ObjectNotAvailableException e)
-        {
+        catch (ObjectNotAvailableException e) {
             errorMessage(EasyResources.NOT_FOUND);
             logger.error("Object not found: ", e);
             throw new InternalWebError();
         }
-        catch (CommonSecurityException e)
-        {
+        catch (CommonSecurityException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
             throw new InternalWebError();

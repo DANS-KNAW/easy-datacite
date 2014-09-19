@@ -33,13 +33,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
- * Application object for your web application. If you want to run this application without deploying,
- * run the Start class.
+ * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
  * @see nl.knaw.dans.easy.Start#main(String[])
  */
-public class EasyWicketApplication extends CommonWicketApplication implements ApplicationContextAware
-{
+public class EasyWicketApplication extends CommonWicketApplication implements ApplicationContextAware {
     public static final int DEFAULT_MAX_UPLOAD_SIZE_MB = 256;
 
     /**
@@ -57,8 +55,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
      * Initialize the application.
      */
     @Override
-    protected void init()
-    {
+    protected void init() {
         super.init();
         assert applicationContext != null;
         addComponentInstantiationListener(new SpringComponentInjector(this, applicationContext, true));
@@ -72,16 +69,14 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         LOGGER.debug("Init of Easy Wicket Application finished successfully");
     }
 
-    private void initConfiguration()
-    {
+    private void initConfiguration() {
         getApplicationSettings().setPageExpiredErrorPage(ExpiredPage.class);
         getApplicationSettings().setAccessDeniedPage(LoginPage.class);
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
         // TODO: get from easy config (see EasyPropertyPlaceholderConfigurer)
         getApplicationSettings().setDefaultMaximumUploadSize(Bytes.megabytes(DEFAULT_MAX_UPLOAD_SIZE_MB));
 
-        if (isInDevelopmentMode())
-        {
+        if (isInDevelopmentMode()) {
             getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
             getDebugSettings().setComponentUseCheck(true);
             getMarkupSettings().setStripWicketTags(false);
@@ -91,9 +86,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
             getDebugSettings().setOutputMarkupContainerClassName(true);
             getResourceSettings().setJavascriptCompressor(null);
             getRequestCycleSettings().addResponseFilter(EmptySrcAttributeCheckFilter.INSTANCE);
-        }
-        else
-        {
+        } else {
             getResourceSettings().setResourcePollFrequency(null);
             getDebugSettings().setComponentUseCheck(false);
             getMarkupSettings().setStripComments(true);
@@ -106,15 +99,13 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
 
     }
 
-    private void initSecurity()
-    {
+    private void initSecurity() {
         getSecuritySettings().setAuthorizationStrategy(new EasyAuthorizationStrategy());
         SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
         guard.addPattern("+*.htm");
     }
 
-    private void setAliases()
-    {
+    private void setAliases() {
         // changes http://localhost:8080/resources/org.apache.wicket.Application/...
         // into http://localhost:8080/resources/easy/...
 
@@ -122,13 +113,10 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         getSharedResources().putClassAlias(org.apache.wicket.Application.class, WICKET_APPLICATION_ALIAS);
     }
 
-    private void mountBookmarkables()
-    {
-        for (final ResourceBookmark bookmark : ResourceBookmark.values())
-        {
+    private void mountBookmarkables() {
+        for (final ResourceBookmark bookmark : ResourceBookmark.values()) {
             final Resource instance = getResourceInstance(bookmark);
-            if (instance != null)
-            {
+            if (instance != null) {
                 getSharedResources().add(bookmark.getAlias(), instance);
             }
         }
@@ -136,38 +124,30 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         ContextRelativeResource jumpoffMarkupCss = new ContextRelativeResource("css/jumpoff-markupo.css");
         getSharedResources().add(DansTinyMCESettings.JUMPOFF_MARKUP_CSS, jumpoffMarkupCss);
 
-        for (final PageBookmark value : PageBookmark.values())
-        {
+        for (final PageBookmark value : PageBookmark.values()) {
             mountBookmarkablePage("/" + value.getAlias(), value.getAliasClass());
         }
     }
 
-    private void mountRestService()
-    {
-        mount(new BookmarkablePageRequestTargetUrlCodingStrategy("rest", RESTstartPage.class, null)
-        {
+    private void mountRestService() {
+        mount(new BookmarkablePageRequestTargetUrlCodingStrategy("rest", RESTstartPage.class, null) {
             @Override
-            protected ValueMap decodeParameters(String urlFragment, Map<String, ?> urlParameters)
-            {
+            protected ValueMap decodeParameters(String urlFragment, Map<String, ?> urlParameters) {
                 // Do nothing.
                 return new ValueMap();
             }
         });
     }
 
-    private Resource getResourceInstance(final ResourceBookmark bookmark)
-    {
+    private Resource getResourceInstance(final ResourceBookmark bookmark) {
         Class<? extends Resource> resourceClass = bookmark.getAliasClass();
-        try
-        {
+        try {
             return resourceClass.newInstance();
         }
-        catch (final InstantiationException exception)
-        {
+        catch (final InstantiationException exception) {
             LOGGER.error("could not create " + resourceClass.getName(), exception);
         }
-        catch (final IllegalAccessException exception)
-        {
+        catch (final IllegalAccessException exception) {
             LOGGER.error("could not create " + resourceClass.getName(), exception);
         }
         return null;
@@ -178,8 +158,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
      * @see org.apache.wicket.Application#getHomePage()
      */
     @Override
-    public Class<HomePage> getHomePage()
-    {
+    public Class<HomePage> getHomePage() {
         return HomePage.class;
     }
 
@@ -188,8 +167,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
      * 
      * @return The login page.
      */
-    public Class<LoginPage> getLoginPage()
-    {
+    public Class<LoginPage> getLoginPage() {
         return LoginPage.class;
     }
 
@@ -203,8 +181,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
      * @return New Session
      */
     @Override
-    public Session newSession(final Request request, final Response response)
-    {
+    public Session newSession(final Request request, final Response response) {
         final Session session = new EasySession(request);
 
         LOGGER.info("Created new session for user (" + getUserIpAddress() + ").");
@@ -213,8 +190,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
     }
 
     @Override
-    public void sessionDestroyed(final String sessionId)
-    {
+    public void sessionDestroyed(final String sessionId) {
         LOGGER.info("Destroying session with id " + sessionId);
 
         super.sessionDestroyed(sessionId);
@@ -224,14 +200,12 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
      * This method override is necessary for the EasyUpload component to work.
      */
     @Override
-    protected WebRequest newWebRequest(final HttpServletRequest servletRequest)
-    {
+    protected WebRequest newWebRequest(final HttpServletRequest servletRequest) {
         return new EasyUploadWebRequest(servletRequest);
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         // this makes sure that all data is rolledback before the application finishes
         // TODO: NOT TESTED!
         LOGGER.info("Closing " + this.getClass().getSimpleName());
@@ -240,13 +214,11 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
-    {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-    public ApplicationContext getApplicationContext()
-    {
+    public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 

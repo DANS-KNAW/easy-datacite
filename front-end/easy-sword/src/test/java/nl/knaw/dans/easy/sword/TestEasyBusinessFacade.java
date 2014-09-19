@@ -20,40 +20,33 @@ import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
-public class TestEasyBusinessFacade extends Fixture
-{
+public class TestEasyBusinessFacade extends Fixture {
     static File tempDirectory;
 
     @Before
-    public void setupMocking() throws Exception
-    {
+    public void setupMocking() throws Exception {
         MockUtil.mockAll();
     }
 
     @BeforeClass
-    public static void createTempDir() throws Exception
-    {
+    public static void createTempDir() throws Exception {
         final File basePath = new File("target/tmp");
         basePath.mkdirs();
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
     }
 
     @AfterClass
-    public static void clearTempDir() throws Exception
-    {
+    public static void clearTempDir() throws Exception {
         // TODO clear target/tmp/unzip;
     }
 
-    private static void executeSubmit(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception
-    {
+    private static void executeSubmit(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception {
         final List<File> fileList = new UnzipUtil(zipFile, tempDirectory.getPath(), createUnzipListener()).run();
-        try
-        {
+        try {
             final EasyMetadata easyMetaData = EasyMetadataFacade.validate(FileUtil.readFile(metaDataFile));
             EasyBusinessFacade.submitNewDataset(false, MockUtil.USER, easyMetaData, tempDirectory, fileList);
         }
-        catch (final SWORDException se)
-        {
+        catch (final SWORDException se) {
             if (expectedCause == null)
                 throw se;
             if (se.getCause() == null || !(se.getCause().getClass().equals(expectedCause)))
@@ -64,16 +57,14 @@ public class TestEasyBusinessFacade extends Fixture
     }
 
     @Test(expected = SWORDErrorException.class)
-    public void invalidMetadataByMM() throws Throwable
-    {
+    public void invalidMetadataByMM() throws Throwable {
         final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
         final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
         executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
     @Test(expected = SWORDErrorException.class)
-    public void getIllegalFormDefinition() throws Throwable
-    {
+    public void getIllegalFormDefinition() throws Throwable {
         final File file = new File("src/test/resources/input/metadata.xml");
         final byte[] bytes = FileUtil.readFile(file);
         final EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, bytes);
@@ -83,25 +74,18 @@ public class TestEasyBusinessFacade extends Fixture
         formDefinition.getHelpFile();
     }
 
-    private static UnzipListener createUnzipListener()
-    {
-        final UnzipListener unzipListener = new UnzipListener()
-        {
+    private static UnzipListener createUnzipListener() {
+        final UnzipListener unzipListener = new UnzipListener() {
             @Override
-            public boolean onUnzipUpdate(final long bytesUnzipped, final long total)
-            {
+            public boolean onUnzipUpdate(final long bytesUnzipped, final long total) {
                 return true; // continue unzip
             }
 
             @Override
-            public void onUnzipStarted(final long totalBytes)
-            {
-            }
+            public void onUnzipStarted(final long totalBytes) {}
 
             @Override
-            public void onUnzipComplete(final List<File> files, final boolean canceled)
-            {
-            }
+            public void onUnzipComplete(final List<File> files, final boolean canceled) {}
         };
         return unzipListener;
     }

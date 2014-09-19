@@ -6,9 +6,8 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 
 /**
- * Renders one choice of an enum object. The 'id' values used for internal representation is the name of
- * the enum instance. This value is also (part of) the key to look up the 'display value' in the
- * resource. The 'display value' is the first non null value of the following list:
+ * Renders one choice of an enum object. The 'id' values used for internal representation is the name of the enum instance. This value is also (part of) the key
+ * to look up the 'display value' in the resource. The 'display value' is the first non null value of the following list:
  * <ul>
  * <li>resourceProvider.getString(&lt;resourceId>.&lt;enum.value></li>
  * <li>resourceProvider.getString(&lt;enum.value>)</li>
@@ -54,8 +53,7 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
  * 
  * adapted from http://techblog.molindo.at/2008/01/wicket-choicerenderer-for-enums.html by Michael Sparer
  */
-public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T>
-{
+public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T> {
     private static final long serialVersionUID = 1L;
 
     private final Component resourceProvider;
@@ -66,43 +64,32 @@ public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T>
      * @param resourceProvider
      *        resource provider for the display value of an enum instance.
      * @param qualifier
-     *        optional qualification to look up the display value in the resourceProvider. This allows to
-     *        use the same list (or overlapping lists) of enum values for different components, such as a
-     *        filter and an update value.
+     *        optional qualification to look up the display value in the resourceProvider. This allows to use the same list (or overlapping lists) of enum
+     *        values for different components, such as a filter and an update value.
      */
-    public EnumChoiceRenderer(final Component resourceProvider, final String qualifier)
-    {
+    public EnumChoiceRenderer(final Component resourceProvider, final String qualifier) {
         this.resourceProvider = resourceProvider;
         this.qualifier = qualifier;
     }
 
-    public String getDisplayValue(final T enumConst)
-    {
+    public String getDisplayValue(final T enumConst) {
         final String key = enumConst == null ? "null" : enumConst.name();
-        if (qualifier != null)
-        {
-            try
-            {
+        if (qualifier != null) {
+            try {
                 return resourceProvider.getString(qualifier + '.' + key);
             }
 
-            catch (MissingResourceException exception)
-            {
-            }
+            catch (MissingResourceException exception) {}
         }
-        try
-        {
+        try {
             return resourceProvider.getString(key);
         }
-        catch (MissingResourceException exception)
-        {
-        }
+        catch (MissingResourceException exception) {}
         return key;
 
     }
 
-    public String getIdValue(final T enumConst, final int index)
-    {
+    public String getIdValue(final T enumConst, final int index) {
         return enumConst == null ? null : enumConst.name();
     }
 

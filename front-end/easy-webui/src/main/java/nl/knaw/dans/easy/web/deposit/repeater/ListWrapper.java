@@ -7,15 +7,13 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 /**
- * ListWrapper is a converter for Lists. A ListWrapper provides methods to obtain and handle instances of
- * type T.
+ * ListWrapper is a converter for Lists. A ListWrapper provides methods to obtain and handle instances of type T.
  * 
  * @author ecco Mar 31, 2009
  * @param <T>
  *        the type handled by this ListWrapper
  */
-public interface ListWrapper<T extends Object> extends Serializable
-{
+public interface ListWrapper<T extends Object> extends Serializable {
     /**
      * Convert the given list with type T instances to the wrapped list.
      * 

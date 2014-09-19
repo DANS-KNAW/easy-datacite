@@ -16,32 +16,26 @@ import nl.knaw.dans.common.lang.search.exceptions.FieldNotFoundException;
  * @param <T>
  *        the type of the search hits
  */
-public class EmptySearchResult<T> implements SearchResult<T>
-{
+public class EmptySearchResult<T> implements SearchResult<T> {
     private static final long serialVersionUID = 6240442564596343488L;
 
-    public int getTotalHits()
-    {
+    public int getTotalHits() {
         return 0;
     }
 
-    public List<SearchHit<T>> getHits()
-    {
+    public List<SearchHit<T>> getHits() {
         return new ArrayList<SearchHit<T>>(0);
     }
 
-    public List<FacetField> getFacets()
-    {
+    public List<FacetField> getFacets() {
         return Collections.emptyList();
     }
 
-    public FacetField getFacetByName(String facetFieldName) throws FieldNotFoundException
-    {
+    public FacetField getFacetByName(String facetFieldName) throws FieldNotFoundException {
         throw new FieldNotFoundException(facetFieldName);
     }
 
-    public boolean useRelevanceScore()
-    {
+    public boolean useRelevanceScore() {
         return false;
     }
 

@@ -10,12 +10,10 @@ import nl.knaw.dans.common.lang.ResourceNotFoundException;
 
 import org.junit.Test;
 
-public class ResourceLocatorTest
-{
+public class ResourceLocatorTest {
 
     @Test
-    public void getLocaleSpecificURL()
-    {
+    public void getLocaleSpecificURL() {
         URL url = ResourceLocator.getURL("test/resource/x", null, "txt");
         assertTrue(url.toString().endsWith("test/resource/x.txt"));
 
@@ -43,27 +41,23 @@ public class ResourceLocatorTest
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getFile1() throws ResourceNotFoundException
-    {
+    public void getFile1() throws ResourceNotFoundException {
         ResourceLocator.getFile("this/file/does/not/exist");
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void getFile2() throws ResourceNotFoundException
-    {
+    public void getFile2() throws ResourceNotFoundException {
         ResourceLocator.getFile("test/resource/x");
     }
 
     @Test
-    public void getFile3() throws ResourceNotFoundException
-    {
+    public void getFile3() throws ResourceNotFoundException {
         File file = ResourceLocator.getFile("test/resource/x.txt");
         assertTrue(file.exists());
     }
 
     @Test
-    public void getLocaleSpecificFile() throws ResourceNotFoundException
-    {
+    public void getLocaleSpecificFile() throws ResourceNotFoundException {
         Locale locale = new Locale("nl");
         File file = ResourceLocator.getFile("test/resource/x", locale, "txt");
         assertTrue(file.exists());

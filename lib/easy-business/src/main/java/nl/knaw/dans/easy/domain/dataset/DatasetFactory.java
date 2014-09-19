@@ -5,24 +5,20 @@ import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
-public class DatasetFactory extends AbstractDmoFactory<Dataset>
-{
+public class DatasetFactory extends AbstractDmoFactory<Dataset> {
 
     @Override
-    public Dataset newDmo() throws RepositoryException
-    {
+    public Dataset newDmo() throws RepositoryException {
         return createDmo(nextSid());
     }
 
     @Override
-    public Dataset createDmo(String storeId)
-    {
+    public Dataset createDmo(String storeId) {
         return new DatasetImpl(storeId);
     }
 
     @Override
-    public DmoNamespace getNamespace()
-    {
+    public DmoNamespace getNamespace() {
         return Dataset.NAMESPACE;
     }
 

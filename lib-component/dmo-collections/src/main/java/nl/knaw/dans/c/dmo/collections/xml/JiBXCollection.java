@@ -11,8 +11,7 @@ import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 
-public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
-{
+public class JiBXCollection extends AbstractJiBXObject<JiBXCollection> {
 
     private static final long serialVersionUID = -1753385302725866794L;
 
@@ -24,111 +23,87 @@ public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
     private JiBXDublinCoreMetadata dcMetadata;
     private List<JiBXCollection> children;
 
-    public JiBXCollection()
-    {
+    public JiBXCollection() {
 
     }
 
-    public String getNamespace()
-    {
+    public String getNamespace() {
         return namespace;
     }
 
-    public void setNamespace(String namespace)
-    {
+    public void setNamespace(String namespace) {
         this.namespace = namespace;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public String getShortName()
-    {
+    public String getShortName() {
         return shortName;
     }
 
-    public void setShortName(String shortName)
-    {
+    public void setShortName(String shortName) {
         this.shortName = shortName;
     }
 
-    public boolean isPublishedAsOAISet()
-    {
+    public boolean isPublishedAsOAISet() {
         return publishedAsOAISet;
     }
 
-    public void setPublishedAsOAISet(boolean publishedAsOAISet)
-    {
+    public void setPublishedAsOAISet(boolean publishedAsOAISet) {
         this.publishedAsOAISet = publishedAsOAISet;
     }
 
-    public void setDcMetadata(JiBXDublinCoreMetadata dcMetadata)
-    {
+    public void setDcMetadata(JiBXDublinCoreMetadata dcMetadata) {
         this.dcMetadata = dcMetadata;
     }
 
-    public JiBXDublinCoreMetadata getDcMetadata()
-    {
-        if (dcMetadata == null)
-        {
+    public JiBXDublinCoreMetadata getDcMetadata() {
+        if (dcMetadata == null) {
             dcMetadata = new JiBXDublinCoreMetadata();
         }
         return dcMetadata;
     }
 
-    public void setDcMetadataElement(Element dcMetadataElement) throws XMLDeserializationException
-    {
-        if (dcMetadataElement != null)
-        {
+    public void setDcMetadataElement(Element dcMetadataElement) throws XMLDeserializationException {
+        if (dcMetadataElement != null) {
             dcMetadata = (JiBXDublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, dcMetadataElement);
         }
     }
 
-    public Element getDcMetadataElement() throws XMLSerializationException
-    {
-        if (dcMetadata == null)
-        {
+    public Element getDcMetadataElement() throws XMLSerializationException {
+        if (dcMetadata == null) {
             return null;
-        }
-        else
-        {
+        } else {
             return dcMetadata.asElement();
         }
     }
 
-    public List<JiBXCollection> getChildren()
-    {
-        if (children == null)
-        {
+    public List<JiBXCollection> getChildren() {
+        if (children == null) {
             children = new ArrayList<JiBXCollection>();
         }
         return children;
     }
 
-    public void setChildren(List<JiBXCollection> children)
-    {
+    public void setChildren(List<JiBXCollection> children) {
         this.children = children;
     }
 
-    public void addChild(JiBXCollection child)
-    {
+    public void addChild(JiBXCollection child) {
         getChildren().add(child);
     }
 

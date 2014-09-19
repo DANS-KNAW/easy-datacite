@@ -13,8 +13,7 @@ import org.springframework.core.io.FileSystemResource;
 
 /**
  * <p>
- * User name dependent PropertyPlaceholderConfigurer. Tries to find a placeholder properties file in the
- * following order:
+ * User name dependent PropertyPlaceholderConfigurer. Tries to find a placeholder properties file in the following order:
  * <ol>
  * <li>[resourcePath]/[user.name].properties</li>
  * <li>[resourcePath/cfg/[user.name].properties</li>
@@ -23,40 +22,33 @@ import org.springframework.core.io.FileSystemResource;
  * </ol>
  * </p>
  * <p>
- * <code>resourcePath</code> is the value of the constructor parameter. If none is specified the
- * directory containing the calling application context is used. <code>user.name</code> is the value of
- * the corresponding Java system property.
+ * <code>resourcePath</code> is the value of the constructor parameter. If none is specified the directory containing the calling application context is used.
+ * <code>user.name</code> is the value of the corresponding Java system property.
  * 
- * @see <a
- *      href="http://static.springsource.org/spring/docs/2.5.x/reference/beans.html#beans-factory-extension-factory-postprocessors">Customizing
- *      configuration metadata with BeanFactoryPostProcessors</a>
+ * @see <a href="http://static.springsource.org/spring/docs/2.5.x/reference/beans.html#beans-factory-extension-factory-postprocessors">Customizing configuration
+ *      metadata with BeanFactoryPostProcessors</a>
  * @author ecco
  */
-public class FileBasedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer
-{
+public class FileBasedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 
     public static final String DEFAULT_RESOURCE_PATH = "cfg";
     public static final String DEFAULT_PROPERTIES_FILE = "application.properties";
 
     private static final Logger logger = LoggerFactory.getLogger(FileBasedPropertyPlaceholderConfigurer.class);
 
-    public FileBasedPropertyPlaceholderConfigurer() throws IOException
-    {
+    public FileBasedPropertyPlaceholderConfigurer() throws IOException {
         this(DEFAULT_RESOURCE_PATH);
     }
 
-    public FileBasedPropertyPlaceholderConfigurer(final String resourcePath) throws FileNotFoundException
-    {
+    public FileBasedPropertyPlaceholderConfigurer(final String resourcePath) throws FileNotFoundException {
         final List<File> locationsToTry = new LinkedList<File>();
         final String filename = System.getProperty("user.name") + ".properties";
         locationsToTry.add(new File(resourcePath, filename));
         locationsToTry.add(new File(resourcePath, DEFAULT_RESOURCE_PATH + "/" + filename));
         locationsToTry.add(new File(resourcePath, DEFAULT_PROPERTIES_FILE));
         locationsToTry.add(new File(resourcePath, DEFAULT_RESOURCE_PATH + "/" + DEFAULT_PROPERTIES_FILE));
-        for (final File file : locationsToTry)
-        {
-            if (file.exists())
-            {
+        for (final File file : locationsToTry) {
+            if (file.exists()) {
                 logger.info("Found application properties at " + file.getAbsolutePath());
                 setLocation(new FileSystemResource(file));
                 return;

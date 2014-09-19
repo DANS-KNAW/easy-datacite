@@ -28,8 +28,7 @@ import org.joda.time.DateTime;
  * @author Georgi Khomeriki
  */
 @Path("/cmdi")
-public class CmdiResource extends AuthenticatedResource
-{
+public class CmdiResource extends AuthenticatedResource {
 
     public static final String CMDI_MEDIA_TYPE = "application/x-cmdi+xml";
 
@@ -41,10 +40,8 @@ public class CmdiResource extends AuthenticatedResource
     @SuppressWarnings({"rawtypes", "unchecked"})
     @GET
     @Path("/last-modified")
-    public Response getLastModified()
-    {
-        try
-        {
+    public Response getLastModified() {
+        try {
             EasyUser user = authenticate();
             FieldSet fields = new SimpleFieldSet();
             fields.add(new SimpleField(DatasetSB.DC_FORMAT_FIELD, CMDI_MEDIA_TYPE));
@@ -52,23 +49,20 @@ public class CmdiResource extends AuthenticatedResource
             request.setFilterQueries(fields);
             SearchResult<? extends DatasetSB> result = Services.getSearchService().searchPublished(request, user);
             DateTime lastDate = null;
-            for (Object o : result.getHits())
-            {
+            for (Object o : result.getHits()) {
                 SimpleSearchHit<?> hit = (SimpleSearchHit<?>) o;
                 EasyDatasetSB hitData = (EasyDatasetSB) hit.getData();
                 String sid = hitData.getStoreId();
                 Dataset dataset = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
                 AdministrativeMetadata amd = dataset.getAdministrativeMetadata();
                 DateTime date = amd.getDateOfLastChangeTo(amd.getAdministrativeState());
-                if (lastDate == null || lastDate.isBefore(date))
-                {
+                if (lastDate == null || lastDate.isBefore(date)) {
                     lastDate = date;
                 }
             }
             return lastDate != null ? simpleResponse(lastDate.toString()) : notFound();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             return internalServerError(e);
         }
     }

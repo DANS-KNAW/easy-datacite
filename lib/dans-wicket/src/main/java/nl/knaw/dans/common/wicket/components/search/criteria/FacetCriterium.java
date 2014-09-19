@@ -12,30 +12,25 @@ import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
 import org.apache.wicket.model.IModel;
 
 /**
- * Selects a facet by using a field filter on the selected facet value. Also compatible with
- * CollapsedFacetValues.
+ * Selects a facet by using a field filter on the selected facet value. Also compatible with CollapsedFacetValues.
  * 
  * @author lobo
  */
-public class FacetCriterium extends AbstractSearchCriterium
-{
+public class FacetCriterium extends AbstractSearchCriterium {
     private static final long serialVersionUID = -1946955118281043993L;
 
     private final FacetValue facetValue;
     private final String facetName;
 
-    public FacetCriterium(String facetName, FacetValue facetValue, IModel<String> labelModel)
-    {
+    public FacetCriterium(String facetName, FacetValue facetValue, IModel<String> labelModel) {
         super(labelModel);
         this.facetName = facetName;
         this.facetValue = facetValue;
     }
 
     @Override
-    public void apply(SimpleSearchRequest searchRequest)
-    {
-        if (facetValue instanceof CollapsedFacetValue)
-        {
+    public void apply(SimpleSearchRequest searchRequest) {
+        if (facetValue instanceof CollapsedFacetValue) {
             CollapsedFacetValue collapsedFacetValue = (CollapsedFacetValue) facetValue;
 
             List collapsedValues = new ArrayList(collapsedFacetValue.getCollapsedValues());
@@ -43,8 +38,7 @@ public class FacetCriterium extends AbstractSearchCriterium
             String facetValuesQuery = "(" + facetValue.getValue().toString();
             if (collapsedValuesIt.hasNext())
                 facetValuesQuery += " OR ";
-            while (collapsedValuesIt.hasNext())
-            {
+            while (collapsedValuesIt.hasNext()) {
                 FacetValue<?> collapsedValue = collapsedValuesIt.next();
                 facetValuesQuery += collapsedValue.getValue().toString();
                 if (collapsedValuesIt.hasNext())
@@ -54,21 +48,17 @@ public class FacetCriterium extends AbstractSearchCriterium
 
             SimpleField<String> facetFilter = new SimpleField<String>(facetName, facetValuesQuery);
             searchRequest.addFilterQuery(facetFilter);
-        }
-        else
-        {
+        } else {
             SimpleField<String> facetFilter = new SimpleField<String>(facetName, facetValue.getValue().toString());
             searchRequest.addFilterQuery(facetFilter);
         }
     }
 
-    public FacetValue getFacetValue()
-    {
+    public FacetValue getFacetValue() {
         return facetValue;
     }
 
-    public String getFacetName()
-    {
+    public String getFacetName() {
         return facetName;
     }
 

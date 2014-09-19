@@ -6,10 +6,8 @@ import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
 /**
  * Utility class for validating Dans Dataset Metadata.
  */
-public class DDMValidator extends AbstractValidator2
-{
-    public DDMValidator()
-    {
+public class DDMValidator extends AbstractValidator2 {
+    public DDMValidator() {
         // default schemas for DDM (online)
         super(DDM.xsd, DCX_GML.xsd, NARCIS_TYPE.xsd, ABR.xsd);
     }

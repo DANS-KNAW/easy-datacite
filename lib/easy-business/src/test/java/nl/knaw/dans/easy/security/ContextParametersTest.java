@@ -9,12 +9,10 @@ import nl.knaw.dans.easy.security.ContextParameters;
 
 import org.junit.Test;
 
-public class ContextParametersTest
-{
+public class ContextParametersTest {
 
     @Test
-    public void testContructor()
-    {
+    public void testContructor() {
         Object[] args1 = {"bla", new EasyUserImpl("kees"), new DatasetImpl("123"), "encore bla"};
 
         ContextParameters ctxParameters = new ContextParameters(args1);

@@ -10,8 +10,7 @@ import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.easy.domain.download.DownloadList.Level;
 
-public class DownloadHistory extends AbstractDataModelObject
-{
+public class DownloadHistory extends AbstractDataModelObject {
 
     public static final int LIST_TYPE_DATASET = DownloadList.TYPE_MONTH;
 
@@ -22,20 +21,17 @@ public class DownloadHistory extends AbstractDataModelObject
     private String objectId;
     private DownloadList downloadList;
 
-    public DownloadHistory(String storeId)
-    {
+    public DownloadHistory(String storeId) {
         super(storeId);
     }
 
-    public DownloadHistory(String storeId, int listType, Level level, String objectId)
-    {
+    public DownloadHistory(String storeId, int listType, Level level, String objectId) {
         super(storeId);
         this.objectId = objectId;
         downloadList = new DownloadList(listType, level);
     }
 
-    public DownloadHistory(String storeId, int listType, Level level, String objectId, DateTime start)
-    {
+    public DownloadHistory(String storeId, int listType, Level level, String objectId, DateTime start) {
         super(storeId);
         this.objectId = objectId;
         if (listType != DownloadList.TYPE_MONTH)
@@ -43,52 +39,40 @@ public class DownloadHistory extends AbstractDataModelObject
         downloadList = new DownloadList(listType, level, new DateTime(start.getYearOfEra() + "-" + start.getMonthOfYear()));
     }
 
-    public DmoNamespace getDmoNamespace()
-    {
+    public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
     }
 
-    public boolean isDeletable()
-    {
+    public boolean isDeletable() {
         return isRegisteredDeleted();
     }
 
     @Override
-    public List<MetadataUnit> getMetadataUnits()
-    {
+    public List<MetadataUnit> getMetadataUnits() {
         List<MetadataUnit> mdUnits = super.getMetadataUnits();
         mdUnits.add(getDownloadList());
         return mdUnits;
     }
 
     @Override
-    protected Relations newRelationsObject()
-    {
-        if (objectId == null)
-        {
+    protected Relations newRelationsObject() {
+        if (objectId == null) {
             return new DownloadHistoryRelations(this);
-        }
-        else
-        {
+        } else {
             return new DownloadHistoryRelations(this, objectId);
         }
     }
 
-    public String getObjectId()
-    {
-        if (objectId == null)
-        {
+    public String getObjectId() {
+        if (objectId == null) {
             DownloadHistoryRelations relations = (DownloadHistoryRelations) getRelations();
             return relations.getObjectId();
-        }
-        else
-        {
+        } else {
             return objectId;
         }
     }
 
-    public DownloadList getDownloadList()
-    {
+    public DownloadList getDownloadList() {
         return downloadList;
     }
 
@@ -98,8 +82,7 @@ public class DownloadHistory extends AbstractDataModelObject
      * @param downloadList
      *        the thing to set
      */
-    public void setDownloadList(DownloadList downloadList)
-    {
+    public void setDownloadList(DownloadList downloadList) {
         this.downloadList = downloadList;
     }
 

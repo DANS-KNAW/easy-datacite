@@ -6,14 +6,12 @@ import org.slf4j.LoggerFactory;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 
-public class LoginService
-{
+public class LoginService {
     private static Logger log = LoggerFactory.getLogger(LoginService.class);
 
     private AuthenticationSpecification authenticationSpecification;
 
-    public UsernamePasswordAuthentication newAuthentication()
-    {
+    public UsernamePasswordAuthentication newAuthentication() {
         UsernamePasswordAuthentication upAuthn = new UsernamePasswordAuthentication();
 
         // store requestTime and requestToken and check when this authentication comes back.
@@ -21,16 +19,13 @@ public class LoginService
         return upAuthn;
     }
 
-    public void login(final UsernamePasswordAuthentication authentication)
-    {
-        if (authenticationSpecification.isSatisfiedBy(authentication))
-        {
+    public void login(final UsernamePasswordAuthentication authentication) {
+        if (authenticationSpecification.isSatisfiedBy(authentication)) {
             authentication.setState(Authentication.State.Authenticated);
         }
     }
 
-    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
-    {
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification) {
         this.authenticationSpecification = authenticationSpecification;
     }
 }

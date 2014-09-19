@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Sends mail messages to registered administrators.
  */
-public class AdminMailer
-{
+public class AdminMailer {
     /**
      * The default time in minutes to wait between sending exception mails.
      */
@@ -35,19 +34,16 @@ public class AdminMailer
     private int exeptionMailInterval = DEFAULT_EXEPTION_MAIL_INTERVAL;
     private DateTime lastExceptionMailSend;
 
-    public AdminMailer(Mailer mailOffice, String applicationName)
-    {
+    public AdminMailer(Mailer mailOffice, String applicationName) {
         this.mailOffice = mailOffice;
         this.applicationName = applicationName;
     }
 
-    public List<String> getAdminMailAddresses()
-    {
+    public List<String> getAdminMailAddresses() {
         return adminMailAddresses;
     }
 
-    public void setAdminMailAddresses(List<String> adminMailAddresses)
-    {
+    public void setAdminMailAddresses(List<String> adminMailAddresses) {
         this.adminMailAddresses = adminMailAddresses;
         logger.info("Admin mail addresses: " + adminMailAddresses);
     }
@@ -58,108 +54,83 @@ public class AdminMailer
      * @param adminAddresses
      *        a comma separated list of email addresses
      */
-    public void setAdminMailAddressesCS(String adminAddresses)
-    {
-        if (StringUtils.isNotBlank(adminAddresses))
-        {
+    public void setAdminMailAddressesCS(String adminAddresses) {
+        if (StringUtils.isNotBlank(adminAddresses)) {
             String[] addresses = adminAddresses.split(",");
             setAdminMailAddresses(Arrays.asList(addresses));
         }
     }
 
-    public String getApplicationName()
-    {
+    public String getApplicationName() {
         return applicationName;
     }
 
-    public void setSendOnStarting(boolean sendOnStartup)
-    {
+    public void setSendOnStarting(boolean sendOnStartup) {
         this.sendOnStarting = sendOnStartup;
     }
 
-    public void setSendOnClosing(boolean sendOnClose)
-    {
+    public void setSendOnClosing(boolean sendOnClose) {
         this.sendOnClosing = sendOnClose;
     }
 
-    public int getExeptionMailInterval()
-    {
+    public int getExeptionMailInterval() {
         return exeptionMailInterval;
     }
 
-    public void setExeptionMailInterval(int exeptionMailInterval)
-    {
+    public void setExeptionMailInterval(int exeptionMailInterval) {
         this.exeptionMailInterval = exeptionMailInterval;
     }
 
-    public boolean sendEmergencyMail(Throwable cause)
-    {
+    public boolean sendEmergencyMail(Throwable cause) {
         return sendEmergencyMail(null, cause);
     }
 
-    public boolean sendEmergencyMail(String msg, Throwable cause)
-    {
+    public boolean sendEmergencyMail(String msg, Throwable cause) {
         return sendMail("Severe exception in", msg, cause);
     }
 
-    public boolean sendExceptionMail(Throwable cause)
-    {
+    public boolean sendExceptionMail(Throwable cause) {
         return sendExceptionMail(null, cause);
     }
 
-    public boolean sendExceptionMail(String msg, Throwable cause)
-    {
+    public boolean sendExceptionMail(String msg, Throwable cause) {
         boolean send = false;
         DateTime pollTime = new DateTime().minusMinutes(exeptionMailInterval);
-        if (lastExceptionMailSend == null || pollTime.isAfter(lastExceptionMailSend))
-        {
+        if (lastExceptionMailSend == null || pollTime.isAfter(lastExceptionMailSend)) {
             send = sendMail("Exception in", msg, cause);
             if (send)
                 lastExceptionMailSend = new DateTime();
-        }
-        else
-        {
+        } else {
             logger.info("Not sending mail because last exception mail was send less then " + exeptionMailInterval + " minutes ago.");
         }
         return send;
     }
 
-    public boolean sendApplicationStarting()
-    {
-        if (sendOnStarting)
-        {
+    public boolean sendApplicationStarting() {
+        if (sendOnStarting) {
             return sendMail("Starting", null, null);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public boolean sendApplicationClosing()
-    {
-        if (sendOnClosing)
-        {
+    public boolean sendApplicationClosing() {
+        if (sendOnClosing) {
             return sendMail("Closing", null, null);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public boolean sendInfoMail(String message)
-    {
+    public boolean sendInfoMail(String message) {
         return sendMail("Info message from", message, null);
     }
 
-    private boolean sendMail(String prefix, String message, Throwable cause)
-    {
+    private boolean sendMail(String prefix, String message, Throwable cause) {
         String subject = prefix + " application " + applicationName + " on " + NetUtil.getCanonicalHostName();
         String date = new DateTime().toString("yyyy-MM-dd HH:mm:ss.SSSZZ");
         String stacktrace = null;
-        if (cause != null)
-        {
+        if (cause != null) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             PrintWriter writer = new PrintWriter(out, true);
             cause.printStackTrace(writer);
@@ -169,13 +140,11 @@ public class AdminMailer
                 .append(subject) //
                 .append("\n\nDate: ") //
                 .append(date);
-        if (message != null)
-        {
+        if (message != null) {
             sb.append("\nMessage: ") //
                     .append(message);
         }
-        if (stacktrace != null)
-        {
+        if (stacktrace != null) {
             sb.append("\n\nStacktrace:\n") //
                     .append(stacktrace);
         }
@@ -183,24 +152,18 @@ public class AdminMailer
         return send("[AdminMailer " + applicationName + "] " + subject, sb.toString());
     }
 
-    protected boolean send(String subject, String text)
-    {
+    protected boolean send(String subject, String text) {
         boolean success = false;
-        if (adminMailAddresses.size() > 0)
-        {
-            try
-            {
+        if (adminMailAddresses.size() > 0) {
+            try {
                 mailOffice.sendSimpleMail(subject, text, adminMailAddresses);
                 success = true;
                 logger.debug("Admin email send.");
             }
-            catch (MailerException e)
-            {
+            catch (MailerException e) {
                 logger.error("Could not send mail: ", e);
             }
-        }
-        else
-        {
+        } else {
             logger.warn("No admin email send because the list of admin email addreses is empty.");
         }
         return success;

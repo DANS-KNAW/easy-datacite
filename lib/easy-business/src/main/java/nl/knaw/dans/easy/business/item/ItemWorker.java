@@ -28,30 +28,24 @@ import nl.knaw.dans.easy.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ItemWorker extends AbstractWorker
-{
+public class ItemWorker extends AbstractWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemWorker.class);
 
-    protected ItemWorker(EasyUser sessionUser)
-    {
+    protected ItemWorker(EasyUser sessionUser) {
         super(sessionUser);
     }
 
-    protected ItemWorker(UnitOfWork uow)
-    {
+    protected ItemWorker(UnitOfWork uow) {
         super(uow);
     }
 
-    protected void workUpdateObjects(Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException
-    {
+    protected void workUpdateObjects(Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException {
 
         UnitOfWork uow = getUnitOfWork();
 
-        try
-        {
-            for (DmoStoreId sdmoStoreId : dmoStoreIds)
-            {
+        try {
+            for (DmoStoreId sdmoStoreId : dmoStoreIds) {
                 DataModelObject dmo = uow.retrieveObject(sdmoStoreId);
                 checkIntegrity(dataset, dmo);
                 update(dmo, updateInfo, itemFilters);
@@ -61,63 +55,50 @@ public class ItemWorker extends AbstractWorker
             // LB: show lots of debug info, because
             // otherwise it is quite hard to find problems in
             // these updates without it
-            if (logger.isDebugEnabled())
-            {
+            if (logger.isDebugEnabled()) {
                 logger.debug("\n" + "---------------------------------------------------------------------\n"
                         + "------------------------- UPDATING OBJECTS --------------------------\n"
                         + "---------------------------------------------------------------------\n" + updateInfo.getAction() + "\n"
                         + "Objects selected for update=(" + StringUtil.commaSeparatedList(dmoStoreIds) + ");\n"
                         + "---------------------------------------------------------------------\n");
 
-                for (DataModelObject dmo : uow.getAttachedObjects())
-                {
+                for (DataModelObject dmo : uow.getAttachedObjects()) {
                     String updateLine = "Updating " + dmo.getLabel() + " (" + dmo.getStoreId() + "): ";
 
-                    if (dmo instanceof DatasetItemContainer)
-                    {
+                    if (dmo instanceof DatasetItemContainer) {
 
                         DatasetItemContainer itemContainer = (DatasetItemContainer) dmo;
                         updateLine += "totalFileCount=" + itemContainer.getTotalFileCount() + "; ";
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY))
-                        {
+                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY)) {
                             updateLine += "visibleTo (";
                             for (VisibleTo v : VisibleTo.values())
                                 updateLine += v.toString() + "=" + itemContainer.getVisibleToFileCount(v) + " ";
                             updateLine += "); ";
                         }
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY))
-                        {
+                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY)) {
                             updateLine += "accessibleTo (";
                             for (AccessibleTo v : AccessibleTo.values())
                                 updateLine += v.toString() + "=" + itemContainer.getAccessibleToFileCount(v) + " ";
                             updateLine += "); ";
                         }
-                    }
-                    else
-                    {
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY))
-                        {
+                    } else {
+                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY)) {
                             updateLine += "visibleTo (" + updateInfo.getVisibleTo() + "); ";
                         }
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY))
-                        {
+                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY)) {
                             updateLine += "accessibleTo (" + updateInfo.getAccessibleTo() + "); ";
                         }
                     }
-                    if (updateInfo.getActions().contains(UpdateInfo.Action.RENAME) && dmoStoreIds.contains(dmo.getDmoStoreId()))
-                    {
+                    if (updateInfo.getActions().contains(UpdateInfo.Action.RENAME) && dmoStoreIds.contains(dmo.getDmoStoreId())) {
                         updateLine += "renaming " + dmo.getStoreId() + " to " + updateInfo.getName();
                     }
 
-                    if (updateInfo.getActions().contains(UpdateInfo.Action.DELETE))
-                    {
+                    if (updateInfo.getActions().contains(UpdateInfo.Action.DELETE)) {
                         if (dmo.isRegisteredDeleted())
                             logger.debug("Deleting " + dmo.getStoreId());
                         else
                             logger.debug(dmo.getStoreId() + " not deleting?");
-                    }
-                    else
-                    {
+                    } else {
                         logger.debug(updateLine);
                     }
                 }
@@ -132,38 +113,28 @@ public class ItemWorker extends AbstractWorker
                     + "------------------------- END UPDATING OBJECTS ----------------------\n"
                     + "---------------------------------------------------------------------\n");
         }
-        catch (UnitOfWorkInterruptException e)
-        {
+        catch (UnitOfWorkInterruptException e) {
             // rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
-        catch (RepositoryException e)
-        {
+        catch (RepositoryException e) {
             throw new ServiceException(e);
         }
-        finally
-        {
+        finally {
             uow.close();
         }
     }
 
-    protected void checkIntegrity(Dataset dataset, DataModelObject dmo)
-    {
+    protected void checkIntegrity(Dataset dataset, DataModelObject dmo) {
         DmoStoreId datasetId;
-        if (dmo instanceof DatasetItem)
-        {
+        if (dmo instanceof DatasetItem) {
             datasetId = ((DatasetItem) dmo).getDatasetId();
-        }
-        else if (dmo instanceof Dataset)
-        {
+        } else if (dmo instanceof Dataset) {
             datasetId = ((Dataset) dmo).getDmoStoreId();
-        }
-        else
-        {
+        } else {
             throw new ApplicationException("Unknown DataModelObject: " + dmo);
         }
-        if (!dataset.getDmoStoreId().equals(datasetId))
-        {
+        if (!dataset.getDmoStoreId().equals(datasetId)) {
             throw new ApplicationException("The DataModelObject with id " + dmo.getStoreId() + " does not belong to the dataset " + dataset.getStoreId());
         }
     }
@@ -172,16 +143,11 @@ public class ItemWorker extends AbstractWorker
     private void update(DataModelObject dmo, UpdateInfo updateInfo, ItemFilters itemFilters) throws StoreAccessException, ObjectNotInStoreException,
             RepositoryException, UnitOfWorkInterruptException
     {
-        if (dmo instanceof DatasetItemContainer)
-        {
+        if (dmo instanceof DatasetItemContainer) {
             updateItemContainer((DatasetItemContainer) dmo, updateInfo, itemFilters);
-        }
-        else if (dmo instanceof FileItem)
-        {
+        } else if (dmo instanceof FileItem) {
             updateFileItem((FileItem) dmo, updateInfo);
-        }
-        else
-        {
+        } else {
             throw new ApplicationException("Unknown type: " + dmo);
         }
     }
@@ -189,41 +155,32 @@ public class ItemWorker extends AbstractWorker
     private void updateItemContainer(DatasetItemContainer itemContainer, UpdateInfo updateInfo, ItemFilters itemFilters) throws StoreAccessException,
             ObjectNotInStoreException, RepositoryException, UnitOfWorkInterruptException
     {
-        if (updateInfo.hasNameUpdate())
-        {
+        if (updateInfo.hasNameUpdate()) {
             itemContainer.setLabel(updateInfo.getName());
         }
-        if (updateInfo.hasPropagatingUpdates())
-        {
+        if (updateInfo.hasPropagatingUpdates()) {
             List<ItemVO> itemVOs = Data.getFileStoreAccess().getFilesAndFolders(itemContainer.getDmoStoreId(), -1, -1, null, itemFilters);
-            for (ItemVO itemVO : itemVOs)
-            {
+            for (ItemVO itemVO : itemVOs) {
                 DatasetItem kidItem = (DatasetItem) getUnitOfWork().retrieveObject(new DmoStoreId(itemVO.getSid()));
                 update(kidItem, updateInfo, itemFilters);
             }
         }
-        if (updateInfo.isRegisteredDeleted())
-        {
+        if (updateInfo.isRegisteredDeleted()) {
             itemContainer.registerDeleted();
         }
     }
 
-    private void updateFileItem(FileItem fileItem, UpdateInfo updateInfo) throws RepositoryException, UnitOfWorkInterruptException
-    {
-        if (updateInfo.hasNameUpdate())
-        {
+    private void updateFileItem(FileItem fileItem, UpdateInfo updateInfo) throws RepositoryException, UnitOfWorkInterruptException {
+        if (updateInfo.hasNameUpdate()) {
             fileItem.setLabel(updateInfo.getName());
         }
-        if (updateInfo.isRegisteredDeleted())
-        {
+        if (updateInfo.isRegisteredDeleted()) {
             fileItem.registerDeleted();
         }
-        if (updateInfo.hasAccessibleToUpdate())
-        {
+        if (updateInfo.hasAccessibleToUpdate()) {
             fileItem.setAccessibleTo(updateInfo.getAccessibleTo());
         }
-        if (updateInfo.hasVisibleToUpdate())
-        {
+        if (updateInfo.hasVisibleToUpdate()) {
             fileItem.setVisibleTo(updateInfo.getVisibleTo());
         }
     }

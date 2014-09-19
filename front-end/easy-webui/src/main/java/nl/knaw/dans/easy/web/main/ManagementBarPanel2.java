@@ -27,16 +27,14 @@ import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
  * 
  * @author lobo
  */
-public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
-{
+public class ManagementBarPanel2 extends AbstractEasyStatelessPanel {
     private static final long serialVersionUID = -4344141494726647837L;
     private static final Logger logger = LoggerFactory.getLogger(ManagementBarPanel2.class);
 
     @SpringBean(name = "searchService")
     private SearchService searchService;
 
-    public ManagementBarPanel2(final String wicketId)
-    {
+    public ManagementBarPanel2(final String wicketId) {
         super(wicketId);
 
         RepeatingView listItems = new RepeatingView("listItems");
@@ -89,65 +87,53 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
 
     // Note: the following members are much alike, maybe we can refactor this
 
-    public int getNumberOfItemsInAllWork()
-    {
-        try
-        {
+    public int getNumberOfItemsInAllWork() {
+        try {
             int numberOfItems = searchService.getNumberOfItemsInAllWork(getSessionUser());
             logger.debug("The number of items in 'all work': " + numberOfItems);
 
             return numberOfItems;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not retrieve the number of items in 'all work'.", e);
             throw new InternalWebError();
         }
     }
 
-    public int getNumberOfItemsInOurWork()
-    {
-        try
-        {
+    public int getNumberOfItemsInOurWork() {
+        try {
             int numberOfItems = searchService.getNumberOfItemsInOurWork(getSessionUser());
             logger.debug("The number of items in 'our work': " + numberOfItems);
 
             return numberOfItems;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not retrieve the number of items in 'our work'.", e);
             throw new InternalWebError();
         }
     }
 
-    public int getNumberOfItemsInMyWork()
-    {
-        try
-        {
+    public int getNumberOfItemsInMyWork() {
+        try {
             int numberOfItems = searchService.getNumberOfItemsInMyWork(getSessionUser());
             logger.debug("The number of items in 'my work': " + numberOfItems);
 
             return numberOfItems;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not retrieve the number of items in 'my work'.", e);
             throw new InternalWebError();
         }
     }
 
-    public int getNumberOfItemsInTrashcan()
-    {
-        try
-        {
+    public int getNumberOfItemsInTrashcan() {
+        try {
             int numberOfItems = searchService.getNumberOfItemsInTrashcan(getSessionUser());
             logger.debug("The number of items in 'trashcan': " + numberOfItems);
 
             return numberOfItems;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not retrieve the number of items in 'trashcan'.", e);
             throw new InternalWebError();
         }

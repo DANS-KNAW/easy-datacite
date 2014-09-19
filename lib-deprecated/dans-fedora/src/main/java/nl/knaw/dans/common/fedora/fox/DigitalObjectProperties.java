@@ -14,8 +14,7 @@ import org.joda.time.DateTime;
  * 
  * @author ecco
  */
-public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<DigitalObjectProperties>
-{
+public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<DigitalObjectProperties> {
 
     public static final String NAME_STATE = "info:fedora/fedora-system:def/model#state";
     public static final String NAME_LABEL = "info:fedora/fedora-system:def/model#label";
@@ -33,8 +32,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the properties as a list
      */
-    public ArrayList<Property> getProperties()
-    {
+    public ArrayList<Property> getProperties() {
         final ArrayList<Property> props = new ArrayList<Property>();
         props.addAll(properties.values());
         return props;
@@ -46,16 +44,12 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param props
      *        a list of properties
      */
-    public void setProperties(final ArrayList<Property> props)
-    {
+    public void setProperties(final ArrayList<Property> props) {
         properties.clear();
-        if (props != null)
-        {
-            for (Property prop : props)
-            {
+        if (props != null) {
+            for (Property prop : props) {
                 properties.put(prop.name, prop);
-                if (NAME_LASTMODIFIED_DATE.equals(prop.name))
-                {
+                if (NAME_LASTMODIFIED_DATE.equals(prop.name)) {
                     setTimestamp(prop.value);
                 }
             }
@@ -67,8 +61,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the properties as a list
      */
-    public ArrayList<Property> getExtProperties()
-    {
+    public ArrayList<Property> getExtProperties() {
         final ArrayList<Property> props = new ArrayList<Property>();
         props.addAll(extProperties.values());
         return props;
@@ -80,13 +73,10 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param props
      *        a list of properties
      */
-    public void setExtProperties(final ArrayList<Property> props)
-    {
+    public void setExtProperties(final ArrayList<Property> props) {
         extProperties.clear();
-        if (props != null)
-        {
-            for (Property prop : props)
-            {
+        if (props != null) {
+            for (Property prop : props) {
                 extProperties.put(prop.name, prop);
             }
         }
@@ -100,14 +90,10 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param value
      *        value of the property
      */
-    public void setProperty(final String name, final String value)
-    {
-        if (value == null)
-        {
+    public void setProperty(final String name, final String value) {
+        if (value == null) {
             properties.remove(name);
-        }
-        else
-        {
+        } else {
             final Property prop = new Property(name, value);
             properties.put(name, prop);
         }
@@ -120,8 +106,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      *        name of the property
      * @return value of the property or null
      */
-    public String getProperty(final String name)
-    {
+    public String getProperty(final String name) {
         final Property prop = properties.get(name);
         return prop == null ? null : prop.value;
     }
@@ -134,14 +119,10 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param value
      *        value of the property
      */
-    public void setExtProperty(final String name, final String value)
-    {
-        if (value == null)
-        {
+    public void setExtProperty(final String name, final String value) {
+        if (value == null) {
             extProperties.remove(name);
-        }
-        else
-        {
+        } else {
             final Property prop = new Property(name, value);
             extProperties.put(name, prop);
         }
@@ -154,8 +135,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      *        name of the property
      * @return value of the property or null
      */
-    public String getExtProperty(final String name)
-    {
+    public String getExtProperty(final String name) {
         final Property prop = extProperties.get(name);
         return prop == null ? null : prop.value;
     }
@@ -165,8 +145,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the state of the digital object or <code>null</code> if it is not known
      */
-    public DobState getDigitalObjectState()
-    {
+    public DobState getDigitalObjectState() {
         final String state = getProperty(DigitalObjectProperties.NAME_STATE);
         return state == null ? null : DobState.valueFor(state);
     }
@@ -177,13 +156,11 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param state
      *        the state of the digital object
      */
-    public void setDigitalObjectState(final DobState state)
-    {
+    public void setDigitalObjectState(final DobState state) {
         setProperty(DigitalObjectProperties.NAME_STATE, state == null ? null : state.fedoraQuirck);
     }
 
-    public String getStateAsString()
-    {
+    public String getStateAsString() {
         DobState state = getState();
         return state == null ? null : state.toString();
     }
@@ -193,8 +170,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the state of the digital object or <code>null</code> if it is not known
      */
-    public DobState getState()
-    {
+    public DobState getState() {
         String s = getProperty(DigitalObjectProperties.NAME_STATE);
         return DobState.valueFor(s);
     }
@@ -207,8 +183,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @throws IllegalArgumentException
      *         if state is not a {@link DobState#name()} value
      */
-    public void setState(String state) throws IllegalArgumentException
-    {
+    public void setState(String state) throws IllegalArgumentException {
         String s = DobState.valueOf(state).fedoraQuirck;
         setProperty(DigitalObjectProperties.NAME_STATE, s);
     }
@@ -218,8 +193,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the label of the digital object or <code>null</code> if it is not known
      */
-    public String getLabel()
-    {
+    public String getLabel() {
         return getProperty(DigitalObjectProperties.NAME_LABEL);
     }
 
@@ -229,8 +203,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param label
      *        the label of the digital object
      */
-    public void setLabel(final String label)
-    {
+    public void setLabel(final String label) {
         setProperty(DigitalObjectProperties.NAME_LABEL, label);
     }
 
@@ -239,8 +212,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the ownerId of the digital object or <code>null</code> if it is not known
      */
-    public String getOwnerId()
-    {
+    public String getOwnerId() {
         return getProperty(DigitalObjectProperties.NAME_OWNERID);
     }
 
@@ -250,8 +222,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * @param ownerId
      *        the ownerId of the digital object
      */
-    public void setOwnerId(final String ownerId)
-    {
+    public void setOwnerId(final String ownerId) {
         setProperty(DigitalObjectProperties.NAME_OWNERID, ownerId);
     }
 
@@ -260,8 +231,7 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @return the creation date of the digital object or <code>null</code> if it is not known
      */
-    public DateTime getDateCreated()
-    {
+    public DateTime getDateCreated() {
         final String date = getProperty(DigitalObjectProperties.NAME_CREATED_DATE);
         return date == null ? null : new DateTime(date);
     }
@@ -269,11 +239,9 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
     /**
      * Get the date of last modification of the digital object.
      * 
-     * @return the date of last modification of the digital object or <code>null</code> if it is not
-     *         known
+     * @return the date of last modification of the digital object or <code>null</code> if it is not known
      */
-    public DateTime getLastModified()
-    {
+    public DateTime getLastModified() {
         final String date = getProperty(DigitalObjectProperties.NAME_LASTMODIFIED_DATE);
         return date == null ? null : new DateTime(date);
     }
@@ -283,15 +251,13 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
      * 
      * @author ecco
      */
-    public static class Property implements Serializable
-    {
+    public static class Property implements Serializable {
 
         private static final long serialVersionUID = 1508487350528087136L;
         private String name;
         private String value;
 
-        Property()
-        {
+        Property() {
 
         }
 
@@ -303,29 +269,24 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
          * @param value
          *        value of the property
          */
-        public Property(final String name, final String value)
-        {
+        public Property(final String name, final String value) {
             this.name = name;
             this.value = value;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public void setName(String name)
-        {
+        public void setName(String name) {
             this.name = name;
         }
 
-        public String getValue()
-        {
+        public String getValue() {
             return value;
         }
 
-        public void setValue(String value)
-        {
+        public void setValue(String value) {
             this.value = value;
         }
 

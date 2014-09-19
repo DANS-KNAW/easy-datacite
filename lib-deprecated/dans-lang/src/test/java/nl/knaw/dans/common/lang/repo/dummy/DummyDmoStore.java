@@ -23,8 +23,7 @@ import nl.knaw.dans.common.lang.repo.relations.Relation;
 
 import org.joda.time.DateTime;
 
-public class DummyDmoStore extends AbstractDmoStore
-{
+public class DummyDmoStore extends AbstractDmoStore {
     private static final long serialVersionUID = -3709691922750780482L;
     private DummySidDispenser dispenser;
     private DataModelObject returnDmo;
@@ -34,8 +33,7 @@ public class DummyDmoStore extends AbstractDmoStore
     // this one keeps the dummy stores unique if several are made
     private static int no = 1;
 
-    public DummyDmoStore()
-    {
+    public DummyDmoStore() {
         super("dummyStore" + no);// , new DummyDmoContext());;
         no++;
         dispenser = new DummySidDispenser();
@@ -49,179 +47,151 @@ public class DummyDmoStore extends AbstractDmoStore
     }
 
     @Override
-    protected DateTime doPurge(DataModelObject dmo, boolean force, String logMessage) throws DmoStoreEventListenerException, RepositoryException
-    {
+    protected DateTime doPurge(DataModelObject dmo, boolean force, String logMessage) throws DmoStoreEventListenerException, RepositoryException {
         return new DateTime();
     }
 
-    public void retrieveReturns(DataModelObject dmo)
-    {
+    public void retrieveReturns(DataModelObject dmo) {
         returnDmo = dmo;
     }
 
     @Override
-    protected DataModelObject doRetrieve(DmoStoreId storeId) throws ObjectNotInStoreException, RepositoryException, ObjectDeserializationException
-    {
+    protected DataModelObject doRetrieve(DmoStoreId storeId) throws ObjectNotInStoreException, RepositoryException, ObjectDeserializationException {
         return returnDmo;
     }
 
     @Override
-    protected DateTime doUpdate(DataModelObject dmo, boolean skipChangeChecking, String logMessage) throws DmoStoreEventListenerException, RepositoryException
-    {
+    protected DateTime doUpdate(DataModelObject dmo, boolean skipChangeChecking, String logMessage) throws DmoStoreEventListenerException, RepositoryException {
         return new DateTime();
     }
 
-    public void getRelationsReturns(List<Relation> relations)
-    {
+    public void getRelationsReturns(List<Relation> relations) {
         this.relations = relations;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Relation> getRelations(String subject, String predicate, String object) throws RepositoryException
-    {
+    public List<Relation> getRelations(String subject, String predicate, String object) throws RepositoryException {
         return (List<Relation>) (relations == null ? Collections.emptyList() : relations);
     }
 
-    public List<String> getSidsByContentModel(String contentModel) throws RepositoryException
-    {
+    public List<String> getSidsByContentModel(String contentModel) throws RepositoryException {
         return null;
     }
 
-    public byte[] getObjectXML(String storeId) throws ObjectNotInStoreException, RepositoryException
-    {
+    public byte[] getObjectXML(String storeId) throws ObjectNotInStoreException, RepositoryException {
         return null;
     }
 
-    public String nextSid(DmoNamespace objectNamespace) throws RepositoryException
-    {
+    public String nextSid(DmoNamespace objectNamespace) throws RepositoryException {
         return dispenser.nextSid(objectNamespace);
     }
 
-    public void getLastModifiedReturns(DateTime lastModified)
-    {
+    public void getLastModifiedReturns(DateTime lastModified) {
         this.lastModified = lastModified;
     }
 
-    public DateTime getLastModified(String storeId) throws RepositoryException
-    {
+    public DateTime getLastModified(String storeId) throws RepositoryException {
         return lastModified;
     }
 
     @Override
-    public void addOrUpdateMetadataUnit(DmoStoreId dmoStoreId, MetadataUnit metadataUnit, String logMessage) throws RepositoryException
-    {
+    public void addOrUpdateMetadataUnit(DmoStoreId dmoStoreId, MetadataUnit metadataUnit, String logMessage) throws RepositoryException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void addOrUpdateBinaryUnit(DmoStoreId dmoStoreId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException
-    {
+    public void addOrUpdateBinaryUnit(DmoStoreId dmoStoreId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public DateTime purgeUnit(DmoStoreId dmoStoreId, DsUnitId unitId, DateTime creationDate, String logMessage) throws RepositoryException
-    {
+    public DateTime purgeUnit(DmoStoreId dmoStoreId, DsUnitId unitId, DateTime creationDate, String logMessage) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public JumpoffDmo findJumpoffDmoFor(DataModelObject dmo) throws ObjectNotInStoreException, RepositoryException
-    {
+    public JumpoffDmo findJumpoffDmoFor(DataModelObject dmo) throws ObjectNotInStoreException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public JumpoffDmo findJumpoffDmoFor(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException
-    {
+    public JumpoffDmo findJumpoffDmoFor(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public boolean exists(DmoStoreId dmoStoreId) throws RepositoryException
-    {
+    public boolean exists(DmoStoreId dmoStoreId) throws RepositoryException {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public byte[] getObjectXML(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException
-    {
+    public byte[] getObjectXML(DmoStoreId dmoStoreId) throws ObjectNotInStoreException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException
-    {
+    public DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Relation> getRelations(DmoStoreId dmoStoreId, String predicate) throws RepositoryException
-    {
+    public List<Relation> getRelations(DmoStoreId dmoStoreId, String predicate) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public boolean addRelationship(DmoStoreId dmoStoreId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
-    {
+    public boolean addRelationship(DmoStoreId dmoStoreId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean purgeRelationship(DmoStoreId dmoStoreId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
-    {
+    public boolean purgeRelationship(DmoStoreId dmoStoreId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public List<DmoStoreId> getSidsByContentModel(DmoStoreId contentModelId) throws RepositoryException
-    {
+    public List<DmoStoreId> getSidsByContentModel(DmoStoreId contentModelId) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<DmoStoreId> findSubordinates(DmoStoreId dmoStoreId) throws RepositoryException
-    {
+    public List<DmoStoreId> findSubordinates(DmoStoreId dmoStoreId) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public URL getFileURL(DmoStoreId dmoStoreId, DsUnitId unitId)
-    {
+    public URL getFileURL(DmoStoreId dmoStoreId, DsUnitId unitId) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public URL getFileURL(DmoStoreId dmoStoreId, DsUnitId unitId, DateTime dateTime)
-    {
+    public URL getFileURL(DmoStoreId dmoStoreId, DsUnitId unitId, DateTime dateTime) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<UnitMetadata> getUnitMetadata(DmoStoreId dmoStoreId, DsUnitId unitId) throws RepositoryException
-    {
+    public List<UnitMetadata> getUnitMetadata(DmoStoreId dmoStoreId, DsUnitId unitId) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<UnitMetadata> getUnitMetadata(DmoStoreId dmoStoreId) throws RepositoryException
-    {
+    public List<UnitMetadata> getUnitMetadata(DmoStoreId dmoStoreId) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }

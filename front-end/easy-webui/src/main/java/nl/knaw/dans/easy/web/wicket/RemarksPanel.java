@@ -16,8 +16,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.joda.time.DateTime;
 
-public class RemarksPanel extends AbstractEasyPanel
-{
+public class RemarksPanel extends AbstractEasyPanel {
 
     private static final long serialVersionUID = -4345309701422172351L;
 
@@ -25,32 +24,26 @@ public class RemarksPanel extends AbstractEasyPanel
 
     private boolean initiated;
 
-    public RemarksPanel(String wicketId, RemarksModel remarksModel)
-    {
+    public RemarksPanel(String wicketId, RemarksModel remarksModel) {
         super(wicketId, remarksModel);
         remarks = remarksModel.getRemarks();
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
-        ListView remarksView = new ListView("remarksView", remarks)
-        {
+    private void init() {
+        ListView remarksView = new ListView("remarksView", remarks) {
             private static final long serialVersionUID = 2247676524537275265L;
 
             @Override
-            protected void populateItem(ListItem item)
-            {
+            protected void populateItem(ListItem item) {
                 final Remark remark = (Remark) item.getDefaultModelObject();
                 populate(item, remark);
             }
@@ -62,15 +55,12 @@ public class RemarksPanel extends AbstractEasyPanel
         populate(this, remark);
     }
 
-    private void populate(MarkupContainer container, final Remark remark)
-    {
-        Label remarkerLabel = new Label("remarkerLabel", new Model()
-        {
+    private void populate(MarkupContainer container, final Remark remark) {
+        Label remarkerLabel = new Label("remarkerLabel", new Model() {
             private static final long serialVersionUID = 3251891045434565385L;
 
             @Override
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 EasyUser remarker = remark.getRemarker();
                 return remarker == null ? null : remarker.getDisplayName();
             }
@@ -78,13 +68,11 @@ public class RemarksPanel extends AbstractEasyPanel
         });
         container.add(remarkerLabel);
 
-        DateLabel remarkDate = DateLabel.forDatePattern("remarkDate", new Model()
-        {
+        DateLabel remarkDate = DateLabel.forDatePattern("remarkDate", new Model() {
             private static final long serialVersionUID = 1139426060975374951L;
 
             @Override
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 DateTime dateTime = remark.getRemarkDate();
                 return dateTime == null ? null : dateTime.toDate();
             }
@@ -92,19 +80,16 @@ public class RemarksPanel extends AbstractEasyPanel
         }, "yyyy-MM-dd HH:mm");
         container.add(remarkDate);
 
-        TextArea textArea = new TextArea("textArea", new Model()
-        {
+        TextArea textArea = new TextArea("textArea", new Model() {
             private static final long serialVersionUID = 8412623237717756209L;
 
             @Override
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 return remark.getText();
             }
 
             @Override
-            public void setObject(Serializable object)
-            {
+            public void setObject(Serializable object) {
                 remark.setText((String) object);
             }
 

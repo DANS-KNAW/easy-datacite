@@ -20,8 +20,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public abstract class AbstractValidator
-{
+public abstract class AbstractValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractValidator.class);
 
@@ -35,8 +34,7 @@ public abstract class AbstractValidator
      * 
      * @param version
      *        a version indicator of the schema, may be ignored.
-     * @return the URL of the schema definition for T, optionally for the version of schema definition
-     *         for T
+     * @return the URL of the schema definition for T, optionally for the version of schema definition for T
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
@@ -57,8 +55,7 @@ public abstract class AbstractValidator
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public XMLErrorHandler validate(final String xmlString, final String version) throws ValidatorException, SAXException, SchemaCreationException
-    {
+    public XMLErrorHandler validate(final String xmlString, final String version) throws ValidatorException, SAXException, SchemaCreationException {
         final InputStream xmlStream = new ByteArrayInputStream(xmlString.getBytes());
         return validate(xmlStream, version);
     }
@@ -78,16 +75,14 @@ public abstract class AbstractValidator
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public XMLErrorHandler validate(final File file, final String version) throws ValidatorException, SAXException, SchemaCreationException
-    {
+    public XMLErrorHandler validate(final File file, final String version) throws ValidatorException, SAXException, SchemaCreationException {
         final Schema schemaGrammar = getSchema(version);
         final StreamSource xmlSource = new StreamSource(file);
         return validate(schemaGrammar, xmlSource);
     }
 
     /**
-     * Validate the given xmlStream against the schema of the given version. The InputStream is closed
-     * after usage.
+     * Validate the given xmlStream against the schema of the given version. The InputStream is closed after usage.
      * 
      * @param xmlStream
      *        stream of xml
@@ -101,17 +96,14 @@ public abstract class AbstractValidator
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public XMLErrorHandler validate(final InputStream xmlStream, final String version) throws ValidatorException, SAXException, SchemaCreationException
-    {
+    public XMLErrorHandler validate(final InputStream xmlStream, final String version) throws ValidatorException, SAXException, SchemaCreationException {
         XMLErrorHandler handler = null;
-        try
-        {
+        try {
             final Schema schemaGrammar = getSchema(version);
             final SAXSource xmlSource = new SAXSource(new InputSource(xmlStream));
             handler = validate(schemaGrammar, xmlSource);
         }
-        finally
-        {
+        finally {
             closeStream(xmlStream);
         }
         return handler;
@@ -132,8 +124,7 @@ public abstract class AbstractValidator
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public XMLErrorHandler validate(final Source xmlSource, final String version) throws SAXException, ValidatorException, SchemaCreationException
-    {
+    public XMLErrorHandler validate(final Source xmlSource, final String version) throws SAXException, ValidatorException, SchemaCreationException {
         final Schema schemaGrammar = getSchema(version);
         return validate(schemaGrammar, xmlSource);
     }
@@ -177,24 +168,20 @@ public abstract class AbstractValidator
      * @throws SchemaCreationException
      *         if the schema could not be created
      */
-    public void validate(final ErrorHandler handler, final File file, final String version) throws ValidatorException, SAXException, SchemaCreationException
-    {
+    public void validate(final ErrorHandler handler, final File file, final String version) throws ValidatorException, SAXException, SchemaCreationException {
         final Schema schemaGrammar = getSchema(version);
         final StreamSource xmlSource = new StreamSource(file);
-        try
-        {
+        try {
             XMLValidator.validate(handler, xmlSource, schemaGrammar);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new ValidatorException(e);
         }
 
     }
 
     /**
-     * Validate the given xmlStream against the schema of the given version and report to the given
-     * handler. The InputStream is closed after usage.
+     * Validate the given xmlStream against the schema of the given version and report to the given handler. The InputStream is closed after usage.
      * 
      * @param handler
      *        receives notification of {@link org.xml.sax.SAXParseException}s
@@ -212,89 +199,71 @@ public abstract class AbstractValidator
     public void validate(final ErrorHandler handler, final InputStream xmlStream, final String version) throws ValidatorException, SAXException,
             SchemaCreationException
     {
-        try
-        {
+        try {
             final Schema schema = getSchema(version);
             final StreamSource xmlSource = new StreamSource(xmlStream);
             XMLValidator.validate(handler, xmlSource, schema);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new ValidatorException(e);
         }
-        finally
-        {
+        finally {
             closeStream(xmlStream);
         }
     }
 
     /**
-     * Get the schema for the given version. A {@link Schema} is an immutable in-memory representation of
-     * grammar. A Schema object is thread safe and applications are encouraged to share it across many
-     * parsers in many threads.
+     * Get the schema for the given version. A {@link Schema} is an immutable in-memory representation of grammar. A Schema object is thread safe and
+     * applications are encouraged to share it across many parsers in many threads.
      * 
      * @param version
      *        the version of schema grammar to get
      * @return the schema for the given version
      * @throws SchemaCreationException
-     *         if something goes wrong in the creation of schema, but most notably if the given schema
-     *         version is unknown
+     *         if something goes wrong in the creation of schema, but most notably if the given schema version is unknown
      */
-    public Schema getSchema(final String version) throws SchemaCreationException
-    {
+    public Schema getSchema(final String version) throws SchemaCreationException {
         String urlString;
-        synchronized (versionMap)
-        {
+        synchronized (versionMap) {
             urlString = versionMap.get(version);
         }
 
-        if (urlString == null)
-        {
+        if (urlString == null) {
             return getSchemaWithURL(version);
-        }
-        else
-        {
+        } else {
             final Schema schema = SchemaCache.getSchema(urlString);
             return schema;
         }
     }
 
-    private Schema getSchemaWithURL(final String version) throws SchemaCreationException
-    {
+    private Schema getSchemaWithURL(final String version) throws SchemaCreationException {
         final URL url = getSchemaURL(version);
         Schema schema = null;
         schema = SchemaCache.getSchema(url);
         final String urlString = url.toString();
-        synchronized (versionMap)
-        {
+        synchronized (versionMap) {
             versionMap.put(version, urlString);
             logger.debug("Created reference to version of xsd. version=" + version + " url=" + urlString);
         }
         return schema;
     }
 
-    private static XMLErrorHandler validate(final Schema schemaGrammar, final Source xmlSource) throws SAXException, ValidatorException
-    {
+    private static XMLErrorHandler validate(final Schema schemaGrammar, final Source xmlSource) throws SAXException, ValidatorException {
         XMLErrorHandler result = null;
-        try
-        {
+        try {
             result = XMLValidator.validate(xmlSource, schemaGrammar);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new ValidatorException(e);
         }
         return result;
     }
 
-    private void closeStream(final InputStream xmlStream) throws ValidatorException
-    {
-        try
-        {
+    private void closeStream(final InputStream xmlStream) throws ValidatorException {
+        try {
             xmlStream.close();
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new ValidatorException(e);
         }
     }

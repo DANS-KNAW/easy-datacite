@@ -25,22 +25,19 @@ import org.jibx.runtime.JiBXException;
  * @param <T>
  *        type of the bean
  */
-public abstract class AbstractJiBXObject<T> extends Observable implements XMLBean
-{
+public abstract class AbstractJiBXObject<T> extends Observable implements XMLBean {
 
     private static final long serialVersionUID = -1465724031853057295L;
 
     /**
      * {@inheritDoc}
      */
-    public String getVersion()
-    {
+    public String getVersion() {
         return NOT_VERSIONED;
     }
 
     @Override
-    public byte[] asObjectXML() throws XMLSerializationException
-    {
+    public byte[] asObjectXML() throws XMLSerializationException {
         return asObjectXML(NO_INDENT);
     }
 
@@ -48,15 +45,12 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public byte[] asObjectXML(int indent) throws XMLSerializationException
-    {
+    public byte[] asObjectXML(int indent) throws XMLSerializationException {
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        try
-        {
+        try {
             getJiBXUtil().marshalDocument((T) this, outStream, indent);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
         return outStream.toByteArray();
@@ -66,18 +60,14 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public Element asElement() throws XMLSerializationException
-    {
-        try
-        {
+    public Element asElement() throws XMLSerializationException {
+        try {
             return getJiBXUtil().getElement((T) this);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
-        catch (final DocumentException e)
-        {
+        catch (final DocumentException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -86,18 +76,14 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public Document asDocument() throws XMLSerializationException
-    {
-        try
-        {
+    public Document asDocument() throws XMLSerializationException {
+        try {
             return getJiBXUtil().getDocument((T) this);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
-        catch (final DocumentException e)
-        {
+        catch (final DocumentException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -105,8 +91,7 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
     /**
      * {@inheritDoc}
      */
-    public String asXMLString() throws XMLSerializationException
-    {
+    public String asXMLString() throws XMLSerializationException {
         return asXMLString(XMLBean.NO_INDENT);
     }
 
@@ -114,14 +99,11 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public String asXMLString(final int indent) throws XMLSerializationException
-    {
-        try
-        {
+    public String asXMLString(final int indent) throws XMLSerializationException {
+        try {
             return getJiBXUtil().marshalDocument((T) this, indent);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -129,8 +111,7 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
     /**
      * {@inheritDoc}
      */
-    public InputStream asXMLInputStream() throws XMLSerializationException
-    {
+    public InputStream asXMLInputStream() throws XMLSerializationException {
         return asXMLInputStream(XMLBean.NO_INDENT);
     }
 
@@ -138,14 +119,11 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public InputStream asXMLInputStream(final int indent) throws XMLSerializationException
-    {
-        try
-        {
+    public InputStream asXMLInputStream(final int indent) throws XMLSerializationException {
+        try {
             return getJiBXUtil().getInputStream((T) this, indent);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -153,8 +131,7 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
     /**
      * {@inheritDoc}
      */
-    public void serializeTo(final OutputStream outStream) throws XMLSerializationException
-    {
+    public void serializeTo(final OutputStream outStream) throws XMLSerializationException {
         serializeTo(outStream, XMLBean.NO_INDENT);
     }
 
@@ -162,14 +139,11 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public void serializeTo(final OutputStream outStream, final int indent) throws XMLSerializationException
-    {
-        try
-        {
+    public void serializeTo(final OutputStream outStream, final int indent) throws XMLSerializationException {
+        try {
             getJiBXUtil().marshalDocument((T) this, outStream, indent);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -177,8 +151,7 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
     /**
      * {@inheritDoc}
      */
-    public void serializeTo(final File file) throws XMLSerializationException
-    {
+    public void serializeTo(final File file) throws XMLSerializationException {
         serializeTo(file, XMLBean.NO_INDENT);
     }
 
@@ -186,18 +159,14 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public void serializeTo(final File file, final int indent) throws XMLSerializationException
-    {
-        try
-        {
+    public void serializeTo(final File file, final int indent) throws XMLSerializationException {
+        try {
             getJiBXUtil().marshalDocument((T) this, file, indent);
         }
-        catch (final IOException e)
-        {
+        catch (final IOException e) {
             throw new XMLSerializationException(e);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -206,14 +175,11 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public void serializeTo(final String encoding, final Writer out, final int indent) throws XMLSerializationException
-    {
-        try
-        {
+    public void serializeTo(final String encoding, final Writer out, final int indent) throws XMLSerializationException {
+        try {
             getJiBXUtil().marshalDocument((T) this, encoding, out, indent);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
@@ -221,8 +187,7 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
     /**
      * {@inheritDoc}
      */
-    public void serializeTo(final String encoding, final Writer out) throws XMLSerializationException
-    {
+    public void serializeTo(final String encoding, final Writer out) throws XMLSerializationException {
         serializeTo(encoding, out, XMLBean.NEW_LINE_ONLY);
     }
 
@@ -230,32 +195,26 @@ public abstract class AbstractJiBXObject<T> extends Observable implements XMLBea
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
-    public Source asSource() throws XMLSerializationException
-    {
-        try
-        {
+    public Source asSource() throws XMLSerializationException {
+        try {
             return getJiBXUtil().getSource((T) this);
         }
-        catch (final JiBXException e)
-        {
+        catch (final JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private JiBXUtil<T> getJiBXUtil()
-    {
+    private JiBXUtil<T> getJiBXUtil() {
         return JiBXObjectFactory.getJiBXUtil(this.getClass());
     }
 
-    public void setModified()
-    {
+    public void setModified() {
         setChanged();
         notifyObservers();
     }
 
-    public void setModified(Object arg)
-    {
+    public void setModified(Object arg) {
         setChanged();
         notifyObservers(arg);
     }

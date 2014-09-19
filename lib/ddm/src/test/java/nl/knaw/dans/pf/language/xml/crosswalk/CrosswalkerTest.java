@@ -15,24 +15,17 @@ import org.junit.Test;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class CrosswalkerTest
-{
+public class CrosswalkerTest {
     private static final String XSD = "file://" + new File("src/test/resources/input/abstract.xsd").getAbsolutePath();
-    private static final AbstractValidator2 VALIDATOR = new AbstractValidator2(XSD)
-    {
-    };
+    private static final AbstractValidator2 VALIDATOR = new AbstractValidator2(XSD) {};
     private final CW crosswalk = new CW(VALIDATOR);
 
-    private static CrosswalkHandler<StringBuffer> createSimpleHandler()
-    {
-        return new CrosswalkHandler<StringBuffer>()
-        {
+    private static CrosswalkHandler<StringBuffer> createSimpleHandler() {
+        return new CrosswalkHandler<StringBuffer>() {
             @Override
-            protected void finishElement(final String uri, final String localName) throws SAXException
-            {
+            protected void finishElement(final String uri, final String localName) throws SAXException {
                 getTarget().append("-" + getAttribute(XMLConstants.XML_NS_URI, "lang") + "-" + getCharsSinceStart());
-                if ("xyz".equals(getCharsSinceStart()))
-                {
+                if ("xyz".equals(getCharsSinceStart())) {
                     error("no xyz allowed");
                     fatalError("we do not allow xyz");
                 }
@@ -41,13 +34,10 @@ public class CrosswalkerTest
         };
     }
 
-    private static CrosswalkHandler<StringBuffer> createComplexHandler()
-    {
-        return new CrosswalkHandler<StringBuffer>()
-        {
+    private static CrosswalkHandler<StringBuffer> createComplexHandler() {
+        return new CrosswalkHandler<StringBuffer>() {
             @Override
-            protected void finishElement(final String uri, final String localName) throws SAXException
-            {
+            protected void finishElement(final String uri, final String localName) throws SAXException {
                 if ("use".equals(localName))
                     getTarget().append("-" + getAttribute(XMLConstants.XML_NS_URI, "lang") + "-" + getCharsSinceStart());
                 else
@@ -57,13 +47,10 @@ public class CrosswalkerTest
         };
     }
 
-    private static CrosswalkHandlerMap<StringBuffer> createHandlerMap()
-    {
-        return new CrosswalkHandlerMap<StringBuffer>()
-        {
+    private static CrosswalkHandlerMap<StringBuffer> createHandlerMap() {
+        return new CrosswalkHandlerMap<StringBuffer>() {
             @Override
-            public CrosswalkHandler<StringBuffer> getHandler(String uri, String localName, Attributes attributes) throws SAXException
-            {
+            public CrosswalkHandler<StringBuffer> getHandler(String uri, String localName, Attributes attributes) throws SAXException {
                 if ("simple".equals(localName))
                     return createSimpleHandler();
                 else if ("complex".equals(localName))
@@ -72,76 +59,62 @@ public class CrosswalkerTest
             }
 
             @Override
-            public boolean reportMissingHandler(String uri, String localName, Attributes attributes)
-            {
+            public boolean reportMissingHandler(String uri, String localName, Attributes attributes) {
                 return false;
             }
         };
     }
 
-    private class CW extends Crosswalker<StringBuffer>
-    {
-        public CW(AbstractValidator2 validator)
-        {
+    private class CW extends Crosswalker<StringBuffer> {
+        public CW(AbstractValidator2 validator) {
             super(createHandlerMap());
         }
 
-        public StringBuffer createFrom(final File file) throws CrosswalkException
-        {
+        public StringBuffer createFrom(final File file) throws CrosswalkException {
             return walk(VALIDATOR, file, new StringBuffer());
         }
 
-        public StringBuffer createFrom(final String xml) throws CrosswalkException
-        {
+        public StringBuffer createFrom(final String xml) throws CrosswalkException {
             return walk(VALIDATOR, xml, new StringBuffer());
         }
     }
 
     @Test(expected = NullPointerException.class)
-    public void noXSD() throws Exception
-    {
-        new CW(new AbstractValidator2((String[]) null)
-        {
-        }).createFrom("");
+    public void noXSD() throws Exception {
+        new CW(new AbstractValidator2((String[]) null) {}).createFrom("");
     }
 
     @Test(expected = CrosswalkException.class)
-    public void emptyXml() throws Exception
-    {
+    public void emptyXml() throws Exception {
         crosswalk.createFrom("");
     }
 
     @Test
-    public void invalidXml() throws Exception
-    {
+    public void invalidXml() throws Exception {
         StringBuffer result = crosswalk.createFrom("<noroot></noroot>");
         assertThat(result, nullValue());
     }
 
     @Test(expected = CrosswalkException.class)
-    public void noFile() throws Exception
-    {
+    public void noFile() throws Exception {
         crosswalk.createFrom(new File("doesNot.Exist"));
     }
 
     @Test
-    public void simple() throws Exception
-    {
+    public void simple() throws Exception {
         StringBuffer result = crosswalk.createFrom("<?xml version='1.0' encoding='UTF-8'?><root><simple>abc</simple></root>");
         assertThat(result.toString(), is("-null-abc"));
     }
 
     @Test
-    public void complex() throws Exception
-    {
+    public void complex() throws Exception {
         StringBuffer result = crosswalk.createFrom(new File("src/test/resources/input/abstract.xml"));
         assertThat(result.toString(), is("-en-abc-nl-jkl"));
         assertThat(crosswalk.getXmlErrorHandler().getWarnings().size(), is(2));
     }
 
     @Test
-    public void errors() throws Exception
-    {
+    public void errors() throws Exception {
         StringBuffer result = crosswalk.createFrom("<?xml version='1.0' encoding='UTF-8'?><root><simple>xyz</simple></root>");
         assertThat(crosswalk.getXmlErrorHandler().getFatalErrors().size(), is(1));
         assertThat(crosswalk.getXmlErrorHandler().getErrors().size(), is(1));
@@ -149,8 +122,7 @@ public class CrosswalkerTest
     }
 
     @Before
-    public void resetErrorHandler()
-    {
+    public void resetErrorHandler() {
         crosswalk.getXmlErrorHandler().reset();
     }
 }

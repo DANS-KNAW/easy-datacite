@@ -22,8 +22,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DepositIntroPage extends AbstractEasyNavPage
-{
+public class DepositIntroPage extends AbstractEasyNavPage {
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
     public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/pages/DepositIntro.template";
 
@@ -33,17 +32,14 @@ public class DepositIntroPage extends AbstractEasyNavPage
     @SpringBean(name = "depositService")
     private DepositService depositService;
 
-    public DepositIntroPage()
-    {
+    public DepositIntroPage() {
         add(Style.DEPOSIT_HEADER_CONTRIBUTION);
-        ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines())
-        {
+        ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines()) {
 
             private static final long serialVersionUID = -2578773278751553901L;
 
             @Override
-            protected void populateItem(ListItem<DepositDiscipline> item)
-            {
+            protected void populateItem(ListItem<DepositDiscipline> item) {
                 final DepositDiscipline discipline = (DepositDiscipline) item.getDefaultModelObject();
                 final FormDescriptor formDescriptor = discipline.getEmdFormDescriptor();
 
@@ -51,14 +47,12 @@ public class DepositIntroPage extends AbstractEasyNavPage
                 item.add(new ExternalLink("instructionLink_EN", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
                 item.add(new ExternalLink("instructionLink_NL", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
 
-                Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
-                {
+                Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel()) {
 
                     private static final long serialVersionUID = -4209139048992540876L;
 
                     @Override
-                    public void onClick()
-                    {
+                    public void onClick() {
                         setResponsePage(new DepositPage(discipline, DepositDiscipline.EMD_DEPOSITFORM_WIZARD));
                     }
 
@@ -70,14 +64,11 @@ public class DepositIntroPage extends AbstractEasyNavPage
         add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
     }
 
-    private List<DepositDiscipline> getDisciplines()
-    {
-        try
-        {
+    private List<DepositDiscipline> getDisciplines() {
+        try {
             return depositService.getDisciplines();
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             errorMessage(EasyResources.DEPOSIT_APPLICATION_ERROR);
             logger.error("Could not start " + this.getClass().getSimpleName() + ": ", e);
             throw new InternalWebError();

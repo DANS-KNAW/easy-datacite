@@ -8,8 +8,7 @@ import nl.knaw.dans.common.lang.xml.MinimalXMLBean;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 
-public interface WorkflowData extends Serializable, MinimalXMLBean
-{
+public interface WorkflowData extends Serializable, MinimalXMLBean {
 
     public static final String NOT_ASSIGNED = "NOT_ASSIGNED";
 

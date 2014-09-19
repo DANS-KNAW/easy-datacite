@@ -2,8 +2,7 @@ package nl.knaw.dans.easy.business.md.amd;
 
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
-public interface AdditionalMetadataOwner
-{
+public interface AdditionalMetadataOwner {
 
     void setAdditionalMetadata(AdditionalMetadata addmd);
 

@@ -6,8 +6,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-public class RequestNotification extends DatasetNotification implements Serializable
-{
+public class RequestNotification extends DatasetNotification implements Serializable {
     /**
      * 
      */
@@ -16,41 +15,34 @@ public class RequestNotification extends DatasetNotification implements Serializ
     private final PermissionRequestModel request;
     private final EasyUser requester;
 
-    public RequestNotification(Dataset dataset, EasyUser requester, PermissionRequestModel request)
-    {
+    public RequestNotification(Dataset dataset, EasyUser requester, PermissionRequestModel request) {
         // NB: requester after the request as super should not mistake it as the receiver of the message
         super(dataset, request, requester);
         this.requester = requester;
         this.request = request;
     }
 
-    String getTemplateLocation()
-    {
+    String getTemplateLocation() {
         return "permission/requestNotification";
     }
 
-    public String getDepositorName()
-    {
+    public String getDepositorName() {
         return getDataset().getDepositor().getDisplayName();
     }
 
-    public String getRequestLink()
-    {
+    public String getRequestLink() {
         return request.getRequestLink();
     }
 
-    public String getPermissionsTabLink()
-    {
+    public String getPermissionsTabLink() {
         return request.getPermissionsTabLink();
     }
 
-    public String getRequesterName()
-    {
+    public String getRequesterName() {
         return requester.getDisplayName();
     }
 
-    public String getDatasetTitle()
-    {
+    public String getDatasetTitle() {
         return getDataset().getPreferredTitle();
     }
 }

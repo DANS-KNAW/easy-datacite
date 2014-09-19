@@ -12,8 +12,7 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class TestHelper
-{
+public abstract class TestHelper {
 
     public static final String OUTPUT_FOLDER = "src/test/resources/output/";
 
@@ -39,19 +38,16 @@ public abstract class TestHelper
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
     @BeforeClass
-    public static void beforeTestClass()
-    {
+    public static void beforeTestClass() {
         new ResourceLocator(new FileSystemHomeDirectory(new File("src/test/resources/editable")));
         log().info("EasyHome-value has been set");
     }
 
-    public TestHelper()
-    {
+    public TestHelper() {
         TestHelper.currentClass = this.getClass();
     }
 
-    public static void before(Class<?> test)
-    {
+    public static void before(Class<?> test) {
         currentClass = test;
         LOGGER.debug(LINE);
         LOGGER.debug("  start of " + getCurrentClass().getName() + " messages");
@@ -59,10 +55,8 @@ public abstract class TestHelper
     }
 
     @AfterClass
-    public static void testHelperAfter()
-    {
-        if (getCurrentClass() != null)
-        {
+    public static void testHelperAfter() {
+        if (getCurrentClass() != null) {
             LOGGER.debug(LINE);
             LOGGER.debug("  end of " + getCurrentClass().getName() + " messages");
             LOGGER.debug(LINE);
@@ -71,84 +65,67 @@ public abstract class TestHelper
         }
     }
 
-    public static String getString(String key)
-    {
-        try
-        {
+    public static String getString(String key) {
+        try {
             return RESOURCE_BUNDLE.getString(key);
         }
-        catch (final MissingResourceException e)
-        {
+        catch (final MissingResourceException e) {
             return '!' + key + '!';
         }
     }
 
-    public static String getInputFolderName(Class<?> clazz)
-    {
+    public static String getInputFolderName(Class<?> clazz) {
         String path = INPUT_FOLDER + clazz.getName().replaceAll("\\.", "/") + "-files/";
         File file = new File(path);
         file.mkdirs();
         return path;
     }
 
-    public static String getOutPutFolderName(Class<?> clazz)
-    {
+    public static String getOutPutFolderName(Class<?> clazz) {
         String path = OUTPUT_FOLDER + clazz.getName().replaceAll("\\.", "/") + "/";
         File file = new File(path);
         file.mkdirs();
         return path;
     }
 
-    public static Logger log()
-    {
-        if (currentLogger == null)
-        {
+    public static Logger log() {
+        if (currentLogger == null) {
             currentLogger = LoggerFactory.getLogger(getCurrentClass());
         }
         return currentLogger;
     }
 
-    public String getInputFolderName()
-    {
+    public String getInputFolderName() {
         return getInputFolderName(getCurrentClass());
     }
 
-    public String getOutputFolderName()
-    {
+    public String getOutputFolderName() {
         return getOutPutFolderName(getCurrentClass());
     }
 
-    public String getOutputFileName(String filename)
-    {
+    public String getOutputFileName(String filename) {
         return getOutputFolderName() + filename;
     }
 
-    public File getFile(String filename)
-    {
+    public File getFile(String filename) {
         return new File(getInputFolderName() + filename);
     }
 
-    public static File getFile(Class<?> clazz, String filename)
-    {
+    public static File getFile(Class<?> clazz, String filename) {
         return new File(getInputFolderName(clazz) + filename);
     }
 
-    public void startOfTest(String name)
-    {
+    public void startOfTest(String name) {
         log().debug(LINE);
         log().debug("       start " + name);
         log().debug(LINE);
     }
 
-    private static Class<?> getCurrentClass()
-    {
-        if (currentClass == null)
-        {
+    private static Class<?> getCurrentClass() {
+        if (currentClass == null) {
             LOGGER.warn(NO_CURRENT_CLASS);
             return TestHelper.class;
-        }
-        else
-        {
+        } else {
             return currentClass;
         }
 

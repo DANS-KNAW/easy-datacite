@@ -32,8 +32,7 @@ import org.apache.wicket.util.tester.FormTester;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLoginPage extends Fixture
-{
+public class TestLoginPage extends Fixture {
     private static final String PASSWORD_FORM_PATH = "forgottenPasswordPanel:forgottenPasswordForm";
     private static final String FIRST_COMMON_FEEDBACK_MESSAGE = ":commonFeedbackPanel:feedbackul:messages:0:message";
     private static final String INVALID_USER_ID = "invalidUserID";
@@ -44,8 +43,7 @@ public class TestLoginPage extends Fixture
     private static FederativeUserService federativeUserService;
 
     @Before
-    public void mockFederativeUserService() throws Exception
-    {
+    public void mockFederativeUserService() throws Exception {
         federativeUserService = createMock(FederativeUserService.class);
         applicationContext.putBean("federativeUserService", federativeUserService);
 
@@ -54,8 +52,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void smokeTest() throws Exception
-    {
+    public void smokeTest() throws Exception {
         final EasyWicketTester tester = init();
         tester.assertRenderedPage(LoginPage.class);
         tester.assertInvisible(COMMON_FEEDBACK);
@@ -72,8 +69,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void emptyLogin() throws Exception
-    {
+    public void emptyLogin() throws Exception {
         final EasyWicketTester tester = init();
         tester.clickLink(REG_LOGIN_SUBMIT);
         tester.assertRenderedPage(LoginPage.class);
@@ -84,8 +80,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void loginWhenLoggedIn() throws Exception
-    {
+    public void loginWhenLoggedIn() throws Exception {
         applicationContext.expectAuthenticatedAsVisitor();
         final EasyWicketTester tester = init();
 
@@ -94,8 +89,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void depositInReadOnlyMode() throws Exception
-    {
+    public void depositInReadOnlyMode() throws Exception {
         final EasyApplicationContextMock applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
@@ -111,16 +105,14 @@ public class TestLoginPage extends Fixture
         assertEmptyLoginPage(tester);
     }
 
-    private void assertEmptyLoginPage(final EasyWicketTester tester)
-    {
+    private void assertEmptyLoginPage(final EasyWicketTester tester) {
         tester.assertRenderedPage(LoginPage.class);
         tester.assertLabel("displayName", "S.U.R. Name");
         tester.assertInvisible("register");
     }
 
     @Test
-    public void cancelForgottenPassword() throws Exception
-    {
+    public void cancelForgottenPassword() throws Exception {
         final EasyWicketTester tester = init();
         tester.clickLink(FORGOTTEN_LINK);
         tester.assertRenderedPage(ForgottenPasswordPage.class);
@@ -130,8 +122,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void submitEmptyForgottenPassword() throws Exception
-    {
+    public void submitEmptyForgottenPassword() throws Exception {
         final EasyWicketTester tester = init();
         tester.clickLink(FORGOTTEN_LINK);
         tester.assertRenderedPage(ForgottenPasswordPage.class);
@@ -142,8 +133,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void submitIdForforgottenPasswordFailed() throws Exception
-    {
+    public void submitIdForforgottenPasswordFailed() throws Exception {
         mockUserNotFound();
         mockHandleForgottenPasswordRequest();
         final EasyWicketTester tester = init();
@@ -157,8 +147,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void submitIdForforgottenPassword() throws Exception
-    {
+    public void submitIdForforgottenPassword() throws Exception {
         mockQualifiedUser();
         mockHandleForgottenPasswordRequest();
         final EasyWicketTester tester1 = init();
@@ -172,8 +161,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void submitInvalidEmailForforgottenPassword() throws Exception
-    {
+    public void submitInvalidEmailForforgottenPassword() throws Exception {
         mockQualifiedUser();
         mockHandleForgottenPasswordRequest();
 
@@ -189,35 +177,30 @@ public class TestLoginPage extends Fixture
         tester.assertRenderedPage(ForgottenPasswordPage.class);
     }
 
-    private FormTester clickForgottenPassword(final EasyWicketTester tester)
-    {
+    private FormTester clickForgottenPassword(final EasyWicketTester tester) {
         tester.clickLink(FORGOTTEN_LINK);
         tester.assertRenderedPage(ForgottenPasswordPage.class);
         final FormTester formTester = tester.newFormTester(PASSWORD_FORM_PATH);
         return formTester;
     }
 
-    private void mockQualifiedUser() throws Exception
-    {
+    private void mockQualifiedUser() throws Exception {
         final EasyUserRepo userRepo = createMock(EasyUserRepo.class);
 
         // required by business layer so no SpringBean injection possible
         new Data().setUserRepo(userRepo);
 
-        expect(userRepo.findById(isA(String.class))).andStubReturn(new EasyUserTestImpl("mockedUser")
-        {
+        expect(userRepo.findById(isA(String.class))).andStubReturn(new EasyUserTestImpl("mockedUser") {
             private static final long serialVersionUID = 1L;
 
-            public boolean isQualified()
-            {
+            public boolean isQualified() {
                 return true;
             }
         });
         applicationContext.putBean("userRepo", userRepo);
     }
 
-    private void mockUserNotFound() throws Exception
-    {
+    private void mockUserNotFound() throws Exception {
         final EasyUserRepo userRepo = createMock(EasyUserRepo.class);
 
         // required by business layer so no SpringBean injection possible
@@ -227,13 +210,10 @@ public class TestLoginPage extends Fixture
         applicationContext.putBean("userRepo", userRepo);
     }
 
-    private void mockHandleForgottenPasswordRequest() throws Exception
-    {
+    private void mockHandleForgottenPasswordRequest() throws Exception {
         applicationContext.getUserService().handleForgottenPasswordRequest(isA(ForgottenPasswordMessenger.class));
-        expectLastCall().andStubDelegateTo(new EasyUserService()
-        {
-            public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger)
-            {
+        expectLastCall().andStubDelegateTo(new EasyUserService() {
+            public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) {
                 if (ForgottenPasswordSpecification.isSatisfiedBy(messenger))
                     messenger.setState(ForgottenPasswordMessenger.State.NewPasswordSend);
                 else
@@ -243,8 +223,7 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void validLogin() throws Exception
-    {
+    public void validLogin() throws Exception {
         authentication.setState(State.Authenticated);
         authentication.setUser(EasyUserAnonymous.getInstance());
 
@@ -263,23 +242,20 @@ public class TestLoginPage extends Fixture
     }
 
     @Test
-    public void invalidLogin1() throws Exception
-    {
+    public void invalidLogin1() throws Exception {
         final EasyWicketTester tester = submitInvalidUser();
         tester.assertInvisible(COMMON_FEEDBACK);
     }
 
     @Test
-    public void invalidLogin2() throws Exception
-    {
+    public void invalidLogin2() throws Exception {
         authentication.setState(State.NotAuthenticated);
         authentication.setUser(null);
         final EasyWicketTester tester = submitInvalidUser();
         tester.assertLabelContains(COMMON_FEEDBACK, "Not authenticated");
     }
 
-    private EasyWicketTester submitInvalidUser() throws ServiceException
-    {
+    private EasyWicketTester submitInvalidUser() throws ServiceException {
         userService.authenticate(isA(Authentication.class));
         expectLastCall().anyTimes();
         final EasyWicketTester tester = init();
@@ -297,8 +273,7 @@ public class TestLoginPage extends Fixture
         return tester;
     }
 
-    protected EasyWicketTester init()
-    {
+    protected EasyWicketTester init() {
         replayAll();
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         tester.startPage(LoginPage.class);

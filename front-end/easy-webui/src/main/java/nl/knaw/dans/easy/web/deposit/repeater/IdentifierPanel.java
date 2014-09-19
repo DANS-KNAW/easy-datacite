@@ -23,8 +23,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class IdentifierPanel extends AbstractChoicePanel
-{
+public class IdentifierPanel extends AbstractChoicePanel {
 
     private static final long serialVersionUID = -822413494904086019L;
 
@@ -43,38 +42,30 @@ public class IdentifierPanel extends AbstractChoicePanel
      * @param choices
      *        a list of choices
      */
-    public IdentifierPanel(final String wicketId, final IModel model, final ChoiceList choiceList)
-    {
+    public IdentifierPanel(final String wicketId, final IModel model, final ChoiceList choiceList) {
         super(wicketId, model, choiceList);
     }
 
-    public void setDropdownVisible(boolean dropdownVisible)
-    {
+    public void setDropdownVisible(boolean dropdownVisible) {
         this.dropdownVisible = dropdownVisible;
     }
 
     @Override
-    protected Panel getRepeatingComponentPanel(final ListItem item)
-    {
-        if (isInEditMode())
-        {
+    protected Panel getRepeatingComponentPanel(final ListItem item) {
+        if (isInEditMode()) {
             return new RepeatingEditModePanel(item);
-        }
-        else
-        {
+        } else {
             return new RepeatingViewModePanel(item);
         }
     }
 
-    class RepeatingEditModePanel extends Panel
-    {
+    class RepeatingEditModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
         private final BasicIdentifier identifier;
 
-        RepeatingEditModePanel(final ListItem<IdentifierModel> item)
-        {
+        RepeatingEditModePanel(final ListItem<IdentifierModel> item) {
             super(REPEATING_PANEL_ID);
             identifier = item.getModelObject().getBasicIdentifier();
 
@@ -92,20 +83,17 @@ public class IdentifierPanel extends AbstractChoicePanel
 
     }
 
-    class RepeatingViewModePanel extends Panel
-    {
+    class RepeatingViewModePanel extends Panel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem item)
-        {
+        RepeatingViewModePanel(final ListItem item) {
             super(REPEATING_PANEL_ID);
             // quick fix!!
             IdentifierListWrapper.IdentifierModel im = (IdentifierModel) item.getDefaultModelObject();
             String scheme = im.getBasicIdentifier().getScheme();
             String schemeName = null;
-            if (scheme != null)
-            {
+            if (scheme != null) {
                 schemeName = lookup(scheme);
             }
             Label schemeLabel = new Label("schemeName", schemeName);
@@ -119,41 +107,33 @@ public class IdentifierPanel extends AbstractChoicePanel
     }
 
     // part of quick fix: identifiers not editable or not editable on this panel
-    private static String lookup(String scheme)
-    {
-        if (SCHEMENAME_MAP == null)
-        {
+    private static String lookup(String scheme) {
+        if (SCHEMENAME_MAP == null) {
             SCHEMENAME_MAP = new HashMap<String, String>();
             SCHEMENAME_MAP.put("PID", "Persistent identifier: ");
             SCHEMENAME_MAP.put("DMO_ID", "Fedora Identifier: ");
             SCHEMENAME_MAP.put("OAI_ITEM_ID", "OAI item id: ");
             SCHEMENAME_MAP.put("AIP_ID", "AipId: ");
             SCHEMENAME_MAP.put("Archis_onderzoek_m_nr", "Archis onderzoeksmeldingsnr.");
-            try
-            {
+            try {
                 ChoiceList cl = ChoiceListGetter.getInstance().getChoiceList("archaeology.dc.identifier", null);
-                for (KeyValuePair kvp : cl.getChoices())
-                {
+                for (KeyValuePair kvp : cl.getChoices()) {
                     SCHEMENAME_MAP.put(kvp.getKey(), kvp.getValue() + ": ");
                 }
             }
-            catch (ObjectNotFoundException e)
-            {
+            catch (ObjectNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            catch (CacheException e)
-            {
+            catch (CacheException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            catch (ResourceNotFoundException e)
-            {
+            catch (ResourceNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            catch (DomainException e)
-            {
+            catch (DomainException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

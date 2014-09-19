@@ -10,14 +10,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.ResourceModel;
 
-public class JumpoffMetadataPanel extends Panel
-{
+public class JumpoffMetadataPanel extends Panel {
 
     private static final long serialVersionUID = -5564464014865060234L;
     private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
-    public JumpoffMetadataPanel(String id, DMOModel<JumpoffDmo> model)
-    {
+    public JumpoffMetadataPanel(String id, DMOModel<JumpoffDmo> model) {
         super(id, model);
         JumpoffDmo joDmo = (JumpoffDmo) getDefaultModelObject();
         JumpoffDmoMetadata joMetadata = joDmo.getJumpoffDmoMetadata();
@@ -30,8 +28,7 @@ public class JumpoffMetadataPanel extends Panel
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return ((JumpoffDmo) getDefaultModelObject()).getJumpoffDmoMetadata().getDefaultMarkupMetadata().getLastEdited() != null;
     }
 

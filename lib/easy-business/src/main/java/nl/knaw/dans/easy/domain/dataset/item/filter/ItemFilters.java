@@ -19,11 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A simple container for all the item filters. This class is not made to be very dynamic, so be careful
- * when adding filters that you should also update some of the methods: like clear and getFilters.
+ * A simple container for all the item filters. This class is not made to be very dynamic, so be careful when adding filters that you should also update some of
+ * the methods: like clear and getFilters.
  */
-public class ItemFilters
-{
+public class ItemFilters {
     private static final Logger logger = LoggerFactory.getLogger(ItemFilters.class);
 
     private static final String SEPARATOR = "[^a-zA-Z_]+";
@@ -45,8 +44,7 @@ public class ItemFilters
     private VisibleToFieldFilter visibleToFilter = null;
     private AccessibleToFieldFilter accessibleToFilter = null;
 
-    public ItemFilters()
-    {
+    public ItemFilters() {
 
     }
 
@@ -60,115 +58,96 @@ public class ItemFilters
      * @param accessibleTos
      *        comma separated values
      */
-    public ItemFilters(String visibleTos, String creators, String accessibleTos)
-    {
+    public ItemFilters(String visibleTos, String creators, String accessibleTos) {
         // TODO DRY
         if (creators != null && creators.length() > 0)
             for (final String value : creators.toUpperCase().split(SEPARATOR))
-                try
-                {
+                try {
                     add(CreatorRole.valueOf(value));
                 }
-                catch (IllegalArgumentException exception)
-                {
+                catch (IllegalArgumentException exception) {
                     logger.error(value + " skipping invalid creator filter value");
                 }
         if (visibleTos != null && visibleTos.length() > 0)
             for (final String value : visibleTos.toUpperCase().split(FILTER_SEPARATOR))
-                try
-                {
+                try {
                     add(VisibleTo.valueOf(value));
                 }
-                catch (IllegalArgumentException exception)
-                {
+                catch (IllegalArgumentException exception) {
                     logger.error(value + " skipping invalid visible to filter value");
                 }
         if (accessibleTos != null && accessibleTos.length() > 0)
             for (final String value : accessibleTos.toUpperCase().split(FILTER_SEPARATOR))
-                try
-                {
+                try {
                     add(AccessibleTo.valueOf(value));
                 }
-                catch (IllegalArgumentException exception)
-                {
+                catch (IllegalArgumentException exception) {
                     logger.error(value + " skipping invalid accessible to filter value");
                 }
     }
 
-    public void setVisibleToFilter(VisibleToFieldFilter visibleToFilter)
-    {
+    public void setVisibleToFilter(VisibleToFieldFilter visibleToFilter) {
         this.visibleToFilter = visibleToFilter;
     }
 
     /**
      * @return the visible to field filter or null if the filter was not set
      */
-    public VisibleToFieldFilter getVisibleToFilter()
-    {
+    public VisibleToFieldFilter getVisibleToFilter() {
         return visibleToFilter;
     }
 
-    public AccessibleToFieldFilter getAccessibleToFilter()
-    {
+    public AccessibleToFieldFilter getAccessibleToFilter() {
         return accessibleToFilter;
     }
 
-    public void setAccessibleToFilter(AccessibleToFieldFilter accessibleToFilter)
-    {
+    public void setAccessibleToFilter(AccessibleToFieldFilter accessibleToFilter) {
         this.accessibleToFilter = accessibleToFilter;
     }
 
-    public void setCreatorRoleFilter(CreatorRoleFieldFilter creatorRoleFilter)
-    {
+    public void setCreatorRoleFilter(CreatorRoleFieldFilter creatorRoleFilter) {
         this.creatorRoleFilter = creatorRoleFilter;
     }
 
     /**
      * @return the creator role field filter or null if the filter was not set
      */
-    public CreatorRoleFieldFilter getCreatorRoleFilter()
-    {
+    public CreatorRoleFieldFilter getCreatorRoleFilter() {
         return creatorRoleFilter;
     }
 
     /**
      * @return a list (never null) of available filters
      */
-    public List<ItemFilter> getFilters()
-    {
+    public List<ItemFilter> getFilters() {
         return Arrays.asList(new ItemFilter[] {creatorRoleFilter, visibleToFilter, accessibleToFilter});
     }
 
-    public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException
-    {
+    public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException {
         List<ItemFilter> filters = getFilters();
         List<? extends ItemVO> result = new ArrayList<ItemVO>(itemList);
-        for (final ItemFilter filter : filters)
-        {
+        for (final ItemFilter filter : filters) {
             if (filter != null)
                 result = filter.apply(result);
         }
         return result;
     }
 
-    private ItemFilters add(VisibleTo... visibleTos)
-    {
+    private ItemFilters add(VisibleTo... visibleTos) {
         if (visibleToFilter == null)
             visibleToFilter = new VisibleToFieldFilter();
         visibleToFilter.addDesiredValues(visibleTos);
         return this;
     }
 
-    private ItemFilters add(AccessibleTo... values)
-    {
+    private ItemFilters add(AccessibleTo... values) {
         if (accessibleToFilter == null)
             accessibleToFilter = new AccessibleToFieldFilter();
         accessibleToFilter.addDesiredValues(values);
         return this;
     }
 
-    private ItemFilters add(CreatorRole... creatorRoles)
-    {
+    private ItemFilters add(CreatorRole... creatorRoles) {
         if (creatorRoleFilter == null)
             creatorRoleFilter = new CreatorRoleFieldFilter();
         creatorRoleFilter.addDesiredValues(creatorRoles);
@@ -182,8 +161,7 @@ public class ItemFilters
      *        the examined data set or null
      * @return this filter enhanced with business rules
      */
-    public static ItemFilters get(EasyUser sessionUser, Dataset dataset, ItemFilters filters)
-    {
+    public static ItemFilters get(EasyUser sessionUser, Dataset dataset, ItemFilters filters) {
         // boolean isPublished = dataset != null && // TODO ???
         // //AdministrativeState.valueOf(dataset.getState()) == AdministrativeState.PUBLISHED;
         // AdministrativeState.PUBLISHED.equals(dataset.getAdministrativeState());
@@ -200,15 +178,13 @@ public class ItemFilters
         return FILTERS_FOR_KNOWN;
     }
 
-    private static boolean isPowerUser(Set<Role> roles)
-    {
+    private static boolean isPowerUser(Set<Role> roles) {
         final Set<Role> intersection = new HashSet<Role>(POWER_USERS);
         intersection.retainAll(roles);
         return !intersection.isEmpty();
     }
 
-    public void clear()
-    {
+    public void clear() {
         setCreatorRoleFilter(null);
         setAccessibleToFilter(null);
         setVisibleToFilter(null);

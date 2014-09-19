@@ -14,35 +14,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Locale-sensitive locator of resources. Static methods of this class will locate resources on the
- * classpath, or, used with a HomeDirectory, on the system.
+ * Locale-sensitive locator of resources. Static methods of this class will locate resources on the classpath, or, used with a HomeDirectory, on the system.
  * 
  * @author ecco Apr 30, 2009
  */
-public final class ResourceLocator
-{
+public final class ResourceLocator {
 
     private static final Logger logger = LoggerFactory.getLogger(ResourceLocator.class);
 
     private static HomeDirectory[] HOME_DIRECTORIES;
 
     @SuppressWarnings("unused")
-    private ResourceLocator()
-    {
+    private ResourceLocator() {
 
     }
 
     /**
-     * Constructor used for constructing a ResourceLocator as a bean in an application context, using the
-     * given HomeDirectory. Used with this constructor ResourceLocator will first look for the resource
-     * in the home directory. If a resource is not found in the home directory it will look for the
-     * resource on the classpath.
+     * Constructor used for constructing a ResourceLocator as a bean in an application context, using the given HomeDirectory. Used with this constructor
+     * ResourceLocator will first look for the resource in the home directory. If a resource is not found in the home directory it will look for the resource on
+     * the classpath.
      * 
      * @param homeDirectory
      *        homeDirectory to set.
      */
-    public ResourceLocator(HomeDirectory... homeDirectory)
-    {
+    public ResourceLocator(HomeDirectory... homeDirectory) {
         HOME_DIRECTORIES = homeDirectory;
         logger.debug("Constructed ResourceLocator. HomeDirectory={}", HOME_DIRECTORIES);
     }
@@ -54,23 +49,17 @@ public final class ResourceLocator
      *        a relative path on the class path, separated with "/"
      * @return URL of the resource or <code>null</code>
      */
-    public static URL getURL(final String location)
-    {
+    public static URL getURL(final String location) {
         URL url = null;
-        if (HOME_DIRECTORIES != null)
-        {
-            for (HomeDirectory home : HOME_DIRECTORIES)
-            {
+        if (HOME_DIRECTORIES != null) {
+            for (HomeDirectory home : HOME_DIRECTORIES) {
 
                 File file = new File(home.getHomeDirectory(), location);
-                if (file.exists())
-                {
-                    try
-                    {
+                if (file.exists()) {
+                    try {
                         return file.toURI().toURL();
                     }
-                    catch (MalformedURLException e)
-                    {
+                    catch (MalformedURLException e) {
                         // we return null "if no resource exists on given location."
                     }
                 }
@@ -80,8 +69,7 @@ public final class ResourceLocator
         if (url == null) // try to locate the resource on the classpath.
         {
             final ClassLoader classLoader = ResourceLocator.class.getClassLoader();
-            if (classLoader != null)
-            {
+            if (classLoader != null) {
                 url = classLoader.getResource(location);
             }
         }
@@ -89,8 +77,8 @@ public final class ResourceLocator
     }
 
     /**
-     * Get the URL for a locale-specific resource. The algorithm conforms to java.util.ResourceBundle
-     * policy. That is for given path x and language-code nl and country-code NL, will look for
+     * Get the URL for a locale-specific resource. The algorithm conforms to java.util.ResourceBundle policy. That is for given path x and language-code nl and
+     * country-code NL, will look for
      * <ul>
      * <li>x_nl_NL</li>
      * <li>x_nl</li>
@@ -106,27 +94,23 @@ public final class ResourceLocator
      *        extension (without "."), may be <code>null</code>
      * @return URL of the resource or <code>null</code>
      */
-    public static URL getURL(final String path, final Locale locale, final String extension)
-    {
+    public static URL getURL(final String path, final Locale locale, final String extension) {
         URL url = null;
 
         final boolean language = locale != null && StringUtils.isNotBlank(locale.getLanguage());
         final boolean country = locale != null && StringUtils.isNotBlank(locale.getCountry());
 
-        if (language && country)
-        {
+        if (language && country) {
             // x_nl_NL.ext
             url = getURL(getFullPath(path, locale, extension));
         }
 
-        if (url == null && language)
-        {
+        if (url == null && language) {
             // x_nl.ext
             url = getURL(getLanguagePath(path, locale, extension));
         }
 
-        if (url == null)
-        {
+        if (url == null) {
             // x.ext
             url = getURL(getPath(path, extension));
         }
@@ -143,15 +127,12 @@ public final class ResourceLocator
      * @throws ResourceNotFoundException
      *         if the file could not be found
      */
-    private static File getFile(final URL url) throws ResourceNotFoundException
-    {
+    private static File getFile(final URL url) throws ResourceNotFoundException {
         String path;
-        try
-        {
+        try {
             path = URLDecoder.decode(url.getFile(), "UTF-8");
         }
-        catch (final UnsupportedEncodingException e)
-        {
+        catch (final UnsupportedEncodingException e) {
             throw new ResourceNotFoundException(e);
         }
         return new File(path);
@@ -166,11 +147,9 @@ public final class ResourceLocator
      * @throws ResourceNotFoundException
      *         if no file exists on given location
      */
-    public static File getFile(final String location) throws ResourceNotFoundException
-    {
+    public static File getFile(final String location) throws ResourceNotFoundException {
         final URL url = getURL(location);
-        if (url == null)
-        {
+        if (url == null) {
             throw new ResourceNotFoundException("Cannot locate the resource '" + location + "'");
         }
         return getFile(url);
@@ -190,11 +169,9 @@ public final class ResourceLocator
      *         if no file exists on given path with given extension
      * @see #getURL(String, Locale, String)
      */
-    public static File getFile(final String path, final Locale locale, final String extension) throws ResourceNotFoundException
-    {
+    public static File getFile(final String path, final Locale locale, final String extension) throws ResourceNotFoundException {
         final URL url = getURL(path, locale, extension);
-        if (url == null)
-        {
+        if (url == null) {
             throw new ResourceNotFoundException("Cannot locate the resource '" + path + "'");
         }
 
@@ -202,8 +179,7 @@ public final class ResourceLocator
     }
 
     /**
-     * Get InputStream from given location. The caller is responsible for proper closing of the
-     * InputStream.
+     * Get InputStream from given location. The caller is responsible for proper closing of the InputStream.
      * 
      * @param location
      *        a relative path on the class path, separated with "/"
@@ -213,16 +189,12 @@ public final class ResourceLocator
      * @throws ResourceNotFoundException
      *         if no file exists on given location
      */
-    public static InputStream getInputStream(final String location) throws IOException, ResourceNotFoundException
-    {
+    public static InputStream getInputStream(final String location) throws IOException, ResourceNotFoundException {
         InputStream inStream = null;
         final URL url = getURL(location);
-        if (url == null)
-        {
+        if (url == null) {
             throw new ResourceNotFoundException("Cannot locate the resource '" + location + "'");
-        }
-        else
-        {
+        } else {
             inStream = url.openStream();
         }
         return inStream;
@@ -244,23 +216,18 @@ public final class ResourceLocator
      *         if no InputStream could be located
      * @see #getURL(String, Locale, String)
      */
-    public static InputStream getInputStream(final String path, final Locale locale, final String extension) throws IOException, ResourceNotFoundException
-    {
+    public static InputStream getInputStream(final String path, final Locale locale, final String extension) throws IOException, ResourceNotFoundException {
         InputStream inStream = null;
         final URL url = getURL(path, locale, extension);
-        if (url == null)
-        {
+        if (url == null) {
             throw new ResourceNotFoundException("Cannot locate the resource '" + path + "'");
-        }
-        else
-        {
+        } else {
             inStream = url.openStream();
         }
         return inStream;
     }
 
-    private static String getFullPath(final String path, final Locale locale, final String extension)
-    {
+    private static String getFullPath(final String path, final Locale locale, final String extension) {
         final StringBuilder sb = new StringBuilder(path);
         sb.append("_");
         sb.append(locale.getLanguage());
@@ -270,8 +237,7 @@ public final class ResourceLocator
         return sb.toString();
     }
 
-    private static String getLanguagePath(final String path, final Locale locale, final String extension)
-    {
+    private static String getLanguagePath(final String path, final Locale locale, final String extension) {
         final StringBuilder sb = new StringBuilder(path);
         sb.append("_");
         sb.append(locale.getLanguage());
@@ -279,17 +245,14 @@ public final class ResourceLocator
         return sb.toString();
     }
 
-    private static String getPath(final String path, final String extension)
-    {
+    private static String getPath(final String path, final String extension) {
         final StringBuilder sb = new StringBuilder(path);
         addExtension(extension, sb);
         return sb.toString();
     }
 
-    private static void addExtension(final String extension, final StringBuilder sb)
-    {
-        if (StringUtils.isNotBlank(extension))
-        {
+    private static void addExtension(final String extension, final StringBuilder sb) {
+        if (StringUtils.isNotBlank(extension)) {
             sb.append(".");
             sb.append(extension);
         }

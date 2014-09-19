@@ -13,39 +13,31 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecursiveListTranslator implements Translator<String>
-{
+public class RecursiveListTranslator implements Translator<String> {
 
     private static final long serialVersionUID = 3535819881331764331L;
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListTranslator.class);
 
     private final String listId;
 
-    public RecursiveListTranslator(String listId)
-    {
+    public RecursiveListTranslator(String listId) {
         this.listId = listId;
     }
 
     @Override
-    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName)
-    {
+    public IModel<String> getTranslation(String originalValue, Locale locale, boolean fullName) {
         String translation = null;
-        try
-        {
+        try {
             RecursiveList recursiveList = Services.getSearchService().getRecursiveList(listId, locale);
             RecursiveEntry entry = recursiveList.get(originalValue);
-            if (entry == null)
-            {
+            if (entry == null) {
                 logger.error("No entry found for key '" + originalValue + "' in list " + listId);
                 translation = originalValue;
-            }
-            else
-            {
+            } else {
                 translation = fullName ? entry.getName() : entry.getShortname();
             }
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             logger.error("Could not get recursive list: ", e);
         }
 

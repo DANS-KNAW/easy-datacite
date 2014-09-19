@@ -17,23 +17,20 @@ import org.junit.Test;
 // some methods cannot be tested with a mock DataModelObject,
 // because underlying implementation uses AbstractUnitOfWork,
 // and that class does casts of DataModelObject to AbstractDataModelObject.
-public class StoreSessionImplTest extends EasyMock
-{
+public class StoreSessionImplTest extends EasyMock {
 
     private static DataModelObject dmo;
     private static DmoStore dmoStore;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         dmo = createMock(DataModelObject.class);
         dmoStore = createMock(DmoStore.class);
         Repository.register(dmoStore);
     }
 
     @Test
-    public void attach() throws Exception
-    {
+    public void attach() throws Exception {
         StoreSession session = new StoreSessionImpl("foo1");
         DmoNamespace namespace = new DmoNamespace("bar-test");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:1");
@@ -55,8 +52,7 @@ public class StoreSessionImplTest extends EasyMock
     }
 
     @Test
-    public void getDataModelObject() throws Exception
-    {
+    public void getDataModelObject() throws Exception {
         StoreSession session = new StoreSessionImpl("foo2");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:2");
 
@@ -72,8 +68,7 @@ public class StoreSessionImplTest extends EasyMock
     }
 
     @Test(expected = ObjectNotInStoreException.class)
-    public void getDataModelObjectAndNotFound() throws Exception
-    {
+    public void getDataModelObjectAndNotFound() throws Exception {
         StoreSession session = new StoreSessionImpl("foo");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:2");
 

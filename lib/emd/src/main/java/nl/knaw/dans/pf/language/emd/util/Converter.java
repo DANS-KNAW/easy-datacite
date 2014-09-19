@@ -10,13 +10,11 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
- * Converter offering methods to serialize and deserialize Java types to and from strings. JiBX is
- * instructed to use methods from this converter.
+ * Converter offering methods to serialize and deserialize Java types to and from strings. JiBX is instructed to use methods from this converter.
  * 
  * @author ecco
  */
-public final class Converter
-{
+public final class Converter {
 
     /**
      * Time zone to use for the application.
@@ -24,8 +22,7 @@ public final class Converter
     public static final DateTimeZone LOCAL_TIME_ZONE = DateTimeZone.getDefault();
 
     /**
-     * joda.time does not know how to parse a date like "2006-05-01T00:00:00+02:00" (it is missing
-     * millisecond precision), while it is a legal xml date format.
+     * joda.time does not know how to parse a date like "2006-05-01T00:00:00+02:00" (it is missing millisecond precision), while it is a legal xml date format.
      * 
      * @see #deSerializeDateTime(String)
      */
@@ -37,8 +34,7 @@ public final class Converter
     public static final DateTimeFormatter DATE_FORMATTER = ISODateTimeFormat.dateTime().withZone(LOCAL_TIME_ZONE);
 
     // utility class.
-    private Converter()
-    {
+    private Converter() {
 
     }
 
@@ -49,43 +45,35 @@ public final class Converter
      *        Date to serialize
      * @return date as string
      */
-    public static synchronized String serializeDateTime(final DateTime dateTime)
-    {
+    public static synchronized String serializeDateTime(final DateTime dateTime) {
         return dateTime == null ? null : DATE_FORMATTER.print(dateTime);
     }
 
     /**
      * Deserialize date string to DateTime object.
      * <p/>
-     * DateStrings missing millisecond precision but defining a time zone are not accepted by joda time.
-     * <strike>A dateString like 2006-05-01T00:00:00+02:00 will therefore be corrected to
-     * 2006-05-01T00:00:0.00+02:00 before parsing.</strike> (hb)
+     * DateStrings missing millisecond precision but defining a time zone are not accepted by joda time. <strike>A dateString like 2006-05-01T00:00:00+02:00
+     * will therefore be corrected to 2006-05-01T00:00:0.00+02:00 before parsing.</strike> (hb)
      * 
      * @param dateString
      *        date string
      * @return dateTime object
      */
-    public static synchronized DateTime deSerializeDateTime(final String dateString)
-    {
+    public static synchronized DateTime deSerializeDateTime(final String dateString) {
         DateTime dateTimeZone = null;
-        if (dateString != null)
-        {
+        if (dateString != null) {
 
-            if (INVALID_DATE_PATTERN.matcher(dateString).matches())
-            { // 2006-05-01T00:00:00+02:00
+            if (INVALID_DATE_PATTERN.matcher(dateString).matches()) { // 2006-05-01T00:00:00+02:00
                 String corrected = dateString.substring(0, 19) + ".0" + dateString.substring(19);
                 dateTimeZone = DATE_FORMATTER.parseDateTime(corrected);
-            }
-            else
-            {
+            } else {
                 dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
             }
         }
         return dateTimeZone;
     }
 
-    public static synchronized String normalizeDateTime(String dateString)
-    {
+    public static synchronized String normalizeDateTime(String dateString) {
         return serializeDateTime(deSerializeDateTime(dateString));
     }
 
@@ -96,8 +84,7 @@ public final class Converter
      *        URI to serialize
      * @return URI as string
      */
-    public static synchronized String serializeURI(final URI uri)
-    {
+    public static synchronized String serializeURI(final URI uri) {
         return uri == null ? null : uri.toString();
     }
 
@@ -108,17 +95,13 @@ public final class Converter
      *        URI string
      * @return URI object
      */
-    public static synchronized URI deSerializeURI(final String uriString)
-    {
+    public static synchronized URI deSerializeURI(final String uriString) {
         URI uri = null;
-        if (uriString != null)
-        {
-            try
-            {
+        if (uriString != null) {
+            try {
                 uri = new URI(uriString);
             }
-            catch (final URISyntaxException e)
-            {
+            catch (final URISyntaxException e) {
                 throw new RuntimeException("Could not deserialize uri: ", e);
             }
         }

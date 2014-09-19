@@ -28,8 +28,7 @@ import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnitMetaDataPanel extends AbstractEasyStatelessPanel
-{
+public class UnitMetaDataPanel extends AbstractEasyStatelessPanel {
     private static final long serialVersionUID = 3497222166400321697L;
     protected static final Logger logger = LoggerFactory.getLogger(UnitMetaDataPanel.class);
 
@@ -52,44 +51,36 @@ public class UnitMetaDataPanel extends AbstractEasyStatelessPanel
         add(new UnitMetaDataListView("versions", versions).setVisible(showTable));
     }
 
-    private class CompareByCreationDate implements Comparator<UnitMetadata>
-    {
+    private class CompareByCreationDate implements Comparator<UnitMetadata> {
         @Override
-        public int compare(final UnitMetadata arg0, final UnitMetadata arg1)
-        {
+        public int compare(final UnitMetadata arg0, final UnitMetadata arg1) {
             return -arg0.getCreationDate().compareTo(arg1.getCreationDate());
         }
     }
 
-    private final class UnitMetaDataListView extends ListView<UnitMetadata>
-    {
+    private final class UnitMetaDataListView extends ListView<UnitMetadata> {
         private static final long serialVersionUID = -6597598635055541684L;
 
-        private UnitMetaDataListView(final String id, final List<? extends UnitMetadata> list)
-        {
+        private UnitMetaDataListView(final String id, final List<? extends UnitMetadata> list) {
             super(id, list);
         }
 
         @Override
-        protected void populateItem(final ListItem<UnitMetadata> item)
-        {
+        protected void populateItem(final ListItem<UnitMetadata> item) {
             final IModel<UnitMetadata> model = new CompoundPropertyModel<UnitMetadata>(item.getDefaultModelObject());
             item.add(new ItemPanel("version", model));
         }
     }
 
-    class ItemPanel extends AbstractEasyStatelessPanel
-    {
+    class ItemPanel extends AbstractEasyStatelessPanel {
         private IModel<UnitMetadata> model;
         private static final long serialVersionUID = 7544583798689556606L;
 
-        public ItemPanel(final String wicketId, final IModel<UnitMetadata> model)
-        {
+        public ItemPanel(final String wicketId, final IModel<UnitMetadata> model) {
             super(wicketId, model);
             this.model = model;
             final UnitMetaDataResource resource = new UnitMetaDataResource(datasetModel, model.getObject());
-            for (final String id : columns)
-            {
+            for (final String id : columns) {
                 final Link<UnitMetadata> link = new ResourceLink<UnitMetadata>(id + "Link", resource);
                 link.add(new Label(id));
                 add(link);
@@ -100,27 +91,22 @@ public class UnitMetaDataPanel extends AbstractEasyStatelessPanel
         }
     }
 
-    private final class deleteLink extends Link
-    {
+    private final class deleteLink extends Link {
         IModel<UnitMetadata> model;
 
-        public deleteLink(String id, IModel<UnitMetadata> model)
-        {
+        public deleteLink(String id, IModel<UnitMetadata> model) {
             super(id);
             this.model = model;
         }
 
         @Override
-        public void onClick()
-        {
+        public void onClick() {
             final DatasetService datasetService = Services.getDatasetService();
-            try
-            {
+            try {
                 datasetService.deleteAdditionalLicense(getSessionUser(), new DmoStoreId(datasetModel.getStoreId()), new DsUnitId(model.getObject().getId()),
                         model.getObject().getCreationDate());
             }
-            catch (ServiceException e)
-            {
+            catch (ServiceException e) {
                 final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                 logger.error(message, e);
                 throw new RestartResponseException(ErrorPage.class);
@@ -128,8 +114,7 @@ public class UnitMetaDataPanel extends AbstractEasyStatelessPanel
         }
 
         @Override
-        public boolean isVisible()
-        {
+        public boolean isVisible() {
             return showDeleteButton;
         }
     }

@@ -32,8 +32,7 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatusPanel extends AbstractEasyPanel
-{
+public class StatusPanel extends AbstractEasyPanel {
 
     private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
@@ -47,58 +46,48 @@ public class StatusPanel extends AbstractEasyPanel
 
     private final DatasetViewPage.Mode mode;
 
-    public StatusPanel(String wicketId, DatasetModel datasetModel, Mode mode)
-    {
+    public StatusPanel(String wicketId, DatasetModel datasetModel, Mode mode) {
         super(wicketId);
         this.datasetModel = datasetModel;
         this.mode = mode;
     }
 
-    protected Dataset getDataset()
-    {
+    protected Dataset getDataset() {
         return datasetModel.getObject();
     }
 
-    public boolean isInitiated()
-    {
+    public boolean isInitiated() {
         return initiated;
     }
 
     @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
+    protected void onBeforeRender() {
+        if (!initiated) {
             init();
             initiated = true;
         }
         super.onBeforeRender();
     }
 
-    private void init()
-    {
+    private void init() {
         setOutputMarkupId(true);
-        Component datasetStatus = new Label("datasetStatus", new Model()
-        {
+        Component datasetStatus = new Label("datasetStatus", new Model() {
 
             private static final long serialVersionUID = 3612225734563374597L;
 
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 return getString("datasetState." + datasetModel.getObject().getAdministrativeState().toString());
             }
 
         });
         add(datasetStatus);
 
-        Component statusDate = new DateTimeLabel("statusDate", getString(DATE_TIME_FORMAT), new Model()
-        {
+        Component statusDate = new DateTimeLabel("statusDate", getString(DATE_TIME_FORMAT), new Model() {
 
             private static final long serialVersionUID = 1139426060975374951L;
 
             @Override
-            public Serializable getObject()
-            {
+            public Serializable getObject() {
                 List<StateChangeDate> dates = datasetModel.getObject().getAdministrativeMetadata().getStateChangeDates();
                 return dates.size() > 0 ? dates.get(dates.size() - 1).getChangeDate() : datasetModel.getObject().getLastModified();
             }
@@ -106,14 +95,12 @@ public class StatusPanel extends AbstractEasyPanel
         });
         add(statusDate);
 
-        Link continueDeposit = new Link("continueDeposit")
-        {
+        Link continueDeposit = new Link("continueDeposit") {
 
             private static final long serialVersionUID = 3509720352618875479L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("continueDeposit clicked.");
                 setResponsePage(new DepositPage(datasetModel, DepositDiscipline.EMD_DEPOSITFORM_WIZARD));
             }
@@ -124,13 +111,11 @@ public class StatusPanel extends AbstractEasyPanel
         final ModalWindow popup = new StyledModalWindow("popup", 450);
         add(popup);
 
-        AjaxLink<Void> deleteDataset = new AjaxLink<Void>("deleteDataset")
-        {
+        AjaxLink<Void> deleteDataset = new AjaxLink<Void>("deleteDataset") {
             private static final long serialVersionUID = 3429899621436517328L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 target.prependJavascript("Wicket.Window.unloadConfirmation = false;");
                 logger.debug("deleteDataset clicked.");
                 popup.setTitle("Delete dataset");
@@ -140,14 +125,12 @@ public class StatusPanel extends AbstractEasyPanel
         };
         add(deleteDataset);
 
-        AjaxLink<Void> restoreDeleted = new AjaxLink<Void>("restoreDeleted")
-        {
+        AjaxLink<Void> restoreDeleted = new AjaxLink<Void>("restoreDeleted") {
 
             private static final long serialVersionUID = -2472554212526731592L;
 
             @Override
-            public void onClick(AjaxRequestTarget target)
-            {
+            public void onClick(AjaxRequestTarget target) {
                 logger.debug("restoreDeleted clicked");
                 popup.setTitle("Restore dataset");
                 popup.setContent(new RestoreDatasetPanel(popup, datasetModel));
@@ -157,14 +140,12 @@ public class StatusPanel extends AbstractEasyPanel
         };
         add(restoreDeleted);
 
-        Link unsubmit = new Link("unsubmit")
-        {
+        Link unsubmit = new Link("unsubmit") {
 
             private static final long serialVersionUID = 425342631452858602L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("unsubmit clicked.");
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.UNSUBMIT));
             }
@@ -173,14 +154,12 @@ public class StatusPanel extends AbstractEasyPanel
         unsubmit.setOutputMarkupPlaceholderTag(true);
         add(unsubmit);
 
-        Link publish = new Link("publish")
-        {
+        Link publish = new Link("publish") {
 
             private static final long serialVersionUID = 3011340626581111232L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("publish clicked.");
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.PUBLISH));
                 // logging for statistics
@@ -192,13 +171,11 @@ public class StatusPanel extends AbstractEasyPanel
         publish.setOutputMarkupPlaceholderTag(true);
         add(publish);
 
-        Link unpublish = new Link("unpublish")
-        {
+        Link unpublish = new Link("unpublish") {
             private static final long serialVersionUID = -2661636063796818136L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("unpublish clicked.");
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.UNPUBLISH));
             }
@@ -207,13 +184,11 @@ public class StatusPanel extends AbstractEasyPanel
         unpublish.setOutputMarkupPlaceholderTag(true);
         add(unpublish);
 
-        Link maintain = new Link("maintain")
-        {
+        Link maintain = new Link("maintain") {
             private static final long serialVersionUID = -4388333589227028947L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("maintain clicked.");
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.MAINTAIN));
             }
@@ -222,13 +197,11 @@ public class StatusPanel extends AbstractEasyPanel
         maintain.setOutputMarkupPlaceholderTag(true);
         add(maintain);
 
-        Link republish = new Link("republish")
-        {
+        Link republish = new Link("republish") {
             private static final long serialVersionUID = -8485962066677994209L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("republish clicked.");
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.REPUBLISH));
             }
@@ -237,14 +210,12 @@ public class StatusPanel extends AbstractEasyPanel
         republish.setOutputMarkupPlaceholderTag(true);
         add(republish);
 
-        Link reuseLink = new Link("reuseLink")
-        {
+        Link reuseLink = new Link("reuseLink") {
 
             private static final long serialVersionUID = -7409712694726666776L;
 
             @Override
-            public void onClick()
-            {
+            public void onClick() {
                 logger.debug("Reuse link clicked.");
                 handleReuseDataset();
             }
@@ -258,16 +229,13 @@ public class StatusPanel extends AbstractEasyPanel
 
     }
 
-    private void handleReuseDataset()
-    {
-        try
-        {
+    private void handleReuseDataset() {
+        try {
             Dataset newDataset = Services.getDatasetService().cloneDataset(getSessionUser(), getDataset());
             DatasetModel newModel = new DatasetModel(newDataset);
             setResponsePage(new DepositPage(newModel));
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             String sid = getDataset().getStoreId();
             errorMessage(EasyResources.ERROR_CLONING_DATASET, sid);
             logger.error("Could not clone dataset with sid " + sid, e);
@@ -275,21 +243,17 @@ public class StatusPanel extends AbstractEasyPanel
         }
     }
 
-    private Mode getMode()
-    {
+    private Mode getMode() {
         return mode;
     }
 
-    private class DatasetIntermediatePage extends IntermediatePage
-    {
-        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
-        {
+    private class DatasetIntermediatePage extends IntermediatePage {
+        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode) {
             super(datasetModel, mode);
         }
 
         @Override
-        Page getReturnToPage()
-        {
+        Page getReturnToPage() {
             return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
         }
     }

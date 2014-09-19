@@ -41,10 +41,8 @@ import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.protocol.https.RequireHttps;
 
 @RequireHttps
-public class EditableContentPage extends AbstractEasyNavPage
-{
-    public EditableContentPage()
-    {
+public class EditableContentPage extends AbstractEasyNavPage {
+    public EditableContentPage() {
         super();
 
         // dummy objects
@@ -186,12 +184,9 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("TypeDCMIEditLink", "/help/TypeDCMI.template");
     }
 
-    private void addLink(final String id, final String path, final Object... placeholders)
-    {
-        add(new Link(id)
-        {
-            public void onClick()
-            {
+    private void addLink(final String id, final String path, final Object... placeholders) {
+        add(new Link(id) {
+            public void onClick() {
                 setResponsePage(new EditableTextPage(path, placeholders));
             }
         });
@@ -201,8 +196,7 @@ public class EditableContentPage extends AbstractEasyNavPage
     /**
      * Disable Caching on this page. Reload the page when the user clicks on the browser-back button.
      */
-    protected void configureResponse()
-    {
+    protected void configureResponse() {
         super.configureResponse();
         WebResponse response = getWebRequestCycle().getWebResponse();
         response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");

@@ -11,16 +11,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DisciplineMetadataImplTest
-{
+public class DisciplineMetadataImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DisciplineMetadataImplTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws XMLException
-    {
+    public void serializeDeserializeEmpty() throws XMLException {
         DisciplineMetadata dmd = new DisciplineMetadataImpl();
 
         DisciplineMetadata dmd2 = (DisciplineMetadata) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, dmd.asObjectXML());
@@ -31,8 +29,7 @@ public class DisciplineMetadataImplTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws XMLException
-    {
+    public void serializeDeserializeFull() throws XMLException {
         DisciplineMetadataImpl dmd = new DisciplineMetadataImpl();
 
         dmd.setOrder(55);

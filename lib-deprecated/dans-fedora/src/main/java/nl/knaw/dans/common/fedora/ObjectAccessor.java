@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import fedora.server.types.gen.FieldSearchQuery;
 import fedora.server.types.gen.FieldSearchResult;
 
-public class ObjectAccessor
-{
+public class ObjectAccessor {
 
     private static final Logger logger = LoggerFactory.getLogger(ObjectAccessor.class);
 
@@ -24,20 +23,16 @@ public class ObjectAccessor
      * @param repository
      *        Repository to access
      */
-    public ObjectAccessor(Repository repository)
-    {
+    public ObjectAccessor(Repository repository) {
         this.repository = repository;
     }
 
-    public FieldSearchResult findObjects(String[] resultfields, int maxResults, FieldSearchQuery query) throws RepositoryException
-    {
+    public FieldSearchResult findObjects(String[] resultfields, int maxResults, FieldSearchQuery query) throws RepositoryException {
         FieldSearchResult result = null;
-        try
-        {
+        try {
             result = repository.getFedoraAPIA().findObjects(resultfields, new NonNegativeInteger("" + maxResults), query);
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to find objects: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);
@@ -45,15 +40,12 @@ public class ObjectAccessor
         return result;
     }
 
-    public FieldSearchResult resumeFindObjects(String token) throws RepositoryException
-    {
+    public FieldSearchResult resumeFindObjects(String token) throws RepositoryException {
         FieldSearchResult result = null;
-        try
-        {
+        try {
             result = repository.getFedoraAPIA().resumeFindObjects(token);
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             String msg = "Unable to resume find objects: ";
             logger.debug(msg, e);
             Repository.mapRemoteException(msg, e);

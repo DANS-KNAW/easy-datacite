@@ -10,8 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnzipUtilOnlineTest
-{
+public class UnzipUtilOnlineTest {
 
     private static final Logger logger = LoggerFactory.getLogger(UnzipUtilOnlineTest.class);
 
@@ -21,35 +20,29 @@ public class UnzipUtilOnlineTest
 
     @Ignore("local path")
     @Test
-    public void unzip() throws Exception
-    {
-        List<File> unzippedFiles = UnzipUtil.unzip(new File(zipfilePath), destinationPath, new UnzipListener()
-        {
+    public void unzip() throws Exception {
+        List<File> unzippedFiles = UnzipUtil.unzip(new File(zipfilePath), destinationPath, new UnzipListener() {
 
             @Override
-            public boolean onUnzipUpdate(long bytesUnzipped, long total)
-            {
+            public boolean onUnzipUpdate(long bytesUnzipped, long total) {
                 logger.debug("bytesUnzipped=" + bytesUnzipped + " total=" + total);
                 return true;
             }
 
             @Override
-            public void onUnzipStarted(long totalBytes)
-            {
+            public void onUnzipStarted(long totalBytes) {
                 logger.debug("started total=" + totalBytes);
 
             }
 
             @Override
-            public void onUnzipComplete(List<File> files, boolean canceled)
-            {
+            public void onUnzipComplete(List<File> files, boolean canceled) {
                 logger.debug("complete. canceled=" + canceled);
 
             }
         });
 
-        for (File file : unzippedFiles)
-        {
+        for (File file : unzippedFiles) {
             assertTrue(file.exists());
         }
 

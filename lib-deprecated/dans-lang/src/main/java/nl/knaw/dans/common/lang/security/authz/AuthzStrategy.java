@@ -18,19 +18,16 @@ import nl.knaw.dans.common.lang.user.User;
  * <p/>
  * The following image tries to clarify the above lines.
  * <p/>
- * <img src="doc-files/AuthzStrategy-1.png" height="400px" width="900px"
- * alt="classdiagram of AuthzStrategy and target DMO"/>
+ * <img src="doc-files/AuthzStrategy-1.png" height="400px" width="900px" alt="classdiagram of AuthzStrategy and target DMO"/>
  * <p/>
  * AuthzStrategy-1.png
  */
-public interface AuthzStrategy extends Serializable
-{
+public interface AuthzStrategy extends Serializable {
 
     /**
      * The state of a resource or resource aggregation in respect to authorization for certain handling.
      */
-    enum TriState
-    {
+    enum TriState {
         NONE, SOME, ALL
     }
 

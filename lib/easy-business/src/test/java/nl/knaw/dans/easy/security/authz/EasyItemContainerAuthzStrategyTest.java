@@ -16,12 +16,10 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-public class EasyItemContainerAuthzStrategyTest
-{
+public class EasyItemContainerAuthzStrategyTest {
 
     @Test
-    public void singleMessageTestYes()
-    {
+    public void singleMessageTestYes() {
         Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyUser user = EasyMock.createMock(EasyUser.class);
         DatasetItemContainerMetadata icmd = EasyMock.createMock(DatasetItemContainerMetadata.class);
@@ -55,8 +53,7 @@ public class EasyItemContainerAuthzStrategyTest
     }
 
     @Test
-    public void singleMessageTestLogin()
-    {
+    public void singleMessageTestLogin() {
         Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyUser user = EasyMock.createMock(EasyUser.class);
         DatasetItemContainerMetadata icmd = EasyMock.createMock(DatasetItemContainerMetadata.class);

@@ -4,8 +4,7 @@ package nl.knaw.dans.common.lang.repo;
  * 
  *
  */
-public interface UnitOfWorkListener
-{
+public interface UnitOfWorkListener {
 
     boolean onIngest(DataModelObject dmo);
 

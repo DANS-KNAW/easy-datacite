@@ -8,8 +8,7 @@ import nl.knaw.dans.common.lang.user.RepoEntry;
 import org.joda.time.DateTime;
 
 @LdapObject(objectClasses = {"dansIdMap"})
-public class IdMap implements RepoEntry
-{
+public class IdMap implements RepoEntry {
 
     private static final long serialVersionUID = 1804205773574794833L;
 
@@ -25,18 +24,15 @@ public class IdMap implements RepoEntry
     @LdapAttribute(id = "dansMigrationDate", valueTranslator = DateTimeTranslator.class)
     private DateTime migrationDate;
 
-    public IdMap()
-    {
+    public IdMap() {
 
     }
 
-    public IdMap(String storeId, String aipId, String persistentIdentifier)
-    {
+    public IdMap(String storeId, String aipId, String persistentIdentifier) {
         this(storeId, aipId, persistentIdentifier, new DateTime());
     }
 
-    public IdMap(String storeId, String aipId, String persistentIdentifier, DateTime migrationDate)
-    {
+    public IdMap(String storeId, String aipId, String persistentIdentifier, DateTime migrationDate) {
         this.storeId = storeId;
         this.aipId = aipId;
         this.persistentIdentifier = persistentIdentifier;
@@ -44,28 +40,23 @@ public class IdMap implements RepoEntry
     }
 
     @Override
-    public String getId()
-    {
+    public String getId() {
         return storeId;
     }
 
-    public String getStoreId()
-    {
+    public String getStoreId() {
         return storeId;
     }
 
-    public String getAipId()
-    {
+    public String getAipId() {
         return aipId;
     }
 
-    public String getPersistentIdentifier()
-    {
+    public String getPersistentIdentifier() {
         return persistentIdentifier;
     }
 
-    public DateTime getMigrationDate()
-    {
+    public DateTime getMigrationDate() {
         return migrationDate;
     }
 

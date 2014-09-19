@@ -13,16 +13,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecursiveEntryTest
-{
+public class RecursiveEntryTest {
 
     private static final Logger logger = LoggerFactory.getLogger(RecursiveEntryTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void serializeDeserializeEmpty() throws Exception
-    {
+    public void serializeDeserializeEmpty() throws Exception {
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         if (verbose)
             logger.debug("\n" + entry.asXMLString(4) + "\n");
@@ -31,8 +29,7 @@ public class RecursiveEntryTest
     }
 
     @Test
-    public void serializeDeserializeFull() throws Exception
-    {
+    public void serializeDeserializeFull() throws Exception {
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.setKey("ABC");
         entry.setName("Name");
@@ -62,23 +59,20 @@ public class RecursiveEntryTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void addToSelf()
-    {
+    public void addToSelf() {
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.add(entry);
     }
 
     @Test(expected = NullPointerException.class)
-    public void addNull() throws Exception
-    {
+    public void addNull() throws Exception {
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.add(null);
         entry.asXMLString();
     }
 
     @Test
-    public void comparable()
-    {
+    public void comparable() {
         JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.setKey("ABC");
         entry.setName("Name");

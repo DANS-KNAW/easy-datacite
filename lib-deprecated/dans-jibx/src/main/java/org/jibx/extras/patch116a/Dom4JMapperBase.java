@@ -1,19 +1,14 @@
 /*
- * Copyright (c) 2004, Dennis M. Sosnoski All rights reserved. Redistribution and use in source and
- * binary forms, with or without modification, are permitted provided that the following conditions are
- * met: Redistributions of source code must retain the above copyright notice, this list of conditions
- * and the following disclaimer. Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the documentation and/or other
- * materials provided with the distribution. Neither the name of JiBX nor the names of its contributors
- * may be used to endorse or promote products derived from this software without specific prior written
- * permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Copyright (c) 2004, Dennis M. Sosnoski All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ * following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution. Neither the name of JiBX nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package org.jibx.extras.patch116a;
@@ -34,16 +29,15 @@ import org.jibx.runtime.JiBXException;
 
 /**
  * <p>
- * Base implementation for custom marshaller/unmarshallers to dom4j representation. This provides the
- * basic code used for both single element and content list handling.
+ * Base implementation for custom marshaller/unmarshallers to dom4j representation. This provides the basic code used for both single element and content list
+ * handling.
  * </p>
  * 
  * @author Dennis M. Sosnoski
  * @version 1.0
  */
 
-public class Dom4JMapperBase extends DocumentModelMapperBase
-{
+public class Dom4JMapperBase extends DocumentModelMapperBase {
     /** dom4j component construction factory. */
     private static DocumentFactory s_factory = DocumentFactory.getInstance();
 
@@ -61,56 +55,35 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
      * @return namespace index number, or <code>-1</code> if not declared or masked
      */
 
-    private int findNamespaceIndex(Namespace ns)
-    {
-        if (Namespace.NO_NAMESPACE.equals(ns))
-        {
+    private int findNamespaceIndex(Namespace ns) {
+        if (Namespace.NO_NAMESPACE.equals(ns)) {
             return 0;
-        }
-        else if (Namespace.XML_NAMESPACE.equals(ns))
-        {
+        } else if (Namespace.XML_NAMESPACE.equals(ns)) {
             return 1;
-        }
-        else
-        {
+        } else {
             String prefix = ns.getPrefix();
-            if (prefix == null || prefix.length() == 0)
-            {
-                if (m_defaultNamespaceURI == null)
-                {
+            if (prefix == null || prefix.length() == 0) {
+                if (m_defaultNamespaceURI == null) {
                     int index = m_xmlWriter.getPrefixIndex("");
-                    if (index >= 0)
-                    {
+                    if (index >= 0) {
                         m_defaultNamespaceURI = getNamespaceUri(index);
                         m_defaultNamespaceIndex = index;
-                        if (m_defaultNamespaceURI.equals(ns.getURI()))
-                        {
+                        if (m_defaultNamespaceURI.equals(ns.getURI())) {
                             return index;
-                        }
-                        else
-                        {
+                        } else {
                             return -1;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         return -1;
                     }
-                }
-                else
-                {
+                } else {
                     return m_defaultNamespaceURI.equals(ns.getURI()) ? m_defaultNamespaceIndex : -1;
                 }
-            }
-            else
-            {
+            } else {
                 int index = m_xmlWriter.getPrefixIndex(prefix);
-                if (index >= 0)
-                {
+                if (index >= 0) {
                     return getNamespaceUri(index).equals(ns.getURI()) ? index : -1;
-                }
-                else
-                {
+                } else {
                     return -1;
                 }
             }
@@ -128,14 +101,11 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
      *            on error writing to output
      */
 
-    protected void marshalContent(List content) throws JiBXException, IOException
-    {
+    protected void marshalContent(List content) throws JiBXException, IOException {
         int size = content.size();
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             Node node = (Node) content.get(i);
-            switch (node.getNodeType())
-            {
+            switch (node.getNodeType()) {
 
             case Node.CDATA_SECTION_NODE:
                 m_xmlWriter.writeCData(node.getText());
@@ -178,8 +148,7 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
      *            on error writing to output
      */
 
-    protected void marshalElement(Element element) throws JiBXException, IOException
-    {
+    protected void marshalElement(Element element) throws JiBXException, IOException {
 
         // accumulate all needed namespace declarations
         int size = element.nodeCount();
@@ -189,75 +158,59 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
         boolean hascontent = false;
         int defind = -1;
         String defuri = null;
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             Node node = element.node(i);
-            if (node instanceof Namespace)
-            {
+            if (node instanceof Namespace) {
                 Namespace dns = (Namespace) node;
-                if (findNamespaceIndex(dns) < 0)
-                {
-                    if (nss == null)
-                    {
+                if (findNamespaceIndex(dns) < 0) {
+                    if (nss == null) {
                         nss = new ArrayList();
                     }
                     nss.add(dns);
                     String prefix = dns.getPrefix();
-                    if (prefix == null || prefix.length() == 0)
-                    {
+                    if (prefix == null || prefix.length() == 0) {
                         defind = nss.size() - 1;
                         defuri = dns.getURI();
                     }
                 }
-            }
-            else
-            {
+            } else {
                 hascontent = true;
             }
         }
 
         // check for namespace declarations required
         String[] uris = null;
-        if (nss == null)
-        {
+        if (nss == null) {
             m_xmlWriter.startTagOpen(nsi, element.getName());
-        }
-        else
-        {
+        } else {
             int base = getNextNamespaceIndex();
-            if (defind >= 0)
-            {
+            if (defind >= 0) {
                 m_defaultNamespaceIndex = base + defind;
                 m_defaultNamespaceURI = defuri;
             }
             uris = new String[nss.size()];
             int[] nums = new int[nss.size()];
             String[] prefs = new String[nss.size()];
-            for (int i = 0; i < uris.length; i++)
-            {
+            for (int i = 0; i < uris.length; i++) {
                 Namespace addns = (Namespace) nss.get(i);
                 uris[i] = addns.getURI();
                 nums[i] = base + i;
                 prefs[i] = addns.getPrefix();
-                if (nsi < 0 && ns.equals(addns))
-                {
+                if (nsi < 0 && ns.equals(addns)) {
                     nsi = base + i;
                 }
             }
             m_xmlWriter.pushExtensionNamespaces(uris);
             m_xmlWriter.startTagNamespaces(nsi, element.getName(), nums, prefs);
-            if (defind >= 0)
-            {
+            if (defind >= 0) {
                 m_defaultNamespaceIndex = defind;
                 m_defaultNamespaceURI = defuri;
             }
         }
 
         // add attributes if present
-        if (element.attributeCount() > 0)
-        {
-            for (int i = 0; i < element.attributeCount(); i++)
-            {
+        if (element.attributeCount() > 0) {
+            for (int i = 0; i < element.attributeCount(); i++) {
                 Attribute attr = element.attribute(i);
                 int index = findNamespaceIndex(attr.getNamespace());
                 m_xmlWriter.addAttribute(index, attr.getName(), attr.getValue());
@@ -265,32 +218,26 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
         }
 
         // check for content present
-        if (hascontent)
-        {
+        if (hascontent) {
             m_xmlWriter.closeStartTag();
             marshalContent(element.content());
             m_xmlWriter.endTag(nsi, element.getName());
-        }
-        else
-        {
+        } else {
             m_xmlWriter.closeEmptyTag();
         }
 
         // pop namespaces if defined by element
-        if (nss != null)
-        {
+        if (nss != null) {
             m_xmlWriter.popExtensionNamespaces();
-            if (defind >= 0)
-            {
+            if (defind >= 0) {
                 m_defaultNamespaceURI = null;
             }
         }
     }
 
     /**
-     * Unmarshal element content. This unmarshals everything up to the containing element close tag,
-     * adding each component to the content list supplied. On return, the parse position will always be
-     * at an END_TAG.
+     * Unmarshal element content. This unmarshals everything up to the containing element close tag, adding each component to the content list supplied. On
+     * return, the parse position will always be at an END_TAG.
      * 
      * @param content
      *        list for unmarshalled content
@@ -300,15 +247,12 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
      *            on error reading input
      */
 
-    protected void unmarshalContent(List content) throws JiBXException, IOException
-    {
+    protected void unmarshalContent(List content) throws JiBXException, IOException {
 
         // loop until end of containing element found
-        loop: while (true)
-        {
+        loop: while (true) {
             int cev = m_unmarshalContext.currentEvent();
-            switch (cev)
-            {
+            switch (cev) {
 
             case IXMLReader.CDSECT:
                 content.add(s_factory.createCDATA(m_unmarshalContext.getText()));
@@ -322,33 +266,24 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
                 break loop;
 
             case IXMLReader.ENTITY_REF:
-                if (m_unmarshalContext.getText() == null)
-                {
+                if (m_unmarshalContext.getText() == null) {
                     content.add(s_factory.createEntity(m_unmarshalContext.getName(), null));
                     break;
-                }
-                else
-                {
+                } else {
                     content.add(s_factory.createText(accumulateText()));
                     continue loop;
                 }
 
-            case IXMLReader.PROCESSING_INSTRUCTION:
-            {
+            case IXMLReader.PROCESSING_INSTRUCTION: {
                 String text = m_unmarshalContext.getText();
                 int index = 0;
-                while (++index < text.length() && !isWhitespace(text.charAt(index)))
-                    ;
-                if (index < text.length())
-                {
+                while (++index < text.length() && !isWhitespace(text.charAt(index)));
+                if (index < text.length()) {
                     String target = text.substring(0, index);
-                    while (++index < text.length() && isWhitespace(text.charAt(index)))
-                        ;
+                    while (++index < text.length() && isWhitespace(text.charAt(index)));
                     String data = text.substring(index);
                     content.add(s_factory.createProcessingInstruction(target, data));
-                }
-                else
-                {
+                } else {
                     content.add(s_factory.createProcessingInstruction(text, ""));
                 }
             }
@@ -368,8 +303,7 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
     }
 
     /**
-     * Unmarshal element with all attributes and content. This must be called with the unmarshalling
-     * context positioned at a START_TAG event.
+     * Unmarshal element with all attributes and content. This must be called with the unmarshalling context positioned at a START_TAG event.
      * 
      * @return unmarshalled element
      * @exception JiBXException
@@ -378,8 +312,7 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
      *            on error reading input
      */
 
-    protected Element unmarshalElement() throws JiBXException, IOException
-    {
+    protected Element unmarshalElement() throws JiBXException, IOException {
 
         // start by creating the actual element
         QName qname = QName.get(m_unmarshalContext.getName(), m_unmarshalContext.getPrefix(), m_unmarshalContext.getNamespace());
@@ -387,13 +320,11 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
         // add all namespace declarations to element
         int ncount = m_unmarshalContext.getNamespaceCount();
-        for (int i = 0; i < ncount; i++)
-        {
+        for (int i = 0; i < ncount; i++) {
             String prefix = m_unmarshalContext.getNamespacePrefix(i);
             String uri = m_unmarshalContext.getNamespaceUri(i);
             // added code to prevent NullPointerException when no prefix is present. (hb)
-            if (prefix == null)
-            {
+            if (prefix == null) {
                 prefix = "";
             }
             // end added code (hb)
@@ -402,8 +333,7 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
         // add all attributes to element
         int acount = m_unmarshalContext.getAttributeCount();
-        for (int i = 0; i < acount; i++)
-        {
+        for (int i = 0; i < acount; i++) {
             String prefix = m_unmarshalContext.getAttributePrefix(i);
             String uri = m_unmarshalContext.getAttributeNamespace(i);
             String name = m_unmarshalContext.getAttributeName(i);
@@ -414,8 +344,7 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
         // add all content to element
         int event = m_unmarshalContext.nextToken();
-        if (event != IXMLReader.END_TAG)
-        {
+        if (event != IXMLReader.END_TAG) {
             unmarshalContent(element.content());
         }
         m_unmarshalContext.nextToken();

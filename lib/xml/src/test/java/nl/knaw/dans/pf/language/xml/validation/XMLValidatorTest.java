@@ -14,8 +14,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class XMLValidatorTest
-{
+public class XMLValidatorTest {
 
     public static final String TEST_DIR = "src/test/resources/test-files/validation/";
     public static final File SCHEMA_FILE = new File(TEST_DIR, "schema.xsd");
@@ -23,8 +22,7 @@ public class XMLValidatorTest
     public static final File INVALID_XML = new File(TEST_DIR, "schema-invalid.xml");
 
     @Test
-    public void testValidXML() throws Exception
-    {
+    public void testValidXML() throws Exception {
         Source schemaSource = new StreamSource(SCHEMA_FILE);
         Source xmlSource = new StreamSource(VALID_XML);
         XMLErrorHandler result = XMLValidator.validate(xmlSource, schemaSource);
@@ -34,19 +32,16 @@ public class XMLValidatorTest
     }
 
     @Test
-    public void testInvalidXML() throws Exception
-    {
+    public void testInvalidXML() throws Exception {
         int saxEx = 0;
         Source schemaSource = new StreamSource(SCHEMA_FILE);
         Source xmlSource = new StreamSource(INVALID_XML);
         XMLErrorHandler result = null;
-        try
-        {
+        try {
             result = XMLValidator.validate(xmlSource, schemaSource);
             Assert.fail("expected SAXException");
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             saxEx++;
         }
         Assert.assertEquals(1, saxEx);
@@ -55,20 +50,17 @@ public class XMLValidatorTest
     }
 
     @Test
-    public void testValidateAndReportToHandler() throws Exception
-    {
+    public void testValidateAndReportToHandler() throws Exception {
         int saxEx = 0;
 
         Handler handler = new Handler();
 
         Source schemaSource = new StreamSource(SCHEMA_FILE);
         Source xmlSource = new StreamSource(INVALID_XML);
-        try
-        {
+        try {
             XMLValidator.validate(handler, xmlSource, schemaSource);
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             saxEx++;
         }
         Assert.assertEquals(1, saxEx);
@@ -77,25 +69,21 @@ public class XMLValidatorTest
         Assert.assertEquals(0, handler.warnings);
     }
 
-    static class Handler implements ErrorHandler
-    {
+    static class Handler implements ErrorHandler {
 
         int errors;
         int fatalErrors;
         int warnings;
 
-        public void error(SAXParseException exception) throws SAXException
-        {
+        public void error(SAXParseException exception) throws SAXException {
             errors++;
         }
 
-        public void fatalError(SAXParseException exception) throws SAXException
-        {
+        public void fatalError(SAXParseException exception) throws SAXException {
             fatalErrors++;
         }
 
-        public void warning(SAXParseException exception) throws SAXException
-        {
+        public void warning(SAXParseException exception) throws SAXException {
             warnings++;
         }
 

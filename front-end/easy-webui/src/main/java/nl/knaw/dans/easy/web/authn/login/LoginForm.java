@@ -26,8 +26,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication> implements EasyResources
-{
+class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication> implements EasyResources {
 
     /**
      * Constant for wicket id.
@@ -52,8 +51,7 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
      * @param authentication
      *        messenger object for authentication
      */
-    public LoginForm(final String wicketId, final UsernamePasswordAuthentication authentication)
-    {
+    public LoginForm(final String wicketId, final UsernamePasswordAuthentication authentication) {
         super(wicketId, new CompoundPropertyModel<UsernamePasswordAuthentication>(authentication));
         addCommonFeedbackPanel();
         add(new HiddenField<Void>(Messenger.PROP_TOKEN));
@@ -67,25 +65,21 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
     }
 
     @Override
-    protected void onSubmit()
-    {
+    protected void onSubmit() {
         handleSubmit();
     }
 
-    private void handleSubmit()
-    {
+    private void handleSubmit() {
         final UsernamePasswordAuthentication authentication = (UsernamePasswordAuthentication) getModelObject();
 
-        if (UserLocking.isUserLocked(authentication.getUserId()))
-        {
+        if (UserLocking.isUserLocked(authentication.getUserId())) {
             warningMessage("state.TemporarilyLocked");
             return;
         }
 
         logger.info("Login attempt of user: " + authentication.getUserId());
 
-        if (signIn(authentication))
-        {
+        if (signIn(authentication)) {
             handleSuccessfulLogin();
 
             logger.info("Session (" + (Session.exists() ? Session.get().getId() : "null") + ") of user (" + EasyWicketApplication.getUserIpAddress()
@@ -94,21 +88,18 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
 
             // TODO: Is this stale code?
             // do we need an upate on user info?
-            if (authentication.getUser().isUserInfoUpdateRequired())
-            {
+            if (authentication.getUser().isUserInfoUpdateRequired()) {
                 setResponsePage(UserInfoPage.class);
                 return;
             }
 
             //
-            if (!getPage().continueToOriginalDestination())
-            {
+            if (!getPage().continueToOriginalDestination()) {
                 // Redirection to page viewed before login
                 // Only works for DatasetViewPage, but ideally this should be working for all pages!
                 Page page = ((EasySession) getSession()).getRedirectPage(LoginPage.class);
 
-                if (page != null && page instanceof DatasetViewPage)
-                {
+                if (page != null && page instanceof DatasetViewPage) {
                     // The page stored is not reused,
                     // because the refresh is not rebuilding the page in a logged-in state
                     // Instead of what is done in a 'back page' link handling:
@@ -116,20 +107,15 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
                     // setResponsePage(page);
                     // just go to a fresh page but use the parameters from the given page
                     setResponsePage(DatasetViewPage.class, page.getPageParameters());
-                }
-                else
-                {
+                } else {
                     setResponsePage(this.getApplication().getHomePage());
                 }
             }
-        }
-        else
-        {
+        } else {
             UserLocking.addTry(authentication.getUserId());
 
             logger.info("Failed authentication for: " + authentication);
-            for (String stateKey : authentication.getAccumulatedStateKeys())
-            {
+            for (String stateKey : authentication.getAccumulatedStateKeys()) {
                 final String message = warningMessage(stateKey);
                 logger.warn(message);
             }
@@ -137,8 +123,7 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
         }
     }
 
-    protected void handleSuccessfulLogin()
-    {
+    protected void handleSuccessfulLogin() {
 
     }
 
@@ -149,8 +134,7 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
      *        Authentication messenger object
      * @return True if signIn is successful
      */
-    boolean signIn(final Authentication authentication)
-    {
+    boolean signIn(final Authentication authentication) {
         boolean signedIn = false;
         AbstractAuthenticationPage authPage = (AbstractAuthenticationPage) getPage();
         signedIn = authPage.signIn(authentication);
@@ -158,13 +142,11 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return !isLoggedIn();
     }
 
-    private boolean isLoggedIn()
-    {
+    private boolean isLoggedIn() {
         return ((AbstractEasyNavPage) getPage()).isAuthenticated();
     }
 }

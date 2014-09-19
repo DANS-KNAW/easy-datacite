@@ -3,13 +3,11 @@ package nl.knaw.dans.easy.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MemoryLane
-{
+public class MemoryLane {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryLane.class);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
         int mb = 1024 * 1024;
 
@@ -31,8 +29,7 @@ public class MemoryLane
         System.out.println("Max Memory:" + runtime.maxMemory() / mb);
     }
 
-    public static void printMemory(String prefixMessage)
-    {
+    public static void printMemory(String prefixMessage) {
         int mb = 1024 * 1024;
         logger.debug("begin: " + prefixMessage);
 

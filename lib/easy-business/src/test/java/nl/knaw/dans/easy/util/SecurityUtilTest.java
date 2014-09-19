@@ -11,8 +11,7 @@ import org.junit.Test;
  * 
  * @author Herman Suijs
  */
-public class SecurityUtilTest
-{
+public class SecurityUtilTest {
 
     // ecco: CHECKSTYLE: OFF
 
@@ -20,8 +19,7 @@ public class SecurityUtilTest
      * Test get random.
      */
     @Test
-    public void testGetRandom()
-    {
+    public void testGetRandom() {
         String string1 = SecurityUtil.getRandomString();
         Assert.assertTrue(string1.length() == SecurityUtil.GENERATED_RANDOM_STRING_LENGTH);
         String string2 = SecurityUtil.getRandomString();
@@ -33,8 +31,7 @@ public class SecurityUtilTest
      * Test generating a hashcode.
      */
     @Test
-    public void testGenerateHashCode()
-    {
+    public void testGenerateHashCode() {
         String string1 = SecurityUtil.getRandomString();
 
         Assert.assertEquals(SecurityUtil.generateHashCode(string1), SecurityUtil.generateHashCode(string1));
@@ -48,8 +45,7 @@ public class SecurityUtilTest
      * Test generating a hashcode string.
      */
     @Test
-    public void testGenerateHashCodeString()
-    {
+    public void testGenerateHashCodeString() {
         String string1 = SecurityUtil.getRandomString();
 
         Assert.assertEquals(SecurityUtil.generateHashCodeString(string1), SecurityUtil.generateHashCodeString(string1));
@@ -60,8 +56,7 @@ public class SecurityUtilTest
     }
 
     @Test
-    public void testNullString()
-    {
+    public void testNullString() {
         final String randomString = SecurityUtil.getRandomString();
         @SuppressWarnings("unused")
         final String token = Integer.valueOf(SecurityUtil.generateHashCode("foo", null, "bar", randomString)).toString();

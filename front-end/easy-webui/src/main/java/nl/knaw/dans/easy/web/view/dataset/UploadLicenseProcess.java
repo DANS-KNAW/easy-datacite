@@ -14,33 +14,26 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 
 @SuppressWarnings("serial")
-public class UploadLicenseProcess extends UploadSingleFilePostProcess
-{
-    public UploadLicenseProcess(DatasetModel datasetModel)
-    {
+public class UploadLicenseProcess extends UploadSingleFilePostProcess {
+    public UploadLicenseProcess(DatasetModel datasetModel) {
         super(datasetModel);
     }
 
-    protected void processUploadedFile(final File file) throws UploadPostProcessException
-    {
+    protected void processUploadedFile(final File file) throws UploadPostProcessException {
         getDataset().setAdditionalLicenseContent(file);
-        try
-        {
+        try {
             Services.getDatasetService().saveAdditionalLicense(EasySession.get().getUser(), getDataset());
         }
-        catch (final ServiceException e)
-        {
+        catch (final ServiceException e) {
             throw new UploadPostProcessException(e);
         }
-        catch (DataIntegrityException e)
-        {
+        catch (DataIntegrityException e) {
             throw new UploadPostProcessException(e);
         }
     }
 
     @Override
-    public boolean needsProcessing(final List<File> files)
-    {
+    public boolean needsProcessing(final List<File> files) {
         // TODO to allow other types, make private in AdditionalLicenseUnit:
         // UNIT_LABEL, MIME_TYPE
         // return needsProcessing(files, ".pdf");

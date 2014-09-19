@@ -4,15 +4,13 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
 
-public class ExportOpenLdap
-{
+public class ExportOpenLdap {
 
     /**
      * @param args
      * @throws NamingException
      */
-    public static void main(String[] args) throws NamingException
-    {
+    public static void main(String[] args) throws NamingException {
         Attributes attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.1");
         attrs.put("NAME", "dansState");
@@ -37,12 +35,10 @@ public class ExportOpenLdap
      */
     // @formatter:on
     /*
-     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be
-     * followed by a blank line.
+     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be followed by a blank line.
      */
 
-    private static void print(Attributes attrs) throws NamingException
-    {
+    private static void print(Attributes attrs) throws NamingException {
         StringBuilder sb = new StringBuilder().append("\n").append("attributetype ( ").append(attrs.get("NUMERICOID").get()).append("\n\t")
 
         .append("NAME '" + attrs.get("NAME").get() + "'").append("\n\t")
@@ -52,8 +48,7 @@ public class ExportOpenLdap
         .append("EQUALITY " + attrs.get("EQUALITY").get()).append("\n\t")
 
         .append("SYNTAX " + attrs.get("SYNTAX").get());
-        if ("TRUE".equals(attrs.get("SINGLE-VALUE").get()))
-        {
+        if ("TRUE".equals(attrs.get("SINGLE-VALUE").get())) {
             sb.append("\n\t");
             sb.append("SINGLE-VALUE");
         }

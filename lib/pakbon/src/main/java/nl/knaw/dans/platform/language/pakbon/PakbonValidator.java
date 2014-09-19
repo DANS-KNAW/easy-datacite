@@ -21,8 +21,7 @@ import org.datacontract.schemas._2004._07.Sikb0102_WebService.ValidateXmlRespons
 import org.tempuri.BasicHttpBinding_ISikb0102ServiceStub;
 import org.tempuri.Sikb0102ServiceLocator;
 
-public class PakbonValidator
-{
+public class PakbonValidator {
     private static final String WSSE_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
     private static final String WSSE_PREFIX = "wsse";
     private static final String WSSE_SECURITY = "Security";
@@ -34,44 +33,33 @@ public class PakbonValidator
 
     private final PakbonValidatorCredentials credentials;
 
-    public PakbonValidator(PakbonValidatorCredentials credentials)
-    {
+    public PakbonValidator(PakbonValidatorCredentials credentials) {
         this.credentials = credentials;
     }
 
-    public ValidateXmlResponse validateXml(File file) throws ValidatorException, SOAPException, IOException
-    {
-        try
-        {
+    public ValidateXmlResponse validateXml(File file) throws ValidatorException, SOAPException, IOException {
+        try {
             return validateXml(new FileInputStream(file));
         }
-        catch (FileNotFoundException e)
-        {
+        catch (FileNotFoundException e) {
             throw new ValidatorException(e);
         }
     }
 
-    public ValidateXmlResponse validateXml(InputStream in) throws ValidatorException, SOAPException, IOException
-    {
+    public ValidateXmlResponse validateXml(InputStream in) throws ValidatorException, SOAPException, IOException {
         String xml;
-        try
-        {
+        try {
             xml = IOUtils.toString(in);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new ValidatorException(e);
         }
-        finally
-        {
-            if (in != null)
-            {
-                try
-                {
+        finally {
+            if (in != null) {
+                try {
                     in.close();
                 }
-                catch (IOException e)
-                {
+                catch (IOException e) {
                     throw new ValidatorException(e);
                 }
             }
@@ -79,11 +67,9 @@ public class PakbonValidator
         return validateXml(xml);
     }
 
-    public ValidateXmlResponse validateXml(String xml) throws ValidatorException, SOAPException, IOException
-    {
+    public ValidateXmlResponse validateXml(String xml) throws ValidatorException, SOAPException, IOException {
         BasicHttpBinding_ISikb0102ServiceStub stub = null;
-        try
-        {
+        try {
             stub = (BasicHttpBinding_ISikb0102ServiceStub) SERVICE.getBasicHttpBinding_ISikb0102Service();
 
             // build up security header
@@ -109,18 +95,14 @@ public class PakbonValidator
 
             return response;
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new ValidatorException(e);
         }
-        catch (RemoteException e)
-        {
+        catch (RemoteException e) {
             throw new ValidatorException(e);
         }
-        finally
-        {
-            if (stub != null && stub._getCall() != null && stub._getCall().getMessageContext() != null)
-            {
+        finally {
+            if (stub != null && stub._getCall() != null && stub._getCall().getMessageContext() != null) {
                 // stub._getCall().getMessageContext().getRequestMessage().writeTo(System.err);
                 stub._getCall().getMessageContext().dispose();
             }

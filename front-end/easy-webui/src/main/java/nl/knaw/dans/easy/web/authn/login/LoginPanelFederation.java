@@ -16,34 +16,29 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class LoginPanelFederation extends AbstractEasyStatelessPanel
-{
+class LoginPanelFederation extends AbstractEasyStatelessPanel {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelFederation.class);
     private static final long serialVersionUID = 1L;
 
     @SpringBean(name = "federativeUserService")
     private FederativeUserService federativeUserService;
 
-    public LoginPanelFederation(final String wicketId)
-    {
+    public LoginPanelFederation(final String wicketId) {
         super(wicketId);
-        final ExternalLink federationLink = new ExternalLink("federationLink", constructLinkToFederationLogin(), "Login")
-        {
+        final ExternalLink federationLink = new ExternalLink("federationLink", constructLinkToFederationLogin(), "Login") {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected boolean getStatelessHint()
-            {
+            protected boolean getStatelessHint() {
                 return true;
             }
 
             /*
-             * WORK-AROUND: Overriding, otherwise Wicket does not accept the wicket:message element in
-             * the body of the anchor element. Not clear why this is not allowed.
+             * WORK-AROUND: Overriding, otherwise Wicket does not accept the wicket:message element in the body of the anchor element. Not clear why this is not
+             * allowed.
              */
             @Override
-            protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag)
-            {
+            protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
                 renderComponentTagBody(markupStream, openTag);
             }
         };
@@ -51,11 +46,9 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
         federationLink.setVisible(federativeUserService.isFederationLoginEnabled());
     }
 
-    private String constructLinkToFederationLogin()
-    {
+    private String constructLinkToFederationLogin() {
         String linkURLString = "";
-        try
-        {
+        try {
             final String returnURLString = getUrlForReturnPage();
             // add the easy return page url as parameter to
             // the Shibboleth url
@@ -63,16 +56,14 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
             linkURLString = federationURLString + returnURLString;
             logger.debug("link URL: " + linkURLString);
         }
-        catch (final UnsupportedEncodingException e)
-        {
+        catch (final UnsupportedEncodingException e) {
             logger.error("Could not construct Federation login link", e);
         }
 
         return linkURLString;
     }
 
-    private String getUrlForReturnPage() throws UnsupportedEncodingException
-    {
+    private String getUrlForReturnPage() throws UnsupportedEncodingException {
         final String urlForResultPage = RequestCycle.get().urlFor(FederativeAuthenticationResultPage.class, new PageParameters()).toString();
         String returnUrlString = RequestUtils.toAbsolutePath(urlForResultPage);
         logger.debug("Constructed return URL: {}", returnUrlString);

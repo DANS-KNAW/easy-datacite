@@ -7,12 +7,10 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-public class PersonVOTest
-{
+public class PersonVOTest {
 
     @Test
-    public void telephonePattern()
-    {
+    public void telephonePattern() {
         assertTrue(Pattern.matches(PersonVO.PATTERN_TELEPHONE, "12345-67890"));
         assertTrue(Pattern.matches(PersonVO.PATTERN_TELEPHONE, "22-33"));
         assertFalse(Pattern.matches(PersonVO.PATTERN_TELEPHONE, "-"));

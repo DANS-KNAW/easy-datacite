@@ -38,13 +38,11 @@ import org.easymock.EasyMock;
 import org.junit.AfterClass;
 import org.junit.Test;
 
-public class DatasetImplTest
-{
+public class DatasetImplTest {
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void dirtyChecking()
-    {
+    public void dirtyChecking() {
         DatasetImpl dataset = new DatasetImpl("dummy-dataset:1");
         assertTrue(dataset.isDirty());
 
@@ -65,14 +63,12 @@ public class DatasetImplTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void accessCategory()
-    {
+    public void accessCategory() {
         AccessCategory.valueOf("bla");
     }
 
     @Test
-    public void getAccessCategory()
-    {
+    public void getAccessCategory() {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         AccessCategory ac = dataset.getAccessCategory();
         assertNotNull(ac);
@@ -84,8 +80,7 @@ public class DatasetImplTest
     }
 
     @Test
-    public void getAccessProfileForUser()
-    {
+    public void getAccessProfileForUser() {
         Group history = new GroupImpl("history");
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.addGroup(history);
@@ -118,15 +113,13 @@ public class DatasetImplTest
     }
 
     @Test
-    public void getMetadataFormat()
-    {
+    public void getMetadataFormat() {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         assertEquals(MetadataFormat.UNSPECIFIED, dataset.getMetadataFormat());
     }
 
     @Test
-    public void getLabel()
-    {
+    public void getLabel() {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         EasyMetadata emd = dataset.getEasyMetadata();
         emd.getEmdTitle().getDcTitle().add(new BasicString("Title should be propagated to label of dataset"));
@@ -141,8 +134,7 @@ public class DatasetImplTest
 
     @SuppressWarnings("unchecked")
     @Test
-    public void addRelationsButOnlyOneOfAKind() throws Exception
-    {
+    public void addRelationsButOnlyOneOfAKind() throws Exception {
         DmoCollectionsAccess dmoCollectionAccess = EasyMock.createMock(DmoCollectionsAccess.class);
         new Data().setCollectionAccess(dmoCollectionAccess);
 
@@ -171,25 +163,21 @@ public class DatasetImplTest
     }
 
     @AfterClass
-    public static void afterClass()
-    {
+    public static void afterClass() {
         // the next test class should not inherit from this one
         Data data = new Data();
         data.setCollectionAccess(null);
     }
 
-    private void printRelations(Relations relations)
-    {
-        for (Relation relation : relations.getRelation(null, null))
-        {
+    private void printRelations(Relations relations) {
+        for (Relation relation : relations.getRelation(null, null)) {
             System.out.println(relation);
         }
 
     }
 
     @Test
-    public void getLeafDisciplines() throws Exception
-    {
+    public void getLeafDisciplines() throws Exception {
         // Disasters happen if you ignore LOW COUPLING, HIGH COHESION, TESTABILITY!
         DisciplineContainer root = new DisciplineContainerImplStub("root");
         DisciplineContainer d1 = new DisciplineContainerImplStub("easy-discipline:1");
@@ -232,25 +220,21 @@ public class DatasetImplTest
         assertTrue(leafDisciplines.contains(d2_2_1));
     }
 
-    class DisciplineContainerImplStub extends DisciplineContainerImpl
-    {
+    class DisciplineContainerImplStub extends DisciplineContainerImpl {
 
         private List<DisciplineContainer> subDisciplines = new ArrayList<DisciplineContainer>();
 
-        public DisciplineContainerImplStub(String storeId)
-        {
+        public DisciplineContainerImplStub(String storeId) {
             super(storeId);
         }
 
         @Override
-        public void addChild(DmoContainerItem item) throws RepositoryException
-        {
+        public void addChild(DmoContainerItem item) throws RepositoryException {
             subDisciplines.add((DisciplineContainer) item);
         }
 
         @Override
-        public List<DisciplineContainer> getSubDisciplines() throws DomainException
-        {
+        public List<DisciplineContainer> getSubDisciplines() throws DomainException {
             return subDisciplines;
         }
 
@@ -258,20 +242,17 @@ public class DatasetImplTest
 
     }
 
-    class DatasetImplProxy extends DatasetImpl
-    {
+    class DatasetImplProxy extends DatasetImpl {
 
         private final List<DisciplineContainer> disciplines;
 
-        public DatasetImplProxy(String storeId, List<DisciplineContainer> disciplines)
-        {
+        public DatasetImplProxy(String storeId, List<DisciplineContainer> disciplines) {
             super(storeId);
             this.disciplines = disciplines;
         }
 
         @Override
-        public List<DisciplineContainer> getParentDisciplines() throws ObjectNotFoundException, DomainException
-        {
+        public List<DisciplineContainer> getParentDisciplines() throws ObjectNotFoundException, DomainException {
             return disciplines;
         }
 

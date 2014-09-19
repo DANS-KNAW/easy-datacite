@@ -2,36 +2,28 @@ package proai.util;
 
 import java.util.*;
 
-public class MySQLDDLConverter implements DDLConverter
-{
+public class MySQLDDLConverter implements DDLConverter {
 
-    public MySQLDDLConverter()
-    {
-    }
+    public MySQLDDLConverter() {}
 
-    public boolean supportsTableType()
-    {
+    public boolean supportsTableType() {
         return true;
     }
 
-    public String getDropDDL(String command)
-    {
+    public String getDropDDL(String command) {
         String[] parts = command.split(" ");
         String tableName = parts[2];
         return "DROP TABLE " + tableName;
     }
 
-    public List<String> getDDL(TableSpec spec)
-    {
+    public List<String> getDDL(TableSpec spec) {
         StringBuffer out = new StringBuffer();
         StringBuffer end = new StringBuffer();
         out.append("CREATE TABLE " + spec.getName() + " (\n");
         Iterator<ColumnSpec> csi = spec.columnSpecIterator();
         int csNum = 0;
-        while (csi.hasNext())
-        {
-            if (csNum > 0)
-            {
+        while (csi.hasNext()) {
+            if (csNum > 0) {
                 out.append(",\n");
             }
             csNum++;
@@ -39,46 +31,33 @@ public class MySQLDDLConverter implements DDLConverter
             out.append("  ");
             out.append(cs.getName());
             out.append(' ');
-            if (cs.getType().equalsIgnoreCase("text"))
-            {
-                if (cs.getBinary())
-                {
+            if (cs.getType().equalsIgnoreCase("text")) {
+                if (cs.getBinary()) {
                     out.append("blob");
-                }
-                else
-                {
+                } else {
                     out.append(cs.getType());
                 }
-            }
-            else
-            {
+            } else {
                 out.append(cs.getType());
-                if (cs.getType().toLowerCase().startsWith("varchar"))
-                {
-                    if (cs.getBinary())
-                    {
+                if (cs.getType().toLowerCase().startsWith("varchar")) {
+                    if (cs.getBinary()) {
                         out.append(" BINARY");
                     }
                 }
             }
-            if (cs.isNotNull())
-            {
+            if (cs.isNotNull()) {
                 out.append(" NOT NULL");
             }
-            if (cs.isAutoIncremented())
-            {
+            if (cs.isAutoIncremented()) {
                 out.append(" auto_increment");
             }
-            if (cs.getDefaultValue() != null)
-            {
+            if (cs.getDefaultValue() != null) {
                 out.append(" default '");
                 out.append(cs.getDefaultValue());
                 out.append("'");
             }
-            if (cs.isUnique())
-            {
-                if (!end.toString().equals(""))
-                {
+            if (cs.isUnique()) {
+                if (!end.toString().equals("")) {
                     end.append(",\n");
                 }
                 end.append("  UNIQUE KEY ");
@@ -87,10 +66,8 @@ public class MySQLDDLConverter implements DDLConverter
                 end.append(cs.getName());
                 end.append(")");
             }
-            if (cs.getIndexName() != null)
-            {
-                if (!end.toString().equals(""))
-                {
+            if (cs.getIndexName() != null) {
+                if (!end.toString().equals("")) {
                     end.append(",\n");
                 }
                 end.append("  KEY ");
@@ -99,10 +76,8 @@ public class MySQLDDLConverter implements DDLConverter
                 end.append(cs.getName());
                 end.append(")");
             }
-            if (cs.getForeignTableName() != null)
-            {
-                if (!end.toString().equals(""))
-                {
+            if (cs.getForeignTableName() != null) {
+                if (!end.toString().equals("")) {
                     end.append(",\n");
                 }
                 end.append("  FOREIGN KEY ");
@@ -114,28 +89,24 @@ public class MySQLDDLConverter implements DDLConverter
                 end.append(" (");
                 end.append(cs.getForeignColumnName());
                 end.append(")");
-                if (cs.getOnDeleteAction() != null)
-                {
+                if (cs.getOnDeleteAction() != null) {
                     end.append(" ON DELETE ");
                     end.append(cs.getOnDeleteAction());
                 }
             }
         }
-        if (spec.getPrimaryColumnName() != null)
-        {
+        if (spec.getPrimaryColumnName() != null) {
             out.append(",\n  PRIMARY KEY (");
             out.append(spec.getPrimaryColumnName());
             out.append(")");
         }
-        if (!end.toString().equals(""))
-        {
+        if (!end.toString().equals("")) {
             out.append(",\n");
             out.append(end);
         }
         out.append("\n");
         out.append(")");
-        if (spec.getType() != null)
-        {
+        if (spec.getType() != null) {
             out.append(" ENGINE=" + spec.getType());
         }
         ArrayList<String> l = new ArrayList<String>();

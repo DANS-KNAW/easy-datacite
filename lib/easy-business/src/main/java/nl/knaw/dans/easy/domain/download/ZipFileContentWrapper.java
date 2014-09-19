@@ -12,8 +12,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ZipFileContentWrapper implements Serializable, DownloadInfo
-{
+public class ZipFileContentWrapper implements Serializable, DownloadInfo {
 
     private static final long serialVersionUID = -3671147015443361517L;
 
@@ -25,44 +24,35 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo
 
     private String filename;
 
-    public File getZipFile()
-    {
+    public File getZipFile() {
         return zipFile;
     }
 
-    public void setZipFile(File zipFile)
-    {
+    public void setZipFile(File zipFile) {
         this.zipFile = zipFile;
     }
 
-    public String getFilename()
-    {
+    public String getFilename() {
         return filename;
     }
 
-    public void setFilename(String filename)
-    {
+    public void setFilename(String filename) {
         this.filename = filename;
     }
 
-    public List<? extends ItemVO> getDownloadedItemVOs()
-    {
+    public List<? extends ItemVO> getDownloadedItemVOs() {
         return downloadedItemVOs;
     }
 
-    public void setDownloadedItemVOs(List<? extends ItemVO> downloadedItemVOs)
-    {
+    public void setDownloadedItemVOs(List<? extends ItemVO> downloadedItemVOs) {
         this.downloadedItemVOs = downloadedItemVOs;
     }
 
-    public boolean deleteZipFile() throws IOException
-    {
+    public boolean deleteZipFile() throws IOException {
         boolean deleted = false;
-        if (zipFile != null)
-        {
+        if (zipFile != null) {
             deleted = zipFile.delete();
-            if (!deleted)
-            {
+            if (!deleted) {
                 String msg = "Could not delete zip file " + zipFile.getAbsolutePath();
                 logger.error(msg);
                 throw new IOException(msg);
@@ -72,12 +62,10 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo
     }
 
     @Override
-    public List<String> getFileNames()
-    {
+    public List<String> getFileNames() {
         List<String> result = new LinkedList<String>();
 
-        for (ItemVO item : downloadedItemVOs)
-        {
+        for (ItemVO item : downloadedItemVOs) {
             result.add(item.getPath());
         }
 

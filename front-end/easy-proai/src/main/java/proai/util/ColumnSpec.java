@@ -1,7 +1,6 @@
 package proai.util;
 
-public class ColumnSpec
-{
+public class ColumnSpec {
 
     private String m_name;
     private boolean m_binary;
@@ -31,58 +30,47 @@ public class ColumnSpec
         m_onDeleteAction = onDeleteAction;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return m_name;
     }
 
-    public boolean getBinary()
-    {
+    public boolean getBinary() {
         return m_binary;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return m_type;
     }
 
-    public String getForeignTableName()
-    {
+    public String getForeignTableName() {
         return m_foreignTableName;
     }
 
-    public String getForeignColumnName()
-    {
+    public String getForeignColumnName() {
         return m_foreignColumnName;
     }
 
-    public String getOnDeleteAction()
-    {
+    public String getOnDeleteAction() {
         return m_onDeleteAction;
     }
 
-    public boolean isUnique()
-    {
+    public boolean isUnique() {
         return m_isUnique;
     }
 
-    public boolean isNotNull()
-    {
+    public boolean isNotNull() {
         return m_isNotNull;
     }
 
-    public String getIndexName()
-    {
+    public String getIndexName() {
         return m_indexName;
     }
 
-    public boolean isAutoIncremented()
-    {
+    public boolean isAutoIncremented() {
         return m_isAutoIncremented;
     }
 
-    public String getDefaultValue()
-    {
+    public String getDefaultValue() {
         return m_defaultValue;
     }
 

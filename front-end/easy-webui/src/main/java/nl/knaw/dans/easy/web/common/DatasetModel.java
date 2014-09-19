@@ -12,47 +12,39 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.EasySession;
 
-public class DatasetModel extends DMOModel<Dataset>
-{
+public class DatasetModel extends DMOModel<Dataset> {
     private static final long serialVersionUID = -8416446576640508341L;
 
     @SpringBean(name = "datasetService")
     private DatasetService datasetService;
 
-    public DatasetModel(String storeId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
-    {
+    public DatasetModel(String storeId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         super(storeId);
         init();
         Dataset dataset = datasetService.getDataset(EasySession.get().getUser(), getDmoStoreId());
         setObject(dataset);
     }
 
-    public DatasetModel(Dataset dataset)
-    {
+    public DatasetModel(Dataset dataset) {
         super(dataset);
         init();
     }
 
-    public DatasetModel(DatasetModel datasetModel)
-    {
+    public DatasetModel(DatasetModel datasetModel) {
         super(datasetModel);
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         InjectorHolder.getInjector().inject(this);
         setDynamicReload(true);
     }
 
-    protected Dataset loadDmo() throws ServiceRuntimeException
-    {
-        try
-        {
+    protected Dataset loadDmo() throws ServiceRuntimeException {
+        try {
             return datasetService.getDataset(EasySession.get().getUser(), getDmoStoreId());
         }
-        catch (ServiceException e)
-        {
+        catch (ServiceException e) {
             throw new ServiceRuntimeException(e);
         }
     }

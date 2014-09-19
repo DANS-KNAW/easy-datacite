@@ -37,8 +37,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DummyFileStoreAccess implements FileStoreAccess
-{
+public class DummyFileStoreAccess implements FileStoreAccess {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DummyFileStoreAccess.class);
 
@@ -59,8 +58,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
     /** key-value pairs where the key is a sid and the value is content of the folder */
     private final Map<String, List<ItemVO>> compositions;
 
-    public DummyFileStoreAccess()
-    {
+    public DummyFileStoreAccess() {
         LOGGER.warn("using debug class");
         items = new HashMap<String, ItemVO>();
         compositions = new HashMap<String, List<ItemVO>>();
@@ -103,8 +101,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         items.put(sid, file);
     }
 
-    public void addFolder(final String folderSid, final String parentSid, final String datasetSid, String path, final String... contentSids)
-    {
+    public void addFolder(final String folderSid, final String parentSid, final String datasetSid, String path, final String... contentSids) {
         final List<ItemVO> composition = new ArrayList<ItemVO>();
         final String name = folderSid.replace(":", "");
 
@@ -113,8 +110,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         final Set<FolderItemCreatorRole> folderCreators = new HashSet<FolderItemCreatorRole>();
         int childCount = 0;
 
-        if (contentSids.length == 0)
-        {
+        if (contentSids.length == 0) {
             folderCreators.add(new FolderItemCreatorRole(folderSid, ARCHIVIST));
             folderCreators.add(new FolderItemCreatorRole(folderSid, DEPOSITOR));
             visibleTos.add(new FolderItemVisibleTo(folderSid, VisibleTo.NONE));
@@ -127,31 +123,22 @@ public class DummyFileStoreAccess implements FileStoreAccess
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.ANONYMOUS));
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.RESTRICTED_GROUP));
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.RESTRICTED_REQUEST));
-        }
-        else
-        {
-            for (final String contentSid : contentSids)
-            {
+        } else {
+            for (final String contentSid : contentSids) {
                 final ItemVO item = items.get(contentSid);
                 composition.add(item);
-                if (item instanceof FolderItemVO)
-                {
+                if (item instanceof FolderItemVO) {
                     final FolderItemVO subFolder = (FolderItemVO) item;
-                    for (final FolderItemCreatorRole creatorRole : subFolder.getCreatorRoles())
-                    {
+                    for (final FolderItemCreatorRole creatorRole : subFolder.getCreatorRoles()) {
                         folderCreators.add(new FolderItemCreatorRole(folderSid, creatorRole.getCreatorRole()));
                     }
-                    for (final FolderItemVisibleTo visibleTo : subFolder.getVisibleToList())
-                    {
+                    for (final FolderItemVisibleTo visibleTo : subFolder.getVisibleToList()) {
                         visibleTos.add(new FolderItemVisibleTo(folderSid, visibleTo.getVisibleTo()));
                     }
-                    for (final FolderItemAccessibleTo accessibleTo : subFolder.getAccessibleToList())
-                    {
+                    for (final FolderItemAccessibleTo accessibleTo : subFolder.getAccessibleToList()) {
                         accessibleTos.add(new FolderItemAccessibleTo(folderSid, accessibleTo.getAccessibleTo()));
                     }
-                }
-                else if (item instanceof FileItemVO)
-                {
+                } else if (item instanceof FileItemVO) {
                     final FileItemVO file = (FileItemVO) item;
                     final CreatorRole createrRole = file.getCreatorRole();
                     folderCreators.add(new FolderItemCreatorRole(folderSid, createrRole));
@@ -187,74 +174,59 @@ public class DummyFileStoreAccess implements FileStoreAccess
         List<ItemVO> result = new ArrayList<ItemVO>();
         final List<ItemVO> composition = compositions.get(parentSid);
         if (composition == null)
-            return result;
-        ;
-        for (final ItemVO item : composition)
-        {
+            return result;;
+        for (final ItemVO item : composition) {
             /*
-             * Returns cloned objects, so that the internal composition cannot get changed by external
-             * parties.
+             * Returns cloned objects, so that the internal composition cannot get changed by external parties.
              */
-            try
-            {
+            try {
                 result.add((ItemVO) item.clone());
             }
-            catch (final CloneNotSupportedException e)
-            {
+            catch (final CloneNotSupportedException e) {
                 throw new StoreAccessException(e);
             }
         }
         if (filters == null)
             return result;
 
-        if (filters != null)
-        {
-            try
-            {
+        if (filters != null) {
+            try {
                 @SuppressWarnings("unchecked")
                 List<ItemVO> list = (List<ItemVO>) filters.apply(result);
                 result = list;
             }
-            catch (final DomainException e)
-            {
+            catch (final DomainException e) {
                 throw new StoreAccessException(e);
             }
         }
         return result;
     }
 
-    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws StoreAccessException
-    {
+    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws StoreAccessException {
         return getFilenames(parentSid, recursive, "");
     }
 
-    private List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive, final String prefix) throws StoreAccessException
-    {
+    private List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive, final String prefix) throws StoreAccessException {
         final List<String> result = new ArrayList<String>();
 
         final List<FileItemVO> files = getFiles(parentSid, -1, -1, null, null);
-        for (final FileItemVO file : files)
-        {
+        for (final FileItemVO file : files) {
             result.add(prefix + file.getName());
         }
 
         final List<FolderItemVO> folders = getFolders(parentSid, -1, -1, null, null);
-        for (final FolderItemVO folder : folders)
-        {
-            if (compositions.get(folder.getSid()).size() > 0)
-            {
+        for (final FolderItemVO folder : folders) {
+            if (compositions.get(folder.getSid()).size() > 0) {
 
                 result.addAll(getFilenames(new DmoStoreId(folder.getSid()), recursive, prefix + folder.getName() + "\\"));
-            }
-            else
+            } else
                 result.add(prefix + folder.getName() + "\\");
         }
 
         return result;
     }
 
-    public boolean hasChildItems(final DmoStoreId parentSid)
-    {
+    public boolean hasChildItems(final DmoStoreId parentSid) {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
@@ -263,10 +235,8 @@ public class DummyFileStoreAccess implements FileStoreAccess
     {
         final List<FileItemVO> result = new ArrayList<FileItemVO>();
 
-        for (final ItemVO item : getFilesAndFolders(parentSid, limit, offset, order, filters))
-        {
-            if (item instanceof FileItemVO)
-            {
+        for (final ItemVO item : getFilesAndFolders(parentSid, limit, offset, order, filters)) {
+            if (item instanceof FileItemVO) {
                 result.add((FileItemVO) item);
             }
         }
@@ -283,73 +253,60 @@ public class DummyFileStoreAccess implements FileStoreAccess
         final List<ItemVO> filesAndFolders = getFilesAndFolders(parentSid, limit, offset, order, filters);
         if (filesAndFolders == null)
             return result;
-        for (final ItemVO item : filesAndFolders)
-        {
-            if (item instanceof FolderItemVO)
-            {
+        for (final ItemVO item : filesAndFolders) {
+            if (item instanceof FolderItemVO) {
                 result.add((FolderItemVO) item);
             }
         }
         return result;
     }
 
-    public FileItemVO findFileById(DmoStoreId sid)
-    {
+    public FileItemVO findFileById(DmoStoreId sid) {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public List<FileItemVO> findFilesById(Collection<DmoStoreId> sids) throws StoreAccessException
-    {
+    public List<FileItemVO> findFilesById(Collection<DmoStoreId> sids) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException
-    {
+    public List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public FolderItemVO findFolderById(DmoStoreId sid) throws StoreAccessException
-    {
+    public FolderItemVO findFolderById(DmoStoreId sid) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException
-    {
+    public List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public URL getFileURL(DmoStoreId sid)
-    {
+    public URL getFileURL(DmoStoreId sid) {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public Map<String, String> getAllFiles(DmoStoreId datasetSid) throws StoreAccessException
-    {
+    public Map<String, String> getAllFiles(DmoStoreId datasetSid) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
-    {
+    public FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
-    {
+    public FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public String getDatasetId(DmoStoreId storeId) throws StoreException
-    {
+    public String getDatasetId(DmoStoreId storeId) throws StoreException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public List<FileItemVO> getDatasetFiles(DmoStoreId dmoStoreId) throws StoreAccessException
-    {
+    public List<FileItemVO> getDatasetFiles(DmoStoreId dmoStoreId) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
@@ -361,8 +318,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
     }
 
     @Override
-    public boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException
-    {
+    public boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 

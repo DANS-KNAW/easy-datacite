@@ -21,15 +21,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FormatValidatorTest
-{
+public class FormatValidatorTest {
     private static final Logger logger = LoggerFactory.getLogger(FormatValidatorTest.class);
 
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testFormatRecognition()
-    {
+    public void testFormatRecognition() {
         EasyMetadata emd = new EasyMetadataImpl(null);
         TestValidationReporter reporter = new TestValidationReporter();
 
@@ -45,8 +43,7 @@ public class FormatValidatorTest
     }
 
     @Test
-    public void testFormatArchaeologyWithInvalidSpatial()
-    {
+    public void testFormatArchaeologyWithInvalidSpatial() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
         Spatial spatial = new Spatial("Amsterdam", new Point("RD", "1", "2"));
         emd.getEmdCoverage().getEasSpatial().add(spatial);
@@ -66,8 +63,7 @@ public class FormatValidatorTest
 
     @Test
     @Ignore
-    public void testFormatArchaeologyWithInvalidSpatial2()
-    {
+    public void testFormatArchaeologyWithInvalidSpatial2() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
         Point point = new Point("BLA", "1", "2");
         point.setSchemeId(EasSpatialValidator.LIST_ID);
@@ -89,8 +85,7 @@ public class FormatValidatorTest
 
     @Test
     @Ignore
-    public void testFormatArchaeologyWithInvalidSpatial3()
-    {
+    public void testFormatArchaeologyWithInvalidSpatial3() {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
         Point point = new Point(null, "1", "2");
         point.setSchemeId(EasSpatialValidator.LIST_ID);
@@ -110,8 +105,7 @@ public class FormatValidatorTest
             reporter.printReports();
     }
 
-    private static class TestValidationReporter implements ValidationReporter
-    {
+    private static class TestValidationReporter implements ValidationReporter {
 
         private boolean valid = true;
         private List<ValidationReport> infoReports = new ArrayList<ValidationReport>();
@@ -119,51 +113,42 @@ public class FormatValidatorTest
         private List<ValidationReport> errorReports = new ArrayList<ValidationReport>();
 
         @Override
-        public void setMetadataValid(boolean valid)
-        {
+        public void setMetadataValid(boolean valid) {
             this.valid &= valid;
         }
 
-        public boolean isMetadataValid()
-        {
+        public boolean isMetadataValid() {
             return valid;
         }
 
         @Override
-        public void addInfo(ValidationReport validationReport)
-        {
+        public void addInfo(ValidationReport validationReport) {
             infoReports.add(validationReport);
         }
 
         @Override
-        public void addWarning(ValidationReport validationReport)
-        {
+        public void addWarning(ValidationReport validationReport) {
             warningReports.add(validationReport);
         }
 
         @Override
-        public void addError(ValidationReport validationReport)
-        {
+        public void addError(ValidationReport validationReport) {
             errorReports.add(validationReport);
         }
 
-        public void printReports()
-        {
+        public void printReports() {
             logger.debug(infoReports.size() + " info reports");
-            for (ValidationReport report : infoReports)
-            {
+            for (ValidationReport report : infoReports) {
                 logger.debug(report.toString());
             }
 
             logger.debug(warningReports.size() + " warning reports");
-            for (ValidationReport report : warningReports)
-            {
+            for (ValidationReport report : warningReports) {
                 logger.debug(report.toString());
             }
 
             logger.debug(errorReports.size() + " error reports");
-            for (ValidationReport report : errorReports)
-            {
+            for (ValidationReport report : errorReports) {
                 logger.debug(report.toString());
             }
         }

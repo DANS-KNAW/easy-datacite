@@ -16,8 +16,7 @@ import proai.SetInfo;
 import proai.driver.RemoteIterator;
 import proai.error.RepositoryException;
 
-public class MPTSetInfoIterator implements RemoteIterator<SetInfo>
-{
+public class MPTSetInfoIterator implements RemoteIterator<SetInfo> {
 
     private final FedoraClient client;
 
@@ -33,71 +32,55 @@ public class MPTSetInfoIterator implements RemoteIterator<SetInfo>
 
     private final InvocationSpec m_setInfoSpec;
 
-    public MPTSetInfoIterator(FedoraClient client, SQLProvider queryEngine, DataSource d, String disseminationTarget, InvocationSpec setInfoSpec)
-    {
+    public MPTSetInfoIterator(FedoraClient client, SQLProvider queryEngine, DataSource d, String disseminationTarget, InvocationSpec setInfoSpec) {
         this.client = client;
-        try
-        {
+        try {
             results = new MPTResultSetsManager(d, queryEngine);
         }
-        catch (QueryException e)
-        {
+        catch (QueryException e) {
             throw new RepositoryException("Could not generate results query", e);
         }
 
         this.setObjectIndex = queryEngine.getTargets().indexOf("$set");
-        if (setObjectIndex == -1)
-        {
+        if (setObjectIndex == -1) {
             throw new RuntimeException("$set not defined");
         }
 
         this.setSpecIndex = queryEngine.getTargets().indexOf("$setSpec");
-        if (setSpecIndex == -1)
-        {
+        if (setSpecIndex == -1) {
             throw new RuntimeException("$setSpec not defined");
         }
 
         this.setNameIndex = queryEngine.getTargets().indexOf("$setName");
-        if (setNameIndex == -1)
-        {
+        if (setNameIndex == -1) {
             throw new RuntimeException("$setName not defined");
         }
 
-        if (disseminationTarget != null)
-        {
+        if (disseminationTarget != null) {
             this.dissTargetIndex = queryEngine.getTargets().indexOf(disseminationTarget);
-        }
-        else
-        {
+        } else {
             dissTargetIndex = -1;
         }
 
         m_setInfoSpec = setInfoSpec;
     }
 
-    public void close() throws RepositoryException
-    {
-        try
-        {
+    public void close() throws RepositoryException {
+        try {
             results.close();
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new RepositoryException("Could not close result set", e);
         }
     }
 
-    public boolean hasNext() throws RepositoryException
-    {
+    public boolean hasNext() throws RepositoryException {
         return results.hasNext();
     }
 
-    public SetInfo next() throws RepositoryException
-    {
-        try
-        {
-            if (results.hasNext())
-            {
+    public SetInfo next() throws RepositoryException {
+        try {
+            if (results.hasNext()) {
                 List<Node> result = results.next();
 
                 Node setObjectResult = result.get(setObjectIndex);
@@ -105,51 +88,42 @@ public class MPTSetInfoIterator implements RemoteIterator<SetInfo>
 
                 String setSpec = null;
                 Node setSpecResult = result.get(setSpecIndex);
-                if (setSpecResult != null)
-                {
+                if (setSpecResult != null) {
                     setSpec = setSpecResult.getValue();
                 }
 
                 String setName = null;
                 Node setNameResult = ((Node) result.get(setNameIndex));
 
-                if (setNameResult != null)
-                {
+                if (setNameResult != null) {
                     setName = setNameResult.getValue();
                 }
 
                 String setDiss = null;
                 String setDissType = null;
 
-                if (dissTargetIndex != -1)
-                {
+                if (dissTargetIndex != -1) {
                     Node dissTargetResult = result.get(dissTargetIndex);
-                    if (dissTargetResult != null)
-                    {
+                    if (dissTargetResult != null) {
                         setDiss = dissTargetResult.getValue();
                     }
                 }
 
-                if (m_setInfoSpec != null)
-                {
+                if (m_setInfoSpec != null) {
                     setDissType = m_setInfoSpec.getDisseminationType();
                 }
 
                 return new FedoraSetInfo(client, setObject.toString(), setSpec, setName, setDissType, setDiss);
-            }
-            else
-            {
+            } else {
                 throw new RepositoryException("No more results available\n");
             }
         }
-        catch (SQLException e)
-        {
+        catch (SQLException e) {
             throw new RepositoryException("Could not read record result", e);
         }
     }
 
-    public void remove() throws UnsupportedOperationException
-    {
+    public void remove() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("remove() not supported");
     }
 

@@ -1,7 +1,6 @@
 package nl.knaw.dans.common.lang.log;
 
-public interface EventPrinter
-{
+public interface EventPrinter {
 
     String SPACE = " ";
     String SEPARATOR = ";";

@@ -7,8 +7,7 @@ import java.io.Serializable;
  * 
  * @author lobo
  */
-public class EasyUploadConfig implements Serializable
-{
+public class EasyUploadConfig implements Serializable {
     private static final long serialVersionUID = -8131205692377372623L;
 
     private String basePath;
@@ -17,69 +16,55 @@ public class EasyUploadConfig implements Serializable
 
     private boolean autoRemoveFiles = false;
 
-    public EasyUploadConfig()
-    {
+    public EasyUploadConfig() {
         this.basePath = System.getProperty("java.io.tmpdir");
     }
 
-    public EasyUploadConfig(String basePath)
-    {
+    public EasyUploadConfig(String basePath) {
         this.basePath = basePath;
     }
 
     /**
-     * If set to true the 'uploaded file' messages under the upload component disappear automatically
-     * when a file has been uploaded.
+     * If set to true the 'uploaded file' messages under the upload component disappear automatically when a file has been uploaded.
      */
-    public void setAutoRemoveMessages(boolean autoRemoveMessages)
-    {
+    public void setAutoRemoveMessages(boolean autoRemoveMessages) {
         this.autoRemoveMessages = autoRemoveMessages;
     }
 
     /**
-     * If set to true the 'uploaded file' messages under the upload component disappear automatically
-     * when a file has been uploaded. Defaults to false.
+     * If set to true the 'uploaded file' messages under the upload component disappear automatically when a file has been uploaded. Defaults to false.
      */
-    public boolean autoRemoveMessages()
-    {
+    public boolean autoRemoveMessages() {
         return autoRemoveMessages;
     }
 
     /**
      * Sets the path of where uploaded files are uploaded to on the local machine.
      */
-    public void setBasePath(String basePath)
-    {
+    public void setBasePath(String basePath) {
         this.basePath = basePath;
     }
 
     /**
-     * The path of where uploaded files are uploaded to on the local machine. Defaults to the system temp
-     * dir.
+     * The path of where uploaded files are uploaded to on the local machine. Defaults to the system temp dir.
      */
-    public String getBasePath()
-    {
+    public String getBasePath() {
         return basePath;
     }
 
     /**
-     * If set to true the files that were uploaded are immediately removed after they have been uploaded
-     * and an onReceivedFiles event has been fired. This is useful for users of the EasyUpload component
-     * that immediately process the files and after don't need the files anymore on disk.
+     * If set to true the files that were uploaded are immediately removed after they have been uploaded and an onReceivedFiles event has been fired. This is
+     * useful for users of the EasyUpload component that immediately process the files and after don't need the files anymore on disk.
      */
-    public void setAutoRemoveFiles(boolean autoRemoveFiles)
-    {
+    public void setAutoRemoveFiles(boolean autoRemoveFiles) {
         this.autoRemoveFiles = autoRemoveFiles;
     }
 
     /**
-     * If set to true the files that were uploaded are immediately removed after they have been uploaded
-     * and an onReceivedFiles event has been fired. This is useful for users of the EasyUpload component
-     * that immediately process the files and after don't need the files anymore on disk. Defaults to
-     * false.
+     * If set to true the files that were uploaded are immediately removed after they have been uploaded and an onReceivedFiles event has been fired. This is
+     * useful for users of the EasyUpload component that immediately process the files and after don't need the files anymore on disk. Defaults to false.
      */
-    public boolean autoRemoveFiles()
-    {
+    public boolean autoRemoveFiles() {
         return autoRemoveFiles;
     }
 

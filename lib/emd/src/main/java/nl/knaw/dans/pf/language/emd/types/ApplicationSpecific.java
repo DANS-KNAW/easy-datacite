@@ -2,16 +2,13 @@ package nl.knaw.dans.pf.language.emd.types;
 
 import java.io.Serializable;
 
-public class ApplicationSpecific implements Serializable
-{
+public class ApplicationSpecific implements Serializable {
 
-    public enum MetadataFormat
-    {
+    public enum MetadataFormat {
         UNSPECIFIED, SOCIOLOGY, HISTORY, ARCHAEOLOGY, LIFESCIENCE, LANGUAGE_LITERATURE
     }
 
-    public enum PakbonStatus
-    {
+    public enum PakbonStatus {
         NOT_IMPORTED, IMPORTED;
     }
 
@@ -20,31 +17,25 @@ public class ApplicationSpecific implements Serializable
     private MetadataFormat metadataFormat = MetadataFormat.UNSPECIFIED;
     private PakbonStatus pakbonStatus = PakbonStatus.NOT_IMPORTED;
 
-    public MetadataFormat getMetadataFormat()
-    {
+    public MetadataFormat getMetadataFormat() {
         return metadataFormat;
     }
 
-    public void setMetadataFormat(MetadataFormat metadataFormat)
-    {
+    public void setMetadataFormat(MetadataFormat metadataFormat) {
         this.metadataFormat = metadataFormat;
     }
 
-    public void setPakbonStatus(PakbonStatus status)
-    {
-        if (metadataFormat.equals(MetadataFormat.ARCHAEOLOGY))
-        {
+    public void setPakbonStatus(PakbonStatus status) {
+        if (metadataFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
             pakbonStatus = status;
         }
     }
 
-    public PakbonStatus getPakbonStatus()
-    {
+    public PakbonStatus getPakbonStatus() {
         return pakbonStatus;
     }
 
-    public static MetadataFormat formatForName(String name)
-    {
+    public static MetadataFormat formatForName(String name) {
         return MetadataFormat.valueOf(name.toUpperCase());
     }
 

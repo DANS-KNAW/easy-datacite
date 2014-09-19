@@ -33,8 +33,7 @@ import org.jibx.runtime.JiBXException;
  * @param <T>
  *        the type of the JiBX-bound object
  */
-public class JiBXUtil<T extends Object>
-{
+public class JiBXUtil<T extends Object> {
 
     private final Class<? extends T> clazz;
     private IBindingFactory bindingFactory;
@@ -46,14 +45,12 @@ public class JiBXUtil<T extends Object>
      *        the precise implementing class that is bound by a JiBX-binding.
      */
     @SuppressWarnings("unchecked")
-    public JiBXUtil(final Class<? extends T> clazz)
-    {
+    public JiBXUtil(final Class<? extends T> clazz) {
         this.clazz = (Class<T>) clazz;
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream. The caller of this method has to
-     * handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream. The caller of this method has to handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -66,14 +63,11 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public void marshalDocument(final T root, final OutputStream outStream, final int indent) throws JiBXException
-    {
-        try
-        {
+    public void marshalDocument(final T root, final OutputStream outStream, final int indent) throws JiBXException {
+        try {
             getMarshallingContext(indent).marshalDocument(root, "UTF-8", true, outStream);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             throw e;
         }
         catch (Exception e) // also throws
@@ -85,8 +79,7 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream with no indent. The caller of this
-     * method has to handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream with no indent. The caller of this method has to handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -95,8 +88,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public void marshalDocument(final T root, final OutputStream outStream) throws JiBXException
-    {
+    public void marshalDocument(final T root, final OutputStream outStream) throws JiBXException {
         marshalDocument(root, outStream, XMLBean.NO_INDENT);
     }
 
@@ -114,14 +106,11 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public void marshalDocument(final T root, final String encoding, final Writer writer, final int indent) throws JiBXException
-    {
-        try
-        {
+    public void marshalDocument(final T root, final String encoding, final Writer writer, final int indent) throws JiBXException {
+        try {
             getMarshallingContext(indent).marshalDocument(root, encoding, null, writer);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             throw e;
         }
         catch (Exception e) // also throws
@@ -144,8 +133,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public void marshalDocument(final T root, final String encoding, final Writer writer) throws JiBXException
-    {
+    public void marshalDocument(final T root, final String encoding, final Writer writer) throws JiBXException {
         marshalDocument(root, encoding, writer, XMLBean.NEW_LINE_ONLY);
     }
 
@@ -160,8 +148,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public String marshalDocument(final T root, final int indent) throws JiBXException
-    {
+    public String marshalDocument(final T root, final int indent) throws JiBXException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         marshalDocument(root, baos, indent);
         return baos.toString();
@@ -176,8 +163,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public String marshalDocument(final T root) throws JiBXException
-    {
+    public String marshalDocument(final T root) throws JiBXException {
         return marshalDocument(root, XMLBean.NO_INDENT);
     }
 
@@ -197,18 +183,14 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public void marshalDocument(final T root, final File file, final int indent) throws IOException, JiBXException
-    {
+    public void marshalDocument(final T root, final File file, final int indent) throws IOException, JiBXException {
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream(file);
             marshalDocument(root, fos, indent);
         }
-        finally
-        {
-            if (fos != null)
-            {
+        finally {
+            if (fos != null) {
                 fos.close();
             }
         }
@@ -227,8 +209,7 @@ public class JiBXUtil<T extends Object>
      *         if we were unable to marshal the object
      * @see MinimalXMLBean#NO_INDENT
      */
-    public void marshalDocument(final T root, final File file) throws IOException, JiBXException
-    {
+    public void marshalDocument(final T root, final File file) throws IOException, JiBXException {
         marshalDocument(root, file, XMLBean.NO_INDENT);
     }
 
@@ -249,18 +230,14 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public String marshalDocument(final T root, final String filename, final int indent) throws IOException, JiBXException
-    {
+    public String marshalDocument(final T root, final String filename, final int indent) throws IOException, JiBXException {
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream(filename);
             marshalDocument(root, fos, indent);
         }
-        finally
-        {
-            if (fos != null)
-            {
+        finally {
+            if (fos != null) {
                 fos.close();
             }
         }
@@ -281,8 +258,7 @@ public class JiBXUtil<T extends Object>
      *         if we were unable to marshal the object
      * @see MinimalXMLBean#NO_INDENT
      */
-    public String marshalDocument(final T root, final String filename) throws IOException, JiBXException
-    {
+    public String marshalDocument(final T root, final String filename) throws IOException, JiBXException {
         return marshalDocument(root, filename, XMLBean.NO_INDENT);
     }
 
@@ -297,8 +273,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public InputStream getInputStream(final T root, final int indent) throws JiBXException
-    {
+    public InputStream getInputStream(final T root, final int indent) throws JiBXException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         marshalDocument(root, baos, indent);
         return new ByteArrayInputStream(baos.toByteArray());
@@ -313,8 +288,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public InputStream getInputStream(final T root) throws JiBXException
-    {
+    public InputStream getInputStream(final T root) throws JiBXException {
         return getInputStream(root, XMLBean.NO_INDENT);
     }
 
@@ -327,8 +301,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public Source getSource(final T root) throws JiBXException
-    {
+    public Source getSource(final T root) throws JiBXException {
         return new StreamSource(getInputStream(root, XMLBean.NO_INDENT));
     }
 
@@ -345,8 +318,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public Document getDocument(final T root, final int indent) throws DocumentException, JiBXException
-    {
+    public Document getDocument(final T root, final int indent) throws DocumentException, JiBXException {
         final SAXReader reader = new SAXReader();
         return reader.read(getInputStream(root, indent));
     }
@@ -362,14 +334,13 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public Document getDocument(final T root) throws DocumentException, JiBXException
-    {
+    public Document getDocument(final T root) throws DocumentException, JiBXException {
         return getDocument(root, XMLBean.NO_INDENT);
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream without emitting an
-     * xml-declaration. The caller of this method has to handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream without emitting an xml-declaration. The caller of this method has to handle proper
+     * closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -382,16 +353,13 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public void marshalElement(final T root, final OutputStream outStream, final int indent) throws JiBXException
-    {
+    public void marshalElement(final T root, final OutputStream outStream, final int indent) throws JiBXException {
         final IMarshallingContext mctx = getMarshallingContext(indent);
         mctx.setOutput(outStream, "UTF-8");
-        try
-        {
+        try {
             mctx.marshalDocument(root, "UTF-8", false);
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             throw e;
         }
         catch (Exception e) // also throws
@@ -403,8 +371,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream with no indent and without
-     * emitting an xml-declaration. The caller of this method has to handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream with no indent and without emitting an xml-declaration. The caller of this method has to
+     * handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -413,8 +381,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public void marshalElement(final T root, final OutputStream outStream) throws JiBXException
-    {
+    public void marshalElement(final T root, final OutputStream outStream) throws JiBXException {
         marshalElement(root, outStream, XMLBean.NO_INDENT);
     }
 
@@ -429,8 +396,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public String marshalElement(final T root, final int indent) throws JiBXException
-    {
+    public String marshalElement(final T root, final int indent) throws JiBXException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         marshalElement(root, baos, indent);
         return baos.toString();
@@ -445,8 +411,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public String marshalElement(final T root) throws JiBXException
-    {
+    public String marshalElement(final T root) throws JiBXException {
         return marshalElement(root, XMLBean.NO_INDENT);
     }
 
@@ -466,26 +431,21 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public void marshalElement(final T root, final File file, final int indent) throws IOException, JiBXException
-    {
+    public void marshalElement(final T root, final File file, final int indent) throws IOException, JiBXException {
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream(file);
             marshalElement(root, fos, indent);
         }
-        finally
-        {
-            if (fos != null)
-            {
+        finally {
+            if (fos != null) {
                 fos.close();
             }
         }
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given file with no xml-indenting and without emitting
-     * an xml-declaration.
+     * Marshal the <code>root</code>-object to the given file with no xml-indenting and without emitting an xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -497,14 +457,12 @@ public class JiBXUtil<T extends Object>
      *         if we were unable to marshal the object
      * @see MinimalXMLBean#NO_INDENT
      */
-    public void marshalElement(final T root, final File file) throws IOException, JiBXException
-    {
+    public void marshalElement(final T root, final File file) throws IOException, JiBXException {
         marshalElement(root, file, XMLBean.NO_INDENT);
     }
 
     /**
-     * Marshal the <code>root</code>-object to a file with the given filename and without emitting an
-     * xml-declaration.
+     * Marshal the <code>root</code>-object to a file with the given filename and without emitting an xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -520,18 +478,14 @@ public class JiBXUtil<T extends Object>
      * @see MinimalXMLBean#NO_INDENT
      * @see MinimalXMLBean#NEW_LINE_ONLY
      */
-    public String marshalElement(final T root, final String filename, final int indent) throws IOException, JiBXException
-    {
+    public String marshalElement(final T root, final String filename, final int indent) throws IOException, JiBXException {
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream(filename);
             marshalElement(root, fos, indent);
         }
-        finally
-        {
-            if (fos != null)
-            {
+        finally {
+            if (fos != null) {
                 fos.close();
             }
         }
@@ -539,8 +493,7 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to a file with the given filename with no xml-indenting and
-     * without emitting an xml-declaration.
+     * Marshal the <code>root</code>-object to a file with the given filename with no xml-indenting and without emitting an xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -553,8 +506,7 @@ public class JiBXUtil<T extends Object>
      *         if we were unable to marshal the object
      * @see MinimalXMLBean#NO_INDENT
      */
-    public String marshalElement(final T root, final String filename) throws IOException, JiBXException
-    {
+    public String marshalElement(final T root, final String filename) throws IOException, JiBXException {
         return marshalElement(root, filename, XMLBean.NO_INDENT);
     }
 
@@ -569,8 +521,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public Element getElement(final T root) throws DocumentException, JiBXException
-    {
+    public Element getElement(final T root) throws DocumentException, JiBXException {
         return getDocument(root).getRootElement();
     }
 
@@ -587,14 +538,12 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to marshal the object
      */
-    public Element getElement(final T root, final int indent) throws DocumentException, JiBXException
-    {
+    public Element getElement(final T root, final int indent) throws DocumentException, JiBXException {
         return getDocument(root, indent).getRootElement();
     }
 
     /**
-     * Unmarshal from the given input stream. The caller of this method has to handle proper closing of
-     * the stream.
+     * Unmarshal from the given input stream. The caller of this method has to handle proper closing of the stream.
      * 
      * @param inStream
      *        the input stream to unmarshal from
@@ -603,8 +552,7 @@ public class JiBXUtil<T extends Object>
      *         if we were unable to unmarshal the object
      */
     @SuppressWarnings("unchecked")
-    public T unmarshal(final InputStream inStream) throws JiBXException
-    {
+    public T unmarshal(final InputStream inStream) throws JiBXException {
         return (T) getUnmarshallingContext().unmarshalDocument(inStream, "UTF-8");
     }
 
@@ -617,8 +565,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to unmarshal the object
      */
-    public T unmarshal(final String xmlString) throws JiBXException
-    {
+    public T unmarshal(final String xmlString) throws JiBXException {
         return unmarshal(new ByteArrayInputStream(xmlString.getBytes()));
     }
 
@@ -631,8 +578,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to unmarshal the object
      */
-    public T unmarshal(final byte[] objectXML) throws JiBXException
-    {
+    public T unmarshal(final byte[] objectXML) throws JiBXException {
         return unmarshal(new ByteArrayInputStream(objectXML));
     }
 
@@ -647,19 +593,15 @@ public class JiBXUtil<T extends Object>
      * @throws IOException
      *         if an IOException occurred
      */
-    public T unmarshal(final File file) throws IOException, JiBXException
-    {
+    public T unmarshal(final File file) throws IOException, JiBXException {
         InputStream fis = null;
         T object = null;
-        try
-        {
+        try {
             fis = new FileInputStream(file);
             object = unmarshal(fis);
         }
-        finally
-        {
-            if (fis != null)
-            {
+        finally {
+            if (fis != null) {
                 fis.close();
             }
         }
@@ -677,19 +619,15 @@ public class JiBXUtil<T extends Object>
      * @throws IOException
      *         if an IOException occurred
      */
-    public T unmarshalFile(final String filename) throws IOException, JiBXException
-    {
+    public T unmarshalFile(final String filename) throws IOException, JiBXException {
         InputStream fis = null;
         T object = null;
-        try
-        {
+        try {
             fis = new FileInputStream(filename);
             object = unmarshal(fis);
         }
-        finally
-        {
-            if (fis != null)
-            {
+        finally {
+            if (fis != null) {
                 fis.close();
             }
         }
@@ -705,8 +643,7 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to unmarshal the object
      */
-    public T unmarshal(final Document document) throws JiBXException
-    {
+    public T unmarshal(final Document document) throws JiBXException {
         return unmarshal(new ByteArrayInputStream(document.asXML().getBytes()));
     }
 
@@ -719,35 +656,30 @@ public class JiBXUtil<T extends Object>
      * @throws JiBXException
      *         if we were unable to unmarshal the object
      */
-    public T unmarshal(final Element element) throws JiBXException
-    {
+    public T unmarshal(final Element element) throws JiBXException {
         return unmarshal(new ByteArrayInputStream(element.asXML().getBytes()));
     }
 
-    private IMarshallingContext getMarshallingContext(final int indent) throws JiBXException
-    {
+    private IMarshallingContext getMarshallingContext(final int indent) throws JiBXException {
         final IMarshallingContext context = getBindingFactory().createMarshallingContext();
         context.setIndent(indent);
         return context;
     }
 
-    private IUnmarshallingContext getUnmarshallingContext() throws JiBXException
-    {
+    private IUnmarshallingContext getUnmarshallingContext() throws JiBXException {
         return getBindingFactory().createUnmarshallingContext();
     }
 
     /**
-     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory
-     * instances are guaranteed to be threadsafe and reusable.'
+     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory instances are guaranteed to be threadsafe and
+     * reusable.'
      * 
      * @return BindingFactory for the type used by this class
      * @throws JiBXException
      *         if som't went wrong
      */
-    private IBindingFactory getBindingFactory() throws JiBXException
-    {
-        if (bindingFactory == null)
-        {
+    private IBindingFactory getBindingFactory() throws JiBXException {
+        if (bindingFactory == null) {
             bindingFactory = BindingDirectory.getFactory(clazz);
         }
         return bindingFactory;

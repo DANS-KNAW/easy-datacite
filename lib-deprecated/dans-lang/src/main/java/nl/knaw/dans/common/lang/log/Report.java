@@ -2,8 +2,7 @@ package nl.knaw.dans.common.lang.log;
 
 import java.io.File;
 
-public interface Report
-{
+public interface Report {
 
     void setReportLocation(File reportLocation, boolean allRW);
 

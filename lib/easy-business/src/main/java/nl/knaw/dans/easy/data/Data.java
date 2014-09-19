@@ -20,11 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Data is a sentient android who serves as the second officer and chief operations officer aboard the
- * starships USS Enterprise-D and USS Enterprise-E. As a Data Access Point Broker, Data is the central
- * point for persisted knowledge. Calling the constructor (or any of an instances setter calls) during
- * application runtime will lead to an IllegelStateException. So the normal use of this class is to treat
- * it as a static class to get a Data Access Point implementation:
+ * Data is a sentient android who serves as the second officer and chief operations officer aboard the starships USS Enterprise-D and USS Enterprise-E. As a
+ * Data Access Point Broker, Data is the central point for persisted knowledge. Calling the constructor (or any of an instances setter calls) during application
+ * runtime will lead to an IllegelStateException. So the normal use of this class is to treat it as a static class to get a Data Access Point implementation:
  * 
  * <pre>
  * UserRepo userRepository = Data.getUserRepo();
@@ -32,8 +30,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Jan 25, 2009
  */
-public class Data
-{
+public class Data {
     private static EasyUserRepo userRepo;
     private static GroupRepo groupRepo;
     private static MigrationRepo migrationRepo;
@@ -51,14 +48,12 @@ public class Data
     private static Logger logger = LoggerFactory.getLogger(Data.class);
 
     /**
-     * Constructs new Data - called by the application context. Sets a {@link RepoAccessDelegatorImpl} on
-     * {@link RepoAccess}.
+     * Constructs new Data - called by the application context. Sets a {@link RepoAccessDelegatorImpl} on {@link RepoAccess}.
      * 
      * @throws IllegalStateException
      *         if the constructor was called during application runtime
      */
-    public Data() throws IllegalStateException
-    {
+    public Data() throws IllegalStateException {
         // set RepoAccessDelegator on RepoAccess.
         RepoAccess.setDelegator(new RepoAccessDelegatorImpl());
     }
@@ -68,10 +63,8 @@ public class Data
      * 
      * @return the UserRepo
      */
-    public static EasyUserRepo getUserRepo()
-    {
-        if (userRepo == null)
-        {
+    public static EasyUserRepo getUserRepo() {
+        if (userRepo == null) {
             throw new DataConfigurationException("No userRepo set. Make sure the application context is properly configured.");
         }
         return userRepo;
@@ -82,93 +75,73 @@ public class Data
      * 
      * @return the GroupRepo
      */
-    public static GroupRepo getGroupRepo()
-    {
-        if (groupRepo == null)
-        {
+    public static GroupRepo getGroupRepo() {
+        if (groupRepo == null) {
             throw new DataConfigurationException("No groupRepo set. Make sure the application context is properly configured.");
         }
         return groupRepo;
     }
 
-    public static MigrationRepo getMigrationRepo()
-    {
-        if (migrationRepo == null)
-        {
+    public static MigrationRepo getMigrationRepo() {
+        if (migrationRepo == null) {
             throw new DataConfigurationException("No MigrationRepo set. Make sure the application context is properly configured.");
         }
         return migrationRepo;
     }
 
-    public static FederativeUserRepo getFederativeUserRepo()
-    {
-        if (federativeUserRepo == null)
-        {
+    public static FederativeUserRepo getFederativeUserRepo() {
+        if (federativeUserRepo == null) {
             throw new DataConfigurationException("No FederativeUserRepo set. Make sure the application context is properly configured.");
         }
         return federativeUserRepo;
     }
 
-    public static EasyStore getEasyStore()
-    {
-        if (easyStore == null)
-        {
+    public static EasyStore getEasyStore() {
+        if (easyStore == null) {
             throw new DataConfigurationException("No easyStore set. Make sure the application context is properly configured.");
         }
         return easyStore;
     }
 
-    public static FileStoreAccess getFileStoreAccess()
-    {
-        if (fileStoreAccess == null)
-        {
+    public static FileStoreAccess getFileStoreAccess() {
+        if (fileStoreAccess == null) {
             throw new DataConfigurationException("No fileStoreAccess set. Make sure the application context is properly configured.");
         }
         return fileStoreAccess;
     }
 
-    public static DatasetSearch getDatasetSearch()
-    {
-        if (datasetSearch == null)
-        {
+    public static DatasetSearch getDatasetSearch() {
+        if (datasetSearch == null) {
             throw new DataConfigurationException("No datasetSearch set. Make sure the application context is properly configured.");
         }
         return datasetSearch;
     }
 
-    public static SearchEngine getSearchEngine()
-    {
-        if (searchEngine == null)
-        {
+    public static SearchEngine getSearchEngine() {
+        if (searchEngine == null) {
             throw new DataConfigurationException("No searchEngine set. Make sure the application context is properly configured.");
         }
         return searchEngine;
     }
 
-    public static DmoCollectionsAccess getCollectionAccess()
-    {
-        if (dmoCollectionAccess == null)
-        {
+    public static DmoCollectionsAccess getCollectionAccess() {
+        if (dmoCollectionAccess == null) {
             throw new DataConfigurationException("No dmoCollectionAccess set. Make sure the application context is properly configured.");
         }
         return dmoCollectionAccess;
     }
 
-    public static int getDownloadLimit()
-    {
+    public static int getDownloadLimit() {
         return downloadLimit;
     }
 
-    public void setDownloadLimit(String downloadLimit)
-    {
+    public void setDownloadLimit(String downloadLimit) {
         // Somehow the spring framework can get confused and wants a String parameter
         // when easy is deployed on the server
-        try
-        {
+        try {
             Data.downloadLimit = Integer.parseInt(downloadLimit);
         }
-        catch (NumberFormatException e)
-        {
+        catch (NumberFormatException e) {
             logger.error("not a valid number: " + downloadLimit);
             throw e;
         }
@@ -176,19 +149,15 @@ public class Data
         logger.info("Download limit is set to " + Data.downloadLimit + " MB");
     }
 
-    public static int getMaxNumberOfFiles()
-    {
+    public static int getMaxNumberOfFiles() {
         return maxNumberOfFiles;
     }
 
-    public void setMaxNumberOfFiles(String maxNumberOfFiles)
-    {
-        try
-        {
+    public void setMaxNumberOfFiles(String maxNumberOfFiles) {
+        try {
             Data.maxNumberOfFiles = Integer.parseInt(maxNumberOfFiles);
         }
-        catch (NumberFormatException e)
-        {
+        catch (NumberFormatException e) {
             logger.error("not a valid number: " + maxNumberOfFiles);
             throw e;
         }
@@ -196,13 +165,11 @@ public class Data
         logger.info("Max number of files is set to " + Data.maxNumberOfFiles);
     }
 
-    public void setZipFileDir(File dir)
-    {
+    public void setZipFileDir(File dir) {
         Data.zipFileDir = dir;
     }
 
-    public static File getZipFileDir()
-    {
+    public static File getZipFileDir() {
         return zipFileDir;
     }
 
@@ -217,56 +184,47 @@ public class Data
      *         if the method was called during application runtime
      * @see reset()
      */
-    public void setUserRepo(final EasyUserRepo userRepo) throws IllegalStateException
-    {
+    public void setUserRepo(final EasyUserRepo userRepo) throws IllegalStateException {
         Data.userRepo = userRepo;
         logger.debug("Injected dependency userRepo: " + userRepo);
     }
 
-    public void setGroupRepo(final GroupRepo groupRepo) throws IllegalStateException
-    {
+    public void setGroupRepo(final GroupRepo groupRepo) throws IllegalStateException {
         Data.groupRepo = groupRepo;
         logger.debug("Injected dependency groupRepo: " + groupRepo);
     }
 
-    public void setMigrationRepo(final MigrationRepo migrationRepo) throws IllegalStateException
-    {
+    public void setMigrationRepo(final MigrationRepo migrationRepo) throws IllegalStateException {
         Data.migrationRepo = migrationRepo;
         logger.debug("Injected dependency migrationRepo: " + migrationRepo);
     }
 
-    public void setFederativeUserRepo(final FederativeUserRepo federativeUserRepo) throws IllegalStateException
-    {
+    public void setFederativeUserRepo(final FederativeUserRepo federativeUserRepo) throws IllegalStateException {
         Data.federativeUserRepo = federativeUserRepo;
         logger.debug("Injected dependency federativeUserRepo: " + federativeUserRepo);
     }
 
-    public void setEasyStore(final EasyStore easyStore)
-    {
+    public void setEasyStore(final EasyStore easyStore) {
         Data.easyStore = easyStore;
         logger.debug("Injected dependency easyStore: " + easyStore);
     }
 
-    public void setFileStoreAccess(final FileStoreAccess fileStoreAccess) throws IllegalStateException
-    {
+    public void setFileStoreAccess(final FileStoreAccess fileStoreAccess) throws IllegalStateException {
         Data.fileStoreAccess = fileStoreAccess;
         logger.debug("Injected dependency fileStoreAccess: " + fileStoreAccess);
     }
 
-    public void setDatasetSearch(final DatasetSearch datasetSearch) throws IllegalStateException
-    {
+    public void setDatasetSearch(final DatasetSearch datasetSearch) throws IllegalStateException {
         Data.datasetSearch = datasetSearch;
         logger.debug("Injected dependency datasetSearch: " + datasetSearch);
     }
 
-    public void setSearchEngine(final SearchEngine searchEngine) throws IllegalStateException
-    {
+    public void setSearchEngine(final SearchEngine searchEngine) throws IllegalStateException {
         Data.searchEngine = searchEngine;
         logger.debug("Injected dependency searchEngine: " + searchEngine);
     }
 
-    public void setCollectionAccess(final DmoCollectionsAccess dmoCollectionAccess)
-    {
+    public void setCollectionAccess(final DmoCollectionsAccess dmoCollectionAccess) {
         Data.dmoCollectionAccess = dmoCollectionAccess;
         logger.debug("Injected dependency easyCollections: " + dmoCollectionAccess);
     }

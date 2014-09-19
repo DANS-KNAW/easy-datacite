@@ -8,15 +8,12 @@ import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 @SuppressWarnings("serial")
-public class EditPanel extends Panel
-{
-    public EditPanel(String id, IModel<String> model, TinyMCESettings settings)
-    {
+public class EditPanel extends Panel {
+    public EditPanel(String id, IModel<String> model, TinyMCESettings settings) {
         super(id, model);
         final TextArea<String> textArea = new TextArea<String>("text", model);
 
-        if (settings != null)
-        {
+        if (settings != null) {
             textArea.add(new TinyMceBehavior(settings));
         }
 

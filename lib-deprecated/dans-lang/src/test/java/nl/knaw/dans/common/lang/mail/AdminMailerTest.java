@@ -6,14 +6,12 @@ import nl.knaw.dans.common.lang.test.Tester;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class AdminMailerTest
-{
+public class AdminMailerTest {
 
     private static FooMailer mailer;
 
     @BeforeClass
-    public static void beforeClass()
-    {
+    public static void beforeClass() {
         mailer = new FooMailer();
         mailer.setAdminMailAddressesCS("foo.bar@dans.knaw.nl,foo.baz@foo.com");
         mailer.setSendOnStarting(true);
@@ -21,8 +19,7 @@ public class AdminMailerTest
     }
 
     @Test
-    public void sendErrorReport() throws Exception
-    {
+    public void sendErrorReport() throws Exception {
         mailer.sendApplicationStarting();
         checkMail("Starting");
 
@@ -40,8 +37,7 @@ public class AdminMailerTest
         checkMail("Closing");
     }
 
-    private void checkMail(String check)
-    {
+    private void checkMail(String check) {
         if (Tester.isVerbose())
             System.out.println("\n--------- subject --------\n" + mailer.subject);
 
@@ -51,28 +47,24 @@ public class AdminMailerTest
         assertTrue(mailer.text.contains(check));
     }
 
-    static class FooMailer extends AdminMailer
-    {
+    static class FooMailer extends AdminMailer {
 
         String subject;
         String text;
         boolean fail;
 
-        public FooMailer()
-        {
+        public FooMailer() {
             super(null, "Easy");
         }
 
         @Override
-        protected boolean send(String subject, String text)
-        {
+        protected boolean send(String subject, String text) {
             this.subject = subject;
             this.text = text;
             return !fail;
         }
 
-        public void setFail(boolean fail)
-        {
+        public void setFail(boolean fail) {
             this.fail = fail;
         }
     }

@@ -7,8 +7,7 @@ import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
-public enum ECollection
-{
+public enum ECollection {
     EasyCollection(new DmoNamespace("easy-collection")),
 
     EasyInterestArea(new DmoNamespace("easy-interest-area")),
@@ -22,94 +21,77 @@ public enum ECollection
 
     public final DmoNamespace namespace;
 
-    ECollection(DmoNamespace namespace)
-    {
+    ECollection(DmoNamespace namespace) {
         this.namespace = namespace;
     }
 
-    public URL getTemplateURL()
-    {
+    public URL getTemplateURL() {
         return this.getClass().getResource(TEMPLATE_LOCATION + namespace.getValue() + TEMPLATE_EXTENSION);
     }
 
-    public static boolean isECollection(DmoNamespace namespace)
-    {
+    public static boolean isECollection(DmoNamespace namespace) {
         boolean isECollection = false;
         Iterator<ECollection> iter = iterator();
-        while (iter.hasNext() && !isECollection)
-        {
+        while (iter.hasNext() && !isECollection) {
             isECollection = iter.next().namespace.equals(namespace);
         }
         return isECollection;
     }
 
-    public static boolean isECollection(DmoStoreId dmoStoreId)
-    {
+    public static boolean isECollection(DmoStoreId dmoStoreId) {
         return isECollection(dmoStoreId.getNamespace());
     }
 
-    public static boolean isECollection(DataModelObject dmo)
-    {
+    public static boolean isECollection(DataModelObject dmo) {
         return isECollection(dmo.getDmoNamespace());
     }
 
-    public static DmoNamespace[] allNamespaces()
-    {
+    public static DmoNamespace[] allNamespaces() {
         ECollection[] allColls = values();
         DmoNamespace[] namespaces = new DmoNamespace[allColls.length];
-        for (int i = 0; i < allColls.length; i++)
-        {
+        for (int i = 0; i < allColls.length; i++) {
             namespaces[i] = allColls[i].namespace;
         }
         return namespaces;
     }
 
-    public static ECollection collectionFor(DmoNamespace namespace)
-    {
+    public static ECollection collectionFor(DmoNamespace namespace) {
         ECollection eColl = null;
         Iterator<ECollection> iter = iterator();
-        while (eColl == null && iter.hasNext())
-        {
+        while (eColl == null && iter.hasNext()) {
             ECollection ec = iter.next();
-            if (ec.namespace.equals(namespace))
-            {
+            if (ec.namespace.equals(namespace)) {
                 eColl = ec;
             }
         }
         return eColl;
     }
 
-    public static Iterator<ECollection> iterator()
-    {
+    public static Iterator<ECollection> iterator() {
         return new ECollectionIterartor();
     }
 
-    private static class ECollectionIterartor implements Iterator<ECollection>
-    {
+    private static class ECollectionIterartor implements Iterator<ECollection> {
 
         private ECollection[] array;
         private int index;
 
-        ECollectionIterartor()
-        {
+        ECollectionIterartor() {
             array = ECollection.values();
         }
 
         @Override
-        public boolean hasNext()
-        {
+        public boolean hasNext() {
             return index < array.length;
         }
 
         @Override
-        public ECollection next()
-        {
+        public ECollection next() {
             return array[index++];
         }
 
         @Override
-        public void remove()
-        {
+        public void remove() {
             throw new UnsupportedOperationException("ECollections cannot be removed.");
         }
 

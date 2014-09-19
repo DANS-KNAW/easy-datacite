@@ -6,12 +6,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class SecuredOperationUtilTest
-{
+public class SecuredOperationUtilTest {
 
     @Test
-    public void getDeclaredSecurityIds()
-    {
+    public void getDeclaredSecurityIds() {
         List<String> securityIds = SecuredOperationUtil.getDeclaredSecurityIdsOnInterface(IA.class);
         assertEquals(2, securityIds.size());
         assertTrue(securityIds.contains("nl.knaw.dans.i.security.annotations.IA.iASecuredOperation"));
@@ -22,8 +20,7 @@ public class SecuredOperationUtilTest
     }
 
     @Test
-    public void getInterfaceSecurityIds()
-    {
+    public void getInterfaceSecurityIds() {
         List<String> securityIds = SecuredOperationUtil.getInterfaceSecurityIds(ClassWithNonInterfaceSecuredOperation.class);
         assertEquals(3, securityIds.size());
         assertTrue(securityIds.contains("nl.knaw.dans.i.security.annotations.IB.iBSecuredOperation"));
@@ -32,32 +29,27 @@ public class SecuredOperationUtilTest
     }
 
     @Test(expected = RuntimeException.class)
-    public void checkWithNonInterfaceSecuredOperation()
-    {
+    public void checkWithNonInterfaceSecuredOperation() {
         SecuredOperationUtil.checkSecurityIds(ClassWithNonInterfaceSecuredOperation.class);
     }
 
     @Test(expected = RuntimeException.class)
-    public void checkWithMissingAnnotation()
-    {
+    public void checkWithMissingAnnotation() {
         SecuredOperationUtil.checkSecurityIds(ClassWithMissingAnnotation.class);
     }
 
     @Test(expected = RuntimeException.class)
-    public void checkWithWrongAnnotations()
-    {
+    public void checkWithWrongAnnotations() {
         SecuredOperationUtil.checkSecurityIds(ClassWithWrongAnnotations.class);
     }
 
     @Test(expected = RuntimeException.class)
-    public void checkWithMissingAnnotationWithSameId()
-    {
+    public void checkWithMissingAnnotationWithSameId() {
         SecuredOperationUtil.checkSecurityIds(ClassWithMissingAnnotationWithSameId.class);
     }
 
     @Test
-    public void checkSecurityIds()
-    {
+    public void checkSecurityIds() {
         SecuredOperationUtil.checkSecurityIds(ValidClass.class);
     }
 

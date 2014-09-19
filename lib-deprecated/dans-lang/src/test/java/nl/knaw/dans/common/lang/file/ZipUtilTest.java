@@ -13,12 +13,10 @@ import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.Test;
 
-public class ZipUtilTest
-{
+public class ZipUtilTest {
 
     @Test
-    public void zipFiles() throws Exception
-    {
+    public void zipFiles() throws Exception {
         File testOutput = new File("test-output");
         testOutput.mkdirs();
 
@@ -60,8 +58,7 @@ public class ZipUtilTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testExceptionStates() throws IOException, ResourceNotFoundException
-    {
+    public void testExceptionStates() throws IOException, ResourceNotFoundException {
         File testOutput = new File("test-output");
         testOutput.mkdirs();
 

@@ -18,11 +18,9 @@ import nl.knaw.dans.common.solr.exceptions.SolrSearchEngineException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
-public class SolrQueryRequestConverter
-{
+public class SolrQueryRequestConverter {
 
-    public static SolrQuery convert(SearchRequest request) throws SolrSearchEngineException
-    {
+    public static SolrQuery convert(SearchRequest request) throws SolrSearchEngineException {
         SolrQuery queryObj = new SolrQuery();
 
         // set query
@@ -31,10 +29,8 @@ public class SolrQueryRequestConverter
         if (qstr != null)
             query += qstr;
         FieldSet<?> fieldQueries = request.getFieldQueries();
-        if (fieldQueries != null)
-        {
-            for (Field<?> fieldQuery : fieldQueries)
-            {
+        if (fieldQueries != null) {
+            for (Field<?> fieldQuery : fieldQueries) {
                 query += fieldQueryToString(fieldQuery) + " ";
             }
         }
@@ -42,12 +38,10 @@ public class SolrQueryRequestConverter
 
         // set filter queries
         FieldSet<?> filterQueries = request.getFilterQueries();
-        if (filterQueries != null)
-        {
+        if (filterQueries != null) {
             int i = 0;
             String[] fq = new String[filterQueries.size()];
-            for (Field<?> field : filterQueries)
-            {
+            for (Field<?> field : filterQueries) {
                 fq[i] = fieldQueryToString(field);
                 i++;
             }
@@ -56,10 +50,8 @@ public class SolrQueryRequestConverter
 
         // set sort fields
         List<SortField> sortFields = request.getSortFields();
-        if (sortFields != null)
-        {
-            for (SortField sortField : sortFields)
-            {
+        if (sortFields != null) {
+            for (SortField sortField : sortFields) {
                 ORDER order;
                 if (sortField.getValue().equals(SortOrder.DESC))
                     order = ORDER.desc;
@@ -76,10 +68,8 @@ public class SolrQueryRequestConverter
         Set<String> facetFields = request.getFacetFields();
         boolean enableFaceting = facetFields != null && facetFields.size() > 0;
         queryObj.setFacet(enableFaceting);
-        if (enableFaceting)
-        {
-            for (String facetField : facetFields)
-            {
+        if (enableFaceting) {
+            for (String facetField : facetFields) {
                 queryObj.addFacetField(facetField);
             }
         }
@@ -97,8 +87,7 @@ public class SolrQueryRequestConverter
         return queryObj;
     }
 
-    private static String fieldQueryToString(Field<?> fieldQuery) throws NullPointerFieldException
-    {
+    private static String fieldQueryToString(Field<?> fieldQuery) throws NullPointerFieldException {
         Object fieldValue = fieldQuery.getValue();
         if (fieldValue == null)
             throw new NullPointerFieldException("got null pointer for field " + fieldQuery.getName());
@@ -108,8 +97,7 @@ public class SolrQueryRequestConverter
         String queryStringValuePart = (fieldValue instanceof SearchQuery ? SolrUtil.escapeColon(((SearchQuery) fieldValue).getQueryString()) : SolrUtil
                 .escapeColon(SolrUtil.toString(fieldValue)));
 
-        if (fieldQuery instanceof CombinedOptionalField)
-        {
+        if (fieldQuery instanceof CombinedOptionalField) {
             // assume that the values must be forced into phrases using double quotes around them
             // note that it would be better if we could ask the field if it needs forcing to a phrase
             queryStringValuePart = "(\"" + queryStringValuePart + "\")";
@@ -117,8 +105,7 @@ public class SolrQueryRequestConverter
             List<String> names = ((CombinedOptionalField<?>) fieldQuery).getNames();
             StringBuilder sbQuery = new StringBuilder();
             // name1:value OR name2: value OR name3:value, etc..
-            for (String name : names)
-            {
+            for (String name : names) {
                 if (sbQuery.length() > 0)
                     sbQuery.append(" OR ");
                 sbQuery.append(name);
@@ -126,9 +113,7 @@ public class SolrQueryRequestConverter
                 sbQuery.append(queryStringValuePart);
             }
             queryString = sbQuery.toString();
-        }
-        else
-        {
+        } else {
             queryStringValuePart = "(" + queryStringValuePart + ")";
             queryString = fieldQuery.getName() + ":" + queryStringValuePart;
         }

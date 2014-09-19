@@ -13,40 +13,32 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
-public class TrashCanSearchResultPage extends AbstractSearchResultPage
-{
-    public TrashCanSearchResultPage()
-    {
+public class TrashCanSearchResultPage extends AbstractSearchResultPage {
+    public TrashCanSearchResultPage() {
         super(true);
     }
 
-    public TrashCanSearchResultPage(SearchModel searchModel)
-    {
+    public TrashCanSearchResultPage(SearchModel searchModel) {
         super(searchModel);
     }
 
     @Override
-    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-    {
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException {
         return Services.getSearchService().searchTrashcan(request, getSessionUser());
     }
 
     @Override
-    protected IModel<String> getInitialCriteriumText()
-    {
+    protected IModel<String> getInitialCriteriumText() {
         return new ResourceModel("trashcan.defaultbreadcrumbtext");
     }
 
     @Override
-    protected IModel<String> getSearchCriteriumText(final String searchText)
-    {
-        return new AbstractReadOnlyModel<String>()
-        {
+    protected IModel<String> getSearchCriteriumText(final String searchText) {
+        return new AbstractReadOnlyModel<String>() {
             private static final long serialVersionUID = 3254972701101566016L;
 
             @Override
-            public String getObject()
-            {
+            public String getObject() {
                 return CriteriumLabel.createFilterText(getString("trashcan.searchbreadcrumbtext"), searchText);
             }
         };

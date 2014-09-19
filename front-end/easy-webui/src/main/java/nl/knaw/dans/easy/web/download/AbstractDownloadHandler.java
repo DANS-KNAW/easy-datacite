@@ -16,41 +16,34 @@ import org.apache.wicket.util.resource.IResourceStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDownloadHandler implements IResourceStream
-{
+public abstract class AbstractDownloadHandler implements IResourceStream {
 
     private static final long serialVersionUID = -2712566390339071203L;
     private static final Logger logger = LoggerFactory.getLogger(AbstractDownloadHandler.class);
 
-    public Locale getLocale()
-    {
+    public Locale getLocale() {
         logger.warn("Unexpected call to getLocale()");
         return null;
     }
 
-    public void setLocale(Locale locale)
-    {
+    public void setLocale(Locale locale) {
         logger.warn("Unexpected call to setLocale()");
     }
 
     public abstract void setHeaders(WebResponse response);
 
-    protected File getMockFile()
-    {
+    protected File getMockFile() {
         File mockFile = null;
-        try
-        {
+        try {
             mockFile = ResourceLocator.getFile("misc/insufficientRights.html");
         }
-        catch (ResourceNotFoundException e)
-        {
+        catch (ResourceNotFoundException e) {
             throw new ApplicationException(e);
         }
         return mockFile;
     }
 
-    protected URL getMockURL()
-    {
+    protected URL getMockURL() {
         URL url = ResourceLocator.getURL("misc/insufficientRights.html");
         return url;
     }

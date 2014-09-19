@@ -5,8 +5,7 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 
 import org.dom4j.Element;
 
-public interface DmoFactory<T extends DataModelObject>
-{
+public interface DmoFactory<T extends DataModelObject> {
 
     /**
      * Get the namespace of the object this DmoFactory is instantiating.
@@ -16,8 +15,7 @@ public interface DmoFactory<T extends DataModelObject>
     DmoNamespace getNamespace();
 
     /**
-     * Create an new instance of T with a new storeId. The storeId may be <code>null</code> if no
-     * SidDispenser is associated with this DmoFactory.
+     * Create an new instance of T with a new storeId. The storeId may be <code>null</code> if no SidDispenser is associated with this DmoFactory.
      * 
      * @return new instance of T with a new storeId
      * @throws RepositoryException
@@ -35,8 +33,8 @@ public interface DmoFactory<T extends DataModelObject>
     T createDmo(String storeId);
 
     /**
-     * Set the metadata unit represented by <code>element</code> on the given <code>dmo</code>. The
-     * metadata unit is identified with the given <code>unitId</code>.
+     * Set the metadata unit represented by <code>element</code> on the given <code>dmo</code>. The metadata unit is identified with the given
+     * <code>unitId</code>.
      * 
      * @param dmo
      *        DataModelObject to handle

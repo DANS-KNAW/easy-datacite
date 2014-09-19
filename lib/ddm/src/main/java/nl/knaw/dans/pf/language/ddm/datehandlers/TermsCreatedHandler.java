@@ -5,11 +5,9 @@ import nl.knaw.dans.pf.language.emd.types.BasicDate;
 
 import org.xml.sax.SAXException;
 
-public class TermsCreatedHandler extends BasicDateHandler
-{
+public class TermsCreatedHandler extends BasicDateHandler {
     @Override
-    public void finishElement(final String uri, final String localName) throws SAXException
-    {
+    public void finishElement(final String uri, final String localName) throws SAXException {
         final BasicDate isoDate = createDate(uri, localName);
         if (isoDate == null)
             return;

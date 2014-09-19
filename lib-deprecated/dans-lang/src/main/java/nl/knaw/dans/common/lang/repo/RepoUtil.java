@@ -7,10 +7,8 @@ import nl.knaw.dans.common.lang.repo.exception.InvalidSidException;
  * 
  * @author lobo
  */
-public class RepoUtil
-{
-    public static String getNamespaceFromSid(String sid) throws InvalidSidException
-    {
+public class RepoUtil {
+    public static String getNamespaceFromSid(String sid) throws InvalidSidException {
         int ns = sid.indexOf(':');
         if (ns <= 0)
             throw new InvalidSidException("Store ID " + sid + " is not a valid store ID");

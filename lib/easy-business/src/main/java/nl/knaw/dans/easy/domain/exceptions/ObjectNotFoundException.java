@@ -5,30 +5,24 @@ package nl.knaw.dans.easy.domain.exceptions;
  * 
  * @author ecco Feb 2, 2009
  */
-public class ObjectNotFoundException extends DomainException
-{
+public class ObjectNotFoundException extends DomainException {
 
     /**
      * 
      */
     private static final long serialVersionUID = 6536593750267448502L;
 
-    public ObjectNotFoundException()
-    {
-    }
+    public ObjectNotFoundException() {}
 
-    public ObjectNotFoundException(String message)
-    {
+    public ObjectNotFoundException(String message) {
         super(message);
     }
 
-    public ObjectNotFoundException(Throwable cause)
-    {
+    public ObjectNotFoundException(Throwable cause) {
         super(cause);
     }
 
-    public ObjectNotFoundException(String message, Throwable cause)
-    {
+    public ObjectNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 

@@ -36,8 +36,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class ReadOnlyTester extends IntegrationFixture
-{
+public class ReadOnlyTester extends IntegrationFixture {
     // static mocking of SystemStatus seems to conflict
     // with AspectJ annotations in the business layer (or something else)
     // as a workaround we test methods guarded by SystemStatus.getReadOnly
@@ -46,19 +45,16 @@ public class ReadOnlyTester extends IntegrationFixture
     private static EasyUserImpl user;
 
     @BeforeClass
-    public static void prepareCountDatasets() throws Exception
-    {
+    public static void prepareCountDatasets() throws Exception {
         SolrSearchEngine searchEngine = new SolrSearchEngine("http://evm:8080/solr", new EasySearchBeanFactory());
         new Data().setSearchEngine(searchEngine);
         new Data().setDatasetSearch(new DatasetSearchImpl(searchEngine));
         searchService = new EasySearchService();
 
-        user = new EasyUserImpl("user")
-        {
+        user = new EasyUserImpl("user") {
             private static final long serialVersionUID = 1L;
 
-            public boolean isActive()
-            {
+            public boolean isActive() {
                 return true;
             }
         };
@@ -66,8 +62,7 @@ public class ReadOnlyTester extends IntegrationFixture
     }
 
     @Test
-    public void noDraftCausedByReadOnlyExceptionOnIngest() throws Exception
-    {
+    public void noDraftCausedByReadOnlyExceptionOnIngest() throws Exception {
         // temporarily logging stack traces by SystemStatus.getReadOnly proved
         // that currently the method is only called at the start of addDirectoryContents
         // and not for individual items
@@ -76,8 +71,7 @@ public class ReadOnlyTester extends IntegrationFixture
         ItemService saved = Services.getItemService();
         ItemService mocked = PowerMock.createMock(ItemService.class);
         new Services().setItemService(mocked);
-        try
-        {
+        try {
             mocked.addDirectoryContents(//
                     isA(EasyUserImpl.class), //
                     isA(DatasetImpl.class), //
@@ -88,23 +82,20 @@ public class ReadOnlyTester extends IntegrationFixture
             expectLastCall().andThrow(new ServiceException(new ReadOnlyException()));
             execute();
         }
-        finally
-        {
+        finally {
             new Services().setItemService(saved);
         }
         assertThat(oldNumberOfDatasets, is(searchService.getNumberOfDatasets(user)));
     }
 
     @Test
-    public void readOnlyBeforeSubmitLeavesDraft() throws Exception
-    {
+    public void readOnlyBeforeSubmitLeavesDraft() throws Exception {
         int oldNumberOfDatasets = searchService.getNumberOfDatasets(user);
 
         DatasetService saved = Services.getDatasetService();
         DatasetService mocked = PowerMock.createMock(DatasetService.class);
         new Services().setDatasetService(mocked);
-        try
-        {
+        try {
             expect(mocked.newDataset(//
                     isA(MetadataFormat.class)//
                     )).andStubDelegateTo(saved);
@@ -112,15 +103,13 @@ public class ReadOnlyTester extends IntegrationFixture
             expectLastCall().andThrow(new ServiceException(new ReadOnlyException()));
             execute();
         }
-        finally
-        {
+        finally {
             new Services().setDatasetService(saved);
         }
         assertThat(oldNumberOfDatasets + 1, is(searchService.getNumberOfDatasets(user)));
     }
 
-    private void execute() throws FileNotFoundException, IOException, HttpException
-    {
+    private void execute() throws FileNotFoundException, IOException, HttpException {
         PowerMock.replayAll();
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);

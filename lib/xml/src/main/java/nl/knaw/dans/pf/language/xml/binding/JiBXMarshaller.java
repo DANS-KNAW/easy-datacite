@@ -30,8 +30,7 @@ import org.xml.sax.SAXException;
  * 
  * @author ecco
  */
-public class JiBXMarshaller implements XMLMarshaller
-{
+public class JiBXMarshaller implements XMLMarshaller {
 
     private static DocumentBuilderFactory W3C_DOCUMENT_BUILDER_FACTORY;
 
@@ -51,213 +50,170 @@ public class JiBXMarshaller implements XMLMarshaller
     /**
      * Constructs a JiBXMarshaller with the given Object as bean for serialization.
      * <p/>
-     * If the given object has no binding, serialization will cause a org.jibx.runtime.JiBXException with
-     * 'Unable to access binding information for class ...'.
+     * If the given object has no binding, serialization will cause a org.jibx.runtime.JiBXException with 'Unable to access binding information for class ...'.
      * <p/>
-     * If the given object is not the root of the binding, serialization will cause a
-     * org.jibx.runtime.JiBXException with 'Multiple bindings defined for class ...'. See
-     * {@link #JiBXMarshaller(String, Object)} for serialization of none-root bindings.
+     * If the given object is not the root of the binding, serialization will cause a org.jibx.runtime.JiBXException with 'Multiple bindings defined for class
+     * ...'. See {@link #JiBXMarshaller(String, Object)} for serialization of none-root bindings.
      * 
      * @param bean
      *        the object to serialize.
      */
-    public JiBXMarshaller(Object bean)
-    {
+    public JiBXMarshaller(Object bean) {
         this.bindingName = null;
         this.bean = bean;
     }
 
     /**
-     * Constructs a JiBXMarshaller for the given bindingName, with the given Object as bean for
-     * serialization. Parameter <code>bindingName</code> is the name of the binding file stripped of its
-     * extension. File name <code>my-bean-binding.xml</code> has the bindingName
-     * <code>my_bean_binding</code>.
+     * Constructs a JiBXMarshaller for the given bindingName, with the given Object as bean for serialization. Parameter <code>bindingName</code> is the name of
+     * the binding file stripped of its extension. File name <code>my-bean-binding.xml</code> has the bindingName <code>my_bean_binding</code>.
      * <p/>
-     * If the given object has no binding, serialization will cause a org.jibx.runtime.JiBXException with
-     * 'Unable to access binding information for class ...'.
+     * If the given object has no binding, serialization will cause a org.jibx.runtime.JiBXException with 'Unable to access binding information for class ...'.
      * <p/>
-     * If the given object has no top-level mapping (i.e. abstract="true" in the binding-file),
-     * serialization will cause a org.jibx.runtime.JiBXException with 'Supplied root object of class ...
-     * cannot be marshalled without top-level mapping'.
+     * If the given object has no top-level mapping (i.e. abstract="true" in the binding-file), serialization will cause a org.jibx.runtime.JiBXException with
+     * 'Supplied root object of class ... cannot be marshalled without top-level mapping'.
      * 
      * @param bindingName
-     *        the bindingName of the given object or the bindingName of one of the bindings in the same
-     *        hierarchy.
+     *        the bindingName of the given object or the bindingName of one of the bindings in the same hierarchy.
      * @param bean
      *        the object to serialize.
      */
-    public JiBXMarshaller(String bindingName, Object bean)
-    {
+    public JiBXMarshaller(String bindingName, Object bean) {
         this.bindingName = bindingName;
         this.bean = bean;
     }
 
     @Override
-    public void setEncoding(String enc)
-    {
+    public void setEncoding(String enc) {
         this.encoding = enc;
     }
 
     @Override
-    public String getEncoding()
-    {
+    public String getEncoding() {
         return encoding;
     }
 
     @Override
-    public void setIndent(int indent)
-    {
+    public void setIndent(int indent) {
         this.indent = indent;
     }
 
     @Override
-    public int getIndent()
-    {
+    public int getIndent() {
         return indent;
     }
 
     @Override
-    public void setStandalone(boolean standAlone)
-    {
+    public void setStandalone(boolean standAlone) {
         this.standalone = standAlone;
     }
 
     @Override
-    public boolean getStandalone()
-    {
+    public boolean getStandalone() {
         return standalone;
     }
 
-    public boolean getOmitXmlDeclaration()
-    {
+    public boolean getOmitXmlDeclaration() {
         return omitXmlDeclaration;
     }
 
-    public void setOmitXmlDeclaration(boolean omit)
-    {
+    public void setOmitXmlDeclaration(boolean omit) {
         this.omitXmlDeclaration = omit;
     }
 
     @Override
-    public ByteArrayOutputStream getXmlOutputStream() throws XMLSerializationException
-    {
+    public ByteArrayOutputStream getXmlOutputStream() throws XMLSerializationException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         write(out);
         return out;
     }
 
     @Override
-    public void write(OutputStream out) throws XMLSerializationException
-    {
-        try
-        {
+    public void write(OutputStream out) throws XMLSerializationException {
+        try {
             IMarshallingContext mContext = getMarshallingContext();
             mContext.setIndent(indent);
-            if (omitXmlDeclaration)
-            {
+            if (omitXmlDeclaration) {
                 mContext.setOutput(out, encoding);
                 mContext.marshalDocument(bean);
-            }
-            else
-            {
+            } else {
                 mContext.marshalDocument(bean, encoding, standalone, out);
             }
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public void write(Writer out) throws XMLSerializationException
-    {
-        try
-        {
+    public void write(Writer out) throws XMLSerializationException {
+        try {
             IMarshallingContext mContext = getMarshallingContext();
             mContext.setIndent(indent);
-            if (omitXmlDeclaration)
-            {
+            if (omitXmlDeclaration) {
                 mContext.setOutput(out);
                 mContext.marshalDocument(bean);
-            }
-            else
-            {
+            } else {
                 mContext.marshalDocument(bean, encoding, standalone, out);
             }
         }
-        catch (JiBXException e)
-        {
+        catch (JiBXException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public String getXmlString() throws XMLSerializationException
-    {
+    public String getXmlString() throws XMLSerializationException {
         return getXmlOutputStream().toString();
     }
 
     @Override
-    public byte[] getXmlByteArray() throws XMLSerializationException
-    {
+    public byte[] getXmlByteArray() throws XMLSerializationException {
         return getXmlOutputStream().toByteArray();
     }
 
     @Override
-    public InputStream getXmlInputStream() throws XMLSerializationException
-    {
+    public InputStream getXmlInputStream() throws XMLSerializationException {
         return new ByteArrayInputStream(getXmlByteArray());
     }
 
     @Override
-    public Source getXmlSource() throws XMLSerializationException
-    {
+    public Source getXmlSource() throws XMLSerializationException {
         return new StreamSource(getXmlInputStream());
     }
 
     @Override
-    public Document getXmlDocument() throws XMLSerializationException
-    {
+    public Document getXmlDocument() throws XMLSerializationException {
         SAXReader reader = new SAXReader();
-        try
-        {
+        try {
             return reader.read(getXmlInputStream());
         }
-        catch (DocumentException e)
-        {
+        catch (DocumentException e) {
             throw new XMLSerializationException(e);
         }
     }
 
     @Override
-    public Element getXmlElement() throws XMLSerializationException
-    {
+    public Element getXmlElement() throws XMLSerializationException {
         return getXmlDocument().getRootElement();
     }
 
     @Override
-    public org.w3c.dom.Document getW3cDomDocument() throws XMLSerializationException
-    {
+    public org.w3c.dom.Document getW3cDomDocument() throws XMLSerializationException {
         org.w3c.dom.Document document;
-        try
-        {
+        try {
             document = getW3cDocumentBuilder().parse(getXmlInputStream());
         }
-        catch (SAXException e)
-        {
+        catch (SAXException e) {
             throw new XMLSerializationException(e);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             throw new XMLSerializationException(e);
         }
         return document;
     }
 
     @Override
-    public org.w3c.dom.Element getW3cDomElement() throws XMLSerializationException
-    {
+    public org.w3c.dom.Element getW3cDomElement() throws XMLSerializationException {
         return getW3cDomDocument().getDocumentElement();
     }
 
@@ -267,10 +223,8 @@ public class JiBXMarshaller implements XMLMarshaller
      * @return the same instance at each call
      * @throws JiBXException
      */
-    protected IMarshallingContext getMarshallingContext() throws JiBXException
-    {
-        if (marshallingContext == null)
-        {
+    protected IMarshallingContext getMarshallingContext() throws JiBXException {
+        if (marshallingContext == null) {
             marshallingContext = getBindingFactory().createMarshallingContext();
         }
         return marshallingContext;
@@ -282,53 +236,39 @@ public class JiBXMarshaller implements XMLMarshaller
      * @return the same instance at each call
      * @throws JiBXException
      */
-    protected IBindingFactory getBindingFactory() throws JiBXException
-    {
-        if (bindingFactory == null)
-        {
-            if (bindingName == null)
-            {
+    protected IBindingFactory getBindingFactory() throws JiBXException {
+        if (bindingFactory == null) {
+            if (bindingName == null) {
                 bindingFactory = BindingDirectory.getFactory(bean.getClass());
-            }
-            else
-            {
+            } else {
                 bindingFactory = BindingDirectory.getFactory(bindingName, bean.getClass());
             }
         }
         return bindingFactory;
     }
 
-    protected DocumentBuilder getW3cDocumentBuilder() throws XMLSerializationException
-    {
-        try
-        {
-            if (w3cDomBuilder == null)
-            {
+    protected DocumentBuilder getW3cDocumentBuilder() throws XMLSerializationException {
+        try {
+            if (w3cDomBuilder == null) {
                 w3cDomBuilder = getW3cDocumentBuilderFactory().newDocumentBuilder();
-            }
-            else
-            {
+            } else {
                 w3cDomBuilder.reset();
             }
         }
-        catch (ParserConfigurationException e)
-        {
+        catch (ParserConfigurationException e) {
             throw new XMLSerializationException(e);
         }
         return w3cDomBuilder;
     }
 
-    public static DocumentBuilderFactory getW3cDocumentBuilderFactory()
-    {
-        if (W3C_DOCUMENT_BUILDER_FACTORY == null)
-        {
+    public static DocumentBuilderFactory getW3cDocumentBuilderFactory() {
+        if (W3C_DOCUMENT_BUILDER_FACTORY == null) {
             W3C_DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
         }
         return W3C_DOCUMENT_BUILDER_FACTORY;
     }
 
-    public static void setW3cDocumentBuilderFactory(DocumentBuilderFactory factory)
-    {
+    public static void setW3cDocumentBuilderFactory(DocumentBuilderFactory factory) {
         W3C_DOCUMENT_BUILDER_FACTORY = factory;
     }
 
