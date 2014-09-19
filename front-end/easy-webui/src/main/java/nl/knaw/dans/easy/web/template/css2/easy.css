@@ -23,6 +23,12 @@ html {
   line-height: 1;
 }
 
+h1, h2, h3, .h1, .h2, .h3 {
+	/* TEMPORARILY FIX BOOTSTRAP MADNESS */
+	margin: 0;
+	padding: 0;
+}
+
 ol, ul {
   list-style: none;
 }
@@ -267,7 +273,7 @@ input {
 .footer {
   padding-top: 1em;
   color: #6e6e6e;
-  height: 57px;
+  height: 70px; /* TEMPORARILY FIX BOOTSTRAP MADNESS */
 }
 .footer .footer-nav {
   float: left;
