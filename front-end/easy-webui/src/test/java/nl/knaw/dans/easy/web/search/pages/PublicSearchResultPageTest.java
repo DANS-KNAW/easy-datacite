@@ -176,7 +176,7 @@ public class PublicSearchResultPageTest {
         tester.assertRenderedPage(PublicSearchResultPage.class);
         tester.assertLabelContains("searchResultPanel:resultMessage", "<b>2</b>");
         final String hitsPath = "searchResultPanel:searchHits:";
-        tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open for registered users");
+        tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open (registered users)");
         tester.assertLabel(FACET_VALUE_LINK + ":facetCount", "2");
         tester.assertLabel(hitsPath + "0:searchHit:showDataset:disciplines:0:disciplineName", "mocked Discipline");
         tester.assertLabel(hitsPath + "0:searchHit:showDataset:title", "mocked title 1");
