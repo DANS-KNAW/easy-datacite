@@ -1,18 +1,38 @@
 <html xmlns:wicket>
 <head>
 	<wicket:head>
-		<link rel="stylesheet" type="text/css" href="yui/css/container-skin.css" />
-		<script type="text/javascript" src="yui/js/utilities.js"></script>
-		<script type="text/javascript" src="yui/js/button.js"></script>
-		<script type="text/javascript" src="yui/js/event.js"></script>
-		<script type="text/javascript" src="yui/js/container_core.js"></script>
-		<script type="text/javascript" src="yui/js/container.js"></script>
 	</wicket:head>
 </head>
 
 <body style="height:100%">
 <wicket:panel>
-		<span wicket:id="popupHTML"></span>
+	<a wicket:id="helpPopup"><img src='/images/button_help.gif' alt='help' /></a>
+
+	<div wicket:id="popupModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">
+							<wicket:message key="close">Close</wicket:message>
+						</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<wicket:message key="help">Help</wicket:message>
+					</h4>
+				</div>
+				<div class="modal-body" wicket:id="popupHTML">
+                   	( modal help content here )
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						<wicket:message key="close">Close</wicket:message>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </wicket:panel>
 </body>
 </html>
