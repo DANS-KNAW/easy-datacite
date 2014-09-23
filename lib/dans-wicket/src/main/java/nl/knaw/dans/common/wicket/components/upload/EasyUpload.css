@@ -115,24 +115,3 @@ body#upload-iframe
 	height: 100%;
 	line-height: 0px; /* IE 6 fix */
 }
-
-
-.button_blue,.button_blue:visited {
-	background-image: url(button_shine_blue.jpg);
-	border-color: #FFFFFF #003663 #003663 #FFFFFF;
-	border-style: solid;
-	border-width: 1px;
-	color: #FFFFFF;
-	font-family: Verdana, Arial;
-	font-size: 10px;
-	font-weight: bold;
-	line-height: 10px;
-	margin: 0;
-	padding: 1px 6px;
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.button_blue:hover {
-	color: #9E0B0E;
-}
