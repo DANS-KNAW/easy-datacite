@@ -2,10 +2,17 @@ package nl.knaw.dans.easy.store.fedora;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.Set;
+
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.ItemContainerMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -49,6 +56,59 @@ public class FedoraCountFilesTest {
     }
 
     @Test
+    public void folderItemVO_getAccessibleToList() throws Exception {
+        Set<AccessibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, AccessibleTo.class);
+        assertTrue(values.toArray().length == 1);
+        assertTrue(values.toArray()[0].equals(AccessibleTo.KNOWN));
+    }
+
+    @Test
+    public void folderItemVO_getVisibleToList() throws Exception {
+        Set<VisibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, VisibleTo.class);
+        assertTrue(values.toArray().length == 1);
+        assertTrue(values.toArray()[0].equals(VisibleTo.ANONYMOUS));
+    }
+
+    @Test
+    public void folderItemVO_getCreatorRoles() throws Exception {
+        Set<CreatorRole> values = fileStoreAccess.getValuesFor(folderStoreId, CreatorRole.class);
+        assertTrue(values.toArray().length == 1);
+        assertTrue(values.toArray()[0].equals(CreatorRole.DEPOSITOR));
+    }
+
+    @Test
+    public void folderItemVO_isAccessibleFor() throws Exception {
+        int profile = 0;
+        boolean accessibleFor = new FolderItemVO().isAccessibleFor(profile);
+    }
+
+    @Test
+    public void fileItemVO_isAccessibleFor() throws Exception {
+        int profile = 0;
+        boolean accessibleFor = new FolderItemVO().isAccessibleFor(profile);
+    }
+
+    @Test
+    public void folderItemVO_getChildAccessibility() throws Exception {
+        List<AccessCategory> list = new FolderItemVO().getChildAccessibility();
+    }
+
+    @Test
+    public void folderItemVO_getChildVisibility() throws Exception {
+        List<AccessCategory> list = new FolderItemVO().getChildVisibility();
+    }
+
+    @Test
+    public void datasetItemContainerMetadata_getChildAccessibility() throws Exception {
+        List<AccessCategory> list = new ItemContainerMetadataImpl(new DmoStoreId(Dataset.NAMESPACE, "1")).getChildAccessibility();
+    }
+
+    @Test
+    public void datasetItemContainerMetadata_getChildVisibility() throws Exception {
+        List<AccessCategory> list = new ItemContainerMetadataImpl(new DmoStoreId(Dataset.NAMESPACE, "1")).getChildVisibility();
+    }
+
+    @Test
     public void folderItemImpl_getChildCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class)
                 + fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);
@@ -81,18 +141,21 @@ public class FedoraCountFilesTest {
 
     @Test
     public void folderItemImpl_getCreatorRoleFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, CreatorRole.DEPOSITOR);
         assertThat(count, equalTo(1));
     }
 
     @Test
     public void folderItemImpl_getVisibleToFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, VisibleTo.ANONYMOUS);
         assertThat(count, equalTo(1));
     }
 
     @Test
     public void folderItemImpl_getAccessibleToFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, AccessibleTo.KNOWN);
         assertThat(count, equalTo(1));
     }
@@ -123,18 +186,21 @@ public class FedoraCountFilesTest {
 
     @Test
     public void datasetImpl_getCreatorRoleFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, CreatorRole.DEPOSITOR);
         assertThat(count, equalTo(1));
     }
 
     @Test
     public void datasetImpl_getVisibleToFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS);
         assertThat(count, equalTo(1));
     }
 
     @Test
     public void datasetImpl_getAccessibleToFileCount() throws Exception {
+        // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(datasetStoreId, FileItemVO.class, AccessibleTo.KNOWN);
         assertThat(count, equalTo(1));
     }
@@ -166,38 +232,6 @@ public class FedoraCountFilesTest {
         assertThat(fileStoreAccess.hasVisibleFiles(datasetStoreId, true, true, true), equalTo(true));
         assertThat(fileStoreAccess.hasVisibleFiles(datasetStoreId, false, false, false), equalTo(true));
     }
-
-    // @formatter:off
-    
-// TODO eliminate the calls below
-// TODO task (see also issue EASY-774) clean up <foxml:xmlContent><icmd:item-container-md
-
-//    $ egrep -r \\.get[a-zA-Z]+Count  ~/git/service/easy/easy-app/front-end/easy-webui/src/test/java
-//    $ egrep -r \\.has[a-zA-Z]+Items  ~/git/service/easy/easy-app/front-end/easy-webui/src/test/java
-
-//        lib/easy-business/.../business/item/ItemWorker.java:                        updateLine += "totalFileCount=" + itemContainer.getTotalFileCount() + "; ";
-//        lib/easy-business/.../business/item/ItemWorker.java:                                updateLine += v.toString() + "=" + itemContainer.getVisibleToFileCount(v) + " ";
-//        lib/easy-business/.../business/item/ItemWorker.java:                                updateLine += v.toString() + "=" + itemContainer.getAccessibleToFileCount(v) + " ";
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getChildFileCount();
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getChildFolderCount();
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getTotalFileCount();
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getTotalFolderCount();
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
-//        lib/easy-business/.../domain/dataset/DatasetImpl.java:        return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getChildFileCount();
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getChildFolderCount();
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getTotalFileCount();
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getTotalFolderCount();
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
-//        lib/easy-business/.../domain/dataset/FolderItemImpl.java:        return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
-//        lib/easy-business/.../domain/dataset/ItemContainerMetadataImpl.java:                totalFileCount += (folderItem.getTotalFileCount() * count);
-//        lib/easy-business/.../domain/dataset/ItemContainerMetadataImpl.java:                totalFolderCount += (folderItem.getTotalFolderCount() * count);
-//        lib/easy-business/.../domain/dataset/ItemContainerMetadataImpl.java:                    creatorRoleArray[i] = Math.max(0, creatorRoleArray[i] + (folderItem.getCreatorRoleFileCount(CreatorRole.values()[i]) * count));
-//        lib/easy-business/.../domain/dataset/ItemContainerMetadataImpl.java:                    visibleToArray[i] = Math.max(0, visibleToArray[i] + (folderItem.getVisibleToFileCount(VisibleTo.values()[i]) * count));
-//        lib/easy-business/.../domain/dataset/ItemContainerMetadataImpl.java:                    accessibleToArray[i] = Math.max(0, accessibleToArray[i] + (folderItem.getAccessibleToFileCount(AccessibleTo.values()[i]) * count));
-    // @formatter:on
 
     @Test
     public void itemService_hasChildItems() throws Exception {

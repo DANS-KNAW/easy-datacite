@@ -1,13 +1,10 @@
 package nl.knaw.dans.easy.domain.dataset.item.filter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -40,7 +37,7 @@ public class ItemFilters {
 
     public static final ItemFilters FILTERS_FOR_DEPOSITOR = null;
 
-    private CreatorRoleFieldFilter creatorRoleFilter = null;
+    private AbstractItemFieldFilter<CreatorRole> creatorRoleFilter = null;
     private VisibleToFieldFilter visibleToFilter = null;
     private AccessibleToFieldFilter accessibleToFilter = null;
 
@@ -105,14 +102,14 @@ public class ItemFilters {
         this.accessibleToFilter = accessibleToFilter;
     }
 
-    public void setCreatorRoleFilter(CreatorRoleFieldFilter creatorRoleFilter) {
+    public void setCreatorRoleFilter(AbstractItemFieldFilter<CreatorRole> creatorRoleFilter) {
         this.creatorRoleFilter = creatorRoleFilter;
     }
 
     /**
      * @return the creator role field filter or null if the filter was not set
      */
-    public CreatorRoleFieldFilter getCreatorRoleFilter() {
+    public AbstractItemFieldFilter<CreatorRole> getCreatorRoleFilter() {
         return creatorRoleFilter;
     }
 
@@ -121,16 +118,6 @@ public class ItemFilters {
      */
     public List<ItemFilter> getFilters() {
         return Arrays.asList(new ItemFilter[] {creatorRoleFilter, visibleToFilter, accessibleToFilter});
-    }
-
-    public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException {
-        List<ItemFilter> filters = getFilters();
-        List<? extends ItemVO> result = new ArrayList<ItemVO>(itemList);
-        for (final ItemFilter filter : filters) {
-            if (filter != null)
-                result = filter.apply(result);
-        }
-        return result;
     }
 
     private ItemFilters add(VisibleTo... visibleTos) {

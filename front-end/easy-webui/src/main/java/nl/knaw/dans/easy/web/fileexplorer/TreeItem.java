@@ -3,22 +3,32 @@ package nl.knaw.dans.easy.web.fileexplorer;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.util.StringUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Georgi Khomeriki
  */
 public class TreeItem implements Serializable, ITreeItem {
-    private static final long serialVersionUID = 1L;
 
-    // TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file
-    // (ResourceModel doesn't work from here?)
+    private static final long serialVersionUID = 1L;
+    private static final Logger logger = LoggerFactory.getLogger(TreeItem.class);
+
+    // (ResourceModel for VisibleTo/AccessibleTo/Creator doesn't work from here?)
 
     private int size;
     private String sizeAsString;
@@ -38,36 +48,22 @@ public class TreeItem implements Serializable, ITreeItem {
         this.parent = parent;
 
         if (itemVO instanceof FolderItemVO) {
-            // we're dealing with a folder
             FolderItemVO folderItem = (FolderItemVO) itemVO;
-            visibleTo = "";
-            for (FolderItemVisibleTo fivt : folderItem.getVisibleToList()) {
-                visibleTo += makeValueReadable(fivt.getVisibleTo().toString()) + ", ";
-            }
-            if (visibleTo.length() > 2)
-                visibleTo = visibleTo.substring(0, visibleTo.length() - 2); // remove last comma
-            accessibleTo = "";
-            for (FolderItemAccessibleTo fiat : folderItem.getAccessibleToList()) {
-                accessibleTo += makeValueReadable(fiat.getAccessibleTo().toString()) + ", ";
-            }
-            if (accessibleTo.length() > 2)
-                accessibleTo = accessibleTo.substring(0, accessibleTo.length() - 2); // remove last comma
-            creator = "";
-            for (FolderItemCreatorRole role : folderItem.getCreatorRoles()) {
-                creator += makeValueReadable(role.getCreatorRole().toString()) + ", ";
-            }
-            if (creator.length() > 2)
-                creator = creator.substring(0, creator.length() - 2); // remove last comma
+            DmoStoreId folderStoreId = new DmoStoreId(folderItem.getSid());
+
+            visibleTo = getReadableValuesFor(folderStoreId, VisibleTo.class);
+            accessibleTo = getReadableValuesFor(folderStoreId, AccessibleTo.class);
+            creator = getReadableValuesFor(folderStoreId, CreatorRole.class);
+
             size = 0;
             sizeAsString = "";
             type = Type.FOLDER;
             mimeType = "folder";
         } else {
-            // we're dealing with a file
             FileItemVO fileItem = (FileItemVO) itemVO;
-            visibleTo = makeValueReadable(fileItem.getVisibleTo().toString());
-            accessibleTo = makeValueReadable(fileItem.getAccessibleTo().toString());
-            creator = makeValueReadable(fileItem.getCreatorRole().toString());
+            visibleTo = makeValueReadable(fileItem.getVisibleTo());
+            accessibleTo = makeValueReadable(fileItem.getAccessibleTo());
+            creator = makeValueReadable(fileItem.getCreatorRole());
             size = fileItem.getSize();
             sizeAsString = "" + fileItem.getSize();
             type = Type.FILE;
@@ -95,15 +91,29 @@ public class TreeItem implements Serializable, ITreeItem {
         }
     }
 
-    // converts values of Creator, VisibleTo and AccessibleTo to readable values
-    public static String makeValueReadable(String value) {
-        String result = "";
-        String[] parts = value.split("_");
-        for (String part : parts) {
-            String convertedPart = part.charAt(0) + part.substring(1).toLowerCase();
-            result += convertedPart + " ";
+    private static String getReadableValuesFor(DmoStoreId container, Class<? extends FileItemVOAttribute> attribute) {
+        FileStoreAccess fileStoreAccess = Data.getFileStoreAccess();
+        StringBuffer result = new StringBuffer();
+        try {
+            for (FileItemVOAttribute value : fileStoreAccess.getValuesFor(container, attribute))
+                result.append(makeValueReadable(value));
         }
-        return result.length() > 1 ? result.substring(0, result.length() - 1) : result;
+        catch (IllegalArgumentException e) {
+            logError(container, attribute, e);
+        }
+        catch (StoreAccessException e) {
+            logError(container, attribute, e);
+        }
+        // remove last comma
+        return result.toString().replaceAll(", $", "");
+    }
+
+    private static String makeValueReadable(FileItemVOAttribute value) {
+        return StringUtil.firstCharToUpper(value.toString().replaceAll("_", " ").toLowerCase());
+    }
+
+    private static void logError(DmoStoreId dmoStoreId, Class<? extends FileItemVOAttribute> attribute, Exception e) {
+        logger.error("could not fetch {} values for {} {}", dmoStoreId, attribute.getName(), e);
     }
 
     public String getId() {
@@ -192,5 +202,4 @@ public class TreeItem implements Serializable, ITreeItem {
     public int compareTo(ITreeItem o) {
         return this.getName().compareTo(o.getName());
     }
-
 }

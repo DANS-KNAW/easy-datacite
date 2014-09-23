@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.data.store;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
@@ -170,7 +171,7 @@ public interface FileStoreAccess {
     boolean hasDirectMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
 
     /**
-     * check if any files of a data set are visible to a user with specified permissions.
+     * Check if any files of a data set are visible to a user with specified permissions.
      * 
      * @param storeId
      * @param userIsKnown
@@ -180,4 +181,18 @@ public interface FileStoreAccess {
      * @throws StoreAccessException
      */
     boolean hasVisibleFiles(DmoStoreId storeId, boolean userIsKnown, boolean userHasGroupAccess, boolean userHasPermissionAccess) throws StoreAccessException;
+
+    /**
+     * Get the values for a file property in a dataset or folder.
+     * 
+     * @param folder
+     *        id of the folder
+     * @param attribute
+     *        the desired {@link FileItemVOAttribute}
+     * @return the values found on the files in the folder and its sub-folders.
+     * @throws IllegalArgumentException
+     *         if the name space of the id is not a folder
+     * @throws StoreAccessException
+     */
+    public <T extends FileItemVOAttribute> Set<T> getValuesFor(DmoStoreId folder, Class<T> attribute) throws IllegalArgumentException, StoreAccessException;
 }

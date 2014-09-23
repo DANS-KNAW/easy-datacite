@@ -13,13 +13,16 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
@@ -93,35 +96,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
                         root.addChild(new TreeItem(item, root));
                     }
                 } else if (item instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE)) {
-                    FolderItemVO folder = (FolderItemVO) item;
-                    boolean vision = false;
-                    boolean access = false;
-                    boolean creator = false;
-                    if (folder.getVisibleToList() != null) {
-                        for (FolderItemVisibleTo v : folder.getVisibleToList()) {
-                            if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject()) {
-                                vision = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (folder.getAccessibleToList() != null) {
-                        for (FolderItemAccessibleTo a : folder.getAccessibleToList()) {
-                            if (a.getAccessibleTo() != null && filters.get(a.getAccessibleTo()) != null && filters.get(a.getAccessibleTo()).getModelObject()) {
-                                access = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (folder.getCreatorRoles() != null) {
-                        for (FolderItemCreatorRole c : folder.getCreatorRoles()) {
-                            if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject()) {
-                                creator = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (vision && access && creator) {
+                    if (mustAdd((FolderItemVO) item)) {
                         root.addChild(new TreeItem(item, root));
                     }
                 }
@@ -130,8 +105,32 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
             roots.add(root);
         }
         catch (ServiceException e) {
-            logger.error("Error while trying to load TreeItemProvider.", e);
+            logLoadError(e);
         }
+        catch (IllegalArgumentException e) {
+            logLoadError(e);
+        }
+        catch (StoreAccessException e) {
+            logLoadError(e);
+        }
+    }
+
+    private boolean mustAdd(FolderItemVO folder) throws StoreAccessException {
+
+        DmoStoreId id = new DmoStoreId(folder.getSid());
+        return anyFilterIsTrue(id, VisibleTo.class) && anyFilterIsTrue(id, AccessibleTo.class) && anyFilterIsTrue(id, CreatorRole.class);
+    }
+
+    private <T extends FileItemVOAttribute> boolean anyFilterIsTrue(DmoStoreId folderStoreId, Class<T> attribute) throws StoreAccessException {
+        boolean result = false;
+        for (T value : Data.getFileStoreAccess().getValuesFor(folderStoreId, attribute)) {
+            result = result || (filters.get(value) != null && filters.get(value).getModelObject());
+        }
+        return result;
+    }
+
+    private void logLoadError(Exception e) {
+        logger.error("Error while trying to load TreeItemProvider.", e);
     }
 
     public TreeItemProvider(boolean intermediate) {
@@ -180,37 +179,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
                             item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
                     } else if (child instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE)) {
-                        FolderItemVO folder = (FolderItemVO) child;
-                        boolean vision = false;
-                        boolean access = false;
-                        boolean creator = false;
-                        if (folder.getVisibleToList() != null) {
-                            for (FolderItemVisibleTo v : folder.getVisibleToList()) {
-                                if (v.getVisibleTo() != null && filters.get(v.getVisibleTo()) != null && filters.get(v.getVisibleTo()).getModelObject()) {
-                                    vision = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (folder.getAccessibleToList() != null) {
-                            for (FolderItemAccessibleTo a : folder.getAccessibleToList()) {
-                                if (a.getAccessibleTo() != null && filters.get(a.getAccessibleTo()) != null
-                                        && filters.get(a.getAccessibleTo()).getModelObject())
-                                {
-                                    access = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (folder.getCreatorRoles() != null) {
-                            for (FolderItemCreatorRole c : folder.getCreatorRoles()) {
-                                if (c.getCreatorRole() != null && filters.get(c.getCreatorRole()) != null && filters.get(c.getCreatorRole()).getModelObject()) {
-                                    creator = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (vision && access && creator) {
+                        if (mustAdd((FolderItemVO) child)) {
                             item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
                     }
@@ -218,6 +187,9 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
             }
         }
         catch (ServiceException e) {
+            logger.error("Error while fetching children.", e);
+        }
+        catch (StoreAccessException e) {
             logger.error("Error while fetching children.", e);
         }
 

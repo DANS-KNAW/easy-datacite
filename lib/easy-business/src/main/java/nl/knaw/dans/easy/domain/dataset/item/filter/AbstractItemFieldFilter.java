@@ -1,11 +1,14 @@
 package nl.knaw.dans.easy.domain.dataset.item.filter;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 
-public abstract class AbstractItemFieldFilter<FIELD> implements ItemFieldFilter<FIELD> {
+public abstract class AbstractItemFieldFilter<FIELD extends FileItemVOAttribute> implements ItemFieldFilter<FIELD> {
     protected Set<FIELD> desiredValues = new HashSet<FIELD>();
 
     public AbstractItemFieldFilter() {}
@@ -18,14 +21,7 @@ public abstract class AbstractItemFieldFilter<FIELD> implements ItemFieldFilter<
         return this.desiredValues;
     }
 
-    public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException {
-        List<ItemVO> result = new ArrayList<ItemVO>();
-        for (ItemVO item : itemList) {
-            if (!filterOut(item))
-                result.add(item);
-        }
-        return result;
-    }
+    abstract FIELD getFieldValue(final FileItemVO item);
 
     @Override
     public String toString() {

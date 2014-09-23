@@ -6,7 +6,6 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilter;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -16,7 +15,7 @@ import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.HasRoleCheck;
 import nl.knaw.dans.easy.security.IsDepositorOfDatasetCheck;
 
-public class DownloadFilter implements ItemFilter {
+public class DownloadFilter {
 
     private static final AbstractCheck isDepositorCheck = new IsDepositorOfDatasetCheck();
     private static final AbstractCheck isArchivistCheck = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);

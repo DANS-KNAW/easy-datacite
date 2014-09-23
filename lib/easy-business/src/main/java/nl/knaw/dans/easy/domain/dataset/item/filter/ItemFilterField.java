@@ -10,10 +10,9 @@ public enum ItemFilterField {
 
     CREATORROLE(new Class[] {FileItemVO.class}, CreatorRoleFieldFilter.class, "creatorRole", "creatorRoles");
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Class[] voTypes;
 
-    @SuppressWarnings("unchecked")
     public Class<? extends ItemFilter> fieldFilter;
 
     /**
@@ -26,12 +25,12 @@ public enum ItemFilterField {
      */
     public String folderSetPropertyName;
 
-    @SuppressWarnings("unchecked")
-    ItemFilterField(Class[] voTypes, Class<? extends ItemFieldFilter> fieldFilter, String propertyName, String folderSetPropertyName) {
+    ItemFilterField(@SuppressWarnings("rawtypes") Class[] voTypes, @SuppressWarnings("rawtypes") Class<? extends ItemFieldFilter> fieldFilter,
+            String propertyName, String folderSetPropertyName)
+    {
         this.voTypes = voTypes;
         this.fieldFilter = fieldFilter;
         this.filePropertyName = propertyName;
         this.folderSetPropertyName = folderSetPropertyName;
     }
-
 }
