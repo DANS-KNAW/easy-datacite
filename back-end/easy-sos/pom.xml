@@ -10,7 +10,7 @@
     <artifactId>easy-sos</artifactId>
     <packaging>war</packaging>
     <name>EASY Simple Object Storage</name>
-    <version>2.9-beta-3</version>
+    <version>${easy.version}</version>
     <dependencies>
         <dependency>
             <groupId>com.sun.jersey</groupId>

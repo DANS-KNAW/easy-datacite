@@ -15,13 +15,10 @@ public class HelpPopup extends Panel {
     public HelpPopup(String id, final String anchorName, final String content) {
         super(id);
 
-        add(new ExternalLink("helpPopup", "#")
-            .add(new SimpleAttributeModifier("data-toggle", "modal"))
-            .add(new SimpleAttributeModifier("data-target", "#" + anchorName + "Modal"))
-        );
+        add(new ExternalLink("helpPopup", "#").add(new SimpleAttributeModifier("data-toggle", "modal")).add(
+                new SimpleAttributeModifier("data-target", "#" + anchorName + "Modal")));
         WebMarkupContainer popupModal = new WebMarkupContainer("popupModal");
-        popupModal.add(new SimpleAttributeModifier("id", anchorName + "Modal"))
-                  .add(new SimpleAttributeModifier("aria-labelledby", anchorName + "ModalLabel"));
+        popupModal.add(new SimpleAttributeModifier("id", anchorName + "Modal")).add(new SimpleAttributeModifier("aria-labelledby", anchorName + "ModalLabel"));
         popupModal.add(new Label("popupHTML", String.format("%s", content)).setEscapeModelStrings(false));
         add(popupModal);
     }
