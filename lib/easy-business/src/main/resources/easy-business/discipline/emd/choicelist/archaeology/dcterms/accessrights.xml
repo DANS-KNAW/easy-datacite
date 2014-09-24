@@ -3,13 +3,13 @@
 <properties>
     <!--  
 	<comment>oldEasy.ArchDC.dcTerms_accessRights</comment>
-    <entry key="ar_everyone">Open access - Unrestricted access for all registered EASY users</entry>
+    <entry key="ar_everyone">Open access for registered users - Unrestricted access for all registered EASY users</entry>
     <entry key="ar_archeologists">Restricted: archaeology group - Access restricted to registered 'archaeology' group members</entry>
     <entry key="ar_restricted">Restricted: request permission - Registered EASY users, but only after depositor permission is granted</entry>
     <entry key="ar_noAccess">Other access - The data are not available via Easy (they are either accessible in another way or elsewhere)</entry>
     -->
     <comment>AccessCategories 1 - 4</comment>
-    <entry key="OPEN_ACCESS_FOR_REGISTERED_USERS">Open access - Unrestricted access for all registered EASY users</entry>
+    <entry key="OPEN_ACCESS_FOR_REGISTERED_USERS">Open access for registered users - Unrestricted access for all registered EASY users</entry>
     <entry key="GROUP_ACCESS">Restricted: archaeology group - Access restricted to registered 'archaeology' group members</entry>
     <entry key="REQUEST_PERMISSION">Restricted: request permission - Registered EASY users, but only after depositor permission is granted</entry>
     <entry key="NO_ACCESS">Other access - The data are not available via Easy (they are either accessible in another way or elsewhere)</entry>
