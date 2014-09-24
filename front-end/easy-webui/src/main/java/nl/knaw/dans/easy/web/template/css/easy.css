@@ -820,24 +820,6 @@ pbutton_disabled:visited, span.pbutton, span.pbutton:hover {
 	text-shadow: none!important; /* niet nodig bij een disabled button */
 }
 
-.button_blue, .button_blue:visited {
-	background-image: url(button_shine_blue.jpg);
-	border: 1px solid #003663;
-	color: #FFFFFF;
-	font-weight: bold;
-	line-height: 1.5em;
-	margin: 0;
-	padding: 1px 6px;
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.button_blue:hover {
-	/* color: #9E0B0E; */
-	color:#00AAD3;
-}
-
-
 /*---------------------------------------------------*/
 /*------------- Other media ------------------------ */
 /*---------------------------------------------------*/
