@@ -176,7 +176,7 @@ public class DatasetWorker extends AbstractWorker {
             }
 
             // driver set
-            if (AccessCategory.isOpenAccess(dataset.getAccessCategory()) && !dataset.isUnderEmbargo()) {
+            if (AccessCategory.isOpen(dataset.getAccessCategory()) && !dataset.isUnderEmbargo()) {
                 relations.addOAISetMembership(Constants.OAI_DRIVER_SET_DMO_ID);
             }
 
