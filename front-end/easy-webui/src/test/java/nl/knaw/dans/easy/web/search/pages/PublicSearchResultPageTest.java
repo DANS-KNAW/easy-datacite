@@ -44,7 +44,7 @@ public class PublicSearchResultPageTest {
     @Before
     public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectNoDatasets();
     }

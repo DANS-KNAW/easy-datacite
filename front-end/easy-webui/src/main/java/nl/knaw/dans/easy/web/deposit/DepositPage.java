@@ -4,6 +4,8 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
@@ -28,6 +30,12 @@ public class DepositPage extends AbstractEasyNavPage {
 
     private DepositPanel depositPanel;
 
+    // causes test trouble @SpringBean(name = "datasetService")
+    private DatasetService datasetService = Services.getDatasetService();
+
+    // causes test trouble @SpringBean(name = "depositService")
+    private DepositService depositService = Services.getDepositService();
+
     /**
      * Constructor used by DepositIntroPage. Creates new a Dataset (and new EasyMetadata).
      * 
@@ -38,7 +46,7 @@ public class DepositPage extends AbstractEasyNavPage {
     public DepositPage(final DepositDiscipline discipline, final String formDefinitionId) {
         Dataset dataset;
         try {
-            dataset = Services.getDatasetService().newDataset(discipline.getMetadataFormat());
+            dataset = datasetService.newDataset(discipline.getMetadataFormat());
             super.setDefaultModel(new DatasetModel(dataset));
         }
         catch (ServiceException e) {
@@ -97,7 +105,7 @@ public class DepositPage extends AbstractEasyNavPage {
         MetadataFormat emdFormat = easyMetadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         DepositDiscipline discipline;
         try {
-            discipline = Services.getDepositService().getDiscipline(emdFormat);
+            discipline = depositService.getDiscipline(emdFormat);
         }
         catch (ServiceException e) {
             final String message = errorMessage(EasyResources.DISCIPLINE_RETRIEVAL, getDataset().getStoreId());

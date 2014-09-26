@@ -49,7 +49,7 @@ public class UserInfoFixture {
         expect(mockdFederativeUserRepo.findByDansUserId(shownUserId)).andStubReturn(federationUsers);
 
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.setDepositService(mockDespositChoices());
         applicationContext.setUserService(userService);

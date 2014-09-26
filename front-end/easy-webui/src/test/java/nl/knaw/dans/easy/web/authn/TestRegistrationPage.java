@@ -31,9 +31,9 @@ public class TestRegistrationPage {
     public void setUp() throws Exception {
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.expectDefaultResources();
-        ctx.expectStandardSecurity(false);
+        ctx.expectStandardSecurity();
         ctx.expectAuthenticatedAsVisitor();
-        ctx.expectDisciplines(new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE"),//
+        ctx.expectDisciplineChoices(new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE"),//
                 new KeyValuePair("easy-disciplines:2", "DISCIPLINE 2 DISPLAY VALUE"),//
                 new KeyValuePair("easy-disciplines:3", "DISCIPLINE 3 DISPLAY VALUE"),//
                 new KeyValuePair("easy-disciplines:4", "DISCIPLINE 4 DISPLAY VALUE"));

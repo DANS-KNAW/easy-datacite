@@ -55,7 +55,7 @@ public class ActivityLogFixture {
         userService = PowerMock.createMock(UserService.class);
 
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
 
         applicationContext.setUserService(userService);

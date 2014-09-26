@@ -7,11 +7,15 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.isNull;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -23,7 +27,11 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
+import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
+import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.form.FormDescriptor;
+import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -39,6 +47,7 @@ import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.fileexplorer.Util;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.easymock.EasyMock;
@@ -74,18 +83,30 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     }
 
     /**
-     * Assigns default beans for authz, security and a mocked bean for systemReadOnlyStatus.
+     * Assigns default beans for authz and security, a mocked bean for systemReadOnlyStatus implies the system is not expected to go down any time soon.
      * 
-     * @param readOnly
-     *        true means the system is preparing for a controlled shutdown, repository updates are not allowed in this state.
      * @throws IllegalStateException
      *         if a real {@link SystemReadOnlyStatus} instance was assigned as bean
      */
-    public void expectStandardSecurity(final boolean readOnly) {
+    public void expectStandardSecurity() {
+        expectSecurity(false);
+    }
+
+    /**
+     * Assigns default beans for authz and security, a mocked bean for systemReadOnlyStatus implies readOnly mode in preparation for a shutdown.
+     * 
+     * @throws IllegalStateException
+     *         if a real {@link SystemReadOnlyStatus} instance was assigned as bean
+     */
+    public void expectReadOnlySecurity() {
+        expectSecurity(true);
+    }
+
+    private void expectSecurity(boolean value) {
         setAuthz(new CodedAuthz());
         setSecurity(new Security(getAuthz()));
         setMockedsetSystemReadOnlyStatus();
-        EasyMock.expect(getSystemReadOnlyStatus().getReadOnly()).andStubReturn(readOnly);
+        EasyMock.expect(getSystemReadOnlyStatus().getReadOnly()).andStubReturn(value);
         getAuthz().setSystemReadOnlyStatus(getSystemReadOnlyStatus());
     }
 
@@ -201,7 +222,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * @throws IllegalStateException
      *         if a real {@link DepositService} instance was assigned as bean
      */
-    public void expectDisciplines(final KeyValuePair... keyValuePairs) throws ServiceException {
+    public void expectDisciplineChoices(final KeyValuePair... keyValuePairs) throws ServiceException {
         final List<KeyValuePair> choices = new ArrayList<KeyValuePair>();
         for (final KeyValuePair kvp : keyValuePairs)
             choices.add(kvp);
@@ -210,6 +231,36 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         setMockedDepositService();
         expect(getDepositService().getChoices(isA(String.class), isNull(Locale.class))).andReturn(choiceList).anyTimes();
         expect(getDepositService().getChoices(isA(String.class), isA(Locale.class))).andReturn(choiceList).anyTimes();
+    }
+
+    /**
+     * Loads the deposit disciplines for a mocked service. If no {@link DepositService} bean is set, a mocked one is created with PowerMock. Otherwise eventual
+     * previous expectations remain effective.
+     * 
+     * @throws ServiceException
+     *         declaration required to mock depositService.getChoices
+     * @throws IllegalStateException
+     *         if a real {@link DepositService} instance was assigned as bean
+     */
+    public void expectDepositDisciplines() throws Exception, ServiceException {
+        setMockedDepositService();
+        final Map<MetadataFormat, DepositDiscipline> disciplineMap = new HashMap<MetadataFormat, DepositDiscipline>();
+        final List<DepositDiscipline> list = new ArrayList<DepositDiscipline>();
+        for (final MetadataFormat mdFormat : MetadataFormat.values()) {
+            disciplineMap.put(mdFormat, loadDiscipline(mdFormat));
+            list.add(disciplineMap.get(mdFormat));
+        }
+        expect(getDepositService().getDisciplines()).andStubReturn(list);
+    }
+
+    private DisciplineImpl loadDiscipline(final MetadataFormat mdFormat) throws Exception {
+
+        final String location = FormDescriptorLoader.FORM_DESCRIPTIONS + mdFormat.name().toLowerCase() + ".xml";
+        final FileInputStream stream = new FileInputStream("../../lib/easy-business/src/main/java/nl/knaw/dans/easy/domain/form/" + location);
+        final FormDescriptor formDescriptor = (FormDescriptor) JiBXObjectFactory.unmarshal(FormDescriptor.class, stream);
+        final DisciplineImpl discipline = new DisciplineImpl(formDescriptor);
+        expect(getDepositService().getDiscipline(mdFormat)).andStubReturn(discipline);;
+        return discipline;
     }
 
     /**

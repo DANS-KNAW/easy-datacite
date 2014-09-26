@@ -14,13 +14,11 @@ import java.util.Iterator;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.search.SearchRequest;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.common.wicket.model.TextFileModel;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
-import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EditableInfoPage;
@@ -66,7 +64,7 @@ public class EditableContentPageTest {
         sessionUser.setState(User.State.ACTIVE);
 
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
 
         // expect custom resources, might be required to test other pages with edit-links
         applicationContext.setEditableContentHome(mockEditableFiles());
@@ -74,11 +72,6 @@ public class EditableContentPageTest {
 
         applicationContext.expectNoDatasets();
         applicationContext.expectAuthenticatedAs(sessionUser);
-    }
-
-    private void mockDisciplines() throws ServiceException {
-        applicationContext.setMockedDepositService();
-        EasyMock.expect(applicationContext.getDepositService().getDisciplines()).andStubReturn(new ArrayList<DepositDiscipline>());
     }
 
     private FileSystemHomeDirectory mockEditableFiles() throws IOException {
@@ -126,7 +119,7 @@ public class EditableContentPageTest {
 
     @Test
     public void depositIntroPage() throws Exception {
-        mockDisciplines();
+        applicationContext.expectDepositDisciplines();
         startPage(DepositIntroPage.class);
         tester.dumpPage();
         doClicks("editablePanel");
@@ -136,7 +129,7 @@ public class EditableContentPageTest {
 
     @Test
     public void editableInfoPage() throws Exception {
-        mockDisciplines();
+        applicationContext.expectDepositDisciplines();
         startPage(EditableInfoPageWrapper.class);
         tester.dumpPage();
         doClicks("editablePanel");
@@ -151,7 +144,7 @@ public class EditableContentPageTest {
         // unusual use case but it is a bookmarkable page
         // so a logged-in archivist can reach this page
         // with easy.dans.knaw.nl/ui/register
-        applicationContext.expectDisciplines();
+        applicationContext.expectDisciplineChoices();
         startPage(RegistrationPage.class);
         tester.dumpPage();
         doClicks("registrationForm:editablePanel");
