@@ -44,20 +44,20 @@ public enum AccessCategory {
     public static final int MASK_INACCESSIBLE = UTIL.getBitMask(ACCESS_ELSEWHERE, NO_ACCESS);
 
     /**
-     * Bit mask for ANONYMOUS_ACCESS, FREELY_AVAILABLE.
+     * Bit mask for ANONYMOUS_ACCESS, FREELY_AVAILABLE, OPEN_ACCESS.
      */
-    public static final int MASK_ANONYMOUS = UTIL.getBitMask(ANONYMOUS_ACCESS, FREELY_AVAILABLE);
+    public static final int MASK_ANONYMOUS = UTIL.getBitMask(ANONYMOUS_ACCESS, FREELY_AVAILABLE, OPEN_ACCESS);
 
     /**
-     * Bit mask for ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE.
+     * Bit mask for ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE, OPEN_ACCESS.
      */
-    public static final int MASK_KNOWN = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE);
+    public static final int MASK_KNOWN = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE, OPEN_ACCESS);
 
     /**
      * Bit mask for all categories.
      */
     public static final int MASK_ALL = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, GROUP_ACCESS, REQUEST_PERMISSION, NO_ACCESS,
-            FREELY_AVAILABLE);
+            FREELY_AVAILABLE, OPEN_ACCESS);
 
     /**
      * Bit mask for OPEN_ACCESS_FOR_REGISTERED_USERS.
@@ -80,18 +80,18 @@ public enum AccessCategory {
     }
 
     /**
-     * Open access specified as Open Access for registered users, Freely available resources. In fact:
+     * Open specified as Open Access for registered users, Freely available resources or Open Access (for all users). In fact:
      * 
      * <pre>
-     * ANONYMOUS_ACCESS || OPEN_ACCESS_FOR_REGISTERED_USERS || FREELY_AVAILABLE
+     * ANONYMOUS_ACCESS || OPEN_ACCESS_FOR_REGISTERED_USERS || FREELY_AVAILABLE || OPEN_ACCESS
      * </pre>
      * 
      * @param category
      *        AccessCategory to test
-     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS_FOR_REGISTERED_USERS or FREELY_AVAILABLE, <code>false</code>
-     *         otherwise
+     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE or OPEN_ACCESS,
+     *         <code>false</code> otherwise
      */
-    public static boolean isOpenAccess(AccessCategory category) {
+    public static boolean isOpen(AccessCategory category) {
         int mask = 1 << category.ordinal();
         return ((MASK_KNOWN & mask) == mask);
     }

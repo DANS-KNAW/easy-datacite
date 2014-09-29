@@ -373,7 +373,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
     public AuthzMessage getSingleReadMessage() {
         if (canAllBeRead()) {
             return new AuthzMessage(SM_YES);
-        } else if (easyUser.isAnonymous() && hasOpenAccess()) {
+        } else if (easyUser.isAnonymous() && hasOpenAccessForRegisterdUsers()) {
             return new AuthzMessage(SM_LOGIN);
         } else if (hasGroupAccess()) {
             return new AuthzMessage(SM_JOIN_GROUP);
@@ -387,7 +387,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
         return new AuthzMessage(SM_UNKNOWN);
     }
 
-    private boolean hasOpenAccess() {
+    private boolean hasOpenAccessForRegisterdUsers() {
         return (AccessCategory.SINGLE_OPEN_ACCESS_FOR_REGISTERED_USERS & getResourceReadProfile()) > 0;
     }
 

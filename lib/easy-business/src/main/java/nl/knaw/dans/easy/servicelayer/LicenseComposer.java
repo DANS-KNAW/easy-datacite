@@ -140,7 +140,7 @@ public class LicenseComposer {
         snippets.put(SnippetKey.embargo, getSnippetContent("Embargo.html"));
         snippets.put(SnippetKey.tail, getSnippetContent("Tail.html"));
         snippets.put(AccessCategory.ANONYMOUS_ACCESS, other);
-        snippets.put(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, getSnippetContent("OpenAccess.html"));
+        snippets.put(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, getSnippetContent("OpenAccessForRegisteredUsers.html"));
         snippets.put(AccessCategory.GROUP_ACCESS, getSnippetContent("RestrictGroup.html"));
         snippets.put(AccessCategory.REQUEST_PERMISSION, getSnippetContent("RestrictRequest.html"));
         snippets.put(AccessCategory.ACCESS_ELSEWHERE, other);
@@ -282,8 +282,8 @@ public class LicenseComposer {
 
         if (categoryString.equals("ANONYMOUS_ACCESS")) {
             accesRights = "Anonymous";
-        } else if (categoryString.equals("OPEN_ACCESS")) {
-            accesRights = "Open";
+        } else if (categoryString.equals("OPEN_ACCESS_FOR_REGISTERD_USERS")) {
+            accesRights = "Open access for registered users";
         } else if (categoryString.equals("GROUP_ACCESS")) {
             accesRights = "Restricted -'archaeology' group";
         } else if (categoryString.equals("REQUEST_PERMISSION")) {
