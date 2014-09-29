@@ -522,30 +522,35 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     @SuppressWarnings("serial")
     private SimpleTab getVideoTab() {
         return new SimpleTab(new ResourceModel(RI_TAB_VIDEO)) {
-            private List<FileItemVO> videoFiles;
-            {
-                try {
-                    videoFiles = itemService.getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
+            private List<FileItemVO> avFileItems;
+
+            private boolean hasAccessibleAvFileItems() {
+                if (avFileItems == null) {
+                    try {
+                        avFileItems = itemService.getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
+                        return avFileItems.size() > 0;
+                    }
+                    catch (ServiceException e) {
+                        logger.error("Exception when trying to get accessible audio and video files", e);
+                    }
                 }
-                catch (ServiceException e) {
-                    logger.error("Exception when trying to get accessible audio and video files", e);
-                }
+                return false;
             }
 
             @Override
             public Panel getPanel(final String panelId) {
-                return new VideoPanel(panelId, datasetModel, videoFiles, new PageParameters());
+                return new VideoPanel(panelId, datasetModel, avFileItems, new PageParameters());
             }
 
             @Override
             public boolean isVisible() {
-                return (datasetHasFormat("video") || datasetHasFormat("audio")) && videoFiles.size() > 0;
+                return (datasetHasFormat("video") || datasetHasFormat("audio")) && hasAccessibleAvFileItems();
             }
 
             private boolean datasetHasFormat(String f) {
                 EmdFormat emdFormat = getDataset().getEasyMetadata().getEmdFormat();
                 for (BasicString dcFormat : emdFormat.getDcFormat()) {
-                    if (dcFormat.toString().contains(f)) {
+                    if (dcFormat.toString().startsWith(f)) {
                         return true;
                     }
                 }
