@@ -77,18 +77,6 @@ public class FedoraCountFilesTest {
     }
 
     @Test
-    public void folderItemVO_isAccessibleFor() throws Exception {
-        int profile = 0;
-        boolean accessibleFor = new FolderItemVO().isAccessibleFor(profile);
-    }
-
-    @Test
-    public void fileItemVO_isAccessibleFor() throws Exception {
-        int profile = 0;
-        boolean accessibleFor = new FolderItemVO().isAccessibleFor(profile);
-    }
-
-    @Test
     public void folderItemVO_getChildAccessibility() throws Exception {
         List<AccessCategory> list = new FolderItemVO().getChildAccessibility();
     }

@@ -50,7 +50,6 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
-import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.EmdTitle;
@@ -229,6 +228,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * 15 = dataset is published and user is known and was granted permission and is member of one or more dataset-specific groups
      */
     //@formatter:on
+    /** Use getAccessibleToSetFor */
+    @Deprecated
     public int getAccessProfileFor(EasyUser user) {
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
         if (DatasetState.PUBLISHED.equals(getAdministrativeState())) {
@@ -245,6 +246,22 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         }
 
         return AccessCategory.UTIL.getBitMask(categories);
+    }
+
+    @Override
+    public Set<AccessibleTo> getAccessibleToSetFor(EasyUser user) {
+        Set<AccessibleTo> categories = new HashSet<AccessibleTo>();
+        if (!DatasetState.PUBLISHED.equals(getAdministrativeState()))
+            return categories;
+        categories.add(AccessibleTo.ANONYMOUS);
+        if (user == null || !user.isActive() || user.isAnonymous())
+            return categories;
+        categories.add(AccessibleTo.KNOWN);
+        if (user.isMemberOfGroup(getGroupIds()))
+            categories.add(AccessibleTo.RESTRICTED_GROUP);
+        if (isPermissionGrantedTo(user))
+            categories.add(AccessibleTo.RESTRICTED_REQUEST);
+        return categories;
     }
 
     public Set<String> getGroupIds() {

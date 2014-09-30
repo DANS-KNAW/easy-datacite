@@ -25,15 +25,6 @@ public interface ItemVO extends Cloneable {
 
     String getPath();
 
-    /**
-     * Is this Item accessible for a user with the given profile.
-     * 
-     * @param profile
-     *        profile of a user for bitwise comparison
-     * @return <code>true</code> if the user can access the item, <code>false</code> otherwise
-     */
-    boolean isAccessibleFor(int profile);
-
     boolean belongsTo(Dataset dataset);
 
     Object clone() throws CloneNotSupportedException;

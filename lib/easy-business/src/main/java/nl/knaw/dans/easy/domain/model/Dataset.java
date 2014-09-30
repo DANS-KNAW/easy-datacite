@@ -105,4 +105,12 @@ public interface Dataset extends DatasetItemContainer {
      * @throws DomainException
      */
     void replaceEasyMetadata(String xml) throws DomainException;
+
+    /**
+     * Gets the AccessibleTo values for files that are accessible for the specified user. In other words: A file with one of the returned values is accessible.
+     * 
+     * @param user
+     * @return
+     */
+    Set<AccessibleTo> getAccessibleToSetFor(EasyUser user);
 }

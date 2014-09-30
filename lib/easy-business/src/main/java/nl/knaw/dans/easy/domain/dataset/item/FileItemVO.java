@@ -97,14 +97,6 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         return AccessibleTo.translate(accessibleTo);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isAccessibleFor(int profile) {
-        int mask = AccessCategory.UTIL.getBitMask(getReadAccessCategory());
-        return ((mask & profile) > 0);
-    }
-
     @Override
     public String getAutzStrategyName() {
         return "nl.knaw.dans.easy.security.authz.EasyFileItemVOAuthzStrategy";

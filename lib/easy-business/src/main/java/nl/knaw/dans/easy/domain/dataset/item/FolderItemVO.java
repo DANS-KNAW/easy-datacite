@@ -105,11 +105,6 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable {
         return accesibleToOfChildren;
     }
 
-    public boolean isAccessibleFor(int profile) {
-        int mask = AccessCategory.UTIL.getBitMask(getChildAccessibility());
-        return ((mask & profile) > 0);
-    }
-
     public List<AccessCategory> getChildVisibility() {
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
         for (FolderItemVisibleTo fiat : getVisibleToList()) {
