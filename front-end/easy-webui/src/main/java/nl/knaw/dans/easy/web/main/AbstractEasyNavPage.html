@@ -83,8 +83,8 @@
 		<!-- MARKUP FOR EASY Footer BEGIN -->
 		<div id="footer" class="noPrint">
 			<div id="easyDSALink">
-				<a href="https://assessment.datasealofapproval.org/assessment_101/seal/html/" target="_blank" wicket:message="alt:page.easyDSALink.alt,title:page.easyDSALink.title">
-					<img width="75px" height="75px" src="images/DSA-logo-tiny.gif" />
+				<a wicket:id="dsaLink" href="#" target="_blank" wicket:message="alt:page.easyDSALink.alt,title:page.easyDSALink.title">
+					<img wicket:id="dsaLogo" width="75px" height="75px" src="dsa-logo.gif" />
 				</a>
 			</div>
 
@@ -93,14 +93,11 @@
 			</div>
 			
 			<div id="terms">
-			<a wicket:id="usingEASYLink" title="View how to use EASY" href="#" target="_blank">[Using EASY]</a>|
+			<a wicket:id="usingEasyLink" title="View how to use EASY" href="#" target="_blank">[Using EASY]</a>|
 			<a wicket:id="contactLink" title="View how to contact" href="#" target="_blank">[Contact]</a>|
  			<a class="external vtip" wicket:id="disclaimerLink" title="View the disclaimer" href="#" target="_blank">[Disclaimer]</a>|
-			<a wicket:id="legalInformationLink" title="View the legal information" href="#" target="_blank">[Legal Information]</a>|
-			<a wicket:id="propertyRightStatementLink" title="View the property right statement" href="#" target="_blank">[Property Right Statement]</a>|
-			<a href="https://assessment.datasealofapproval.org/assessment_47/seal/html/" target="_blank">
-			 <wicket:message key="page.easyDSALink">[DSA]</wicket:message>			
-			</a>
+			<a wicket:id="legalLink" title="View the legal information" href="#" target="_blank">[Legal Information]</a>|
+			<a wicket:id="propertyRightStatementLink" title="View the property right statement" href="#" target="_blank">[Property Right Statement]</a>
 			</div>
 			
 		</div>

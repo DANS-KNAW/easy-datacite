@@ -8,7 +8,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
-import nl.knaw.dans.easy.web.main.AbstractEasyNavPage2;
+import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.wicket.FormListener;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
 
@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class UserDetailsPage extends AbstractEasyNavPage2 implements FormListener {
+public class UserDetailsPage extends AbstractEasyNavPage implements FormListener {
 
     public static final String PM_USER_ID = "uid";
 

@@ -35,7 +35,9 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.IPageMap;
 import org.apache.wicket.PageMap;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -86,6 +88,24 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
 
     @SpringBean(name = "staticContentBaseUrl")
     private String staticContentBaseUrl;
+
+    @SpringBean(name = "usingEasyLink")
+    private String usingEasyLink;
+
+    @SpringBean(name = "contactLink")
+    private String contactLink;
+
+    @SpringBean(name = "disclaimerLink")
+    private String disclaimerLink;
+
+    @SpringBean(name = "legalLink")
+    private String legalLink;
+
+    @SpringBean(name = "propertyRightStatementLink")
+    private String propertyRightStatementLink;
+
+    @SpringBean(name = "dsaLink")
+    private String dsaLink;
 
     /**
      * Default constructor.
@@ -267,11 +287,12 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         add(new SystemReadOnlyLink());
 
         // footer
-        add(createUsingEASYLink());
-        add(createContactLink());
-        add(createDisclaimerLink());
-        add(createLegalInformationLink());
-        add(createPropertyRightStatementLink());
+        addUsingEasyLink();
+        addContactLink();
+        addDisclaimerLink();
+        addLegalLink();
+        addPropertyRightStatementLink();
+        addDsaLinks();
         add(new VersionPanel(EASY_VERSION));
     }
 
@@ -423,34 +444,29 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
             return false;
     }
 
-    private ExternalLink createUsingEASYLink() {
-        String usingEASYLinkText = getLocalizer().getString("page.dansRef", this);
-        ExternalLink disclaimerLink = new ExternalLink("usingEASYLink", staticContentBaseUrl + "/" + "UsingEASY.html", usingEASYLinkText);
-        return disclaimerLink;
+    private void addUsingEasyLink() {
+        add(new ExternalLink("usingEasyLink", usingEasyLink, getString("page.dansRef")));
     }
 
-    private ExternalLink createContactLink() {
-        String contactLinkText = getLocalizer().getString("page.dansContact", this);
-        ExternalLink disclaimerLink = new ExternalLink("contactLink", staticContentBaseUrl + "/" + "Contact.html", contactLinkText);
-        return disclaimerLink;
+    private void addContactLink() {
+        add(new ExternalLink("contactLink", contactLink, getString("page.dansContact")));
     }
 
-    private ExternalLink createLegalInformationLink() {
-        String legalInformationLinkText = getLocalizer().getString("page.legalInfoRef", this);
-        ExternalLink disclaimerLink = new ExternalLink("legalInformationLink", staticContentBaseUrl + "/" + "LegalInformation.html", legalInformationLinkText);
-        return disclaimerLink;
+    private void addDisclaimerLink() {
+        add(new ExternalLink("disclaimerLink", disclaimerLink, getString("page.disclaimerLinkText")));
     }
 
-    private ExternalLink createDisclaimerLink() {
-        String disclaimerLinkText = getLocalizer().getString("page.disclaimerLinkText", this);
-        ExternalLink disclaimerLink = new ExternalLink("disclaimerLink", staticContentBaseUrl + "/" + "DisclaimerEASY.pdf", disclaimerLinkText);
-        return disclaimerLink;
+    private void addLegalLink() {
+        add(new ExternalLink("legalLink", legalLink, getString("page.legalInfoRef")));
     }
 
-    private ExternalLink createPropertyRightStatementLink() {
-        String propertyRightStatementLinkText = getLocalizer().getString("page.propertyRightsRef", this);
-        ExternalLink disclaimerLink = new ExternalLink("propertyRightStatementLink", staticContentBaseUrl + "/" + "PropertyRightStatement.html",
-                propertyRightStatementLinkText);
-        return disclaimerLink;
+    private void addPropertyRightStatementLink() {
+        add(new ExternalLink("propertyRightStatementLink", propertyRightStatementLink, getString("page.propertyRightsRef")));
+    }
+
+    private void addDsaLinks() {
+        ExternalLink link = new ExternalLink("dsaLink", dsaLink);
+        link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "dsa-logo.gif")));
+        add(link);
     }
 }

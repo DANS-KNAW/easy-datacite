@@ -410,8 +410,39 @@
 
 	<bean id="staticContentBaseUrl" class="java.lang.String">
 		<constructor-arg type="java.lang.String"
-			value="${easy.staticcontent.baseUrl}" />
+			value="${easy.link-base.instructions}" />
 	</bean>
+    
+    <bean id="usingEasyLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.using-easy}" />
+    </bean>
+
+    <bean id="contactLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.contact}" />
+    </bean>
+
+    <bean id="disclaimerLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.disclaimer}" />
+    </bean>
+
+    <bean id="legalLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.legal}" />
+    </bean>
+
+    <bean id="propertyRightStatementLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.property-right-statement}" />
+    </bean>
+
+    <bean id="dsaLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.dsa}" />
+    </bean>
+    
 
 	<bean id="pakbonValidatorCredentials"
 		class="nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials">

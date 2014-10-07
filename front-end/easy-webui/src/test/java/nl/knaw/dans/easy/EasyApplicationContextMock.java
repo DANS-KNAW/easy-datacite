@@ -80,6 +80,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         // clean up statics of eventual previous tests
         new Util().setDatasetService(null);
         new DisciplineUtils().setDepositService(null);
+        expectDefaultFooterLinks();
     }
 
     /**
@@ -117,6 +118,15 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     public void expectDefaultResources() {
         setEditableContentHome(new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable/")));
         setStaticContentBaseUrl("http://mocked/base/url");
+    }
+
+    public void expectDefaultFooterLinks() {
+        setUsingEasyLink("http://mocked/using-easy/url");
+        setContactLink("http://mocked/contact/url");
+        setDisclaimerLink("http://mocked/disclaimer/url");
+        setLegalLink("http://mocked/legal/url");
+        setPropertyRightStatementLink("http://mocked/property-right-statement/url");
+        setDsaLink("http://mocked/dsa/url");
     }
 
     /**
@@ -430,6 +440,30 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
 
     public String getStaticContentBaseUrl() {
         return (String) getBean("staticContentBaseUrl");
+    }
+
+    private void setUsingEasyLink(final String url) {
+        putBean("usingEasyLink", url);
+    }
+
+    private void setContactLink(final String url) {
+        putBean("contactLink", url);
+    }
+
+    private void setDisclaimerLink(final String url) {
+        putBean("disclaimerLink", url);
+    }
+
+    private void setLegalLink(final String url) {
+        putBean("legalLink", url);
+    }
+
+    private void setPropertyRightStatementLink(final String url) {
+        putBean("propertyRightStatementLink", url);
+    }
+
+    private void setDsaLink(final String url) {
+        putBean("dsaLink", url);
     }
 
     public Security getSecurity() {
