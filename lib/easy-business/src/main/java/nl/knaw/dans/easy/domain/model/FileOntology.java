@@ -8,7 +8,7 @@ package nl.knaw.dans.easy.domain.model;
 public class FileOntology {
 
     public enum MetadataFormat {
-        CMDI, DDM, DDI
+        CMDI, DDM, DDI, PAKBON
     }
 
     public static final String URI = "http://easy.dans.knaw.nl/ontologies/file#";

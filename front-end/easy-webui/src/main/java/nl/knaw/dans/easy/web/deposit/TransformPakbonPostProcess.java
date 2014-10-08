@@ -133,7 +133,8 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess {
         files.add(pakbon);
         try {
             DmoStoreId parentDmoStoreId = getDataset().getDmoStoreId();
-            itemService.addDirectoryContents(EasySession.get().getUser(), getDataset(), parentDmoStoreId, pakbon.getParentFile(), files);
+            itemService.addDirectoryContents(EasySession.get().getUser(), getDataset(), parentDmoStoreId, pakbon.getParentFile(), new PakbonIngester(
+                    getDataset(), pakbon));
         }
         catch (ServiceException e) {
             error("Could not ingest Pakbon file", e);
