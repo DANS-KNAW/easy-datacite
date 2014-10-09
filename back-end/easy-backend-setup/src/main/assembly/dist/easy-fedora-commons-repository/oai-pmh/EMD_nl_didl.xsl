@@ -111,7 +111,7 @@
                 <xsl:element name="didl:Descriptor">
                 <xsl:element name="didl:Statement">
                 <xsl:attribute name="mimeType" select="'application/xml'"/>
-                <xsl:element name="dcterms:accessRigths">
+                <xsl:element name="dcterms:accessRights">
                 <xsl:choose>
                 <xsl:when test="$access-rights = 'FREELY_AVAILABLE'">
                 <xsl:value-of select="'http://purl.org/eprint/accessRights/OpenAccess'"/>
@@ -186,8 +186,11 @@
                 <xsl:element name="didl:Descriptor">
                     <xsl:element name="didl:Statement">
                         <xsl:attribute name="mimeType" select="'application/xml'"/>
-                        <xsl:element name="dcterms:accessRigths">
+                        <xsl:element name="dcterms:accessRights">
                             <xsl:choose>
+                                <xsl:when test="$access-rights = 'OPEN_ACCESS'">
+                                    <xsl:value-of select="'http://purl.org/eprint/accessRights/OpenAccess'"/>
+                                </xsl:when>
                                 <xsl:when test="$access-rights = 'FREELY_AVAILABLE'">
                                     <xsl:value-of select="'http://purl.org/eprint/accessRights/OpenAccess'"/>
                                 </xsl:when>

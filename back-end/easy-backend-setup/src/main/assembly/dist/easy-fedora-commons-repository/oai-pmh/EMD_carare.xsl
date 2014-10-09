@@ -3,10 +3,11 @@
   <xsl:template match="/">
     <xsl:variable name="archaeological_aip" select="emd:easymetadata/emd:other/eas:application-specific/eas:metadataformat[.=&apos;ARCHAEOLOGY&apos;]"></xsl:variable>
     <xsl:variable name="text_aip" select="emd:easymetadata/emd:type/dc:type[.=&apos;Text&apos; and @eas:scheme=&apos;DCMI&apos;]"></xsl:variable>
-    <xsl:variable name="open_toegang" select="emd:easymetadata/emd:rights/dcterms:accessRights[.=&apos;OPEN_ACCESS_FOR_REGISTERED_USERS&apos;]"></xsl:variable>
+    <xsl:variable name="open_toegang_geregistreerd" select="emd:easymetadata/emd:rights/dcterms:accessRights[.=&apos;OPEN_ACCESS_FOR_REGISTERED_USERS&apos;]"></xsl:variable>
+    <xsl:variable name="open_toegang" select="emd:easymetadata/emd:rights/dcterms:accessRights[.=&apos;OPEN_ACCESS&apos;]"></xsl:variable>
     <xsl:variable name="pointX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:point/eas:x != &apos;&apos;"></xsl:variable>
     <xsl:variable name="boxX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:box/eas:west != &apos;&apos;"></xsl:variable>
-    <xsl:if test="$archaeological_aip and $text_aip and $open_toegang and ($pointX or $boxX)">
+    <xsl:if test="$archaeological_aip and $text_aip and ($open_toegang or $open_toegang_geregistreerd) and ($pointX or $boxX)">
       <xsl:apply-templates select="emd:easymetadata"></xsl:apply-templates>
     </xsl:if>
   </xsl:template>
@@ -26,9 +27,8 @@
             <car:name>Drs. Hella Hollander</car:name>
             <car:role lang="en">data archivist archaeology</car:role>
             <car:organization>Data Archiving and Networked Services (DANS)</car:organization>
-            <car:address>Anna van Saksenlaan 10, 2593 HT The Hague, the Netherlands</car:address>
-            <car:phone>+31 70 3446484 </car:phone>
-            <car:fax>+31 70 3446482</car:fax>
+            <car:address>Anna van Saksenlaan 51, 2593 HW The Hague, the Netherlands</car:address>
+            <car:phone>+31 70 3494450</car:phone>
             <car:email>hella.hollander@dans.knaw.nl</car:email>
             <car:email>info@dans.knaw.nl</car:email>
           </car:contacts>
@@ -427,6 +427,7 @@
               <xsl:variable name="accessrights" select="emd:rights/dcterms:accessRights[@eas:schemeId=&apos;common.dcterms.accessrights&apos; or @eas:schemeId=&apos;archaeology.dcterms.accessrights&apos;]"></xsl:variable>
               <car:grantedTo lang="en">
                 <xsl:choose>
+                  <xsl:when test="$accessrights=&apos;OPEN_ACCESS&apos;">Everyone</xsl:when>
                   <xsl:when test="$accessrights=&apos;OPEN_ACCESS_FOR_REGISTERED_USERS&apos;">Registered EASY users</xsl:when>
                   <xsl:when test="$accessrights=&apos;GROUP_ACCESS&apos;">Registered EASY users, but
                       belonging to the group of professional Dutch archaeologists only</xsl:when>

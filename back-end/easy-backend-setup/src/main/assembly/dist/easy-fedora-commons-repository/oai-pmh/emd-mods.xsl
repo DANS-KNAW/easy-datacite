@@ -164,6 +164,9 @@
         <xsl:if test="$access-rights">   
             <xsl:variable name="access-display-label">
                 <xsl:choose>
+                    <xsl:when test="$access-rights='OPEN_ACCESS'">
+                        <xsl:value-of select="'Unrestricted access.'"/>
+                    </xsl:when>
                     <xsl:when test="$access-rights='OPEN_ACCESS_FOR_REGISTERED_USERS'">
                         <xsl:value-of select="'Unrestricted access for all registered EASY users.'"/>
                     </xsl:when>
