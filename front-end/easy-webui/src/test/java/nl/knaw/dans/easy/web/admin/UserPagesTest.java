@@ -46,7 +46,7 @@ public class UserPagesTest {
         sessionUser.setState(User.State.ACTIVE);
 
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectNoDatasets();
         applicationContext.expectAuthenticatedAs(sessionUser);
@@ -164,7 +164,7 @@ public class UserPagesTest {
         users.add(user);
         users.add(depositor);
 
-        applicationContext.expectDisciplines(new KeyValuePair("Disc.key1", "Dics.value1"));
+        applicationContext.expectDisciplineChoices(new KeyValuePair("Disc.key1", "Dics.value1"));
 
         final UserService userService = applicationContext.getUserService();
         expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubReturn(depositor);

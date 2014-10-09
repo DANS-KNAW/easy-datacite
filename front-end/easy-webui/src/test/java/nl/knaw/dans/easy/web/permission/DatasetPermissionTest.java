@@ -112,9 +112,9 @@ public class DatasetPermissionTest {
     @Before
     public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
-        applicationContext.expectDisciplines();
+        applicationContext.expectDisciplineChoices();
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
         applicationContext.expectAuthenticatedAsVisitor();

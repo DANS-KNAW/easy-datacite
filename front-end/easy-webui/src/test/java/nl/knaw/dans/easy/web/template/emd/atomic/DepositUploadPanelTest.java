@@ -35,7 +35,7 @@ public class DepositUploadPanelTest {
         new Data().setFileStoreAccess(fileStoreAccess);
 
         final EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
-        applicationContextMock.expectStandardSecurity(false);
+        applicationContextMock.expectStandardSecurity();
         applicationContextMock.expectNoAudioVideoFiles();
         applicationContextMock.putBean("fileStoreAccess", fileStoreAccess);
 

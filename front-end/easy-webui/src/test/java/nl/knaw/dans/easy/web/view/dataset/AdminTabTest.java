@@ -74,9 +74,9 @@ public class AdminTabTest {
     @Before
     public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
-        applicationContext.expectDisciplines();
+        applicationContext.expectDisciplineChoices();
         applicationContext.setDatasetService(mockDataset());
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();

@@ -91,7 +91,7 @@ public class TestLoginPage extends Fixture {
     @Test
     public void depositInReadOnlyMode() throws Exception {
         final EasyApplicationContextMock applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         // an active state requires more to mock
         applicationContext.expectAuthenticatedAsVisitor().setState(User.State.REGISTERED);

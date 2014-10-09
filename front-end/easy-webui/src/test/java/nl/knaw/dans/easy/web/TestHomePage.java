@@ -45,7 +45,7 @@ public class TestHomePage {
 
     private EasyApplicationContextMock mockContext() throws Exception {
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
-        ctx.expectStandardSecurity(false);
+        ctx.expectStandardSecurity();
         ctx.expectDefaultResources();
         ctx.setSearchService(searchServiceMock);
         return ctx;

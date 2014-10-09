@@ -140,7 +140,7 @@ public class FileExplorerTest {
         ctx = new EasyApplicationContextMock();
         ctx.setSearchService(mockSearchService());
         ctx.setDatasetService(mockDatasetService());
-        ctx.expectStandardSecurity(false);
+        ctx.expectStandardSecurity();
         ctx.expectDefaultResources();
         ctx.expectAuthenticatedAs(sessionUser);
         ctx.expectNoAudioVideoFiles();
