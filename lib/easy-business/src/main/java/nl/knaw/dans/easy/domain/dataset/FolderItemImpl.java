@@ -10,20 +10,24 @@ import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
+import nl.knaw.dans.common.lang.repo.bean.BeanFactory;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainer;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainer;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainerItem;
 import nl.knaw.dans.common.lang.repo.exception.NoUnitOfWorkAttachedException;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
-import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.DatasetItem;
-import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FolderItem;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
-import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderItem, DmoContainer {
     private static final long serialVersionUID = 2687520091667217809L;
@@ -40,34 +44,6 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
 
     public DmoNamespace getDmoNamespace() {
         return NAMESPACE;
-    }
-
-    public int getChildFileCount() {
-        return getDatasetItemContainerMetadata().getChildFileCount();
-    }
-
-    public int getChildFolderCount() {
-        return getDatasetItemContainerMetadata().getChildFolderCount();
-    }
-
-    public int getTotalFileCount() {
-        return getDatasetItemContainerMetadata().getTotalFileCount();
-    }
-
-    public int getTotalFolderCount() {
-        return getDatasetItemContainerMetadata().getTotalFolderCount();
-    }
-
-    public int getCreatorRoleFileCount(CreatorRole creatorRole) {
-        return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
-    }
-
-    public int getVisibleToFileCount(VisibleTo visibleTo) {
-        return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
-    }
-
-    public int getAccessibleToFileCount(AccessibleTo accessibleTo) {
-        return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
     }
 
     @Override
@@ -126,39 +102,17 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         return metadataUnits;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
+
     public boolean isDeletable() {
-        return getTotalFileCount() == 0 && getTotalFolderCount() == 0;
-    }
-
-    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldCreatorRole, newCreatorRole);
-        DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null) {
-            parent.onDescendantStateChange(oldCreatorRole, newCreatorRole);
+        try {
+            return Data.getFileStoreAccess().hasMember(getDmoStoreId(), FileItemVO.class)
+                    || Data.getFileStoreAccess().hasMember(getDmoStoreId(), FolderItemVO.class);
         }
-    }
-
-    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldStreamingPath, newStreamingPath);
-        DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null) {
-            parent.onDescendantStateChange(oldStreamingPath, newStreamingPath);
-        }
-    }
-
-    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldVisibleTo, newVisibleTo);
-        DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null) {
-            parent.onDescendantStateChange(oldVisibleTo, newVisibleTo);
-        }
-    }
-
-    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldAccessibleTo, newAccessibleTo);
-        DatasetItemContainer parent = (DatasetItemContainer) getParent();
-        if (parent != null) {
-            parent.onDescendantStateChange(oldAccessibleTo, newAccessibleTo);
+        catch (StoreAccessException e) {
+            // also used in a toString so not everybody van catch, false seems a safe response
+            logger.error(e.getMessage(), e);
+            return (false);
         }
     }
 
@@ -166,47 +120,8 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         container.addChild(item);
     }
 
-    public void onChildAdded(DatasetItem item) {
-        getDatasetItemContainerMetadata().onChildAdded(item);
-        callParentOnDescendantAdded(item);
-    }
-
-    private void callParentOnDescendantAdded(DatasetItem item) {
-        if (!isRegisteredDeleted()) {
-            DmoContainer parent = getParent();
-            if (parent != null && parent instanceof DatasetItemContainer) {
-                ((DatasetItemContainer) parent).onDescendantAdded(item);
-            }
-        }
-    }
-
-    public void onDescendantAdded(DatasetItem item) {
-        getDatasetItemContainerMetadata().addDescendant(item);
-        callParentOnDescendantAdded(item);
-    }
-
     public void removeChild(DmoContainerItem item) throws RepositoryException {
         container.removeChild(item);
-        onChildRemoved((DatasetItem) item);
-    }
-
-    public void onChildRemoved(DatasetItem item) {
-        getDatasetItemContainerMetadata().onChildRemoved(item);
-        callParentOnDescendantRemoved(item);
-    }
-
-    private void callParentOnDescendantRemoved(DatasetItem item) {
-        if (!isRegisteredDeleted()) {
-            DmoContainer parent = getParent();
-            if (parent != null && parent instanceof DatasetItemContainer) {
-                ((DatasetItemContainer) parent).onDescendantRemoved(item);
-            }
-        }
-    }
-
-    public void onDescendantRemoved(DatasetItem item) {
-        getDatasetItemContainerMetadata().onDescendantRemoved(item);
-        callParentOnDescendantRemoved(item);
     }
 
     public List<? extends DmoContainerItem> getChildren() throws RepositoryException {

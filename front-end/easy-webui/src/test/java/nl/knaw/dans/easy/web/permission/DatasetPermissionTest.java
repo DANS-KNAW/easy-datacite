@@ -6,7 +6,6 @@ import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_P
 import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +75,6 @@ public class DatasetPermissionTest {
             @Override
             public boolean hasDepositor(final String userId) {
                 return isDepositor;
-            }
-
-            @Override
-            public boolean hasPermissionRestrictedItems() {
-                fail("replaced by a FileStoreAccessMethod");
-                return true;
             }
 
             @Override

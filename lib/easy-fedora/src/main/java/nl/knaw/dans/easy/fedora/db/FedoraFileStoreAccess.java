@@ -373,11 +373,6 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             final Criteria select = createGetCriteria(session, FolderItemVO.class, parentSid.getStoreId(), limit, offset, order, filters);
             final List<FolderItemVO> folders = select.list();
 
-            // add child counts for each folder
-            for (final FolderItemVO folder : folders) {
-                folder.setChildItemCount(getChildCount(new DmoStoreId(folder.getSid()), limit, offset, order, filters));
-            }
-
             LOGGER.debug("Returned " + folders.size() + " folders.");
 
             return folders;

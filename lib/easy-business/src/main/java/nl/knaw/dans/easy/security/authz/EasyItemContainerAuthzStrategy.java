@@ -10,9 +10,7 @@ public class EasyItemContainerAuthzStrategy extends AbstractItemContainerAuthzSt
 
     private DatasetItemContainer itemContainer;
 
-    protected EasyItemContainerAuthzStrategy() {
-        super();
-    }
+    protected EasyItemContainerAuthzStrategy() {}
 
     protected EasyItemContainerAuthzStrategy(User user, Object target, Object... contextObjects) {
         super(user, contextObjects);

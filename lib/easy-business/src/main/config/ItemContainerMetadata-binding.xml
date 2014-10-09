@@ -13,30 +13,30 @@
         
         <structure type="nl.knaw.dans.easy.domain.dataset.AbstractItemMetadataImpl"/>
         
-        <value name="totalFileCount" field="totalFileCount"/>
-        <value name="childFileCount" field="childFileCount"/>
+        <value name="totalFileCount" field="totalFileCount" usage="optional"/>
+        <value name="childFileCount" field="childFileCount" usage="optional"/>
         
-        <value name="totalFolderCount" field="totalFolderCount"/>
-        <value name="childFolderCount" field="childFolderCount"/>
+        <value name="totalFolderCount" field="totalFolderCount" usage="optional"/>
+        <value name="childFolderCount" field="childFolderCount" usage="optional"/>
         
-        <value name="creatorRoleArray" field="creatorRoleArray"/>
-        <value name="visibleToArray" field="visibleToArray"/>
-        <value name="accessibleToArray" field="accessibleToArray"/>
+        <value name="creatorRoleArray" field="creatorRoleArray" usage="optional"/>
+        <value name="visibleToArray" field="visibleToArray" usage="optional"/>
+        <value name="accessibleToArray" field="accessibleToArray" usage="optional"/>
         
         <structure name="creatorRoles" usage="optional">
-            <collection get-method="getCreatorRoles" set-method="setNop" type="java.util.ArrayList">
+            <collection get-method="getCreatorRoles" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="creatorRole" type="nl.knaw.dans.easy.domain.model.user.CreatorRole" usage="optional"/>
             </collection> 
         </structure>
         
         <structure name="visibleToList" usage="optional">
-            <collection get-method="getVisibleToList" set-method="setNop" type="java.util.ArrayList">
+            <collection get-method="getVisibleToList" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="visibleTo" type="nl.knaw.dans.easy.domain.model.VisibleTo" usage="optional"/>
             </collection>
         </structure>
         
         <structure name="accessibleToList" usage="optional">
-            <collection get-method="getAccessibleToList" set-method="setNop" type="java.util.ArrayList">
+            <collection get-method="getAccessibleToList" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="accessibleTo" type="nl.knaw.dans.easy.domain.model.AccessibleTo" usage="optional"/>
             </collection>
         </structure>

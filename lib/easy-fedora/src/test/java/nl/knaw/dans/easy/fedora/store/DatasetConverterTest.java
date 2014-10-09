@@ -4,10 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
 import nl.knaw.dans.common.lang.test.Tester;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
+import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
@@ -29,6 +32,9 @@ public class DatasetConverterTest {
         DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
         dataset.getAdministrativeMetadata().setDepositorId("kees4");
         dataset.getEasyMetadata().getEmdTitle().getDcTitle().add(new BasicString("Test Dataset"));
+
+        InMemoryDatabase inMemoryDB = new InMemoryDatabase();
+        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
 
         dataset.addFileOrFolder(new FileItemImpl("dummy-file:123"));
 
@@ -55,5 +61,6 @@ public class DatasetConverterTest {
 
         if (verbose)
             logger.debug("\n" + datasetConverter.serialize(dataset2).asXMLString(4) + "\n");
+        inMemoryDB.close();
     }
 }

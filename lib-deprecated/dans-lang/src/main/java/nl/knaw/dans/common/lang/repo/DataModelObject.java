@@ -57,6 +57,7 @@ public interface DataModelObject extends StorableObject {
 
     /**
      * @return true if this object may be deleted
+     * @throws RepositoryException
      */
     boolean isDeletable();
 

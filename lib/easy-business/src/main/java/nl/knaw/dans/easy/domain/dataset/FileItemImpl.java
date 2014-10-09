@@ -14,7 +14,6 @@ import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Constants;
-import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.DatasetItemMetadata;
 import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
 import nl.knaw.dans.easy.domain.model.FileItem;
@@ -180,14 +179,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     }
 
     public void setCreatorRole(CreatorRole creatorRole) {
-        CreatorRole previous = getFileItemMetadata().getCreatorRole();
-        boolean changed = getFileItemMetadata().setCreatorRole(creatorRole);
-        if (changed) {
-            DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null) {
-                parent.onDescendantStateChange(previous, creatorRole);
-            }
-        }
+        getFileItemMetadata().setCreatorRole(creatorRole);
     }
 
     public String getStreamingPath() {
@@ -195,14 +187,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     }
 
     public void setStreamingPath(String streamingPath) {
-        String previous = getFileItemMetadata().getStreamingPath();
-        boolean changed = getFileItemMetadata().setStreamingPath(streamingPath);
-        if (changed) {
-            DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null) {
-                parent.onDescendantStateChange(previous, streamingPath);
-            }
-        }
+        getFileItemMetadata().setStreamingPath(streamingPath);
     }
 
     public boolean isCreatedByArchivist() {
@@ -219,14 +204,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     }
 
     public void setVisibleTo(VisibleTo visibleTo) {
-        VisibleTo previous = getFileItemMetadata().getVisibleTo();
-        boolean changed = getFileItemMetadata().setVisibleTo(visibleTo);
-        if (changed) {
-            DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null) {
-                parent.onDescendantStateChange(previous, visibleTo);
-            }
-        }
+        getFileItemMetadata().setVisibleTo(visibleTo);
     }
 
     public AccessibleTo getAccessibleTo() {
@@ -234,14 +212,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     }
 
     public void setAccessibleTo(AccessibleTo accessibleTo) {
-        AccessibleTo previous = getFileItemMetadata().getAccessibleTo();
-        boolean changed = getFileItemMetadata().setAccessibleTo(accessibleTo);
-        if (changed) {
-            DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null) {
-                parent.onDescendantStateChange(previous, accessibleTo);
-            }
-        }
+        getFileItemMetadata().setAccessibleTo(accessibleTo);
     }
 
     public boolean isAccessibleFor(int userProfile) {

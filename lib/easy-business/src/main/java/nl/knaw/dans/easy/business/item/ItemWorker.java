@@ -15,12 +15,10 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
-import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 import nl.knaw.dans.easy.util.StringUtil;
@@ -65,30 +63,6 @@ public class ItemWorker extends AbstractWorker {
                 for (DataModelObject dmo : uow.getAttachedObjects()) {
                     String updateLine = "Updating " + dmo.getLabel() + " (" + dmo.getStoreId() + "): ";
 
-                    if (dmo instanceof DatasetItemContainer) {
-
-                        DatasetItemContainer itemContainer = (DatasetItemContainer) dmo;
-                        updateLine += "totalFileCount=" + itemContainer.getTotalFileCount() + "; ";
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY)) {
-                            updateLine += "visibleTo (";
-                            for (VisibleTo v : VisibleTo.values())
-                                updateLine += v.toString() + "=" + itemContainer.getVisibleToFileCount(v) + " ";
-                            updateLine += "); ";
-                        }
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY)) {
-                            updateLine += "accessibleTo (";
-                            for (AccessibleTo v : AccessibleTo.values())
-                                updateLine += v.toString() + "=" + itemContainer.getAccessibleToFileCount(v) + " ";
-                            updateLine += "); ";
-                        }
-                    } else {
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_VISIBILITY)) {
-                            updateLine += "visibleTo (" + updateInfo.getVisibleTo() + "); ";
-                        }
-                        if (updateInfo.getActions().contains(UpdateInfo.Action.UPDATE_ACCESSIBILITY)) {
-                            updateLine += "accessibleTo (" + updateInfo.getAccessibleTo() + "); ";
-                        }
-                    }
                     if (updateInfo.getActions().contains(UpdateInfo.Action.RENAME) && dmoStoreIds.contains(dmo.getDmoStoreId())) {
                         updateLine += "renaming " + dmo.getStoreId() + " to " + updateInfo.getName();
                     }

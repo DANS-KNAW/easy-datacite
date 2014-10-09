@@ -77,26 +77,6 @@ public class FedoraCountFilesTest {
     }
 
     @Test
-    public void folderItemVO_getChildAccessibility() throws Exception {
-        List<AccessCategory> list = new FolderItemVO().getChildAccessibility();
-    }
-
-    @Test
-    public void folderItemVO_getChildVisibility() throws Exception {
-        List<AccessCategory> list = new FolderItemVO().getChildVisibility();
-    }
-
-    @Test
-    public void datasetItemContainerMetadata_getChildAccessibility() throws Exception {
-        List<AccessCategory> list = new ItemContainerMetadataImpl(new DmoStoreId(Dataset.NAMESPACE, "1")).getChildAccessibility();
-    }
-
-    @Test
-    public void datasetItemContainerMetadata_getChildVisibility() throws Exception {
-        List<AccessCategory> list = new ItemContainerMetadataImpl(new DmoStoreId(Dataset.NAMESPACE, "1")).getChildVisibility();
-    }
-
-    @Test
     public void folderItemImpl_getChildCount() throws Exception {
         final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class)
                 + fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);

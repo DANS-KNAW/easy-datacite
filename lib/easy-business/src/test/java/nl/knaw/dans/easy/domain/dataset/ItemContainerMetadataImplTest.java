@@ -1,23 +1,30 @@
 package nl.knaw.dans.easy.domain.dataset;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
+import static org.powermock.api.easymock.PowerMock.createMock;
+import static org.powermock.api.easymock.PowerMock.replayAll;
+import static org.powermock.api.easymock.PowerMock.resetAll;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,39 +59,15 @@ public class ItemContainerMetadataImplTest {
     @Test
     public void administration() throws XMLSerializationException, RepositoryException {
         ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(new DmoStoreId("foo:123"));
-        assertEquals(0, icmd.getChildFileCount());
-        assertEquals(0, icmd.getTotalFileCount());
-        assertEquals(0, icmd.getChildFolderCount());
-        assertEquals(0, icmd.getTotalFolderCount());
-        assertEquals(0, icmd.getCreatorRoleFileCount(CreatorRole.ARCHIVIST));
-        assertEquals(0, icmd.getCreatorRoleFileCount(CreatorRole.DEPOSITOR));
-        assertEquals(0, icmd.getCreatorRoles().size());
 
         icmd.setName("folder1");
         assertEquals("folder1", icmd.getPath());
 
         FileItemImpl fi = new FileItemImpl("dummy-file:1");
         fi.setCreatorRole(CreatorRole.ARCHIVIST);
-        icmd.onChildAdded(fi);
-
-        assertEquals(1, icmd.getChildFileCount());
-        assertEquals(1, icmd.getTotalFileCount());
-        assertEquals(1, icmd.getCreatorRoleFileCount(CreatorRole.ARCHIVIST));
-        assertEquals(0, icmd.getCreatorRoleFileCount(CreatorRole.DEPOSITOR));
-        List<CreatorRole> creatorRoles = icmd.getCreatorRoles();
-        assertEquals(1, creatorRoles.size());
-        assertEquals(CreatorRole.ARCHIVIST, creatorRoles.get(0));
 
         fi = new FileItemImpl("dummy-file:2");
         fi.setCreatorRole(CreatorRole.DEPOSITOR);
-        icmd.onChildAdded(fi);
-
-        assertEquals(2, icmd.getChildFileCount());
-        assertEquals(2, icmd.getTotalFileCount());
-        assertEquals(1, icmd.getCreatorRoleFileCount(CreatorRole.ARCHIVIST));
-        assertEquals(1, icmd.getCreatorRoleFileCount(CreatorRole.DEPOSITOR));
-        creatorRoles = icmd.getCreatorRoles();
-        assertEquals(2, creatorRoles.size());
 
         if (verbose)
             logger.debug("\n" + icmd.asXMLString(4) + "\n");
@@ -96,25 +79,25 @@ public class ItemContainerMetadataImplTest {
             Tester.printClassAndFieldHierarchy(ItemContainerMetadataImpl.class);
 
         // fields affected:
-        // totalFileCount:int
-        // childFileCount:int
-        // totalFolderCount:int
-        // childFolderCount:int
-        // creatorRoleArray:[I
-        // visibleToArray:[I
-        // accessibleToArray:[I
 
         // - name:java.lang.String
         // - parentSid:java.lang.String
         // - datasetId:java.lang.String
         // versionable:boolean --> leave it for the time being
+        FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
+        expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
+        replayAll();
+
+        new Data().setFileStoreAccess(fileStoreAccess);
 
         FolderItemImpl folder = new FolderItemImpl("foo:123");
-
         DatasetItemContainerMetadata icmd = folder.getDatasetItemContainerMetadata();
         assertTrue(icmd.isDirty());
 
-        ((AbstractItemMetadataImpl<DatasetItemContainerMetadata>) icmd).setName("bar");
+        @SuppressWarnings("unchecked")
+        AbstractItemMetadataImpl<DatasetItemContainerMetadata> itemMetadataImpl = (AbstractItemMetadataImpl<DatasetItemContainerMetadata>) icmd;
+        itemMetadataImpl.setName("bar");
+
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
         assertFalse(icmd.isDirty());
@@ -129,23 +112,22 @@ public class ItemContainerMetadataImplTest {
 
         FileItemImpl fi = new FileItemImpl("file:1");
         folder.addFileOrFolder(fi);
-        assertTrue(icmd.isDirty());
+        assertFalse(icmd.isDirty());
         assertTrue(fi.isDirty());
         assertTrue(fi.getFileItemMetadata().isDirty());
+        icmd.setDirty(true);
+        assertTrue(icmd.isDirty());
         icmd.setDirty(false);
-        assertFalse(icmd.isDirty());
 
         fi.setAccessibleTo(AccessibleTo.ANONYMOUS);
-        assertTrue(icmd.isDirty());
-        icmd.setDirty(false);
+        assertFalse(icmd.isDirty());
 
         fi.setCreatorRole(CreatorRole.ARCHIVIST);
-        assertTrue(icmd.isDirty());
-        icmd.setDirty(false);
+        assertFalse(icmd.isDirty());
 
         fi.setVisibleTo(VisibleTo.KNOWN);
-        assertTrue(icmd.isDirty());
-        icmd.setDirty(false);
-    }
+        assertFalse(icmd.isDirty());
 
+        resetAll();
+    }
 }

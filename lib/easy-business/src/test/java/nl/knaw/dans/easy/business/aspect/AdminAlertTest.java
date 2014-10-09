@@ -1,9 +1,14 @@
 package nl.knaw.dans.easy.business.aspect;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.easymock.PowerMock.createMock;
+import static org.powermock.api.easymock.PowerMock.replayAll;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.mail.AdminMailer;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User.State;
@@ -11,8 +16,12 @@ import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
@@ -53,10 +62,12 @@ public class AdminAlertTest {
         Data data = new Data();
         data.setEasyStore(null);
         data.setUserRepo(null);
+        data.setFileStoreAccess(null);
     }
 
     @Test
     public void serviceExceptionCatcher() throws Exception {
+        mockFileStoreAccess();
         EasyUser sessionUser = new EasyUserImpl("ben");
         sessionUser.setState(State.ACTIVE);
 
@@ -80,6 +91,14 @@ public class AdminAlertTest {
 
         EasyMock.verify(store, userRepo);
         checkMail("ServiceException");
+    }
+
+    private void mockFileStoreAccess() throws StoreAccessException {
+        FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
+        expect(fileStoreAccess.hasMember(EasyMock.eq((DmoStoreId) null), EasyMock.eq(FileItemVO.class))).andStubReturn(false);
+        expect(fileStoreAccess.hasMember(EasyMock.eq((DmoStoreId) null), EasyMock.eq(FolderItemVO.class))).andStubReturn(false);
+        new Data().setFileStoreAccess(fileStoreAccess);
+        replayAll();
     }
 
     private void checkMail(String check) {
