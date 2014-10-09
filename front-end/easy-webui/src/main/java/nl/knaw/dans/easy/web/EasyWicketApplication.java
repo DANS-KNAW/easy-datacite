@@ -103,6 +103,8 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         getSecuritySettings().setAuthorizationStrategy(new EasyAuthorizationStrategy());
         SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
         guard.addPattern("+*.htm");
+        guard.addPattern("+*.ttf");
+        guard.addPattern("+*.woff");
     }
 
     private void setAliases() {
