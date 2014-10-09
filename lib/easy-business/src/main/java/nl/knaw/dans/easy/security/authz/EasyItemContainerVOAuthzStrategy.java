@@ -1,19 +1,15 @@
 package nl.knaw.dans.easy.security.authz;
 
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 
-public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrategy {
+public class EasyItemContainerVOAuthzStrategy extends AbstractItemContainerAuthzStrategy {
 
     private static final long serialVersionUID = -6233534115714650363L;
     private FolderItemVO folderItemVO;
-    private int discoveryProfile = NOT_EVALUATED;
-    private int readProfile = NOT_EVALUATED;
 
-    protected EasyItemContainerVOAuthzStrategy() {
-
-    }
+    protected EasyItemContainerVOAuthzStrategy() {}
 
     protected EasyItemContainerVOAuthzStrategy(User user, Object target, Object... contextObjects) {
         super(user, contextObjects);
@@ -37,22 +33,6 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
         String datasetId = getDataset().getStoreId();
         if (!(datasetId.equals(folderItemVO.getDatasetSid()) || datasetId.equals(folderItemVO.getSid())))
             throw new IllegalArgumentException("FolderItemVO is not given dataset, nor part of given dataset");
-    }
-
-    @Override
-    protected int getResourceDiscoveryProfile() {
-        if (discoveryProfile == NOT_EVALUATED) {
-            discoveryProfile = AccessCategory.UTIL.getBitMask(folderItemVO.getChildVisibility());
-        }
-        return discoveryProfile;
-    }
-
-    @Override
-    protected int getResourceReadProfile() {
-        if (readProfile == NOT_EVALUATED) {
-            readProfile = AccessCategory.UTIL.getBitMask(folderItemVO.getChildAccessibility());
-        }
-        return readProfile;
     }
 
     @Override
@@ -84,4 +64,8 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
         return sameStrategy;
     }
 
+    @Override
+    DmoStoreId getTargetDmoStoreId() {
+        return new DmoStoreId(folderItemVO.getSid());
+    }
 }

@@ -1,10 +1,13 @@
 package nl.knaw.dans.easy.business.services;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
@@ -20,13 +23,16 @@ import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
@@ -82,6 +88,7 @@ public class EasyDatasetServiceTest extends TestHelper {
         Data data = new Data();
         data.setEasyStore(null);
         data.setUserRepo(null);
+        data.setFileStoreAccess(null);
     }
 
     @Test
@@ -110,7 +117,11 @@ public class EasyDatasetServiceTest extends TestHelper {
         EasyMock.reset(easyStore);
         EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
 
-        EasyMock.replay(easyStore);
+        new Data().setFileStoreAccess(EasyMock.createMock(FileStoreAccess.class));
+        EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(new HashSet<AccessibleTo>());
+        EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(new HashSet<VisibleTo>());
+
+        EasyMock.replay(easyStore, Data.getFileStoreAccess());
         Dataset dataset = service.getDataset(user, storeId);
         EasyMock.verify(easyStore);
 

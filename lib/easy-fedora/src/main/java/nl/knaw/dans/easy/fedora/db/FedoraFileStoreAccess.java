@@ -758,10 +758,10 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         String whereClause;
         if (direct) {
             fromClause = childFromClause(memberClass);
-            whereClause = String.format("WHERE m.parentSid=:%s", CONTAINER_ID.toString());
+            whereClause = String.format("WHERE m.parentSid=:%s", CONTAINER_ID);
         } else if (Dataset.NAMESPACE.equals(storeId.getNamespace())) {
             fromClause = childFromClause(memberClass);
-            whereClause = String.format("WHERE m.datasetSid=:%s", CONTAINER_ID.toString());
+            whereClause = String.format("WHERE m.datasetSid=:%s", CONTAINER_ID);
         } else
         // because of checkCountArguments we now have a Folder name space
         {
@@ -802,14 +802,19 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
     }
 
     @Override
-    public <T extends FileItemVOAttribute> Set<T> getValuesFor(final DmoStoreId folder, final Class<T> attribute) throws IllegalArgumentException,
+    public <T extends FileItemVOAttribute> Set<T> getValuesFor(final DmoStoreId itemContainer, final Class<T> attribute) throws IllegalArgumentException,
             StoreAccessException
     {
-        if (!FolderItem.NAMESPACE.equals(folder.getNamespace()))
+        final String fromWhereClauses;
+        if (FolderItem.NAMESPACE.equals(itemContainer.getNamespace()))
+            fromWhereClauses = recursiveFromClause(FileItemVO.class) + RECURSIVE_WHERE_CLAUSE;
+        else if (Dataset.NAMESPACE.equals(itemContainer.getNamespace()))
+            fromWhereClauses = childFromClause(FileItemVO.class) + String.format("WHERE m.datasetSid=:%s", CONTAINER_ID);
+        else
             throw new IllegalArgumentException("storeId should be a dataset or folder");
 
         final String fieldName = Introspector.decapitalize(ClassUtils.getShortCanonicalName(attribute));
-        final String queryString = "SELECT DISTINCT m." + fieldName + " " + recursiveFromClause(FileItemVO.class) + RECURSIVE_WHERE_CLAUSE;
+        final String queryString = "SELECT DISTINCT m." + fieldName + " " + fromWhereClauses;
 
         if (LOGGER.isDebugEnabled()) {
             final StackTraceElement callerOfPublicMethod = new Exception().getStackTrace()[1];
@@ -818,7 +823,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         final Session session = sessionFactory.openSession();
         try {
             final Query query = session.createQuery(queryString);
-            query.setParameter(CONTAINER_ID, folder.getStoreId());
+            query.setParameter(CONTAINER_ID, itemContainer.getStoreId());
 
             @SuppressWarnings("unchecked")
             final List<Object[]> rows = query.list();

@@ -1,90 +1,108 @@
 package nl.knaw.dans.easy.security.authz;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.junit.Assert.assertEquals;
+import static org.powermock.api.easymock.PowerMock.createMock;
+import static org.powermock.api.easymock.PowerMock.replayAll;
+import static org.powermock.api.easymock.PowerMock.verifyAll;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 public class EasyItemContainerAuthzStrategyTest {
 
+    static class ASet<T extends Object> extends HashSet<T> {
+        private static final long serialVersionUID = 1L;
+
+        // just another constructor for readability
+        ASet(T... values) {
+            super();
+            for (T value : values)
+                add(value);
+        }
+    }
+
     @Test
-    public void singleMessageTestYes() {
-        Dataset dataset = EasyMock.createMock(Dataset.class);
-        EasyUser user = EasyMock.createMock(EasyUser.class);
-        DatasetItemContainerMetadata icmd = EasyMock.createMock(DatasetItemContainerMetadata.class);
+    public void singleMessageTestYes() throws Exception {
 
-        List<AccessCategory> accessCategories = new ArrayList<AccessCategory>();
-        accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
+        fileStoreAccessExpectations(new ASet<VisibleTo>(VisibleTo.ANONYMOUS));
 
-        // constructor
-        EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
-        EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
-        EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
+        Dataset dataset = mockDataset(mockItemContainerMetadata());
+        EasyUser user = mockUser();
 
-        // isEnableAllowed?
-        EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false);
-
-        // getUserProfile
-        EasyMock.expect(user.isAnonymous()).andReturn(true);
-        EasyMock.expect(user.isActive()).andReturn(true);
-
-        // getResourceReadProfile
-        EasyMock.expect(icmd.getChildAccessibility()).andReturn(accessCategories);
-
-        EasyMock.replay(dataset, user, icmd);
+        replayAll();
 
         EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
         AuthzMessage message = strategy.getSingleReadMessage();
         assertEquals("dataset.authzstrategy.sm.yes", message.getMessageCode());
 
-        EasyMock.verify(dataset, user, icmd);
+        verifyAll();
     }
 
     @Test
-    public void singleMessageTestLogin() {
-        Dataset dataset = EasyMock.createMock(Dataset.class);
-        EasyUser user = EasyMock.createMock(EasyUser.class);
-        DatasetItemContainerMetadata icmd = EasyMock.createMock(DatasetItemContainerMetadata.class);
+    public void singleMessageTestLogin() throws Exception {
 
-        List<AccessCategory> accessCategories = new ArrayList<AccessCategory>();
-        accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
-        accessCategories.add(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
+        fileStoreAccessExpectations(new ASet<VisibleTo>(VisibleTo.ANONYMOUS, VisibleTo.KNOWN));
 
-        // constructor
-        EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
-        EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
-        EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
+        Dataset dataset = mockDataset(mockItemContainerMetadata());
+        EasyUser user = mockUser();
 
-        // isEnableAllowed?
-        EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false);
-
-        // getUserProfile
-        EasyMock.expect(user.isAnonymous()).andReturn(true).times(2);
-        EasyMock.expect(user.isActive()).andReturn(true);
-
-        // getResourceReadProfile
-        EasyMock.expect(icmd.getChildAccessibility()).andReturn(accessCategories);
-
-        EasyMock.replay(dataset, user, icmd);
+        replayAll();
 
         EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
         AuthzMessage message = strategy.getSingleReadMessage();
         assertEquals("dataset.authzstrategy.sm.login", message.getMessageCode());
 
-        EasyMock.verify(dataset, user, icmd);
+        verifyAll();
     }
 
+    private void fileStoreAccessExpectations(Set<VisibleTo> visibleToSet) throws StoreAccessException {
+
+        FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
+        expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(visibleToSet);
+        new Data().setFileStoreAccess(fileStoreAccess);
+    }
+
+    private DatasetItemContainerMetadata mockItemContainerMetadata() {
+
+        DatasetItemContainerMetadata icmd = createMock(DatasetItemContainerMetadata.class);
+        expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
+        return icmd;
+    }
+
+    private Dataset mockDataset(DatasetItemContainerMetadata itemContainerMetadata) {
+
+        // constructor
+        Dataset dataset = createMock(Dataset.class);
+        expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:1"));
+        expect(dataset.getDatasetItemContainerMetadata()).andReturn(itemContainerMetadata).times(1);
+
+        // isEnableAllowed?
+        expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
+        expect(dataset.isUnderEmbargo()).andReturn(false);
+        return dataset;
+    }
+
+    private EasyUser mockUser() {
+
+        EasyUser user = createMock(EasyUser.class);
+        expect(user.isAnonymous()).andStubReturn(true);
+        expect(user.isActive()).andReturn(true);
+        return user;
+    }
 }
