@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="wicketApplication" class="nl.knaw.dans.easy.web.EasyWicketApplication" />
+
+	<bean class="nl.knaw.dans.easy.business.bean.EasyContextListener" />
+
+	<!-- ================= -->
+	<!-- Business Services -->
+	<!-- ================= -->
+	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
+		<property name="depositService" ref="depositService" />
+	</bean>
+
+	<bean name="depositService"
+		class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
+
+
+	<!-- a HTTP Session-scoped bean exposed as a proxy -->
+	<bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl"
+		scope="session">
+
+		<!-- this next element effects the proxying of the surrounding bean -->
+		<aop:scoped-proxy />
+		<constructor-arg>
+			<bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor" />
+		</constructor-arg>
+	</bean>
+
+	<!-- a singleton-scoped bean injected with a proxy to the above bean -->
+	<bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService">
+
+		<!-- a reference to the proxied 'taskService' bean -->
+		<property name="taskService" ref="taskService" />
+
+	</bean>
+
+	<bean id="staticContentBaseUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String"
+			value="${easy.staticcontent.baseUrl}" />
+	</bean>
+
+</beans>
+ 
