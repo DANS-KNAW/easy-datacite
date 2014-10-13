@@ -1,19 +1,13 @@
 package nl.knaw.dans.easy.web.authn;
 
-import static org.junit.Assert.*;
-import static org.powermock.api.easymock.PowerMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.easymock.PowerMock.replayAll;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
 
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.Group;
-import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.web.HomePage;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -33,10 +27,11 @@ public class TestRegistrationPage {
         ctx.expectDefaultResources();
         ctx.expectStandardSecurity();
         ctx.expectAuthenticatedAsVisitor();
-        ctx.expectDisciplineChoices(new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE"),//
-                new KeyValuePair("easy-disciplines:2", "DISCIPLINE 2 DISPLAY VALUE"),//
-                new KeyValuePair("easy-disciplines:3", "DISCIPLINE 3 DISPLAY VALUE"),//
-                new KeyValuePair("easy-disciplines:4", "DISCIPLINE 4 DISPLAY VALUE"));
+        KeyValuePair kvp1 = new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE");
+        KeyValuePair kvp2 = new KeyValuePair("easy-disciplines:2", "DISCIPLINE 2 DISPLAY VALUE");
+        KeyValuePair kvp3 = new KeyValuePair("easy-disciplines:3", "DISCIPLINE 3 DISPLAY VALUE");
+        KeyValuePair kvp4 = new KeyValuePair("easy-disciplines:4", "DISCIPLINE 4 DISPLAY VALUE");
+        ctx.expectDisciplineChoices(kvp1, kvp2, kvp3, kvp4);
         tester = EasyWicketTester.create(ctx);
     }
 

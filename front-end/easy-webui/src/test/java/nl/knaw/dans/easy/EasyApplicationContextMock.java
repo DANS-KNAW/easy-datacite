@@ -73,7 +73,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public class EasyApplicationContextMock extends ApplicationContextMock {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
-    private ItemService itemServiceDelegate = new ItemServiceDelegate();
+    private final ItemService itemServiceDelegate = new ItemServiceDelegate();
 
     public EasyApplicationContextMock() {
         super();
@@ -102,7 +102,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         expectSecurity(true);
     }
 
-    private void expectSecurity(boolean value) {
+    private void expectSecurity(final boolean value) {
         setAuthz(new CodedAuthz());
         setSecurity(new Security(getAuthz()));
         setMockedsetSystemReadOnlyStatus();
@@ -247,8 +247,9 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         final Map<MetadataFormat, DepositDiscipline> disciplineMap = new HashMap<MetadataFormat, DepositDiscipline>();
         final List<DepositDiscipline> list = new ArrayList<DepositDiscipline>();
         for (final MetadataFormat mdFormat : MetadataFormat.values()) {
-            disciplineMap.put(mdFormat, loadDiscipline(mdFormat));
-            list.add(disciplineMap.get(mdFormat));
+            final DisciplineImpl discipline = loadDiscipline(mdFormat);
+            disciplineMap.put(mdFormat, discipline);
+            list.add(discipline);
         }
         expect(getDepositService().getDisciplines()).andStubReturn(list);
     }
@@ -352,7 +353,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
             isMock(getItemService());
         }
         catch (final NoSuchBeanDefinitionException e) {
-            ItemService mock = PowerMock.createMock(ItemService.class);
+            final ItemService mock = PowerMock.createMock(ItemService.class);
             expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
             expect(mock.getFilenames(anyObject(DmoStoreId.class), EasyMock.anyBoolean())).andStubDelegateTo(itemServiceDelegate);
             expect(

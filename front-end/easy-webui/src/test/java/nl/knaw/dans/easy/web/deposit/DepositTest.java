@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.web.deposit;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import static org.junit.Assert.fail;
 import static org.powermock.api.easymock.PowerMock.createMock;
 
 import java.util.ArrayList;
@@ -25,17 +24,13 @@ import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.tester.FormTester;
 import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -45,23 +40,6 @@ public class DepositTest {
     private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
     private EasyApplicationContextMock applicationContext;
     private InMemoryDatabase inMemoryDB;
-
-    public static class DebugPage extends AbstractEasyPage {
-
-        @SpringBean(name = "datasetService")
-        private DatasetService datasetService;
-
-        @SpringBean(name = "depositService")
-        private DepositService depositService;
-
-        public DatasetService getDatasetService() {
-            return datasetService;
-        }
-
-        public DepositService getDepositService() {
-            return depositService;
-        }
-    }
 
     @Before
     public void mockApplicationContext() throws Exception {
@@ -82,9 +60,10 @@ public class DepositTest {
         EasyMock.expectLastCall().anyTimes();
 
         // workaround because SpringBean injection fails
-        new Services().setDatasetService(applicationContext.getDatasetService());
-        new Services().setDepositService(applicationContext.getDepositService());
-        new Services().setItemService(applicationContext.getItemService());
+        Services services = new Services();
+        services.setDatasetService(applicationContext.getDatasetService());
+        services.setDepositService(applicationContext.getDepositService());
+        services.setItemService(applicationContext.getItemService());
         new Data().setFileStoreAccess(new FedoraFileStoreAccess());
     }
 
@@ -118,18 +97,6 @@ public class DepositTest {
 
         PowerMock.resetAll();
         inMemoryDB.close();
-    }
-
-    @Test
-    public void springBeanInjection() {
-
-        PowerMock.replayAll();
-        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        // breakpoint in Powermock.doMock shows a single instance of DepositService, yet we get two different ones
-        final DepositService depositService = applicationContext.getDepositService();
-        Assume.assumeTrue(depositService == ((DebugPage) tester.startPage(DebugPage.class)).getDepositService());
-        Assume.assumeTrue(depositService == ((DebugPage) tester.startPage(new DebugPage())).getDepositService());
-        fail("SpringBean injection problem seems fixed, apply in DepositPage and remove calls to Services.set");
     }
 
     @Test
