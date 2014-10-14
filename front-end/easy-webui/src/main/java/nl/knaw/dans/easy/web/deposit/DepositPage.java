@@ -6,7 +6,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
@@ -18,6 +17,7 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +30,11 @@ public class DepositPage extends AbstractEasyNavPage {
 
     private DepositPanel depositPanel;
 
-    // causes test trouble @SpringBean(name = "datasetService")
-    private DatasetService datasetService = Services.getDatasetService();
+    @SpringBean(name = "datasetService")
+    private DatasetService datasetService;
 
-    // causes test trouble @SpringBean(name = "depositService")
-    private DepositService depositService = Services.getDepositService();
+    @SpringBean(name = "depositService")
+    private DepositService depositService;
 
     /**
      * Constructor used by DepositIntroPage. Creates new a Dataset (and new EasyMetadata).

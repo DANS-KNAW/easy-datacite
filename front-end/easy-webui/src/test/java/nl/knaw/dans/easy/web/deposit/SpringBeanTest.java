@@ -28,7 +28,7 @@ public class SpringBeanTest {
 
     public static class DebugPage extends AbstractEasyPage {
 
-        //@SpringBean(name = "depositService")
+        // @SpringBean(name = "depositService")
         private DepositService depositService;
 
         public DepositService getDepositService() {
