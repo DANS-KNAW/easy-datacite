@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <comment>AccessCategories 1, 3, 4</comment>
+    <comment>AccessCategories common</comment>
+    <entry key="OPEN_ACCESS">Open access - Unrestricted access</entry>
     <entry key="OPEN_ACCESS_FOR_REGISTERED_USERS">Open access for registered users - Unrestricted access for all registered EASY users</entry>
     <entry key="REQUEST_PERMISSION">Restricted: request permission - Registered EASY users, but only after depositor permission is granted</entry>
     <entry key="NO_ACCESS">Other access - The data are not available via EASY (they are either accessible in another way or elsewhere)</entry>
