@@ -7,7 +7,9 @@
 <body style="height:100%">
 <wicket:panel>
 	<a wicket:id="helpPopup" class="help-popup-trigger">
-		<wicket:message key="helppopup.searchbar.help">Search help</wicket:message>
+		<wicket:child>
+			<img src='/images/button_help.gif' alt='help' />
+		</wicket:child>
 	</a>
 
 	<div wicket:id="popupModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
