@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
+import nl.knaw.dans.common.wicket.components.popup.SearchBarHelpPopup;
 import nl.knaw.dans.common.wicket.components.search.SearchBar;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -169,7 +169,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
 
         // search bar
         add(new SearchBar(SEARCH_PANEL, isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class));
-        add(new HelpPopup("searchHelpPopup", "Search", new HelpFileReader("Search").read()));
+        add(new SearchBarHelpPopup("searchHelpPopup", "Search", new HelpFileReader("Search").read()));
         add(new EasyEditablePanel("adminBanner", EDITABLE_ADMIN_BANNER_TEMPLATE));
 
         // personal bar
