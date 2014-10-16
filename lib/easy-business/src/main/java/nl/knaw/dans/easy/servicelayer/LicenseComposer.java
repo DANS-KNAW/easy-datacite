@@ -140,6 +140,7 @@ public class LicenseComposer {
         snippets.put(SnippetKey.embargo, getSnippetContent("Embargo.html"));
         snippets.put(SnippetKey.tail, getSnippetContent("Tail.html"));
         snippets.put(AccessCategory.ANONYMOUS_ACCESS, other);
+        snippets.put(AccessCategory.OPEN_ACCESS, getSnippetContent("OpenAccess.html"));
         snippets.put(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, getSnippetContent("OpenAccessForRegisteredUsers.html"));
         snippets.put(AccessCategory.GROUP_ACCESS, getSnippetContent("RestrictGroup.html"));
         snippets.put(AccessCategory.REQUEST_PERMISSION, getSnippetContent("RestrictRequest.html"));
