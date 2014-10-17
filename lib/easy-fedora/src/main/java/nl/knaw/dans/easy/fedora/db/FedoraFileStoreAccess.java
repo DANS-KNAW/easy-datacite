@@ -825,8 +825,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             final Query query = session.createQuery(queryString);
             query.setParameter(CONTAINER_ID, itemContainer.getStoreId());
 
-            @SuppressWarnings("unchecked")
-            final List<Object[]> rows = query.list();
+            /*
+             * Fragile code. Query.list() returns a list of Object arrays or a single values depending on query. In this case we expect a list of single values.
+             * If for some reason a list of Object[] were to be returned the code will fail further down the line, not here. It seems the Hibernate API does not
+             * allow us to find a more robust solution.
+             */
+            @SuppressWarnings("rawtypes")
+            final List rows = query.list();
 
             final Set<T> result = new HashSet<T>();
             for (final Object row : rows) {
