@@ -190,13 +190,17 @@ public class TestLoginPage extends Fixture {
         // required by business layer so no SpringBean injection possible
         new Data().setUserRepo(userRepo);
 
-        expect(userRepo.findById(isA(String.class))).andStubReturn(new EasyUserTestImpl("mockedUser") {
+        EasyUserTestImpl mockedUser = new EasyUserTestImpl("mockedUser") {
             private static final long serialVersionUID = 1L;
 
             public boolean isQualified() {
                 return true;
             }
-        });
+        };
+        mockedUser.setSurname("Test");
+        mockedUser.setInitials("A.B.");
+
+        expect(userRepo.findById(isA(String.class))).andStubReturn(mockedUser);
         applicationContext.putBean("userRepo", userRepo);
     }
 
@@ -211,15 +215,21 @@ public class TestLoginPage extends Fixture {
     }
 
     private void mockHandleForgottenPasswordRequest() throws Exception {
+        final String[] s = {};
+        final EasyMailer mailer = createMock(EasyMailer.class);
+        final EasyUserService easyUserService = new EasyUserService();
+        final PasswordService passwordService = new PasswordService() {
+            // hack because ClassPathHacker does not help to find resources in AbstractNotification and EasyMailComposer
+            protected void handleSendUpdatePasswordLink(final ForgottenPasswordMessenger messenger) throws ServiceException {}
+        };
+        easyUserService.setPasswordService(passwordService);
+        new ExternalServices().setMailOffice(mailer);
+
+        mailer.sendMail(isA(String.class), isA(s.getClass()), isA(String.class), isA(String.class));
+        expectLastCall().anyTimes();
+
         applicationContext.getUserService().handleForgottenPasswordRequest(isA(ForgottenPasswordMessenger.class));
-        expectLastCall().andStubDelegateTo(new EasyUserService() {
-            public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) {
-                if (ForgottenPasswordSpecification.isSatisfiedBy(messenger))
-                    messenger.setState(ForgottenPasswordMessenger.State.NewPasswordSend);
-                else
-                    messenger.setState(ForgottenPasswordMessenger.State.InsufficientData);
-            }
-        });
+        expectLastCall().andStubDelegateTo(easyUserService);
     }
 
     @Test

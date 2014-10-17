@@ -91,7 +91,8 @@ public class PasswordService extends AbstractTokenList {
         }
     }
 
-    private void handleSendUpdatePasswordLink(final ForgottenPasswordMessenger messenger) throws ServiceException {
+    /** not part of the API, made protected for testing purposes */
+    protected void handleSendUpdatePasswordLink(final ForgottenPasswordMessenger messenger) throws ServiceException {
         final String mailToken = messenger.getMailToken();
         final String requestTime = messenger.getRequestTimeAsString();
 
