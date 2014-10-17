@@ -9,7 +9,6 @@ public class Style {
     public static final HeaderContributor
 
             MODAL_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/modal/modal.css"),
-            LOGIN_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/login/login.css"),
             FILE_EXPLORER_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/fileexplorer/file-explorer.css"),
             SEARCH_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/search.css"),
             ADVANCED_SEARCH_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/advanced_search.css"),
