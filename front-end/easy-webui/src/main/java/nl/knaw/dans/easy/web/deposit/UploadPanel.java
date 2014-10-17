@@ -5,13 +5,14 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPanel;
 
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,9 @@ public class UploadPanel extends AbstractCustomPanel {
     private static Logger logger = LoggerFactory.getLogger(UploadPanel.class);
 
     private final DatasetModel datasetModel;
+    
+    @SpringBean(name="itemService")
+    private ItemService itemService;
 
     public UploadPanel(String id, DatasetModel datasetModel) {
         super(id);
@@ -36,7 +40,7 @@ public class UploadPanel extends AbstractCustomPanel {
             DmoStoreId datasetId = datasetModel.getObject().getDmoStoreId();
             List<String> list = new ArrayList<String>();
             try {
-                list = Services.getItemService().getFilenames(datasetId, true);
+                list = itemService.getFilenames(datasetId, true);
                 if (list == null || list.isEmpty()) {
                     super.setVisible(false);
                 }

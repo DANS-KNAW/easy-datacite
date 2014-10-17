@@ -6,11 +6,11 @@ import static org.easymock.EasyMock.isA;
 import static org.powermock.api.easymock.PowerMock.createMock;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
@@ -19,32 +19,74 @@ import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.ItemService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.util.tester.FormTester;
 import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 public class DepositTest {
+
+    private static final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "1");
     private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
     private EasyApplicationContextMock applicationContext;
-    private InMemoryDatabase inMemoryDB;
+    private static InMemoryDatabase inMemoryDB;
+
+    private static class DisciplineContainerImplStub extends DisciplineContainerImpl {
+
+        // somehow a mock is only seen properly by one test
+
+        private final List<DisciplineContainer> subDisciplines = new ArrayList<DisciplineContainer>();
+
+        public DisciplineContainerImplStub(final String storeId) {
+            super(storeId);
+        }
+
+        @Override
+        public List<DisciplineContainer> getSubDisciplines() throws DomainException {
+            return subDisciplines;
+        }
+
+        private static final long serialVersionUID = 1L;
+    }
+
+    @BeforeClass
+    public static void mockDB() throws Exception {
+
+        inMemoryDB = new InMemoryDatabase();
+        mockUploadedFiles();
+        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
+    }
+
+    @AfterClass
+    public static void closeDB() throws Exception {
+
+        inMemoryDB.close();
+
+        // other tests should not accidently reuse this instance
+        new Data().setFileStoreAccess(null);
+    }
 
     @Before
     public void mockApplicationContext() throws Exception {
 
-        inMemoryDB = new InMemoryDatabase();
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
@@ -54,27 +96,33 @@ public class DepositTest {
         applicationContext.setDepositService(new EasyDepositService());
         applicationContext.setDatasetService(createMock(DatasetService.class));
         mockNewDatasets();
-        mockNoChildItems();
+        mockNoSubDisciplines();
 
         applicationContext.getDatasetService().saveEasyMetadata(isA(EasyUser.class), isA(Dataset.class));
         EasyMock.expectLastCall().anyTimes();
+    }
 
-        // workaround because SpringBean injection fails
-        Services services = new Services();
-        services.setDatasetService(applicationContext.getDatasetService());
-        services.setDepositService(applicationContext.getDepositService());
-        services.setItemService(applicationContext.getItemService());
-        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
+    @After
+    public void reset() {
+
+        PowerMock.resetAll();
+    }
+
+    private static void mockUploadedFiles() throws Exception {
+
+        final Dataset dataset = new DatasetImpl(DATASET_STORE_ID.getStoreId());
+        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "someFolder");
+        inMemoryDB.insertFile(1, dataset, "rootFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        inMemoryDB.insertFile(2, folder, "subFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        inMemoryDB.flush();
     }
 
     private void mockNoSubDisciplines() throws ObjectNotInStoreException, RepositoryException, DomainException {
 
+        final DisciplineContainerImplStub rootDiscipline = new DisciplineContainerImplStub(DISCIPLINE_STORE_ID.getStoreId());
         final EasyStore easyStore = createMock(EasyStore.class);
-        final DisciplineContainer disciplineContainer = createMock(DisciplineContainer.class);
-        expect(easyStore.retrieve(isA(DmoStoreId.class))).andStubReturn(disciplineContainer);
-        expect(disciplineContainer.getSubDisciplines()).andStubReturn(new ArrayList<DisciplineContainer>());
-        expect(disciplineContainer.isInvalidated()).andStubReturn(false);
-        new Data().setEasyStore(easyStore);
+        expect(easyStore.retrieve(isA(DmoStoreId.class))).andStubReturn(rootDiscipline);
+        new Data().setEasyStore(easyStore); // no SpringBean injection in easy-business project
     }
 
     private void mockNewDatasets() throws Exception {
@@ -82,64 +130,103 @@ public class DepositTest {
         final DatasetService datasetService = applicationContext.getDatasetService();
         for (final MetadataFormat mdf : MetadataFormat.values()) {
             final DatasetImpl dataset = new DatasetImpl(DATASET_STORE_ID.getStoreId(), mdf);
+            provideContentForSuppliedMetadata(dataset);
             expect(datasetService.newDataset(eq(mdf))).andStubReturn(dataset);
         }
     }
 
-    private void mockNoChildItems() throws ServiceException {
+    private void provideContentForSuppliedMetadata(final DatasetImpl dataset) {
 
-        final ItemService itemService = applicationContext.getItemService();
-        expect(itemService.hasChildItems(isA(DmoStoreId.class))).andStubReturn(false);
+        final List<BasicString> dcTitle = new ArrayList<BasicString>();
+        dcTitle.add(new BasicString("just a test"));
+        dataset.getEasyMetadata().getEmdTitle().setDcTitle(dcTitle);
     }
 
-    @After
-    public void reset() {
-
-        PowerMock.resetAll();
-        inMemoryDB.close();
+    @Ignore // speed up the build by skipping this debug tool
+    @Test
+    public void introPage() throws Exception {
+        // page already dumped by {@link EditableContentPageTest#depositIntroPage()}
+        // the logging allows to check for the proper argument of selectDepositTypeOnIntroPage
+        startIntroPage().debugComponentTrees();
     }
 
     @Test
-    public void firstArcheaologyPage() throws Exception {
+    public void archeaologyPages() throws Exception {
 
-        final EasyWicketTester tester = startIntroPage();
-        tester.clickLink("disciplines:0:startDepositLink");
-        tester.dumpPage();
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(0);
+        tester.dumpPage("1");
+
+        for (int i = 2; i < 8; i++) {
+            switchPage(tester, i);
+            tester.dumpPage("" + i);
+        }
     }
 
-    @Ignore
-    // only when executed alone it sees the expect(disciplineContainer.isInvalidated())
-    // might be similar cause as why we had to work around SpringBean injection
     @Test
-    public void firstLanguageLiteraturePage() throws Exception {
+    public void historyPages() throws Exception {
 
-        mockNoSubDisciplines();
-        final EasyWicketTester tester = startIntroPage();
-        tester.clickLink("disciplines:4:startDepositLink");
-        tester.dumpPage();
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(1);
+        tester.dumpPage("1");
+
+        for (int i = 2; i < 5; i++) {
+            switchPage(tester, i);
+            tester.dumpPage("" + i);
+        }
+    }
+
+    @Test
+    public void socialAndBehaviouralPages() throws Exception {
+
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(2);
+        tester.dumpPage("1");
+
+        for (int i = 2; i < 5; i++) {
+            switchPage(tester, i);
+            tester.dumpPage("" + i);
+        }
+    }
+
+    @Test
+    public void lifeScienceAndMedicinePages() throws Exception {
+
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(3);
+        tester.dumpPage("1");
+
+        for (int i = 2; i < 5; i++) {
+            switchPage(tester, i);
+            tester.dumpPage("" + i);
+        }
+    }
+
+    @Test
+    public void languageAndLiterature() throws Exception {
+
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(5);
+        tester.dumpPage("1");
+
+        for (int i = 2; i < 5; i++) {
+            switchPage(tester, i);
+            tester.dumpPage("" + i);
+        }
     }
 
     @Test
     public void otherSources() throws Exception {
 
-        mockNoSubDisciplines();
-        final EasyWicketTester tester = startIntroPage();
-        final String path = "depositPanel:depositForm:navigationPanel:pageLinkContainer:listView:";
-
-        tester.clickLink("disciplines:5:startDepositLink");
+        final EasyWicketTester tester = selectDepositTypeOnIntroPage(5);
         tester.dumpPage("1a");
         addSecondCreator(tester);
 
-        tester.clickLink(path + "1:pageLink");
+        switchPage(tester, 2);
         tester.dumpPage("2");
 
-        tester.clickLink(path + "0:pageLink");
+        switchPage(tester, 1);
         tester.dumpPage("1b");// now changes by addSecondCreator are visible, for example the minus button
 
-        tester.clickLink(path + "2:pageLink");
+        switchPage(tester, 3);
         tester.dumpPage("3");
 
-        tester.clickLink(path + "3:pageLink");
+        switchPage(tester, 4);
         tester.dumpPage("4");
     }
 
@@ -161,13 +248,21 @@ public class DepositTest {
         formTester.setValue(creatorPath + "1:repeatingPanel:surnameField", "surnamevalueToo");
     }
 
+    private void switchPage(final EasyWicketTester tester, final int i) {
+        tester.clickLink("depositPanel:depositForm:navigationPanel:pageLinkContainer:listView:" + (i - 1) + ":pageLink");
+    }
+
+    private EasyWicketTester selectDepositTypeOnIntroPage(final int string) {
+        final EasyWicketTester tester = startIntroPage();
+        tester.clickLink("disciplines:" + string + ":startDepositLink");
+        tester.assertRenderedPage(DepositPage.class);
+        return tester;
+    }
+
     private EasyWicketTester startIntroPage() {
 
         PowerMock.replayAll();
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-
-        // DepositIntroPage already tested by {@link EditableContentPageTest#depositIntroPage()}
-        // so it is just a starting point for scenario's that click around
         tester.startPage(new DepositIntroPage());
         return tester;
     }

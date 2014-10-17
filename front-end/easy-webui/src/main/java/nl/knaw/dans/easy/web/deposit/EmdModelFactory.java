@@ -12,7 +12,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.AuthorListWrapper;
@@ -36,8 +36,10 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.Term;
 
 import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,12 +54,16 @@ public class EmdModelFactory implements IModelFactory {
 
     private DatasetModel datasetModel;
 
+    @SpringBean(name="depositService")
+    private DepositService depositService;
+
     public EmdModelFactory(DatasetModel datasetModel) {
         this.datasetModel = datasetModel;
+        InjectorHolder.getInjector().inject(this);
     }
 
     public ChoiceList getChoiceList(String listId, Locale locale) throws ServiceException {
-        return Services.getDepositService().getChoices(listId, locale);
+        return depositService.getChoices(listId, locale);
     }
 
     @SuppressWarnings("rawtypes")
