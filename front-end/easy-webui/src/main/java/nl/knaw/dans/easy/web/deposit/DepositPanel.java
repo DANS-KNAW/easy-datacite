@@ -16,7 +16,7 @@ import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DatasetNotification;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EditableInfoPage;
@@ -49,6 +49,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,9 @@ public class DepositPanel extends AbstractDatasetModelPanel {
     private FormPage currentPage;
 
     private DepositForm depoForm;
+    
+    @SpringBean(name="datasetService")
+    private DatasetService datasetService;
 
     public DepositPanel(String wicketId, DepositDiscipline discipline, String formDefinitionId, DatasetModel model) {
         super(wicketId, model);
@@ -176,7 +180,7 @@ public class DepositPanel extends AbstractDatasetModelPanel {
                 logger.info(message);
             }
 
-            Services.getDatasetService().submitDataset(submission);
+            datasetService.submitDataset(submission);
 
             FormPage firstErrorPage = submission.getFirstErrorPage();
             if (firstErrorPage != null) {
@@ -223,7 +227,7 @@ public class DepositPanel extends AbstractDatasetModelPanel {
     public boolean saveContents() {
         Dataset dataset = getDataset();
         try {
-            Services.getDatasetService().saveEasyMetadata(submission.getSessionUser(), dataset);
+            datasetService.saveEasyMetadata(submission.getSessionUser(), dataset);
         }
         catch (ServiceException e) {
             if (e.getCause() instanceof ConcurrentUpdateException) {
