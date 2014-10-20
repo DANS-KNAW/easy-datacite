@@ -7,16 +7,9 @@ import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.junit.Assume;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 // http://docs.spring.io/spring-batch/reference/html/testing.html
 // @ContextConfiguration(locations = {"applicationContext.xml"})
