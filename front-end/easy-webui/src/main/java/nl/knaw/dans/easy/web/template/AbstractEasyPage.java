@@ -132,6 +132,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
         add(Script.JQUERY_CONTRIBUTION);
         add(Script.BOOTSTRAP_CONTRIBUTION);
         add(Style.BOOTSTRAP_CONTRIBUTION);
+        add(Style.FONTAWESOME_CONTRIBUTION);
 
         // logging for statistics (only log if there is an external referer-url)
         HttpServletRequest hsr = ((WebRequest) getRequest()).getHttpServletRequest();
