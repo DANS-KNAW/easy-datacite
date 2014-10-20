@@ -178,7 +178,8 @@ public class EasyWicketTester extends WicketTester {
                 // .replace("<head>", "<head><base href='XXX'>")
                 .replaceAll("( src=.)\\?", "#")// avoid recursive IFrame's
                 .replaceAll("( src=.)../images/", "$1" + webuiHome + "/src/main/webapp/images/")//
-                .replaceAll("( src=.)resources/nl.knaw.dans.easy.web.main.AbstractEasyNavPage/", "$1" + webuiHome + "/src/main/java/nl/knaw/dans/easy/web/main/")//
+                .replaceAll("( src=.)resources/nl.knaw.dans.easy.web.main.AbstractEasyNavPage/",
+                        "$1" + webuiHome + "/src/main/java/nl/knaw/dans/easy/web/main/")//
                 .replaceAll("( href=.)../images/", "$1" + webuiHome + "/src/main/webapp/images/")//
                 .replaceAll("( href=.)resources/nl.knaw.dans.easy.web.template.Style", "$1" + webuiHome + "/src/main/java/nl/knaw/dans/easy/web/template")//
                 .replaceAll("( src=.)resources/nl.knaw.dans.easy.web.template.Style", "$1" + webuiHome + "/src/main/java/nl/knaw/dans/easy/web/template")//

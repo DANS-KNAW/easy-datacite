@@ -54,7 +54,7 @@ public class EmdModelFactory implements IModelFactory {
 
     private DatasetModel datasetModel;
 
-    @SpringBean(name="depositService")
+    @SpringBean(name = "depositService")
     private DepositService depositService;
 
     public EmdModelFactory(DatasetModel datasetModel) {

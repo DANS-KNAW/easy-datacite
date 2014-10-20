@@ -11,7 +11,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FileExplorerTabTest extends TabTestFixture{
+public class FileExplorerTabTest extends TabTestFixture {
     private static final String TAB_PATH = "tabs:tabs-container:tabs:2:link";
 
     @BeforeClass
@@ -19,7 +19,7 @@ public class FileExplorerTabTest extends TabTestFixture{
         DatasetImpl dataset = new DatasetImpl(DATASET_STORE_ID.getStoreId());
         FolderItem folder = inMemoryDatabase.insertFolder(1, dataset, "folder");
         inMemoryDatabase.insertFile(1, dataset, "file.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
-        inMemoryDatabase.insertFile(2, folder, "subfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
+        inMemoryDatabase.insertFile(2, folder, "folder/subfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
         inMemoryDatabase.flush();
     }
 

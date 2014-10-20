@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel {
     private static final Logger logger = LoggerFactory.getLogger(DepositUploadPakbonPanel.class);
     private MarkupContainer uploadPanelHolder;
-    
-    @SpringBean(name="itemService")
+
+    @SpringBean(name = "itemService")
     private ItemService itemService;
 
     /**
