@@ -1,10 +1,5 @@
 package nl.knaw.dans.easy.domain.dataset;
 
-import static nl.knaw.dans.common.lang.dataset.AccessCategory.ANONYMOUS_ACCESS;
-import static nl.knaw.dans.common.lang.dataset.AccessCategory.GROUP_ACCESS;
-import static nl.knaw.dans.common.lang.dataset.AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
-import static nl.knaw.dans.common.lang.dataset.AccessCategory.REQUEST_PERMISSION;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -29,9 +24,13 @@ import nl.knaw.dans.common.lang.repo.collections.DmoContainerItem;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.reposearch.HasSearchBeans;
 import nl.knaw.dans.common.lang.search.IndexDocument;
+import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.data.store.EmdMetadataUnitXMLBeanAdapter;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.collections.ECollection;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DeserializationException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -43,10 +42,8 @@ import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.domain.model.DatasetItemMetadata;
 import nl.knaw.dans.easy.domain.model.DatasetRelations;
 import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
@@ -63,9 +60,12 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 import nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, HasSearchBeans {
     private static final long serialVersionUID = -343629864711069451L;
+    private static final Logger logger = LoggerFactory.getLogger(DatasetImpl.class);
 
     private AdministrativeMetadata administrativeMetadata;
 
@@ -201,22 +201,6 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return getEasyMetadata().getEmdOther().getEasApplicationSpecific().getMetadataFormat();
     }
 
-    public List<AccessCategory> getChildVisibility() {
-        return getDatasetItemContainerMetadata().getChildVisibility();
-    }
-
-    public List<AccessCategory> getChildAccessibility() {
-        return getDatasetItemContainerMetadata().getChildAccessibility();
-    }
-
-    public boolean hasPermissionRestrictedItems() {
-        return getChildAccessibility().contains(AccessCategory.REQUEST_PERMISSION);
-    }
-
-    public boolean hasGroupRestrictedItems() {
-        return getChildAccessibility().contains(AccessCategory.GROUP_ACCESS);
-    }
-
     //@formatter:off
     /* 
      * Return values
@@ -344,7 +328,16 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     }
 
     public boolean isDeletable() {
-        return getTotalFileCount() == 0 && getTotalFolderCount() == 0 && DatasetState.DELETED.equals(getAdministrativeMetadata().getAdministrativeState());
+        try {
+            boolean hasMembers = Data.getFileStoreAccess().hasMember(getDmoStoreId(), FileItemVO.class)
+                    || Data.getFileStoreAccess().hasMember(getDmoStoreId(), FolderItemVO.class);
+            return !hasMembers && DatasetState.DELETED.equals(getAdministrativeMetadata().getAdministrativeState());
+        }
+        catch (StoreAccessException e) {
+            // also used in a toString so not everybody van catch, false seems a safe response
+            logger.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     public String getPreferredTitle() {
@@ -415,67 +408,11 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     @Override
     public void addChild(DmoContainerItem containerItem) throws RepositoryException {
         super.addChild(containerItem);
-
-        onChildAdded((DatasetItem) containerItem);
-    }
-
-    public void onChildAdded(DatasetItem item) {
-        getDatasetItemContainerMetadata().onChildAdded(item);
     }
 
     @Override
     public void removeChild(DmoContainerItem containerItem) throws RepositoryException {
         super.removeChild(containerItem);
-
-        onChildRemoved((DatasetItem) containerItem);
-    }
-
-    public void onChildRemoved(DatasetItem item) {
-        getDatasetItemContainerMetadata().onChildRemoved(item);
-    }
-
-    public void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldCreatorRole, newCreatorRole);
-    }
-
-    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldStreamingPath, newStreamingPath);
-    }
-
-    public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldVisibleTo, newVisibleTo);
-    }
-
-    public void onDescendantStateChange(AccessibleTo oldAccessibleTo, AccessibleTo newAccessibleTo) {
-        getDatasetItemContainerMetadata().onChildStateChange(oldAccessibleTo, newAccessibleTo);
-    }
-
-    public int getChildFileCount() {
-        return getDatasetItemContainerMetadata().getChildFileCount();
-    }
-
-    public int getChildFolderCount() {
-        return getDatasetItemContainerMetadata().getChildFolderCount();
-    }
-
-    public int getTotalFileCount() {
-        return getDatasetItemContainerMetadata().getTotalFileCount();
-    }
-
-    public int getTotalFolderCount() {
-        return getDatasetItemContainerMetadata().getTotalFolderCount();
-    }
-
-    public int getCreatorRoleFileCount(CreatorRole creatorRole) {
-        return getDatasetItemContainerMetadata().getCreatorRoleFileCount(creatorRole);
-    }
-
-    public int getVisibleToFileCount(VisibleTo visibleTo) {
-        return getDatasetItemContainerMetadata().getVissibleToFileCount(visibleTo);
-    }
-
-    public int getAccessibleToFileCount(AccessibleTo accessibleTo) {
-        return getDatasetItemContainerMetadata().getAccessibleToFileCount(accessibleTo);
     }
 
     // ??
@@ -544,14 +481,6 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     public boolean isHierarchical() {
         return true;
-    }
-
-    public void onDescendantAdded(DatasetItem item) {
-        getDatasetItemContainerMetadata().addDescendant(item);
-    }
-
-    public void onDescendantRemoved(DatasetItem item) {
-        getDatasetItemContainerMetadata().onDescendantRemoved(item);
     }
 
     public Set<DmoCollection> getCollections() {
@@ -634,20 +563,6 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     @Override
     public DatasetRelations getRelations() {
         return (DatasetRelations) super.getRelations();
-    }
-
-    public boolean hasVisibleItems(final EasyUser user) {
-        List<AccessCategory> childVisibility = getChildVisibility();
-        if (user == null || user.isAnonymous())
-            return childVisibility.contains(ANONYMOUS_ACCESS);
-        if (childVisibility.contains(ANONYMOUS_ACCESS) || childVisibility.contains(OPEN_ACCESS_FOR_REGISTERED_USERS))
-            return true;
-        if (childVisibility.contains(GROUP_ACCESS) && isGroupAccessGrantedTo(user))
-            return true;
-        if (childVisibility.contains(REQUEST_PERMISSION) && isPermissionGrantedTo(user))
-            return true;
-
-        return false;
     }
 
     public String getPersistentIdentifier() {

@@ -65,7 +65,6 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
             getDatasetItemMetadata().setPath(datasetItem.getPath() + "/" + getLabel());
         }
         getDatasetItemMetadata().setParentDmoStoreId(parent.getDmoStoreId());
-        parent.onChildAdded(this);
     }
 
     @Override
@@ -77,19 +76,6 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
     @Override
     public boolean isDescendantOf(DataModelObject dmo) {
         return dmo != null && isDescendantOf(dmo.getDmoStoreId());
-    }
-
-    @Override
-    public void registerDeleted() {
-        boolean wasRegisterDeleted = isRegisteredDeleted();
-        super.registerDeleted();
-
-        if (!wasRegisterDeleted) {
-            DatasetItemContainer parent = (DatasetItemContainer) getParent();
-            if (parent != null) {
-                parent.onChildRemoved(this);
-            }
-        }
     }
 
     @Override

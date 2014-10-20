@@ -58,14 +58,6 @@ public interface Dataset extends DatasetItemContainer {
 
     boolean isUnderEmbargo();
 
-    List<AccessCategory> getChildVisibility();
-
-    List<AccessCategory> getChildAccessibility();
-
-    boolean hasPermissionRestrictedItems();
-
-    boolean hasGroupRestrictedItems();
-
     Set<Group> getGroups();
 
     boolean addGroup(Group group);
@@ -81,8 +73,6 @@ public interface Dataset extends DatasetItemContainer {
     boolean isPermissionGrantedTo(EasyUser user);
 
     boolean isGroupAccessGrantedTo(EasyUser user);
-
-    boolean hasVisibleItems(EasyUser user);
 
     String getPersistentIdentifier();
 

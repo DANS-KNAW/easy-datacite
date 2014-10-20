@@ -26,6 +26,7 @@ import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
@@ -48,7 +49,9 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -62,13 +65,17 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class EasyDatasetServiceTest extends TestHelper {
 
     private static EasyStore easyStore;
+    private static FileStoreAccess fileStoreAccess;
     private static DatasetService service;
     private static EasyUserRepo userRepo;
     private static DisciplineCollection disciplineCollection;
 
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public void before() {
         new Security(new CodedAuthz());
+
+        fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
+        new Data().setFileStoreAccess(fileStoreAccess);
 
         easyStore = EasyMock.createMock(EasyStore.class);
         Data data = new Data();
@@ -117,11 +124,10 @@ public class EasyDatasetServiceTest extends TestHelper {
         EasyMock.reset(easyStore);
         EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
 
-        new Data().setFileStoreAccess(EasyMock.createMock(FileStoreAccess.class));
         EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(new HashSet<AccessibleTo>());
         EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(new HashSet<VisibleTo>());
 
-        EasyMock.replay(easyStore, Data.getFileStoreAccess());
+        EasyMock.replay(easyStore, fileStoreAccess);
         Dataset dataset = service.getDataset(user, storeId);
         EasyMock.verify(easyStore);
 
@@ -226,7 +232,10 @@ public class EasyDatasetServiceTest extends TestHelper {
         EasyMock.expect(easyStore.ingest(dataset, EasyUnitOfWork.createIngestMessage("dummy-dataset:1", sessionUser))).andThrow(
                 new RepositoryException("Store closed for holidays."));
         EasyMock.expect(userRepo.exists("jan")).andReturn(true);
-        EasyMock.replay(easyStore, userRepo);
+
+        EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
+
+        EasyMock.replay(easyStore, userRepo, fileStoreAccess);
 
         try {
             service.saveEasyMetadata(sessionUser, dataset, reporter);
@@ -235,7 +244,7 @@ public class EasyDatasetServiceTest extends TestHelper {
             se = e;
         }
 
-        EasyMock.verify(easyStore, userRepo);
+        EasyMock.verify(easyStore, userRepo, fileStoreAccess);
         assertEquals(0, reporter.getTotalActionCount());
         assertEquals(1, reporter.reportedExceptions.size());
         assertEquals(se, reporter.reportedExceptions.get(0));
@@ -286,6 +295,8 @@ public class EasyDatasetServiceTest extends TestHelper {
         sessionUser.setState(State.ACTIVE);
         dataset.getAdministrativeMetadata().setDepositorId("xyz");
         DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, sessionUser);
+        EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
+        EasyMock.replay(fileStoreAccess);
         service.submitDataset(submission);
     }
 

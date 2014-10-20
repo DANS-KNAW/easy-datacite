@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.business.services;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +27,7 @@ import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
@@ -43,7 +46,7 @@ import nl.knaw.dans.easy.util.TestHelper;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,8 +63,8 @@ public class EasyItemServiceTest extends TestHelper {
 
     private static EasyItemService service;
 
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public void beforeClass() {
         new Security(new CodedAuthz());
 
         easyStore = EasyMock.createMock(EasyStore.class);
@@ -148,13 +151,19 @@ public class EasyItemServiceTest extends TestHelper {
     }
 
     @Test(expected = CommonSecurityException.class)
-    public void updateObjects() throws ServiceException {
+    public void updateObjects() throws Exception {
+
+        expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
+        EasyMock.replay(fileStoreAccess);
+
         Dataset dataset = new DatasetImpl("easy-dataset:1");
 
         List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
         sidList.add(new DmoStoreId("foo:21"));
         UpdateInfo info = new UpdateInfo(VisibleTo.NONE, AccessibleTo.ANONYMOUS, "bla", true);
         service.updateObjects(getTestUser(), dataset, sidList, info, null);
+
+        EasyMock.reset(fileStoreAccess);
     }
 
     @Test(expected = ServiceException.class)
@@ -175,6 +184,7 @@ public class EasyItemServiceTest extends TestHelper {
 
         EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
         EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId, -1, -1, null, null)).andThrow(new ApplicationException("I'm too tired to run."));
+        EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
 
         EasyMock.replay(easyStore, fileStoreAccess);
         service.addDirectoryContents(sessionUser, dataset, parentId, rootFile, filesToIngest, reporter);

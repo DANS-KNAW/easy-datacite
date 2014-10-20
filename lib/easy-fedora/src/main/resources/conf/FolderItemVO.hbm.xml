@@ -21,29 +21,6 @@
         <property name="name" type="string">
             <column name="name" length="256" not-null="true" />
         </property>
-        
-        <!--  cascading  on all and lazy loading off - the code currently depends on this -->
-        <set name="creatorRoles" inverse="true" lazy="false" table="easy_folder_creator" fetch="select" cascade="all-delete-orphan">
-            <key on-delete="cascade">
-                <column name="pid" length="64" not-null="true" />
-            </key>
-            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole" />
-        </set>
- 
-        <set name="visibleToList" inverse="true" lazy="false" table="easy_folder_visibility_status" fetch="select" cascade="all-delete-orphan">
-            <key on-delete="cascade">
-                <column name="pid" length="64" not-null="true" />
-            </key>
-            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo" />
-        </set>
-
-        <set name="accessibleToList" inverse="true" lazy="false" table="easy_folder_accessibility_status" fetch="select" cascade="all-delete-orphan">
-            <key on-delete="cascade">
-                <column name="pid" length="64" not-null="true" />
-            </key>
-            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo" />
-        </set>
-
     </class>
     
 </hibernate-mapping>
