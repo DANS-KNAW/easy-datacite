@@ -75,8 +75,8 @@ public class DepositPanel extends AbstractDatasetModelPanel {
     private FormPage currentPage;
 
     private DepositForm depoForm;
-    
-    @SpringBean(name="datasetService")
+
+    @SpringBean(name = "datasetService")
     private DatasetService datasetService;
 
     public DepositPanel(String wicketId, DepositDiscipline discipline, String formDefinitionId, DatasetModel model) {

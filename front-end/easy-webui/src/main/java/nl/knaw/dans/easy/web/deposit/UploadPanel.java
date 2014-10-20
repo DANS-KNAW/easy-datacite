@@ -22,8 +22,8 @@ public class UploadPanel extends AbstractCustomPanel {
     private static Logger logger = LoggerFactory.getLogger(UploadPanel.class);
 
     private final DatasetModel datasetModel;
-    
-    @SpringBean(name="itemService")
+
+    @SpringBean(name = "itemService")
     private ItemService itemService;
 
     public UploadPanel(String id, DatasetModel datasetModel) {

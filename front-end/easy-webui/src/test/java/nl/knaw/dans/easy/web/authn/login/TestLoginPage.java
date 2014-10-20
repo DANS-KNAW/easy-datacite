@@ -14,14 +14,16 @@ import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
-import nl.knaw.dans.easy.business.authn.ForgottenPasswordSpecification;
+import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.services.EasyUserService;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.Authentication.State;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
+import nl.knaw.dans.easy.mail.EasyMailer;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
@@ -142,7 +144,7 @@ public class TestLoginPage extends Fixture {
         formTester.submit();
         tester.dumpPage();
         // message for a manual test: "no user found"
-        tester.assertLabelContains(PASSWORD_FORM_PATH + FIRST_COMMON_FEEDBACK_MESSAGE, "not enough info");
+        tester.assertLabelContains(PASSWORD_FORM_PATH + FIRST_COMMON_FEEDBACK_MESSAGE, "No user found");
         tester.assertRenderedPage(ForgottenPasswordPage.class);
     }
 

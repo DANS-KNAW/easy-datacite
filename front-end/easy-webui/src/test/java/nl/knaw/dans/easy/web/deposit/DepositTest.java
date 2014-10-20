@@ -142,7 +142,8 @@ public class DepositTest {
         dataset.getEasyMetadata().getEmdTitle().setDcTitle(dcTitle);
     }
 
-    @Ignore // speed up the build by skipping this debug tool
+    @Ignore
+    // speed up the build by skipping this debug tool
     @Test
     public void introPage() throws Exception {
         // page already dumped by {@link EditableContentPageTest#depositIntroPage()}
