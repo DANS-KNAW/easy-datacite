@@ -47,6 +47,9 @@ public class EasyUserImpl extends UserImpl implements EasyUser {
     @LdapAttribute(id = "easyHasConfirmedGeneralConditions")
     private boolean acceptedGeneralConditions;
 
+    @LdapAttribute(id = "easySwordDepositAllowed")
+    private boolean swordDepositAllowed;
+
     private CreatorRole creatorRole;
 
     /**
@@ -304,6 +307,16 @@ public class EasyUserImpl extends UserImpl implements EasyUser {
     @Override
     public void setAcceptedGeneralConditions(boolean acceptedGeneralConditions) {
         this.acceptedGeneralConditions = acceptedGeneralConditions;
+    }
+
+    @Override
+    public boolean isSwordDepositAllowed() {
+        return swordDepositAllowed;
+    }
+
+    @Override
+    public void setSwordDepositAllowed(boolean swordDepositAllowed) {
+        this.swordDepositAllowed = swordDepositAllowed;
     }
 
 }

@@ -78,4 +78,8 @@ public interface EasyUser extends User {
     boolean hasAcceptedGeneralConditions();
 
     void setAcceptedGeneralConditions(boolean accepted);
+
+    boolean isSwordDepositAllowed();
+
+    void setSwordDepositAllowed(boolean swordDepositAllowed);
 }

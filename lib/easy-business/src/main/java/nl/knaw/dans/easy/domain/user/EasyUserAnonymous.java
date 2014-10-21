@@ -352,4 +352,15 @@ public class EasyUserAnonymous implements EasyUser {
     public void setAcceptedGeneralConditions(boolean accepted) {
         throw new AnonymousUserException("Method not supported.");
     }
+
+    @Override
+    public boolean isSwordDepositAllowed() {
+        return false;
+    }
+
+    @Override
+    public void setSwordDepositAllowed(boolean swordDepositAllowed) {
+        throw new AnonymousUserException("Method not supported.");
+    }
+
 }
