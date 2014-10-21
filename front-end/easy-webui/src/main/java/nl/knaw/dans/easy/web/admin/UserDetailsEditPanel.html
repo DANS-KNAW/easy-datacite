@@ -255,7 +255,7 @@
 			</td>
 			<td><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
 		</tr>
-		
+
 		<tr>
 			<td><label for="logMyActions"><wicket:message
 				key="user.logMyActions">Log my actions</wicket:message></label></td>
@@ -268,6 +268,21 @@
   				</span>
 			</td>
 			<td><wicket:message key="userinfo.logMyActions.explanation">explanation</wicket:message></td>
+		</tr>
+
+		
+		<tr>
+			<td><label for="swordDepositAllowed"><wicket:message
+				key="user.swordDepositAllowed">SWORD Deposit Allowed</wicket:message></label></td>
+			<td>
+				<span wicket:id="swordDepositAllowed">
+    				<input wicket:id="sword-yes" type="radio"/><wicket:message
+				key="userinfo.swordDepositAllowed.true">Yes</wicket:message><br />
+    				<input wicket:id="sword-no" type="radio"/><wicket:message
+				key="userinfo.swordDepositAllowed.false">No</wicket:message>
+  				</span>
+			</td>
+			<td><wicket:message key="userinfo.swordDepositAllowed.explanation">explanation</wicket:message></td>
 		</tr>
 		
 

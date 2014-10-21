@@ -69,6 +69,8 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
 
         // Have different message depending on boolean; yes or no!
         add(new Label(UserProperties.OPTS_FOR_NEWSLETTER, new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
+        add(new Label(UserProperties.SWORD_DEPOSIT_ALLOWED, new StringResourceModel("userinfo.swordDepositAllowed.${swordDepositAllowed}", this,
+                new Model(user))));
         add(new Label(UserProperties.LOG_MY_ACTIONS, new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
 
         DateTime lastLogin = user.getLastLoginDate();

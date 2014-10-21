@@ -159,6 +159,11 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
             informByEmailSelection.add(new Radio("news-no", new Model(false)));
             add(informByEmailSelection);
 
+            RadioGroup swordDepositAllowedSelection = new RadioGroup(UserProperties.SWORD_DEPOSIT_ALLOWED);
+            swordDepositAllowedSelection.add(new Radio("sword-yes", new Model(true)));
+            swordDepositAllowedSelection.add(new Radio("sword-no", new Model(false)));
+            add(swordDepositAllowedSelection);
+
             RadioGroup logMyActionsSelection = new RadioGroup(ApplicationUser.LOG_MY_ACTIONS);
             logMyActionsSelection.add(new Radio<Boolean>("log-yes", new Model<Boolean>(true)));
             logMyActionsSelection.add(new Radio<Boolean>("log-no", new Model<Boolean>(false)));

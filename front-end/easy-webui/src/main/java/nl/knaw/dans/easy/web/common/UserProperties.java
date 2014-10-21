@@ -33,11 +33,12 @@ public interface UserProperties {
     public static final String DISPLAYROLES = "displayRoles";
     public static final String DISPLAYGROUPS = "displayGroups";
     public static final String OPTS_FOR_NEWSLETTER = "optsForNewsletter";
+    public static final String SWORD_DEPOSIT_ALLOWED = "swordDepositAllowed";
     public static final String LOG_MY_ACTIONS = "logMyActions";
     public static final String DAI = "dai";
 
     public static final String[] ALL_PROPERTIES = {USER_ID, DISPLAYNAME, TITLE, INITIALS, PREFIXES, SURNAME, ORGANIZATION, DEPARTMENT, FUNCTION, ADDRESS,
-            POSTALCODE, CITY, COUNTRY, EMAIL, TELEPHONE, STATE, DISPLAYROLES, DISPLAYGROUPS, OPTS_FOR_NEWSLETTER, LOG_MY_ACTIONS, DAI};
+            POSTALCODE, CITY, COUNTRY, EMAIL, TELEPHONE, STATE, DISPLAYROLES, DISPLAYGROUPS, OPTS_FOR_NEWSLETTER, SWORD_DEPOSIT_ALLOWED, LOG_MY_ACTIONS, DAI};
 
     /**
      * Minimum length of a user id.
