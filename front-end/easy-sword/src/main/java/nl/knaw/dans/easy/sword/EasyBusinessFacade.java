@@ -76,15 +76,7 @@ public class EasyBusinessFacade {
 
         // not a federative user
         authenticate(userId, password);
-        try {
-            return Data.getUserRepo().findById(userId);
-        }
-        catch (final ObjectNotInStoreException exception) {
-            throw newSWORDAuthenticationException(userId + " not authenticed", exception);
-        }
-        catch (final RepositoryException exception) {
-            throw newSWORDException((userId + " authentication problem"), exception);
-        }
+        return getAuthorizedUser(userId);
     }
 
     // NO username/password authentication, that is allready done via the federation
@@ -102,14 +94,25 @@ public class EasyBusinessFacade {
 
         final String userId = userIdMap.getDansUserId();
         logger.debug("Found easy user for federative user: fedUserId='" + fedUserId + "', userId='" + userId + "'");
+
+        return getAuthorizedUser(userId);
+    }
+
+    private static EasyUser getAuthorizedUser(final String authenticatedUserId) throws SWORDException, SWORDAuthenticationException {
         try {
-            return Data.getUserRepo().findById(userId);
+            EasyUser authenticatedUser = Data.getUserRepo().findById(authenticatedUserId);
+            // Check authorization
+            if (!authenticatedUser.isSwordDepositAllowed()) {
+                // Use AuthenticationException because there is no Authorization specific exception available
+                throw newSWORDAuthenticationException(authenticatedUserId + " not allowed", null);
+            }
+            return authenticatedUser;
         }
         catch (final ObjectNotInStoreException exception) {
-            throw newSWORDAuthenticationException(userId + " authentication problem", exception);
+            throw newSWORDAuthenticationException(authenticatedUserId + " authentication problem", exception);
         }
         catch (final RepositoryException exception) {
-            throw newSWORDException((userId + " authentication problem"), exception);
+            throw newSWORDException((authenticatedUserId + " authentication problem"), exception);
         }
     }
 

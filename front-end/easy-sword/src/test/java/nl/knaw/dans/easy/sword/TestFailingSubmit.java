@@ -15,9 +15,7 @@ import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
-public class TestFailingSubmit extends SubmitFixture
-// maven should not run this test therefore the name should not start or end with test.
-{
+public class TestFailingSubmit extends SubmitFixture {
     @Before
     public void setupMocking() throws Exception {
         MockUtil.mockAll();
@@ -118,6 +116,11 @@ public class TestFailingSubmit extends SubmitFixture
     @Test(expected = SWORDAuthenticationException.class)
     public void emptyUser() throws Throwable {
         execute("", MockUtil.PASSWORD, LOCATION);
+    }
+
+    @Test(expected = SWORDAuthenticationException.class)
+    public void unAuthorizedUser() throws Throwable {
+        execute(MockUtil.UNAUTHORIZED_USER_ID, MockUtil.PASSWORD, LOCATION);
     }
 
     private void execute(boolean verbose, boolean noOp, final String zip) throws Exception, SWORDException {

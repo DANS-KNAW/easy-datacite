@@ -45,10 +45,11 @@ public class MockUtil {
     public static final String INVALID_USER_ID = "nobody";
     public static final String VALID_USER_ID = "somebody";
     public static final String ARCHIV_USER_ID = "archivist";
+    public static final String UNAUTHORIZED_USER_ID = "somebodyunauthorized";
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
-
     public static final EasyUserImpl USER = createSomeBody();
     public static final EasyUserImpl ARCHIVIST = createArchivist();
+    public static final EasyUserImpl UNAUTHORIZED_USER = createSomeBodyUnAuthorized();
 
     private static final int MAX_NR_OF_VERBOSE_NO_OP_TESTS = 1;
     private static int countDatasets = 0;
@@ -179,22 +180,26 @@ public class MockUtil {
         data.setUserRepo(userRepo);
         getServices().setUserService(userService);
 
-        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
-
-        EasyMock.expect(userRepo.exists(VALID_USER_ID)).andReturn(true).anyTimes();
-        EasyMock.expect(userRepo.authenticate(VALID_USER_ID, PASSWORD)).andReturn(true).anyTimes();
         EasyMock.expect(userRepo.authenticate(INVALID_USER_ID, PASSWORD)).andReturn(false).anyTimes();
         EasyMock.expect(userRepo.authenticate(null, null)).andReturn(false).anyTimes();
         EasyMock.expect(userRepo.authenticate("", "")).andReturn(false).anyTimes();
+
+        EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
+        EasyMock.expect(userRepo.findById(INVALID_USER_ID)).andReturn(null).anyTimes();
+
+        EasyMock.expect(userRepo.findById(UNAUTHORIZED_USER_ID)).andReturn(UNAUTHORIZED_USER).anyTimes();
+        EasyMock.expect(userRepo.exists(UNAUTHORIZED_USER_ID)).andReturn(true).anyTimes();
+        EasyMock.expect(userRepo.authenticate(UNAUTHORIZED_USER_ID, PASSWORD)).andReturn(true).anyTimes();
+
+        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
+        EasyMock.expect(userRepo.exists(VALID_USER_ID)).andReturn(true).anyTimes();
+        EasyMock.expect(userRepo.authenticate(VALID_USER_ID, PASSWORD)).andReturn(true).anyTimes();
 
         final UsernamePasswordAuthentication value = new UsernamePasswordAuthentication(PASSWORD, VALID_USER_ID);
         value.setState(State.Authenticated);
         value.setUser(new EasyUserImpl(VALID_USER_ID));
         userService.authenticate(EasyMock.isA(UsernamePasswordAuthentication.class));
         EasyMock.expectLastCall().anyTimes();
-
-        EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
-        EasyMock.expect(userRepo.findById(INVALID_USER_ID)).andReturn(null).anyTimes();
 
         EasyMock.replay(userRepo, userService);
     }
@@ -220,6 +225,7 @@ public class MockUtil {
         user.setSurname("Body");
         user.setEmail("some@body.com");
         user.setState(EasyUser.State.ACTIVE);
+        user.setSwordDepositAllowed(true);
         return user;
     }
 
@@ -236,5 +242,18 @@ public class MockUtil {
         archivist.setState(EasyUser.State.ACTIVE);
         archivist.setRoles(roles);
         return archivist;
+    }
+
+    private static EasyUserImpl createSomeBodyUnAuthorized() {
+        final EasyUserImpl user = new EasyUserImpl();
+        user.setId(UNAUTHORIZED_USER_ID);
+        user.setPassword(PASSWORD);
+        user.setInitials("S.");
+        user.setFirstname("Some");
+        user.setSurname("Body");
+        user.setEmail("some@body.com");
+        user.setState(EasyUser.State.ACTIVE);
+        user.setSwordDepositAllowed(false);
+        return user;
     }
 }
