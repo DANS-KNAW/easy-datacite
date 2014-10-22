@@ -18,7 +18,6 @@ import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.UserInfoPage;
 import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
-import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
 import nl.knaw.dans.easy.web.search.pages.BrowsePage;
@@ -41,7 +40,6 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -59,11 +57,11 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
     private static final Logger logger = LoggerFactory.getLogger(AbstractEasyNavPage.class);
 
     private static final String EASY_LOGO_LINK = "easyLogoLink";
+    private static final String DANS_LOGO_LINK = "dansLogoLink";
     private static final String MANAGEMENT_BAR_PANEL = "managementBarPanel";
     private static final String EASY_VERSION = "easyVersion";
     private static final String LOGIN = "login";
     private static final String REGISTER = "register";
-    private static final String DEPOSIT = "navDeposit";
     private static final String LOGOFF = "logoff";
     private static final String SETTINGS = "myPersonalInfoLink";
     private static final String DISPLAY_NAME = "displayName";
@@ -182,52 +180,80 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
      * Initialization for all constructors.
      */
     private void init() {
-        // logo
+        // Header
         add(new BookmarkablePageLink<HomePage>(EASY_LOGO_LINK, HomePage.class));
+        add(new BookmarkablePageLink<HomePage>(DANS_LOGO_LINK, HomePage.class));
 
-        add(Style.EASY_HEADER_CONTRIBUTION);
+        add(Style.EASY2_HEADER_CONTRIBUTION);
 
-        // search bar
+        // Search bar
         add(new SearchBar(SEARCH_PANEL, isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class));
         add(new SearchBarHelpPopup("searchHelpPopup", "Search", new HelpFileReader("Search").read()));
         add(new EasyEditablePanel("adminBanner", EDITABLE_ADMIN_BANNER_TEMPLATE));
+        add(new BookmarkablePageLink<BrowsePage>(BROWSE_PAGE, BrowsePage.class));
+        add(new BookmarkablePageLink<AdvSearchPage>(ADVANCED_SEARCH_PAGE, AdvSearchPage.class));
 
         // personal bar
-        add(new PageLink<LoginPage>(LOGIN, LoginPage.class) {
-            private static final long serialVersionUID = -2538869070667617524L;
+        add(new BookmarkablePageLink<HomePage>(HOME_PAGE, HomePage.class));
 
-            @Override
-            public boolean isVisible() {
-                return getSessionUser().isAnonymous();
+        add(createLoginLink(LOGIN));
+        add(createMyDatasetsLink(MY_DATASETS));
+        add(createMyRequestsLink(MY_REQUESTS));
+        add(new LogoffLink(LOGOFF));
+
+        if (!getSessionUser().isAnonymous()) {
+            add(new SystemReadOnlyLink());
+
+            // user name
+            Label displayNameLabel = new Label(DISPLAY_NAME, new PropertyModel(this, "displayNameLabelString"));
+            if (isDisplayNameToLong()) {
+                // add 'tooltip'
+                displayNameLabel.add(new AttributeModifier("title", true, new PropertyModel(this, "fullDisplayNameLabelString")));
             }
+            add(displayNameLabel);
+
+            // settings link
+            add(createUserSettingsLink(SETTINGS));
+
+            hide(REGISTER);
+        } else {
+            hide(SystemReadOnlyLink.WICKET_ID_LINK);
+            hide(DISPLAY_NAME);
+            hide(SETTINGS);
+
+            add(new BookmarkablePageLink<RegistrationPage>(REGISTER, RegistrationPage.class));
+        }
+
+        // Management bar
+        add(new ManagementBarPanel(MANAGEMENT_BAR_PANEL));
+
+        // footer
+        addContactLink();
+        addEmailLink();
+        addNewsletterLink();
+        addTwitterLink();
+        addLinkedInLink();
+        addYouTubeLink();
+        addDisclaimerLink();
+        addLegalLink();
+        addPropertyRightStatementLink();
+        addDsaLinks();
+        add(new VersionPanel(EASY_VERSION));
+    }
+
+    private Link<UserInfoPage> createUserSettingsLink(String id) {
+        return new Link<UserInfoPage>(id) {
+            private static final long serialVersionUID = 927863641840108643L;
 
             @Override
             public void onClick() {
-                // Enable redirection to this page which is viewed before login
-                ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
-                setResponsePage(LoginPage.class);
+                setResponsePage(new UserInfoPage(false, true));
             }
+        };
+    }
 
-        });
-        add(new SecureEasyPageLink(MY_DATASETS, MyDatasetsSearchResultPage.class) {
-            private static final long serialVersionUID = -69304959956597268L;
-
-            @Override
-            public boolean isVisible() {
-                boolean visible = true;
-
-                if (getSessionUser().isAnonymous()) {
-                    visible = false;
-                } else {
-                    // hide when the user has no datasets
-                    if (!hasDatasets())
-                        visible = false;
-                }
-
-                return visible;
-            }
-        });
-        add(new SecureEasyPageLink(MY_REQUESTS, MyRequestsSearchResultPage.class) {
+    private SecureEasyPageLink createMyRequestsLink(String id) {
+        return new SecureEasyPageLink(id, MyRequestsSearchResultPage.class) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -244,56 +270,47 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
 
                 return visible;
             }
-        });
-        add(new LogoffLink(LOGOFF));
+        };
+    }
 
-        if (!getSessionUser().isAnonymous()) {
-            // user name
-            Label displayNameLabel = new Label(DISPLAY_NAME, new PropertyModel(this, "displayNameLabelString"));
-            add(displayNameLabel);
-            if (isDisplayNameToLong()) {
-                // add 'tooltip'
-                displayNameLabel.add(new AttributeModifier("title", true, new PropertyModel(this, "fullDisplayNameLabelString")));
+    private SecureEasyPageLink createMyDatasetsLink(String id) {
+        return new SecureEasyPageLink(id, MyDatasetsSearchResultPage.class) {
+            private static final long serialVersionUID = -69304959956597268L;
+
+            @Override
+            public boolean isVisible() {
+                boolean visible = true;
+
+                if (getSessionUser().isAnonymous()) {
+                    visible = false;
+                } else {
+                    // hide when the user has no datasets
+                    if (!hasDatasets())
+                        visible = false;
+                }
+
+                return visible;
+            }
+        };
+    }
+
+    private Link<LoginPage> createLoginLink(String id) {
+        return new Link<LoginPage>(id) {
+            private static final long serialVersionUID = -2538869070667617524L;
+
+            @Override
+            public boolean isVisible() {
+                return getSessionUser().isAnonymous();
             }
 
-            // settings link
-            add(new Link(SETTINGS) {
-                private static final long serialVersionUID = 927863641840108643L;
+            @Override
+            public void onClick() {
+                // Enable redirection to this page which is viewed before login
+                ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
+                setResponsePage(LoginPage.class);
+            }
 
-                @Override
-                public void onClick() {
-                    setResponsePage(new UserInfoPage(false, true));
-                }
-            });
-
-            hide(REGISTER);
-        } else {
-            hide(DISPLAY_NAME);
-            hide(SETTINGS);
-
-            add(new BookmarkablePageLink<RegistrationPage>(REGISTER, RegistrationPage.class));
-        }
-        add(new BookmarkablePageLink<DepositIntroPage>(DEPOSIT, DepositIntroPage.class));
-
-        // main bar
-        add(new BookmarkablePageLink<HomePage>(HOME_PAGE, HomePage.class));
-        add(new BookmarkablePageLink<BrowsePage>(BROWSE_PAGE, BrowsePage.class));
-        add(new BookmarkablePageLink<AdvSearchPage>(ADVANCED_SEARCH_PAGE, AdvSearchPage.class));
-
-        // management bar
-        ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);
-        add(mgmBar);
-
-        add(new SystemReadOnlyLink());
-
-        // footer
-        addUsingEasyLink();
-        addContactLink();
-        addDisclaimerLink();
-        addLegalLink();
-        addPropertyRightStatementLink();
-        addDsaLinks();
-        add(new VersionPanel(EASY_VERSION));
+        };
     }
 
     @Override
@@ -444,10 +461,6 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
             return false;
     }
 
-    private void addUsingEasyLink() {
-        add(new ExternalLink("usingEasyLink", usingEasyLink, getString("page.dansRef")));
-    }
-
     private void addContactLink() {
         add(new ExternalLink("contactLink", contactLink, getString("page.dansContact")));
     }
@@ -468,5 +481,25 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         ExternalLink link = new ExternalLink("dsaLink", dsaLink);
         link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "dsa-logo.gif")));
         add(link);
+    }
+
+    private void addEmailLink() {
+        add(new ExternalLink("emailLink", getString("easy.link.email")));
+    }
+
+    private void addNewsletterLink() {
+        add(new ExternalLink("newsletterLink", getString("easy.link.newsletter")));
+    }
+
+    private void addTwitterLink() {
+        add(new ExternalLink("twitterLink", getString("easy.link.twitter")));
+    }
+
+    private void addLinkedInLink() {
+        add(new ExternalLink("linkedinLink", getString("easy.link.linkedin")));
+    }
+
+    private void addYouTubeLink() {
+        add(new ExternalLink("youtubeLink", getString("easy.link.youtube")));
     }
 }

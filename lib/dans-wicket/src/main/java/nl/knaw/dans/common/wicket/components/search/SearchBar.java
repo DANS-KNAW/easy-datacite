@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 
@@ -70,9 +70,8 @@ public class SearchBar extends BaseSearchPanel {
                 };
             });
             queryField.setEscapeModelStrings(false);
-            add(new SubmitLink("submitLink"));
+            add(new Button("searchSubmitButton"));
             add(queryField);
-
         }
 
         public void onSubmit() {

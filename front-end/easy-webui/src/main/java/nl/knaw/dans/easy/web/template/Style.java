@@ -16,8 +16,6 @@ public class Style {
             ADMIN_PANEL_CONTRIBUTION = getHeaderContribution(Style.class, "css/admin_panel.css"),
             EASY_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/easy.css"),
             EASY2_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css2/easy.css"),
-            VIEW_DATASET_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/view_dataset.css"),
-            BOOTSTRAP_CONTRIBUTION = getHeaderContribution(Style.class, "css/bootstrap.min.css"),
-            FONTAWESOME_CONTRIBUTION = getHeaderContribution(Style.class, "css/font-awesome.min.css");
+            VIEW_DATASET_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/view_dataset.css");
     // @formatter:on 
 }

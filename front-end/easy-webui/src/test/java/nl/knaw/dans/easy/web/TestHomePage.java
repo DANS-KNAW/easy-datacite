@@ -128,7 +128,6 @@ public class TestHomePage {
         tester.assertInvisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
-        assertArchivistManagementPanelVisible();
         tester.assertLabel("displayName", "Archie Archiver (Archivist)");
     }
 
@@ -142,7 +141,6 @@ public class TestHomePage {
         tester.assertVisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
-        assertAdminManagementPanelVisible();
         tester.assertLabel("displayName", "Ad Administrator (Administrator)");
     }
 
@@ -189,20 +187,5 @@ public class TestHomePage {
     private void assertPersonalBarItemsVisible() {
         tester.assertVisible("myDatasets");
         tester.assertVisible("myRequests");
-    }
-
-    private void assertArchivistManagementPanelVisible() {
-        tester.assertVisible("managementBarPanel:myWork");
-        tester.assertVisible("managementBarPanel:ourWork");
-        tester.assertVisible("managementBarPanel:allWork");
-        tester.assertVisible("managementBarPanel:trashCan");
-        tester.assertVisible("managementBarPanel:userInfo");
-        tester.assertVisible("managementBarPanel:editableContent");
-    }
-
-    private void assertAdminManagementPanelVisible() {
-        tester.assertVisible("managementBarPanel:trashCan");
-        tester.assertVisible("managementBarPanel:userInfo");
-        tester.assertVisible("managementBarPanel:editableContent");
     }
 }

@@ -1,109 +1,206 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
-	
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+
 <head>
-	<wicket:head>
-		<link rel="shortcut icon" type="image/x-icon" href="images/lay-out/favicon.ico" />
-	</wicket:head>
+    <wicket:head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+        <link rel="shortcut icon" type="image/x-icon" href="images/lay-out/favicon.ico" />
+    </wicket:head>
 </head>
 
 <body>
 <wicket:extend>
-<div id="page">		
-	<div class="noPrint" id="dans">
-		<a href="http://www.dans.knaw.nl/">Data Archiving and Networked Services</a>
-	</div>
-	<div id="pageInner">
-		<!-- MARKUP FOR EASY Navigation BEGIN -->
-		<div id="topBar" class="noPrint">
-			<div id="first-line">
-				<div id="logo">
-					<a wicket:id="easyLogoLink"><img src="images/easy_logo.png" /></a>
-				</div>
-				<div class="first-line-left">
-					<a href="#" wicket:id="homePage"><wicket:message key="page.home">[HOME]</wicket:message></a>
-					<a href="#" wicket:id="browsePage" class="browse"><wicket:message key="page.browse">[BROWSE]</wicket:message></a>
-					<a href="#" wicket:id="advancedSearchPage" class="noRightBorder"><wicket:message key="page.advancedsearch">[ADVANCED SEARCH]</wicket:message></a>
-				</div>
-				<div class="first-line-right">
-					<div class="name-buttons">
-						<a href="#" wicket:id="systemIsReadOnly"><span wicket:id="readOnly">read/write?</span></a>
-						<wicket:enclosure child="login">
-							<a href="#" wicket:id="register" class="vtip" alt="Register" title="Register to get access to EASY">
-							<wicket:message key="page.register">Register</wicket:message></a>
-							<wicket:message key="or">or</wicket:message>
-							<a href="#" wicket:id="login" class="vtip" alt="Login" title="Login to EASY">
-							<wicket:message key="page.login">Login</wicket:message></a>
-						</wicket:enclosure>
-						<wicket:enclosure child="logoff">
-							<span wicket:id="displayName">[displayName]</span> |
-							<a href="#" wicket:id="myRequests" class="requests"><wicket:message key="page.myrequests">My Requests</wicket:message><span class="resetSeparator"> |</span></a>
-							<a href="#" wicket:id="myPersonalInfoLink" class="sprite settings vtip" alt="My personal settings" title="My personal settings">&nbsp;</a> |
-							<a href="#" wicket:id="logoff" class="logoff vtip" alt="Log out" title="Log out"><!-- <wicket:message key="login.logoff"> -->&nbsp;<!-- </wicket:message> --></a>
-						</wicket:enclosure>
-					</div>
-					<span class="line"></span>
-				</div>
-			</div>
-			<div id="second-line">
-				<div class="second-line-left">
-					<span wicket:id="navSearchPanel" class="searchPanel">[SEARCH PANEL]</span>
-					<span wicket:id="searchHelpPopup"></span>
-				</div>
-				<div class="second-line-right">
-					<wicket:enclosure child="myDatasets">
-						<a href="#" wicket:id="myDatasets" class="datasets"><wicket:message key="page.mydatasets">My Datasets</wicket:message></a>
-					</wicket:enclosure>
-					<a href="#" wicket:id="navDeposit" class="button"><wicket:message key="page.deposit">New Deposit</wicket:message></a>
-					
-				</div>
-			</div>
-			
-			<div id="third-line">
-				<div class="adminBanner third-line-left" wicket:id="adminBanner"></div>
-				<div id="managementBar" wicket:id="managementBarPanel" class="noPrint third-line-right" >[MANAGEMENT BAR]</div>
-			</div>
-		</div>
-		<!-- MARKUP FOR  EASY Navigation END -->
-		
-		
-		<!--  MARKUP FOR EASY Page Body BEGIN -->	
-		<div id="bodyPanel">
-			<span id="bodyContent">
-			<wicket:child />
-				<!--  MARKUP FOR  EASY Page Body END -->
-			</span>
-		</div>
-		
-		<!-- MARKUP FOR EASY Footer BEGIN -->
-		<div id="footer" class="noPrint">
-			<div id="easyDSALink">
-				<a wicket:id="dsaLink" href="#" target="_blank" wicket:message="alt:page.easyDSALink.alt,title:page.easyDSALink.title">
-					<img wicket:id="dsaLogo" width="75px" height="75px" src="dsa-logo.gif" />
-				</a>
-			</div>
+    <div id="container">
+        <div class="header no-print container-fluid">
+            <div class="hgroup row">
+                <div class="col-xs-6 col-xs-push-6 col-sm-4 col-sm-offset-4 col-sm-push-0 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+                    <div class="h1">
+                        <a wicket:id="easyLogoLink">
+                            <img src="images/lay-out/logo_easy.png" alt="EASY"/>
+                        </a>
+                    </div>
+                 </div>
+                <div class="col-xs-6 col-xs-pull-6 col-sm-4 col-sm-pull-8 col-md-4 col-md-pull-8 col-lg-2 col-lg-pull-7">
+                    <div class="h2">
+                        <a wicket:id="dansLogoLink">
+                            <img src="images/lay-out/logo_dans.png" alt="DANS - Data Archiving and Networked Services"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-nav container-fluid">
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                    <p>EASY offers you Open Access to thousands of datasets in the collection of Data Archiving and Networked Services – DANS.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                    <div class="search" wicket:id="navSearchPanel">[SEARCH PANEL]</div>
+                </div>
+                <div class="col-xs-4 col-xs-push-8 col-sm-3 col-sm-push-0 col-md-2 col-lg-2">
+                    <div class="search-help" wicket:id="searchHelpPopup"></div>
+                </div>
+                <div class="col-xs-8 col-xs-pull-4 col-sm-7 col-sm-pull-0 col-sm-offset-1 col-md-6 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                    <ul class="search-extra">
+                        <li>
+                            <a href="#" wicket:id="advancedSearchPage">
+                                <i class="fa fa-chevron-right"></i> <wicket:message key="page.advancedsearch">[ADVANCED SEARCH]</wicket:message>
+                            </a>
+                        </li>
+                            <li>
+                            <a href="#" wicket:id="browsePage" class="browse">
+                                <i class="fa fa-chevron-right"></i> <wicket:message key="page.browse">[BROWSE]</wicket:message>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-			<div id="version">
-				<span wicket:id="easyVersion">[EASY VERSION]</span>
-			</div>
-			
-			<div id="terms">
-			<a wicket:id="usingEasyLink" title="View how to use EASY" href="#" target="_blank">[Using EASY]</a>|
-			<a wicket:id="contactLink" title="View how to contact" href="#" target="_blank">[Contact]</a>|
- 			<a class="external vtip" wicket:id="disclaimerLink" title="View the disclaimer" href="#" target="_blank">[Disclaimer]</a>|
-			<a wicket:id="legalLink" title="View the legal information" href="#" target="_blank">[Legal Information]</a>|
-			<a wicket:id="propertyRightStatementLink" title="View the property right statement" href="#" target="_blank">[Property Right Statement]</a>
-			</div>
-			
-		</div>
-		<!-- MARKUP FOR EASY Footer END -->
-	</div>
-</div>
+        <div class="content">
+            <wicket:child />
+        </div>
+
+        <div class="navbar navbar-default admin-nav" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-nav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="admin-nav" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" wicket:id="homePage"><wicket:message key="page.home">Home</wicket:message></a>
+                    </li>
+                    <li wicket:enclosure="systemIsReadOnly">
+                        <a href="#" wicket:id="systemIsReadOnly"><span wicket:id="readOnly">read/write?</span></a>
+                    </li>
+                    <li wicket:enclosure="">
+                        <a href="#" wicket:id="register" title="Register to get access to EASY">
+                            <wicket:message key="page.register">Register</wicket:message>
+                        </a>
+                    </li>
+                    <li wicket:enclosure="">
+                        <a href="#" wicket:id="login" title="Login to EASY">
+                            <wicket:message key="page.login">Login</wicket:message>
+                        </a>
+                    </li>
+                    <li class="navbar-text" wicket:id="displayName">
+                        [displayName]
+                    </li>
+                    <li wicket:enclosure="">
+                        <a href="#" wicket:id="myDatasets">
+                            <wicket:message key="page.mydatasets">My Datasets</wicket:message>
+                        </a>
+                    </li>
+                    <li wicket:enclosure="">
+                        <a href="#" wicket:id="myRequests" class="requests">
+                            <wicket:message key="page.myrequests">My Requests</wicket:message>
+                        </a>
+                    </li>
+                    <li wicket:enclosure="">
+                        <a href="#" wicket:id="myPersonalInfoLink" class="sprite settings" alt="My personal settings" title="My personal settings">
+                            <wicket:message key="login.mysettings">My Settings</wicket:message>
+                        </a>
+                    </li>
+                    <li wicket:enclosure="" class="last-child">
+                        <a href="#" wicket:id="logoff" class="logoff" alt="Log out" title="Log out">
+                            <wicket:message key="login.logoff">[LOGOFF]</wicket:message>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END MAIN NAVIGATION -->
+        </div>
+            <div class="management-bar" wicket:id="managementBarPanel">[MANAGEMENT BAR]</div>
+            <div class="admin-banner" wicket:id="adminBanner">[ADMIN BANNER]</div>
+
+        <div class="footer no-print container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="easy-DSA-link">
+                        <a wicket:id="dsaLink" href="#" target="_blank" wicket:message="alt:page.easyDSALink.alt,title:page.easyDSALink.title">
+                            <img wicket:id="dsaLogo" width="75px" height="75px" src="dsa-logo.gif" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                    <h3>Contact</h3>
+                    <ul class="contact">
+                        <li><wicket:message key="easy.address.line1">Anna van Saksenlaan 51</wicket:message></li>
+                        <li><wicket:message key="easy.address.line2">2593 HW Den Haag</wicket:message></li>
+                        <li>
+                            <a href="#" wicket:id="emailLink">
+                                <wicket:message key="easy.title.email">info@dans.knaw.nl</wicket:message>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="external more" wicket:id="contactLink" title="View how to contact" href="#" target="_blank">
+                                More
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                    <h3>&nbsp;</h3>
+                    <ul class="social">
+                        <li>
+                            <a href="#" target="_blank" wicket:id="newsletterLink">
+                                <i class="fa fa-envelope-square"></i> <wicket:message key="newsletter">Newsletter</wicket:message>
+                            </a>
+                        </li>
+                        <li><a target="_blank" href="#" wicket:id="twitterLink"><i class="fa fa-twitter-square"></i> <wicket:message key="twitter">Twitter</wicket:message></a></li>
+                        <li><a target="_blank" href="#" wicket:id="linkedinLink"><i class="fa fa-youtube-play"></i> <wicket:message key="linkedin">LinkedIn</wicket:message></a></li>
+                        <li><a target="_blank" href="#" wicket:id="youtubeLink"><i class="fa fa-linkedin-square"></i> <wicket:message key="youtube">YouTube</wicket:message></a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                    <h3>&nbsp;</h3>
+                    <ul>
+                    <!-- Terms and conditions, etc. -->
+                    <!-- Note: these links require title attributes. -->
+                         <li><a class="external vtip" wicket:id="disclaimerLink" title="View the disclaimer" href="#" target="_blank">[Disclaimer]</a></li>
+                        <li><a wicket:id="legalLink" title="View the legal information" href="#" target="_blank">[Legal Information]</a></li>
+                        <li><a wicket:id="propertyRightStatementLink" title="View the property right statement" href="#" target="_blank">[Property Right Statement]</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-lg-offset-3 col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-0 col-xs-12 col-xs-offset-0">
+                    <div class="overdans">
+                        <p>DANS is an institute of KNAW and NWO</p>
+                        <p>
+                            <a href="http://www.knaw.nl/en" target="_blank">
+                                <img src="images/lay-out/logo_KNAW.png" />
+                            </a>
+                            <a href="http://www.nwo.nl/en" target="_blank">
+                                <img src="images/lay-out/logo_NWO.png" />
+                            </a>
+                        </p>
+                        <p class="driven-by-data">Driven by data</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="version">
+                        <span wicket:id="easyVersion">[EASY VERSION]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </wicket:extend>
 </body>
 </html>

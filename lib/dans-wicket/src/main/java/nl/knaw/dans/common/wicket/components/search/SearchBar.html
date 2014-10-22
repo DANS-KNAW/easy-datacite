@@ -1,7 +1,28 @@
 <wicket:panel>
-<form wicket:id="simpleSearchForm" style="display:inline">
-    <input type="text" wicket:id="searchString" />
-    <a href="#" wicket:id="submitLink" class="button"><wicket:message key="searchbar.searchbutton.label">Search</wicket:message></a>
-    <input type="submit" style="display:none" />
-</form>
+    <form wicket:id="simpleSearchForm" role="form">
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputEmail2">Search</label>
+
+            <div class="input-group">
+                <input type="text" class="form-control" wicket:id="searchString" placeholder="Search...">
+
+                <div class="input-group-btn">
+                    <button tabindex="-1" class="btn btn-black" type="button" wicket:id="searchSubmitButton">
+                        <wicket:message key="searchbar.searchbutton.label">Search...</wicket:message>
+                    </button>
+                    <button tabindex="-1" data-toggle="dropdown" class="btn btn-black dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right dropdown-black">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
 </wicket:panel>

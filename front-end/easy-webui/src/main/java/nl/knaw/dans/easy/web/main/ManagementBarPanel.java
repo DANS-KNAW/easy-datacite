@@ -12,8 +12,12 @@ import nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
+import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,34 +31,57 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel {
     private static final long serialVersionUID = -4344141494726647837L;
     private static final Logger logger = LoggerFactory.getLogger(ManagementBarPanel.class);
 
-    public static final String MY_WORK = "myWork";
-    public static final String ALL_WORK = "allWork";
-    public static final String OUR_WORK = "ourWork";
-    public static final String TRASH_CAN = "trashCan";
-    public static final String USER_INFO = "userInfo";
-    public static final String EDITABLE_CONTENT = "editableContent";
-
     @SpringBean(name = "searchService")
     private SearchService searchService;
 
     public ManagementBarPanel(final String wicketId) {
         super(wicketId);
 
-        SecureEasyPageLink allWorkLink = new SecureEasyPageLink(ALL_WORK, AllWorkSearchResultPage.class);
-        allWorkLink.add(new Label("numberOfItemsInAllWork", createAllWorkModel()));
-        add(allWorkLink);
-        SecureEasyPageLink ourWorkLink = new SecureEasyPageLink(OUR_WORK, OurWorkSearchResultPage.class);
-        ourWorkLink.add(new Label("numberOfItemsInOurWork", createOurWorkModel()));
-        add(ourWorkLink);
-        SecureEasyPageLink myWorkLink = new SecureEasyPageLink(MY_WORK, MyWorkSearchResultPage.class);
-        myWorkLink.add(new Label("numberOfItemsInMyWork", createMyWorkModel()));
-        add(myWorkLink);
-        SecureEasyPageLink trashCanLink = new SecureEasyPageLink(TRASH_CAN, TrashCanSearchResultPage.class);
-        trashCanLink.add(new Label("numberOfItemsInTrashcan", createTrashCanModel()));
-        add(trashCanLink);
+        RepeatingView listItems = new RepeatingView("listItems");
+        RepeatingView listItems2 = new RepeatingView("listItems2");
 
-        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage.class));
-        add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
+        WebMarkupContainer item1 = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link1 = new SecureEasyPageLink("link", AllWorkSearchResultPage.class);
+        link1.add(new Label("text", getString("page.allwork")));
+        link1.add(new Label("numberOf", createAllWorkModel()));
+        item1.add(link1);
+        listItems.add(item1);
+
+        WebMarkupContainer item2 = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link2 = new SecureEasyPageLink("link", OurWorkSearchResultPage.class);
+        link2.add(new Label("text", getString("page.ourwork")));
+        link2.add(new Label("numberOf", createOurWorkModel()));
+        item2.add(link2);
+        listItems.add(item2);
+
+        WebMarkupContainer item3 = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link3 = new SecureEasyPageLink("link", MyWorkSearchResultPage.class);
+        link3.add(new Label("text", getString("page.mywork")));
+        link3.add(new Label("numberOf", createMyWorkModel()));
+        item3.add(link3);
+        listItems.add(item3);
+
+        WebMarkupContainer item4 = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link4 = new SecureEasyPageLink("link", TrashCanSearchResultPage.class);
+        link4.add(new Label("text", getString("page.trashcan")));
+        link4.add(new Label("numberOf", createTrashCanModel()));
+        item4.add(link4);
+        listItems.add(item4);
+
+        WebMarkupContainer item5 = new WebMarkupContainer(listItems2.newChildId());
+        SecureEasyPageLink link5 = new SecureEasyPageLink("link", UsersOverviewPage.class);
+        link5.add(new Label("text", getString("page.users")));
+        item5.add(link5);
+        listItems2.add(item5);
+
+        WebMarkupContainer item6 = new WebMarkupContainer(listItems2.newChildId());
+        SecureEasyPageLink link6 = new SecureEasyPageLink("link", EditableContentPage.class);
+        link6.add(new Label("text", getString("page.editableContent")));
+        item6.add(link6);
+        listItems2.add(item6);
+
+        add(listItems);
+        add(listItems2);
     }
 
     // Note: the following members are much alike, maybe we can refactor this
