@@ -1,60 +1,48 @@
 <html xmlns:wicket>
-<body id="login-page">
-	<wicket:panel>
-		<div id="option-regular">
-			<form wicket:id="loginForm">
-				<h2>
-					<wicket:message key="login.option-easy-account.header">--[EASY account]--</wicket:message>
-				</h2>
-
-				<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel"
-					class="feedback">--[Messages]--</div>
+<body>
+<wicket:panel>
+	<div class="panel panel-default login">
+ 		<div class="panel-heading">
+			<h2><wicket:message key="login.option-easy-account.header">[EASY account]</wicket:message></h2>
+		</div>
+		<div class="panel-body">
+			<form wicket:id="loginForm" role="form" class="form-horizontal">
+				<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">[Messages]</div>
 				<input type="hidden" name="token" wicket:id="token" />
+				<wicket:enclosure>
+					<span class="feedback">
+						<span wicket:id="userId-componentFeedback">componentFeedback</span>
+					</span>
+				</wicket:enclosure>
 
-				<div class="login">
-					<div class="credential-or-information">
-						<wicket:enclosure>
-							<span class="feedback"><span
-								wicket:id="userId-componentFeedback">componentFeedback</span></span>
-						</wicket:enclosure>
-
-						<div>
-							<label for="userId"><wicket:message key="user.userId">userId</wicket:message></label>
-							<input id="userId" wicket:id="userId" type="text"
-								class="standard" />
-						</div>
-
-						<wicket:enclosure>
-							<span class="feedback"><span
-								wicket:id="credentials-componentFeedback">
-									componentFeedback</span></span>
-						</wicket:enclosure>
-
-						<div>
-							<label for="password"><wicket:message key="user.password">password</wicket:message></label>
-							<input id="password" wicket:id="credentials" type="password"
-								class="standard" />
-						</div>
+				<div class="form-group">
+					<label for="userId" class="control-label col-sm-3"><wicket:message key="user.userId">userId</wicket:message></label>
+					<div class="col-sm-9">
+						<input class="form-control" id="userId" wicket:id="userId" type="text" />
 					</div>
-
-					<div>
-						<a href="#" wicket:id="login" class="btn btn-primary">Log in</a>
-						<!-- next line enables IE compatible form submit using the enter key -->
-						<div style="border: 0; width: 0; height: 0; overflow: hidden;">
-							<input type="submit" />
-						</div>
-					</div>
-
 				</div>
 
+				<wicket:enclosure>
+					<span class="feedback">
+						<span wicket:id="credentials-componentFeedback">componentFeedback</span>
+					</span>
+				</wicket:enclosure>
+
+				<div class="form-group">
+					<label for="password" class="control-label col-sm-3"><wicket:message key="user.password">password</wicket:message></label>
+					<div class="col-sm-9">
+						<input class="form-control" id="password" wicket:id="credentials" type="password" />
+					</div>
+				</div>
+				<button href="#" wicket:id="login" class="btn btn-primary">Log in</button>
 			</form>
 			<p>
-				<a href="#" wicket:id="forgottenPassword"><wicket:message
-						key="login.forgottenpassword">Forgotten password</wicket:message></a>
+				<a href="#" wicket:id="forgottenPassword">
+					<wicket:message key="login.forgottenpassword">Forgotten password</wicket:message>
+				</a>
 			</p>
 		</div>
-		<div id="vertical-split">&nbsp;</div>
-
-	</wicket:panel>
+	</div>
+</wicket:panel>
 </body>
 </html>

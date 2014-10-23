@@ -1,23 +1,20 @@
 <html xmlns:wicket>
-<body id="login-page">
-	<wicket:panel>
-		<h2>Institution account</h2>
-		<div class="login">
-			<div class="credential-or-information">
-				<p>
-					If you are already logged in via your institution account, this
-					option will conveniently log you in to EASY automatically.
-				</p>
-				<div id="surf" ></div>
-			</div>
-			<div>
-				<a wicket:id="federationLink" class="btn btn-primary"><wicket:message key="login.button.label">Log in label</wicket:message></a>
-			</div>
-			<p class="warn">
-				<b>Attention:</b> please take note that this service has not yet been adopted by all institutions connected to SURF.  You may 
-				therefore find that your institution is not yet supported.
+<body>
+<wicket:panel>
+	<div class="panel panel-default login">
+ 		<div class="panel-heading">
+			<h2><wicket:message key="login.option-institution-account.header">[Institution account]</wicket:message></h2>
+			<img src="images/surf_conext_logo.png" class="pull-right" />
+		</div>
+		<div class="panel-body">
+			<p><wicket:message key="login.option-institution-account.intro">[INTRO TEXT]</wicket:message></p>
+			<p><a wicket:id="federationLink" class="btn btn-primary"><wicket:message key="login.button.label">[Log in label]</wicket:message></a></p>
+			<p class="alert alert-warning">
+				<strong><wicket:message key="login.option-institution-account.warning.title">[Attention:]</wicket:message></strong>
+				<wicket:message key="login.option-institution-account.warning.text">[warning text]</wicket:message>
 			</p>
 		</div>
-	</wicket:panel>
+	</div>
+</wicket:panel>
 </body>
 </html>

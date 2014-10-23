@@ -35,7 +35,6 @@ public class LoginPage extends AbstractAuthenticationPage {
     private FederativeUserService federativeUserService;
 
     private void init() {
-        add(Style.LOGIN_HEADER_CONTRIBUTION);
         setStatelessHint(true);
         UsernamePasswordAuthentication authentication;
         try {

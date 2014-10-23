@@ -24,7 +24,6 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
     private UserService userService;
 
     public FederationToEasyAccountLinkingPage(final FederationUser user) {
-        add(Style.LOGIN_HEADER_CONTRIBUTION);
         add(new FederationUserInfoPanel("federationUserInfoPanel", user));
         final UsernamePasswordAuthentication authentication = createUsernamePasswordAuthentication();
         add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getHomeOrg())));
