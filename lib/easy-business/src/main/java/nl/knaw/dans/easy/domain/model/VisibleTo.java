@@ -22,7 +22,7 @@ public enum VisibleTo implements FileItemVOAttribute {
 
     public static VisibleTo translate(AccessCategory accessCategory) {
         VisibleTo vt = null;
-        if (AccessCategory.ANONYMOUS_ACCESS.equals(accessCategory)) {
+        if (AccessCategory.ANONYMOUS_ACCESS.equals(accessCategory) || AccessCategory.OPEN_ACCESS.equals(accessCategory)) {
             vt = ANONYMOUS;
         } else if (AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS.equals(accessCategory)) {
             vt = KNOWN;
