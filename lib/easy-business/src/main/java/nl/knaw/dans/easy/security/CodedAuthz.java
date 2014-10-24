@@ -54,8 +54,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
     private SecurityOfficer downloadRule;
     private SecurityOfficer fileItemDescriptionAccessRule;
     private SecurityOfficer fileItemContentsAccessRule;
-    private SecurityOfficer freelyAvailableContentRule;
-
     private SecurityOfficer jumpoffDmoNameSpaceRule;
 
     private SecurityOfficer userByIdRule;
@@ -307,8 +305,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
 
         newRules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
         newRules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
-
-        newRules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
 
         // Not that strong, because FileItem is represented by id, due to mishap in FileItemVO
         // design.
@@ -731,16 +727,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
             logger.debug("Created rule: " + fileItemContentsAccessRule.getProposition());
         }
         return fileItemContentsAccessRule;
-    }
-
-    protected SecurityOfficer getFreelyAvailableContentRule() {
-        if (freelyAvailableContentRule == null) {
-            freelyAvailableContentRule = new Or( //
-                    new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
-                    new FreelyAvailableContentCheck());
-            logger.debug("Created rule: " + freelyAvailableContentRule.getProposition());
-        }
-        return freelyAvailableContentRule;
     }
 
     /**
