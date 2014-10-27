@@ -274,12 +274,18 @@ public class ExtendedHtmlWorker implements SimpleXMLDocHandler, DocListener {
                     endElement("li");
                 skipText = true;
                 cprops.addToChain(tag, h);
-                com.lowagie.text.List list = new com.lowagie.text.List(true, 10);
+                com.lowagie.text.List list;
                 String type = ((String) h.get("type"));
                 if (type != null && type.toLowerCase().equals("a")) {
+                    list = new com.lowagie.text.List(true, 10);
                     list.setLettered(true);
                     list.setNumbered(false);
                     list.setLowercase(type.equals("a"));
+                } else if (type != null && type.toLowerCase().equals("i")) {
+                    list = new com.lowagie.text.RomanList(true, 10);
+                    list.setLowercase(type.equals("i"));
+                } else {
+                    list = new com.lowagie.text.List(true, 10);
                 }
                 String indent = ((String) h.get("indent"));
                 if (indent != null && indent.matches("[0-9]+")) {

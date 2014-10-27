@@ -96,7 +96,7 @@ public class LicenseComposer {
     private final Map<Enum, String> snippets = new HashMap<Enum, String>();
 
     private static enum SnippetKey {
-        body, embargo, tail, version
+        body, embargo, tail, appendix, version
     };
 
     private final URL headerImage;
@@ -139,6 +139,8 @@ public class LicenseComposer {
         snippets.put(SnippetKey.body, getSnippetContent(body));
         snippets.put(SnippetKey.embargo, getSnippetContent("Embargo.html"));
         snippets.put(SnippetKey.tail, getSnippetContent("Tail.html"));
+        snippets.put(SnippetKey.appendix, getSnippetContent("Appendix.html"));
+
         snippets.put(AccessCategory.ANONYMOUS_ACCESS, other);
         snippets.put(AccessCategory.OPEN_ACCESS, getSnippetContent("OpenAccess.html"));
         snippets.put(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, getSnippetContent("OpenAccessForRegisteredUsers.html"));
@@ -184,6 +186,7 @@ public class LicenseComposer {
     private void createContent(final Document document) throws LicenseComposerException, DocumentException {
         document.open();
         copyHtml(document, compose(SnippetKey.body));
+        // append access specific part
         copyHtml(document, snippets.get(dataset.getAccessCategory()));
         if (dataset.isUnderEmbargo()) {
             // TODO als gegenereerd na verstrijken zie je niet dat er ooit een embargo op zat
@@ -191,11 +194,12 @@ public class LicenseComposer {
         }
         copyHtml(document, compose(SnippetKey.tail));
         document.add(formatMetaData(document));
-        foramtUploadedFileNames(document);
+        formatUploadedFileNames(document);
+        copyHtml(document, compose(SnippetKey.appendix));
         document.close();
     }
 
-    private void foramtUploadedFileNames(final Document document) throws DocumentException, LicenseComposerException {
+    private void formatUploadedFileNames(final Document document) throws DocumentException, LicenseComposerException {
         final List<String> fileNames = getDatasetFileNames(dataset.getDmoStoreId());
         if (fileNames == null || fileNames.size() == 0) {
             document.add(new Paragraph("No uploaded files."));
