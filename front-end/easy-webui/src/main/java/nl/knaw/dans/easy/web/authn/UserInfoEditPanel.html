@@ -16,10 +16,10 @@
 						<tbody>
 							<wicket:enclosure>
 							<tr>
-								<td><label for="userId"><wicket:message
+								<td width="20%"><label for="userId"><wicket:message
 									key="user.userId">User id</wicket:message></label></td>
-								<td><label id="userId" wicket:id="userId" /></td>
-								<td><wicket:message key="userid.explanation"/></td>
+								<td width="40%"><label id="userId" wicket:id="userId" /></td>
+								<td width="40%"><wicket:message key="userid.explanation"/></td>
 							</tr>
 							</wicket:enclosure>
 
@@ -35,7 +35,7 @@
 							</wicket:enclosure>
 							<tr>
 								<td><label for="email"><wicket:message key="user.email">email</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="email" type="text" wicket:id="email" /></td>
+								<td><input id="email" type="text" wicket:id="email" class="form-control"/></td>
 								<td><wicket:message key="email.explanation"/></td>
 							</tr>
 						</tbody>
@@ -53,31 +53,32 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- inform by email newsletter selection -->
 							<tr>
-								<td><label for="optsForNewsletter"><wicket:message
+								<td width="20%"><label for="optsForNewsletter"><wicket:message
 									key="user.optsForNewsletter">Inform me</wicket:message></label></td>
-								<td>
+								<td width="40%"><div class="radio-inline">
 									<span wicket:id="optsForNewsletter">
 					    				<input wicket:id="news-yes" type="radio"/><wicket:message
 									key="userinfo.optsForNewsletter.yes">Yes</wicket:message><br />
 					    				<input wicket:id="news-no" type="radio"/><wicket:message
 									key="userinfo.optsForNewsletter.no">No</wicket:message>
 					  				</span>
+					  				</div>
 								</td>
-								<td><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
+								<td width="40%"><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
 							</tr>
 
 							<tr>
 								<td><label for="logMyActions"><wicket:message
 									key="user.logMyActions">Log my actions</wicket:message></label></td>
-								<td>
+								<td><div class="radio-inline">
 									<span wicket:id="logMyActions">
 					    				<input wicket:id="log-yes" type="radio"/><wicket:message
 									key="userinfo.logMyActions.yes">Yes</wicket:message><br />
 					    				<input wicket:id="log-no" type="radio"/><wicket:message
 									key="userinfo.logMyActions.no">No</wicket:message>
 					  				</span>
+					  				</div>
 								</td>
 								<td><wicket:message key="userinfo.logMyActions.explanation">explanation</wicket:message></td>
 							</tr>
@@ -100,9 +101,9 @@
 							<tr class="feedback"><td colspan="3"><span wicket:id="title-componentFeedback"/></td></tr>
 							</wicket:enclosure>
 							<tr>
-								<td><label for="title"><wicket:message key="user.title">title</wicket:message></label></td>
-								<td><input id="title" type="text" wicket:id="title" /></td>
-								<td><wicket:message key="title.explanation"/></td>
+								<td width="20%"><label for="title"><wicket:message key="user.title">title</wicket:message></label></td>
+								<td width="40%"><input id="title" type="text" wicket:id="title" class="form-control" /></td>
+								<td width="40%"><wicket:message key="title.explanation"/></td>
 							</tr>
 
 							<wicket:enclosure>
@@ -111,7 +112,7 @@
 							<tr>
 								<td><label for="initials"><wicket:message
 									key="user.initials">initials</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="initials" type="text" wicket:id="initials" /></td>
+								<td><input id="initials" type="text" wicket:id="initials" class="form-control" /></td>
 								<td><wicket:message key="initials.explanation"/></td>
 							</tr>
 
@@ -121,7 +122,7 @@
 							<tr>
 								<td><label for="prefixes"><wicket:message
 									key="user.prefixes">prefixes</wicket:message></label></td>
-								<td><input id="prefixes" type="text" wicket:id="prefixes" /></td>
+								<td><input id="prefixes" type="text" wicket:id="prefixes" class="form-control" /></td>
 								<td><wicket:message key="prefixes.explanation"/></td>
 							</tr>
 
@@ -131,7 +132,7 @@
 							<tr>
 								<td><label for="surname"><wicket:message
 									key="user.surname">surname</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="surname" type="text" wicket:id="surname" /></td>
+								<td><input id="surname" type="text" wicket:id="surname" class="form-control" /></td>
 								<td><wicket:message key="surname.explanation"/></td>
 							</tr>
 
@@ -141,28 +142,28 @@
 							<tr>
 								<td><label for="function"><wicket:message
 									key="user.function">function</wicket:message></label></td>
-								<td><input id="function" type="text" wicket:id="function" /></td>
+								<td><input id="function" type="text" wicket:id="function" class="form-control" /></td>
 								<td><wicket:message key="function.explanation"/></td>
 							</tr>
 
 							<tr>
 								<td><label for="discipline1"><wicket:message
 									key="user.discipline1">Discipline 1</wicket:message></label></td>
-								<td><select class="form_text" id="discipline1" wicket:id="discipline1" /></td>
+								<td><select class="form-control" id="discipline1" wicket:id="discipline1" /></td>
 								<td><wicket:message key="discipline1.explanation">explanation</wicket:message></td>
 							</tr>
 
 							<tr>
 								<td><label for="discipline2"><wicket:message
 									key="user.discipline2">Discipline 2</wicket:message></label></td>
-								<td><select class="form_text" id="discipline2" wicket:id="discipline2" /></td>
+								<td><select class="form-control" id="discipline2" wicket:id="discipline2" /></td>
 								<td><wicket:message key="discipline2.explanation">explanation</wicket:message></td>
 							</tr>
 
 							<tr>
 								<td><label for="discipline3"><wicket:message
 									key="user.discipline3">Discipline 3</wicket:message></label></td>
-								<td><select class="form_text" id="discipline3" wicket:id="discipline3" /></td>
+								<td><select class="form-control" id="discipline3" wicket:id="discipline3" /></td>
 								<td><wicket:message key="discipline3.explanation">explanation</wicket:message></td>
 							</tr>
 
@@ -172,7 +173,7 @@
 							<tr>
 								<td><label for="telephone"><wicket:message
 									key="user.telephone">telephone</wicket:message></label></td>
-								<td><input id="telephone" type="text" wicket:id="telephone" /></td>
+								<td><input id="telephone" type="text" wicket:id="telephone" class="form-control" /></td>
 								<td><wicket:message key="telephone.explanation"/></td>
 							</tr>
 
@@ -184,7 +185,7 @@
 							<tr>
 								<td><label for="dai"><wicket:message
 									key="user.dai">DAI</wicket:message></label></td>
-								<td><input id="dai" type="text" wicket:id="dai" /></td>
+								<td><input id="dai" type="text" wicket:id="dai" class="form-control" /></td>
 								<td><wicket:message key="dai.explanation">explanation</wicket:message></td>
 							</tr>
 						</tbody>
@@ -206,10 +207,10 @@
 							<tr class="feedback"><td colspan="3"><span wicket:id="organization-componentFeedback"/></td></tr>
 							</wicket:enclosure>
 							<tr>
-								<td><label for="organization"><wicket:message
+								<td width="20%"><label for="organization"><wicket:message
 									key="user.organization">organization</wicket:message></label></td>
-								<td><input id="organization" type="text" wicket:id="organization" /></td>
-								<td><wicket:message key="organization.explanation"/></td>
+								<td width="40%"><input id="organization" type="text" wicket:id="organization" class="form-control" /></td>
+								<td width="40%"><wicket:message key="organization.explanation"/></td>
 							</tr>
 
 							<wicket:enclosure>
@@ -218,7 +219,7 @@
 							<tr>
 								<td><label for="department"><wicket:message
 									key="user.department">department</wicket:message></label></td>
-								<td><input id="department" type="text" wicket:id="department" /></td>
+								<td><input id="department" type="text" wicket:id="department" class="form-control" /></td>
 								<td><wicket:message key="department.explanation"/></td>
 							</tr>
 
@@ -228,7 +229,7 @@
 							<tr>
 								<td><label for="address"><wicket:message
 									key="user.address">address</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="address" type="text" wicket:id="address" /></td>
+								<td><input id="address" type="text" wicket:id="address" class="form-control" /></td>
 								<td><wicket:message key="address.explanation"/></td>
 							</tr>
 
@@ -238,7 +239,7 @@
 							<tr>
 								<td><label for="postalCode"><wicket:message
 									key="user.postalCode">postalCode</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="postalCode" type="text" wicket:id="postalCode" /></td>
+								<td><input id="postalCode" type="text" wicket:id="postalCode" class="form-control" /></td>
 								<td><wicket:message key="postalCode.explanation"/></td>
 							</tr>
 
@@ -247,7 +248,7 @@
 							</wicket:enclosure>
 							<tr>
 								<td><label for="city"><wicket:message key="user.city">city</wicket:message></label><span class="requiredMarkColor">*</span></td>
-								<td><input id="city" type="text" wicket:id="city" /></td>
+								<td><input id="city" type="text" wicket:id="city" class="form-control" /></td>
 								<td><wicket:message key="city.explanation"/></td>
 							</tr>
 
@@ -257,7 +258,7 @@
 							<tr>
 								<td><label for="country"><wicket:message
 									key="user.country">country</wicket:message></label></td>
-								<td><input id="country" type="text" wicket:id="country" /></td>
+								<td><input id="country" type="text" wicket:id="country" class="form-control" /></td>
 								<td><wicket:message key="country.explanation"/></td>
 							</tr>
 						</tbody>
