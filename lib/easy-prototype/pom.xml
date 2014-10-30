@@ -13,7 +13,7 @@
 	<version>2.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
- 		<easy.version>2.9-RC-1</easy.version>
+ 		<easy.version>2.9-RC-2</easy.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<json.version>20080701</json.version>
@@ -158,13 +158,6 @@
 				<artifactId>store</artifactId>
 				<version>${easy.version}</version>
 			</dependency>
-			
-			
-			
-			
-			
-			
-			
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>
@@ -256,6 +249,32 @@
                 <groupId>com.sun.jersey.contribs</groupId>
                 <artifactId>jersey-spring</artifactId>
                 <version>${jersey.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-aop</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 		</dependencies>
 	</dependencyManagement>
