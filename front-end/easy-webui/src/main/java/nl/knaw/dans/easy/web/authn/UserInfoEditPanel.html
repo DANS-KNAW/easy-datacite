@@ -8,6 +8,11 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
 				<div class="table-responsive">
 					<table class="table table-hover">
+						<colgroup>
+							<col class="col-sm-2"></col>
+							<col class="col-sm-5"></col>
+							<col class="col-sm-5"></col>
+						</colgroup>
 						<thead>
 							<tr>
 								<th colspan="3">Account</th>
@@ -16,10 +21,10 @@
 						<tbody>
 							<wicket:enclosure>
 							<tr>
-								<td width="20%"><label for="userId"><wicket:message
+								<td><label for="userId"><wicket:message
 									key="user.userId">User id</wicket:message></label></td>
-								<td width="40%"><label id="userId" wicket:id="userId" /></td>
-								<td width="40%"><wicket:message key="userid.explanation"/></td>
+								<td><label id="userId" wicket:id="userId" /></td>
+								<td><wicket:message key="userid.explanation"/></td>
 							</tr>
 							</wicket:enclosure>
 
@@ -47,6 +52,11 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
 				<div class="table-responsive">
 					<table class="table table-hover">
+						<colgroup>
+							<col class="col-sm-2"></col>
+							<col class="col-sm-5"></col>
+							<col class="col-sm-5"></col>
+						</colgroup>
 						<thead>
 							<tr>
 								<th colspan="3">Settings</th>
@@ -54,9 +64,9 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td width="20%"><label for="optsForNewsletter"><wicket:message
+								<td><label for="optsForNewsletter"><wicket:message
 									key="user.optsForNewsletter">Inform me</wicket:message></label></td>
-								<td width="40%"><div class="radio-inline">
+								<td><div class="radio-inline">
 									<span wicket:id="optsForNewsletter">
 					    				<input wicket:id="news-yes" type="radio"/><wicket:message
 									key="userinfo.optsForNewsletter.yes">Yes</wicket:message><br />
@@ -65,7 +75,7 @@
 					  				</span>
 					  				</div>
 								</td>
-								<td width="40%"><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
+								<td><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
 							</tr>
 
 							<tr>
@@ -91,6 +101,11 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
 				<div class="table-responsive">
 					<table class="table table-hover">
+						<colgroup>
+							<col class="col-sm-2"></col>
+							<col class="col-sm-5"></col>
+							<col class="col-sm-5"></col>
+						</colgroup>
 						<thead>
 							<tr>
 								<th colspan="3">Person</th>
@@ -101,9 +116,9 @@
 							<tr class="feedback"><td colspan="3"><span wicket:id="title-componentFeedback"/></td></tr>
 							</wicket:enclosure>
 							<tr>
-								<td width="20%"><label for="title"><wicket:message key="user.title">title</wicket:message></label></td>
-								<td width="40%"><input id="title" type="text" wicket:id="title" class="form-control" /></td>
-								<td width="40%"><wicket:message key="title.explanation"/></td>
+								<td><label for="title"><wicket:message key="user.title">title</wicket:message></label></td>
+								<td><input id="title" type="text" wicket:id="title" class="form-control" /></td>
+								<td><wicket:message key="title.explanation"/></td>
 							</tr>
 
 							<wicket:enclosure>
@@ -197,6 +212,11 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
 				<div class="table-responsive">
 					<table class="table table-hover">
+						<colgroup>
+							<col class="col-sm-2"></col>
+							<col class="col-sm-5"></col>
+							<col class="col-sm-5"></col>
+						</colgroup>
 						<thead>
 							<tr>
 								<th colspan="3">Organisation</th>
@@ -207,10 +227,10 @@
 							<tr class="feedback"><td colspan="3"><span wicket:id="organization-componentFeedback"/></td></tr>
 							</wicket:enclosure>
 							<tr>
-								<td width="20%"><label for="organization"><wicket:message
+								<td><label for="organization"><wicket:message
 									key="user.organization">organization</wicket:message></label></td>
-								<td width="40%"><input id="organization" type="text" wicket:id="organization" class="form-control" /></td>
-								<td width="40%"><wicket:message key="organization.explanation"/></td>
+								<td><input id="organization" type="text" wicket:id="organization" class="form-control" /></td>
+								<td><wicket:message key="organization.explanation"/></td>
 							</tr>
 
 							<wicket:enclosure>
