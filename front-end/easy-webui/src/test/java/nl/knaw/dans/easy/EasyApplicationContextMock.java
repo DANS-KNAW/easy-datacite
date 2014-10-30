@@ -168,7 +168,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * @throws IllegalStateException
      *         if a real {@link SearchService} instance was assigned as bean
      */
-    public void expectNoDatasets() throws ServiceException {
+    public void expectNoDatasetsInToolBar() throws ServiceException {
         setMockedSearchService();
         EasyMock.expect(getSearchService().getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(getSearchService().getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);

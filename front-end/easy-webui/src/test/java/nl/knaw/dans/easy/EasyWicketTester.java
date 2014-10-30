@@ -189,6 +189,9 @@ public class EasyWicketTester extends WicketTester {
                 // .replaceAll("( href=.)resources/", "$1../../../../src/main/resources/")//
                 // .replaceAll("( src=.)resources/", "$1../../../../src/main/resources/")//
                 .replaceAll("( href=.)../css/", "$1" + webuiHome + "/src/main/webapp/css/")//
+                .replaceAll("lib/dans-wicket/lib/dans-wicket", "lib/dans-wicket")//
+                .replaceAll("explorer/style/ExplorerTheme", "explorer/style")//
+                .replaceAll("explorer/style/WindowsTheme/windows/theme.css", "explorer/style/windows/theme.css")//
                 // next is dirty: in theory different packages may use the same file names
                 .replace("href=\"../styles.css", "href=\"" + webuiHome + "/src/main/java/nl/knaw/dans/easy/web/authn/login/styles.css");
     }

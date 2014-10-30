@@ -160,13 +160,13 @@ public class TestChangePassword extends UserInfoFixture {
     }
 
     private void mockAuthenticationException() throws ServiceException {
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
         final UserService mock = applicationContext.getUserService();
         expect(mock.newForgottenPasswordMailAuthentication(isA(String.class), isA(String.class), isA(String.class))).andThrow(new ServiceException(""));
     }
 
     private void mockAuthentication(final boolean isCompleted) throws ServiceException {
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
         final UserService mock = applicationContext.getUserService();
         final ForgottenPasswordMailAuthentication authentication = new ForgottenPasswordMailAuthentication(null, null, null) {
             private static final long serialVersionUID = 1L;
@@ -186,7 +186,7 @@ public class TestChangePassword extends UserInfoFixture {
 
     private void addMocks(final EasyUser sessionUser) throws Exception {
         applicationContext.expectAuthenticatedAs(sessionUser);
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
         applicationContext.getUserService().changePassword(isA(ChangePasswordMessenger.class));
         expectLastCall().andStubDelegateTo(new EasyUserService() {
             public void changePassword(final ChangePasswordMessenger messenger) {

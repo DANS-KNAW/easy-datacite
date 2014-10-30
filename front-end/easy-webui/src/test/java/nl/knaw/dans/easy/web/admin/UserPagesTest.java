@@ -48,7 +48,7 @@ public class UserPagesTest {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
         applicationContext.expectAuthenticatedAs(sessionUser);
     }
 

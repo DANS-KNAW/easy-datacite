@@ -70,7 +70,7 @@ public class EditableContentPageTest {
         applicationContext.setEditableContentHome(mockEditableFiles());
         applicationContext.setStaticContentBaseUrl("http://mocked/base/url");
 
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
         applicationContext.expectAuthenticatedAs(sessionUser);
     }
 

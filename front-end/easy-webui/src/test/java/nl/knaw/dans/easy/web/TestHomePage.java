@@ -13,7 +13,6 @@ import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.main.SystemReadOnlyLink;
 
 import org.apache.wicket.util.tester.WicketTester;
