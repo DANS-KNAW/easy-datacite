@@ -38,7 +38,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.dom4j.Element;
 
 public class ItemServiceDelegate implements ItemService {
-    
+
     private static final AuthzStrategy FIVO_AUTHZ_STRATEGY = new EasyFileItemVOAuthzStrategy() {
         private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,7 @@ public class ItemServiceDelegate implements ItemService {
 
         @Override
         public String explainCanChildrenBeDiscovered() {
-            return "mock"; 
+            return "mock";
         }
     };
 

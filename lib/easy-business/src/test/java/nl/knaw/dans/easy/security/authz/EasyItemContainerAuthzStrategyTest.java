@@ -17,9 +17,9 @@ import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class EasyItemContainerAuthzStrategyTest {
     @Test
     public void singleMessageTestYes() throws Exception {
 
-        fileStoreAccessExpectations(new ASet<VisibleTo>(VisibleTo.ANONYMOUS));
+        fileStoreAccessExpectations(new ASet<AccessibleTo>(AccessibleTo.ANONYMOUS));
 
         Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
@@ -57,7 +57,7 @@ public class EasyItemContainerAuthzStrategyTest {
     @Test
     public void singleMessageTestLogin() throws Exception {
 
-        fileStoreAccessExpectations(new ASet<VisibleTo>(VisibleTo.ANONYMOUS, VisibleTo.KNOWN));
+        fileStoreAccessExpectations(new ASet<AccessibleTo>(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN));
 
         Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
@@ -71,10 +71,10 @@ public class EasyItemContainerAuthzStrategyTest {
         verifyAll();
     }
 
-    private void fileStoreAccessExpectations(Set<VisibleTo> visibleToSet) throws StoreAccessException {
+    private void fileStoreAccessExpectations(Set<AccessibleTo> accessibleToSet) throws StoreAccessException {
 
         FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
-        expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(visibleToSet);
+        expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
         new Data().setFileStoreAccess(fileStoreAccess);
     }
 
