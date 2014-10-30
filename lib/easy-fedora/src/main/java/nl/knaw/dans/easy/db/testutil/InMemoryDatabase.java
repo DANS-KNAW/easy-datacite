@@ -9,6 +9,7 @@ import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
+import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
@@ -126,5 +127,11 @@ public class InMemoryDatabase implements Closeable {
         if (!(parent instanceof DatasetImpl))
             throw new IllegalArgumentException(parent.getClass().getName() + "can not be a parent");
         return parent.getDmoStoreId();
+    }
+
+    public void deleteAll(Class<? extends AbstractItemVO> itemClass) {
+
+        for (final Object id : session.createQuery("SELECT sid FROM " + itemClass.getName()).list())
+            session.delete(itemClass.getName(), session.get(itemClass, (String) id));
     }
 }

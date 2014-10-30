@@ -46,7 +46,7 @@ public class PublicSearchResultPageTest {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
-        applicationContext.expectNoDatasets();
+        applicationContext.expectNoDatasetsInToolBar();
     }
 
     @After

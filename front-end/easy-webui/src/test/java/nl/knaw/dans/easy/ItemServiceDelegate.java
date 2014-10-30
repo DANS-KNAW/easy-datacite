@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -29,6 +30,7 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
+import nl.knaw.dans.easy.security.authz.EasyFileItemVOAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
@@ -36,13 +38,50 @@ import org.apache.commons.lang.NotImplementedException;
 import org.dom4j.Element;
 
 public class ItemServiceDelegate implements ItemService {
+    
+    private static final AuthzStrategy FIVO_AUTHZ_STRATEGY = new EasyFileItemVOAuthzStrategy() {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public boolean canBeDiscovered() {
+            return true;
+        }
+
+        @Override
+        public boolean canBeRead() {
+            return true;
+        }
+
+        @Override
+        public boolean canUnitBeDiscovered(String unitId) {
+            return true;
+        }
+
+        @Override
+        public boolean canUnitBeRead(String unitId) {
+            return true;
+        }
+
+        @Override
+        public TriState canChildrenBeDiscovered() {
+            return TriState.ALL;
+        }
+
+        @Override
+        public TriState canChildrenBeRead() {
+            return TriState.ALL;
+        }
+
+        @Override
+        public String explainCanChildrenBeDiscovered() {
+            return "mock"; 
+        }
+    };
+
     private static final ItemService INSTANCE = new EasyItemService();
 
-    /** An authorization that does not render files invisible even if visible and accessible to anonymous */
-    private static final AuthzStrategyTestImpl AUTHZ_STRATEGY = new AuthzStrategyTestImpl();
-
     private static final NotImplementedException NOT_IMPLEMENTED_EXCEPTION = new NotImplementedException(
-            "This ItemServices delegate only implements methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
+            "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
 
     @Override
     public String getServiceTypeName() {
@@ -148,7 +187,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         List<FileItemVO> files = INSTANCE.getFiles(sessionUser, dataset, parentSid, limit, offset, order, filters);
         for (FileItemVO item : files)
-            item.setAuthzStrategy(AUTHZ_STRATEGY);
+            item.setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
         return files;
     }
 
@@ -166,7 +205,7 @@ public class ItemServiceDelegate implements ItemService {
         List<ItemVO> items = INSTANCE.getFilesAndFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
         for (ItemVO item : items)
             if (item instanceof FileItemVO)
-                ((FileItemVO) item).setAuthzStrategy(AUTHZ_STRATEGY);
+                ((FileItemVO) item).setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
         return items;
     }
 
@@ -181,7 +220,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         Collection<FileItemVO> fileItems = INSTANCE.getFileItemsRecursively(sessionUser, dataset, items, filter, storeIds);
         for (FileItemVO item : fileItems)
-            item.setAuthzStrategy(AUTHZ_STRATEGY);
+            item.setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
         return fileItems;
     }
 

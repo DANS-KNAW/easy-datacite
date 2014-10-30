@@ -44,7 +44,6 @@ import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -399,37 +398,6 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         final Session session = sessionFactory.openSession();
         try {
             return (String) session.createQuery(query).setParameter("itemId", storeId.getStoreId()).uniqueResult();
-        }
-        finally {
-            sessionFactory.closeSession();
-        }
-    }
-
-    private int getChildCount(final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
-            throws StoreAccessException
-    {
-        LOGGER.debug("Getting childcount for folder " + parentSid + ".");
-
-        return getChildCount(parentSid, FileItemVO.class, limit, offset, order, filters)
-                + getChildCount(parentSid, FolderItemVO.class, limit, offset, order, filters);
-    }
-
-    private int getChildCount(final DmoStoreId parentSid, final Class<? extends ItemVO> clazz, final Integer limit, final Integer offset,
-            final ItemOrder order, final ItemFilters filters) throws StoreAccessException
-    {
-        final Session session = sessionFactory.openSession();
-        try {
-            final Criteria select = session.createCriteria(clazz).setProjection(Projections.projectionList().add(Projections.count("sid")));
-            addFiltersOrderingPaging(select, clazz, parentSid.getStoreId(), -1, -1, null, filters);
-            final Object result = select.uniqueResult();
-            if (result instanceof Integer)
-                return (Integer) result;
-            else
-                throw new StoreAccessException("Could not retrieve child count for parent sid " + parentSid + ". "
-                        + "Result type of child count query is not an int.");
-        }
-        catch (final HibernateException e) {
-            throw new StoreAccessException(e);
         }
         finally {
             sessionFactory.closeSession();
