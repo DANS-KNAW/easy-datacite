@@ -36,8 +36,8 @@ public abstract class AbstractItemContainerAuthzStrategy extends AbstractDataset
         if (discoveryProfile == NOT_EVALUATED) {
             try {
                 final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
-                for (final AccessibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), AccessibleTo.class)) {
-                    accessibilityCategories.add(AccessibleTo.translate(at));
+                for (final VisibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), VisibleTo.class)) {
+                    accessibilityCategories.add(VisibleTo.translate(at));
                 }
                 discoveryProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
             }
@@ -54,8 +54,8 @@ public abstract class AbstractItemContainerAuthzStrategy extends AbstractDataset
         if (readProfile == NOT_EVALUATED) {
             try {
                 final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
-                for (final VisibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), VisibleTo.class)) {
-                    accessibilityCategories.add(VisibleTo.translate(at));
+                for (final AccessibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), AccessibleTo.class)) {
+                    accessibilityCategories.add(AccessibleTo.translate(at));
                 }
                 readProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
             }
