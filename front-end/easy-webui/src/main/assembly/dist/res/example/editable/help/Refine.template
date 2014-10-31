@@ -9,11 +9,11 @@
 <h2>Access</h2>
 <p>The access policy of datasets (within the result list) may show one or more of the following values:</p>
 <ul>
-<li>Open (registered users), i.e. unrestricted access for all registered EASY users</li>
-<li>Restricted ('archaeology' group), i.e. access restricted to registered group members, in this case 'archaeology' group members</li>
-<li>Restricted (request permission), i.e. access for registered EASY users, but only after depositor permission is granted</li>
+<li>Open, i.e. unrestricted access for all registered EASY users</li>
+<li>Restricted -request permission, i.e. access for registered EASY users, but only after depositor permission is granted</li>
+<li>Restricted -'archaeology' group, i.e. access restricted to registered group members, in this case 'archaeology' group members</li>
 <li>Other, i.e. the data is not available via EASY (they are either accessible in another way or elsewhere)</li>
 </ul>
-<p>Note that the access policy of the dataset may be an approximation of the actual access settings of its files. For example, the dataset may be 'Restricted (request permission)', implying that its data requires permission. But some documentation files may be accessible without requiring permission.&#160;&#160;&#160;</p>
+<p>Note that the access policy of the dataset may be an approximation of the actual access settings of its files. For example, the dataset may be 'Restricted -request permission', implying that its data requires permission. But some documentation files may be accessible without requiring permission.&#160;&#160;&#160;</p>
 <h2>Archaeology options</h2>
 <p>On archaeological datasets (i.e. datasets with Audience: Humanities &gt; Archaeology), additional attributes may be available that are specific to this discipline.</p>
