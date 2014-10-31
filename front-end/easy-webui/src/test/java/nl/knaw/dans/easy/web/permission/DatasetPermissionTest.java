@@ -13,7 +13,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
-import nl.knaw.dans.easy.AuthzStrategyTestImpl;
+import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.data.Data;
@@ -32,6 +32,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
+import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
@@ -84,7 +85,31 @@ public class DatasetPermissionTest {
         };
         dataset.setPermissionSequenceList(permissionSequenceList);
         dataset.setState(State.Submitted.toString());
-        dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
+        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy() {
+            // the subclass makes protected constructors visible
+            private static final long serialVersionUID = 1L;
+            private ArrayList<AuthzMessage> authzMessages = new ArrayList<AuthzMessage>();
+
+            @Override
+            public List<AuthzMessage> getReadMessages() {
+                return authzMessages;
+            }
+
+            @Override
+            public AuthzMessage getSingleReadMessage() {
+                return new AuthzMessage("");
+            }
+
+            @Override
+            public EasyItemContainerAuthzStrategy newStrategy(User user, Object target, Object... contextObjects) {
+                return null;
+            }
+
+            @Override
+            public EasyItemContainerAuthzStrategy sameStrategy(Object target) {
+                return null;
+            }
+        });
 
         final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
         expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);

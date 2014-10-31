@@ -16,7 +16,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
-import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.data.Data;
@@ -30,6 +29,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
+import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
@@ -44,7 +44,7 @@ import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 public class FileExplorerDownloadTest {
-    private static final AuthzStrategyTestImpl AUTHZ_STRATEGY = new AuthzStrategyTestImpl();
+
     private static final String MESSAGE = "tabs:panel:fe:modalDownload:content:message";
     private static final String MESSAGE2 = "tabs:panel:fe:modalMessage:content:message";
     private static final String DOWNLOAD_LINK = "tabs:panel:fe:downloadLink";
@@ -57,11 +57,24 @@ public class FileExplorerDownloadTest {
     private EasyApplicationContextMock ctx;
 
     private static Dataset createDatasetImpl(final int id) {
+
         final DmoStoreId dmoStoreId = new DmoStoreId(Dataset.NAMESPACE, "" + id);
         final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         final DatasetImpl dataset = new DatasetImpl(dmoStoreId.getStoreId(), emd);
-        dataset.setAuthzStrategy(AUTHZ_STRATEGY);
         dataset.setState(DatasetState.PUBLISHED.toString());
+        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy(sessionUser, dataset, dataset) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public TriState canChildrenBeDiscovered() {
+                return TriState.ALL;
+            }
+
+            @Override
+            public TriState canChildrenBeRead() {
+                return TriState.ALL;
+            }
+        });
         return dataset;
     }
 

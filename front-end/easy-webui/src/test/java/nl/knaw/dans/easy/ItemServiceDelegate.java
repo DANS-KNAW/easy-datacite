@@ -31,6 +31,7 @@ import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.EasyFileItemVOAuthzStrategy;
+import nl.knaw.dans.easy.security.authz.EasyItemContainerVOAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
@@ -38,19 +39,19 @@ import org.apache.commons.lang.NotImplementedException;
 import org.dom4j.Element;
 
 public class ItemServiceDelegate implements ItemService {
+    
+    private static final ItemService INSTANCE = new EasyItemService();
+    
+    private static final NotImplementedException NOT_IMPLEMENTED_EXCEPTION = new NotImplementedException(
+            "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
 
-    private static final AuthzStrategy FIVO_AUTHZ_STRATEGY = new EasyFileItemVOAuthzStrategy() {
+    private static final AuthzStrategy CONTAINER_AUTHZ_STRATEGY = new EasyItemContainerVOAuthzStrategy() {
+        // the subclass makes the protected constructor visible
         private static final long serialVersionUID = 1L;
+    };
 
-        @Override
-        public boolean canBeDiscovered() {
-            return true;
-        }
-
-        @Override
-        public boolean canBeRead() {
-            return true;
-        }
+    private static final AuthzStrategy FILE_AUTHZ_STRATEGY = new EasyFileItemVOAuthzStrategy() {
+        private static final long serialVersionUID = 1L;
 
         @Override
         public boolean canUnitBeDiscovered(String unitId) {
@@ -61,27 +62,7 @@ public class ItemServiceDelegate implements ItemService {
         public boolean canUnitBeRead(String unitId) {
             return true;
         }
-
-        @Override
-        public TriState canChildrenBeDiscovered() {
-            return TriState.ALL;
-        }
-
-        @Override
-        public TriState canChildrenBeRead() {
-            return TriState.ALL;
-        }
-
-        @Override
-        public String explainCanChildrenBeDiscovered() {
-            return "mock";
-        }
     };
-
-    private static final ItemService INSTANCE = new EasyItemService();
-
-    private static final NotImplementedException NOT_IMPLEMENTED_EXCEPTION = new NotImplementedException(
-            "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
 
     @Override
     public String getServiceTypeName() {
@@ -187,7 +168,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         List<FileItemVO> files = INSTANCE.getFiles(sessionUser, dataset, parentSid, limit, offset, order, filters);
         for (FileItemVO item : files)
-            item.setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
+            item.setAuthzStrategy(FILE_AUTHZ_STRATEGY);
         return files;
     }
 
@@ -205,7 +186,9 @@ public class ItemServiceDelegate implements ItemService {
         List<ItemVO> items = INSTANCE.getFilesAndFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
         for (ItemVO item : items)
             if (item instanceof FileItemVO)
-                ((FileItemVO) item).setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
+                ((FileItemVO) item).setAuthzStrategy(FILE_AUTHZ_STRATEGY);
+            else if (item instanceof FolderItemVO)
+                ((FolderItemVO) item).setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
         return items;
     }
 
@@ -220,7 +203,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         Collection<FileItemVO> fileItems = INSTANCE.getFileItemsRecursively(sessionUser, dataset, items, filter, storeIds);
         for (FileItemVO item : fileItems)
-            item.setAuthzStrategy(FIVO_AUTHZ_STRATEGY);
+            item.setAuthzStrategy(FILE_AUTHZ_STRATEGY);
         return fileItems;
     }
 
