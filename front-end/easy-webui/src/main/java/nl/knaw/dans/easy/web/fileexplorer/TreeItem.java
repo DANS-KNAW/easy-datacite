@@ -96,7 +96,7 @@ public class TreeItem implements Serializable, ITreeItem {
         StringBuffer result = new StringBuffer();
         try {
             for (FileItemVOAttribute value : fileStoreAccess.getValuesFor(container, attribute))
-                result.append(makeValueReadable(value));
+                result.append(makeValueReadable(value) + ", ");
         }
         catch (IllegalArgumentException e) {
             logError(container, attribute, e);
