@@ -2,6 +2,6 @@ Dear ~EasyUser.getDisplayName~,
 
 This E-mail concerns the following dataset:
 Title: ~Dataset.getPreferredTitle~
-Link: ~OldDepositorNotification.getDatasetUrl~
+Link: http://persistent-identifier.nl/?identifier=~Dataset.getPersistentIdentifier~
 
 The depositor of the dataset was changed from "~OldDepositorNotification.getOldDisplayName~" to "~OldDepositorNotification.getNewDisplayName~".
