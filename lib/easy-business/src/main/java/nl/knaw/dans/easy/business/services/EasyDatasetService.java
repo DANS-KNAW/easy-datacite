@@ -151,14 +151,13 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             easyMetadata.getEmdAudience().getTermsAudience().add(archAudience);
 
             easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId());
-        } else if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE)) {
-            final BasicString langlitAudience = new BasicString();
-            langlitAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
-            langlitAudience.setValue(LANGUAGE_LITERATURE_DISCIPLINE_ID);
-            easyMetadata.getEmdAudience().getTermsAudience().add(langlitAudience);
-        } else
-        // set default metadata settings
-        {
+        } else {
+            if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE)) {
+                final BasicString langlitAudience = new BasicString();
+                langlitAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
+                langlitAudience.setValue(LANGUAGE_LITERATURE_DISCIPLINE_ID);
+                easyMetadata.getEmdAudience().getTermsAudience().add(langlitAudience);
+            }
             easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         }
     }

@@ -301,6 +301,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
                 getFileItemDescriptionAccessRule());
 
         newRules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)", getFileItemContentsAccessRule());
+        newRules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getNoSecurityOfficer());
         newRules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
 
         newRules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
