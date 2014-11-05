@@ -13,14 +13,15 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -117,13 +118,21 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
 
     private boolean mustAdd(FolderItemVO folder) throws StoreAccessException {
 
-        DmoStoreId id = new DmoStoreId(folder.getSid());
-        return anyFilterIsTrue(id, VisibleTo.class) && anyFilterIsTrue(id, AccessibleTo.class) && anyFilterIsTrue(id, CreatorRole.class);
-    }
-
-    private <T extends FileItemVOAttribute> boolean anyFilterIsTrue(DmoStoreId folderStoreId, Class<T> attribute) throws StoreAccessException {
         boolean result = false;
-        for (T value : Data.getFileStoreAccess().getValuesFor(folderStoreId, attribute)) {
+        for (FolderItemVisibleTo folerValue : folder.getVisibilities()) {
+            VisibleTo value = folerValue.getVisibleTo();
+            result = result || (filters.get(value) != null && filters.get(value).getModelObject());
+        }
+        if (!result)
+            return result;
+        for (FolderItemAccessibleTo folerValue : folder.getAccessibilities()) {
+            AccessibleTo value = folerValue.getAccessibleTo();
+            result = result || (filters.get(value) != null && filters.get(value).getModelObject());
+        }
+        if (!result)
+            return result;
+        for (FolderItemCreatorRole folerValue : folder.getCreatorRoles()) {
+            CreatorRole value = folerValue.getCreatorRole();
             result = result || (filters.get(value) != null && filters.get(value).getModelObject());
         }
         return result;

@@ -814,4 +814,30 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             sessionFactory.closeSession();
         }
     }
+
+    @Override
+    public FolderItemVO getFolderItemVO(final DmoStoreId itemContainer) throws StoreAccessException {
+
+        if (!FolderItem.NAMESPACE.equals(itemContainer.getNamespace()))
+            throw new IllegalArgumentException("storeId should be a folder, got " + itemContainer);
+
+        final Session session = sessionFactory.openSession();
+        try {
+            Criteria criteria = session.createCriteria(FolderItemVO.class);
+            criteria.add(Restrictions.eq("sid", itemContainer.toString()));
+            @SuppressWarnings("unchecked")
+            Iterator<FolderItemVO> i = (Iterator<FolderItemVO>) criteria.list().iterator();
+            if (i.hasNext()) {
+                return i.next();
+            } else {
+                throw new RuntimeException("No such folder: " + itemContainer.getId());
+            }
+        }
+        catch (final HibernateException e) {
+            throw new StoreAccessException(e);
+        }
+        finally {
+            sessionFactory.closeSession();
+        }
+    }
 }

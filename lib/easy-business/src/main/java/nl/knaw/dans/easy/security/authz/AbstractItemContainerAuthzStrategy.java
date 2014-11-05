@@ -2,17 +2,15 @@ package nl.knaw.dans.easy.security.authz;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.user.User;
-import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.store.StoreAccessException;
-import nl.knaw.dans.easy.domain.model.AccessibleTo;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
 
 public abstract class AbstractItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy {
 
@@ -29,22 +27,18 @@ public abstract class AbstractItemContainerAuthzStrategy extends AbstractDataset
         super();
     }
 
-    abstract DmoStoreId getTargetDmoStoreId();
+    abstract Set<AccessibleTo> getAccessibilities();
+
+    abstract Set<VisibleTo> getVisibilities();
 
     @Override
     protected int getResourceDiscoveryProfile() {
         if (discoveryProfile == NOT_EVALUATED) {
-            try {
-                final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
-                for (final VisibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), VisibleTo.class)) {
-                    accessibilityCategories.add(VisibleTo.translate(at));
-                }
-                discoveryProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
+            final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
+            for (final VisibleTo at : getVisibilities()) {
+                accessibilityCategories.add(VisibleTo.translate(at));
             }
-            catch (final StoreAccessException e) {
-                logger.error(e.getMessage(), e);
-                readProfile = AccessCategory.UTIL.getBitMask(AccessCategory.NO_ACCESS);
-            }
+            discoveryProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
         }
         return discoveryProfile;
     }
@@ -52,17 +46,11 @@ public abstract class AbstractItemContainerAuthzStrategy extends AbstractDataset
     @Override
     protected int getResourceReadProfile() {
         if (readProfile == NOT_EVALUATED) {
-            try {
-                final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
-                for (final AccessibleTo at : Data.getFileStoreAccess().getValuesFor(getTargetDmoStoreId(), AccessibleTo.class)) {
-                    accessibilityCategories.add(AccessibleTo.translate(at));
-                }
-                readProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
+            final List<AccessCategory> accessibilityCategories = new ArrayList<AccessCategory>();
+            for (final AccessibleTo at : getAccessibilities()) {
+                accessibilityCategories.add(AccessibleTo.translate(at));
             }
-            catch (final StoreAccessException e) {
-                logger.error(e.getMessage(), e);
-                readProfile = AccessCategory.UTIL.getBitMask(AccessCategory.NO_ACCESS);
-            }
+            readProfile = AccessCategory.UTIL.getBitMask(accessibilityCategories);
         }
         return readProfile;
     }

@@ -1,22 +1,23 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-
 <hibernate-mapping>
-
-    <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole" table="easy_folder_creator" schema="public">
-        <id name="id" type="long">
-            <column name="id" />
-            <generator class="sequence">
-				<param name="sequence">easy_folder_creator_id_seq</param>
-            </generator>
-        </id>
-        <property name="folderSid" type="string">
+   <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole">
+        <subselect>
+        <!-- This query was written for PostGreSQL. It may need to be rewritten if/when porting to another RDBM -->
+           SELECT DISTINCT c.pid, m.creator_role, c.pid || '_' || m.creator_role id
+           FROM  easy_folders c, easy_files m
+           WHERE c.dataset_sid = m.dataset_sid
+           AND   m.path LIKE c.path || '%'
+        </subselect>
+        <synchronize table="easy_files" />
+        <synchronize table="easy_folders" />
+        <id name="id" />
+        <property name="folderSid" type="string" insert="false" update="false">
             <column name="pid" length="64" />
         </property>
         <property name="creatorRole" type="nl.knaw.dans.easy.fedora.db.CreatorRoleEnumUserType">
-            <column name="creator" length="32" not-null="true" />
+            <column name="creator_role" length="32" />
         </property>
     </class>
-    
 </hibernate-mapping>

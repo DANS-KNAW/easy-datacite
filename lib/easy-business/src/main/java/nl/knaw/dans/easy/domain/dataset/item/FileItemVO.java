@@ -104,48 +104,23 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((accessibleTo == null) ? 0 : accessibleTo.hashCode());
-        result = prime * result + ((creatorRole == null) ? 0 : creatorRole.hashCode());
-        result = prime * result + ((mimetype == null) ? 0 : mimetype.hashCode());
-        result = prime * result + size;
-        result = prime * result + ((visibleTo == null) ? 0 : visibleTo.hashCode());
-        return result;
+        return getParentSid().hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        FileItemVO other = (FileItemVO) obj;
-        if (accessibleTo == null) {
-            if (other.accessibleTo != null)
-                return false;
-        } else if (!accessibleTo.equals(other.accessibleTo))
-            return false;
-        if (creatorRole == null) {
-            if (other.creatorRole != null)
-                return false;
-        } else if (!creatorRole.equals(other.creatorRole))
-            return false;
-        if (mimetype == null) {
-            if (other.mimetype != null)
-                return false;
-        } else if (!mimetype.equals(other.mimetype))
-            return false;
-        if (size != other.size)
-            return false;
-        if (visibleTo == null) {
-            if (other.visibleTo != null)
-                return false;
-        } else if (!visibleTo.equals(other.visibleTo))
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (o instanceof FileItemVO && super.equals(o)) {
+            FileItemVO f = (FileItemVO) o;
+            //@formatter:off
+            return accessibleTo.equals(f.accessibleTo) 
+                && creatorRole.equals(f.creatorRole) 
+                && mimetype.equals(f.mimetype) 
+                && size == f.size
+                && visibleTo.equals(f.visibleTo);
+            //@formatter:on
+
+        }
+        return false;
     }
 
     public void updateTo(FileItem fileItem) {

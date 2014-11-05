@@ -195,4 +195,6 @@ public interface FileStoreAccess {
      * @throws StoreAccessException
      */
     public <T extends FileItemVOAttribute> Set<T> getValuesFor(DmoStoreId folder, Class<T> attribute) throws IllegalArgumentException, StoreAccessException;
+
+    public FolderItemVO getFolderItemVO(DmoStoreId itemContainer) throws StoreAccessException;
 }

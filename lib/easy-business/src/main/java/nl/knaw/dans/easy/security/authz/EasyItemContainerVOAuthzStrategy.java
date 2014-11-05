@@ -1,8 +1,14 @@
 package nl.knaw.dans.easy.security.authz;
 
-import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 
 public class EasyItemContainerVOAuthzStrategy extends AbstractItemContainerAuthzStrategy {
 
@@ -65,7 +71,18 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractItemContainerAuthz
     }
 
     @Override
-    DmoStoreId getTargetDmoStoreId() {
-        return new DmoStoreId(folderItemVO.getSid());
+    Set<AccessibleTo> getAccessibilities() {
+        Set<AccessibleTo> result = new HashSet<AccessibleTo>();
+        for (FolderItemAccessibleTo v : folderItemVO.getAccessibilities())
+            result.add(v.getAccessibleTo());
+        return result;
+    }
+
+    @Override
+    Set<VisibleTo> getVisibilities() {
+        Set<VisibleTo> result = new HashSet<VisibleTo>();
+        for (FolderItemVisibleTo v : folderItemVO.getVisibilities())
+            result.add(v.getVisibleTo());
+        return result;
     }
 }

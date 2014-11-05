@@ -7,23 +7,23 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
  */
 public class FolderItemVisibleTo implements java.io.Serializable, Cloneable {
     private static final long serialVersionUID = -2021285396582701318L;
-    private long id = -1;
+    private String id;
     private VisibleTo visibleTo;
     private String folderSid;
 
     public FolderItemVisibleTo() {}
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public FolderItemVisibleTo(String folderSid, VisibleTo visibleTo) {
         this.folderSid = folderSid;
         this.visibleTo = visibleTo;
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public VisibleTo getVisibleTo() {
@@ -44,47 +44,24 @@ public class FolderItemVisibleTo implements java.io.Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((folderSid == null) ? 0 : folderSid.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + ((visibleTo == null) ? 0 : visibleTo.hashCode());
-        return result;
+        return folderSid.hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        FolderItemVisibleTo other = (FolderItemVisibleTo) obj;
-        if (folderSid == null) {
-            if (other.folderSid != null)
-                return false;
-        } else if (!folderSid.equals(other.folderSid))
-            return false;
-        if (id != other.id)
-            return false;
-        if (visibleTo == null) {
-            if (other.visibleTo != null)
-                return false;
-        } else if (!visibleTo.equals(other.visibleTo))
-            return false;
-        return true;
-    }
-
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public boolean equals(Object o) {
+        if (o instanceof FolderItemVisibleTo) {
+            FolderItemVisibleTo f = (FolderItemVisibleTo) o;
+            //@formatter:off
+            return id.equals(f.id) 
+                && folderSid.equals(f.folderSid) 
+                && visibleTo.equals(f.visibleTo);
+            //@formatter:on
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        if (visibleTo == null)
-            return "null";
         return visibleTo.toString();
     }
-
 }

@@ -1,9 +1,39 @@
 package nl.knaw.dans.easy.domain.dataset.item;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
-public class FolderItemVO extends AbstractItemVO implements Cloneable {
+public class FolderItemVO extends AbstractItemVO {
     private static final long serialVersionUID = 5833718449823501446L;
+    private Set<FolderItemCreatorRole> creatorRoles = new HashSet<FolderItemCreatorRole>(0);
+    private Set<FolderItemVisibleTo> visibilities = new HashSet<FolderItemVisibleTo>(0);
+    private Set<FolderItemAccessibleTo> accessibilities = new HashSet<FolderItemAccessibleTo>(0);
+
+    public Set<FolderItemCreatorRole> getCreatorRoles() {
+        return creatorRoles;
+    }
+
+    public void setCreatorRoles(Set<FolderItemCreatorRole> creatorRoles) {
+        this.creatorRoles = creatorRoles;
+    }
+
+    public Set<FolderItemVisibleTo> getVisibilities() {
+        return visibilities;
+    }
+
+    public void setVisibilities(Set<FolderItemVisibleTo> visibilities) {
+        this.visibilities = visibilities;
+    }
+
+    public Set<FolderItemAccessibleTo> getAccessibilities() {
+        return accessibilities;
+    }
+
+    public void setAccessibilities(Set<FolderItemAccessibleTo> accessibilities) {
+        this.accessibilities = accessibilities;
+    }
 
     public FolderItemVO() {}
 
@@ -32,22 +62,16 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
-    }
-
-    /**
-     * Creates a deep copy of this object
-     */
-    public Object clone() throws CloneNotSupportedException {
-        FolderItemVO c = (FolderItemVO) super.clone();
-        return c;
+    public boolean equals(Object o) {
+        if (o instanceof FolderItemVO && super.equals(o)) {
+            FolderItemVO f = (FolderItemVO) o;
+            //@formatter:off
+            return f.accessibilities.equals(f.accessibilities) 
+                && f.creatorRoles.equals(f.creatorRoles)
+                && f.visibilities.equals(f.visibilities);
+            //@formatter:on
+        }
+        return false;
     }
 
     public void updateTo(FolderItem folderItem) {
