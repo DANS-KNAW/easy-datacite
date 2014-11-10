@@ -71,13 +71,13 @@ public class InMemoryDatabase implements Closeable {
      * @param parent
      *        folder item or dataset
      * @param label
-     *        path and name
+     *        folder name, for backward compatibility no parent path is added if the label contains a "/"
      * @return
      * @throws DomainException
      */
     public FolderItem insertFolder(final int id, final DatasetItemContainer parent, final String label) throws DomainException {
         final FolderItemImpl item = new FolderItemImpl(new DmoStoreId(FolderItem.NAMESPACE, id + "").getStoreId());
-        item.setLabel(label);
+        item.setLabel(buildPath(parent, label));
         item.setParent(parent);
         item.setDatasetId(getDatasetId(parent));
 
@@ -93,7 +93,7 @@ public class InMemoryDatabase implements Closeable {
      * @param parent
      *        folder item or dataset
      * @param label
-     *        path and name
+     *        file name, for backward compatibility no parent path is added if the label contains a "/"
      * @param creatorRole
      * @param visibleTo
      * @param accessibleTo
@@ -111,12 +111,21 @@ public class InMemoryDatabase implements Closeable {
 
         final FileItemImpl item = new FileItemImpl(new DmoStoreId(FileItem.NAMESPACE, id + "").getStoreId());
         item.setFileItemMetadata(fileItemMetadata);
-        item.setLabel(label);
+        item.setLabel(buildPath(parent, label));
         item.setMimeType("text");
         item.setSize(1);
 
         session.save(new FileItemVO(item));
         return item;
+    }
+
+    private String buildPath(final DatasetItemContainer parent, final String label) {
+        if (label.contains("/"))
+            return label;
+        else if (!(parent instanceof FolderItem))
+            return label;
+        else
+            return ((FolderItem) parent).getLabel() + "/" + label;
     }
 
     private static DmoStoreId getDatasetId(final DatasetItemContainer parent) {
@@ -129,7 +138,7 @@ public class InMemoryDatabase implements Closeable {
         return parent.getDmoStoreId();
     }
 
-    public void deleteAll(Class<? extends AbstractItemVO> itemClass) {
+    public void deleteAll(final Class<? extends AbstractItemVO> itemClass) {
 
         for (final Object id : session.createQuery("SELECT sid FROM " + itemClass.getName()).list())
             session.delete(itemClass.getName(), session.get(itemClass, (String) id));

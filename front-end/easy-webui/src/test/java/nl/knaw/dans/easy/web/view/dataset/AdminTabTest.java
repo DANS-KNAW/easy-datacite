@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.web.view.dataset;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
@@ -20,6 +19,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
+import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 
 import org.junit.After;
@@ -46,7 +46,10 @@ public class AdminTabTest {
         DmoStoreId datasetStoreId = new DmoStoreId(Dataset.NAMESPACE, "1");
         dataset = new DatasetImpl(datasetStoreId.toString());
         dataset.setState(State.Submitted.toString());
-        dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
+        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy() {
+            // need a subclass because the constructors are protected
+            private static final long serialVersionUID = 1L;
+        });
 
         // needed twice because considered dirty
         dataset.getAdministrativeMetadata().setDepositor(depositor);

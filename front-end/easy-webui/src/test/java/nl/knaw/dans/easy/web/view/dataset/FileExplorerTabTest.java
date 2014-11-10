@@ -2,10 +2,12 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+
+import java.text.MessageFormat;
+
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
@@ -16,16 +18,18 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
+import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
-import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.EmdRights;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.PageParameters;
 import org.junit.After;
@@ -35,6 +39,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+/**
+ * See also DatasetPermissionTest.fileExplorerTab
+ */
 public class FileExplorerTabTest {
 
     private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
@@ -78,78 +85,51 @@ public class FileExplorerTabTest {
     }
 
     @Test
-    public void asArchivist() throws Exception {
+    public void file() throws Exception {
 
-        mockDataset(createDepositor(), AccessCategory.ANONYMOUS_ACCESS);
-        applicationContext.expectAuthenticatedAsVisitor().addRole(Role.ARCHIVIST);
-        insertMixedPermissionFiles();
+        final String fileName = "mainfile.txt";
+        mockDataset(createDepositor());
 
-        renderFileExplorerTab().dumpPage();
-    }
+        setDatasetTitle(inMemoryDatabase.insertFile(1, dataset, fileName, CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
 
-    @Test
-    public void asVisitor() throws Exception {
-
-        mockDataset(createDepositor(), AccessCategory.ANONYMOUS_ACCESS);
-        applicationContext.expectAuthenticatedAsVisitor().addRole(Role.USER);
-        insertMixedPermissionFiles();
-
-        renderFileExplorerTab().dumpPage();
-    }
-
-    @Test
-    public void asDepositor() throws Exception {
-
-        final EasyUserImpl sessionUser = applicationContext.expectAuthenticatedAsVisitor();
-        sessionUser.addRole(Role.USER);
-        mockDataset(sessionUser, AccessCategory.ANONYMOUS_ACCESS);
-        insertMixedPermissionFiles();
-
-        renderFileExplorerTab().dumpPage();
-    }
-
-    @Test
-    public void asAnonymous() throws Exception {
-
-        mockDataset(createDepositor(), AccessCategory.ANONYMOUS_ACCESS);
-        insertMixedPermissionFiles();
-
-        renderFileExplorerTab().dumpPage();
-    }
-
-    @Test
-    public void visibleToAnonymous() throws Exception {
-
-        final String folderPath = "folder";
-        mockDataset(createDepositor(), AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
-        final FolderItem folder = inMemoryDatabase.insertFolder(1, dataset, folderPath);
-        inMemoryDatabase.insertFile(1, folder, "mainfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-
-        final EasyWicketTester tester = renderFileExplorerTab();
+        final EasyWicketTester tester = render();
         tester.dumpPage();
-        // tester.assertLabel("tabs:panel:fe:explorer:datatable:body:rows:1", folderPath);
+        tester.assertLabel("tabs:panel:fe:explorer:datatable:body:rows:1", fileName);
     }
 
-    private void insertMixedPermissionFiles() throws Exception {
+    @Test
+    public void folder() throws Exception {
 
+        mockDataset(createDepositor());
         final FolderItem folder = inMemoryDatabase.insertFolder(1, dataset, "folder");
-        int i = 0;
-        for (final CreatorRole creatorRole : CreatorRole.values())
-            for (final VisibleTo visibleTo : VisibleTo.values())
-                for (final AccessibleTo accessibleTo : AccessibleTo.values()) {
-                    inMemoryDatabase.insertFile(++i, folder, "folder/" + i + "subfile.txt", creatorRole, visibleTo, accessibleTo);
-                    inMemoryDatabase.insertFile(++i, dataset, i + "mainfile.txt", creatorRole, visibleTo, accessibleTo);
-                }
+        setDatasetTitle(inMemoryDatabase.insertFile(1, folder, "mainfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
+
+        final EasyWicketTester tester = render();
+        tester.dumpPage();
+        tester.debugComponentTrees();
+        tester.assertLabel("tabs:panel:fe:explorer:datatable:bottomToolbars:1:toolbar:td:msg", "No visible files.");
+        // with a manual test we would get
+        // tester.assertLabel("tabs:panel:fe:explorer:datatable:body:rows:1", "folder");
     }
 
-    private void mockDataset(final EasyUserImpl depositor, final AccessCategory accesCategory) throws Exception {
+    private void setDatasetTitle(final FileItem file) {
+        // show test purpose on the dumped page
+        String format = "dataset rights: {0}; file visible to: {1}, file accessible to: {2}";
+        EmdRights emdRights = dataset.getEasyMetadata().getEmdRights();
+        final String title = MessageFormat.format(format, emdRights.getAccessCategory(), file.getVisibleTo(), file.getAccessibleTo());
+        dataset.getEasyMetadata().getEmdTitle().getDcTitle().add(new BasicString(title));
+    }
 
-        final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
-        emd.getEmdRights().setAccessCategory(accesCategory);
+    private void mockDataset(final EasyUserImpl depositor) throws Exception {
 
-        dataset = new DatasetImpl(DATASET_STORE_ID.toString(), emd);
+        dataset = new DatasetImpl(DATASET_STORE_ID.toString());
+        final EasyUserAnonymous sessionUser = EasyUserAnonymous.getInstance();
         dataset.setState(DatasetState.PUBLISHED.toString());
-        dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
+        dataset.getEasyMetadata().getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
+        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy(sessionUser, dataset, dataset) {
+            // a subclass needed because the constructors are protected
+            private static final long serialVersionUID = 1L;
+        });
 
         // needed twice because considered dirty
         dataset.getAdministrativeMetadata().setDepositor(depositor);
@@ -172,7 +152,7 @@ public class FileExplorerTabTest {
         return depositor;
     }
 
-    protected EasyWicketTester renderFileExplorerTab() {
+    protected EasyWicketTester render() {
 
         inMemoryDatabase.flush();
         PowerMock.replayAll();
@@ -184,6 +164,7 @@ public class FileExplorerTabTest {
     }
 
     private void startPage(final EasyWicketTester tester) {
+
         final PageParameters parameters = new PageParameters();
         parameters.add("id", DATASET_STORE_ID.toString());
         parameters.add("tab", "2");

@@ -3,9 +3,6 @@ package nl.knaw.dans.easy.security.authz;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -23,7 +20,6 @@ import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
-import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.GroupImpl;
 import nl.knaw.dans.easy.security.And;
 import nl.knaw.dans.easy.security.ContextParameters;
@@ -33,6 +29,9 @@ import nl.knaw.dans.easy.security.HasRoleCheck;
 import nl.knaw.dans.easy.security.IsDepositorOfDatasetCheck;
 import nl.knaw.dans.easy.security.Or;
 import nl.knaw.dans.easy.security.SecurityOfficer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
     private static final long serialVersionUID = -2767729708349822038L;

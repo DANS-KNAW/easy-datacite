@@ -8,6 +8,7 @@ import static org.powermock.api.easymock.PowerMock.createMock;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,21 +27,10 @@ import org.junit.Test;
 
 public class EasyItemContainerAuthzStrategyTest {
 
-    static class ASet<T extends Object> extends HashSet<T> {
-        private static final long serialVersionUID = 1L;
-
-        // just another constructor for readability
-        ASet(T... values) {
-            super();
-            for (T value : values)
-                add(value);
-        }
-    }
-
     @Test
     public void singleMessageTestYes() throws Exception {
 
-        fileStoreAccessExpectations(new ASet<AccessibleTo>(AccessibleTo.ANONYMOUS));
+        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS);
 
         Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
@@ -57,7 +47,7 @@ public class EasyItemContainerAuthzStrategyTest {
     @Test
     public void singleMessageTestLogin() throws Exception {
 
-        fileStoreAccessExpectations(new ASet<AccessibleTo>(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN));
+        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN);
 
         Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
@@ -71,8 +61,9 @@ public class EasyItemContainerAuthzStrategyTest {
         verifyAll();
     }
 
-    private void fileStoreAccessExpectations(Set<AccessibleTo> accessibleToSet) throws StoreAccessException {
+    private void fileStoreAccessExpectations(AccessibleTo... accessibleToArray) throws StoreAccessException {
 
+        HashSet<AccessibleTo> accessibleToSet = new HashSet<AccessibleTo>(Arrays.asList(accessibleToArray));
         FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
         expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
         new Data().setFileStoreAccess(fileStoreAccess);
