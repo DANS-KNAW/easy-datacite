@@ -39,9 +39,9 @@ import org.apache.commons.lang.NotImplementedException;
 import org.dom4j.Element;
 
 public class ItemServiceDelegate implements ItemService {
-    
+
     private static final ItemService INSTANCE = new EasyItemService();
-    
+
     private static final NotImplementedException NOT_IMPLEMENTED_EXCEPTION = new NotImplementedException(
             "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
 
