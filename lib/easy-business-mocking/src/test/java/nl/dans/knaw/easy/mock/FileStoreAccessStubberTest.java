@@ -58,8 +58,8 @@ public class FileStoreAccessStubberTest {
 
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final DmoStoreId dmoStoreId = new DmoStoreId(datasetStoreId);
-        assertThat(fsa.getFiles(dmoStoreId, 0, 0, null, null).size(), equalTo(1));
-        assertThat(fsa.getFiles(dmoStoreId, 0, 0, null, null).get(0).getPath(), equalTo("6.gif"));
+        assertThat(fsa.getFiles(dmoStoreId).size(), equalTo(1));
+        assertThat(fsa.getFiles(dmoStoreId).get(0).getPath(), equalTo("6.gif"));
         assertThat(fsa.findFileByPath(dmoStoreId, "6.gif").getDatasetSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFileByPath(dmoStoreId, "6.gif").getParentSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFileByPath(dmoStoreId, "a/c/5.png").getDatasetSid(), equalTo(datasetStoreId));
@@ -70,10 +70,10 @@ public class FileStoreAccessStubberTest {
 
         final String storeIdOfA = fsa.findFileByPath(dmoStoreId, "a/4.png").getParentSid();
         assertThat(fsa.findFolderById(new DmoStoreId(storeIdOfA)).getPath(), equalTo("a"));
-        assertThat(fsa.getFiles(new DmoStoreId(storeIdOfA), 0, 0, null, null).size(), equalTo(2));
-        assertThat(fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null).size(), equalTo(2));
-        assertThat(fsa.getFolders(dmoStoreId, 0, 0, null, null).size(), equalTo(1));
-        assertThat(fsa.getFolders(new DmoStoreId(storeIdOfA), 0, 0, null, null).size(), equalTo(2));
+        assertThat(fsa.getFiles(new DmoStoreId(storeIdOfA)).size(), equalTo(2));
+        assertThat(fsa.getFilesAndFolders(dmoStoreId).size(), equalTo(2));
+        assertThat(fsa.getFolders(dmoStoreId).size(), equalTo(1));
+        assertThat(fsa.getFolders(new DmoStoreId(storeIdOfA)).size(), equalTo(2));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a").getDatasetSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a/b").getDatasetSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFileByPath(dmoStoreId, "6.gif").getDatasetSid(), equalTo(datasetStoreId));

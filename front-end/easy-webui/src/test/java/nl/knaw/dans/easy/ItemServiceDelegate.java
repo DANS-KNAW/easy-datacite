@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
@@ -14,6 +15,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
 import nl.knaw.dans.easy.business.services.EasyItemService;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
@@ -25,9 +27,12 @@ import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.EasyFileItemVOAuthzStrategy;
@@ -139,9 +144,7 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
-            WorkListener... workListeners) throws ServiceException
-    {
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo) throws ServiceException {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
@@ -163,10 +166,8 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws ServiceException
-    {
-        List<FileItemVO> files = INSTANCE.getFiles(sessionUser, dataset, parentSid, limit, offset, order, filters);
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid) throws ServiceException {
+        List<FileItemVO> files = INSTANCE.getFiles(sessionUser, dataset, parentSid);
         for (FileItemVO item : files)
             item.setAuthzStrategy(FILE_AUTHZ_STRATEGY);
         return files;
@@ -180,21 +181,14 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws ServiceException
-    {
-        List<ItemVO> items = INSTANCE.getFilesAndFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid) throws ServiceException {
+        List<ItemVO> items = INSTANCE.getFilesAndFolders(sessionUser, dataset, parentSid);
         for (ItemVO item : items)
             if (item instanceof FileItemVO)
                 ((FileItemVO) item).setAuthzStrategy(FILE_AUTHZ_STRATEGY);
             else if (item instanceof FolderItemVO)
                 ((FolderItemVO) item).setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
         return items;
-    }
-
-    @Override
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
     }
 
     @Override
@@ -208,8 +202,8 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws ServiceException {
-        return INSTANCE.getFilenames(parentSid, recursive);
+    public List<String> getFilenames(DmoStoreId parentSid) throws ServiceException {
+        return INSTANCE.getFilenames(parentSid);
     }
 
     @Override
@@ -257,6 +251,26 @@ public class ItemServiceDelegate implements ItemService {
 
     @Override
     public boolean mustProcessAudioVideoInstructions() {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 

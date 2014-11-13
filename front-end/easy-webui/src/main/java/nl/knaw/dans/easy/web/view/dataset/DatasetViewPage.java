@@ -433,6 +433,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
                 }
                 catch (StoreAccessException e) {
                     warningMessage(EasyResources.INTERNAL_ERROR);
+                    logger.error("Internal error", e);
                     InfoPage infoPage = new InfoPage(EasyWicketApplication.getProperty(EasyResources.INTERNAL_ERROR));
                     infoPage.setCallingClass(DatasetViewPage.class);
                     throw new RestartResponseException(infoPage);

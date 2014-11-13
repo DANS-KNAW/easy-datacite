@@ -27,8 +27,10 @@ import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class FedoraCountFilesTest {
     private static DmoStoreId fileStoreId;
     private static DmoStoreId folderStoreId;
@@ -54,46 +56,27 @@ public class FedoraCountFilesTest {
     public static void closeDB() {
         inMemoryDB.close();
     }
+//
+//    @Test
+//    public void folderItemVO_getAccessibleToList() throws Exception {
+//        Set<AccessibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, AccessibleTo.class);
+//        assertTrue(values.toArray().length == 1);
+//        assertTrue(values.toArray()[0].equals(AccessibleTo.KNOWN));
+//    }
 
-    @Test
-    public void folderItemVO_getAccessibleToList() throws Exception {
-        Set<AccessibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, AccessibleTo.class);
-        assertTrue(values.toArray().length == 1);
-        assertTrue(values.toArray()[0].equals(AccessibleTo.KNOWN));
-    }
+//    @Test
+//    public void folderItemVO_getVisibleToList() throws Exception {
+//        Set<VisibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, VisibleTo.class);
+//        assertTrue(values.toArray().length == 1);
+//        assertTrue(values.toArray()[0].equals(VisibleTo.ANONYMOUS));
+//    }
 
-    @Test
-    public void folderItemVO_getVisibleToList() throws Exception {
-        Set<VisibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, VisibleTo.class);
-        assertTrue(values.toArray().length == 1);
-        assertTrue(values.toArray()[0].equals(VisibleTo.ANONYMOUS));
-    }
-
-    @Test
-    public void folderItemVO_getCreatorRoles() throws Exception {
-        Set<CreatorRole> values = fileStoreAccess.getValuesFor(folderStoreId, CreatorRole.class);
-        assertTrue(values.toArray().length == 1);
-        assertTrue(values.toArray()[0].equals(CreatorRole.DEPOSITOR));
-    }
-
-    @Test
-    public void folderItemImpl_getChildCount() throws Exception {
-        final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class)
-                + fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);
-        assertThat(count, equalTo(1));
-    }
-
-    @Test
-    public void folderItemImpl_getChildFileCount() throws Exception {
-        final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FileItemVO.class);
-        assertThat(count, equalTo(1));
-    }
-
-    @Test
-    public void folderItemImpl_getChildFolderCount() throws Exception {
-        final int count = fileStoreAccess.getDirectMemberCount(folderStoreId, FolderItemVO.class);
-        assertThat(count, equalTo(0));
-    }
+//    @Test
+//    public void folderItemVO_getCreatorRoles() throws Exception {
+//        Set<CreatorRole> values = fileStoreAccess.getValuesFor(folderStoreId, CreatorRole.class);
+//        assertTrue(values.toArray().length == 1);
+//        assertTrue(values.toArray()[0].equals(CreatorRole.DEPOSITOR));
+//    }
 
     @Test
     public void folderItemImpl_getTotalFileCount() throws Exception {
@@ -125,18 +108,6 @@ public class FedoraCountFilesTest {
     public void folderItemImpl_getAccessibleToFileCount() throws Exception {
         // TODO check: totalMemberCount or DirectMemberCount?
         final int count = fileStoreAccess.getTotalMemberCount(folderStoreId, FileItemVO.class, AccessibleTo.KNOWN);
-        assertThat(count, equalTo(1));
-    }
-
-    @Test
-    public void datasetImpl_getChildFileCount() throws Exception {
-        final int count = fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class);
-        assertThat(count, equalTo(0));
-    }
-
-    @Test
-    public void datasetImpl_getChildFolderCount() throws Exception {
-        final int count = fileStoreAccess.getDirectMemberCount(datasetStoreId, FolderItemVO.class);
         assertThat(count, equalTo(1));
     }
 
@@ -208,31 +179,9 @@ public class FedoraCountFilesTest {
         assertThat(count, equalTo(true));
     }
 
-    @Test
-    public void codeCoverage() throws Exception {
-        final FileItemVOAttribute[] empty = {};
-        assertThat(fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, (FileItemVOAttribute[]) null), equalTo(0));
-        assertThat(fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, (FileItemVOAttribute[]) empty), equalTo(0));
-        assertThat(fileStoreAccess.hasDirectMember(datasetStoreId, FolderItemVO.class), equalTo(true));
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void hasVisibleForFolder() throws Exception {
         fileStoreAccess.hasVisibleFiles(folderStoreId, true, true, true);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void noMembersForFiles() throws Exception {
-        fileStoreAccess.getDirectMemberCount(fileStoreId, FileItemVO.class);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void noFolderPropertyFilters() throws Exception {
-        fileStoreAccess.getDirectMemberCount(datasetStoreId, FolderItemVO.class, VisibleTo.ANONYMOUS);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void atMostOnePropertyFilters() throws Exception {
-        fileStoreAccess.getDirectMemberCount(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS, VisibleTo.RESTRICTED_GROUP);
-    }
 }

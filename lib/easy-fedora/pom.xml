@@ -12,7 +12,7 @@
     <version>${easy.version}</version>
 	<name>EASY Fedora Library</name>
 	<properties>
-		<hibernate.version>3.2.6.ga</hibernate.version>
+		<hibernate.version>4.3.7.Final</hibernate.version>
 		<postgresql.version>8.4-701.jdbc3</postgresql.version>
 		<hsqldb.version>1.8.0.10</hsqldb.version>
 		<logdriver.version>1.0</logdriver.version>
@@ -28,9 +28,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate</artifactId>
+			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>

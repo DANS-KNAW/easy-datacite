@@ -61,7 +61,7 @@ class ClassUnderTest {
 
     static int getNrOfFilesAndFolders(final String storeId) throws StoreAccessException {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
-        final List<ItemVO> filesAndFolders = fsa.getFilesAndFolders(new DmoStoreId(storeId), 0, 0, null, null);
+        final List<ItemVO> filesAndFolders = fsa.getFilesAndFolders(new DmoStoreId(storeId));
         return filesAndFolders.size();
     }
 }

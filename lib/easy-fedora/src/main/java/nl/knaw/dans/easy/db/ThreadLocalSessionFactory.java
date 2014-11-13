@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.db;
 import nl.knaw.dans.easy.db.exceptions.DbException;
 
 import org.hibernate.HibernateException;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 
 /**
  * This session factory creates a maximum of one session for one thread. The session can thus easily be reused by reusing this factory for getting the session.
@@ -13,18 +13,9 @@ import org.hibernate.classic.Session;
  */
 public class ThreadLocalSessionFactory {
 
-    private static ThreadLocalSessionFactory INSTANCE;
-
-    private ThreadLocal<SessionInfo> localSessionInfo = new ThreadLocal<SessionInfo>();
-
-    private ThreadLocalSessionFactory() {
-
-    }
+    private static ThreadLocalSessionFactory INSTANCE = new ThreadLocalSessionFactory();
 
     public static ThreadLocalSessionFactory instance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ThreadLocalSessionFactory();
-        }
         return INSTANCE;
     }
 
@@ -35,54 +26,55 @@ public class ThreadLocalSessionFactory {
      * @return a new or existing session object
      */
     public Session openSession() throws HibernateException, DbException {
-        SessionInfo sessionInfo = localSessionInfo.get();
-        if (sessionInfo == null) {
-            sessionInfo = new SessionInfo();
-            localSessionInfo.set(sessionInfo);
-        }
-
-        if (sessionInfo.useCount == 0) {
-            try {
-                sessionInfo.session = DbUtil.getSessionFactory().openSession();
-            }
-            finally {
-                // if an error of some kind occurs do not store the session info
-                if (sessionInfo.session == null)
-                    localSessionInfo.set(null);
-            }
-        }
-
-        // increase in the last line of code, because an exception
-        // might occur
-        sessionInfo.useCount++;
-        return sessionInfo.session;
+        return DbUtil.getSessionFactory().getCurrentSession();
+        //
+        //
+        //
+        // SessionInfo sessionInfo = localSessionInfo.get();
+        // if (sessionInfo == null) {
+        // sessionInfo = new SessionInfo();
+        // localSessionInfo.set(sessionInfo);
+        // }
+        //
+        // if (sessionInfo.useCount == 0) {
+        // try {
+        // sessionInfo.session = DbUtil.getSessionFactory().openSession();
+        // }
+        // finally {
+        // // if an error of some kind occurs do not store the session info
+        // if (sessionInfo.session == null)
+        // localSessionInfo.set(null);
+        // }
+        // }
+        //
+        // // increase in the last line of code, because an exception
+        // // might occur
+        // //sessionInfo.useCount++;
+        // return sessionInfo.session;
     }
 
     /**
      * Call this instead of calling Session.close().
      */
     public void closeSession() {
-        SessionInfo sessionInfo = localSessionInfo.get();
-        if (sessionInfo == null)
-            // this does not necessarily indicate a programmer error
-            // as the openSession might have thrown an exception
-            return;
-
-        if (sessionInfo.useCount <= 0)
-            throw new RuntimeException("closeSession() called once too many. " + "This indicates a programmer error");
-        if (sessionInfo.session == null)
-            throw new RuntimeException("Session is null at close? " + "This should not happen");
-
-        sessionInfo.useCount--;
-        if (sessionInfo.useCount == 0) {
-            sessionInfo.session.close();
-            localSessionInfo.set(null);
-        }
+        DbUtil.getSessionFactory().getCurrentSession().close();
+        //
+        //
+        // SessionInfo sessionInfo = localSessionInfo.get();
+        // if (sessionInfo == null)
+        // // this does not necessarily indicate a programmer error
+        // // as the openSession might have thrown an exception
+        // return;
+        //
+        // // if (sessionInfo.useCount <= 0)
+        // // throw new RuntimeException("closeSession() called once too many. " + "This indicates a programmer error");
+        // // if (sessionInfo.session == null)
+        // // throw new RuntimeException("Session is null at close? " + "This should not happen");
+        //
+        // // sessionInfo.useCount--;
+        // if (sessionInfo.useCount == 0) {
+        // sessionInfo.session.close();
+        // localSessionInfo.set(null);
+        // }
     }
-
-    private class SessionInfo {
-        public Session session = null;
-        public int useCount = 0;
-    }
-
 }

@@ -71,9 +71,7 @@ public class DatasetSpecificDataTest extends RestTest {
 
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-        when(
-                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
-                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(items);
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(items);
 
         when(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ZipFileContentWrapper());
 

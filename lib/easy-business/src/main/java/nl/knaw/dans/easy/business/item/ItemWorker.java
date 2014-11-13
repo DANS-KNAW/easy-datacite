@@ -133,7 +133,7 @@ public class ItemWorker extends AbstractWorker {
             itemContainer.setLabel(updateInfo.getName());
         }
         if (updateInfo.hasPropagatingUpdates()) {
-            List<ItemVO> itemVOs = Data.getFileStoreAccess().getFilesAndFolders(itemContainer.getDmoStoreId(), -1, -1, null, itemFilters);
+            List<ItemVO> itemVOs = Data.getFileStoreAccess().getFilesAndFolders(itemContainer.getDmoStoreId());
             for (ItemVO itemVO : itemVOs) {
                 DatasetItem kidItem = (DatasetItem) getUnitOfWork().retrieveObject(new DmoStoreId(itemVO.getSid()));
                 update(kidItem, updateInfo, itemFilters);

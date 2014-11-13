@@ -5,6 +5,7 @@
 <hibernate-mapping>
     
     <class name="nl.knaw.dans.easy.domain.dataset.item.FileItemVO" table="easy_files" schema="public">
+        <cache usage="read-write" />     
         <id name="sid" type="string">
             <column name="pid" length="64" />
             <generator class="assigned" />

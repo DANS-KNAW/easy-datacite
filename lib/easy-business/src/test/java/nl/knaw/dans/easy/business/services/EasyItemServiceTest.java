@@ -127,9 +127,9 @@ public class EasyItemServiceTest extends TestHelper {
         EasyMock.reset(easyStore, fileStoreAccess);
 
         EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId, -1, -1, null, null)).andReturn(new ArrayList<ItemVO>()).times(1);
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId)).andReturn(new ArrayList<ItemVO>()).times(1);
         EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:original"));
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders(folderItemId, -1, -1, null, null)).andReturn(new ArrayList<ItemVO>()).times(1);
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(folderItemId)).andReturn(new ArrayList<ItemVO>()).times(1);
 
         EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:1"));
         EasyMock.expect(AbstractDmoFactory.newDmo(FileItem.NAMESPACE)).andReturn(new FileItemImpl("easy-file:1"));
@@ -161,7 +161,7 @@ public class EasyItemServiceTest extends TestHelper {
         List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
         sidList.add(new DmoStoreId("foo:21"));
         UpdateInfo info = new UpdateInfo(VisibleTo.NONE, AccessibleTo.ANONYMOUS, "bla", true);
-        service.updateObjects(getTestUser(), dataset, sidList, info, null);
+        service.updateObjects(getTestUser(), dataset, sidList, info);
 
         EasyMock.reset(fileStoreAccess);
     }
@@ -183,7 +183,7 @@ public class EasyItemServiceTest extends TestHelper {
         EasyMock.reset(easyStore, fileStoreAccess);
 
         EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId, -1, -1, null, null)).andThrow(new ApplicationException("I'm too tired to run."));
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId)).andThrow(new ApplicationException("I'm too tired to run."));
         EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
 
         EasyMock.replay(easyStore, fileStoreAccess);

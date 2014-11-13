@@ -1,15 +1,18 @@
 package nl.knaw.dans.easy.domain.dataset.item;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
 public class FolderItemVO extends AbstractItemVO {
     private static final long serialVersionUID = 5833718449823501446L;
-    private Set<FolderItemCreatorRole> creatorRoles = new HashSet<FolderItemCreatorRole>(0);
-    private Set<FolderItemVisibleTo> visibilities = new HashSet<FolderItemVisibleTo>(0);
-    private Set<FolderItemAccessibleTo> accessibilities = new HashSet<FolderItemAccessibleTo>(0);
+    private Set<FolderItemCreatorRole> creatorRoles;
+    private Set<FolderItemVisibleTo> visibilities;
+    private Set<FolderItemAccessibleTo> accessibilities;
+    private Set<FileItemVO> files;
+    private Set<FolderItemVO> folders;
 
     public Set<FolderItemCreatorRole> getCreatorRoles() {
         return creatorRoles;
@@ -35,6 +38,14 @@ public class FolderItemVO extends AbstractItemVO {
         this.accessibilities = accessibilities;
     }
 
+    public Set<FileItemVO> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Set<FileItemVO> files) {
+        this.files = files;
+    }
+
     public FolderItemVO() {}
 
     public FolderItemVO(FolderItem folderItem) {
@@ -50,7 +61,7 @@ public class FolderItemVO extends AbstractItemVO {
     @Override
     public String getPath() {
         String path = super.getPath();
-        if (path != null && !path.endsWith("/")) {
+        if (path != null && !"".equals(path) && !path.endsWith("/")) {
             path += "/";
         }
         return path;
@@ -82,5 +93,13 @@ public class FolderItemVO extends AbstractItemVO {
         setDatasetSid(folderItem.getDatasetId().getStoreId());
         setName(folderItem.getLabel());
         setPath(folderItem.getPath());
+    }
+
+    public Set<FolderItemVO> getFolders() {
+        return folders;
+    }
+
+    public void setFolders(Set<FolderItemVO> folders) {
+        this.folders = folders;
     }
 }

@@ -365,21 +365,17 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         catch (final NoSuchBeanDefinitionException e) {
             final ItemService mock = PowerMock.createMock(ItemService.class);
             expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(mock.getFilenames(anyObject(DmoStoreId.class), EasyMock.anyBoolean())).andStubDelegateTo(itemServiceDelegate);
+            expect(mock.getFilenames(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
             expect(
                     mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(ItemFilters.class),
                             anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<DmoStoreId>) anyObject())).andStubDelegateTo(
+            expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(
                     itemServiceDelegate);
-            expect(
-                    mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class),
-                            isA(Integer.class), anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
             expect(
                     mock.getFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
                             anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(
-                    mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
-                            anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
+            // expect(
+            // mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class)).itemServiceDelegate));
             setItemService(mock);
         }
     }

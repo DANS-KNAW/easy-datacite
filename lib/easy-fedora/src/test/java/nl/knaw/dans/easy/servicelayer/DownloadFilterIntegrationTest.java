@@ -34,8 +34,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class DownloadFilterIntegrationTest {
 
     // A mocked FileStoreAcess has more chances on mistakes than the tested class so we skip the pure unit test.

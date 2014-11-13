@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -13,6 +14,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
@@ -23,10 +25,13 @@ import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.xml.ResourceMetadata;
@@ -115,8 +120,7 @@ public interface ItemService extends EasyService {
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
-            WorkListener... workListeners) throws ServiceException;
+    void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo) throws ServiceException;
 
     /**
      * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList contains sections of {@link ResourceMetadata} identified
@@ -166,19 +170,10 @@ public interface ItemService extends EasyService {
      * @param dataset
      * @param parentSid
      *        the system id of the parent object
-     * @param limit
-     *        the maximum return array count or -1 for unlimited
-     * @param offset
-     *        at what point in the list to start getting objects or -1 if the offset is not important
-     * @param order
-     *        the field on which to order or null if ordering is unimportant
-     * @param filters
-     *        one or more filters that may be applied or null when no filters need to be applied
      * @return
      * @throws ServiceException
      */
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws ServiceException;
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid) throws ServiceException;
 
     /**
      * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field
@@ -208,21 +203,10 @@ public interface ItemService extends EasyService {
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param limit
-     *        the maximum return array count or -1 for unlimited
-     * @param offset
-     *        at what point in the list to start getting objects or -1 if the offset is not important
-     * @param order
-     *        the field on which to order or null if ordering is unimportant
-     * @param filters
-     *        one or more filters that may be applied or null when no filters need to be applied
      * @return
      * @throws ServiceAccessException
      */
-    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws ServiceException;
-
-    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException;
+    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid) throws ServiceException;
 
     Collection<FileItemVO> getFileItemsRecursively(EasyUser sessionUser, Dataset dataset, final Collection<FileItemVO> items, final ItemFilters filter,
             final DmoStoreId... storeIds) throws ServiceException;
@@ -232,12 +216,10 @@ public interface ItemService extends EasyService {
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param recursive
-     *        set to true to get the filenames of the folders
      * @return returns a list of filenames with their full path
      * @throws ServiceException
      */
-    List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws ServiceException;
+    List<String> getFilenames(DmoStoreId parentSid) throws ServiceException;
 
     /**
      * Returns true when the item container contains one or more child items
@@ -290,4 +272,12 @@ public interface ItemService extends EasyService {
     void setMustProcessAudioVideoInstructions(boolean value);
 
     boolean mustProcessAudioVideoInstructions();
+
+    FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException;
+
+    Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException;
+
+    Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException;
+
+    Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException;
 }

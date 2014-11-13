@@ -2,12 +2,18 @@ package nl.knaw.dans.easy.web.fileexplorer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Set;
+
+import org.apache.wicket.injection.web.InjectorHolder;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.util.StringUtil;
 
 /**
@@ -30,24 +36,25 @@ public class TreeItem implements Serializable, ITreeItem {
     private ItemVO itemVO;
     private boolean loaded;
 
-    public TreeItem(ItemVO itemVO, ITreeItem parent) {
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
+
+    public TreeItem(ItemVO itemVO, ITreeItem parent) throws StoreAccessException {
+        InjectorHolder.getInjector().inject(this);
+
         this.itemVO = itemVO;
         this.parent = parent;
 
+        visibleTo = makeValuesReadable(itemService.getItemVoVisibilities(itemVO));
+        accessibleTo = makeValuesReadable(itemService.getItemVoAccessibilities(itemVO));
+        creator = makeValuesReadable(itemService.getItemVoCreatorRoles(itemVO));
         if (itemVO instanceof FolderItemVO) {
-            FolderItemVO folderItemVO = (FolderItemVO) itemVO;
-            visibleTo = makeValuesReadable(folderItemVO.getVisibilities().toArray());
-            accessibleTo = makeValuesReadable(folderItemVO.getAccessibilities().toArray());
-            creator = makeValuesReadable(folderItemVO.getCreatorRoles().toArray());
             size = 0;
             sizeAsString = "";
             type = Type.FOLDER;
             mimeType = "folder";
         } else {
             FileItemVO fileItem = (FileItemVO) itemVO;
-            visibleTo = makeValueReadable(fileItem.getVisibleTo());
-            accessibleTo = makeValueReadable(fileItem.getAccessibleTo());
-            creator = makeValueReadable(fileItem.getCreatorRole());
             size = fileItem.getSize();
             sizeAsString = "" + fileItem.getSize();
             type = Type.FILE;
@@ -75,8 +82,8 @@ public class TreeItem implements Serializable, ITreeItem {
         }
     }
 
-    private static String makeValueReadable(FileItemVOAttribute value) {
-        return StringUtil.firstCharToUpper(value.toString().replaceAll("_", " ").toLowerCase());
+    private static String makeValuesReadable(Set<?> values) {
+        return makeValuesReadable(values.toArray());
     }
 
     private static String makeValuesReadable(Object... values) {
@@ -129,7 +136,12 @@ public class TreeItem implements Serializable, ITreeItem {
 
     @Override
     public Object clone() {
-        return new TreeItem(itemVO, parent);
+        try {
+            return new TreeItem(itemVO, parent);
+        }
+        catch (StoreAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean hasChildren() {

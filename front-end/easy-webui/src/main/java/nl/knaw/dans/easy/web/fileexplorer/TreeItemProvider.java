@@ -15,10 +15,7 @@ import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -62,7 +59,6 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
 
     public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters) {
         InjectorHolder.getInjector().inject(this);
-        // this(false);
         this.filters = filters;
         sessionUser = EasySession.getSessionUser();
         try {
@@ -80,12 +76,9 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
     public void reload() {
         try {
             roots.clear();
-            FolderItemVO rootFolder = new FolderItemVO();
-            rootFolder.setName("Dataset contents");
-            rootFolder.setSid(dataset.getStoreId());
+            FolderItemVO rootFolder = itemService.getRootFolder(sessionUser, dataset, dataset.getDmoStoreId());
             ITreeItem root = new TreeItem(rootFolder, null);
-
-            List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
+            List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId());
             for (ItemVO item : items) {
                 AuthzStrategy strategy = item.getAuthzStrategy();
                 if (item instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {
@@ -119,20 +112,17 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
     private boolean mustAdd(FolderItemVO folder) throws StoreAccessException {
 
         boolean result = false;
-        for (FolderItemVisibleTo folerValue : folder.getVisibilities()) {
-            VisibleTo value = folerValue.getVisibleTo();
+        for (VisibleTo value : itemService.getItemVoVisibilities(folder)) {
             result = result || (filters.get(value) != null && filters.get(value).getModelObject());
         }
         if (!result)
             return result;
-        for (FolderItemAccessibleTo folerValue : folder.getAccessibilities()) {
-            AccessibleTo value = folerValue.getAccessibleTo();
+        for (AccessibleTo value : itemService.getItemVoAccessibilities(folder)) {
             result = result || (filters.get(value) != null && filters.get(value).getModelObject());
         }
         if (!result)
             return result;
-        for (FolderItemCreatorRole folerValue : folder.getCreatorRoles()) {
-            CreatorRole value = folerValue.getCreatorRole();
+        for (CreatorRole value : itemService.getItemVoCreatorRoles(folder)) {
             result = result || (filters.get(value) != null && filters.get(value).getModelObject());
         }
         return result;
@@ -176,7 +166,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem> {
         DmoStoreId itemId = new DmoStoreId(item.getId());
         try {
             if (itemService.hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty()) {
-                List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, itemId, -1, -1, null, null);
+                List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, itemId);
                 for (ItemVO child : items) {
                     AuthzStrategy strategy = child.getAuthzStrategy();
                     if (child instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {

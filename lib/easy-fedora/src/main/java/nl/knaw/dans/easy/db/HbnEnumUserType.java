@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,16 @@ public class HbnEnumUserType<E extends Enum<E>> implements UserType {
         } else {
             preparedStatement.setString(index, ((Enum) value).name());
         }
+    }
+
+    @Override
+    public Object nullSafeGet(ResultSet resultSet, String[] names, SessionImplementor si, Object owner) throws HibernateException, SQLException {
+        return nullSafeGet(resultSet, names, owner);
+    }
+
+    @Override
+    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index, SessionImplementor si) throws HibernateException, SQLException {
+        nullSafeSet(preparedStatement, value, index);
     }
 
     public Object deepCopy(Object value) throws HibernateException {

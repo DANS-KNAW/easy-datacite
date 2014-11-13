@@ -57,9 +57,8 @@ public class DownloadFilter {
     }
 
     private boolean isAccessible(final FolderItemVO item) throws DomainException {
-        final DmoStoreId dmoStoreId = new DmoStoreId(item.getSid());
         try {
-            final Set<AccessibleTo> values = Data.getFileStoreAccess().getValuesFor(dmoStoreId, AccessibleTo.class);
+            final Set<AccessibleTo> values = Data.getFileStoreAccess().getItemVoAccessibilities(item);
             values.retainAll(accessibleToSet);
             return values.size() > 0;
         }

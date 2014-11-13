@@ -12,7 +12,10 @@ import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 public interface FileStoreAccess {
 
@@ -26,27 +29,16 @@ public interface FileStoreAccess {
     // not directly used
     List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
-    // used by EasyItemService.getFilesAndFolders(user, dataset, collection) <-- not used
-    List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
-
     /**
      * Gets a list of files from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field that
      * both items (folder and file) have. Paging, filtering and ordering is applied optionally.
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param limit
-     *        the maximum return array count or -1 for unlimited
-     * @param offset
-     *        at what point in the list to start getting objects or -1 if the offset is not important
-     * @param order
-     *        the field on which to order or null if ordering is unimportant
-     * @param filters
-     *        one or more filters that may be applied or null when no filters need to be applied
      * @return
      * @throws StoreAccessException
      */
-    public List<FileItemVO> getFiles(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException;
+    public List<FileItemVO> getFiles(DmoStoreId parentSid) throws StoreAccessException;
 
     /**
      * Gets a list of folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a field
@@ -54,18 +46,10 @@ public interface FileStoreAccess {
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param limit
-     *        the maximum return array count or -1 for unlimited
-     * @param offset
-     *        at what point in the list to start getting objects or -1 if the offset is not important
-     * @param order
-     *        the field on which to order or null if ordering is unimportant
-     * @param filters
-     *        one or more filters that may be applied or null when no filters need to be applied
      * @return
      * @throws StoreAccessException
      */
-    public List<FolderItemVO> getFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException;
+    public List<FolderItemVO> getFolders(DmoStoreId parentSid) throws StoreAccessException;
 
     /**
      * Gets a list of files and folders from a folder or dataset (based on parentSid). Folders are listed first, the files after, unless sorting is applied to a
@@ -73,19 +57,10 @@ public interface FileStoreAccess {
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param limit
-     *        the maximum return array count or -1 for unlimited
-     * @param offset
-     *        at what point in the list to start getting objects or -1 if the offset is not important
-     * @param order
-     *        the field on which to order or null if ordering is unimportant
-     * @param filters
-     *        one or more filters that may be applied or null when no filters need to be applied
      * @return
      * @throws StoreAccessException
      */
-    public List<ItemVO> getFilesAndFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
-            throws StoreAccessException;
+    public List<ItemVO> getFilesAndFolders(DmoStoreId parentSid) throws StoreAccessException;
 
     /**
      * Returns a list of filenames with their full path. First the files are listed then the folders. If recursive is on the folders and their files are
@@ -94,12 +69,10 @@ public interface FileStoreAccess {
      * 
      * @param parentSid
      *        the system id of the parent object
-     * @param recursive
-     *        set to true to get the filenames of the folders
      * @return returns a list of filenames with their full path
      * @throws StoreException
      */
-    List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws StoreAccessException;
+    List<String> getFilenames(DmoStoreId parentSid) throws StoreAccessException;
 
     /**
      * Returns true when the item container contains one or more child items (folders or files).
@@ -132,8 +105,9 @@ public interface FileStoreAccess {
      * @return the datasetId or <code>null</code> if an object with <code>storeId</code> was not found
      * @throws StoreException
      *         wrapper for exceptions
+     * @throws StoreAccessException
      */
-    String getDatasetId(DmoStoreId storeId) throws StoreException;
+    String getDatasetId(DmoStoreId storeId) throws StoreException, StoreAccessException;
 
     /**
      * Get the total number of files or folders in a dataset or folder.
@@ -150,25 +124,9 @@ public interface FileStoreAccess {
     public int getTotalMemberCount(final DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... attribute)
             throws StoreAccessException;
 
-    /** @return false if {@link #getTotalMemberCount} would return zero. */
-    boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
+    boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass) throws StoreAccessException;
 
-    /**
-     * Get the number of files or folders in the top level of a dataset or folder.
-     * 
-     * @param storeId
-     *        id of a container (dataset or folder)
-     * @param memberClass
-     *        type of members (files or folders) to count
-     * @param fieldValue
-     *        if present only files are counted with the specified value.
-     * @return
-     * @throws StoreAccessException
-     */
-    int getDirectMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
-
-    /** @return false if {@link #getDirectMemberCount} would return zero. */
-    boolean hasDirectMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
+    boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute fieldValue) throws StoreAccessException;
 
     /**
      * Check if any files of a data set are visible to a user with specified permissions.
@@ -182,19 +140,13 @@ public interface FileStoreAccess {
      */
     boolean hasVisibleFiles(DmoStoreId storeId, boolean userIsKnown, boolean userHasGroupAccess, boolean userHasPermissionAccess) throws StoreAccessException;
 
-    /**
-     * Get the values for a file property in a dataset or folder.
-     * 
-     * @param folder
-     *        id of the folder
-     * @param attribute
-     *        the desired {@link FileItemVOAttribute}
-     * @return the values found on the files in the folder and its sub-folders.
-     * @throws IllegalArgumentException
-     *         if the name space of the id is not a folder
-     * @throws StoreAccessException
-     */
-    public <T extends FileItemVOAttribute> Set<T> getValuesFor(DmoStoreId folder, Class<T> attribute) throws IllegalArgumentException, StoreAccessException;
-
     public FolderItemVO getFolderItemVO(DmoStoreId itemContainer) throws StoreAccessException;
+
+    FolderItemVO getRootFolder(DmoStoreId dmoStoreId) throws StoreAccessException;
+
+    Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException;
+
+    Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException;
+
+    Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException;
 }

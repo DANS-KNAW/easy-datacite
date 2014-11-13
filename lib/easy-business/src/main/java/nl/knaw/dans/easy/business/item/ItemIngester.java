@@ -243,7 +243,7 @@ public class ItemIngester extends AbstractWorker {
 
     private Map<String, String> collectMembers(DmoStoreId parentId) throws RepositoryException {
         Map<String, String> members = new HashMap<String, String>();
-        List<ItemVO> items = Data.getFileStoreAccess().getFilesAndFolders(parentId, -1, -1, null, null);
+        List<ItemVO> items = Data.getFileStoreAccess().getFilesAndFolders(parentId);
         for (ItemVO item : items) {
             members.put(item.getName(), item.getSid());
         }

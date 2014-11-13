@@ -380,7 +380,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
                     VisibleTo newVisibleTo = viewRights.getModelObject();
                     AccessibleTo newAccessibleTo = accessRights.getModelObject();
                     itemService.updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sidList, new UpdateInfo(newVisibleTo, newAccessibleTo,
-                            null, false), null);
+                            null, false));
                 }
                 catch (ServiceRuntimeException e) {
                     logger.error("Error applying file rights.", e);

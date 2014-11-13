@@ -5,10 +5,12 @@ import java.io.FileFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
@@ -47,10 +49,13 @@ import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.AuthzStrategyProvider;
@@ -173,9 +178,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
      * {@inheritDoc}
      */
     @MutatesDataset
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
-            WorkListener... workListeners) throws ServiceException
-    {
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo) throws ServiceException {
         if (sidList.isEmpty()) {
             return;
         }
@@ -184,7 +187,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
 
         try {
             uow.attach(dataset);
-            getItemWorkDispatcher().updateObjects(sessionUser, dataset, sidList, updateInfo, itemFilters, uow, workListeners);
+            getItemWorkDispatcher().updateObjects(sessionUser, dataset, sidList, updateInfo, uow);
         }
         catch (RepositoryException e) {
             logger.error("Something went wrong trying to update objects.", e);
@@ -254,22 +257,20 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
         }
     }
 
-    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws ServiceException {
+    public List<String> getFilenames(final DmoStoreId parentSid) throws ServiceException {
         try {
-            return Data.getFileStoreAccess().getFilenames(parentSid, recursive);
+            return Data.getFileStoreAccess().getFilenames(parentSid);
         }
         catch (final StoreAccessException e) {
             throw new ServiceException(e);
         }
     }
 
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset,
-            final ItemOrder order, final ItemFilters filters) throws ServiceException
-    {
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid) throws ServiceException {
         List<ItemVO> itemList;
         try {
 
-            itemList = Data.getFileStoreAccess().getFilesAndFolders(parentSid, limit, offset, order, filters);
+            itemList = Data.getFileStoreAccess().getFilesAndFolders(parentSid);
         }
         catch (final StoreAccessException e) {
             throw new ServiceException(e);
@@ -288,12 +289,10 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
         }
     }
 
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset,
-            final ItemOrder order, final ItemFilters filters) throws ServiceException
-    {
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid) throws ServiceException {
         List<FileItemVO> fileItemList;
         try {
-            fileItemList = Data.getFileStoreAccess().getFiles(parentSid, limit, offset, order, filters);
+            fileItemList = Data.getFileStoreAccess().getFiles(parentSid);
         }
         catch (final StoreAccessException e) {
             throw new ServiceException(e);
@@ -307,7 +306,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
     {
         List<FolderItemVO> folderItemList;
         try {
-            folderItemList = Data.getFileStoreAccess().getFolders(parentSid, limit, offset, order, filters);
+            folderItemList = Data.getFileStoreAccess().getFolders(parentSid);
         }
         catch (final StoreAccessException e) {
             throw new ServiceException(e);
@@ -315,19 +314,6 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
 
         setAuthzStrategy(sessionUser, dataset, folderItemList);
         return folderItemList;
-    }
-
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final Collection<DmoStoreId> itemIds) throws ServiceException {
-        List<ItemVO> itemList;
-        try {
-            itemList = Data.getFileStoreAccess().findFilesAndFoldersById(itemIds);
-        }
-        catch (final StoreAccessException e) {
-            throw new ServiceException(e);
-        }
-
-        setAuthzStrategy(sessionUser, dataset, itemList);
-        return itemList;
     }
 
     @Override
@@ -346,7 +332,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
                 if (storeId.isInNamespace(FileItem.NAMESPACE)) {
                     items.add(Data.getFileStoreAccess().findFileById(storeId));
                 } else {
-                    for (final ItemVO item : Data.getFileStoreAccess().getFilesAndFolders(storeId, 0, 0, null, filter)) {
+                    for (final ItemVO item : Data.getFileStoreAccess().getFilesAndFolders(storeId)) {
                         if (item instanceof FileItemVO) {
                             items.add((FileItemVO) item);
                             AuthzStrategy strategy = provider.getAuthzStrategy(item.getAutzStrategyName(), item);
@@ -411,6 +397,10 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
         }
     }
 
+    private void setAuthzStrategy(EasyUser sessionUser, Dataset dataset, ItemVO... itemList) {
+        setAuthzStrategy(sessionUser, dataset, Arrays.asList(itemList));
+    }
+
     private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException {
         FileItem fileItem;
         try {
@@ -467,5 +457,34 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
     @Override
     public boolean mustProcessAudioVideoInstructions() {
         return processAudioVideoInstructions;
+    }
+
+    @Override
+    public FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException {
+        FolderItemVO root;
+        try {
+            root = Data.getFileStoreAccess().getRootFolder(dmoStoreId);
+        }
+        catch (final StoreAccessException e) {
+            throw new ServiceException(e);
+        }
+
+        setAuthzStrategy(sessionUser, dataset, root);
+        return root;
+    }
+
+    @Override
+    public Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException {
+        return Data.getFileStoreAccess().getItemVoAccessibilities(item);
+    }
+
+    @Override
+    public Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException {
+        return Data.getFileStoreAccess().getItemVoVisibilities(item);
+    }
+
+    @Override
+    public Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException {
+        return Data.getFileStoreAccess().getItemVoCreatorRoles(item);
     }
 }

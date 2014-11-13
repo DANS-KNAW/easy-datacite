@@ -46,9 +46,7 @@ public class FileTreeResourceTest extends RestTest {
     private void setUpServiceMethods() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-        when(
-                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
-                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(new ArrayList<ItemVO>());
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(new ArrayList<ItemVO>());
 
     }
 
@@ -66,8 +64,7 @@ public class FileTreeResourceTest extends RestTest {
     private void assertServiceMethods() throws ServiceException {
         verify(datasetServiceMock, times(1)).getDataset(isA(EasyUser.class), isA(DmoStoreId.class));
 
-        verify(itemServiceMock, times(1)).getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class),
-                isA(Integer.class), (ItemOrder) isNull(), (ItemFilters) isNull());
+        verify(itemServiceMock, times(1)).getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class));
     }
 
     @Test

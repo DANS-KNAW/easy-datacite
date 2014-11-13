@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-   <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole">
+    <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole">
         <subselect>
         <!-- This query was written for PostGreSQL. It may need to be rewritten if/when porting to another RDBM -->
            SELECT DISTINCT c.pid, m.creator_role, c.pid || '_' || m.creator_role id
@@ -10,8 +10,8 @@
            WHERE c.dataset_sid = m.dataset_sid
            AND   m.path LIKE c.path || '%'
         </subselect>
+        <cache usage="read-write" />
         <synchronize table="easy_files" />
-        <synchronize table="easy_folders" />
         <id name="id" />
         <property name="folderSid" type="string" insert="false" update="false">
             <column name="pid" length="64" />

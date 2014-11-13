@@ -161,11 +161,11 @@ public class TroubleShootingTest {
         final ItemFilters noItermFilters = eq((ItemFilters) null);
         final ItemOrder noItemOrder = eq((ItemOrder) null);
 
-        expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), noItemOrder, noItermFilters))//
+        expect(fsa.getFilesAndFolders(eq(dmoStoreId)))//
                 .andStubReturn(null);
         PowerMock.replayAll();
         try {
-            fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
+            fsa.getFilesAndFolders(dmoStoreId);
         }
         catch (final AssertionError e) {
             Message.UNEXPECTED.verify(e);
@@ -179,10 +179,10 @@ public class TroubleShootingTest {
     public void inline() throws Exception {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final DmoStoreId dmoStoreId = new DmoStoreId(mock.nextDmoStoreId(Dataset.NAMESPACE));
-        expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), eq((ItemOrder) null), eq((ItemFilters) null)))//
+        expect(fsa.getFilesAndFolders(eq(dmoStoreId)))//
                 .andStubReturn(null);
         PowerMock.replayAll();
-        fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
+        fsa.getFilesAndFolders(dmoStoreId);
         PowerMock.verifyAll();
     }
 

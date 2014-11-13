@@ -57,7 +57,7 @@ class FileStoreAccessStubber {
                 .andStubReturn(fileHandler.items);
         expect(fsa.getAllFiles(eq(datasetStoreId)))//
                 .andStubReturn(fileHandler.fileNameMap);
-        expect(fsa.getFilenames(eq(datasetStoreId), eq(true)))//
+        expect(fsa.getFilenames(eq(datasetStoreId)))//
                 .andStubReturn(new ArrayList<String>(fileHandler.fileNameMap.values()));
 
         createChildExpectations(datasetStoreId, fileMockers);
@@ -73,11 +73,11 @@ class FileStoreAccessStubber {
         childItems.addAll(childFolders);
 
         final FileStoreAccess fsa = Data.getFileStoreAccess();
-        expect(fsa.getFolders(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
+        expect(fsa.getFolders(eq(parentStoreId)))//
                 .andStubReturn(childFolders);
-        expect(fsa.getFiles(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
+        expect(fsa.getFiles(eq(parentStoreId)))//
                 .andStubReturn(childFiles);
-        expect(fsa.getFilesAndFolders(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
+        expect(fsa.getFilesAndFolders(eq(parentStoreId)))//
                 .andStubReturn(childItems);
         expect(fsa.hasChildItems(eq(parentStoreId)))//
                 .andStubReturn(childItems.size() > 0);

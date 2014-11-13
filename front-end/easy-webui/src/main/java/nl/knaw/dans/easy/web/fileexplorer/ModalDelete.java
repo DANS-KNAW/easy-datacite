@@ -51,8 +51,7 @@ public class ModalDelete extends Panel {
                     sidList.add(new DmoStoreId(item.getId()));
                 }
                 try {
-                    Services.getItemService().updateObjects(EasySession.getSessionUser(), dataset.getObject(), sidList, new UpdateInfo(null, null, null, true),
-                            null);
+                    Services.getItemService().updateObjects(EasySession.getSessionUser(), dataset.getObject(), sidList, new UpdateInfo(null, null, null, true));
                     updateAfterDelete(target);
                     window.close(target);
                 }

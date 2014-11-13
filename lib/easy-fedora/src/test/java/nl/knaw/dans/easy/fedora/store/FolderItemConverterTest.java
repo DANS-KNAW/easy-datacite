@@ -11,10 +11,12 @@ import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class FolderItemConverterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(FolderItemConverterTest.class);

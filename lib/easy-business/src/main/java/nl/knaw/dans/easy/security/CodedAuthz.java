@@ -288,8 +288,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
                 "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[])",
                 getEnableToDepositorOrArchivistIfDraftRule());
 
-        newRules.put(
-                "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
+        newRules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, UnitOfWork)",
                 getUpdateItemRule());
         newRules.put(
                 "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",

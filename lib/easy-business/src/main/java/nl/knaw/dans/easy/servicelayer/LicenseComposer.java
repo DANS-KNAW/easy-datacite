@@ -364,7 +364,7 @@ public class LicenseComposer {
 
     private static List<String> getDatasetFileNames(final DmoStoreId sid) throws LicenseComposerException {
         try {
-            return Data.getFileStoreAccess().getFilenames(sid, true);
+            return Data.getFileStoreAccess().getFilenames(sid);
         }
         catch (final StoreAccessException e) {
             throw new LicenseComposerException("can not find uploaded filenames of dataset", e);

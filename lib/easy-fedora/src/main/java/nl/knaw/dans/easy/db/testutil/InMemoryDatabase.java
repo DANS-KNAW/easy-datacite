@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.util.Arrays;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
@@ -21,14 +22,12 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class InMemoryDatabase implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryDatabase.class);
-
-    private static final ThreadLocalSessionFactory SESSION_FACTORY = ThreadLocalSessionFactory.instance();
 
     private final Session session;
 
@@ -38,7 +37,7 @@ public class InMemoryDatabase implements Closeable {
      */
     public InMemoryDatabase() {
         FedoraDbTestSchema.init();
-        session = SESSION_FACTORY.openSession();
+        session = DbUtil.getSessionFactory().openSession();
     }
 
     /**
@@ -48,7 +47,7 @@ public class InMemoryDatabase implements Closeable {
      *        the instance created by {@link InMemoryDatabase#initDB()}
      */
     public void close() {
-        SESSION_FACTORY.closeSession();
+        DbUtil.getSessionFactory().getCurrentSession().close();
         FedoraDbTestSchema.reset();
     }
 
@@ -80,8 +79,10 @@ public class InMemoryDatabase implements Closeable {
         item.setLabel(buildPath(parent, label));
         item.setParent(parent);
         item.setDatasetId(getDatasetId(parent));
-
+        session.beginTransaction();
         session.save(new FolderItemVO(item));
+        session.flush();
+        session.getTransaction().commit();
         return item;
     }
 

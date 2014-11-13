@@ -10,6 +10,8 @@ import nl.knaw.dans.easy.db.exceptions.DbException;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,13 @@ public class DbUtil {
 
     private static SessionFactory createSessionFactory() throws DbException {
         try {
-            sessionFactory = getConfiguration().buildSessionFactory();
+            Configuration configuration = new Configuration().configure("conf/hibernate.cfg.xml");
+            localConfig.configure(configuration);
+            StandardServiceRegistryBuilder registry = new StandardServiceRegistryBuilder();
+            registry.applySettings(configuration.getProperties());
+            StandardServiceRegistry serviceRegistry = registry.build();
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
         }
         catch (Throwable e) {
             throw new DbException(e);

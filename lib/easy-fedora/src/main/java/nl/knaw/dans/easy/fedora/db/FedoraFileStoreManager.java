@@ -10,7 +10,7 @@ import nl.knaw.dans.easy.domain.model.FolderItem;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 
 public class FedoraFileStoreManager {
 
@@ -24,19 +24,17 @@ public class FedoraFileStoreManager {
 
     public void onIngestFileItem(FileItem fileItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             FileItemVO fivo = new FileItemVO(fileItem);
             session.save(fivo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While inserting metadata on FileItem " + fileItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
             sessionFactory.closeSession();
         }
     }
@@ -44,20 +42,18 @@ public class FedoraFileStoreManager {
     public FileItemVO onUpdateFileItem(FileItem fileItem) throws StoreAccessException {
         FileItemVO fivo;
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             fivo.updateTo(fileItem);
             session.update(fivo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While updating metadata on FileItem " + fileItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
             sessionFactory.closeSession();
         }
         return fivo;
@@ -65,38 +61,34 @@ public class FedoraFileStoreManager {
 
     public void onPurgeFileItem(FileItem fileItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             FileItemVO fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             session.delete(fivo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While purging metadata on FileItem " + fileItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
             sessionFactory.closeSession();
         }
     }
 
     public void onIngestFolderItem(FolderItem folderItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             FolderItemVO fovo = new FolderItemVO(folderItem);
             session.save(fovo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While inserting metadata on FolderItem " + folderItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
             sessionFactory.closeSession();
         }
     }
@@ -104,20 +96,18 @@ public class FedoraFileStoreManager {
     public FolderItemVO onUpdateFolderItem(FolderItem folderItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
         FolderItemVO fovo;
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             fovo.updateTo(folderItem);
             session.update(fovo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
             throw new StoreAccessException("While updating metadata on FolderItem " + folderItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
+            session.getTransaction().rollback();
             sessionFactory.closeSession();
         }
         return fovo;
@@ -125,19 +115,17 @@ public class FedoraFileStoreManager {
 
     public void onPurgeFolderItem(FolderItem folderItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         try {
-            tx.begin();
+            session.beginTransaction();
             FolderItemVO fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             session.delete(fovo);
-            tx.commit();
+            session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While purging metadata on FolderItem " + folderItem, e);
         }
         finally {
-            if (tx.isActive())
-                tx.rollback();
             sessionFactory.closeSession();
         }
     }

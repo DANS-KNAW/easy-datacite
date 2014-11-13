@@ -54,7 +54,7 @@ public class ThumbnailUtilTest {
 
     @Test
     public void isThumbnailFalse() throws ServiceException {
-        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ArrayList<ItemVO>());
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(new ArrayList<ItemVO>());
 
         FileItemVO f = new FileItemVO();
         f.setParentSid("easy-folder:13");
@@ -70,7 +70,7 @@ public class ThumbnailUtilTest {
         folder.setName(ThumbnailUtil.THUMBNAILS);
         items.add(folder);
 
-        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(items);
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(items);
 
         FileItemVO f = new FileItemVO();
         f.setParentSid("easy-folder:13");
@@ -90,9 +90,7 @@ public class ThumbnailUtilTest {
     private void setUpMocks(List<ItemVO> returnList) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-        when(
-                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
-                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(returnList);
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(returnList);
     }
 
     @Test

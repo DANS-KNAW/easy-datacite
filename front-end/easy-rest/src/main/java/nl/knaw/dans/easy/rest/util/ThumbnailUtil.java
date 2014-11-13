@@ -39,9 +39,7 @@ public class ThumbnailUtil extends SimpleXmlWriter {
      *         Thrown if something goes wrong internally.
      */
     public static boolean isThumbnail(EasyUser user, Dataset d, FileItemVO file) throws ServiceException {
-        Collection<DmoStoreId> itemIds = new ArrayList<DmoStoreId>();
-        itemIds.add(new DmoStoreId(file.getParentSid()));
-        List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, itemIds);
+        List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(file.getParentSid()));
         return items.size() == 1 ? items.get(0).getName().equals(THUMBNAILS) : false;
     }
 
@@ -67,7 +65,7 @@ public class ThumbnailUtil extends SimpleXmlWriter {
 
     private static List<String> getThumbnailIds(EasyUser user, String datasetSid) throws ServiceException {
         Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(datasetSid));
-        List<ItemVO> rootItems = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId(), -1, -1, null, null);
+        List<ItemVO> rootItems = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId());
         List<String> ids = new ArrayList<String>();
         getThumbnailIds(d, user, rootItems, ids);
         return ids;
@@ -77,7 +75,7 @@ public class ThumbnailUtil extends SimpleXmlWriter {
         for (ItemVO item : items) {
             if (item instanceof FolderItemVO) {
                 FolderItemVO folder = (FolderItemVO) item;
-                List<ItemVO> children = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(folder.getSid()), -1, -1, null, null);
+                List<ItemVO> children = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(folder.getSid()));
                 if (folder.getName().equals(THUMBNAILS)) {
                     for (ItemVO child : children) {
                         if (child instanceof FileItemVO) {

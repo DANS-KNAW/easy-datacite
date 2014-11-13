@@ -93,8 +93,7 @@ public class MockUtil {
 
         for (int i = 1; i <= MAX_NR_OF_VERBOSE_NO_OP_TESTS; i++)
             EasyMock.expect(fileStoreAccess.getFilenames(//
-                    new DmoStoreId(NO_OP_STORE_ID_DOMAIN + i),//
-                    true)//
+                    new DmoStoreId(NO_OP_STORE_ID_DOMAIN + i)) //
             ).andReturn(Arrays.asList(new String[] {"just-a-file-name"})).anyTimes();
         EasyMock.replay(fileStoreAccess);
     }
@@ -116,27 +115,20 @@ public class MockUtil {
         EasyMock.expect(itemService.getFilesAndFolders(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(HashSet.class))//
+                EasyMock.isA(DmoStoreId.class))//
         ).andReturn(new ArrayList<ItemVO>()).anyTimes();
 
         EasyMock.expect(itemService.getFilesAndFolders(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(DmoStoreId.class), // parent sid
-                EasyMock.isA(Integer.class),// limit
-                EasyMock.isA(Integer.class),// offset
-                (ItemOrder) EasyMock.isNull(),//
-                (ItemFilters) EasyMock.isNull())//
+                EasyMock.isA(DmoStoreId.class)) // parent sid
         ).andReturn(new ArrayList<ItemVO>()).anyTimes();
 
         EasyMock.expect(itemService.getFiles(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(DmoStoreId.class), // parent sid
-                (Integer) EasyMock.isNull(),// limit
-                (Integer) EasyMock.isNull(),// offset
-                (ItemOrder) EasyMock.isNull(),//
-                (ItemFilters) EasyMock.isNull())).andReturn(new ArrayList<FileItemVO>()).anyTimes();
+                EasyMock.isA(DmoStoreId.class)) //
+        ).andReturn(new ArrayList<FileItemVO>()).anyTimes();
 
         EasyMock.replay(itemService);
     }

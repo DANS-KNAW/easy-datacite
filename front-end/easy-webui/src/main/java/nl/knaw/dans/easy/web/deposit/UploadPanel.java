@@ -40,7 +40,7 @@ public class UploadPanel extends AbstractCustomPanel {
             DmoStoreId datasetId = datasetModel.getObject().getDmoStoreId();
             List<String> list = new ArrayList<String>();
             try {
-                list = itemService.getFilenames(datasetId, true);
+                list = itemService.getFilenames(datasetId);
                 if (list == null || list.isEmpty()) {
                     super.setVisible(false);
                 }

@@ -273,7 +273,7 @@ public class DownloadWorker {
             if (requestItem.isFile()) {
                 leaves.add(new DmoStoreId(requestItem.getStoreId()));
             } else if (requestItem.filesOnly()) {
-                itemVOs.addAll(FILE_STORE_ACCESS.getFiles(new DmoStoreId(requestItem.getStoreId()), -1, -1, null, null));
+                itemVOs.addAll(FILE_STORE_ACCESS.getFiles(new DmoStoreId(requestItem.getStoreId())));
 
             } else {
                 recursiveGet(itemVOs, new DmoStoreId(requestItem.getStoreId()));
@@ -286,7 +286,7 @@ public class DownloadWorker {
     }
 
     private static void recursiveGet(final List<ItemVO> itemVOs, final DmoStoreId folderId) throws StoreAccessException {
-        final List<ItemVO> children = FILE_STORE_ACCESS.getFilesAndFolders(folderId, -1, -1, null, null);
+        final List<ItemVO> children = FILE_STORE_ACCESS.getFilesAndFolders(folderId);
         for (final ItemVO itemVO : children) {
             if (itemVO instanceof FolderItemVO) {
                 recursiveGet(itemVOs, new DmoStoreId(itemVO.getSid()));

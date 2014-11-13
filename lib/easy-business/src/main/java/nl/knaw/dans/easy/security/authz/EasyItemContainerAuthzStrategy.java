@@ -1,13 +1,17 @@
 package nl.knaw.dans.easy.security.authz;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 
@@ -80,30 +84,25 @@ public class EasyItemContainerAuthzStrategy extends AbstractItemContainerAuthzSt
 
     @Override
     Set<AccessibleTo> getAccessibilities() {
-        if (accessibilities == null)
-            try {
-                // getFileItemVO would get both at once but only for folders
-                // moreover under the hood both queries are executed as sub-selects anyway
-                // and we don't need the main query and a third under-the hood query
-                accessibilities = Data.getFileStoreAccess().getValuesFor(itemContainer.getDmoStoreId(), AccessibleTo.class);
-            }
-            catch (StoreAccessException e) {
-                logger.error(e.getMessage(), e);
-                accessibilities = new HashSet<AccessibleTo>();
-            }
-        return accessibilities;
+        try {
+            return Data.getFileStoreAccess().getItemVoAccessibilities(Data.getFileStoreAccess().getFolderItemVO(itemContainer.getDmoStoreId()));
+        }
+        catch (StoreAccessException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return new HashSet<AccessibleTo>();
+
     }
 
     @Override
     Set<VisibleTo> getVisibilities() {
-        if (visibilities == null)
-            try {
-                visibilities = Data.getFileStoreAccess().getValuesFor(itemContainer.getDmoStoreId(), VisibleTo.class);
-            }
-            catch (StoreAccessException e) {
-                logger.error(e.getMessage(), e);
-                visibilities = new HashSet<VisibleTo>();
-            }
-        return visibilities;
+        try {
+            return Data.getFileStoreAccess().getItemVoVisibilities(Data.getFileStoreAccess().getFolderItemVO(itemContainer.getDmoStoreId()));
+        }
+        catch (StoreAccessException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return new HashSet<VisibleTo>();
     }
+
 }

@@ -33,9 +33,9 @@ public class DeleteFilesPanel extends Panel {
             public void onClick(AjaxRequestTarget target) {
                 try {
                     List<DmoStoreId> sids = getSids(Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), datasetModel.getObject(),
-                            datasetModel.getObject().getDmoStoreId(), -1, -1, null, null));
+                            datasetModel.getObject().getDmoStoreId()));
                     Services.getItemService().updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sids,
-                            new UpdateInfo(null, null, null, true), null);
+                            new UpdateInfo(null, null, null, true));
                     // Remove all messages from the uploadpanel
                     target.appendJavascript("removeMessages();");
                 }

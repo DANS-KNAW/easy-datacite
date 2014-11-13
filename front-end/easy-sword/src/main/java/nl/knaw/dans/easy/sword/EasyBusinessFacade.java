@@ -319,7 +319,7 @@ public class EasyBusinessFacade {
         sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
         sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
         try {
-            final List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
+            final List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId());
             sb.append(MessageFormat.format(format, "archived file names: " + Arrays.deepToString(filenames.toArray())));
         }
         catch (final StoreAccessException e) {

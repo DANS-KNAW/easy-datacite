@@ -15,10 +15,12 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class DatasetConverterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetConverterTest.class);

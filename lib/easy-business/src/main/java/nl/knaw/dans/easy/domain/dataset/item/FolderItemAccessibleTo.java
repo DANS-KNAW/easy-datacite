@@ -49,7 +49,7 @@ public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable {
         if (o instanceof FolderItemAccessibleTo) {
             FolderItemAccessibleTo f = (FolderItemAccessibleTo) o;
             //@formatter:off
-            return id.equals(f.id) 
+            return id.equals(f.id)
                 && folderSid.equals(f.folderSid) 
                 && accessibleTo.equals(f.accessibleTo);
             //@formatter:on

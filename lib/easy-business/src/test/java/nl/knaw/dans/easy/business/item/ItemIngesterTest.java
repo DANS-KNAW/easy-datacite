@@ -249,7 +249,7 @@ public class ItemIngesterTest {
     private void noFilesAndFoldersUnderParentContainer() throws Exception {
         final List<ItemVO> empty = new LinkedList<ItemVO>();
         DmoStoreId folderId = new DmoStoreId("easy-folder:1");
-        expect(fileStoreAccessMock.getFilesAndFolders(folderId, -1, -1, null, null)).andReturn(empty);
+        expect(fileStoreAccessMock.getFilesAndFolders(folderId)).andReturn(empty);
     }
 
     private void noFilesUnderRootFolder() throws Exception {

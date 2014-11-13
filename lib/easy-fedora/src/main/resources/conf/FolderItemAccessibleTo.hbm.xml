@@ -5,13 +5,13 @@
     <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo">
         <subselect>
         <!-- This query was written for PostGreSQL. It may need to be rewritten if/when porting to another RDBM -->
-           SELECT DISTINCT c.pid, m.accessible_to, c.pid || '_' || accessible_to id
+           SELECT DISTINCT c.pid, m.accessible_to, c.pid || '_' || m.accessible_to id
            FROM  easy_folders c, easy_files m
            WHERE c.dataset_sid = m.dataset_sid
            AND   m.path LIKE c.path || '%'
         </subselect>
+        <cache usage="read-write" />
         <synchronize table="easy_files" />
-        <synchronize table="easy_folders" />
         <id name="id" />
         <property name="folderSid" type="string" insert="false" update="false">
             <column name="pid" length="64" />

@@ -46,12 +46,11 @@ public class ItemWorkDispatcher {
         ingester.workAddDirectoryContents(parentContainer, rootFile, fileFilter);
     }
 
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters,
-            UnitOfWork uow, WorkListener... workListeners) throws ServiceException
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, UnitOfWork uow)
+            throws ServiceException
     {
         ItemWorker worker = new ItemWorker(uow);
-        worker.addWorkListeners(workListeners);
-        worker.workUpdateObjects(dataset, dmoStoreIds, updateInfo, itemFilters);
+        worker.workUpdateObjects(dataset, dmoStoreIds, updateInfo, null);
     }
 
     public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList,

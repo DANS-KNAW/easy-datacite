@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
@@ -72,17 +74,21 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractItemContainerAuthz
 
     @Override
     Set<AccessibleTo> getAccessibilities() {
-        Set<AccessibleTo> result = new HashSet<AccessibleTo>();
-        for (FolderItemAccessibleTo v : folderItemVO.getAccessibilities())
-            result.add(v.getAccessibleTo());
-        return result;
+        try {
+            return Data.getFileStoreAccess().getItemVoAccessibilities(folderItemVO);
+        }
+        catch (StoreAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     Set<VisibleTo> getVisibilities() {
-        Set<VisibleTo> result = new HashSet<VisibleTo>();
-        for (FolderItemVisibleTo v : folderItemVO.getVisibilities())
-            result.add(v.getVisibleTo());
-        return result;
+        try {
+            return Data.getFileStoreAccess().getItemVoVisibilities(folderItemVO);
+        }
+        catch (StoreAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

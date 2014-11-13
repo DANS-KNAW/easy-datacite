@@ -349,7 +349,7 @@ public class DatasetResource extends AuthenticatedResource {
         try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
-            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId(), -1, -1, null, null);
+            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId());
             return responseXmlOrJson(ItemConverter.convert(items));
         }
         catch (ObjectNotAvailableException e) {
@@ -378,7 +378,7 @@ public class DatasetResource extends AuthenticatedResource {
         try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
-            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(FOLDER_SID_PREFIX + folderSid), -1, -1, null, null);
+            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(FOLDER_SID_PREFIX + folderSid));
             return responseXmlOrJson(ItemConverter.convert(items));
         }
         catch (ObjectNotAvailableException e) {
@@ -408,7 +408,7 @@ public class DatasetResource extends AuthenticatedResource {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
             FolderItem folder = Services.getItemService().getFolderItemByPath(user, d, path);
-            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(folder.getStoreId()), -1, -1, null, null);
+            List<ItemVO> items = Services.getItemService().getFilesAndFolders(user, d, new DmoStoreId(folder.getStoreId()));
             return responseXmlOrJson(ItemConverter.convert(items));
         }
         catch (ObjectNotAvailableException e) {
@@ -498,7 +498,7 @@ public class DatasetResource extends AuthenticatedResource {
         try {
             EasyUser user = authenticate();
             Dataset d = Services.getDatasetService().getDataset(user, new DmoStoreId(sid));
-            List<ItemVO> rootItems = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId(), -1, -1, null, null);
+            List<ItemVO> rootItems = Services.getItemService().getFilesAndFolders(user, d, d.getDmoStoreId());
             List<RequestedItem> requestedItems = new ArrayList<RequestedItem>();
             for (ItemVO item : rootItems) {
                 requestedItems.add(new RequestedItem(item.getSid()));
