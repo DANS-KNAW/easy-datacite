@@ -52,7 +52,6 @@ public interface EasyResources {
     String REQUEST_BUTTON = "request";
     String SUBMIT_BUTTON = "submit";
 
-    String ADD_LINK = "addLink";
     String EDIT_LINK = "editLink";
     String DONE_LINK = "doneLink";
     String CANCEL_LINK = "cancelLink";

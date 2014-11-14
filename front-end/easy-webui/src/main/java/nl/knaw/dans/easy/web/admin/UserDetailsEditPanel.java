@@ -16,13 +16,12 @@ import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.common.UserProperties;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessForm;
-import nl.knaw.dans.easy.web.wicket.EasyCheckBoxMultipleChoice;
+import nl.knaw.dans.easy.web.wicket.BootstrapCheckboxListPanel;
 import nl.knaw.dans.easy.web.wicket.FormListener;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.Radio;
@@ -174,12 +173,11 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
             add(stateChoice, new ResourceModel("user.state"));
 
             List<EasyUser.Role> roles = Arrays.asList(EasyUser.Role.values());
-            CheckBoxMultipleChoice roleChecks = new EasyCheckBoxMultipleChoice(UserProperties.ROLES, roles);
-            add(roleChecks, new ResourceModel("user.roles"));
+            // Use the name 'roles' instead of 'roleChecksPanel' because of 'CodedAuthz.java' AspectJ security issues.
+            add(new BootstrapCheckboxListPanel("roles", new PropertyModel<EasyUser>(displayedUser, UserProperties.ROLES), roles));
 
             List<String> groupIds = this.userDetailsEditPanel.getGroupIds();
-            CheckBoxMultipleChoice groupChecks = new EasyCheckBoxMultipleChoice(UserProperties.GROUP_IDS, groupIds);
-            add(groupChecks, new ResourceModel("user.groupIds"));
+            add(new BootstrapCheckboxListPanel("groupChecksPanel", new PropertyModel<EasyUser>(displayedUser, UserProperties.GROUP_IDS), groupIds));
 
             final String buttonLabel = addMode ? ADD_BUTTON_LABEL : UPDATE_BUTTON_LABEL;
             SubmitLink updateButton = new SubmitLink(UserDetailsEditPanel.UPDATE_BUTTON, new ResourceModel(buttonLabel));

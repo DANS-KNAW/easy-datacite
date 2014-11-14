@@ -9,10 +9,7 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
@@ -50,18 +47,5 @@ public class UsersOverviewPage extends AbstractEasyNavPage implements EasyResour
         });
 
         add(new UsersOverviewPanel(WI_USER_OVERVIEW_PANEL, getDefaultModel()));
-
-        Link addLink = new Link(ADD_LINK) {
-            private static final long serialVersionUID = -4963887902220218903L;
-
-            @Override
-            public void onClick() {
-                setResponsePage(UserDetailsPage.class);
-            }
-        };
-        addLink.add(new Label(ADD_LINK, new ResourceModel(ADD_LINK)));
-        addLink.setVisible(false);
-        add(addLink);
     }
-
 }
