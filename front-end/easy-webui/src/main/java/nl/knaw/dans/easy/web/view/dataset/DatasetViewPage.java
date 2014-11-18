@@ -43,11 +43,15 @@ import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.IAjaxCallDecorator;
+import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
+import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
@@ -333,18 +337,47 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         // tabs.add(getRelationsTab());
         tabs.add(getVideoTab());
 
-        TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs) {
-
+        // Using Ajax to show a busy indicator while loading the new page
+        TabbedPanel tabbedPanel = new AjaxTabbedPanel(WI_VIEW_TABS, tabs) {
             private static final long serialVersionUID = 5796914238322673704L;
 
-            // this results in urls like /datasets/id/easy-dataset:22/tab/5
+            // Override newLink to supply an IndicatingAjaxLink (busy indicator)
             @Override
-            protected WebMarkupContainer newLink(String linkId, int index) {
-                BookmarkablePageLink<String> link = new BookmarkablePageLink<String>(linkId, DatasetViewPage.class, DatasetViewPage.urlParametersFor(
-                        getDataset().getStoreId(), index, mustLogin()));
-                return link;
+            protected WebMarkupContainer newLink(String linkId, final int index) {
+                return new IndicatingAjaxLink(linkId) {
+                    private static final long serialVersionUID = 1L;
+                    private boolean isClicked = false;
+
+                    public void onClick(AjaxRequestTarget target) {
+                        // prevent successive requests as a result of several clicks
+                        if (isClicked)
+                            return;
+                        else
+                            isClicked = true;
+
+                        // load page (non-ajax but then we have our bookmarkable url's)
+                        setResponsePage(DatasetViewPage.class, DatasetViewPage.urlParametersFor(getDataset().getStoreId(), index, mustLogin()));
+
+                        // No normal ajaxian updating needed
+                    }
+
+                    @Override
+                    protected IAjaxCallDecorator getAjaxCallDecorator() {
+                        return new AjaxCallDecorator() {
+                            private static final long serialVersionUID = 1L;
+
+                            @Override
+                            public CharSequence decorateOnSuccessScript(CharSequence script) {
+                                // keep indicator shown, while loading a new page
+                                return ";Wicket.showIncrementally('" + getAjaxIndicatorMarkupId() + "');";
+                            }
+                        };
+                    }
+
+                };
             }
         };
+        tabbedPanel.setOutputMarkupId(true);
         add(tabbedPanel);
 
         if (tabIndex >= 0 && tabIndex < tabbedPanel.getTabs().size()) {
