@@ -102,16 +102,6 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         modeSwitch.setVisible(enableModeSwitch);
         add(modeSwitch);
 
-        Link doneLink = new Link(DONE_LINK) {
-
-            private static final long serialVersionUID = -9021249896478173151L;
-
-            @Override
-            public void onClick() {
-                setResponsePage(UsersOverviewPage.class);
-            }
-        };
-        add(doneLink);
     }
 
     private String getDisciplineString(String id) {
