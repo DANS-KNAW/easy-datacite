@@ -1,41 +1,27 @@
 <html xmlns:wicket>
     <wicket:panel>
-        <table width="100%" cellspacing="2" cellpadding="4" border="0" class="panel">
-            <thead>
-                <tr>
-                    <th class="labelColumn">
-                    </th>
-                    <th class="fieldColumn">
-                    </th>
-                    <th class="shortHelpColumn">
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="w_table_cell">
-                        <!-- <b><span wicket:id="label">[label]</span></b> -->
-                        <h2 wicket:id="label">[label]</h2>
-                    </td>
-                    <td class="w_table_cell">
-                        <div wicket:id="pageLinkContainer">
-                            <ol>
-                                <li wicket:id="listView">
-                                    <a wicket:id="pageLink" class="pageLink" href="#"><span wicket:id="pageLinkLabel"/></a>
-                                    <!-- <span wicket:id="pageLink" class="pageLink"><em><span wicket:id="pageLinkLabel"/></em></span> -->
-                                </li>
-                            </ol>
-                        </div>
-                    </td>
-                    <td class="w_table_cell">
-                        Instructions in 
-                        <a wicket:id="instructionLink_EN" title="View the instruction" href="#" target="_blank">[Instructions x]</a>
-                        or
-                        <a wicket:id="instructionLink_NL" title="Bekijk de instructie" href="#" target="_blank">[Instructions x]</a>
-                        (PDF)
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2 col-md-2">
+                <h2 wicket:id="label">[label]</h2>
+            </div>
+            <div class="col-sm-8 col-md-6">
+                 <div wicket:id="pageLinkContainer">
+                    <ol>
+                        <li wicket:id="listView">
+                            <a wicket:id="pageLink" class="pageLink" href="#"><span wicket:id="pageLinkLabel"/></a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-4">
+                Instructions in
+                <a wicket:id="instructionLink_EN" title="View the instruction" href="#" target="_blank">[Instructions x]</a>
+                or
+                <a wicket:id="instructionLink_NL" title="Bekijk de instructie" href="#" target="_blank">[Instructions x]</a>
+                (PDF)
+            </div>
+        </div>
+    </div>
     </wicket:panel>
 </html>

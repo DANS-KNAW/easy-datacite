@@ -2,37 +2,37 @@
 
 <wicket:panel>
 
-<script type="text/javascript"><!--/*--><![CDATA[/*><!--*/  
+<script type="text/javascript"><!--/*--><![CDATA[/*><!--*/
 if (typeof registerUploadEventHandler == 'function')
 {
-	registerUploadEventHandler(
-		'finished',
-		function(eventParams)
-		{
-			var buttons = document.getElementById('depositUploadPanelbuttons');
-			if (buttons != null) 
-			{
-				buttons.style.display="block";
-				//var rmButton = document.getElementById('removeMessagesButton');
-				//if (rmButton != null) rmButton.style.visibility='visible';
-			}
-		}
-	);
+    registerUploadEventHandler(
+        'finished',
+        function(eventParams)
+        {
+            var buttons = document.getElementById('depositUploadPanelbuttons');
+            if (buttons != null) 
+            {
+                buttons.style.display="block";
+                //var rmButton = document.getElementById('removeMessagesButton');
+                //if (rmButton != null) rmButton.style.visibility='visible';
+            }
+        }
+    );
 }
 
 function removeMessages()
 {
-	removeAllFinishedUploads();
-	var rmButton = document.getElementById('removeMessagesButton');
-	if (rmButton != null) rmButton.style.visibility='hidden';
+    removeAllFinishedUploads();
+    var rmButton = document.getElementById('removeMessagesButton');
+    if (rmButton != null) rmButton.style.visibility='hidden';
 }
 
 /*-->]]>*/</script>
 
 <div wicket:id="uploadPanel"></div>
-<div id="depositUploadPanelbuttons" wicket:id="depositUploadPanelbuttonsPanel" >
-	<a onclick="removeMessages();" id="removeMessagesButton" class="button" style="visibility: hidden" href="#">Remove messages</a>
-	<div wicket:id="popup"></div>
+<div id="depositUploadPanelbuttons" wicket:id="depositUploadPanelbuttonsPanel">
+    <a onclick="removeMessages();" id="removeMessagesButton" class="button" style="visibility: hidden" href="#">Remove messages</a>
+    <div wicket:id="popup"></div>
 </div>
 </wicket:panel>
 

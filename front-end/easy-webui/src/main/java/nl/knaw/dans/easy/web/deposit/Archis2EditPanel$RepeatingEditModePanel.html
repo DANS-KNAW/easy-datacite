@@ -1,6 +1,14 @@
 <html xmlns:wicket>
 <wicket:panel>
-	<input type="text" class="form_text w_short" wicket:id="omg_nr" />
-	<a  title="Import Archis metadata..." class="button" wicket:id="archisSubmitLink" href="#" tabindex="-1">Import...</a>
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" class="form-control input-sm" wicket:id="omg_nr" />
+            <div class="input-group-btn">
+                <a title="Import Archis metadata" class="btn btn-default btn-sm" wicket:id="archisSubmitLink" href="#" tabindex="-1">
+                    <wicket:message key="import">[Import]</wicket:message>
+                </a>
+            </div>
+        </div>
+    </div>
 </wicket:panel>
 </html>

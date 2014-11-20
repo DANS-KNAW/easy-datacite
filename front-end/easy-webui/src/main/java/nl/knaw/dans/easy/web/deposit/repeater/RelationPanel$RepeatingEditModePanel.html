@@ -1,20 +1,30 @@
 <html xmlns:wicket>
 <wicket:panel>
-<div style="white-space: nowrap;">
 
-	<select class="form_text w_short" wicket:id="relationTypeChoice">
-		<option value="foo">bar</option>
-	</select> 
-	&nbsp;&nbsp;&nbsp;&nbsp;Title: <input class="form_text" wicket:id="subjectTitleField" style="width:220px;!important;"></input>
-	<div style="margin-top: 5px;">
-	&nbsp;&nbsp;&nbsp;&nbsp;Url&nbsp; : <input class="form_text" wicket:id="subjectLinkField" style="width:220px;!important;"></input><span wicket:id="verifyPopup"></span>
-	</div>
-	<input id="emphasize" type="checkbox" wicket:id="emphasize"/> Emphasize this relation 
-	
-	<div style="position:relative; left:173px; padding:2px; !important;">
-	</div>
-
-</div>	
+    <div class="form-group">
+        <select class="form-control input-sm" wicket:id="relationTypeChoice">
+            <option value="foo">bar</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="relation-title" class="control-label">Title</label>
+        <input id="relation-title" class="form-control input-sm" wicket:id="subjectTitleField"></input>
+    </div>
+    <div class="form-group">
+        <label for="relation-url" class="control-label">URL</label>
+        <div class="input-group">
+            <input class="form-control input-sm" wicket:id="subjectLinkField"></input>
+            <div class="input-group-btn" wicket:id="verifyPopup">
+                <button class="btn btn-sm btn-default" type="button">Verify</button>
+            </div>
+        </div>
+    </div>
+    <div class="checkbox">
+        <label for="emphasize">
+            <input id="emphasize" type="checkbox" wicket:id="emphasize"/>
+            Emphasize this relation
+        </label>
+    </div>
 
 </wicket:panel>
 </html>

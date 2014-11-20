@@ -1,14 +1,25 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-<div style="white-space: nowrap;">
-
-	<select class="form_text w_short" wicket:id="schemeChoice">
-		<option value="foo">bar</option>
-	</select>
-	&nbsp;X: <input class="form_text w_box" wicket:id="xField"></input>
-	&nbsp;Y: <input class="form_text w_box" wicket:id="yField"></input>
-</div>	
+    <div class="form-group">
+        <select class="form-control input-sm" wicket:id="schemeChoice">
+            <option value="foo">bar</option>
+        </select>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <div class="input-group">
+                <label class="input-group-addon" for="xField">X</label>
+                <input type="text" class="form-control input-sm" id="point-panel-x" wicket:id="xField" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group">
+                <label class="input-group-addon" for="yField">Y</label>
+                <input type="text" class="form-control input-sm" id="point-panel-y" wicket:id="yField" />
+            </div>
+        </div>
+    </div>
 
 </wicket:panel>
 </html>

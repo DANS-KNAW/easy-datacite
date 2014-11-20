@@ -142,7 +142,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
     }
 
     private FeedbackPanel createFeedbackPanel() {
-        return new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter() {
+        IFeedbackMessageFilter messageFilter = new IFeedbackMessageFilter() {
             private static final long serialVersionUID = 6414413128618876823L;
 
             public boolean accept(final FeedbackMessage message) {
@@ -152,6 +152,15 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
                 final String skeletonPath = SkeletonPanel.this.getPath();
                 return skeletonPath.endsWith(reporterPath);
             }
-        });
+        };
+
+        return new FeedbackPanel("panelFeedback", messageFilter){
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isVisible(){
+                return anyMessage();
+            }
+        };
     }
 }

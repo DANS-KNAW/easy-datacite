@@ -264,6 +264,8 @@ public class DepositPanel extends AbstractDatasetModelPanel {
         private WizardNavigationPanel wizardNavigationPanel;
         private RecursivePanel recursivePanel;
         private ButtonPanel buttonPanel;
+        private NextPreviousPanel nextPreviousPanel1;
+        private NextPreviousPanel nextPreviousPanel2;
 
         private int errors;
 
@@ -290,6 +292,8 @@ public class DepositPanel extends AbstractDatasetModelPanel {
             addOrReplace(getWizardNavigationPanel());
             addOrReplace(getRecursivePanel());
             addOrReplace(getButtonPanel());
+            addOrReplace(getNextPreviousPanel1());
+            addOrReplace(getNextPreviousPanel2());
             if (submission.hasMetadataErrors()) {
                 error(getString(EasyResources.DEFAULT_FORM_ERROR));
             }
@@ -323,6 +327,20 @@ public class DepositPanel extends AbstractDatasetModelPanel {
                 buttonPanel = new ButtonPanel("buttonPanel", this);
             }
             return buttonPanel;
+        }
+
+        public NextPreviousPanel getNextPreviousPanel1() {
+            if (nextPreviousPanel1 == null) {
+                nextPreviousPanel1 = new NextPreviousPanel("nextPreviousPanel1", this);
+            }
+            return nextPreviousPanel1;
+        }
+
+        public NextPreviousPanel getNextPreviousPanel2() {
+            if (nextPreviousPanel2 == null) {
+                nextPreviousPanel2 = new NextPreviousPanel("nextPreviousPanel2", this);
+            }
+            return nextPreviousPanel2;
         }
 
         private RecursivePanel getRecursivePanel() {
@@ -450,18 +468,71 @@ public class DepositPanel extends AbstractDatasetModelPanel {
         }
     }
 
+    class NextPreviousPanel extends Panel {
+        private static final long serialVersionUID = 1L;
+        public static final String PREVIOUS = "previous";
+        public static final String NEXT = "next";
+        private final DepositForm depoForm;
+
+        public NextPreviousPanel(String id, DepositForm depoForm) {
+            super(id);
+            this.depoForm = depoForm;
+
+            init();
+        }
+
+        private void init(){
+            add(createNextLink(NEXT, depoForm));
+            add(createPreviousLink(PREVIOUS, depoForm));
+        }
+    }
+
+    private SubmitLink createPreviousLink(String id, final DepositForm depoForm) {
+        final int currentPageIndex = getCurrentPageIndex();
+
+        return new SubmitLink(id) {
+            private static final long serialVersionUID = -4982579653885099401L;
+
+            @Override
+            public void onSubmit() {
+                depoForm.onPageClick(currentPageIndex - 1);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return currentPageIndex > 0;
+            }
+        };
+    }
+
+    private SubmitLink createNextLink(String id, final DepositForm depoForm) {
+        final int currentPageIndex = getCurrentPageIndex();
+
+        return new SubmitLink(id) {
+            private static final long serialVersionUID = -3105624268606924788L;
+
+            @Override
+            public void onSubmit() {
+                depoForm.onPageClick(currentPageIndex + 1);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return currentPageIndex < getTotalPages() - 1;
+            }
+        };
+    }
+
     class ButtonPanel extends Panel {
 
-        public static final String NEXT = "next";
         public static final String SUBMIT = "submit";
         public static final String SAVE = "save";
+        public static final String NEXT = "next";
         public static final String LEAVE = "leave";
-        public static final String CANCEL = "cancel";
-        public static final String PREVIOUS = "previous";
         public static final String CONFIRM = "confirm";
         private static final long serialVersionUID = 4513083082403949353L;
-        private final DepositForm depoForm;
         private boolean initiated;
+        private final DepositForm depoForm;
 
         protected ModalWindow confirmModal;
 
@@ -480,28 +551,14 @@ public class DepositPanel extends AbstractDatasetModelPanel {
         }
 
         private void initComponents() {
+            String saveButtonText;
             final int currentPageIndex = getCurrentPageIndex();
 
-            String saveButtonText;
             if (DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(emdFormDefinition.getId())) {
                 saveButtonText = getString("button.save");
             } else {
                 saveButtonText = getString("button.saveDraft");
             }
-
-            add(new SubmitLink(PREVIOUS) {
-                private static final long serialVersionUID = -4982579653885099401L;
-
-                @Override
-                public void onSubmit() {
-                    depoForm.onPageClick(currentPageIndex - 1);
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return currentPageIndex > 0;
-                }
-            });
 
             add(new Link<String>(LEAVE) {
                 private static final long serialVersionUID = -3733296648097227019L;
@@ -522,27 +579,6 @@ public class DepositPanel extends AbstractDatasetModelPanel {
                 }
             });
 
-            add(new Link<String>(CANCEL) {
-
-                private static final long serialVersionUID = -6091186801938439734L;
-
-                @Override
-                public void onClick() {
-                    // logger.debug("Leave clicked.");
-                    RedirectData rData = getEasySession().getRedirectData(getPage().getClass());
-                    if (rData != null) {
-                        setResponsePage(rData.getPageClass(), rData.getPageParameters());
-                    } else {
-                        setResponsePage(HomePage.class);
-                    }
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(emdFormDefinition.getId());
-                }
-            });
-
             SubmitLink save = new SubmitLink(SAVE) {
                 private static final long serialVersionUID = -2915965926376583607L;
 
@@ -557,6 +593,8 @@ public class DepositPanel extends AbstractDatasetModelPanel {
             save.add(saveLabel);
             save.setDefaultFormProcessing(true);
             add(save);
+
+            add(createNextLink(NEXT, depoForm));
 
             final Label submitDatasetInfoMessage = new Label("submitDatasetInfoMessage", "");
             add(submitDatasetInfoMessage);
@@ -623,19 +661,7 @@ public class DepositPanel extends AbstractDatasetModelPanel {
                 }
             });
 
-            add(new SubmitLink(NEXT) {
-                private static final long serialVersionUID = -3105624268606924788L;
 
-                @Override
-                public void onSubmit() {
-                    depoForm.onPageClick(currentPageIndex + 1);
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return currentPageIndex < getTotalPages() - 1;
-                }
-            });
         }
     }
 
