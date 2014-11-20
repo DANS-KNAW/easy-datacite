@@ -35,14 +35,12 @@
     <!-- === CONFIGURE object location ====================== -->
     <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
     <!-- ==================================================== -->
-    <xsl:variable name="restDatasetsURL" select="'http://act-easy.dans.knaw.nl/ui/rest/datasets/'"/>
-  <!--xsl:variable name="restDatasetsURL" select="'http://easy.dans.knaw.nl/rest/datasets/'"/-->
+    <xsl:variable name="restDatasetsURL" select="'https://easy.dans.knaw.nl/ui/rest/datasets/'"/>
     
     <!-- === CONFIGURE file location ======================== -->
     <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
     <!-- ==================================================== -->
-    <xsl:variable name="fileExplorerURL" select="'http://act-easy.dans.knaw.nl/ui/datasets/id/'"/>
-  <!--xsl:variable name="fileExplorerURL" select="'https://easy.dans.knaw.nl/ui/datasets/id/'"/-->
+    <xsl:variable name="fileExplorerURL" select="'https://easy.dans.knaw.nl/ui/datasets/id/'"/>
     
     <!-- ==================================================== -->
     <xsl:variable name="datasetId" select="concat(/emd:easymetadata/emd:identifier/dc:identifier[@eas:scheme='DMO_ID']/text(), '')"/>
