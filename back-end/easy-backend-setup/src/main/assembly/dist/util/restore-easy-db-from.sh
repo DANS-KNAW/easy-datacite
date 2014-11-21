@@ -13,6 +13,3 @@ restore () {
 
 restore easy_files
 restore easy_folders 
-restore easy_folder_accessibility_status 
-restore easy_folder_creator 
-restore easy_folder_visibility_status 
