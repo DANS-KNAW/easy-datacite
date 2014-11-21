@@ -13,6 +13,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
@@ -149,4 +150,6 @@ public interface FileStoreAccess {
     Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException;
 
     Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException;
+
+    boolean belongsItemTo(ItemVO item, Dataset dataset);
 }

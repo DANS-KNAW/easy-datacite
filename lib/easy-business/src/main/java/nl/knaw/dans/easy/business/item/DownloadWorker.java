@@ -69,7 +69,7 @@ public class DownloadWorker {
             ServiceException
     {
         final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId());
-        final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset);
+        final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset, FILE_STORE_ACCESS);
         try {
             final List<FileItemVO> itemList = FILE_STORE_ACCESS.findFilesById(Arrays.asList(fileItemId));
             final List<? extends ItemVO> filteredItems = downloadFilter.apply(itemList);
@@ -106,7 +106,7 @@ public class DownloadWorker {
         final String baseFolderName = getBaseFoldername(dataset);
         try {
             final List<ItemVO> requesteItemVOs = getRequestedItemVOs(requestedItems);
-            final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset);
+            final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset, FILE_STORE_ACCESS);
             final List<? extends ItemVO> permittedItemVOs = downloadFilter.apply(requesteItemVOs);
             zippedContent.setDownloadedItemVOs(permittedItemVOs); // for downloadHistory
             final File zipFile = createZipFile(permittedItemVOs, getAdditionalLicenseUrl(dataset));

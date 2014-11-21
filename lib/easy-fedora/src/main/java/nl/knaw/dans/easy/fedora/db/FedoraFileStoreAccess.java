@@ -396,7 +396,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         }
     }
 
-    private Set<VisibleTo> translateVisibilities(Set<FolderItemVisibleTo> visibilities) {
+    public static Set<VisibleTo> translateVisibilities(Set<FolderItemVisibleTo> visibilities) {
         Set<VisibleTo> translated = new HashSet<VisibleTo>();
         for (FolderItemVisibleTo i : visibilities) {
             translated.add(i.getVisibleTo());
@@ -404,7 +404,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         return translated;
     }
 
-    private Set<AccessibleTo> translateAccessibilities(Set<FolderItemAccessibleTo> accessibilities) {
+    public static Set<AccessibleTo> translateAccessibilities(Set<FolderItemAccessibleTo> accessibilities) {
         Set<AccessibleTo> translated = new HashSet<AccessibleTo>();
         for (FolderItemAccessibleTo i : accessibilities) {
             translated.add(i.getAccessibleTo());
@@ -412,7 +412,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         return translated;
     }
 
-    private Set<CreatorRole> translateCreatorRoles(Set<FolderItemCreatorRole> roles) {
+    public static Set<CreatorRole> translateCreatorRoles(Set<FolderItemCreatorRole> roles) {
         Set<CreatorRole> translated = new HashSet<CreatorRole>();
         for (FolderItemCreatorRole i : roles) {
             translated.add(i.getCreatorRole());
@@ -574,9 +574,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             Set<AccessibleTo> result = new HashSet<AccessibleTo>();
             if (item instanceof FolderItemVO) {
                 FolderItemVO folder = (FolderItemVO) session.load(FolderItemVO.class, item.getSid());
-                for (FolderItemAccessibleTo i : folder.getAccessibilities()) {
-                    result.add(i.getAccessibleTo());
-                }
+                result = translateAccessibilities(folder.getAccessibilities());
             } else {
                 FileItemVO file = (FileItemVO) session.load(FileItemVO.class, item.getSid());
                 result.add(file.getAccessibleTo());
@@ -599,9 +597,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             Set<VisibleTo> result = new HashSet<VisibleTo>();
             if (item instanceof FolderItemVO) {
                 FolderItemVO folder = (FolderItemVO) session.load(FolderItemVO.class, item.getSid());
-                for (FolderItemVisibleTo i : folder.getVisibilities()) {
-                    result.add(i.getVisibleTo());
-                }
+                result = translateVisibilities(folder.getVisibilities());
             } else {
                 FileItemVO file = (FileItemVO) session.load(FileItemVO.class, item.getSid());
                 result.add(file.getVisibleTo());
@@ -624,9 +620,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             Set<CreatorRole> result = new HashSet<CreatorRole>();
             if (item instanceof FolderItemVO) {
                 FolderItemVO folder = (FolderItemVO) session.load(FolderItemVO.class, item.getSid());
-                for (FolderItemCreatorRole i : folder.getCreatorRoles()) {
-                    result.add(i.getCreatorRole());
-                }
+                result = translateCreatorRoles(folder.getCreatorRoles());
             } else {
                 FileItemVO file = (FileItemVO) session.load(FileItemVO.class, item.getSid());
                 result.add(file.getCreatorRole());
@@ -638,6 +632,19 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         }
         finally {
             sessionFactory.closeSession();
+        }
+    }
+
+    @Override
+    public boolean belongsItemTo(ItemVO item, Dataset dataset) {
+        final Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.update(item);
+            return item.belongsTo(dataset);
+        }
+        finally {
+            session.close();
         }
     }
 }

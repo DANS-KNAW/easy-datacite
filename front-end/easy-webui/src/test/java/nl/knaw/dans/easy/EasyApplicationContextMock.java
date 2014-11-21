@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy;
 
-import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -9,7 +8,6 @@ import static org.easymock.EasyMock.isNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -21,11 +19,10 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
@@ -73,7 +70,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public class EasyApplicationContextMock extends ApplicationContextMock {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
-    private final ItemService itemServiceDelegate = new ItemServiceDelegate();
 
     public EasyApplicationContextMock() {
         super();
@@ -185,10 +181,11 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * 
      * @throws ServiceException
      *         required by the syntax
+     * @throws StoreAccessException
      * @throws IllegalStateException
      *         if a real {@link ItemService} instance was assigned as bean
      */
-    public void expectNoAudioVideoFiles() throws ServiceException {
+    public void expectNoAudioVideoFiles() throws ServiceException, StoreAccessException {
         setMockedItemService();
         expect(getItemService().getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new ArrayList<FileItemVO>());
     }
@@ -357,25 +354,13 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         putBean("editableContentHome", fileSystemHomeDirectory);
     }
 
-    @SuppressWarnings("unchecked")
-    private void setMockedItemService() throws ServiceException {
+    private void setMockedItemService() throws ServiceException, StoreAccessException {
         try {
             isMock(getItemService());
         }
         catch (final NoSuchBeanDefinitionException e) {
             final ItemService mock = PowerMock.createMock(ItemService.class);
-            expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(mock.getFilenames(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(
-                    mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(ItemFilters.class),
-                            anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
-            expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(
-                    itemServiceDelegate);
-            expect(
-                    mock.getFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
-                            anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
-            // expect(
-            // mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class)).itemServiceDelegate));
+            ItemServiceDelegate.delegate(mock);
             setItemService(mock);
         }
     }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
@@ -21,17 +22,18 @@ import nl.knaw.dans.easy.security.HasRoleCheck;
 import nl.knaw.dans.easy.security.IsDepositorOfDatasetCheck;
 
 public class DownloadFilter {
-
     private static final AbstractCheck isDepositorCheck = new IsDepositorOfDatasetCheck();
     private static final AbstractCheck isArchivistCheck = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
 
     private final Dataset dataset;
     private final boolean isPowerUser;
     private final Set<AccessibleTo> accessibleToSet;
+    private FileStoreAccess fileStoreAccess;
 
-    public DownloadFilter(EasyUser sessionUser, Dataset dataset) {
+    public DownloadFilter(EasyUser sessionUser, Dataset dataset, FileStoreAccess fsa) {
         final ContextParameters ctxParameters = new ContextParameters(sessionUser, dataset);
         this.dataset = dataset;
+        this.fileStoreAccess = fsa;
         accessibleToSet = dataset.getAccessibleToSetFor(sessionUser);
         isPowerUser = isDepositorCheck.evaluate(ctxParameters) || isArchivistCheck.evaluate(ctxParameters);
     }
@@ -39,7 +41,7 @@ public class DownloadFilter {
     public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException {
         final List<ItemVO> filteredItems = new ArrayList<ItemVO>();
         for (final ItemVO item : itemList) {
-            if (item.belongsTo(dataset)) {
+            if (fileStoreAccess.belongsItemTo(item, dataset)) {
                 if (isPowerUser)
                     filteredItems.add(item);
                 else if (item instanceof FileItemVO) {

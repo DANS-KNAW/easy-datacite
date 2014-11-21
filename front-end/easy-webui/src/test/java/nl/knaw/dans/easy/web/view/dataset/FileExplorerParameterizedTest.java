@@ -37,6 +37,7 @@ import org.apache.wicket.PageParameters;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -44,6 +45,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.powermock.api.easymock.PowerMock;
 
 @RunWith(Parameterized.class)
+@Ignore
 public class FileExplorerParameterizedTest {
 
     private static InMemoryDatabase inMemoryDatabase;

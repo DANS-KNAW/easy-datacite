@@ -36,12 +36,14 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 /**
  * See also DatasetPermissionTest.fileExplorerTab
  */
+@Ignore
 public class FileExplorerTabTest {
 
     private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");

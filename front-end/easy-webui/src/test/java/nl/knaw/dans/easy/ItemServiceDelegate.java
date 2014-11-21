@@ -1,5 +1,9 @@
 package nl.knaw.dans.easy;
 
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
+
 import java.io.File;
 import java.net.URL;
 import java.util.Collection;
@@ -177,7 +181,10 @@ public class ItemServiceDelegate implements ItemService {
     public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
             ItemFilters filters) throws ServiceException
     {
-        return INSTANCE.getFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
+        List<FolderItemVO> fodlers = INSTANCE.getFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
+        for (ItemVO item : fodlers)
+            ((FolderItemVO) item).setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
+        return fodlers;
     }
 
     @Override
@@ -256,22 +263,63 @@ public class ItemServiceDelegate implements ItemService {
 
     @Override
     public FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        FolderItemVO folder = INSTANCE.getRootFolder(sessionUser, dataset, dmoStoreId);
+        folder.setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
+        return folder;
     }
 
     @Override
     public Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        return INSTANCE.getItemVoAccessibilities(item);
     }
 
     @Override
     public Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        return INSTANCE.getItemVoVisibilities(item);
     }
 
     @Override
     public Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        return INSTANCE.getItemVoCreatorRoles(item);
     }
 
+    /**
+     * Adds expectations with StubDelegates for all methods calling FileStoreAccess to enable the use if InMemoryDatabase. Any method that returns ItemVO's
+     * overrides the default AuthzStrategy with a permissive version. Having this method here and not on EasyApplicationContextMocks increases the chance that
+     * developers extend this method when new methods are added to the service. Automatically added methods will be added to the bottom of this source, please
+     * move this method down.
+     * 
+     * @param mock
+     *        an ItemService created with PowerMock or EasyMock
+     * @return the argument is returned for convenience
+     * @throws ServiceException
+     *         any expectations of exceptions must be set before calling this method
+     * @throws StoreAccessException
+     *         any expectations of exceptions must be set before calling this method
+     */
+    @SuppressWarnings("unchecked")
+    static ItemService delegate(ItemService mock) throws ServiceException, StoreAccessException {
+
+        expect(mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(
+                mock.getFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), anyInt(), anyInt(),
+                        anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(INSTANCE);
+        expect(
+                mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
+                        anyObject(ItemFilters.class))).andStubDelegateTo(INSTANCE);
+        expect(
+                mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
+                        anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(
+                mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
+                        anyObject(ItemFilters.class), (DmoStoreId[]) anyObject())).andStubDelegateTo(INSTANCE);
+        expect(mock.getFilenames(anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.getRootFolder(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.getItemVoAccessibilities(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.getItemVoVisibilities(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
+        expect(mock.getItemVoCreatorRoles(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
+        return mock;
+    }
 }

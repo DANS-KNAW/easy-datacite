@@ -56,27 +56,28 @@ public class FedoraCountFilesTest {
     public static void closeDB() {
         inMemoryDB.close();
     }
-//
-//    @Test
-//    public void folderItemVO_getAccessibleToList() throws Exception {
-//        Set<AccessibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, AccessibleTo.class);
-//        assertTrue(values.toArray().length == 1);
-//        assertTrue(values.toArray()[0].equals(AccessibleTo.KNOWN));
-//    }
 
-//    @Test
-//    public void folderItemVO_getVisibleToList() throws Exception {
-//        Set<VisibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, VisibleTo.class);
-//        assertTrue(values.toArray().length == 1);
-//        assertTrue(values.toArray()[0].equals(VisibleTo.ANONYMOUS));
-//    }
+    //
+    // @Test
+    // public void folderItemVO_getAccessibleToList() throws Exception {
+    // Set<AccessibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, AccessibleTo.class);
+    // assertTrue(values.toArray().length == 1);
+    // assertTrue(values.toArray()[0].equals(AccessibleTo.KNOWN));
+    // }
 
-//    @Test
-//    public void folderItemVO_getCreatorRoles() throws Exception {
-//        Set<CreatorRole> values = fileStoreAccess.getValuesFor(folderStoreId, CreatorRole.class);
-//        assertTrue(values.toArray().length == 1);
-//        assertTrue(values.toArray()[0].equals(CreatorRole.DEPOSITOR));
-//    }
+    // @Test
+    // public void folderItemVO_getVisibleToList() throws Exception {
+    // Set<VisibleTo> values = fileStoreAccess.getValuesFor(folderStoreId, VisibleTo.class);
+    // assertTrue(values.toArray().length == 1);
+    // assertTrue(values.toArray()[0].equals(VisibleTo.ANONYMOUS));
+    // }
+
+    // @Test
+    // public void folderItemVO_getCreatorRoles() throws Exception {
+    // Set<CreatorRole> values = fileStoreAccess.getValuesFor(folderStoreId, CreatorRole.class);
+    // assertTrue(values.toArray().length == 1);
+    // assertTrue(values.toArray()[0].equals(CreatorRole.DEPOSITOR));
+    // }
 
     @Test
     public void folderItemImpl_getTotalFileCount() throws Exception {

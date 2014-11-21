@@ -114,35 +114,35 @@ public class EasyDatasetServiceTest extends TestHelper {
 
     }
 
-//    @Test
-//    @Ignore
-//    public void getDataset() throws Exception {
-//        DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
-//        EasyUser user = new EasyUserImpl("foo");
-//        user.addRole(Role.ARCHIVIST);
-//        user.setState(State.ACTIVE);
-//
-//        EasyMock.reset(easyStore);
-//        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
-//
-//        EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(new HashSet<AccessibleTo>());
-//        EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(new HashSet<VisibleTo>());
-//
-//        EasyMock.replay(easyStore, fileStoreAccess);
-//        Dataset dataset = service.getDataset(user, storeId);
-//        EasyMock.verify(easyStore);
-//
-//        AuthzStrategy strategy = dataset.getAuthzStrategy();
-//        assertNotNull(strategy);
-//
-//        // the dataset has no children so we expect they cannot be discovered.
-//        assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeDiscovered());
-//        assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeRead());
-//
-//        // we are archivist so we can discover and read the unpublished dataset.
-//        assertTrue(strategy.canBeDiscovered());
-//        assertTrue(strategy.canBeRead());
-//    }
+    // @Test
+    // @Ignore
+    // public void getDataset() throws Exception {
+    // DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
+    // EasyUser user = new EasyUserImpl("foo");
+    // user.addRole(Role.ARCHIVIST);
+    // user.setState(State.ACTIVE);
+    //
+    // EasyMock.reset(easyStore);
+    // EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
+    //
+    // EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(new HashSet<AccessibleTo>());
+    // EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(new HashSet<VisibleTo>());
+    //
+    // EasyMock.replay(easyStore, fileStoreAccess);
+    // Dataset dataset = service.getDataset(user, storeId);
+    // EasyMock.verify(easyStore);
+    //
+    // AuthzStrategy strategy = dataset.getAuthzStrategy();
+    // assertNotNull(strategy);
+    //
+    // // the dataset has no children so we expect they cannot be discovered.
+    // assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeDiscovered());
+    // assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeRead());
+    //
+    // // we are archivist so we can discover and read the unpublished dataset.
+    // assertTrue(strategy.canBeDiscovered());
+    // assertTrue(strategy.canBeRead());
+    // }
 
     @Test(expected = DataIntegrityException.class)
     public void saveEasyMetadataNoDepositorOnDataset() throws Exception {

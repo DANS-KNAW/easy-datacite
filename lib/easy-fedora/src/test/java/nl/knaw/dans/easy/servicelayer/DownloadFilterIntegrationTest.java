@@ -143,7 +143,8 @@ public class DownloadFilterIntegrationTest {
     }
 
     private void test(final EasyUser sessionUser, final int expectedNrOfFiles, int expectedNrOfFolders) throws DomainException {
-        Assert.assertThat("number of folders", new DownloadFilter(sessionUser, dataset).apply(folders).size(), is(expectedNrOfFolders));
-        Assert.assertThat("number of files", new DownloadFilter(sessionUser, dataset).apply(files).size(), is(expectedNrOfFiles));
+        Assert.assertThat("number of folders", new DownloadFilter(sessionUser, dataset, Data.getFileStoreAccess()).apply(folders).size(),
+                is(expectedNrOfFolders));
+        Assert.assertThat("number of files", new DownloadFilter(sessionUser, dataset, Data.getFileStoreAccess()).apply(files).size(), is(expectedNrOfFiles));
     }
 }

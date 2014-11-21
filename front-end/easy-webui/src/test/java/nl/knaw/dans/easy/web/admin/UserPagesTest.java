@@ -26,9 +26,11 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+@Ignore
 public class UserPagesTest {
     private static final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
     private static final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";

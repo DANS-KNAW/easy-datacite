@@ -31,9 +31,9 @@ public class FedoraDbTestSchema {
     }
 
     public static void reset() {
-        SchemaExport schema = new SchemaExport(DbUtil.getConfiguration());
-
-        schema.drop(false, true);
-        schema.create(false, true);
+        // SchemaExport schema = new SchemaExport(DbUtil.getConfiguration());
+        //
+        // schema.drop(false, true);
+        // schema.create(false, true);
     }
 }

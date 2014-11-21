@@ -28,49 +28,49 @@ import org.junit.Test;
 
 public class EasyItemContainerAuthzStrategyTest {
 
-//    @Test
-//    @Ignore
-//    public void singleMessageTestYes() throws Exception {
-//
-//        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS);
-//
-//        Dataset dataset = mockDataset(mockItemContainerMetadata());
-//        EasyUser user = mockUser();
-//
-//        replayAll();
-//
-//        EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
-//        AuthzMessage message = strategy.getSingleReadMessage();
-//        assertEquals("dataset.authzstrategy.sm.yes", message.getMessageCode());
-//
-//        verifyAll();
-//    }
+    // @Test
+    // @Ignore
+    // public void singleMessageTestYes() throws Exception {
+    //
+    // fileStoreAccessExpectations(AccessibleTo.ANONYMOUS);
+    //
+    // Dataset dataset = mockDataset(mockItemContainerMetadata());
+    // EasyUser user = mockUser();
+    //
+    // replayAll();
+    //
+    // EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
+    // AuthzMessage message = strategy.getSingleReadMessage();
+    // assertEquals("dataset.authzstrategy.sm.yes", message.getMessageCode());
+    //
+    // verifyAll();
+    // }
 
-//    @Test
-//    @Ignore
-//    public void singleMessageTestLogin() throws Exception {
-//
-//        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-//
-//        Dataset dataset = mockDataset(mockItemContainerMetadata());
-//        EasyUser user = mockUser();
-//
-//        replayAll();
-//
-//        EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
-//        AuthzMessage message = strategy.getSingleReadMessage();
-//        assertEquals("dataset.authzstrategy.sm.login", message.getMessageCode());
-//
-//        verifyAll();
-//    }
+    // @Test
+    // @Ignore
+    // public void singleMessageTestLogin() throws Exception {
+    //
+    // fileStoreAccessExpectations(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+    //
+    // Dataset dataset = mockDataset(mockItemContainerMetadata());
+    // EasyUser user = mockUser();
+    //
+    // replayAll();
+    //
+    // EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
+    // AuthzMessage message = strategy.getSingleReadMessage();
+    // assertEquals("dataset.authzstrategy.sm.login", message.getMessageCode());
+    //
+    // verifyAll();
+    // }
 
-//    private void fileStoreAccessExpectations(AccessibleTo... accessibleToArray) throws StoreAccessException {
-//
-//        HashSet<AccessibleTo> accessibleToSet = new HashSet<AccessibleTo>(Arrays.asList(accessibleToArray));
-//        FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
-//        expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
-//        new Data().setFileStoreAccess(fileStoreAccess);
-//    }
+    // private void fileStoreAccessExpectations(AccessibleTo... accessibleToArray) throws StoreAccessException {
+    //
+    // HashSet<AccessibleTo> accessibleToSet = new HashSet<AccessibleTo>(Arrays.asList(accessibleToArray));
+    // FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
+    // expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
+    // new Data().setFileStoreAccess(fileStoreAccess);
+    // }
 
     private DatasetItemContainerMetadata mockItemContainerMetadata() {
 

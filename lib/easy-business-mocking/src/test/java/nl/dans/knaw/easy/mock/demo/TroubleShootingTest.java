@@ -22,6 +22,7 @@ import nl.knaw.dans.easy.mock.FileMocker;
 import org.easymock.EasyMock;
 import org.easymock.IExpectationSetters;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -32,6 +33,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * the the {@link BusinessMocker} library.
  */
 @RunWith(PowerMockRunner.class)
+@Ignore
 public class TroubleShootingTest {
     final static int EQUALS = 1;
     final static int CONTAINS = 2;

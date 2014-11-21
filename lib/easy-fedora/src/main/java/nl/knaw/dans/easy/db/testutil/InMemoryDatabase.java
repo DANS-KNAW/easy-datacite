@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.db.DbUtil;
-import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl;
@@ -15,6 +14,7 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
@@ -48,7 +48,6 @@ public class InMemoryDatabase implements Closeable {
      */
     public void close() {
         DbUtil.getSessionFactory().getCurrentSession().close();
-        FedoraDbTestSchema.reset();
     }
 
     /** Makes the inserted items available for retrieval. */
@@ -79,6 +78,18 @@ public class InMemoryDatabase implements Closeable {
         item.setLabel(buildPath(parent, label));
         item.setParent(parent);
         item.setDatasetId(getDatasetId(parent));
+        session.beginTransaction();
+        session.save(new FolderItemVO(item));
+        session.flush();
+        session.getTransaction().commit();
+        return item;
+    }
+
+    public FolderItemImpl insertRootFolder(Dataset parent) throws DomainException {
+        final FolderItemImpl item = new FolderItemImpl(parent.getStoreId());
+        item.setLabel(buildPath(parent, ""));
+        item.setParent(parent);
+        item.setDatasetId(parent.getDmoStoreId());
         session.beginTransaction();
         session.save(new FolderItemVO(item));
         session.flush();

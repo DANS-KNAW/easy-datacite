@@ -42,6 +42,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
+@Ignore
 public class DepositTest {
 
     private static final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "1");
