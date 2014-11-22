@@ -9,7 +9,6 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Transaction;
 import org.hibernate.Session;
 
 public class FedoraFileStoreManager {
@@ -28,6 +27,7 @@ public class FedoraFileStoreManager {
             session.beginTransaction();
             FileItemVO fivo = new FileItemVO(fileItem);
             session.save(fivo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fivo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -47,6 +47,7 @@ public class FedoraFileStoreManager {
             fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             fivo.updateTo(fileItem);
             session.update(fivo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fivo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -59,12 +60,27 @@ public class FedoraFileStoreManager {
         return fivo;
     }
 
+    private void evictAncestorsCollectionPropertiesFromSecondLevelCache(Session s, String parentSid) {
+        if (parentSid != null & !parentSid.equals("")) {
+            FolderItemVO parent = (FolderItemVO) s.get(FolderItemVO.class, parentSid);
+            if (parent != null) {
+                s.getSessionFactory().getCache().evictCollection("nl.knaw.dans.easy.domain.dataset.item.FolderItemVO.visibilities", parentSid);
+                s.getSessionFactory().getCache().evictCollection("nl.knaw.dans.easy.domain.dataset.item.FolderItemVO.accessibilities", parentSid);
+                s.getSessionFactory().getCache().evictCollection("nl.knaw.dans.easy.domain.dataset.item.FolderItemVO.creatorRoles", parentSid);
+                s.getSessionFactory().getCache().evictCollection("nl.knaw.dans.easy.domain.dataset.item.FolderItemVO.folders", parentSid);
+                s.getSessionFactory().getCache().evictCollection("nl.knaw.dans.easy.domain.dataset.item.FolderItemVO.files", parentSid);
+                evictAncestorsCollectionPropertiesFromSecondLevelCache(s, parent.getParentSid());
+            }
+        }
+    }
+
     public void onPurgeFileItem(FileItem fileItem) throws StoreAccessException {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             FileItemVO fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             session.delete(fivo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fivo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {

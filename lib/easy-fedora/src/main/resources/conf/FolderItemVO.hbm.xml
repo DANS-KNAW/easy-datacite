@@ -20,19 +20,19 @@
         <property name="name" type="string">
             <column name="name" length="256" not-null="true" />
         </property>
-        <set name="creatorRoles" inverse="true" lazy="true" fetch="subselect">
+        <set name="creatorRoles" inverse="true" lazy="true" fetch="subselect" >
             <key on-delete="noaction">
                 <column name="pid" length="64" not-null="true" />
             </key>
             <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole" />
         </set>
-        <set name="visibilities" inverse="true" lazy="true" fetch="subselect">
+        <set name="visibilities" inverse="true" lazy="true" fetch="subselect" >
             <key on-delete="noaction">
                 <column name="pid" length="64" not-null="true" />
             </key>
             <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo" />
         </set>
-        <set name="accessibilities" inverse="true" lazy="true" fetch="subselect">
+        <set name="accessibilities" inverse="true" lazy="true" fetch="subselect" >
             <key on-delete="noaction">
                 <column name="pid" length="64" not-null="true" />
             </key>

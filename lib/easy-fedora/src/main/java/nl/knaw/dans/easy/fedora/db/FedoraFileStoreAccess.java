@@ -295,6 +295,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             session.beginTransaction();
             Criteria c = session.createCriteria(FileItemVO.class);
             c.add(eq("datasetSid", datasetSid.toString()));
+            @SuppressWarnings("unchecked")
             List<FileItemVO> files = c.list();
             return files;
         }
@@ -422,10 +423,6 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
 
     private int fetchCount(final List<? extends Object> query) {
         return new BigDecimal((Long) query.get(0)).intValue();
-    }
-
-    private boolean countedZero(final List<? extends Object> query) {
-        return ((Long) query.get(0)) == 0;
     }
 
     private List<? extends Object> countMembers(final boolean direct, final DmoStoreId storeId, final Class<? extends AbstractItemVO> memberClass,

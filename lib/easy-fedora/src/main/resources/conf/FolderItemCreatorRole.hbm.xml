@@ -10,8 +10,9 @@
            WHERE c.dataset_sid = m.dataset_sid
            AND   m.path LIKE c.path || '%'
         </subselect>
-        <cache usage="read-write" />
+        <cache usage="read-only" />
         <synchronize table="easy_files" />
+        <synchronize table="easy_folders" />
         <id name="id" />
         <property name="folderSid" type="string" insert="false" update="false">
             <column name="pid" length="64" />

@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.web.fileexplorer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.apache.wicket.injection.web.InjectorHolder;
@@ -88,8 +89,10 @@ public class TreeItem implements Serializable, ITreeItem {
 
     private static String makeValuesReadable(Object... values) {
         StringBuffer result = new StringBuffer();
-        for (Object value : values)
-            result.append(StringUtil.firstCharToUpper(value.toString().replaceAll("_", " ").toLowerCase()));
+        for (Object value : values) {
+            result.append(StringUtil.firstCharToUpper(value.toString().replaceAll("_", " ").toLowerCase()) + ", ");
+        }
+        result.delete(result.length() - ", ".length(), Integer.MAX_VALUE);
         return result.toString();
     }
 
