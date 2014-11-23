@@ -46,9 +46,9 @@ public class TreeItem implements Serializable, ITreeItem {
         this.itemVO = itemVO;
         this.parent = parent;
 
-        visibleTo = makeValuesReadable(itemService.getItemVoVisibilities(itemVO));
-        accessibleTo = makeValuesReadable(itemService.getItemVoAccessibilities(itemVO));
-        creator = makeValuesReadable(itemService.getItemVoCreatorRoles(itemVO));
+        visibleTo = new ReadableValues(itemService.getItemVoVisibilities(itemVO)).toString();
+        accessibleTo = new ReadableValues(itemService.getItemVoAccessibilities(itemVO)).toString();
+        creator = new ReadableValues(itemService.getItemVoCreatorRoles(itemVO)).toString();
         if (itemVO instanceof FolderItemVO) {
             size = 0;
             sizeAsString = "";
@@ -81,19 +81,6 @@ public class TreeItem implements Serializable, ITreeItem {
         if (childrenWithFiles.contains(item)) {
             childrenWithFiles.remove(item);
         }
-    }
-
-    private static String makeValuesReadable(Set<?> values) {
-        return makeValuesReadable(values.toArray());
-    }
-
-    private static String makeValuesReadable(Object... values) {
-        StringBuffer result = new StringBuffer();
-        for (Object value : values) {
-            result.append(StringUtil.firstCharToUpper(value.toString().replaceAll("_", " ").toLowerCase()) + ", ");
-        }
-        result.delete(result.length() - ", ".length(), Integer.MAX_VALUE);
-        return result.toString();
     }
 
     public String getId() {
