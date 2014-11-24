@@ -120,10 +120,10 @@ public class FedoraFileStoreManager {
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
+            session.getTransaction().rollback();
             throw new StoreAccessException("While updating metadata on FolderItem " + folderItem, e);
         }
         finally {
-            session.getTransaction().rollback();
             sessionFactory.closeSession();
         }
         return fovo;
