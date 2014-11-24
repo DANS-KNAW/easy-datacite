@@ -16,6 +16,7 @@ import nl.knaw.dans.common.wicket.components.explorer.style.ExplorerIcon;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
@@ -39,8 +40,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.util.resource.IResourceStream;
-import org.apache.wicket.util.resource.UrlResourceStream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +97,10 @@ public class NamePanel extends Panel {
                 style = "NoneAccessible";
             }
 
-            if (canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions()) {
+            boolean anonymousDownloadAllowed = (canUnitBeRead && item.getAccessibleTo().equalsIgnoreCase(AccessibleTo.ANONYMOUS.toString()));
+
+            if (anonymousDownloadAllowed || canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions()) {
+                // The user can be either anonymous or
                 // the user has already accepted general conditions and there are no additional
                 // conditions so create a direct download link
                 link = new IndicatingAjaxLink<Void>("link") {

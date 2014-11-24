@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -208,7 +209,6 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         rightsForm.add(createApplyFileRightsLink(datasetModel, viewRights, accessRights));
 
         add(rightsForm);
-
     }
 
     private AjaxSubmitLink createFilterSubmitLink(final HashMap<Enum<?>, CheckBox> filterMap) {
@@ -231,7 +231,6 @@ public class FileExplorer extends AbstractDatasetModelPanel {
                 explorer.getBreadcrumbPanel().update(target, explorer.getContent().getSelected().getObject());
                 target.addComponent(explorer);
             }
-
         };
     }
 
@@ -266,7 +265,6 @@ public class FileExplorer extends AbstractDatasetModelPanel {
                 selectedFolders.clear();
                 target.addComponent(this);
             }
-
         };
     }
 
@@ -322,7 +320,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 
             public void populateItem(Item cellItem, String componentId, final IModel rowModel) {
                 try {
-                    cellItem.add(cerateNamePanel(datasetModel, modalDownloadWindow, hasAdditionalLicense, componentId, rowModel));
+                    cellItem.add(createNamePanel(datasetModel, modalDownloadWindow, hasAdditionalLicense, componentId, rowModel));
                 }
                 catch (ServiceRuntimeException e) {
                     logger.error("Error creating direct download link for single file.", e);
@@ -331,11 +329,10 @@ public class FileExplorer extends AbstractDatasetModelPanel {
                     logger.error("Error creating direct download link for single file.", e);
                 }
             }
-
         };
     }
 
-    private NamePanel cerateNamePanel(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense,
+    private NamePanel createNamePanel(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense,
             String componentId, final IModel rowModel) throws ServiceException
     {
         return new NamePanel(componentId, rowModel, explorer.getTree(), datasetModel, explorer.getContent(), hasAdditionalLicense, new AjaxLink<Void>("link") {
@@ -427,7 +424,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
                 ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
-                modalDeleteWindow.setContent(cerateModalDeleteContent(datasetModel, modalDeleteWindow, items));
+                modalDeleteWindow.setContent(createModalDeleteContent(datasetModel, modalDeleteWindow, items));
                 modalDeleteWindow.show(target);
             }
 
@@ -438,7 +435,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         };
     }
 
-    private ModalDelete cerateModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items) {
+    private ModalDelete createModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items) {
         return new ModalDelete(modalDeleteWindow, items, datasetModel) {
             private static final long serialVersionUID = 1L;
 
@@ -523,21 +520,51 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-                // check if we should stream download directly or open a popup
                 ArrayList<RequestedItem> requestedItems = getSelectionAsRequestedItems();
                 Dataset dataset = datasetModel.getObject();
                 EasyUser sessionUser = EasySession.getSessionUser();
-                boolean canAllChildrenBeRead = dataset.getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
-                boolean requestedEqualsSelected = requestedItems.size() == (selectedFiles.size() + selectedFolders.size());
-                if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedEqualsSelected) && !hasAdditionalLicense
-                        && sessionUser.hasAcceptedGeneralConditions())
-                {
+
+                if (isAnonymousDownloadAllowed(dataset)) {
                     streamDownloadDirectly(modalMessageWindow, target, requestedItems, dataset, sessionUser);
                 } else {
-                    showDownloadPopup(datasetModel, modalDownloadWindow, target);
+                    boolean canAllChildrenBeRead = dataset.getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
+                    boolean requestedEqualsSelected = requestedItems.size() == (selectedFiles.size() + selectedFolders.size());
+                    if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedEqualsSelected) && !hasAdditionalLicense
+                            && sessionUser.hasAcceptedGeneralConditions())
+                    {
+                        streamDownloadDirectly(modalMessageWindow, target, requestedItems, dataset, sessionUser);
+                    } else {
+                        showDownloadPopup(datasetModel, modalDownloadWindow, target);
+                    }
                 }
             }
         };
+    }
+
+    private boolean isAnonymousDownloadAllowed(Dataset dataset) {
+        if (selectedFiles.isEmpty() && selectedFolders.isEmpty()) {
+            // check complete dataset
+            ArrayList<ITreeItem> items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
+            return isAllAccessible(items);
+        } else {
+            // check all selected items
+            return (isAllAccessible(selectedFiles) && isAllAccessible(selectedFolders));
+        }
+    }
+
+    private boolean isAllAccessible(List<ITreeItem> items) {
+        boolean allAccessible = true;
+        ListIterator<ITreeItem> iter = items.listIterator();
+        while (allAccessible && iter.hasNext()) {
+            TreeItem item = (TreeItem) iter.next();
+            AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
+            // @formatter:off
+            allAccessible = (item.getAccessibleTo().equalsIgnoreCase(AccessibleTo.ANONYMOUS.toString()))
+                     && ((item.getType().equals(Type.FILE) && strategy.canUnitBeRead(EasyFile.UNIT_ID))
+                             || (item.getType().equals(Type.FOLDER) && strategy.canChildrenBeRead().equals(TriState.ALL)));
+            // @formatter:on
+        }
+        return allAccessible;
     }
 
     private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target) {
