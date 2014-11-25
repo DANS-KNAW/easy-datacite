@@ -34,6 +34,6 @@ public class HelpFileReader extends TextFileReader {
         }
         catch (IOException e) {}
 
-        return "Could not find help on this item";
+        return "";
     }
 }
