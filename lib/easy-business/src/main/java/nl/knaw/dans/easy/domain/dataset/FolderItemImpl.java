@@ -106,8 +106,8 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
 
     public boolean isDeletable() {
         try {
-            return Data.getFileStoreAccess().hasMember(getDmoStoreId(), FileItemVO.class)
-                    || Data.getFileStoreAccess().hasMember(getDmoStoreId(), FolderItemVO.class);
+            return !Data.getFileStoreAccess().hasMember(getDmoStoreId(), FileItemVO.class)
+                    && !Data.getFileStoreAccess().hasMember(getDmoStoreId(), FolderItemVO.class);
         }
         catch (StoreAccessException e) {
             // also used in a toString so not everybody van catch, false seems a safe response

@@ -214,9 +214,9 @@ public abstract class AbstractDmoStore implements DmoStore {
         DmoStoreId dmoStoreId = dmo.getDmoStoreId();
         acquireLock(dmoStoreId, "purge");
         try {
-            if ((!dmo.isDeletable() || !dmo.isRegisteredDeleted()) && !force) {
-                throw new ObjectIsNotDeletableException("Object " + dmo.toString() + " is not deletable.");
-            }
+            /*
+             * No check on deletability because it depends on previous deletes from the database which at this point have not been processed yet.
+             */
 
             if (dmo.isInvalidated()) {
                 throw new ConcurrentUpdateException(dmo.toString() + " is not up to date. As a rule it can therefore not be purged.");

@@ -1,8 +1,11 @@
 package nl.knaw.dans.easy.data.store;
 
+import java.util.Comparator;
+
 import nl.knaw.dans.common.lang.repo.AbstractUnitOfWork;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStore;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
@@ -12,7 +15,11 @@ public class EasyUnitOfWork extends AbstractUnitOfWork {
     private EasyUser user;
 
     public EasyUnitOfWork(EasyUser user) {
-        super(user == null ? null : user.isAnonymous() ? null : user.getId());
+        this(user, null);
+    }
+
+    public EasyUnitOfWork(EasyUser user, Comparator<DmoStoreId> idComparator) {
+        super(user == null ? null : user.isAnonymous() ? null : user.getId(), idComparator);
         this.user = user;
     }
 

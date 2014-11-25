@@ -40,14 +40,14 @@
         </set>
 
         <set name="files" inverse="true" lazy="true">
-            <key on-delete="cascade">
+            <key on-delete="noaction">
                 <column name="parent_sid" length="64" not-null="true" />
             </key>
             <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FileItemVO" />
         </set>
 
         <set name="folders" inverse="true" lazy="true">
-            <key on-delete="cascade">
+            <key on-delete="noaction">
                 <column name="parent_sid" length="64" not-null="true" />
             </key>
             <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemVO" />

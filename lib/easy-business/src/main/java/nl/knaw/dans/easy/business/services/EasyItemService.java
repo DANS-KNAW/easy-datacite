@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -183,7 +184,24 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
             return;
         }
 
-        UnitOfWork uow = new EasyUnitOfWork(sessionUser);
+        UnitOfWork uow = new EasyUnitOfWork(sessionUser,
+        /*
+         * Makes sure that items are processed in the order files, folders, dataset.
+         */
+        new Comparator<DmoStoreId>() {
+            @Override
+            public int compare(DmoStoreId sid1, DmoStoreId sid2) {
+                if (sid1.isInNamespace(Dataset.NAMESPACE))
+                    return 1;
+                else if (sid1.isInNamespace(FolderItem.NAMESPACE)) {
+                    if (sid2.isInNamespace(Dataset.NAMESPACE))
+                        return -1;
+                    else
+                        return 1;
+                } else
+                    return -1;
+            }
+        });
 
         try {
             uow.attach(dataset);

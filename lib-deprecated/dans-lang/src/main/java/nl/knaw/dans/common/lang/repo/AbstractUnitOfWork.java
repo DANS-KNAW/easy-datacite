@@ -2,16 +2,17 @@ package nl.knaw.dans.common.lang.repo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.exception.ConcurrentUpdateException;
 import nl.knaw.dans.common.lang.repo.exception.LockAcquireTimeoutException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectExistsException;
-import nl.knaw.dans.common.lang.repo.exception.ObjectIsNotDeletableException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 
@@ -35,7 +36,7 @@ public abstract class AbstractUnitOfWork implements UnitOfWork {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractUnitOfWork.class);
 
-    private final Map<DmoStoreId, DataModelObject> cloud = new HashMap<DmoStoreId, DataModelObject>();
+    private final Map<DmoStoreId, DataModelObject> cloud;
 
     private final List<UnitOfWorkListener> listeners = new ArrayList<UnitOfWorkListener>();
 
@@ -44,7 +45,15 @@ public abstract class AbstractUnitOfWork implements UnitOfWork {
     private String updateOwner;
 
     public AbstractUnitOfWork(String updateOwner) {
+        this(updateOwner, null);
+    }
+
+    public AbstractUnitOfWork(String updateOwner, Comparator<DmoStoreId> cloudIdsComparator) {
         this.updateOwner = updateOwner;
+        if (cloudIdsComparator == null)
+            this.cloud = new HashMap<DmoStoreId, DataModelObject>();
+        else
+            this.cloud = new TreeMap<DmoStoreId, DataModelObject>(cloudIdsComparator);
     }
 
     public void addListener(UnitOfWorkListener listener) {
@@ -103,17 +112,16 @@ public abstract class AbstractUnitOfWork implements UnitOfWork {
         }
 
         try {
-
             // check in advance if all objects are ready to be
             // ingested, updated or purged
+            /*
+             * No check on deletability because it depends on previous deletes from the database which at this point have not been processed yet.
+             */
             DmoStore store = getStore();
             for (DataModelObject dmo : cloud.values()) {
-                // can delete?
-                if (dmo.isRegisteredDeleted() && !dmo.isDeletable()) {
-                    throw new ObjectIsNotDeletableException("Object " + dmo.toString() + " is not deletable.");
-                }
+
                 // can update?
-                else if (dmo.isLoaded() && !store.isUpdateable(dmo, updateOwner)) {
+                if (dmo.isLoaded() && !store.isUpdateable(dmo, updateOwner)) {
                     throw new ConcurrentUpdateException("UnitOfWork aborting commit, because object " + dmo.toString() + " is not updateable.");
                 }
                 // ingest is currently always possible
@@ -150,24 +158,6 @@ public abstract class AbstractUnitOfWork implements UnitOfWork {
         }
         return detach(dmo);
     }
-
-    // /**
-    // * WARNING: This is not a true rollback as it only purges objects, but does
-    // * not return objects to their original state if they were updated. True
-    // * rollback would be expensive as it would require the original objects to
-    // * be retrieved before commit.
-    // */
-    // public void rollBack(String logMessage) throws RepositoryException
-    // {
-    // for (DataModelObject dmo : ingestedObjects)
-    // {
-    // getStore().purge(dmo, false, logMessage);
-    // for (UnitOfWorkListener listener : listeners)
-    // {
-    // listener.afterPurge(dmo);
-    // }
-    // }
-    // }
 
     public void close() {
         for (DataModelObject dmo : cloud.values()) {
@@ -215,7 +205,6 @@ public abstract class AbstractUnitOfWork implements UnitOfWork {
         for (UnitOfWorkListener listener : listeners) {
             listener.afterIngest(dmo);
         }
-        // ingestedObjects.add(dmo);
     }
 
     private void purge(DataModelObject dmo) throws RepositoryException, UnitOfWorkInterruptException {

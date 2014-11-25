@@ -127,7 +127,7 @@ public class DmoStoreId implements Serializable, Comparable<DmoStoreId> {
 
     @Override
     public int hashCode() {
-        return namespace.hashCode() + id.length() + id.hashCode();
+        return id.hashCode() % 100;
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -106,19 +108,19 @@ public class ItemIngester extends AbstractWorker {
             // Files and folders submitted by depositor go into folder 'original'.
             if (parentContainer instanceof Dataset && CreatorRole.DEPOSITOR.equals(creatorRole)) {
                 String storeId = members.get(DEPOSITOR_FOLDER_NAME);
+                FolderItem original = null;
                 if (storeId == null) {
-                    FolderItem original = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
+                    original = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
                     getUnitOfWork().attach(original);
 
                     original.setLabel(DEPOSITOR_FOLDER_NAME);
                     original.setOwnerId(sessionUser.getId());
                     original.setDatasetId(dataset.getDmoStoreId());
                     original.setParent(parentContainer);
-                    parentContainer = original;
                 } else {
-                    FolderItem original = (FolderItem) getUnitOfWork().retrieveObject(new DmoStoreId(storeId));
-                    parentContainer = original;
+                    original = (FolderItem) getUnitOfWork().retrieveObject(new DmoStoreId(storeId));
                 }
+                parentContainer = original;
                 members = collectMembers(parentContainer.getDmoStoreId());
             }
             // End files and folders submitted by depositor go into folder 'original'.
@@ -243,7 +245,16 @@ public class ItemIngester extends AbstractWorker {
 
     private Map<String, String> collectMembers(DmoStoreId parentId) throws RepositoryException {
         Map<String, String> members = new HashMap<String, String>();
-        List<ItemVO> items = Data.getFileStoreAccess().getFilesAndFolders(parentId);
+        List<ItemVO> items;
+        /*
+         * Workaround for messy code: just assume that there are no members if there is not yet a folder in the database.
+         */
+        try {
+            items = Data.getFileStoreAccess().getFilesAndFolders(parentId);
+        }
+        catch (StoreAccessException e) {
+            items = new LinkedList<ItemVO>();
+        }
         for (ItemVO item : items) {
             members.put(item.getName(), item.getSid());
         }

@@ -98,6 +98,7 @@ public class FedoraFileStoreManager {
             session.beginTransaction();
             FolderItemVO fovo = new FolderItemVO(folderItem);
             session.save(fovo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fovo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -117,6 +118,7 @@ public class FedoraFileStoreManager {
             fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             fovo.updateTo(folderItem);
             session.update(fovo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fovo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {
@@ -135,6 +137,7 @@ public class FedoraFileStoreManager {
             session.beginTransaction();
             FolderItemVO fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             session.delete(fovo);
+            evictAncestorsCollectionPropertiesFromSecondLevelCache(session, fovo.getParentSid());
             session.getTransaction().commit();
         }
         catch (HibernateException e) {

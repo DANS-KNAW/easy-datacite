@@ -29,6 +29,7 @@ import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 import nl.knaw.dans.easy.domain.model.FolderItem;
@@ -203,21 +204,18 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
     // Let op: niet recursief
     public List<ItemVO> getFilesAndFolders(final DmoStoreId parentSid) throws StoreAccessException {
         LOGGER.debug("Getting files and folders from the Fedora database for {}", parentSid);
+        FolderItemVO parent = getFolderItemVO(parentSid);
         final Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            FolderItemVO parent = (FolderItemVO) session.get(FolderItemVO.class, parentSid.toString());
-            if (parent == null) {
-                return new ArrayList<ItemVO>(0);
-            } else {
-                final Set<FolderItemVO> folders = parent.getFolders();
-                final Set<FileItemVO> files = parent.getFiles();
-                final List<ItemVO> result = new ArrayList<ItemVO>(files.size() + folders.size());
-                result.addAll(folders);
-                result.addAll(files);
-                LOGGER.debug("Returned " + result.size() + " files and folders.");
-                return result;
-            }
+            session.update(parent);
+            final Set<FolderItemVO> folders = parent.getFolders() == null ? new HashSet<FolderItemVO>() : parent.getFolders();
+            final Set<FileItemVO> files = parent.getFiles() == null ? new HashSet<FileItemVO>() : parent.getFiles();
+            final List<ItemVO> result = new ArrayList<ItemVO>(files.size() + folders.size());
+            result.addAll(folders);
+            result.addAll(files);
+            LOGGER.debug("Returned " + result.size() + " files and folders.");
+            return result;
         }
         finally {
             sessionFactory.closeSession();
@@ -518,15 +516,11 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         final Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            Criteria criteria = session.createCriteria(FolderItemVO.class);
-            criteria.add(Restrictions.eq("sid", itemContainer.toString()));
-            @SuppressWarnings("unchecked")
-            Iterator<FolderItemVO> i = (Iterator<FolderItemVO>) criteria.list().iterator();
-            if (i.hasNext()) {
-                return i.next();
-            } else {
-                throw new RuntimeException("No such folder: " + itemContainer.getId());
+            FolderItemVO folder = (FolderItemVO) session.get(FolderItemVO.class, itemContainer.toString());
+            if (folder == null) {
+                throw new StoreAccessException("No such folder: " + itemContainer.getId());
             }
+            return folder;
         }
         catch (final HibernateException e) {
             throw new StoreAccessException(e);
@@ -641,7 +635,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             return item.belongsTo(dataset);
         }
         finally {
-            session.close();
+            sessionFactory.closeSession();
         }
     }
 }
