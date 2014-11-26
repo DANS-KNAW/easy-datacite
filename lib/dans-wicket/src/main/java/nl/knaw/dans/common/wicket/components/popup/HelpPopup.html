@@ -4,39 +4,41 @@
 	</wicket:head>
 </head>
 
-<body style="height:100%">
+<body>
 <wicket:panel>
-	<a wicket:id="helpPopup" class="help-popup-trigger">
-		<wicket:child>
-			<img src='/images/button_help.gif' alt='help' />
-		</wicket:child>
-	</a>
+    <wicket:enclosure child="popupModal">
+        <a wicket:id="helpPopup" class="help-popup-trigger">
+            <wicket:child>
+                <img src='/images/button_help.gif' alt='help' />
+            </wicket:child>
+        </a>
 
-	<div wicket:id="popupModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span>
-						<span class="sr-only">
-							<wicket:message key="close">Close</wicket:message>
-						</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">
-						<wicket:message key="helppopup.modal.help">Help</wicket:message>
-					</h4>
-				</div>
-				<div class="modal-body" wicket:id="popupHTML">
-                   	( modal help content here )
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">
-						<wicket:message key="close">Close</wicket:message>
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div wicket:id="popupModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">
+                                <wicket:message key="close">Close</wicket:message>
+                            </span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            <wicket:message key="helppopup.modal.help">Help</wicket:message>
+                        </h4>
+                    </div>
+                    <div class="modal-body" wicket:id="popupHTML">
+                           ( modal help content here )
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <wicket:message key="close">Close</wicket:message>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </wicket:enclosure>
 </wicket:panel>
 </body>
 </html>
