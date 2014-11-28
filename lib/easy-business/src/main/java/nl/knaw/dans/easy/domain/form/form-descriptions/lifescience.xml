@@ -663,7 +663,6 @@
                         <ref-panelId>dc.description</ref-panelId>
                         <ref-panelId>dates</ref-panelId>
                         <ref-panelId>rights</ref-panelId>
-                        <ref-panelId>upload</ref-panelId>
                         <ref-panelId>dcterms.audience</ref-panelId>
                         <ref-panelId>dc.publisher</ref-panelId>
                     </panels>
@@ -672,6 +671,16 @@
                     <properties>
                         <id>emd-deposit-form.page.2</id>
                         <labelResourceKey>discipline.lifescience.page.2.title</labelResourceKey>
+                    </properties>
+                    <cssContainerClassName>depositForm</cssContainerClassName>
+                    <panels>
+                        <ref-panelId>upload</ref-panelId>
+                    </panels>
+                </formPage>
+                <formPage>
+                    <properties>
+                        <id>emd-deposit-form.page.3</id>
+                        <labelResourceKey>discipline.lifescience.page.3.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -686,8 +695,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.3</id>
-                        <labelResourceKey>discipline.lifescience.page.3.title</labelResourceKey>
+                        <id>emd-deposit-form.page.4</id>
+                        <labelResourceKey>discipline.lifescience.page.4.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -699,8 +708,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.4</id>
-                        <labelResourceKey>discipline.lifescience.page.4.title</labelResourceKey>
+                        <id>emd-deposit-form.page.5</id>
+                        <labelResourceKey>discipline.lifescience.page.5.title</labelResourceKey>
                     </properties>
                     <editable>false</editable>
                     <cssContainerClassName>depositForm</cssContainerClassName>
