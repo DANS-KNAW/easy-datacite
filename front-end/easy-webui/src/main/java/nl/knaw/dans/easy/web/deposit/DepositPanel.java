@@ -528,7 +528,6 @@ public class DepositPanel extends AbstractDatasetModelPanel {
         public static final String SUBMIT = "submit";
         public static final String SAVE = "save";
         public static final String NEXT = "next";
-        public static final String LEAVE = "leave";
         private static final long serialVersionUID = 4513083082403949353L;
         private boolean initiated;
         private final DepositForm depoForm;
@@ -551,32 +550,12 @@ public class DepositPanel extends AbstractDatasetModelPanel {
 
         private void initComponents() {
             String saveButtonText;
-            final int currentPageIndex = getCurrentPageIndex();
 
             if (DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(emdFormDefinition.getId())) {
                 saveButtonText = getString("button.save");
             } else {
                 saveButtonText = getString("button.saveDraft");
             }
-
-            add(new Link<String>(LEAVE) {
-                private static final long serialVersionUID = -3733296648097227019L;
-
-                @Override
-                public void onClick() {
-                    RedirectData rData = getEasySession().getRedirectData(getPage().getClass());
-                    if (rData != null) {
-                        setResponsePage(rData.getPageClass(), rData.getPageParameters());
-                    } else {
-                        setResponsePage(HomePage.class);
-                    }
-                }
-
-                @Override
-                public boolean isVisible() {
-                    return DepositDiscipline.EMD_DEPOSITFORM_WIZARD.equals(emdFormDefinition.getId());
-                }
-            });
 
             SubmitLink save = new SubmitLink(SAVE) {
                 private static final long serialVersionUID = -2915965926376583607L;
