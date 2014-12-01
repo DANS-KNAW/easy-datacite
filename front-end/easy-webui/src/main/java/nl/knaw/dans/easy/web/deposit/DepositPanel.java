@@ -529,7 +529,6 @@ public class DepositPanel extends AbstractDatasetModelPanel {
         public static final String SAVE = "save";
         public static final String NEXT = "next";
         public static final String LEAVE = "leave";
-        public static final String CONFIRM = "confirm";
         private static final long serialVersionUID = 4513083082403949353L;
         private boolean initiated;
         private final DepositForm depoForm;
@@ -628,40 +627,6 @@ public class DepositPanel extends AbstractDatasetModelPanel {
             };
 
             add(submit);
-
-            add(new ConfirmPanel(CONFIRM, getString(CONFIRM_BUTTON_NAME), getString(CONFIRM_MESSAGE), getString(CONFIRM_TITLE)) {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                protected void onConfirm(AjaxRequestTarget target) {
-                    logger.debug("Dataset Confirmation Popup: The User Clicked - Yes!");
-                    saveContents();
-                    submitContents();
-                }
-
-                @Override
-                protected void onCancel(AjaxRequestTarget target) {
-                    logger.debug("Dataset Confirmation Popup: The User Clicked - No!");
-                    // TODO: redir to FormPage with UploadPanel...
-                }
-
-                /**
-                 * This Link is visible when: 1. This is the last page of the Wizard AND 2. The form isn't an archivist form? AND 3. There are no files uploaded
-                 * to this dataset
-                 * 
-                 * @return
-                 */
-                @Override
-                public boolean isVisible() {
-                    return false;
-                    // return isLastPage()
-                    // &&
-                    // !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())
-                    // && submission.getDataset().getTotalFileCount() < 1;
-                }
-            });
-
-
         }
     }
 
