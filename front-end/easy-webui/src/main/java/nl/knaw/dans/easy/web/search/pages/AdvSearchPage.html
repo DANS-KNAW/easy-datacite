@@ -1,96 +1,90 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
-<body>
-<wicket:extend>
-<h1><wicket:message key="page.header">[Advanced Search]</wicket:message></h1>
 
-<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+    <body>
+        <wicket:extend>
+            <h1><wicket:message key="page.header">[Advanced Search]</wicket:message></h1>
 
-<div wicket:id="searchCriteria" class="searchCriteria"></div>
+            <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
 
-<div id="advancedSearchForm">
-	<form wicket:id="advancedSearchForm">
-		<div id="search_adv">
-			
-			<div id="search_adv_block2" class="search_adv_block panel" wicket:id="archivistOptions">
-				<table>
-					<tr>
-						<td><label for="search_adv_status">Status:</label></td>
-					<td> 		
-						<span wicket:id="statusGroup">	
-						<table id="search_adv_status">
-						<tr>
-							<td wicket:id="states"><input type="checkbox" wicket:id="checkbox"/>
-							<span wicket:id="status">[STATUS]</span></td>
-						</tr>
-						</table>
-						</span>
-					</td>
-					</tr>
-					<tr>
-						<td><label for="search_adv_depositor">Depositor</label></td>
-						<td><input class="standard" type="text" wicket:id="depositorField" id="search_adv_depositor" /></td>
-					</tr>
-					<tr>
-						<td><label for="search_adv_assignedto">Assigned to</label></td>
-						<td><select class="form_text" vtype="text" wicket:id="assignedToField" id="search_adv_assignedto"></select></td>
-					</tr>
-				</table>				
-			</div>
-	
-			<div id="search_adv_block3" class="panel">
-				<table>
-					<tr>
-						<td><label for="search_adv_any"><wicket:message key="label.anyfield" >[Any field]</wicket:message></label></td>
-						<td><input type="text" wicket:id="anyField" id="search_adv_any" class="standard adv_search_anyField_marginBottom"  /></td>
-					</tr>
-					<tr>
-					    <td><label for="search_adv_title"><wicket:message key="label.title" >[Title]</wicket:message></label></td>
-						<td><input type="text" wicket:id="titleField" id="search_adv_title" class="standard" /></td>
-					</tr>
-					<tr>
-						<td><label for="search_adv_creator"><wicket:message key="label.creator" >[Creator]</wicket:message></label></td>
-						<td><input type="text" wicket:id="creatorField" id="search_adv_creator" class="standard" /></td>
-					</tr>
-					<!-- 
-					<tr>
-						<td><label for="search_adv_relation"><wicket:message key="label.relation" >[Relation]</wicket:message></label></td>
-						<td><input type="text" wicket:id="relationField" id="search_adv_relation" class="standard" /></td>
-					</tr>
-					-->
-					<tr>
-						<td><label for="search_adv_description"><wicket:message key="label.description" >[Description]</wicket:message></label></td>
-						<td><input type="text" wicket:id="descriptionField" id="search_adv_description" class="standard" /></td>
-					</tr>
-					<tr>
-						<td><label for="search_adv_subject"><wicket:message key="label.subject" >[Subject]</wicket:message></label></td>
-						<td><input type="text" wicket:id="subjectField" id="search_adv_subject" class="standard" /></td>
-					</tr>
-					<tr>
-						<td><label for="search_adv_coverage"><wicket:message key="label.coverage" >[Coverage]</wicket:message></label></td>
-						<td><input type="text" wicket:id="coverageField" id="search_adv_coverage" class="standard" /></td>
-						
-					</tr>
-					<tr>
-						<td><label for="search_adv_identifier"><wicket:message key="label.identifier" >[Identifier]</wicket:message></label></td>
-						<td><input type="text" wicket:id="identifierField" id="search_adv_identifier" class="standard" /></td>
-					</tr>
-				</table>				
-			</div>
-			<br/>
-			<a wicket:id="submitButton" class="pbutton"><wicket:message key="label.search" >[Search]</wicket:message></a>
-			<input type="submit" value="Search" style="display:none" />
-			
-			<a wicket:id="cancelButton" class="button"><wicket:message key="label.cancel" >[Cancel]</wicket:message></a>
-		</div>
-	</form>
-</div>
-</wicket:extend>
-</body>
+            <div wicket:id="searchCriteria" class="searchCriteria"></div>
+
+            <div id="advancedSearchForm">
+                <form wicket:id="advancedSearchForm">
+                    <div id="search_adv">
+
+                        <div id="search_adv_block2" class="search_adv_block panel" wicket:id="archivistOptions">
+                            <table>
+                                <tr>
+                                    <td><label for="search_adv_status">Status:</label></td>
+                                <td>
+                                    <span wicket:id="statusGroup">
+                                    <table id="search_adv_status">
+                                    <tr>
+                                        <td wicket:id="states"><input type="checkbox" wicket:id="checkbox"/>
+                                        <span wicket:id="status">[STATUS]</span></td>
+                                    </tr>
+                                    </table>
+                                    </span>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_depositor">Depositor</label></td>
+                                    <td><input class="standard" type="text" wicket:id="depositorField" id="search_adv_depositor" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_assignedto">Assigned to</label></td>
+                                    <td><select class="form_text" vtype="text" wicket:id="assignedToField" id="search_adv_assignedto"></select></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div id="search_adv_block3" class="panel">
+                            <table>
+                                <tr>
+                                    <td><label for="search_adv_any"><wicket:message key="label.anyfield" >[Any field]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="anyField" id="search_adv_any" class="standard adv_search_anyField_marginBottom"  /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_title"><wicket:message key="label.title" >[Title]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="titleField" id="search_adv_title" class="standard" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_creator"><wicket:message key="label.creator" >[Creator]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="creatorField" id="search_adv_creator" class="standard" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_description"><wicket:message key="label.description" >[Description]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="descriptionField" id="search_adv_description" class="standard" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_subject"><wicket:message key="label.subject" >[Subject]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="subjectField" id="search_adv_subject" class="standard" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_coverage"><wicket:message key="label.coverage" >[Coverage]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="coverageField" id="search_adv_coverage" class="standard" /></td>
+
+                                </tr>
+                                <tr>
+                                    <td><label for="search_adv_identifier"><wicket:message key="label.identifier" >[Identifier]</wicket:message></label></td>
+                                    <td><input type="text" wicket:id="identifierField" id="search_adv_identifier" class="standard" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <a wicket:id="submitButton" class="pbutton"><wicket:message key="label.search" >[Search]</wicket:message></a>
+                        <input type="submit" value="Search" style="display:none" />
+
+                        <a wicket:id="cancelButton" class="button"><wicket:message key="label.cancel" >[Cancel]</wicket:message></a>
+                    </div>
+                </form>
+            </div>
+        </wicket:extend>
+    </body>
 </html>

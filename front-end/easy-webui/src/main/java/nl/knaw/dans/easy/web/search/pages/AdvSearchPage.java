@@ -254,7 +254,6 @@ public class AdvSearchPage extends AbstractSearchPage {
             add(new TextField<String>("subjectField", new SearchFieldModel(data, "subject")));
             add(new TextField<String>("coverageField", new SearchFieldModel(data, "coverage")));
             add(new TextField<String>("identifierField", new SearchFieldModel(data, "identifier")));
-            // add(new TextField<String>("relationField", new SearchFieldModel(data, "relation")));
 
             add(new SubmitLink("submitButton"));
             add(new CancelLink("cancelButton"));

@@ -1,19 +1,18 @@
 <html xmlns:wicket>
-<wicket:panel>
-<wicket:extend>
-<wicket:container wicket:id="searchTips">
-<br/>
-<span class=lineheight>Search tips:</span>
-<ul>
-<li wicket:id="noResultsTip">Make the search criteria less specific (try using less words)</li>
-<li>Use English as well as Dutch metadata terms</li>
-<!-- 
-<li>Refer to the <a href="#"  title="Show search help">help on search</a>
- -->
- <li>Refer to the <a wicket:id="popupLink" href="#" title="Show search help">help on search</a><div wicket:id="searchTipsHelpPopup"></div>
-</li>
-</ul>
-</wicket:container>
-</wicket:extend>
-</wicket:panel>
+    <wicket:panel>
+        <wicket:extend>
+            <wicket:container wicket:id="searchTips">
+                <br/>
+                <span class=lineheight>Search tips:</span>
+                <ul>
+                    <li wicket:id="noResultsTip">Make the search criteria less specific (try using less words)</li>
+                    <li>Use English as well as Dutch metadata terms</li>
+                    <li>
+                        Refer to the <a wicket:id="popupLink" href="#" title="Show search help">help on search</a>
+                        <div wicket:id="searchTipsHelpPopup"></div>
+                    </li>
+                </ul>
+            </wicket:container>
+        </wicket:extend>
+    </wicket:panel>
 </html>
