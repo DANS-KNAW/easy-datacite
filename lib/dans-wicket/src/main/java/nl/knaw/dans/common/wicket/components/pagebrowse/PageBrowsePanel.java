@@ -7,6 +7,8 @@ import java.util.Set;
 
 import nl.knaw.dans.common.wicket.components.CommonGPanel;
 
+import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -27,8 +29,6 @@ import org.apache.wicket.model.ResourceModel;
  */
 public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
     private static final long serialVersionUID = 4385883898867962693L;
-
-    public static final String DEFAULT_SEPARATOR = "|";
 
     public static final String RK_PREVIOUS = "PageBrowsePanel.previous";
 
@@ -58,12 +58,10 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
 
             @Override
             protected void populateItem(ListItem<PageBrowseLink> item) {
-                final int page = item.getIndex();
-                if (page > 0) {
-                    item.add(new Label("separator", DEFAULT_SEPARATOR));
-                } else {
-                    // no separator
-                    item.add(new Label("separator", ""));
+                if (item.getModelObject().targetPage == getCurrentPage()) {
+                    item.add(new SimpleAttributeModifier("class", "active"));
+                } else if (!item.getModelObject().isEnabled()) {
+                    item.add(new SimpleAttributeModifier("class", "disabled"));
                 }
 
                 final PageBrowseLink plink = item.getModelObject();
@@ -109,9 +107,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
     List<PageBrowseLink> computeLinks() {
         PageBrowseData model = getModelObject();
         List<PageBrowseLink> links = new ArrayList<PageBrowseLink>();
-        if (model.hasPrevious()) {
-            links.add(new PageBrowseLink(getCurrentPage() - 1, getPageSize(), new ResourceModel(RK_PREVIOUS, "previous"), true, linkListeners));
-        }
+        links.add(new PageBrowseLink(getCurrentPage() - 1, getPageSize(), new ResourceModel(RK_PREVIOUS, "previous"), model.hasPrevious(), linkListeners));
         if (getWindowStart() > 1) {
             links.add(new PageBrowseLink(1, getPageSize(), new Model<String>("" + 1), true, linkListeners));
         }
@@ -119,7 +115,10 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
             links.add(new PageBrowseLink(-1, getPageSize(), new Model<String>("..."), false, linkListeners));
         }
         for (int i = getWindowStart(); i <= getWindowEnd(); i++) {
-            links.add(new PageBrowseLink(i, getPageSize(), new Model<String>("" + i), i != getCurrentPage(), linkListeners));
+            String label = "" + i;
+            if (i == getCurrentPage())
+                label += "<span class=\"sr-only\">(current)</span>";
+            links.add(new PageBrowseLink(i, getPageSize(), new Model<String>(label), i != getCurrentPage(), linkListeners));
         }
         if (getWindowEnd() < getLastPage() - 1) {
             links.add(new PageBrowseLink(-1, getPageSize(), new Model<String>("..."), false, linkListeners));
@@ -127,9 +126,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
         if (getWindowEnd() < getLastPage()) {
             links.add(new PageBrowseLink(getLastPage(), getPageSize(), new Model<String>("" + getLastPage()), true, linkListeners));
         }
-        if (model.hasNext()) {
-            links.add(new PageBrowseLink(getCurrentPage() + 1, getPageSize(), new ResourceModel(RK_NEXT, "next"), true, linkListeners));
-        }
+        links.add(new PageBrowseLink(getCurrentPage() + 1, getPageSize(), new ResourceModel(RK_NEXT, "next"), model.hasNext(), linkListeners));
         return links;
     }
 
@@ -142,7 +139,6 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
         StringBuilder sb = new StringBuilder();
         for (PageBrowseLink link : computeLinks()) {
             sb.append(link.printLink());
-            sb.append(DEFAULT_SEPARATOR);
         }
         return sb.toString();
     }
@@ -172,7 +168,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
             this.labelModel = labelModel;
             this.enabled = enabled;
             this.listeners = listeners;
-            add(new Label(WI_PAGELINKTEXT, labelModel));
+            add(new Label(WI_PAGELINKTEXT, labelModel).setRenderBodyOnly(true).setEscapeModelStrings(false));
         }
 
         public int getTargetPage() {
@@ -204,6 +200,26 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
                 listener.onClick(this);
             }
         }
+
+        /* Get rid of <em> tags surrounding a disabled link
+         * Note that this should probably set application wide
+         * @see org.apache.wicket.markup.html.link.AbstractLink#onBeforeRender()
+         * @see org.apache.wicket.markup.html.link.AbstractLink#getAfterDisabledLink()
+         * @see org.apache.wicket.markup.html.link.AbstractLink#getBeforeDisabledLink()
+         * @see org.apache.wicket.markup.html.link.AbstractLink#setAfterDisabledLink()
+         * @see org.apache.wicket.markup.html.link.AbstractLink#setBeforeDisabledLink()
+         * @see org.apache.wicket.settings.Settings
+         */
+        @Override
+        public String getBeforeDisabledLink(){
+            return "";
+        }
+
+        @Override
+        public String getAfterDisabledLink(){
+            return "";
+        }
+        /* ************************************************ */
 
         String printLink() {
             return targetPage + " " + enabled + " " + labelModel.getObject();
