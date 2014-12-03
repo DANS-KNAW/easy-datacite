@@ -28,7 +28,7 @@
 img {
 	vertical-align: inherit;  /* UNDO BOOTSTRAP */
 }
-div.panel.panel-default.login h2 {
+div.panel.panel-default h2 {
 	 display: inline-block;
 }
 .login-choose-or-link {
@@ -54,6 +54,9 @@ form.deposit-form .row {
 ul.feedbackPanel {
     list-style-type: none;
     padding-left: 0;
+}
+ul.list-group li.linked-list-group-item {
+    list-style-type: none;
 }
 /* BOOTSTRAP PANEL CONFLICTS WITH EASY.CSS PANEL */
 div.panel.panel-default {
