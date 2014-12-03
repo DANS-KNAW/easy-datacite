@@ -1,14 +1,12 @@
 <html xmlns:wicket>
     <wicket:panel>
-        <div class="depositForm0" wicket:id="levelContainer">
-            <div wicket:id="head">
-                [head]
-            </div>
-            <div wicket:id="recursivePanelContainer">
-                <div wicket:id="recursivePanels">
-                    <div wicket:id="recursivePanel" class="recursive-panel-item">
-                        [recursivePanel]
-                    </div>
+        <div wicket:id="levelContainer">
+            <wicket:enclosure>
+                <div wicket:id="head">[head]</div>
+            </wicket:enclosure>
+            <div wicket:id="recursivePanels">
+                <div wicket:id="recursivePanel">
+                    [recursivePanel]
                 </div>
             </div>
         </div>

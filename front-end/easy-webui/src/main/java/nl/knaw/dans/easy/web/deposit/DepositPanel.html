@@ -1,14 +1,17 @@
 <html xmlns:wicket>
 <wicket:panel>
-  <form wicket:id="depositForm">
-  		<h1 wicket:id="head"></h1>
-  		<div wicket:id="commonFeedbackPanel" id="commonFeedbackPanel" class="feedback">Messages</div>
-  		<div wicket:id="navigationPanel" class="noPrint">[navigationPanel]</div>
-  		<div wicket:id="recursivePanel">[recursivePanel]</div>
-  		<div class="depositButtonPanel">
-  			<div wicket:id="buttonPanel" id="buttonPanel" class="noPrint">[buttonPanel]</div>
-  		</div>
-  </form>
+    <form wicket:id="depositForm" role="form" class="deposit-form">
+        <h1 wicket:id="head"></h1>
+        <div wicket:id="commonFeedbackPanel" id="commonFeedbackPanel" class="feedback">Messages</div>
+        <div class="hidden-print panel panel-default">
+            <div wicket:id="navigationPanel" class="panel-body">
+                [navigationPanel]
+            </div>
+        </div>
+        <div wicket:id="nextPreviousPanel1"></div>
+        <div wicket:id="recursivePanel" class="container-fluid"></div>
+        <div class="hidden-print" wicket:id="buttonPanel">[buttonPanel]</div>
+        <div wicket:id="nextPreviousPanel2"></div>
+    </form>
 </wicket:panel>
 </html>
-  

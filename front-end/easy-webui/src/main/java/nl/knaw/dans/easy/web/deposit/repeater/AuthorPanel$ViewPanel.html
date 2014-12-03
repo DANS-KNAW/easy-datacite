@@ -1,15 +1,11 @@
 <html xmlns:wicket>
 <wicket:panel>
-	<div class="listPanelRight">
-	<wicket:enclosure>
-	<!-- next element gets class 'repeating0' (if first in list) or 'repeating1' -->
-	<div wicket:id="item-demarcation"></div>
-	</wicket:enclosure>
-	<span wicket:id="authorLabel">[authorLabel]</span>
-	<wicket:enclosure>
-	&nbsp;DAI:
-	<span wicket:id="daiLabel" class="uri">[daiLabel]</span>
-	</wicket:enclosure>
-	</div>
+    <div>
+        <span wicket:id="authorLabel">[authorLabel]</span>
+        <wicket:enclosure>
+            &nbsp;DAI:
+            <span wicket:id="daiLabel">[daiLabel]</span>
+        </wicket:enclosure>
+    </div>
 </wicket:panel>
 </html>

@@ -48,6 +48,13 @@ div.panel.panel-default.login h2 {
 .table .radio label {
 	margin-left: 0;
 }
+form.deposit-form .row {
+	padding-bottom: 10px;
+}
+ul.feedbackPanel {
+    list-style-type: none;
+    padding-left: 0;
+}
 /* BOOTSTRAP PANEL CONFLICTS WITH EASY.CSS PANEL */
 div.panel.panel-default {
 	padding: 0;
@@ -1079,12 +1086,6 @@ input#searchString {
 		
 .refineSearchPanel.panel a.button {
 	text-decoration: none!important;
-}
-		
-#bodyContent div p,
-#bodyContent ul li {
-	line-height: 16px;
-	font-size: 110%;
 }
 
 .personal_bar span { /* CUSTOM */

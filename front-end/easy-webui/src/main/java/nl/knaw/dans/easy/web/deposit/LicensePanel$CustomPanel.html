@@ -1,16 +1,15 @@
 <html xmlns:wicket>
 <wicket:panel>
-
-<span wicket:id="editablePanel"></span>
-<span><wicket:message key="label.openAccessLicenseAdditionalNote">[Open Access License Additional Note]</wicket:message></span>
-<wicket:enclosure child="acceptLicense">
-<p/><input id="acceptLicense" type="checkbox"
-		wicket:id="acceptLicense" /> <label for="acceptLicense"><wicket:message
-		key="label.acceptLicense">[I accept the terms of the license agreement]</wicket:message></label>
-<p/>
-
-Note: the License agreement file will also be sent to you in an E-mail confirming your deposit action.
-</wicket:enclosure>
+    <div wicket:id="editablePanel"></div>
+    <p><wicket:message key="label.openAccessLicenseAdditionalNote">[Open Access License Additional Note]</wicket:message></p>
+    <wicket:enclosure child="acceptLicense">
+        <p>
+            <label for="acceptLicense">
+                <input id="acceptLicense" type="checkbox" wicket:id="acceptLicense" />
+                <wicket:message key="label.acceptLicense">[I accept the terms of the license agreement]</wicket:message>
+            </label>
+        </p>
+        <p>Note: the License agreement file will also be sent to you in an E-mail confirming your deposit action.</p>
+    </wicket:enclosure>
 </wicket:panel>
 </html>
-  

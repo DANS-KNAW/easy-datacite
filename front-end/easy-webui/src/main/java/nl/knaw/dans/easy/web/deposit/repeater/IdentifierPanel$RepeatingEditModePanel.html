@@ -1,11 +1,13 @@
 <html xmlns:wicket>
 <wicket:panel>
-<div style="white-space: nowrap;">
 
-	<select class="form_text w_short noPrint" wicket:id="schemeChoice">
-		<option value="foo">bar</option>
-	</select><input class="form_text w_long" wicket:id="valueField" style="width:195px;!important;"></input>
-</div>	
-
+<div class="form-group">
+    <select class="form-control input-sm" wicket:id="schemeChoice">
+        <option value="foo">bar</option>
+    </select>
+</div>
+<div class="form-group">
+    <input type="text" class="form-control input-sm" wicket:id="valueField"></input>
+</div>
 </wicket:panel>
 </html>

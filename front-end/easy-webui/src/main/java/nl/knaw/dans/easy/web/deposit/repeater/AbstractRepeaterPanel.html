@@ -1,60 +1,31 @@
 <html xmlns:wicket>
 <wicket:panel>
-    <table width="100%" cellspacing="1" cellpadding="1">
-        <tr>
-            <th class="labelColumn"></th>
-            <th class="fieldColumn"></th>
-            <th class="shortHelpColumn"></th>
-        </tr>
-		<wicket:enclosure>
-		<tr class="feedback">
-			<td colspan="3">
-				<span wicket:id="panelFeedback">[panelFeedback]</span>
-			</td>
-		</tr>
-		</wicket:enclosure>
-		<tr>
-			<td class="w_table_cell"><span wicket:id="label" /></td>
-			<td class="w_table_cell">
-				<div wicket:id="listViewContainer">
-				<table width="100%" cellspacing="0" border="0">
-					<tr wicket:id="listView">
-						<td>
-							<table width="100%">
-								<wicket:enclosure>
-								<tr class="feedback">
-									<td colspan="1">
-										<span wicket:id="itemFeedback">[itemFeedback]</span>
-									</td>
-								</tr>
-								</wicket:enclosure>
-								<tr>
-									<td class="w_table_cell">
-										<span wicket:id="repeatingPanel">[repeatingPanel]</span>
-									</td>
-									<td class="multiplier">
-										<span wicket:id="buttonsHolder">
-											<wicket:enclosure>
-													&nbsp;<input wicket:id="minusLink" class="button plusMinusButton" type="image"
-												width="20px" height="15px" border="0" align="absmiddle" tabindex="-1"
-												title="Remove this field" alt="" src="images/icon_remove.gif" />
-											</wicket:enclosure>
-											<wicket:enclosure>
-												&nbsp;<input wicket:id="plusLink" class="button plusMinusButton" type="image"
-												width="20px" height="15px" border="0" align="absmiddle" tabindex="-1"
-												title="Repeat this field" alt="" src="images/icon_add.gif" />
-											</wicket:enclosure>
-										</span>
-									</td>	
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
-				</div>
-			</td>
-            <td class="w_table_cell borderbottom"><span class="shortHelp" wicket:id="shortHelp" /></td>
-		</tr>
-    </table>
+    <div class="row feedback" wicket:enclosure="">
+        <div class="col-sm-12" wicket:id="panelFeedback">[panelFeedback]</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-md-2" wicket:id="label"></div>
+        <div class="col-sm-8 col-md-6" wicket:id="listViewContainer">
+            <div wicket:id="listView">
+                <wicket:enclosure>
+                    <div class="feedback col-xs-12" wicket:id="itemFeedback">[itemFeedback]</div>
+                </wicket:enclosure>
+                <div class="col-xs-11" wicket:id="repeatingPanel">[repeatingPanel]</div>
+                <div class="col-xs-1" wicket:id="buttonsHolder">
+                    <wicket:enclosure>
+                        <a wicket:id="minusLink" tabindex="-1" title="Remove this field">
+                            <i class="fa fa-minus-square fa-2x"></i>
+                        </a>
+                    </wicket:enclosure>
+                    <wicket:enclosure>
+                        <a wicket:id="plusLink" tabindex="-1" title="Repeat this field">
+                            <i class="fa fa-plus-square fa-2x"></i>
+                        </a>
+                    </wicket:enclosure>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-4" wicket:id="shortHelp"></div>
+    </div>
 </wicket:panel>
 </html>

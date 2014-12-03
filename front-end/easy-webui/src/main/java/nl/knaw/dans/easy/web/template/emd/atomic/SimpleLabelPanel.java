@@ -6,6 +6,7 @@ package nl.knaw.dans.easy.web.template.emd.atomic;
 import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.ResourceModel;
 
@@ -57,7 +58,7 @@ public class SimpleLabelPanel extends AbstractAtomicPanel {
 
     private void init() {
         this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))).setEscapeModelStrings(false));
-        this.add(new Label("requiredMark", "*").setVisible(required));
+        this.add(new WebMarkupContainer("optionalMark").setVisible(!required));
         HelpPopup popup = new HelpPopup("popup", anchorName, new HelpFileReader(anchorName).read());
         popup.setVisible(popUpButtonIsVisible);
         this.add(popup);

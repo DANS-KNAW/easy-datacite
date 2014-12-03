@@ -65,23 +65,6 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel> {
             add(idField);
             final TextField organizationField = new TextField("organizationField", new PropertyModel(item.getDefaultModelObject(), "organization"));
             add(organizationField);
-
-            add(new WebMarkupContainer("item-demarcation") {
-
-                private static final long serialVersionUID = 1L;
-
-                // puts class="repating0" (first item) or class="repeating1" (next items)
-                @Override
-                protected void onComponentTag(ComponentTag tag) {
-                    super.onComponentTag(tag);
-                    int repeating = index == 0 ? 0 : 1;
-                    String classAttr = (String) tag.getAttributes().get("class");
-                    String pre = classAttr == null ? "" : classAttr + " ";
-                    classAttr = pre + "repeating" + repeating;
-                    tag.getAttributes().put("class", classAttr);
-                }
-
-            });
         }
 
     }
@@ -102,22 +85,6 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel> {
             Label daiLabel = new Label("daiLabel", infoDai);
             add(daiLabel);
             daiLabel.setVisible(author.hasDigitalAuthorId());
-            add(new WebMarkupContainer("item-demarcation") {
-
-                private static final long serialVersionUID = 1L;
-
-                // puts class="repating0" (first item) or class="repeating1" (next items)
-                @Override
-                protected void onComponentTag(ComponentTag tag) {
-                    super.onComponentTag(tag);
-                    int repeating = index == 0 ? 0 : 1;
-                    String classAttr = (String) tag.getAttributes().get("class");
-                    String pre = classAttr == null ? "" : classAttr + " ";
-                    classAttr = pre + "repeating" + repeating;
-                    tag.getAttributes().put("class", classAttr);
-                }
-
-            });
         }
 
     }

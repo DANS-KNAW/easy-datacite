@@ -1,30 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
 <body>
+
 <wicket:extend>
-
-<h1>New deposit</h1>
-
-<p>
-Select the discipline of your dataset below. Please read the instructions first, then start the deposit procedure.
-</p>
-	<br />
-	<div id="disciplines">
-		<div wicket:id="disciplines" class="discipline">
-			<h2 wicket:id="discipline.name">[discipline.name]</h2>
-			Instructions in <a class="vtip" wicket:id="instructionLink_EN" title="View the instruction" href="#" target="_blank">[Instructions EN]</a>
-			or <a class="vtip" wicket:id="instructionLink_NL" title="Bekijk instructies" href="#" target="_blank">[Instructions EN]</a> (PDF)
-			<a href="#" class="button start" wicket:id="startDepositLink"><img src="images/easy-start.png" />Start deposit</a>
-		</div>
-	</div>
-<div style="clear:both"/>
-<span class="editablePanel" wicket:id="editablePanel"></span>
+    <h1><wicket:message key="deposit.intro.title">[New deposit]</wicket:message></h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12">
+                <p>
+                    <wicket:message key="deposit.intro.lead">[LEAD TEXT]</wicket:message>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12">
+                <div wicket:id="disciplines" class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title" wicket:id="discipline.name">[discipline.name]</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <wicket:message key="deposit.intro.instructions_in">[Instructions in]</wicket:message> <a wicket:id="instructionLink_EN" title="View the instruction" href="#" target="_blank">[Instructions EN]</a> <wicket:message key="or">[or]</wicket:message> <a wicket:id="instructionLink_NL" title="Bekijk instructies" href="#" target="_blank">[Instructions NL]</a> (PDF).
+                            </p>
+                            <a href="#" class="btn btn-primary" wicket:id="startDepositLink">
+                                <wicket:message key="deposit.intro.start">[Start deposit]</wicket:message></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12">
+                <span class="editablePanel" wicket:id="editablePanel"></span>
+            </div>
+        </div>
+    </div>
 </wicket:extend>
 </body>
 </html>

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
@@ -13,7 +12,7 @@ import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractRepeaterPanel;
 import nl.knaw.dans.easy.web.deposit.repeater.SkeletonPanel;
 
-import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -88,29 +87,13 @@ public class RecursivePanel extends Panel {
 
     private void init() {
         // logger.debug("Init of RecursivePanel");
-        final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer") {
-            private static final long serialVersionUID = -8613158818378626261L;
-
-            @Override
-            protected void onComponentTag(final ComponentTag tag) {
-                super.onComponentTag(tag);
-                tag.put("class", getCssContainerClassName() + level);
-            }
-        };
-
-        final Label head = new Label("head", new ResourceModel(headResourceKey, "")) {
-            private static final long serialVersionUID = -4062236676467096778L;
-
-            @Override
-            protected void onComponentTag(final ComponentTag tag) {
-                super.onComponentTag(tag);
-                tag.put("class", getCssHeadingClassName() + level);
-            }
-        };
+        final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer");
+        levelContainer.setRenderBodyOnly(true);
+        final Label head = new Label("head", new ResourceModel(headResourceKey, ""));
+        head.add(new SimpleAttributeModifier("class", "h" + (level + 1)));
         head.setVisible(headVisible);
         levelContainer.add(head);
 
-        final WebMarkupContainer listViewContainer = new WebMarkupContainer("recursivePanelContainer");
         @SuppressWarnings({"rawtypes", "unchecked"})
         final ListView listView = new ListView("recursivePanels", panelDefinitions) {
 
@@ -125,7 +108,7 @@ public class RecursivePanel extends Panel {
                 //
                 if (panelDefinition instanceof SubHeadingDefinition) {
                     final SubHeadingDefinition spDef = (SubHeadingDefinition) panelDefinition;
-                    item.add(new RecursivePanel(PANEL_WICKET_ID, panelFactory, spDef, level + 1, panelMap, editable));
+                    item.add(new RecursivePanel(PANEL_WICKET_ID, panelFactory, spDef, level + 1, panelMap, editable).setRenderBodyOnly(true));
                 } else if (panelDefinition instanceof StandardPanelDefinition) {
 
                     Panel panel = getPanel(panelDefinition);
@@ -166,12 +149,9 @@ public class RecursivePanel extends Panel {
             }
 
         };
-
-        listViewContainer.add(listView);
-
-        levelContainer.add(listViewContainer);
+        listView.setRenderBodyOnly(true);
+        levelContainer.add(listView);
         add(levelContainer);
-
     }
 
     private Panel getPanel(PanelDefinition panelDefinition) {

@@ -1,18 +1,40 @@
 <html xmlns:wicket>
 <wicket:panel>
-<div style="white-space: nowrap;">
-
-	<select class="form_text w_short" wicket:id="schemeChoice">
-		<option value="foo">bar</option>
-	</select>
-	<br/><br/><center>North: <input type="text" class="form_text w_box"
-						id="northField" wicket:id="northField" /></center>
-					<center>West: <input type="text" class="form_text w_box"
-						id="westField" wicket:id="westField" /> East: <input type="text"
-						class="form_text w_box" id="eastField" wicket:id="eastField" /></center>
-					<center>South: <input type="text" class="form_text w_box"
-						id="southField" wicket:id="southField" /></center>
-</div>	
+    <div class="form-group">
+        <select class="form-control input-sm" wicket:id="schemeChoice">
+            <option value="foo">bar</option>
+        </select>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 col-sm-offset-2">
+            <div class="input-group">
+                <label class="input-group-addon" for="northField">North</label>
+                <input type="text" class="form-control input-sm" id="northField" wicket:id="northField" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <div class="input-group">
+                <label class="input-group-addon" for="westField">West</label>
+                <input type="text" class="form-control input-sm" id="westField" wicket:id="westField" />
+            </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1">
+            <div class="input-group">
+                <label class="input-group-addon" for="eastField">East</label>
+                <input type="text" class="form-control input-sm" id="eastField" wicket:id="eastField" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3 col-sm-offset-2">
+            <div class="input-group">
+                <label class="input-group-addon" for="southField">South</label>
+                <input type="text" class="form-control input-sm" id="southField" wicket:id="southField" />
+            </div>
+        </div>
+    </div>
 
 </wicket:panel>
 </html>
