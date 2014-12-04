@@ -3,17 +3,19 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-12">
-            <span wicket:id="resultMessage" class="resultMessage">[resultMessage]</span>
-            <span><wicket:message key="searchsortpanel.by">[Sort by: ]</wicket:message></span>
-            <span wicket:id="sortPanel" class="btn-group btn-group-sm" role="group" aria-label="...">[sortPanel]</span>
+        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12" wicket:id="resultMessage">[resultMessage]</div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">
+            <wicket:message key="searchsortpanel.by">[Sort by: ]</wicket:message>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-9">
+            <select wicket:id="sortPanel" class="form-control input-sm">[sortPanel]</select>
         </div>
     </div>
     <div class="row">&nbsp;</div>
 
     <wicket:enclosure child="searchHits">
         <div class="row">
-            <ul class="list-group col-lg-8 col-md-7 col-sm-7 col-xs-12 search-hits">
+            <ul class="list-group search-hits col-lg-8 col-md-7 col-sm-7 col-xs-12">
                 <li wicket:id="searchHits" class="linked-list-group-item">
                     <span wicket:id="searchHit">[hit]</span>
                 </li>

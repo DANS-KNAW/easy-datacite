@@ -11,9 +11,9 @@ import nl.knaw.dans.common.wicket.components.search.SearchResources;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -35,33 +35,14 @@ public class SearchSortPanel extends BaseSearchPanel {
         add(new ListView<SortLinkConfig>("sortLinks", sortLinkConfigs) {
             private static final long serialVersionUID = 2247965825915057160L;
 
-            private int firstIndexVisible = -1;
-
             @Override
             protected void populateItem(final ListItem<SortLinkConfig> item) {
                 // sort link
                 SortLinkConfig config = item.getModelObject();
                 final SortFieldLink sortFieldLink = new SortFieldLink("sortLink", model, config);
                 item.add(sortFieldLink);
-
-                // separator
-                item.add(new Label("separator", new ResourceModel(SEARCHSORTPANEL_DEFAULT_SEPARATOR)) {
-                    private static final long serialVersionUID = 5014832630696320708L;
-
-                    public boolean isVisible() {
-                        return !isFirstVisible() && sortFieldLink.isVisible();
-                    }
-
-                    private boolean isFirstVisible() {
-                        if (sortFieldLink.isVisible() && (firstIndexVisible == item.getIndex() || firstIndexVisible < 0)) {
-                            firstIndexVisible = item.getIndex();
-                            return true;
-                        } else
-                            return false;
-                    };
-                });
             }
-        });
+        }.setRenderBodyOnly(true));
     }
 
     @Override
@@ -93,14 +74,6 @@ public class SearchSortPanel extends BaseSearchPanel {
             } else {
                 this.sortOrder = config.getInitialSortOrder();
             }
-            // if (isActiveSortField())
-            // {
-            // this.sortOrder = getActiveSortField().getValue();
-            // }
-            // else
-            // {
-            // this.sortOrder = SortOrder.DESC;
-            // }
 
             Label sortTextLabel;
             if (config.getSortType().equals(SortType.BY_RELEVANCE_SCORE)) {
@@ -110,20 +83,23 @@ public class SearchSortPanel extends BaseSearchPanel {
             }
             add(sortTextLabel);
 
-            add(new Image(ARROW_UP, new ResourceReference(SearchSortPanel.class, "arrow_up.gif")) {
+            add(new WebMarkupContainer(ARROW_UP) {
                 private static final long serialVersionUID = 755198480165223076L;
 
                 public boolean isVisible() {
                     return !sortOrder.equals(SortOrder.DESC) && isSelected();
                 }
             });
-            add(new Image(ARROW_DOWN, new ResourceReference(SearchSortPanel.class, "arrow_down.gif")) {
+            add(new WebMarkupContainer(ARROW_DOWN) {
                 private static final long serialVersionUID = -4206389009490588450L;
 
                 public boolean isVisible() {
                     return sortOrder.equals(SortOrder.DESC) && isSelected();
                 }
             });
+            if (isSelected()) {
+                add(new SimpleAttributeModifier("selected", "selected"));
+            }
         }
 
         @Override

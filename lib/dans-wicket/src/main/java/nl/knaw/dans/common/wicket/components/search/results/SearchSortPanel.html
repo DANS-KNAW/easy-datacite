@@ -1,13 +1,13 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-	<span wicket:id="sortLinks">
-		<span wicket:id="separator">|</span>
-		<a wicket:id="sortLink">
-			<span wicket:id="sortLinkText">[sortField.linkText]</span>
-			<img wicket:id="arrowDown" />
-			<img wicket:id="arrowUp" />
-		</a>
-	</span>
+    <wicket:container wicket:id="sortLinks">
+        <option wicket:id="sortLink">
+            <span wicket:id="sortLinkText">[sortField.linkText]</span>
+            <span wicket:id="arrowDown"><wicket:message key="sortLink.down"/></span>
+            <span wicket:id="arrowUp"><wicket:message key="sortLink.up"/></span>
+        </option>
+    </wicket:container>
+
 </wicket:panel>
 </html>
