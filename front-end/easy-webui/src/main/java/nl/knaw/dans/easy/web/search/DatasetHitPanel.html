@@ -1,35 +1,35 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-<div wicket:id="showDataset" class="searchHit">
+    <div wicket:id="showDataset" class="searchHit">
 
-<div class="searchHit-colmask">
-<div class="searchHit-columns">
-<div class="searchHit-col2">
-	<div wicket:id="title" class="searchhitTitle"><b>[title]</b></div>
-	<div wicket:id="creator">[creator]</div>
-	<div wicket:id="description">[description]</div>
-</div>
-<div class="searchHit-col3">
-	<wicket:enclosure child="accessrights">
-	<div>
-		<wicket:message key="fieldname.ds_accesscategory">Access</wicket:message>: <span wicket:id="accessrights">[accessrights]</span>
-	</div>
-	</wicket:enclosure>
-</div>
-</div>
-</div>
+        <div class="searchHit-colmask">
+            <div class="searchHit-columns">
+                <div class="searchHit-col2">
+                    <div wicket:id="title" class="searchhitTitle"><b>[title]</b></div>
+                    <div wicket:id="creator">[creator]</div>
+                    <div wicket:id="description">[description]</div>
+                </div>
+                <div class="searchHit-col3">
+                    <wicket:enclosure child="accessrights">
+                    <div>
+                        <wicket:message key="fieldname.ds_accesscategory">Access</wicket:message>: <span wicket:id="accessrights">[accessrights]</span>
+                    </div>
+                    </wicket:enclosure>
+                </div>
+            </div>
+        </div>
 
-<div class="searchHit-footer">
-	<wicket:enclosure child="relevance"><div><span wicket:id="relevance">[relevance]</span>% relevant</div></wicket:enclosure>
-	<div wicket:id="snippets" class="snippets">
-		<span wicket:id="snippetField" class="key">[snippet_field]</span>: <span wicket:id="snippet">[snippet]</span>
-	</div>
-</div>
+        <div class="searchHit-footer">
+            <wicket:enclosure child="relevance"><div><span wicket:id="relevance">[relevance]</span>% relevant</div></wicket:enclosure>
+            <div wicket:id="snippets" class="snippets">
+                <span wicket:id="snippetField" class="key">[snippet_field]</span>: <span wicket:id="snippet">[snippet]</span>
+            </div>
+        </div>
 
-<div style="clear: both"></div>
+        <div style="clear: both"></div>
 
-</div>
+    </div>
 
 </wicket:panel>
 </html>

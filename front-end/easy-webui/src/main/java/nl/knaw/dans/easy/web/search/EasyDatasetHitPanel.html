@@ -1,60 +1,67 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-<div wicket:id="showDataset" class="searchHit">
+    <div wicket:id="showDataset" class="searchHit">
 
+        <div class="searchHit-colmask">
+            <div class="searchHit-columns">
+                <div class="searchHit-col2">
+                    <div wicket:id="title" class="searchhitTitle"><b>[title]</b></div>
+                    <div wicket:id="creator">[creator]</div>
+                    <wicket:enclosure child="dateCreated">(<span wicket:id="dateCreated">[dateCreated]</span>)</wicket:enclosure>
+                </div>
+                <div class="searchHit-col3">
+                    <wicket:enclosure child="disciplines">
+                        <div><!--  <span wicket:id="audienceLabel">Audience</span>: <span wicket:id="disciplines"><span wicket:id="disciplineName">[discipline]</span><span wicket:id="disciplineSeparator"></span></span></div> -->
+                            <wicket:message key="fieldname.emd_audience">Audience</wicket:message>: <span wicket:id="disciplines"><span wicket:id="disciplineName">[discipline]</span><span wicket:id="disciplineSeparator"></span></span>
+                        </div>
+                    </wicket:enclosure>
+                    <wicket:enclosure child="accessrights">
+                        <div>
+                            <wicket:message key="fieldname.ds_accesscategory">Access</wicket:message>: <span wicket:id="accessrights">[accessrights]</span>
+                        </div>
+                    </wicket:enclosure>
+                    <wicket:enclosure child="dateAvailable">
+                        <div>
+                            (<wicket:message key="availableFrom">from</wicket:message> <span wicket:id="dateAvailable">[dateAvailable]</span>)
+                        </div>
+                    </wicket:enclosure>
+                    <wicket:enclosure child="dateSubmitted">
+                        <div>
+                            <wicket:message key="dateSubmitted.label">Date submitted</wicket:message>: <span wicket:id="dateSubmitted">[dateSubmitted]</span>
+                        </div>
+                    </wicket:enclosure>
+                </div>
+            </div>
+        </div>
 
+        <div class="searchHit-header">
+            <span wicket:id="status">[status]</span>
+            <wicket:enclosure>
+                <div>
+                    <wicket:message key="newRequests.label">New Requests</wicket:message>: <span wicket:id="newRequests">[1]</span>
+                </div>
+            </wicket:enclosure>
+            <wicket:enclosure child="permissionRequestStatus">
+                <wicket:message key="fieldname.psl_permission_status">Permission status</wicket:message>: 
+                <span wicket:id="permissionRequestStatus">[permission status]</span> 
+                <span wicket:id="permissionRequestDate">[status date]</span>
+            </wicket:enclosure>
+        </div>
+        <div class="searchHit-footer">
+            <wicket:enclosure child="relevance">
+                <div>
+                    <span wicket:id="relevance">[relevance]</span>% relevant
+                </div>
+            </wicket:enclosure>
+            <div wicket:id="snippets" class="snippets">
+                <span wicket:id="snippetField" class="key">[snippet_field]</span>: <span wicket:id="snippet">[snippet]</span>
+            </div>
+        </div>
 
-<div class="searchHit-colmask">
-<div class="searchHit-columns">
-<div class="searchHit-col2">
-	<div wicket:id="title" class="searchhitTitle"><b>[title]</b></div>
-	<div wicket:id="creator">[creator]</div>
-	<wicket:enclosure child="dateCreated">(<span wicket:id="dateCreated">[dateCreated]</span>)</wicket:enclosure>
-</div>
-<div class="searchHit-col3">
-	<wicket:enclosure child="disciplines">
-	<div><!--  <span wicket:id="audienceLabel">Audience</span>: <span wicket:id="disciplines"><span wicket:id="disciplineName">[discipline]</span><span wicket:id="disciplineSeparator"></span></span></div> -->
-	<wicket:message key="fieldname.emd_audience">Audience</wicket:message>: <span wicket:id="disciplines"><span wicket:id="disciplineName">[discipline]</span><span wicket:id="disciplineSeparator"></span></span></div>
-	</wicket:enclosure>
-	<wicket:enclosure child="accessrights">
-	<div>
-		<wicket:message key="fieldname.ds_accesscategory">Access</wicket:message>: <span wicket:id="accessrights">[accessrights]</span>
-	</div>
-	</wicket:enclosure>
-	<wicket:enclosure child="dateAvailable">
-	<div>
-		(<wicket:message key="availableFrom">from</wicket:message> <span wicket:id="dateAvailable">[dateAvailable]</span>)
-	</div>
-	</wicket:enclosure>
-	<wicket:enclosure child="dateSubmitted">
-	<div><wicket:message key="dateSubmitted.label">Date submitted</wicket:message>: <span wicket:id="dateSubmitted">[dateSubmitted]</span></div>
-	</wicket:enclosure>
-</div>
-</div>
-</div>
+        <div style="clear: both"></div>
 
-<div class="searchHit-header">
-	<span wicket:id="status">[status]</span>
-	<wicket:enclosure>
-		<div><wicket:message key="newRequests.label">New Requests</wicket:message>: <span wicket:id="newRequests">[1]</span></div>
-	</wicket:enclosure>
-	<wicket:enclosure child="permissionRequestStatus">
-		<wicket:message key="fieldname.psl_permission_status">Permission status</wicket:message>: 
-		<span wicket:id="permissionRequestStatus">[permission status]</span> 
-		<span wicket:id="permissionRequestDate">[status date]</span>
-	</wicket:enclosure>
-</div>
-<div class="searchHit-footer">
-	<wicket:enclosure child="relevance"><div><span wicket:id="relevance">[relevance]</span>% relevant</div></wicket:enclosure>
-	<div wicket:id="snippets" class="snippets">
-		<span wicket:id="snippetField" class="key">[snippet_field]</span>: <span wicket:id="snippet">[snippet]</span>
-	</div>
-</div>
-
-<div style="clear: both"></div>
-
-</div>
+    </div>
 
 </wicket:panel>
 </html>
