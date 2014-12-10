@@ -27,8 +27,6 @@ public class SearchCriteriaPanel extends BaseSearchPanel {
     private static final long serialVersionUID = 713695445090703764L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchCriteriaPanel.class);
 
-    private static final String DEFAULT_CRITERIUM_SEPARATOR = " | ";
-
     private boolean firstCriteriumDisabled;
 
     public SearchCriteriaPanel(String wicketId, SearchModel model) {
@@ -82,14 +80,9 @@ public class SearchCriteriaPanel extends BaseSearchPanel {
                 // Note: clicking the link removed all other criteria, it was decided not to have it 
                 // but I left it as a comment above!
                 // @formatter:on
-                item.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
 
-                item.add(new Link("removeLink") {
+                Link removeLink = new Link("removeLink") {
                     private static final long serialVersionUID = -1063707405830738778L;
-
-                    {
-                        add(new Image("closeImage", new ResourceReference(SearchCriteriaPanel.class, "close-icon.png")));
-                    }
 
                     public void onClick() {
                         getRequestBuilder().removeCriterium(criterium);
@@ -98,9 +91,9 @@ public class SearchCriteriaPanel extends BaseSearchPanel {
                     public boolean isVisible() {
                         return !(criterium instanceof InitialSearchCriterium);
                     };
-                });
-
-                item.add(new Label("criteriumSeparator", DEFAULT_CRITERIUM_SEPARATOR).setVisible(item.getIndex() + 1 < getCriteria().size()));
+                };
+                item.add(removeLink);
+                removeLink.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
             }
         });
     }
