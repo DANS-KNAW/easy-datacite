@@ -10,6 +10,7 @@ import nl.knaw.dans.common.lang.search.SortField;
 import nl.knaw.dans.common.lang.search.SortOrder;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
 import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
@@ -36,7 +37,8 @@ public class MyDatasetsSearchResultPage extends AbstractSearchResultPage {
 
     private void init() {
         setSorting(getSearchModel().getRequestBuilder());
-        add(new EasyEditablePanel("editablePanel", MY_DATASETS_SEARCH_RESULTS));
+        EasyEditablePanel editablePanel = new EasyEditablePanel("popupHTML", MY_DATASETS_SEARCH_RESULTS);
+        add(new HelpPopup("myDatasetsHelpPopup", "myDatasetsHelp", editablePanel));
     }
 
     @Override
