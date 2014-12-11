@@ -2,12 +2,8 @@
 <wicket:panel>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12" wicket:id="resultMessage">[resultMessage]</div>
-    </div>
-    <div class="row">&nbsp;</div>
-
     <wicket:enclosure child="searchHits">
+        <div class="extra-bottom-spacing"></div>
         <div class="row">
             <ul class="list-group search-hits col-lg-8 col-md-7 col-sm-7 col-xs-12">
                 <li wicket:id="searchHits" class="linked-list-group-item">
@@ -15,7 +11,7 @@
                 </li>
             </ul>
             <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
-                <div class="row extra-bottom-spacing" child="sortPanel">
+                <div class="row extra-bottom-spacing" wicket:enclosure="sortPanel">
                     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
                         <wicket:message key="searchsortpanel.by">[Sort by: ]</wicket:message>
                     </div>
@@ -49,11 +45,6 @@
             </div>
         </div>
     </wicket:enclosure>
-    <div class="row">
-        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
-            <div class="text-center" wicket:id="pageBrowsePanel">[pageBrowsePanel]</div>
-        </div>
-    </div>
 </div>
 
 <wicket:child />

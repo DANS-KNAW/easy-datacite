@@ -62,7 +62,7 @@ public class PublicSearchResultPageTest {
 
         tester.dumpPage();
         tester.assertRenderedPage(PublicSearchResultPage.class);
-        tester.assertLabel("searchResultPanel:resultMessage", "No results found");
+        tester.assertLabel("resultMessage", "No results found");
     }
 
     @Test
@@ -75,7 +75,7 @@ public class PublicSearchResultPageTest {
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, PublicSearchResultPage.class, parameters);
 
         tester.assertRenderedPage(PublicSearchResultPage.class);
-        tester.assertLabel("searchResultPanel:resultMessage", "No results found matching your criteria.");
+        tester.assertLabel("resultMessage", "No results found matching your criteria");
     }
 
     @Test
@@ -90,7 +90,7 @@ public class PublicSearchResultPageTest {
         tester.dumpPage();
 
         tester.assertRenderedPage(PublicSearchResultPage.class);
-        tester.assertLabelContains("searchResultPanel:resultMessage", "<b>1</b>");
+        tester.assertLabelContains("resultMessage", "1 <small>result</small>");
     }
 
     @Test
@@ -174,7 +174,7 @@ public class PublicSearchResultPageTest {
 
     private void assertFacet(final EasyWicketTester tester) {
         tester.assertRenderedPage(PublicSearchResultPage.class);
-        tester.assertLabelContains("searchResultPanel:resultMessage", "<b>2</b>");
+        tester.assertLabelContains("resultMessage", "2 <small>results</small>");
         final String hitsPath = "searchResultPanel:searchHits:";
         tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open (registered users)");
         tester.assertLabel(FACET_VALUE_LINK + ":facetCount", "2");

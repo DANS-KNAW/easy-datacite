@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.search;
 
+import nl.knaw.dans.common.wicket.components.UnescapedLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel;
@@ -12,6 +13,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.model.IModel;
 
 public abstract class EasySearchResultPanel extends SearchResultPanel {
     private static final long serialVersionUID = 8067439489635623029L;
@@ -31,6 +33,7 @@ public abstract class EasySearchResultPanel extends SearchResultPanel {
     }
 
     private void init() {
+
         if (showTips) {
             WebMarkupContainer searchTips = new WebMarkupContainer("searchTips") {
                 private static final long serialVersionUID = 1234523335L;

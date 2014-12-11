@@ -3,14 +3,7 @@ package nl.knaw.dans.common.wicket.components.search.results;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.search.SearchHit;
-import nl.knaw.dans.common.lang.search.SearchRequest;
-import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.wicket.WicketUtil;
-import nl.knaw.dans.common.wicket.components.UnescapedLabel;
-import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowseData;
-import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowseLinkListener;
-import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowsePanel;
-import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowsePanel.PageBrowseLink;
 import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
 import nl.knaw.dans.common.wicket.components.search.SearchBar;
 import nl.knaw.dans.common.wicket.components.search.SearchPanel;
@@ -25,16 +18,13 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,11 +48,7 @@ public abstract class SearchResultPanel extends SearchPanel {
     private static final long serialVersionUID = 2958372083781711450L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchResultPanel.class);
 
-    private static final String PAGEBROWSE_PANEL = "pageBrowsePanel";
-
     private SearchResultConfig config;
-
-    private PageBrowsePanel pageBrowsePanel;
 
     /**
      * Initialize the search result panel with an empty search model.
@@ -113,9 +99,6 @@ public abstract class SearchResultPanel extends SearchPanel {
 
         // sort fields
         add(new SearchSortPanel("sortPanel", getSearchModel(), getConfig().getSortLinks()));
-
-        // result message (needs to come after page browse panel)
-        add(new UnescapedLabel("resultMessage", getResultMessageModel()));
 
         // search hits
         AbstractReadOnlyModel searchHitsReadOnlyModel = createSearchHitsReadOnlyModel();
@@ -172,26 +155,6 @@ public abstract class SearchResultPanel extends SearchPanel {
         } else {
             WicketUtil.hide(refineFacets, "browseMore");
         }
-
-        // page browse panel
-        PageBrowseData pbData = new PageBrowseData(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
-        pageBrowsePanel = new PageBrowsePanel(PAGEBROWSE_PANEL, new Model<PageBrowseData>(pbData) {
-            private static final long serialVersionUID = 1943406023315332637L;
-
-            @Override
-            public PageBrowseData getObject() {
-                PageBrowseData pbData = super.getObject();
-                pbData.init(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
-                return pbData;
-            }
-        }, new PageBrowseLinkListener() {
-            private static final long serialVersionUID = 5814085953388070471L;
-
-            public void onClick(PageBrowseLink plink) {
-                getRequestBuilder().setOffset(plink.getTargetItemStart() - 1);
-            }
-        });
-        add(pageBrowsePanel);
     }
 
     private AbstractReadOnlyModel<List> createSearchHitsReadOnlyModel() {
@@ -275,45 +238,6 @@ public abstract class SearchResultPanel extends SearchPanel {
             @Override
             public boolean isVisible() {
                 return getConfig().showAdvancedSearch();
-            }
-        };
-    }
-
-    public IModel<String> getResultMessageModel() {
-        return new AbstractReadOnlyModel<String>() {
-            private static final long serialVersionUID = -3354392109873495635L;
-
-            @Override
-            public String getObject() {
-                final SearchRequest request = getSearchRequest();
-                final SearchResult<?> result = getSearchResult();
-
-                String queryString = request.getQuery().getQueryString();
-                if (!StringUtils.isBlank(queryString)) {
-                    if (result.getTotalHits() == 1) {
-                        return new StringResourceModel(RI_RESULTMESSAGE_1, SearchResultPanel.this, null, new Object[] {queryString}).getObject();
-                    } else if (result.getTotalHits() > 1 && result.getTotalHits() <= request.getLimit()) {
-                        return new StringResourceModel(RI_RESULTMESSAGE_1PAGE, SearchResultPanel.this, null, new Object[] {result.getTotalHits(), queryString})
-                                .getObject();
-                    } else if (result.getTotalHits() > 1) {
-                        return new StringResourceModel(RI_RESULTMESSAGE, SearchResultPanel.this, null, new Object[] {request.getOffset() + 1,
-                                Math.min(request.getOffset() + request.getLimit(), result.getTotalHits()), result.getTotalHits(), queryString}).getObject();
-                    } else {
-                        return new StringResourceModel(RI_NO_RESULTS, SearchResultPanel.this, null, new Object[] {queryString}).getObject();
-                    }
-                } else {
-                    if (result.getTotalHits() == 1) {
-                        return new StringResourceModel(RI_RESULTMESSAGE_1_NIENTE, SearchResultPanel.this, null).getObject();
-                    } else if (result.getTotalHits() > 1 && pageBrowsePanel.getCurrentPage() == pageBrowsePanel.getLastPage()) {
-                        return new StringResourceModel(RI_RESULTMESSAGE_1PAGE_NIENTE, SearchResultPanel.this, null, new Object[] {result.getTotalHits()})
-                                .getObject();
-                    } else if (result.getTotalHits() > 1) {
-                        return new StringResourceModel(RI_RESULTMESSAGE_NIENTE, SearchResultPanel.this, null, new Object[] {request.getOffset() + 1,
-                                Math.min(request.getOffset() + request.getLimit(), result.getTotalHits()), result.getTotalHits()}).getObject();
-                    } else {
-                        return new StringResourceModel(RI_NO_RESULTS_NIENTE, SearchResultPanel.this, null).getObject();
-                    }
-                }
             }
         };
     }

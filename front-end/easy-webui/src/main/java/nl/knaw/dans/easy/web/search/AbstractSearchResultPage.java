@@ -12,6 +12,11 @@ import nl.knaw.dans.common.lang.search.SortType;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchRequest;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.components.UnescapedLabel;
+import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowseData;
+import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowseLinkListener;
+import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowsePanel;
+import nl.knaw.dans.common.wicket.components.pagebrowse.PageBrowsePanel.PageBrowseLink;
 import nl.knaw.dans.common.wicket.components.search.FieldNameResourceTranslator;
 import nl.knaw.dans.common.wicket.components.search.FieldValueResourceTranslator;
 import nl.knaw.dans.common.wicket.components.search.SearchBar;
@@ -34,13 +39,13 @@ import nl.knaw.dans.easy.web.search.custom.RecursiveListTranslator;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListValueCollapser;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
 import nl.knaw.dans.easy.web.search.pages.BrowsePage;
-import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,6 +85,18 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     private static final long serialVersionUID = 8501036308620025068L;
 
     private static final String SEARCHRESULT_PANEL = "searchResultPanel";
+    private static final String PAGEBROWSE_PANEL = "pageBrowsePanel";
+
+    String RI_RESULTMESSAGE_1_NIENTE = "searchresult.resultMessage1_niente";
+    String RI_RESULTMESSAGE_1 = "searchresult.resultMessage1";
+    String RI_RESULTMESSAGE_1PAGE = "searchresult.resultMessage1page";
+    String RI_RESULTMESSAGE = "searchresult.resultMessage";
+    String RI_NO_RESULTS = "searchresult.no_results";
+    String RI_RESULTMESSAGE_1PAGE_NIENTE = "searchresult.resultMessage1page_niente";
+    String RI_NO_RESULTS_NIENTE = "searchresult.no_results_niente";
+    String RI_RESULTMESSAGE_NIENTE = "searchresult.resultMessage_niente";
+
+    private PageBrowsePanel pageBrowsePanel;
 
     public AbstractSearchResultPage(boolean needAuthentication) {
         super();
@@ -104,7 +121,9 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     }
 
     protected void init(final String searchText) {
-        add(new Label("headerLabel", getInitialCriteriumText()));
+        add(new UnescapedLabel("resultMessage", getResultMessageModel()));
+
+        add(new UnescapedLabel("initialCriteriumText", getInitialCriteriumText()));
 
         if (getSearchModel() == null) {
             SearchCriterium criterium;
@@ -143,6 +162,26 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
             }
         };
         add(panel);
+
+        // page browse panel
+        PageBrowseData pbData = new PageBrowseData(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
+        pageBrowsePanel = new PageBrowsePanel(PAGEBROWSE_PANEL, new Model<PageBrowseData>(pbData) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public PageBrowseData getObject() {
+                PageBrowseData pbData = super.getObject();
+                pbData.init(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
+                return pbData;
+            }
+        }, new PageBrowseLinkListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void onClick(PageBrowseLink plink) {
+                getRequestBuilder().setOffset(plink.getTargetItemStart() - 1);
+            }
+        });
+        add(pageBrowsePanel);
     }
 
     protected SearchResultConfig getSearchResultConfig() {
@@ -225,6 +264,57 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
 
     protected void setSorting(SearchRequestBuilder builder) {
         builder.setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_DRAFT_SAVED_FIELD, SortOrder.DESC));
+    }
+
+    public IModel<String> getResultMessageModel() {
+        return new AbstractReadOnlyModel<String>() {
+            private static final long serialVersionUID = -3354392109873495635L;
+
+            @Override
+            public String getObject() {
+                final SearchRequest request = getSearchRequest();
+                final SearchResult<?> result = getSearchResult();
+
+                String queryString = request.getQuery().getQueryString();
+                if (!StringUtils.isBlank(queryString)) {
+                    if (result.getTotalHits() == 1) {
+                        return new StringResourceModel(RI_RESULTMESSAGE_1, AbstractSearchResultPage.this, null, new Object[] {queryString}).getObject();
+                    } else if (result.getTotalHits() > 1 && result.getTotalHits() <= request.getLimit()) {
+                        return new StringResourceModel(RI_RESULTMESSAGE_1PAGE, AbstractSearchResultPage.this, null, new Object[] {result.getTotalHits(),
+                                queryString}).getObject();
+                    } else if (result.getTotalHits() > 1) {
+                        return new StringResourceModel(RI_RESULTMESSAGE, AbstractSearchResultPage.this, null, new Object[] {request.getOffset() + 1,
+                                Math.min(request.getOffset() + request.getLimit(), result.getTotalHits()), result.getTotalHits(), queryString}).getObject();
+                    } else {
+                        return new StringResourceModel(RI_NO_RESULTS, AbstractSearchResultPage.this, null, new Object[] {queryString}).getObject();
+                    }
+                } else {
+                    if (result.getTotalHits() == 1) {
+                        return new StringResourceModel(RI_RESULTMESSAGE_1_NIENTE, AbstractSearchResultPage.this, null).getObject();
+                    } else if (result.getTotalHits() > 1 && pageBrowsePanel.getCurrentPage() == pageBrowsePanel.getLastPage()) {
+                        return new StringResourceModel(RI_RESULTMESSAGE_1PAGE_NIENTE, AbstractSearchResultPage.this, null, new Object[] {result.getTotalHits()})
+                                .getObject();
+                    } else if (result.getTotalHits() > 1) {
+                        return new StringResourceModel(RI_RESULTMESSAGE_NIENTE, AbstractSearchResultPage.this, null, new Object[] {request.getOffset() + 1,
+                                Math.min(request.getOffset() + request.getLimit(), result.getTotalHits()), result.getTotalHits()}).getObject();
+                    } else {
+                        return new StringResourceModel(RI_NO_RESULTS_NIENTE, AbstractSearchResultPage.this, null).getObject();
+                    }
+                }
+            }
+        };
+    }
+
+    protected SearchResult<?> getSearchResult() {
+        return getSearchData().getResult();
+    }
+
+    protected SearchRequest getSearchRequest() {
+        return getRequestBuilder().getRequest();
+    }
+
+    protected SearchRequestBuilder getRequestBuilder() {
+        return getSearchData().getRequestBuilder();
     }
 
 }

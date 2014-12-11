@@ -62,6 +62,10 @@ ul.list-group li.linked-list-group-item {
 	padding-bottom: 15px;
 }
 /* SEARCH RESULTS */
+h1.search-results-heading small {
+    color: white;
+    font-size: 1em;
+}
 .list-group.search-hits .list-group-item {
     border: 0;
     border-radius: 0;

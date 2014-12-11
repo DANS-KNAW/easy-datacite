@@ -8,9 +8,22 @@
     lang="en">
     <body>
         <wicket:extend>
-            <h1 wicket:id="headerLabel">[header]</h1>
+            <h1 class="search-results-heading">
+                <span wicket:id="resultMessage" />
+                <wicket:enclosure child="initialCriteriumText">
+                    <small>in</small>
+                    <span wicket:id="initialCriteriumText" />
+                </wicket:enclosure>
+            </h1>
             <wicket:child/>
             <div wicket:id="searchResultPanel">[searchResultPanel]</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                        <div class="text-center" wicket:id="pageBrowsePanel">[pageBrowsePanel]</div>
+                    </div>
+                </div>
+            </div>
         </wicket:extend>
     </body>
 </html>
