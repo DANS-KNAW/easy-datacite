@@ -104,7 +104,6 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     }
 
     protected void init(final String searchText) {
-        add(Style.SEARCH_HEADER_CONTRIBUTION);
         add(new Label("headerLabel", getInitialCriteriumText()));
 
         if (getSearchModel() == null) {

@@ -53,7 +53,6 @@ public class BrowsePage extends AbstractSearchPage {
     }
 
     private void init() {
-        add(Style.SEARCH_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
         add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig()) {

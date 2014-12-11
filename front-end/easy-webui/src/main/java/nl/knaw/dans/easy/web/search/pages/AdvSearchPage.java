@@ -86,8 +86,6 @@ public class AdvSearchPage extends AbstractSearchPage {
     }
 
     private void init() {
-        add(Style.SEARCH_HEADER_CONTRIBUTION);
-        add(Style.ADVANCED_SEARCH_HEADER_CONTRIBUTION);
         add(Style.USER_SELECTOR_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
