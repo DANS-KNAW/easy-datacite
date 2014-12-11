@@ -154,11 +154,11 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
             }
         };
 
-        return new FeedbackPanel("panelFeedback", messageFilter){
+        return new FeedbackPanel("panelFeedback", messageFilter) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean isVisible(){
+            public boolean isVisible() {
                 return anyMessage();
             }
         };

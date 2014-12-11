@@ -481,7 +481,7 @@ public class DepositPanel extends AbstractDatasetModelPanel {
             init();
         }
 
-        private void init(){
+        private void init() {
             add(createNextLink(NEXT, depoForm));
             add(createPreviousLink(PREVIOUS, depoForm));
         }

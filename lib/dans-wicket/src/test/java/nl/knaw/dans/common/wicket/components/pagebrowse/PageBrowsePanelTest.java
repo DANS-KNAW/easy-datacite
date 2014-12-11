@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.tester.WicketTester;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class PageBrowsePanelTest {
     @Test
     public void computeLinks() {

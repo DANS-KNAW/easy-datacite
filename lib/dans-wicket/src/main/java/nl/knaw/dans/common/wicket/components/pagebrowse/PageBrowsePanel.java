@@ -201,8 +201,8 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
             }
         }
 
-        /* Get rid of <em> tags surrounding a disabled link
-         * Note that this should probably set application wide
+        /*
+         * Get rid of <em> tags surrounding a disabled link Note that this should probably set application wide
          * @see org.apache.wicket.markup.html.link.AbstractLink#onBeforeRender()
          * @see org.apache.wicket.markup.html.link.AbstractLink#getAfterDisabledLink()
          * @see org.apache.wicket.markup.html.link.AbstractLink#getBeforeDisabledLink()
@@ -211,14 +211,15 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData> {
          * @see org.apache.wicket.settings.Settings
          */
         @Override
-        public String getBeforeDisabledLink(){
+        public String getBeforeDisabledLink() {
             return "";
         }
 
         @Override
-        public String getAfterDisabledLink(){
+        public String getAfterDisabledLink() {
             return "";
         }
+
         /* ************************************************ */
 
         String printLink() {
