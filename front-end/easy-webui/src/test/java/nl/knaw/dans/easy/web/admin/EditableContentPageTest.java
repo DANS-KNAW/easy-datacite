@@ -157,7 +157,7 @@ public class EditableContentPageTest {
         EasyMock.expect(applicationContext.getSearchService().searchMyDataset(isA(SearchRequest.class), isA(EasyUser.class))).andStubReturn(null);
         startPage(MyDatasetsSearchResultPage.class);
         tester.dumpPage();
-        doClicks("editablePanel");
+        doClicks("myDatasetsHelpPopup:popupModal:popupHTML");
         assertSavedContent("pages/MyDatasetsSearchResult.template");
         tester.dumpPage("edit");
     }

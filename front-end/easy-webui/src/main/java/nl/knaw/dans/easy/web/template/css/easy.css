@@ -58,6 +58,9 @@ ul.feedbackPanel {
 ul.list-group li.linked-list-group-item {
     list-style-type: none;
 }
+.extra-bottom-spacing {
+	padding-bottom: 15px;
+}
 /* SEARCH RESULTS */
 .list-group.search-hits .list-group-item {
     border: 0;
