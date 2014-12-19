@@ -66,6 +66,16 @@ h1.search-results-heading small {
     color: white;
     font-size: 1em;
 }
+h1.search-results-heading a i {
+    color: white;
+    font-size: 1em;
+}
+h1.search-results-heading .modal {
+    color: black;
+    font-size: 0.75em;
+    font-weight: normal;
+    line-height: 1.125em;
+}
 .list-group.search-hits .list-group-item {
     border: 0;
     border-radius: 0;
