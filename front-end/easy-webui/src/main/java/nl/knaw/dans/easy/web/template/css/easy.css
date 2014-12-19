@@ -79,7 +79,7 @@ h1.search-results-heading .modal {
 .list-group.search-hits .list-group-item {
     border: 0;
     border-radius: 0;
-    padding: 0;
+    padding: 5px 0;
 }
 .list-group.search-hits .linked-list-group-item:first-child {
     border-top: 1px solid #d5e1e6;
@@ -92,28 +92,39 @@ h1.search-results-heading .modal {
     font-size: 1.25em;
     color: black;
 }
-.list-group.search-hits .list-group-item h2 i {
-    color: #2a9dd3;
+.list-group.search-hits .list-group-item h2 i.fa {
+  color: #248BB8;
 }
-.list-group.search-hits .linked-list-group-item .list-group-item:hover h2 {
-	color: #dd291e;
+.list-group.search-hits .linked-list-group-item .list-group-item:hover h2, .list-group.search-hits .linked-list-group-item .list-group-item:hover i {
+  color: #DD291E;
 }
-.list-group.search-hits .linked-list-group-item .list-group-item:hover h2 i {
-	color: #dd291e;
+.list-group.search-hits dl dt {
+  color: #949294;
+  font-weight: normal;
+  text-align: left;
+  width: 80px;
 }
-.search-hits dl dt {
-    color: #949294;
-    font-weight: normal;
-    text-align: left;
-    width: 80px;
+.list-group.search-hits dl dt:after {
+  content: ":";
 }
-.search-hits dl dd {
-    width: auto;
-    margin-left: 80px;
+.list-group.search-hits dl dd {
+  width: auto;
+  margin-left: 80px;
 }
-.search-hits dl dt:after {
-    content: ":";
+.list-group.search-hits em {
+  background: #fcf8e3;
+  font-style: normal;
 }
+ul.search-criteria li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.panel.panel-default ul.search-criteria li a:hover {
+  /* Unfortunately the !important attributes are necessary to override old CSS. */
+  text-decoration: line-through !important;
+  color: #DD291E !important;
+}
+
 /******************/
 /* BOOTSTRAP PANEL CONFLICTS WITH EASY.CSS PANEL */
 div.panel.panel-default {
