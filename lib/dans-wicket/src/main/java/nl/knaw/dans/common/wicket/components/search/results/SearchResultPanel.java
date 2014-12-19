@@ -151,24 +151,12 @@ public abstract class SearchResultPanel extends SearchPanel {
             }
         });
 
-        // search refinement panel
-        add(new SearchBar("refineSearchPanel") {
-            private static final long serialVersionUID = -5980195347064339476L;
+        add(createHelpPopup("refineHelpPopup"));
 
-            @Override
-            public void onSearch(String searchText) {
-                SearchResultPanel.this.getRequestBuilder().addCriterium(
-                        new TextSearchCriterium(searchText, new Model<String>(CriteriumLabel.createFilterText(
-                                SearchResultPanel.this.getString(SEARCHRESULTPANEL_CRITERIUMTEXT_REFINE_SEARCH), searchText))));
-            }
-
-            @Override
-            public boolean isVisible() {
-                return SearchResultPanel.this.getSearchResult().getHits().size() > 1;
-            }
-        });
-
-        add(new HelpPopup("refineHelpPopup", "Refine", getRefineHelpContent()));
+        WebMarkupContainer refineSearchContainer = createRefineSearchContainer("refineSearchContainer");
+        add(refineSearchContainer);
+        refineSearchContainer.add(createSearchBar("refineSearchPanel"));
+        refineSearchContainer.add(createAdvancedSearch("advancedSearch"));
 
         /**
          * I had to make this enclosure by hand, because putting a wicket:enclosure in a wicket:enclosure caused a nasty bug when using the setResponsePage to
@@ -188,7 +176,6 @@ public abstract class SearchResultPanel extends SearchPanel {
         };
         add(refineFacets);
 
-        // refinement facets
         final FacetStrategy facetStrategy = getConfig().getFacetStrategy();
         refineFacets.add(new ListView<FacetConfig>("refineFacets", getConfig().getRefineFacets()) {
             private static final long serialVersionUID = 7406250758535500272L;
@@ -233,20 +220,56 @@ public abstract class SearchResultPanel extends SearchPanel {
             }
         });
         add(pageBrowsePanel);
+    }
 
-        // advanced search
-        if (getConfig().showAdvancedSearch()) {
-            add(new Link("advancedSearch") {
-                private static final long serialVersionUID = -1905413983732583324L;
+    private SearchBar createSearchBar(String id) {
+        return new SearchBar(id) {
+            private static final long serialVersionUID = -5980195347064339476L;
 
-                @Override
-                public void onClick() {
-                    onAdvancedSearchClicked(getSearchModel());
-                }
-            });
-        } else {
-            hide("advancedSearch");
-        }
+            @Override
+            public void onSearch(String searchText) {
+                SearchResultPanel.this.getRequestBuilder().addCriterium(
+                        new TextSearchCriterium(searchText, new Model<String>(CriteriumLabel.createFilterText(
+                                SearchResultPanel.this.getString(SEARCHRESULTPANEL_CRITERIUMTEXT_REFINE_SEARCH), searchText))));
+            }
+
+            @Override
+            public boolean isVisible() {
+                return SearchResultPanel.this.getSearchResult().getHits().size() > 1;
+            }
+        };
+    }
+
+    private WebMarkupContainer createRefineSearchContainer(String id) {
+        return new WebMarkupContainer(id){
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isVisible() {
+                return SearchResultPanel.this.getSearchResult().getHits().size() > 1;
+            }
+        };
+    }
+
+    private HelpPopup createHelpPopup(String id) {
+        return new HelpPopup(id, "Refine", getRefineHelpContent());
+    }
+
+    @SuppressWarnings("rawtypes")
+    private Link createAdvancedSearch(String id) {
+        return new Link(id) {
+            private static final long serialVersionUID = -1905413983732583324L;
+
+            @Override
+            public void onClick() {
+                onAdvancedSearchClicked(getSearchModel());
+            }
+
+            @Override
+            public boolean isVisible(){
+                return getConfig().showAdvancedSearch();
+            }
+        };
     }
 
     public IModel<String> getResultMessageModel() {
