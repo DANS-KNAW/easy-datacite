@@ -10,14 +10,15 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-xs-push-0 col-sm-8 col-sm-push-2 col-md-6 col-md-push-2">
-            <button href="#" wicket:id="save" class="btn btn-primary">
+            <button href="#" wicket:id="save" class="btn btn-primary" accesskey="s">
                 <span wicket:id="saveLabel"></span>
             </button>
-            <button href="#" wicket:id="next" class="btn btn-success">
+            <!-- Next and submit have the same access key because they are never visible at the same time. -->
+            <button href="#" wicket:id="next" class="btn btn-success" accesskey="n">
                 <wicket:message key="button.next">next</wicket:message>
                 <span aria-hidden="true"> &rsaquo;&rsaquo;&rsaquo;</span>
             </button>
-            <button href="#" wicket:id="submit" class="btn btn-success">
+            <button href="#" wicket:id="submit" class="btn btn-success" accesskey="n">
                 <wicket:message key="button.submit">submit</wicket:message>
             </button>
         </div>

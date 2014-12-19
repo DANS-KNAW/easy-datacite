@@ -46,7 +46,7 @@ public abstract class AbstractDatasetLink<T> extends Link<T> {
             for (int i = 0; i < c.size(); i++) {
                 result += c.get(i);
                 if (i + 1 < c.size())
-                    result += ", ";
+                    result += "; ";
             }
         }
 
