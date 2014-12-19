@@ -122,9 +122,6 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel {
 
             // -------- column 3
             final List<String> audienceList = datasetHit.getAudience();
-            // requirements say that 'audience' can be plural. mierenneukerij dus.
-            String emdAudience = audienceList == null || audienceList.size() <= 1 ? "fieldname.emd_audience" : "fieldname.emd_audiences";
-            add(new Label("audienceLabel", new ResourceModel(emdAudience)));
 
             add(new ListView<String>("disciplines", audienceList) {
                 private static final long serialVersionUID = 1540669253501482128L;

@@ -118,17 +118,10 @@ public abstract class SearchResultPanel extends SearchPanel {
         add(new UnescapedLabel("resultMessage", getResultMessageModel()));
 
         // search hits
-        AbstractReadOnlyModel temp = new AbstractReadOnlyModel<List>() {
-            private static final long serialVersionUID = -8467661423061481825L;
-
-            @Override
-            public List getObject() {
-                return getSearchResult().getHits();
-            }
-        };
-        ListView<Panel> searchHits = createSearchHits("searchHits", temp);
-        searchHits.setRenderBodyOnly(true);
-        add(searchHits);
+        AbstractReadOnlyModel searchHitsReadOnlyModel = createSearchHitsReadOnlyModel();
+        ListView<Panel> searchHitsList = createSearchHitsList("searchHits", searchHitsReadOnlyModel);
+        searchHitsList.setRenderBodyOnly(true);
+        add(searchHitsList);
 
         add(createHelpPopup("refineHelpPopup"));
 
@@ -201,8 +194,19 @@ public abstract class SearchResultPanel extends SearchPanel {
         add(pageBrowsePanel);
     }
 
-    private ListView<Panel> createSearchHits(String id, AbstractReadOnlyModel temp) {
-        return new ListView<Panel>(id, temp){
+    private AbstractReadOnlyModel<List> createSearchHitsReadOnlyModel() {
+        return new AbstractReadOnlyModel<List>() {
+            private static final long serialVersionUID = -8467661423061481825L;
+
+            @Override
+            public List getObject() {
+                return getSearchResult().getHits();
+            }
+        };
+    }
+
+    private ListView<Panel> createSearchHitsList(String id, AbstractReadOnlyModel searchHits) {
+        return new ListView<Panel>(id, searchHits) {
             private static final long serialVersionUID = -6597598635055541684L;
 
             @Override
@@ -244,7 +248,7 @@ public abstract class SearchResultPanel extends SearchPanel {
     }
 
     private WebMarkupContainer createRefineSearchContainer(String id) {
-        return new WebMarkupContainer(id){
+        return new WebMarkupContainer(id) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -269,7 +273,7 @@ public abstract class SearchResultPanel extends SearchPanel {
             }
 
             @Override
-            public boolean isVisible(){
+            public boolean isVisible() {
                 return getConfig().showAdvancedSearch();
             }
         };

@@ -58,6 +58,46 @@ ul.feedbackPanel {
 ul.list-group li.linked-list-group-item {
     list-style-type: none;
 }
+/* SEARCH RESULTS */
+.list-group.search-hits .list-group-item {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+}
+.list-group.search-hits .linked-list-group-item:first-child {
+    border-top: 1px solid #d5e1e6;
+}
+.list-group.search-hits .linked-list-group-item {
+    border-bottom: 1px solid #d5e1e6;
+}
+.list-group.search-hits .list-group-item h2 {
+    font-weight: normal;
+    font-size: 1.25em;
+    color: black;
+}
+.list-group.search-hits .list-group-item h2 i {
+    color: #2a9dd3;
+}
+.list-group.search-hits .linked-list-group-item .list-group-item:hover h2 {
+	color: #dd291e;
+}
+.list-group.search-hits .linked-list-group-item .list-group-item:hover h2 i {
+	color: #dd291e;
+}
+.search-hits dl dt {
+    color: #949294;
+    font-weight: normal;
+    text-align: left;
+    width: 80px;
+}
+.search-hits dl dd {
+    width: auto;
+    margin-left: 80px;
+}
+.search-hits dl dt:after {
+    content: ":";
+}
+/******************/
 /* BOOTSTRAP PANEL CONFLICTS WITH EASY.CSS PANEL */
 div.panel.panel-default {
 	padding: 0;
@@ -146,7 +186,7 @@ a {
 }
 
 a:hover {
-	text-decoration: underline!important;
+	text-decoration: underline;
 	color: #156083; /* easy blauw donkerder */
 }
 
@@ -170,7 +210,7 @@ span.uri {
 	color: #156083;
 }
 
-p, ul, ol, dl, pre, fieldset, blockquote  {
+p, dl, pre, fieldset, blockquote  {
 	margin-bottom: 1em;
 	margin-left: 0;
 	margin-right: 0;
@@ -1086,9 +1126,14 @@ input#searchString {
 	font-family: Verdana, Geneva, sans-serif;	
 	font-size: 10px!important;
 }
-		
+
 .refineSearchPanel.panel a.button {
 	text-decoration: none!important;
+}
+
+#bodyContent div p {
+	line-height: 16px;
+	font-size: 110%;
 }
 
 .personal_bar span { /* CUSTOM */
