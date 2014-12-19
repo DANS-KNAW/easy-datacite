@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean name="easyStore" class="nl.knaw.dans.easy.fedora.store.EasyFedoraStore">
+	<bean name="easyStore" class="nl.knaw.dans.common.fedora.store.EasyFedoraStore">
 		<constructor-arg index="0" value="${easy.store.name}" />
 		<constructor-arg index="1" ref="fedora" />
 		<property name="eventListeners">

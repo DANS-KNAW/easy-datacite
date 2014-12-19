@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.fedora.db;
 
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.DbUtil;
-import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.FileItem;
@@ -13,8 +12,6 @@ import org.hibernate.Session;
 
 public class FedoraFileStoreManager {
 
-    private ThreadLocalSessionFactory sessionFactory = ThreadLocalSessionFactory.instance();
-
     public FedoraFileStoreManager() throws StoreAccessException {
         if (!DbUtil.hasLocalConfig()) {
             throw new StoreAccessException("No local configuration set on " + DbUtil.class.getName());
@@ -22,7 +19,7 @@ public class FedoraFileStoreManager {
     }
 
     public void onIngestFileItem(FileItem fileItem) throws StoreAccessException {
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             FileItemVO fivo = new FileItemVO(fileItem);
@@ -35,13 +32,13 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While inserting metadata on FileItem " + fileItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
     }
 
     public FileItemVO onUpdateFileItem(FileItem fileItem) throws StoreAccessException {
         FileItemVO fivo;
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
@@ -55,7 +52,7 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While updating metadata on FileItem " + fileItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
         return fivo;
     }
@@ -75,7 +72,7 @@ public class FedoraFileStoreManager {
     }
 
     public void onPurgeFileItem(FileItem fileItem) throws StoreAccessException {
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             FileItemVO fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
@@ -88,12 +85,12 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While purging metadata on FileItem " + fileItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
     }
 
     public void onIngestFolderItem(FolderItem folderItem) throws StoreAccessException {
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             FolderItemVO fovo = new FolderItemVO(folderItem);
@@ -106,12 +103,12 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While inserting metadata on FolderItem " + folderItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
     }
 
     public FolderItemVO onUpdateFolderItem(FolderItem folderItem) throws StoreAccessException {
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         FolderItemVO fovo;
         try {
             session.beginTransaction();
@@ -126,13 +123,13 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While updating metadata on FolderItem " + folderItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
         return fovo;
     }
 
     public void onPurgeFolderItem(FolderItem folderItem) throws StoreAccessException {
-        Session session = sessionFactory.openSession();
+        Session session = DbUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             FolderItemVO fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
@@ -145,7 +142,7 @@ public class FedoraFileStoreManager {
             throw new StoreAccessException("While purging metadata on FolderItem " + folderItem, e);
         }
         finally {
-            sessionFactory.closeSession();
+            DbUtil.getSessionFactory().getCurrentSession().close();
         }
     }
 

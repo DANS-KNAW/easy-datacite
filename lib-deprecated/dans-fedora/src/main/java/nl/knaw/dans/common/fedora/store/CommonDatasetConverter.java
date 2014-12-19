@@ -1,8 +1,7 @@
-package nl.knaw.dans.easy.fedora.store;
+package nl.knaw.dans.common.fedora.store;
 
 import nl.knaw.dans.common.fedora.fox.DatastreamVersion;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
-import nl.knaw.dans.common.fedora.store.AbstractDobConverter;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;

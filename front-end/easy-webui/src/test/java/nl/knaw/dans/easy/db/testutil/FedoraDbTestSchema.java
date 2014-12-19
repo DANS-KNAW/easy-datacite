@@ -6,7 +6,6 @@ import nl.knaw.dans.easy.db.DbUtil;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.HSQLDialect;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 public class FedoraDbTestSchema {
 

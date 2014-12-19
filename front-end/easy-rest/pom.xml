@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>dans-fedora</artifactId>
+        </dependency>        
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>dans-solr</artifactId>
             <exclusions>
                 <exclusion>

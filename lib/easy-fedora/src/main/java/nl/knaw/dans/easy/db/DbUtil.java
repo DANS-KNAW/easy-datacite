@@ -1,14 +1,9 @@
 package nl.knaw.dans.easy.db;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import nl.knaw.dans.common.lang.ResourceLocator;
-import nl.knaw.dans.easy.db.exceptions.CouldNotConnectToDatabaseException;
-import nl.knaw.dans.easy.db.exceptions.DbException;
 
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -28,33 +23,21 @@ public class DbUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(DbUtil.class);
 
-    public static Configuration getConfiguration() throws DbException {
-        try {
-            URL globalConfigFileURL = ResourceLocator.getURL(GLOBAL_CONFIG_FILE_PATH);
-            Configuration config = new Configuration().configure(globalConfigFileURL);
-            if (localConfig != null)
-                localConfig.configure(config);
-            return config;
-        }
-        catch (Throwable e) {
-            throw new DbException(e);
-        }
+    public static Configuration getConfiguration() {
+        URL globalConfigFileURL = ResourceLocator.getURL(GLOBAL_CONFIG_FILE_PATH);
+        Configuration config = new Configuration().configure(globalConfigFileURL);
+        if (localConfig != null)
+            localConfig.configure(config);
+        return config;
     }
 
-    private static SessionFactory createSessionFactory() throws DbException {
-        try {
-            Configuration configuration = new Configuration().configure("conf/hibernate.cfg.xml");
-            localConfig.configure(configuration);
-            StandardServiceRegistryBuilder registry = new StandardServiceRegistryBuilder();
-            registry.applySettings(configuration.getProperties());
-            StandardServiceRegistry serviceRegistry = registry.build();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-        }
-        catch (Throwable e) {
-            throw new DbException(e);
-        }
-
+    private static SessionFactory createSessionFactory() {
+        Configuration configuration = new Configuration().configure("conf/hibernate.cfg.xml");
+        localConfig.configure(configuration);
+        StandardServiceRegistryBuilder registry = new StandardServiceRegistryBuilder();
+        registry.applySettings(configuration.getProperties());
+        StandardServiceRegistry serviceRegistry = registry.build();
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         return sessionFactory;
     }
 
@@ -74,7 +57,7 @@ public class DbUtil {
         sessionFactory = null;
     }
 
-    public static SessionFactory getSessionFactory() throws DbException {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             synchronized (sessionFactoryCreateLock) {
                 if (sessionFactory == null)
@@ -83,29 +66,6 @@ public class DbUtil {
         }
 
         return sessionFactory;
-    }
-
-    // This method, with the //conn = getSessionFactory().openSession().connection();
-    // in the try clause out-commented for ages
-    // does effectively nothing.
-    public static void checkConnection() throws CouldNotConnectToDatabaseException, DbException {
-        Connection conn = null;
-        try {
-            // conn = getSessionFactory().openSession().connection();
-        }
-        catch (HibernateException e) {
-            throw new CouldNotConnectToDatabaseException(e);
-        }
-        finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                }
-                catch (SQLException e) {
-                    throw new DbException(e);
-                }
-            }
-        }
     }
 
     /**

@@ -68,6 +68,10 @@
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-fedora</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>dans-fedora</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-solr</artifactId>

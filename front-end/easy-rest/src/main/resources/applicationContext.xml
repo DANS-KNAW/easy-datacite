@@ -187,7 +187,7 @@
 		</property>
 	</bean>
 
-	<bean name="easyStore" class="nl.knaw.dans.easy.fedora.store.EasyFedoraStore">
+	<bean name="easyStore" class="nl.knaw.dans.common.fedora.store.EasyFedoraStore">
 		<constructor-arg index="0" value="${easy.store.name}" />
 		<constructor-arg index="1" ref="fedora" />
 		<property name="eventListeners">

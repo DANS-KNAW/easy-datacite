@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.fedora.store;
+package nl.knaw.dans.common.fedora.store;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -9,7 +9,6 @@ import java.util.Map;
 
 import nl.knaw.dans.common.fedora.Fedora;
 import nl.knaw.dans.common.fedora.rdf.FedoraURIReference;
-import nl.knaw.dans.common.fedora.store.FedoraDmoStore;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
@@ -39,8 +38,6 @@ import org.trippi.TupleIterator;
 import fedora.server.types.gen.MIMETypedStream;
 
 public class EasyFedoraStore extends FedoraDmoStore implements EasyStore {
-
-    private static final long serialVersionUID = 1288905408847378535L;
 
     public EasyFedoraStore(String name, final Fedora fedora) {
         super(name, fedora);
