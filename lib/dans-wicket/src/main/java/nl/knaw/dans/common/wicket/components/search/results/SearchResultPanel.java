@@ -26,7 +26,6 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -119,37 +118,17 @@ public abstract class SearchResultPanel extends SearchPanel {
         add(new UnescapedLabel("resultMessage", getResultMessageModel()));
 
         // search hits
-        add(new ListView("searchHits", new AbstractReadOnlyModel<List>() {
+        AbstractReadOnlyModel temp = new AbstractReadOnlyModel<List>() {
             private static final long serialVersionUID = -8467661423061481825L;
 
             @Override
             public List getObject() {
                 return getSearchResult().getHits();
             }
-        })
-        {
-            private static final long serialVersionUID = -6597598635055541684L;
-
-            @Override
-            protected void populateItem(ListItem item) {
-                final SearchHit<?> hit = (SearchHit<?>) item.getModelObject();
-
-                Panel hitPanel = getConfig().getHitPanelFactory().createHitPanel("searchHit", hit, getSearchModel());
-                if (hitPanel == null) {
-                    LOGGER.error("Could not create hit panel for searchHit " + hit.toString() + ". Programmer mistake.");
-                    throw new InternalWebError();
-                }
-
-                String oddOrEven = item.getIndex() % 2 == 0 ? "even" : "odd";
-                hitPanel.add(new AttributeAppender("class", new Model(oddOrEven), " "));
-                item.add(hitPanel);
-            }
-
-            @Override
-            public boolean isVisible() {
-                return getSearchResult().getHits().size() > 0;
-            }
-        });
+        };
+        ListView<Panel> searchHits = createSearchHits("searchHits", temp);
+        searchHits.setRenderBodyOnly(true);
+        add(searchHits);
 
         add(createHelpPopup("refineHelpPopup"));
 
@@ -220,6 +199,30 @@ public abstract class SearchResultPanel extends SearchPanel {
             }
         });
         add(pageBrowsePanel);
+    }
+
+    private ListView<Panel> createSearchHits(String id, AbstractReadOnlyModel temp) {
+        return new ListView<Panel>(id, temp){
+            private static final long serialVersionUID = -6597598635055541684L;
+
+            @Override
+            protected void populateItem(ListItem<Panel> item) {
+                final SearchHit<?> hit = (SearchHit<?>) item.getModelObject();
+
+                Panel hitPanel = getConfig().getHitPanelFactory().createHitPanel("searchHit", hit, getSearchModel());
+                if (hitPanel == null) {
+                    LOGGER.error("Could not create hit panel for searchHit " + hit.toString() + ". Programmer mistake.");
+                    throw new InternalWebError();
+                }
+                hitPanel.setRenderBodyOnly(true);
+                item.add(hitPanel);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return getSearchResult().getHits().size() > 0;
+            }
+        };
     }
 
     private SearchBar createSearchBar(String id) {
