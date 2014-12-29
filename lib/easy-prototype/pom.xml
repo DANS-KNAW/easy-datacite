@@ -25,6 +25,7 @@
         <jersey.version>1.17.1</jersey.version>
         <scala.version>2.11.4</scala.version>
         <scala-test.version>2.2.1</scala-test.version>
+        <apache-httpcomponents.version>4.3.6</apache-httpcomponents.version>
     </properties>
     <dependencies>
         <dependency>
@@ -112,7 +113,6 @@
                 <artifactId>xml</artifactId>
                 <version>${easy.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-fedora</artifactId>
@@ -133,7 +133,6 @@
                 <artifactId>dans-ldap</artifactId>
                 <version>${easy.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dmo-collections</artifactId>
@@ -220,6 +219,16 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-email</artifactId>
                 <version>${commons-email.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache-httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${apache-httpcomponents.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.janino</groupId>

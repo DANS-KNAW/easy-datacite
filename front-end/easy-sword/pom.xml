@@ -14,7 +14,6 @@
 	<packaging>war</packaging>
 	<properties>
 		<sword-common.version>1.1</sword-common.version>
-		<HTTPClient.version>0.3-3</HTTPClient.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -83,10 +82,8 @@
 			<artifactId>jetty-naming</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>HTTPClient</groupId>
-			<artifactId>HTTPClient</artifactId>
-			<version>${HTTPClient.version}</version>
-			<scope>compile</scope>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
 		</dependency>
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
 		<!-- Dependency on logback-classic binding for slf4j -->

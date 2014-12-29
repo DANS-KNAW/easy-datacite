@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.util;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 
@@ -37,12 +36,7 @@ public class ApacheHttpClientFacade implements HttpClientFacade {
     }
 
     private HttpEntity createHttpEntity(String content) {
-        try {
-            return new StringEntity(content, "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new IllegalStateException("Could not use UTF-8 to encode HTTP entity ??");
-        }
+        return new StringEntity(content, "UTF-8");
     }
 
     @Override
