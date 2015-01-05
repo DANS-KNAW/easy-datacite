@@ -35,8 +35,10 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.powermock.api.easymock.PowerMock;
 
+@Ignore
 public class PublicSearchResultPageTest {
     private static final String FACET_VALUE_LINK = "searchResultPanel:refineFacetsEnclosure:refineFacets:2:facet:facetValuesUL:facetValuesLI:0:facetValueLink";
     private EasyApplicationContextMock applicationContext;
