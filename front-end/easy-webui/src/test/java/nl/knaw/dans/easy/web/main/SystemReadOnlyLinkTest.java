@@ -8,6 +8,7 @@ import java.io.File;
 
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
@@ -20,14 +21,14 @@ import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.reflect.Whitebox;
 
 public class SystemReadOnlyLinkTest {
-    private static EasyApplicationContextMock applicationContext;
-    private static Object initialAnonymousUser;
+    private EasyApplicationContextMock applicationContext;
+    private Object initialAnonymousUser;
 
     public static class TestPanel extends Panel {
         private static final long serialVersionUID = 1L;
@@ -48,6 +49,11 @@ public class SystemReadOnlyLinkTest {
         public TestPage() {
             add(new SystemReadOnlyLink());
         }
+    }
+
+    @After
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 
     @Test
@@ -110,8 +116,8 @@ public class SystemReadOnlyLinkTest {
         return tester;
     }
 
-    @BeforeClass
-    public static void mockApplicationContext() throws Exception {
+    @Before
+    public void mockApplicationContext() throws Exception {
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.properties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();

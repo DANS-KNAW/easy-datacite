@@ -13,10 +13,11 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -27,7 +28,6 @@ import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
@@ -35,20 +35,19 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 import org.apache.wicket.util.tester.FormTester;
 import org.easymock.EasyMock;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Ignore
 public class DepositTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepositTest.class);
 
-    private static final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "1");
-    private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
+    private final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "1");
+    private final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
     private EasyApplicationContextMock applicationContext;
-    private static InMemoryDatabase inMemoryDB;
+    private FileStoreMocker fileStoreMocker;
 
     private static class DisciplineContainerImplStub extends DisciplineContainerImpl {
 
@@ -68,27 +67,13 @@ public class DepositTest {
         private static final long serialVersionUID = 1L;
     }
 
-    @BeforeClass
-    public static void mockDB() throws Exception {
-
-        inMemoryDB = new InMemoryDatabase();
-        mockUploadedFiles();
-        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
-    }
-
-    @AfterClass
-    public static void closeDB() throws Exception {
-
-        inMemoryDB.close();
-
-        // other tests should not accidently reuse this instance
-        new Data().setFileStoreAccess(null);
-    }
-
     @Before
     public void mockApplicationContext() throws Exception {
 
         applicationContext = new EasyApplicationContextMock();
+        fileStoreMocker = new FileStoreMocker();
+        mockUploadedFiles();
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectNoJumpoff();
@@ -105,17 +90,17 @@ public class DepositTest {
 
     @After
     public void reset() {
-
-        PowerMock.resetAll();
+        TestUtil.cleanup();
     }
 
-    private static void mockUploadedFiles() throws Exception {
+    private void mockUploadedFiles() throws Exception {
 
         final Dataset dataset = new DatasetImpl(DATASET_STORE_ID.getStoreId());
-        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "someFolder");
-        inMemoryDB.insertFile(1, dataset, "rootFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-        inMemoryDB.insertFile(2, folder, "subFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-        inMemoryDB.flush();
+        fileStoreMocker.insertRootFolder(dataset);
+        final FolderItem folder = fileStoreMocker.insertFolder(1, dataset, "someFolder");
+        fileStoreMocker.insertFile(1, dataset, "rootFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        fileStoreMocker.insertFile(2, folder, "subFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        fileStoreMocker.logContent(LOGGER);
     }
 
     private void mockNoSubDisciplines() throws ObjectNotInStoreException, RepositoryException, DomainException {
@@ -141,15 +126,6 @@ public class DepositTest {
         final List<BasicString> dcTitle = new ArrayList<BasicString>();
         dcTitle.add(new BasicString("just a test"));
         dataset.getEasyMetadata().getEmdTitle().setDcTitle(dcTitle);
-    }
-
-    @Ignore
-    // speed up the build by skipping this debug tool
-    @Test
-    public void introPage() throws Exception {
-        // page already dumped by {@link EditableContentPageTest#depositIntroPage()}
-        // the logging allows to check for the proper argument of selectDepositTypeOnIntroPage
-        startIntroPage().debugComponentTrees();
     }
 
     @Test
@@ -236,7 +212,7 @@ public class DepositTest {
 
         tester.debugComponentTrees();// log the paths
         final String formPath = "depositPanel:depositForm";
-        final String creatorPath = "recursivePanel:levelContainer:recursivePanelContainer:recursivePanels:1:recursivePanel:listViewContainer:listView:";
+        final String creatorPath = "recursivePanel:levelContainer:recursivePanels:1:recursivePanel:listViewContainer:listView:";
 
         tester.clickLink(formPath + ":" + creatorPath + "0:buttonsHolder:plusLink");
         // a page dump at this moment only shows the HTML of ajax changes

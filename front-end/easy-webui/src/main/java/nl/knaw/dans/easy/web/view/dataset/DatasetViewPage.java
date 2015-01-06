@@ -202,11 +202,6 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         this.mode = mode == null ? Mode.VIEW : mode;
     }
 
-    public DatasetViewPage(Dataset dataset, Mode mode) {
-        datasetModel = new DatasetModel(dataset);
-        this.mode = mode == null ? Mode.VIEW : mode;
-    }
-
     public DatasetViewPage(final DatasetModel datasetModel, Mode mode) {
         this.datasetModel = datasetModel;
         this.mode = mode == null ? Mode.VIEW : mode;

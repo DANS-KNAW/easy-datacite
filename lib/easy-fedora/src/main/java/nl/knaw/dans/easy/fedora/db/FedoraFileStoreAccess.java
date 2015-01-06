@@ -61,13 +61,23 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             + " WHERE datasetSid=:datasetSid AND (path=:path OR path=:path2)";
 
     public FedoraFileStoreAccess() throws StoreAccessException {
-        if (!DbUtil.hasLocalConfig()) {
+        if (!hasLocalConfig()) {
             throw new StoreAccessException("No local configuration set on " + DbUtil.class.getName());
         }
     }
 
+    /** for testing purposes only */
+    protected boolean hasLocalConfig() {
+        return DbUtil.hasLocalConfig();
+    }
+
+    /** for testing purposes only */
+    protected Session getLocalSession() {
+        return DbUtil.getSessionFactory().getCurrentSession();
+    }
+
     public FileItemVO findFileById(final DmoStoreId dmoStoreId) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             return (FileItemVO) session.get(FileItemVO.class, dmoStoreId.toString());
@@ -76,7 +86,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -87,7 +97,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         }
 
         FileItemVO fivo = null;
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         session.beginTransaction();
 
         try {
@@ -104,7 +114,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
         return fivo;
     }
@@ -117,7 +127,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
 
         FolderItemVO fovo = null;
         final String path = relativePath.endsWith("/") ? relativePath.substring(0, relativePath.length() - 1) : relativePath + "/";
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         session.beginTransaction();
         try {
             final List<FolderItemVO> items = session.createQuery(FOLDER_PATH_QUERY) //
@@ -134,13 +144,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
         return fovo;
     }
 
     public FolderItemVO findFolderById(final DmoStoreId dmoStoreId) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             return (FolderItemVO) session.get(FolderItemVO.class, dmoStoreId.toString());
@@ -149,7 +159,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -157,7 +167,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         if (dmoStoreIds.isEmpty()) {
             throw new IllegalArgumentException("Nothing to find. Empty collection.");
         }
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         session.beginTransaction();
         try {
             List<FileItemVO> results = new ArrayList<FileItemVO>(dmoStoreIds.size());
@@ -170,7 +180,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -178,7 +188,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         if (dmoStoreIds.isEmpty()) {
             throw new IllegalArgumentException("Nothing to find. Empty collection.");
         }
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         session.beginTransaction();
         try {
             List<FolderItemVO> results = new ArrayList<FolderItemVO>(dmoStoreIds.size());
@@ -191,7 +201,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -199,7 +209,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
     public List<ItemVO> getFilesAndFolders(final DmoStoreId parentSid) throws StoreAccessException {
         LOGGER.debug("Getting files and folders from the Fedora database for {}", parentSid);
         FolderItemVO parent = getFolderItemVO(parentSid);
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             session.update(parent);
@@ -212,13 +222,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             return result;
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     public List<FileItemVO> getFiles(final DmoStoreId parentSid) throws StoreAccessException {
         LOGGER.debug("Getting files from the Fedora database for " + parentSid);
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             FolderItemVO folder = (FolderItemVO) session.get(FolderItemVO.class, parentSid.toString());
@@ -232,14 +242,14 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     public List<FolderItemVO> getFolders(final DmoStoreId parentSid) throws StoreAccessException {
         LOGGER.debug("Getting folders from the Fedora database for " + parentSid);
 
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             FolderItemVO folder = (FolderItemVO) session.get(FolderItemVO.class, parentSid.toString());
@@ -253,7 +263,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -282,7 +292,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
     @Override
     public List<FileItemVO> getDatasetFiles(final DmoStoreId datasetSid) throws StoreAccessException {
         LOGGER.debug("Getting FileItemVO's for dataset {}", datasetSid);
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             Criteria c = session.createCriteria(FileItemVO.class);
@@ -295,7 +305,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -325,7 +335,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throws StoreAccessException
     {
         FolderItemVO folder = getFolderItemVO(storeId);
-        Session session = DbUtil.getSessionFactory().getCurrentSession();
+        Session session = getLocalSession();
         try {
             session.beginTransaction();
             /**
@@ -345,7 +355,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             }
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -361,7 +371,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         if (!Dataset.NAMESPACE.equals(storeId.getNamespace()))
             throw new IllegalArgumentException("storeId should be a dataset");
         FolderItemVO root = getRootFolder(storeId); // Make sure there is a root folder; create one if not
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             root = (FolderItemVO) session.load(FolderItemVO.class, storeId.toString());
@@ -385,7 +395,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -479,7 +489,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
     private List<? extends Object> createCountMemberQuery(final String queryString, final DmoStoreId storeId, final FileItemVOAttribute fieldValue)
             throws StoreAccessException
     {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         session.beginTransaction();
         try {
             final Query query = session.createQuery(queryString);
@@ -495,7 +505,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
@@ -507,7 +517,7 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
         if (itemContainer.isInNamespace(Dataset.NAMESPACE))
             return getRootFolder(itemContainer);
 
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             FolderItemVO folder = (FolderItemVO) session.get(FolderItemVO.class, itemContainer.toString());
@@ -520,13 +530,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     @Override
     public FolderItemVO getRootFolder(DmoStoreId dmoStoreId) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             FolderItemVO root = (FolderItemVO) session.get(FolderItemVO.class, dmoStoreId.toString());
@@ -547,13 +557,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     @Override
     public Set<AccessibleTo> getItemVoAccessibilities(ItemVO item) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             Set<AccessibleTo> result = new HashSet<AccessibleTo>();
@@ -570,13 +580,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     @Override
     public Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             Set<VisibleTo> result = new HashSet<VisibleTo>();
@@ -593,13 +603,13 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     @Override
     public Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             Set<CreatorRole> result = new HashSet<CreatorRole>();
@@ -616,20 +626,20 @@ public class FedoraFileStoreAccess implements FileStoreAccess {
             throw new StoreAccessException(e);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 
     @Override
     public boolean belongsItemTo(ItemVO item, Dataset dataset) {
-        final Session session = DbUtil.getSessionFactory().getCurrentSession();
+        final Session session = getLocalSession();
         try {
             session.beginTransaction();
             session.update(item);
             return item.belongsTo(dataset);
         }
         finally {
-            DbUtil.getSessionFactory().getCurrentSession().close();
+            getLocalSession().close();
         }
     }
 }

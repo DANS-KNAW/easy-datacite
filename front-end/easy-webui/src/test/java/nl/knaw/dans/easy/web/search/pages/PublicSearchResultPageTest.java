@@ -23,6 +23,7 @@ import nl.knaw.dans.common.wicket.components.search.SearchBar;
 import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
@@ -50,8 +51,8 @@ public class PublicSearchResultPageTest {
     }
 
     @After
-    public void reset() {
-        PowerMock.resetAll();
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 
     @Test

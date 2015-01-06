@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.web.HomePage;
 
@@ -37,7 +38,7 @@ public class TestRegistrationPage {
 
     @After
     public void reset() {
-        PowerMock.resetAll();
+        TestUtil.cleanup();
     }
 
     @Test

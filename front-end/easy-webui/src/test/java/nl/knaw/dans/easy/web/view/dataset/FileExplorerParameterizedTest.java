@@ -14,11 +14,10 @@ import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FolderItem;
@@ -28,28 +27,27 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.PageParameters;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(Parameterized.class)
-@Ignore
 public class FileExplorerParameterizedTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerParameterizedTest.class);
 
-    private static InMemoryDatabase inMemoryDatabase;
-    private static DatasetImpl dataset;
+    private FileStoreMocker fileStoreMocker;
+    private DatasetImpl dataset;
     private EasyApplicationContextMock applicationContext;
     private final UserType userType;
     private final AccessCategory accessCategory;
@@ -59,27 +57,10 @@ public class FileExplorerParameterizedTest {
         ARCHIVIST, DEPOSITOR, KNOWN, ANONYMOUS;
     }
 
-    @BeforeClass
-    public static void initDB() throws Exception {
-
-        inMemoryDatabase = new InMemoryDatabase();
-        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
-    }
-
-    @AfterClass
-    public static void closeDB() throws Exception {
-
-        inMemoryDatabase.close();
-        new Data().setFileStoreAccess(null);
-    }
-
     @After
-    public void clearDB() {
+    public void cleanup() {
 
-        PowerMock.resetAll();
-        inMemoryDatabase.deleteAll(FileItemVO.class);
-        inMemoryDatabase.deleteAll(FolderItemVO.class);
-        inMemoryDatabase.flush();
+        TestUtil.cleanup();
     }
 
     public FileExplorerParameterizedTest(final UserType userType, final AccessCategory accessCategory) throws Exception {
@@ -87,7 +68,15 @@ public class FileExplorerParameterizedTest {
         this.userType = userType;
         this.accessCategory = accessCategory;
 
-        mockApplicationContext();
+        applicationContext = new EasyApplicationContextMock();
+        fileStoreMocker = new FileStoreMocker();
+
+        applicationContext.expectStandardSecurity();
+        applicationContext.expectDefaultResources();
+        applicationContext.expectNoAudioVideoFiles();
+        applicationContext.putBean("fileStoreAccess", fileStoreMocker.getFileStoreAccess());
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
+
         switch (userType) {
         case ARCHIVIST:
             mockLogin(Role.ARCHIVIST);
@@ -112,7 +101,7 @@ public class FileExplorerParameterizedTest {
             break;
         }
         addMixedPermissionFilesToDataset();
-        inMemoryDatabase.flush();
+        fileStoreMocker.logContent(LOGGER);
 
         PowerMock.replayAll();
     }
@@ -157,14 +146,15 @@ public class FileExplorerParameterizedTest {
 
         int fileNr = 0;
         int folderNr = 0;
-        final FolderItem mainFolder = inMemoryDatabase.insertFolder(++folderNr, dataset, "mainfolder");
+        fileStoreMocker.insertRootFolder(dataset);
+        final FolderItem mainFolder = fileStoreMocker.insertFolder(++folderNr, dataset, "mainfolder");
         for (final CreatorRole creatorRole : CreatorRole.values())
             for (final VisibleTo visibleTo : VisibleTo.values())
                 for (final AccessibleTo accessibleTo : AccessibleTo.values()) {
-                    final FolderItem folder = inMemoryDatabase.insertFolder(++folderNr, dataset, pad(folderNr) + "folder");
-                    inMemoryDatabase.insertFile(++fileNr, dataset, pad(fileNr) + "mainfile.txt", creatorRole, visibleTo, accessibleTo);
-                    inMemoryDatabase.insertFile(++fileNr, folder, "subfile.txt", creatorRole, visibleTo, accessibleTo);
-                    inMemoryDatabase.insertFile(++fileNr, mainFolder, pad(fileNr) + "subfile.txt", creatorRole, visibleTo, accessibleTo);
+                    final FolderItem folder = fileStoreMocker.insertFolder(++folderNr, dataset, pad(folderNr) + "folder");
+                    fileStoreMocker.insertFile(++fileNr, dataset, pad(fileNr) + "mainfile.txt", creatorRole, visibleTo, accessibleTo);
+                    fileStoreMocker.insertFile(++fileNr, folder, "subfile.txt", creatorRole, visibleTo, accessibleTo);
+                    fileStoreMocker.insertFile(++fileNr, mainFolder, pad(fileNr) + "subfile.txt", creatorRole, visibleTo, accessibleTo);
                 }
     }
 
@@ -178,15 +168,6 @@ public class FileExplorerParameterizedTest {
         depositor.setInitials("D.E.");
         depositor.setSurname("Positor");
         return depositor;
-    }
-
-    public void mockApplicationContext() throws Exception {
-
-        applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity();
-        applicationContext.expectDefaultResources();
-        applicationContext.expectNoAudioVideoFiles();
-        applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
     }
 
     @Parameters

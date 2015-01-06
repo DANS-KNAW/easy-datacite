@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.web.view.dataset;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.powermock.api.easymock.PowerMock.replayAll;
-import static org.powermock.api.easymock.PowerMock.resetAll;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,10 +17,10 @@ import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -29,10 +28,8 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
@@ -43,20 +40,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Ignore
+@Ignore(value = "suffers from test dependencies")
 public class FileExplorerDownloadTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerDownloadTest.class);
 
     private static final String MESSAGE = "tabs:panel:fe:modalDownload:content:message";
     private static final String MESSAGE2 = "tabs:panel:fe:modalMessage:content:message";
     private static final String DOWNLOAD_LINK = "tabs:panel:fe:downloadLink";
 
     private EasyUserTestImpl sessionUser = new EasyUserTestImpl("normal", true);
-    private InMemoryDatabase inMemoryDB;
-    private FedoraFileStoreAccess fileStoreAccess;
+    private FileStoreMocker fileStoreMocker;
     private Dataset datasetImplWithLargeFile = createDatasetImpl(1);
     private Dataset datasetImplWithTooManyFiles = createDatasetImpl(2);
-    private EasyApplicationContextMock ctx;
+    private EasyApplicationContextMock applicationContext;
 
     private Dataset createDatasetImpl(final int id) {
 
@@ -82,45 +81,30 @@ public class FileExplorerDownloadTest {
 
     public void mockFiles() throws Exception {
 
-        // size = Integer.MAXVALUE
-        // can't use a mocked dataset here but rendering fails with an Impl
-        inMemoryDB.insertFile(1, datasetImplWithLargeFile, "x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        fileStoreMocker.insertRootFolder(datasetImplWithLargeFile);
+        fileStoreMocker.insertRootFolder(datasetImplWithTooManyFiles);
+        fileStoreMocker.insertFile(1, datasetImplWithLargeFile, "x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
         for (int i = 2; i < 404; i++) {
-            inMemoryDB.insertFile(i, datasetImplWithTooManyFiles, i + "x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+            fileStoreMocker.insertFile(i, datasetImplWithTooManyFiles, i + "x.y", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
         }
-
-        inMemoryDB.flush();
-    }
-
-    @After
-    public void cleanUp() {
-        inMemoryDB.close();
+        fileStoreMocker.logContent(LOGGER);
     }
 
     @Before
     public void setUp() throws Exception {
-        inMemoryDB = new InMemoryDatabase();
-        fileStoreAccess = new FedoraFileStoreAccess();
-        new Data().setFileStoreAccess(fileStoreAccess);
+        applicationContext = new EasyApplicationContextMock();
+        fileStoreMocker = new FileStoreMocker();
+        fileStoreMocker.logContent(LOGGER);
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
 
-        ctx = new EasyApplicationContextMock();
-        ctx.expectNoDatasetsInToolBar();
-        ctx.setDatasetService(mockDatasetService());
-        ctx.expectStandardSecurity();
-        ctx.expectDefaultResources();
-        ctx.expectAuthenticatedAs(sessionUser);
-        ctx.expectNoAudioVideoFiles();
-        ctx.putBean("fileStoreAccess", fileStoreAccess);
-        expectRootFolder(datasetImplWithLargeFile);
-        expectRootFolder(datasetImplWithTooManyFiles);
+        applicationContext.expectNoDatasetsInToolBar();
+        applicationContext.setDatasetService(mockDatasetService());
+        applicationContext.expectStandardSecurity();
+        applicationContext.expectDefaultResources();
+        applicationContext.expectAuthenticatedAs(sessionUser);
+        applicationContext.expectNoAudioVideoFiles();
+        applicationContext.putBean("fileStoreAccess", fileStoreMocker.getFileStoreAccess());
         mockFiles();
-    }
-
-    private void expectRootFolder(Dataset dataset) throws Exception {
-        inMemoryDB.insertRootFolder(dataset);
-        ItemService itemService = ctx.getItemService();
-        FolderItemVO itemVO = fileStoreAccess.getFolderItemVO(dataset.getDmoStoreId());
-        expect(itemService.getRootFolder(sessionUser, dataset, dataset.getDmoStoreId())).andStubReturn(itemVO);
     }
 
     private DatasetService mockDatasetService() throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
@@ -161,7 +145,7 @@ public class FileExplorerDownloadTest {
     }
 
     private EasyWicketTester renderPage(final String datasetStoreId) {
-        final EasyWicketTester tester = EasyWicketTester.create(ctx);
+        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         replayAll();
         final PageParameters parameters = new PageParameters();
         parameters.add("id", datasetStoreId);
@@ -199,7 +183,7 @@ public class FileExplorerDownloadTest {
     public void downloadTooManyFilesHasAcceptedGeneralConditions() throws ServiceException {
         expectTooManyFilesException();
         sessionUser.setHasAcceptedGeneralConditions(true);
-        expect(ctx.getDatasetService().getAdditionalLicense(isA(Dataset.class))).andStubReturn(null);
+        expect(applicationContext.getDatasetService().getAdditionalLicense(isA(Dataset.class))).andStubReturn(null);
         final EasyWicketTester tester = renderPage(datasetImplWithTooManyFiles.getStoreId());
 
         tester.dumpPage();
@@ -223,18 +207,18 @@ public class FileExplorerDownloadTest {
 
     @SuppressWarnings("unchecked")
     private void expectFileLengthException() throws ServiceException {
-        expect(ctx.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
+        expect(applicationContext.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
                 .andThrow(new ZipFileLengthException(datasetImplWithLargeFile.getStoreId())).once();
     }
 
     @SuppressWarnings("unchecked")
     private void expectTooManyFilesException() throws ServiceException {
-        expect(ctx.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
+        expect(applicationContext.getItemService().getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
                 .andThrow(new TooManyFilesException(datasetImplWithTooManyFiles.getStoreId())).once();
     }
 
     @After
-    public void tearDown() {
-        resetAll();
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 }

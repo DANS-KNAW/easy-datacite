@@ -20,7 +20,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
@@ -42,8 +41,6 @@ import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.JumpoffService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
-import nl.knaw.dans.easy.web.common.DisciplineUtils;
-import nl.knaw.dans.easy.web.fileexplorer.Util;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.spring.test.ApplicationContextMock;
@@ -71,11 +68,12 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
 
+    /**
+     * Creates an instance, clears static bean variables and resets all powermocks. Creating the context too late results in more obvious errors that forgetting
+     * to clean up. Tests not using this class should still perform cleanup.
+     */
     public EasyApplicationContextMock() {
         super();
-        // clean up statics of eventual previous tests
-        new Util().setDatasetService(null);
-        new DisciplineUtils().setDepositService(null);
         expectDefaultFooterLinks();
     }
 
@@ -177,7 +175,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     /**
      * Supplies expectations for datasets without accessible audio/video files. If no itemService bean is set, a mocked one is created with PowerMock. Calls to
      * {@link ItemService#getAccessibleAudioVideoFiles(EasyUser, Dataset)} are mocked and methods calling {@link FileStoreAccess} are delegated. If required,
-     * you can mock the delegated methods via {@link InMemoryDatabase}.
+     * you can mock the delegated methods via {@link FileStoreMocker}.
      * 
      * @throws ServiceException
      *         required by the syntax

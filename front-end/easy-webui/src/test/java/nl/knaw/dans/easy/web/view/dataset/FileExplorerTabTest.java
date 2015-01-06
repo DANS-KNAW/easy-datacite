@@ -11,11 +11,10 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
@@ -25,7 +24,6 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.pf.language.emd.EmdRights;
@@ -33,57 +31,41 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.PageParameters;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * See also DatasetPermissionTest.fileExplorerTab
- */
 @Ignore
+/** See also DatasetPermissionTest.fileExplorerTab */
 public class FileExplorerTabTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerTabTest.class);
 
     private static final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
-    private static InMemoryDatabase inMemoryDatabase;
-    private static DatasetImpl dataset;
+    private FileStoreMocker fileStoreMocker;
+    private DatasetImpl dataset;
     private EasyApplicationContextMock applicationContext;
-
-    @BeforeClass
-    public static void initDB() throws Exception {
-
-        inMemoryDatabase = new InMemoryDatabase();
-        new Data().setFileStoreAccess(new FedoraFileStoreAccess());
-    }
-
-    @AfterClass
-    public static void closeDB() throws Exception {
-
-        inMemoryDatabase.close();
-        new Data().setFileStoreAccess(null);
-    }
 
     @Before
     public void mockApplicationContext() throws Exception {
 
         applicationContext = new EasyApplicationContextMock();
+        fileStoreMocker = new FileStoreMocker();
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
+        applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplineChoices();
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
-        applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
     }
 
     @After
-    public void clearDB() {
+    public void cleanup() {
 
-        PowerMock.resetAll();
-        inMemoryDatabase.deleteAll(FileItemVO.class);
-        inMemoryDatabase.deleteAll(FolderItemVO.class);
-        inMemoryDatabase.flush();
+        TestUtil.cleanup();
     }
 
     @Test
@@ -92,10 +74,12 @@ public class FileExplorerTabTest {
         final String fileName = "mainfile.txt";
         mockDataset(createDepositor());
 
-        setDatasetTitle(inMemoryDatabase.insertFile(1, dataset, fileName, CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
+        fileStoreMocker.insertRootFolder(dataset);
+        setDatasetTitle(fileStoreMocker.insertFile(1, dataset, fileName, CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
 
         final EasyWicketTester tester = render();
         tester.dumpPage();
+        tester.debugComponentTrees();
         tester.assertLabel("tabs:panel:fe:explorer:datatable:body:rows:1", fileName);
     }
 
@@ -103,8 +87,9 @@ public class FileExplorerTabTest {
     public void folder() throws Exception {
 
         mockDataset(createDepositor());
-        final FolderItem folder = inMemoryDatabase.insertFolder(1, dataset, "folder");
-        setDatasetTitle(inMemoryDatabase.insertFile(1, folder, "mainfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
+        fileStoreMocker.insertRootFolder(dataset);
+        final FolderItem folder = fileStoreMocker.insertFolder(1, dataset, "folder");
+        setDatasetTitle(fileStoreMocker.insertFile(1, folder, "mainfile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN));
 
         final EasyWicketTester tester = render();
         tester.dumpPage();
@@ -156,7 +141,7 @@ public class FileExplorerTabTest {
 
     protected EasyWicketTester render() {
 
-        inMemoryDatabase.flush();
+        fileStoreMocker.logContent(LOGGER);
         PowerMock.replayAll();
 
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);

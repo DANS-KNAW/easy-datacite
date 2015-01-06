@@ -19,6 +19,7 @@ import nl.knaw.dans.common.wicket.model.TextFileModel;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EditableInfoPage;
@@ -39,7 +40,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 public class EditableContentPageTest {
     private static final String MOCKED_EDITABLE = "target/mockedEditable";
@@ -82,7 +82,7 @@ public class EditableContentPageTest {
 
     @After
     public void reset() {
-        PowerMock.resetAll();
+        TestUtil.cleanup();
     }
 
     @Test
@@ -137,8 +137,7 @@ public class EditableContentPageTest {
         tester.dumpPage("edit");
     }
 
-    @Ignore
-    // the emulated click does not change the modeLink, with a manual test the scenario works
+    @Ignore(value = "webui changed. Weird: edit button while in edit mode?")
     @Test
     public void registrationForm() throws Exception {
         // unusual use case but it is a bookmarkable page
@@ -241,8 +240,7 @@ public class EditableContentPageTest {
         return saved;
     }
 
-    @Ignore
-    // causes heap space overflow when testing the full project in eclipse
+    @Ignore(value = "runs for ever")
     @Test
     public void allTemplates() throws Exception {
         checkProvidedTemplateFiles(checkLinkedTemplates());

@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
@@ -44,23 +45,10 @@ public class ActivityLogFixture {
     protected static final FolderItemVO FOLDER_ITEM_VO = new FolderItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256);
     protected static final FileItemVO FILE_ITEM_VO = new FileItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256, "mimeType", //
             CreatorRole.DEPOSITOR, null, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
-    protected static DatasetService datasetService;
-    protected static UserService userService;
-    private static EasyApplicationContextMock applicationContext;
+    protected DatasetService datasetService;
+    protected UserService userService;
+    private EasyApplicationContextMock applicationContext;
     private StringBuffer labelErrors;
-
-    @BeforeClass
-    public static void mockApplicationContext() throws Exception {
-        datasetService = PowerMock.createMock(DatasetService.class);
-        userService = PowerMock.createMock(UserService.class);
-
-        applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity();
-        applicationContext.expectDefaultResources();
-
-        applicationContext.setUserService(userService);
-        applicationContext.setDatasetService(datasetService);
-    }
 
     @BeforeClass
     public static void mockNow() {
@@ -69,14 +57,23 @@ public class ActivityLogFixture {
 
     @Before
     public void resetAll() {
+        applicationContext = new EasyApplicationContextMock();
+
+        datasetService = PowerMock.createMock(DatasetService.class);
+        userService = PowerMock.createMock(UserService.class);
+
+        applicationContext.expectStandardSecurity();
+        applicationContext.expectDefaultResources();
+        applicationContext.setUserService(userService);
+        applicationContext.setDatasetService(datasetService);
+
         labelErrors = new StringBuffer();
-        PowerMock.resetAll();
     }
 
     @After
     public void verifyAll() {
         assertTrue(labelErrors.toString(), labelErrors.length() == 0);
-        PowerMock.verifyAll();
+        TestUtil.cleanup();
     }
 
     protected DownloadList createDownloadList() {
