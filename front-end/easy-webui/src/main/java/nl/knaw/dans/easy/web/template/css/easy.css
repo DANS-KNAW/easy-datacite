@@ -91,6 +91,7 @@ h1.search-results-heading .modal {
     font-weight: normal;
     font-size: 1.25em;
     color: black;
+    line-height: 1.5em;
 }
 .list-group.search-hits .list-group-item h2 i.fa {
   color: #248BB8;
