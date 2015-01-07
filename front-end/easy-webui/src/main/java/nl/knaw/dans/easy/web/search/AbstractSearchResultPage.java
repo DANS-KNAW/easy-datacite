@@ -163,25 +163,51 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
         };
         add(panel);
 
-        // page browse panel
-        PageBrowseData pbData = new PageBrowseData(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
-        pageBrowsePanel = new PageBrowsePanel(PAGEBROWSE_PANEL, new Model<PageBrowseData>(pbData) {
+        // Pagination (page browse panel)
+        int itemStart = getRequestBuilder().getOffset() + 1;
+        int limit = getRequestBuilder().getLimit();
+        int totalHits = getSearchResult().getTotalHits();
+        PageBrowseData pbData = new PageBrowseData(itemStart, limit, totalHits);
+        Model<PageBrowseData> pbDataModel = createPageBrowseDataModel(pbData);
+        PageBrowseLinkListener pbLink = createPageBrowseLinkListener();
+        pageBrowsePanel = createPageBrowsePanel(PAGEBROWSE_PANEL, pbDataModel, pbLink);
+        add(pageBrowsePanel);
+    }
+
+    private Model<PageBrowseData> createPageBrowseDataModel(PageBrowseData pbData) {
+        return new Model<PageBrowseData>(pbData) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public PageBrowseData getObject() {
                 PageBrowseData pbData = super.getObject();
-                pbData.init(getRequestBuilder().getOffset() + 1, getRequestBuilder().getLimit(), getSearchResult().getTotalHits());
+                int itemStart = getRequestBuilder().getOffset() + 1;
+                int limit = getRequestBuilder().getLimit();
+                int totalHits = getSearchResult().getTotalHits();
+                pbData.init(itemStart, limit, totalHits);
                 return pbData;
             }
-        }, new PageBrowseLinkListener() {
+        };
+    }
+
+    private PageBrowseLinkListener createPageBrowseLinkListener() {
+        return new PageBrowseLinkListener() {
             private static final long serialVersionUID = 1L;
 
             public void onClick(PageBrowseLink plink) {
                 getRequestBuilder().setOffset(plink.getTargetItemStart() - 1);
             }
-        });
-        add(pageBrowsePanel);
+        };
+    }
+
+    private PageBrowsePanel createPageBrowsePanel(final String id, Model<PageBrowseData> pbDataModel, PageBrowseLinkListener pbLink) {
+        return new PageBrowsePanel(id, pbDataModel , pbLink){
+            private static final long serialVersionUID = 1L;
+
+            public boolean isVisible() {
+                return getSearchResult().getTotalHits() != 0;
+            }
+        };
     }
 
     protected SearchResultConfig getSearchResultConfig() {
