@@ -201,7 +201,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     }
 
     private PageBrowsePanel createPageBrowsePanel(final String id, Model<PageBrowseData> pbDataModel, PageBrowseLinkListener pbLink) {
-        return new PageBrowsePanel(id, pbDataModel , pbLink){
+        return new PageBrowsePanel(id, pbDataModel, pbLink) {
             private static final long serialVersionUID = 1L;
 
             public boolean isVisible() {

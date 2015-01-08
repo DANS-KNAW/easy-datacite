@@ -3,27 +3,21 @@ package nl.knaw.dans.common.wicket.components.search.results;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.search.SortField;
-import nl.knaw.dans.common.lang.search.SortOrder;
 import nl.knaw.dans.common.lang.search.SortType;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.wicket.components.search.BaseSearchPanel;
-import nl.knaw.dans.common.wicket.components.search.SearchResources;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
 /**
  * This panel shows the sort options for the search result panel based on a list of sort link config objects. It updates the sort fields in the request builder
  * whenever a sort option has been selected. This panel does not update the SearchModel when it gets dirty, but does dirty the SearchModel.
- * 
- * @author lobo
  */
 public class SearchSortPanel extends BaseSearchPanel {
     private static final long serialVersionUID = -6328084337782262182L;
@@ -31,18 +25,8 @@ public class SearchSortPanel extends BaseSearchPanel {
     public SearchSortPanel(final String wicketId, final SearchModel model, final List<SortLinkConfig> sortLinkConfigs) {
         super(wicketId, model);
 
-        // add the sort links
-        add(new ListView<SortLinkConfig>("sortLinks", sortLinkConfigs) {
-            private static final long serialVersionUID = 2247965825915057160L;
-
-            @Override
-            protected void populateItem(final ListItem<SortLinkConfig> item) {
-                // sort link
-                SortLinkConfig config = item.getModelObject();
-                final SortFieldLink sortFieldLink = new SortFieldLink("sortLink", model, config);
-                item.add(sortFieldLink);
-            }
-        }.setRenderBodyOnly(true));
+        SortOptionsDropDownChoice sortOptions = new SortOptionsDropDownChoice("sortOptions", createSortLinkConfigModel(), sortLinkConfigs);
+        add(sortOptions).setOutputMarkupId(true);
     }
 
     @Override
@@ -50,81 +34,60 @@ public class SearchSortPanel extends BaseSearchPanel {
         return getSearchResult().getTotalHits() > 1;
     }
 
-    public class SortFieldLink extends Link implements SearchResources {
+    private IModel<SortLinkConfig> createSortLinkConfigModel() {
+        return new IModel<SortLinkConfig>() {
+            private static final long serialVersionUID = 1L;
+            private SortLinkConfig s;
 
-        private static final long serialVersionUID = 7527394391889821849L;
+            @Override
+            public void detach() {}
 
-        private static final String ARROW_DOWN = "arrowDown";
-
-        private static final String ARROW_UP = "arrowUp";
-
-        private static final String SORT_LINK_TEXT = "sortLinkText";
-
-        private SortOrder sortOrder;
-
-        private SortLinkConfig config;
-
-        public SortFieldLink(String id, SearchModel model, SortLinkConfig config) {
-            super(id, model);
-            this.config = config;
-
-            SortField sister = getRequestBuilder().getSortField(config.getFieldName());
-            if (sister != null) {
-                this.sortOrder = sister.getValue();
-            } else {
-                this.sortOrder = config.getInitialSortOrder();
+            @Override
+            public SortLinkConfig getObject() {
+                return s;
             }
 
-            Label sortTextLabel;
-            if (config.getSortType().equals(SortType.BY_RELEVANCE_SCORE)) {
-                sortTextLabel = new Label(SORT_LINK_TEXT, new ResourceModel(SEARCHSORTPANEL_RELEVANCE));
-            } else {
-                sortTextLabel = new Label(SORT_LINK_TEXT, new ResourceModel("fieldname." + config.getFieldName()));
+            @Override
+            public void setObject(SortLinkConfig object) {
+                s = object;
             }
-            add(sortTextLabel);
+        };
+    }
 
-            add(new WebMarkupContainer(ARROW_UP) {
-                private static final long serialVersionUID = 755198480165223076L;
+    public class SortOptionsDropDownChoice extends DropDownChoice<SortLinkConfig> {
+        private static final long serialVersionUID = 1L;
 
-                public boolean isVisible() {
-                    return !sortOrder.equals(SortOrder.DESC) && isSelected();
+        private class SortOptionsRenderer extends ChoiceRenderer<SortLinkConfig> {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Object getDisplayValue(SortLinkConfig object) {
+                Label sortTextLabel;
+                if (object.getSortType().equals(SortType.BY_RELEVANCE_SCORE)) {
+                    sortTextLabel = new Label("not_used", new ResourceModel(SEARCHSORTPANEL_RELEVANCE));
+                } else {
+                    sortTextLabel = new Label("not_used", new ResourceModel("fieldname." + object.getFieldName()));
                 }
-            });
-            add(new WebMarkupContainer(ARROW_DOWN) {
-                private static final long serialVersionUID = -4206389009490588450L;
 
-                public boolean isVisible() {
-                    return sortOrder.equals(SortOrder.DESC) && isSelected();
-                }
-            });
-            if (isSelected()) {
-                add(new SimpleAttributeModifier("selected", "selected"));
+                return sortTextLabel.getDefaultModelObjectAsString();
             }
         }
 
-        @Override
-        public void onClick() {
-            if (isSelected())
-                sortOrder = sortOrder.getReverse();
+        public SortOptionsDropDownChoice(String id, IModel<SortLinkConfig> m, List<SortLinkConfig> data) {
+            super(id, m, data);
+            setChoiceRenderer(new SortOptionsRenderer());
+        }
 
-            SimpleSortField newSortField = new SimpleSortField(config.getFieldName(), sortOrder, config.getSortType());
+        @Override
+        protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+
+        protected void onSelectionChanged(final SortLinkConfig newSelection) {
+            SimpleSortField newSortField = new SimpleSortField(newSelection.getFieldName(), newSelection.getInitialSortOrder(), newSelection.getSortType());
             setActiveSortField(newSortField);
 
             setResponsePage(getPage());
-        }
-
-        @Override
-        public boolean isVisible() {
-            if (getConfig().getSortType().equals(SortType.BY_RELEVANCE_SCORE))
-                // remove relevance score sort link if the search engine says it has no use
-                return getSearchResult().useRelevanceScore();
-            else
-                // remove sort link are set to invisible
-                return getConfig().isVisible(getSearchData());
-        }
-
-        public SortLinkConfig getConfig() {
-            return config;
         }
 
         private SearchRequestBuilder getRequestBuilder() {
@@ -133,6 +96,10 @@ public class SearchSortPanel extends BaseSearchPanel {
 
         private List<SortField> getSortFields() {
             return getRequestBuilder().getSortFields();
+        }
+
+        public SortLinkConfig getConfig() {
+            return (SortLinkConfig) getDefaultModelObject();
         }
 
         public SortField getActiveSortField() {
@@ -146,29 +113,5 @@ public class SearchSortPanel extends BaseSearchPanel {
         public void setActiveSortField(SortField activeSortField) {
             getRequestBuilder().setFirstSortField(activeSortField);
         }
-
-        public boolean isActiveSortField() {
-            SortField activeSortField = getActiveSortField();
-            if (activeSortField == null)
-                return false;
-            return activeSortField.getName().equals(config.getFieldName());
-        }
-
-        public boolean isSelected() {
-            SortField activeSortField = getActiveSortField();
-            if (activeSortField == null) {
-                // if no active sorting is applied the default sort field is the relevance
-                return (config.getSortType().equals(SortType.BY_RELEVANCE_SCORE));
-            }
-
-            boolean isSelected;
-            if (config.getSortType().equals(SortType.BY_RELEVANCE_SCORE))
-                isSelected = activeSortField.getSortType().equals(SortType.BY_RELEVANCE_SCORE);
-            else
-                isSelected = isActiveSortField();
-            return isSelected;
-        }
-
     }
-
 }
