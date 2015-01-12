@@ -225,7 +225,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         }
 
         // Management bar
-        add(new ManagementBarPanel(MANAGEMENT_BAR_PANEL));
+        add(createManagementBarPanel(MANAGEMENT_BAR_PANEL));
 
         // footer
         addContactLink();
@@ -239,6 +239,17 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         addPropertyRightStatementLink();
         addDsaLinks();
         add(new VersionPanel(EASY_VERSION));
+    }
+
+    private ManagementBarPanel createManagementBarPanel(String id) {
+        return new ManagementBarPanel(id) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isVisible() {
+                return getSessionUser().hasRole(Role.ARCHIVIST, Role.ADMIN);
+            }
+        };
     }
 
     private Link<UserInfoPage> createUserSettingsLink(String id) {

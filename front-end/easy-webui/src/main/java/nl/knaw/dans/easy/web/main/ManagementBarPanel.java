@@ -12,12 +12,10 @@ import nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,53 +35,36 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel {
     public ManagementBarPanel(final String wicketId) {
         super(wicketId);
 
-        RepeatingView listItems = new RepeatingView("listItems");
-        RepeatingView listItems2 = new RepeatingView("listItems2");
+        RepeatingView listItemsWithCount = new RepeatingView("listItemsWithCount");
+        RepeatingView listItemsWithoutCount = new RepeatingView("listItemsWithoutCount");
 
-        WebMarkupContainer item1 = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link1 = new SecureEasyPageLink("link", AllWorkSearchResultPage.class);
-        link1.add(new Label("text", getString("page.allwork")));
-        link1.add(new Label("numberOf", createAllWorkModel()));
-        item1.add(link1);
-        listItems.add(item1);
+        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, AllWorkSearchResultPage.class, "page.allwork", createAllWorkModel()));
+        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, OurWorkSearchResultPage.class, "page.ourwork", createOurWorkModel()));
+        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, MyWorkSearchResultPage.class, "page.mywork", createMyWorkModel()));
+        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, TrashCanSearchResultPage.class, "page.trashcan", createTrashCanModel()));
 
-        WebMarkupContainer item2 = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link2 = new SecureEasyPageLink("link", OurWorkSearchResultPage.class);
-        link2.add(new Label("text", getString("page.ourwork")));
-        link2.add(new Label("numberOf", createOurWorkModel()));
-        item2.add(link2);
-        listItems.add(item2);
+        listItemsWithoutCount.add(createListLinkWithoutCount(listItemsWithoutCount, UsersOverviewPage.class, "page.users"));
+        listItemsWithoutCount.add(createListLinkWithoutCount(listItemsWithoutCount, EditableContentPage.class, "page.editableContent"));
 
-        WebMarkupContainer item3 = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link3 = new SecureEasyPageLink("link", MyWorkSearchResultPage.class);
-        link3.add(new Label("text", getString("page.mywork")));
-        link3.add(new Label("numberOf", createMyWorkModel()));
-        item3.add(link3);
-        listItems.add(item3);
-
-        WebMarkupContainer item4 = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link4 = new SecureEasyPageLink("link", TrashCanSearchResultPage.class);
-        link4.add(new Label("text", getString("page.trashcan")));
-        link4.add(new Label("numberOf", createTrashCanModel()));
-        item4.add(link4);
-        listItems.add(item4);
-
-        WebMarkupContainer item5 = new WebMarkupContainer(listItems2.newChildId());
-        SecureEasyPageLink link5 = new SecureEasyPageLink("link", UsersOverviewPage.class);
-        link5.add(new Label("text", getString("page.users")));
-        item5.add(link5);
-        listItems2.add(item5);
-
-        WebMarkupContainer item6 = new WebMarkupContainer(listItems2.newChildId());
-        SecureEasyPageLink link6 = new SecureEasyPageLink("link", EditableContentPage.class);
-        link6.add(new Label("text", getString("page.editableContent")));
-        item6.add(link6);
-        listItems2.add(item6);
-
-        add(listItems);
-        add(listItems2);
+        add(listItemsWithCount);
+        add(listItemsWithoutCount);
     }
 
+    private WebMarkupContainer createListLinkWithCount(RepeatingView listItems, Class linkItem, String name, LoadableDetachableModel<Integer> numberOf) {
+        WebMarkupContainer item = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link = new SecureEasyPageLink("link", linkItem);
+        link.add(new Label("text", getString(name)));
+        link.add(new Label("numberOf", numberOf));
+        item.add(link);
+        return item;
+    }
+    private WebMarkupContainer createListLinkWithoutCount(RepeatingView listItems, Class linkItem, String name) {
+        WebMarkupContainer item = new WebMarkupContainer(listItems.newChildId());
+        SecureEasyPageLink link = new SecureEasyPageLink("link", linkItem);
+        link.add(new Label("text", getString(name)));
+        item.add(link);
+        return item;
+    }
     // Note: the following members are much alike, maybe we can refactor this
 
     private LoadableDetachableModel<Integer> createAllWorkModel() {

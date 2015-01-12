@@ -114,17 +114,22 @@
                             <wicket:message key="login.mysettings">My Settings</wicket:message>
                         </a>
                     </li>
-                    <li wicket:enclosure="" class="last-child">
+                    <li wicket:enclosure="">
                         <a href="#" wicket:id="logoff" class="logoff" alt="Log out" title="Log out">
                             <wicket:message key="login.logoff">[LOGOFF]</wicket:message>
                         </a>
+                    </li>
+                    <li wicket:enclosure="" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <wicket:message key="page.manage">Manage</wicket:message> <span class="caret"></span>
+                        </a>
+                        <ul role="menu" class="dropdown-menu" wicket:id="managementBarPanel">[MANAGEMENT BAR]</ul>
                     </li>
                 </ul>
             </div>
             <!-- END MAIN NAVIGATION -->
         </div>
-            <div class="management-bar" wicket:id="managementBarPanel">[MANAGEMENT BAR]</div>
-            <div class="admin-banner" wicket:id="adminBanner">[ADMIN BANNER]</div>
+        <div class="admin-banner" wicket:id="adminBanner">[ADMIN BANNER]</div>
 
         <div class="footer no-print container-fluid">
             <div class="row">

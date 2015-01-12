@@ -8114,6 +8114,15 @@ a, a:hover {
   height: 34px;
 }
 
+.navbar .navbar-text {
+  line-height: 20px;
+}
+@media (max-width: 992px) {
+  .navbar .navbar-text {
+    padding: 10px 15px;
+  }
+}
+
 #container {
   position: relative;
   width: 1200px;
@@ -8159,15 +8168,6 @@ a, a:hover {
 }
 .header .h2, .header h2 {
   margin-left: 15px;
-}
-
-.navbar {
-  text-transform: uppercase;
-  font-size: 0.87em;
-}
-.navbar .navbar-text {
-  line-height: 20px;
-  color: #248BB8;
 }
 
 .search-nav {
@@ -8251,12 +8251,37 @@ a, a:hover {
 }
 
 .admin-nav {
+  font-size: 0.87em;
   letter-spacing: 1px;
+  text-transform: uppercase;
   width: 100%;
   position: absolute;
   top: 0;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+@media (max-width: 992px) {
+  .admin-nav {
+    font-size: 1em;
+  }
+}
+.admin-nav .dropdown.open a.dropdown-toggle,
+.admin-nav .dropdown.open a.dropdown-toggle:focus,
+.admin-nav .dropdown.open a.dropdown-toggle:hover {
+  background: none;
+  color: #DD291E;
+}
+.admin-nav .dropdown-menu a {
+  font-size: 0.75em;
+  color: #949294;
+}
+@media (max-width: 992px) {
+  .admin-nav .dropdown-menu a {
+    font-size: 0.87em;
+  }
+}
+.admin-nav .dropdown-menu a:hover {
+  color: #DD291E;
 }
 
 .footer {
