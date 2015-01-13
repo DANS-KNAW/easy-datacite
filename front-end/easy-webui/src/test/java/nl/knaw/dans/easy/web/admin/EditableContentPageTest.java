@@ -137,16 +137,18 @@ public class EditableContentPageTest {
         tester.dumpPage("edit");
     }
 
-    @Ignore(value = "webui changed. Weird: edit button while in edit mode?")
+    @Ignore(value = "works in interactive mode, see comment")
     @Test
     public void registrationForm() throws Exception {
-        // unusual use case but it is a bookmarkable page
-        // so a logged-in archivist can reach this page
-        // with easy.dans.knaw.nl/ui/register
+        // unusual use case
+        // log in as archivist, go to easy.dans.knaw.nl/ui/register
+        // online both [edit] buttons work
+        // the one above "yes I accept" does not work in this test
         applicationContext.expectDisciplineChoices();
         startPage(RegistrationPage.class);
         tester.dumpPage();
-        doClicks("registrationForm:editablePanel");
+        tester.debugComponentTrees();
+        doClicks("registrationForm:form:editablePanel");
         assertSavedContent("pages/Registration.template");
         tester.dumpPage("edit");
     }
@@ -240,7 +242,6 @@ public class EditableContentPageTest {
         return saved;
     }
 
-    @Ignore(value = "runs for ever")
     @Test
     public void allTemplates() throws Exception {
         checkProvidedTemplateFiles(checkLinkedTemplates());

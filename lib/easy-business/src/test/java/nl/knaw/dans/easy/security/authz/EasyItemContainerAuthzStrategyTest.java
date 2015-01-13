@@ -1,59 +1,40 @@
 package nl.knaw.dans.easy.security.authz;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.easymock.PowerMock.createMock;
 import static org.powermock.api.easymock.PowerMock.replayAll;
+import static org.powermock.api.easymock.PowerMock.verifyAll;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
-import nl.knaw.dans.easy.FileStoreMocker;
-import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
-import nl.knaw.dans.easy.domain.model.FolderItem;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
-import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore(value="expectation does not work, see TODO")
+@Ignore(value="disabled by EASY-841, 2 commits after v2.9-RC-7. Restored to allow compare with new webui version.")
 public class EasyItemContainerAuthzStrategyTest {
-
-    private FileStoreMocker fileStoreMocker;
-    private Dataset dataset;
-    private FolderItem folder;
-
-    @Before
-    public void initDB() throws Exception {
-        mockDataset(mockItemContainerMetadata());
-        fileStoreMocker = new FileStoreMocker();
-        fileStoreMocker.insertRootFolder(dataset);
-        folder = fileStoreMocker.insertFolder(1, dataset, "folder1");
-        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
-    }
-
-    @After
-    public void reset() {
-        fileStoreMocker.deleteAll(FileItemVO.class);
-        fileStoreMocker.deleteAll(FolderItemVO.class);
-        TestUtil.cleanup();
-    }
 
     @Test
     public void singleMessageTestYes() throws Exception {
 
-        // fileStoreAccessExpectations(AccessibleTo.ANONYMOUS);
-        fileStoreMocker.insertFile(1, folder, "file1", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
+        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS);
 
+        Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
 
         replayAll();
@@ -61,15 +42,16 @@ public class EasyItemContainerAuthzStrategyTest {
         EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
         AuthzMessage message = strategy.getSingleReadMessage();
         assertEquals("dataset.authzstrategy.sm.yes", message.getMessageCode());
+
+        verifyAll();
     }
 
     @Test
     public void singleMessageTestLogin() throws Exception {
 
-        // fileStoreAccessExpectations(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN);
-        fileStoreMocker.insertFile(1, folder, "file1", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
-        fileStoreMocker.insertFile(2, folder, "file2", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
+        fileStoreAccessExpectations(AccessibleTo.ANONYMOUS, AccessibleTo.KNOWN);
 
+        Dataset dataset = mockDataset(mockItemContainerMetadata());
         EasyUser user = mockUser();
 
         replayAll();
@@ -77,6 +59,16 @@ public class EasyItemContainerAuthzStrategyTest {
         EasyItemContainerAuthzStrategy strategy = new EasyItemContainerAuthzStrategy(user, dataset, dataset);
         AuthzMessage message = strategy.getSingleReadMessage();
         assertEquals("dataset.authzstrategy.sm.login", message.getMessageCode());
+
+        verifyAll();
+    }
+
+    private void fileStoreAccessExpectations(AccessibleTo... accessibleToArray) throws StoreAccessException {
+
+        HashSet<AccessibleTo> accessibleToSet = new HashSet<AccessibleTo>(Arrays.asList(accessibleToArray));
+        FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
+        //expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
+        new Data().setFileStoreAccess(fileStoreAccess);
     }
 
     private DatasetItemContainerMetadata mockItemContainerMetadata() {
@@ -86,17 +78,17 @@ public class EasyItemContainerAuthzStrategyTest {
         return icmd;
     }
 
-    private void mockDataset(DatasetItemContainerMetadata itemContainerMetadata) {
+    private Dataset mockDataset(DatasetItemContainerMetadata itemContainerMetadata) {
 
         // constructor
-        dataset = createMock(Dataset.class);
+        Dataset dataset = createMock(Dataset.class);
         expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:1"));
-        expect(dataset.getStoreId()).andStubReturn("dataset:1"); // TODO why doesn't this fix exception: missing behavior Dataset.getStoreID()
         expect(dataset.getDatasetItemContainerMetadata()).andReturn(itemContainerMetadata).times(1);
 
         // isEnableAllowed?
         expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
         expect(dataset.isUnderEmbargo()).andReturn(false);
+        return dataset;
     }
 
     private EasyUser mockUser() {

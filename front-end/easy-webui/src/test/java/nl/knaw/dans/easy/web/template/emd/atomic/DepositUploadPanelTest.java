@@ -39,13 +39,13 @@ public class DepositUploadPanelTest {
         String datasetId = new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId();
         final Dataset dataset = new DatasetImpl(datasetId);
 
-        final FileStoreMocker inMemoryDB = initInMemoryDB(dataset);
-        new Data().setFileStoreAccess(inMemoryDB.getFileStoreAccess());
+        final FileStoreMocker fileStoreMocker = initFileStoreMocker(dataset);
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
 
         final EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
         applicationContextMock.expectStandardSecurity();
         applicationContextMock.expectNoAudioVideoFiles();
-        applicationContextMock.putBean("fileStoreAccess", inMemoryDB.getFileStoreAccess());
+        applicationContextMock.putBean("fileStoreAccess", fileStoreMocker.getFileStoreAccess());
 
         PowerMock.replayAll();
 
@@ -76,7 +76,7 @@ public class DepositUploadPanelTest {
         // formTester.submit();
     }
 
-    private FileStoreMocker initInMemoryDB(final Dataset dataset) throws Exception {
+    private FileStoreMocker initFileStoreMocker(final Dataset dataset) throws Exception {
         final FileStoreMocker fileStoreMocker = new FileStoreMocker();
         fileStoreMocker.insertRootFolder(dataset);
         final FolderItem folder = fileStoreMocker.insertFolder(1, dataset, "a");

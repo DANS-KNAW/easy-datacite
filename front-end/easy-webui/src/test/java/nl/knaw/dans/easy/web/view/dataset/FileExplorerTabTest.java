@@ -38,7 +38,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
+@Ignore(value = "suffers from dependencies")
 /** See also DatasetPermissionTest.fileExplorerTab */
 public class FileExplorerTabTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerTabTest.class);

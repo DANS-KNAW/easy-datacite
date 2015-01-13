@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy;
 
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.fileexplorer.Util;
 
@@ -19,5 +20,15 @@ public class TestUtil {
         new Data().setMigrationRepo(null);
         new Data().setSearchEngine(null);
         new Data().setUserRepo(null);
+        new Services().setCollectionService(null);
+        new Services().setDatasetService(null);
+        new Services().setDepositService(null);
+        new Services().setDisciplineService(null);
+        new Services().setFederativeUserService(null);
+        new Services().setItemService(null);
+        new Services().setJumpoffService(null);
+        new Services().setMigrationService(null);
+        new Services().setSearchService(null);
+        new Services().setUserService(null);
     }
 }

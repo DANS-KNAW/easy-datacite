@@ -33,7 +33,6 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.PageParameters;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
