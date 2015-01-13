@@ -260,18 +260,31 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
     protected List<SortLinkConfig> getSortLinks() {
         List<SortLinkConfig> sortLinks = new ArrayList<SortLinkConfig>();
         sortLinks.add(new SortLinkConfig("relevance", SortType.BY_RELEVANCE_SCORE, SortOrder.DESC));
-        sortLinks.add(new SortLinkConfig(DatasetSB.DC_TITLE_SORTFIELD, SortType.BY_VALUE));
-        sortLinks.add(new SortLinkConfig(DatasetSB.DC_CREATOR_SORTFIELD, SortType.BY_VALUE));
-        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_CREATED_FIELD, SortType.BY_VALUE, SortOrder.DESC));
-        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD, SortType.BY_VALUE));
-        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortType.BY_VALUE, SortOrder.DESC));
-        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_DRAFT_SAVED_FIELD, SortType.BY_VALUE, SortOrder.DESC, DatasetState.DRAFT));
-        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_PUBLISHED_FIELD, SortType.BY_VALUE, SortOrder.DESC, DatasetState.PUBLISHED,
-                DatasetState.MAINTENANCE));
-        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE));
+        sortLinks.add(new SortLinkConfig(DatasetSB.DC_TITLE_SORTFIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+        sortLinks.add(new SortLinkConfig(DatasetSB.DC_TITLE_SORTFIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
+        sortLinks.add(new SortLinkConfig(DatasetSB.DC_CREATOR_SORTFIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+        sortLinks.add(new SortLinkConfig(DatasetSB.DC_CREATOR_SORTFIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_CREATED_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.OldesttoNewest"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_CREATED_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.NewesttoOldest"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.OldesttoNewest"));
+        sortLinks.add(new SortLinkConfig(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.NewesttoOldest"));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_DRAFT_SAVED_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.OldesttoNewest",
+                DatasetState.DRAFT));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_DRAFT_SAVED_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.NewesttoOldest",
+                DatasetState.DRAFT));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_PUBLISHED_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.OldesttoNewest",
+                DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DATE_PUBLISHED_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.NewesttoOldest",
+                DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+        sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
         if (EasySession.get().getUser().hasRole(Role.ARCHIVIST)) {
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE));
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.0to9"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.9to0"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.0to9"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.9to0"));
         }
         return sortLinks;
     }

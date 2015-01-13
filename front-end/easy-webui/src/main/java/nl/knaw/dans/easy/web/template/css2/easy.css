@@ -8382,6 +8382,10 @@ form.deposit-form .row {
   z-index: 0;
 }
 
+.extra-bottom-spacing {
+  padding-bottom: 15px;
+}
+
 h1.search-results-heading {
   text-transform: uppercase;
   margin: 0;

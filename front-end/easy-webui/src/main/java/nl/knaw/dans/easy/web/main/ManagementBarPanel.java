@@ -58,6 +58,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel {
         item.add(link);
         return item;
     }
+
     private WebMarkupContainer createListLinkWithoutCount(RepeatingView listItems, Class linkItem, String name) {
         WebMarkupContainer item = new WebMarkupContainer(listItems.newChildId());
         SecureEasyPageLink link = new SecureEasyPageLink("link", linkItem);
@@ -65,6 +66,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel {
         item.add(link);
         return item;
     }
+
     // Note: the following members are much alike, maybe we can refactor this
 
     private LoadableDetachableModel<Integer> createAllWorkModel() {

@@ -3,6 +3,7 @@ package nl.knaw.dans.common.wicket.components.search.results;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.search.SortField;
+import nl.knaw.dans.common.lang.search.SortOrder;
 import nl.knaw.dans.common.lang.search.SortType;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.wicket.components.search.BaseSearchPanel;
@@ -62,14 +63,17 @@ public class SearchSortPanel extends BaseSearchPanel {
 
             @Override
             public Object getDisplayValue(SortLinkConfig object) {
-                Label sortTextLabel;
+                String sortTextLabel;
                 if (object.getSortType().equals(SortType.BY_RELEVANCE_SCORE)) {
-                    sortTextLabel = new Label("not_used", new ResourceModel(SEARCHSORTPANEL_RELEVANCE));
+                    sortTextLabel = getString(SEARCHSORTPANEL_RELEVANCE);
                 } else {
-                    sortTextLabel = new Label("not_used", new ResourceModel("fieldname." + object.getFieldName()));
+                    sortTextLabel = getString("fieldname." + object.getFieldName());
                 }
 
-                return sortTextLabel.getDefaultModelObjectAsString();
+                if (object.getInitialSortOrderTitle() != null) {
+                    sortTextLabel += " " + getString(object.getInitialSortOrderTitle());
+                }
+                return sortTextLabel;
             }
         }
 

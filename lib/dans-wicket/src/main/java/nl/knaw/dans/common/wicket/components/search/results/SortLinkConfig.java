@@ -24,6 +24,8 @@ public class SortLinkConfig implements Serializable {
 
     private final SortOrder initialSortOrder;
 
+    private String initialSortOrderTitle;
+
     /**
      * Either set this property or use override the isVisible method for conditional visibility.
      */
@@ -45,6 +47,13 @@ public class SortLinkConfig implements Serializable {
         this.initialSortOrder = initialSortOrder;
     }
 
+    public SortLinkConfig(String fieldName, SortType sortType, SortOrder initialSortOrder, String initialSortOrderTitle) {
+        this.fieldName = fieldName;
+        this.sortType = sortType;
+        this.initialSortOrder = initialSortOrder;
+        this.initialSortOrderTitle = initialSortOrderTitle;
+    }
+
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
@@ -63,6 +72,10 @@ public class SortLinkConfig implements Serializable {
 
     public SortOrder getInitialSortOrder() {
         return initialSortOrder;
+    }
+
+    public String getInitialSortOrderTitle() {
+        return initialSortOrderTitle;
     }
 
     public boolean isVisible(SearchModel model) {
