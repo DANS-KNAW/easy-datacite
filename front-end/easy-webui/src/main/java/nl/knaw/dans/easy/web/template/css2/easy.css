@@ -8207,8 +8207,12 @@ a, a:hover {
   .search-nav .search-help {
     padding-top: 2px;
     width: 100%;
-    text-align: right;
     margin-left: 0;
+  }
+  .search-nav .search-help a.help-popup-trigger {
+    display: block;
+    width: 100%;
+    text-align: right;
   }
 }
 .search-nav .search-extra {
