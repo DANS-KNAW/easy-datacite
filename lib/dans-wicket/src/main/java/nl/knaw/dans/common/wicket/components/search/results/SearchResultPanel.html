@@ -1,51 +1,51 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-<div class="container-fluid">
-    <wicket:enclosure child="searchHits">
-        <div class="extra-bottom-spacing"></div>
-        <div class="row">
-            <ul class="list-group search-hits col-lg-8 col-md-7 col-sm-7 col-xs-12">
+<wicket:enclosure child="searchHits">
+    <div class="extra-bottom-spacing"></div>
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+            <ul class="list-group search-hits">
                 <li wicket:id="searchHits" class="linked-list-group-item">
                     <span wicket:id="searchHit">[hit]</span>
                 </li>
             </ul>
-            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
-                <div class="row extra-bottom-spacing" wicket:enclosure="sortPanel">
-                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
-                        <wicket:message key="searchsortpanel.by">[Sort by: ]</wicket:message>
-                    </div>
-                    <div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">
-                        <div wicket:id="sortPanel">[sortPanel]</div>
-                    </div>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12">
+            <div class="row extra-bottom-spacing" wicket:enclosure="sortPanel">
+                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                    <wicket:message key="searchsortpanel.by">[Sort by: ]</wicket:message>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2><wicket:message key="searchresultpanel.refine.label">Refine</wicket:message></h2>
-                        <span wicket:id="refineHelpPopup"></span>
+                <div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">
+                    <div wicket:id="sortPanel">[sortPanel]</div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2><wicket:message key="searchresultpanel.refine.label">Refine</wicket:message></h2>
+                    <span wicket:id="refineHelpPopup"></span>
+                </div>
+                <div class="panel-body">
+                    <div wicket:id="searchCriteria">[searchCriteria]</div>
+                    <div class="panel panel-default" wicket:id="refineSearchContainer">
+                        <div class="panel-body">
+                            <div wicket:id="refineSearchPanel" class="refineSearchPanel">[search within results panel]</div>
+                            <a wicket:id="advancedSearch">
+                                <wicket:message key="searchresultpanel.advancedsearch.label">advanced search</wicket:message>
+                            </a>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <div wicket:id="searchCriteria">[searchCriteria]</div>
-                        <div class="panel panel-default" wicket:id="refineSearchContainer">
-                            <div class="panel-body">
-                                <div wicket:id="refineSearchPanel" class="refineSearchPanel">[search within results panel]</div>
-                                <a wicket:id="advancedSearch">
-                                    <wicket:message key="searchresultpanel.advancedsearch.label">advanced search</wicket:message>
-                                </a>
-                            </div>
+                    <div wicket:id="refineFacetsEnclosure">
+                        <div wicket:id="refineFacets">
+                            <div wicket:id="facet"></div>
                         </div>
-                        <div wicket:id="refineFacetsEnclosure">
-                            <div wicket:id="refineFacets">
-                                <div wicket:id="facet"></div>
-                            </div>
-                            <a wicket:id="browseMore"><wicket:message key="searchresultpanel.browsemore.label">Browse more...</wicket:message></a>
-                        </div>
+                        <a wicket:id="browseMore"><wicket:message key="searchresultpanel.browsemore.label">Browse more...</wicket:message></a>
                     </div>
                 </div>
             </div>
         </div>
-    </wicket:enclosure>
-</div>
+    </div>
+</wicket:enclosure>
 
 <wicket:child />
 </wicket:panel>

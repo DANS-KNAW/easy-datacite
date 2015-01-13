@@ -11,97 +11,95 @@
         <wicket:extend>
             <h1><wicket:message key="page.header">[Advanced Search]</wicket:message></h1>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback col-xs-12">Messages</div>
-                </div>
-                <div class="row">
-                    <div wicket:id="searchCriteria" class="col-xs-12"></div>
-                </div>
-                <div class="row">
-                    <form wicket:id="advancedSearchForm" role="form" class="form-horizontal col-xs-12 col-sm-8 col-md-7 col-lg-6">
-                        <div wicket:id="archivistOptions" class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div  wicket:id="statusGroup">
-                                        <label class="control-label col-sm-3" for="search_adv_status">
-                                            <wicket:message key="label.status">Status</wicket:message>
+            <div class="row">
+                <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback col-xs-12">Messages</div>
+            </div>
+            <div class="row">
+                <div wicket:id="searchCriteria" class="col-xs-12"></div>
+            </div>
+            <div class="row">
+                <form wicket:id="advancedSearchForm" role="form" class="form-horizontal col-xs-12 col-sm-8 col-md-7 col-lg-6">
+                    <div wicket:id="archivistOptions" class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div  wicket:id="statusGroup">
+                                    <label class="control-label col-sm-3" for="search_adv_status">
+                                        <wicket:message key="label.status">Status</wicket:message>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <label class="checkbox-inline" wicket:id="states">
+                                            <input type="checkbox" wicket:id="checkbox"/>
+                                            <span wicket:id="status">[STATUS]</span>
                                         </label>
-                                        <div class="col-sm-9">
-                                            <label class="checkbox-inline" wicket:id="states">
-                                                <input type="checkbox" wicket:id="checkbox"/>
-                                                <span wicket:id="status">[STATUS]</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3" for="search_adv_depositor">Depositor</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" type="text" wicket:id="depositorField" id="search_adv_depositor" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-sm-3" for="search_adv_assignedto">Assigned to</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" wicket:id="assignedToField" id="search_adv_assignedto"></select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="search_adv_depositor">Depositor</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" wicket:id="depositorField" id="search_adv_depositor" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="search_adv_assignedto">Assigned to</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" wicket:id="assignedToField" id="search_adv_assignedto"></select>
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_any"><wicket:message key="label.anyfield" >[Any field]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="anyField" id="search_adv_any" />
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_any"><wicket:message key="label.anyfield" >[Any field]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="anyField" id="search_adv_any" />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_title"><wicket:message key="label.title" >[Title]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="titleField" id="search_adv_title" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_title"><wicket:message key="label.title" >[Title]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="titleField" id="search_adv_title" />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_creator"><wicket:message key="label.creator" >[Creator]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="creatorField" id="search_adv_creator" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_creator"><wicket:message key="label.creator" >[Creator]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="creatorField" id="search_adv_creator" />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_description"><wicket:message key="label.description" >[Description]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="descriptionField" id="search_adv_description" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_description"><wicket:message key="label.description" >[Description]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="descriptionField" id="search_adv_description" />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_subject"><wicket:message key="label.subject" >[Subject]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="subjectField" id="search_adv_subject" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_subject"><wicket:message key="label.subject" >[Subject]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="subjectField" id="search_adv_subject" />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_coverage"><wicket:message key="label.coverage" >[Coverage]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="coverageField" id="search_adv_coverage" />
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_coverage"><wicket:message key="label.coverage" >[Coverage]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="coverageField" id="search_adv_coverage" />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-sm-3" for="search_adv_identifier"><wicket:message key="label.identifier" >[Identifier]</wicket:message></label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" wicket:id="identifierField" id="search_adv_identifier" />
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="search_adv_identifier"><wicket:message key="label.identifier" >[Identifier]</wicket:message></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" wicket:id="identifierField" id="search_adv_identifier" />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9">
-                                <input type="submit" wicket:message="value:label.search" wicket:id="submitButton" class="btn btn-primary" />
-                                <button wicket:id="cancelButton" class="btn btn-danger"><wicket:message key="label.cancel" >[Cancel]</wicket:message></button>
-                            </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <input type="submit" wicket:message="value:label.search" wicket:id="submitButton" class="btn btn-primary" />
+                            <button wicket:id="cancelButton" class="btn btn-danger"><wicket:message key="label.cancel" >[Cancel]</wicket:message></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </wicket:extend>
     </body>

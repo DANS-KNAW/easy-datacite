@@ -5,34 +5,32 @@
 </head>
 <body>
 <wicket:extend>
-	<h1>
-		<wicket:message key="linking.heading">Account linking</wicket:message>
-	</h1>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
-				<p><wicket:message key="linking.explanation">Explanation about account linking</wicket:message></p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-0 col-sm-5" wicket:id="loginPanelRegular">[LoginPanel Regular]</div>
-			<div class="col-lg-1 col-md-1 col-sm-1 login-choose-or-link"><i class="fa fa-link fa-2x fa-flip-horizontal"></i></div>
-			<div class="col-lg-4 col-md-5 col-sm-5" wicket:id="federationUserInfoPanel">[Federation user info]</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
-				<div class="h2">
-					<wicket:message key="login.registration.header">No account header</wicket:message>
-				</div>
-				<p wicket:id="registration_and_linking">
-					<wicket:message key="linking.registration">
-						Linking registration
-				    	<a href="#" wicket:id="registration"> <span wicket:id="registration_link_label_id">Register</span></a>
-					</wicket:message>
-				</p>
-			</div>
-		</div>
-	</div>
+    <h1>
+        <wicket:message key="linking.heading">Account linking</wicket:message>
+    </h1>
+    <div class="row">
+        <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
+            <p><wicket:message key="linking.explanation">Explanation about account linking</wicket:message></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-0 col-sm-5" wicket:id="loginPanelRegular">[LoginPanel Regular]</div>
+        <div class="col-lg-1 col-md-1 col-sm-1 login-choose-or-link"><i class="fa fa-link fa-2x fa-flip-horizontal"></i></div>
+        <div class="col-lg-4 col-md-5 col-sm-5" wicket:id="federationUserInfoPanel">[Federation user info]</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
+            <div class="h2">
+                <wicket:message key="login.registration.header">No account header</wicket:message>
+            </div>
+            <p wicket:id="registration_and_linking">
+                <wicket:message key="linking.registration">
+                    Linking registration
+                    <a href="#" wicket:id="registration"> <span wicket:id="registration_link_label_id">Register</span></a>
+                </wicket:message>
+            </p>
+        </div>
+    </div>
 </wicket:extend>
 </body>
 </html>

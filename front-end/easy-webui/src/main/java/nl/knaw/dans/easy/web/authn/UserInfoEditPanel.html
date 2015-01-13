@@ -3,321 +3,319 @@
 
     <form wicket:id="userInfoForm">
         <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <colgroup>
-                                <col class="col-sm-2"></col>
-                                <col class="col-sm-5"></col>
-                                <col class="col-sm-5"></col>
-                            </colgroup>
-                            <thead>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-sm-2"></col>
+                            <col class="col-sm-5"></col>
+                            <col class="col-sm-5"></col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Account</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <wicket:enclosure>
                                 <tr>
-                                    <th colspan="3">Account</th>
+                                    <td><label for="userId"><wicket:message key="user.userId">User id</wicket:message></label></td>
+                                    <td><span id="userId" wicket:id="userId" /></td>
+                                    <td><wicket:message key="userid.explanation"/></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <wicket:enclosure>
-                                    <tr>
-                                        <td><label for="userId"><wicket:message key="user.userId">User id</wicket:message></label></td>
-                                        <td><span id="userId" wicket:id="userId" /></td>
-                                        <td><wicket:message key="userid.explanation"/></td>
-                                    </tr>
-                                </wicket:enclosure>
+                            </wicket:enclosure>
 
-                                <tr>
-                                    <td><label for="displayName"><wicket:message key="user.displayName">User displayName</wicket:message></label></td>
-                                    <td><span id="displayName" wicket:id="displayName" /></td>
-                                    <td><wicket:message key="displayName.explanation"/></td>
-                                </tr>
+                            <tr>
+                                <td><label for="displayName"><wicket:message key="user.displayName">User displayName</wicket:message></label></td>
+                                <td><span id="displayName" wicket:id="displayName" /></td>
+                                <td><wicket:message key="displayName.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                    <tr class="feedback"><td colspan="3"><span wicket:id="email-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="email"><wicket:message key="user.email">email</wicket:message></label></td>
-                                    <td><input id="email" type="text" wicket:id="email" class="form-control" required/></td>
-                                    <td><wicket:message key="email.explanation"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <wicket:enclosure>
+                                <tr class="feedback"><td colspan="3"><span wicket:id="email-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="email"><wicket:message key="user.email">email</wicket:message></label></td>
+                                <td><input id="email" type="text" wicket:id="email" class="form-control" required/></td>
+                                <td><wicket:message key="email.explanation"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <colgroup>
-                                <col class="col-sm-2"></col>
-                                <col class="col-sm-5"></col>
-                                <col class="col-sm-5"></col>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th colspan="3">Settings</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><label for="optsForNewsletter"><wicket:message key="user.optsForNewsletter">Inform me</wicket:message></label></td>
-                                    <td>
-                                        <span wicket:id="optsForNewsletter">
-                                            <div class="radio">
-                                                <label>
-                                                    <input wicket:id="news-yes" type="radio"/>
-                                                    <wicket:message key="userinfo.optsForNewsletter.yes">Yes</wicket:message>
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input wicket:id="news-no" type="radio"/>
-                                                    <wicket:message key="userinfo.optsForNewsletter.no">No</wicket:message>
-                                                </label>
-                                            </div>
-                                        </span>
-                                    </td>
-                                    <td><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
-                                </tr>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-sm-2"></col>
+                            <col class="col-sm-5"></col>
+                            <col class="col-sm-5"></col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Settings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><label for="optsForNewsletter"><wicket:message key="user.optsForNewsletter">Inform me</wicket:message></label></td>
+                                <td>
+                                    <span wicket:id="optsForNewsletter">
+                                        <div class="radio">
+                                            <label>
+                                                <input wicket:id="news-yes" type="radio"/>
+                                                <wicket:message key="userinfo.optsForNewsletter.yes">Yes</wicket:message>
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input wicket:id="news-no" type="radio"/>
+                                                <wicket:message key="userinfo.optsForNewsletter.no">No</wicket:message>
+                                            </label>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td><wicket:message key="userinfo.optsForNewsletter.explanation">explanation</wicket:message></td>
+                            </tr>
 
-                                <tr>
-                                    <td><label for="logMyActions"><wicket:message key="user.logMyActions">Log my actions</wicket:message></label></td>
-                                    <td>
-                                        <span wicket:id="logMyActions">
-                                            <div class="radio">
-                                                <label>
-                                                    <input wicket:id="log-yes" type="radio"/><wicket:message key="userinfo.logMyActions.yes">Yes</wicket:message><br />
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input wicket:id="log-no" type="radio"/><wicket:message key="userinfo.logMyActions.no">No</wicket:message>
-                                                </label>
-                                            </div>
-                                        </span>
-                                    </td>
-                                    <td><wicket:message key="userinfo.logMyActions.explanation">explanation</wicket:message></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <tr>
+                                <td><label for="logMyActions"><wicket:message key="user.logMyActions">Log my actions</wicket:message></label></td>
+                                <td>
+                                    <span wicket:id="logMyActions">
+                                        <div class="radio">
+                                            <label>
+                                                <input wicket:id="log-yes" type="radio"/><wicket:message key="userinfo.logMyActions.yes">Yes</wicket:message><br />
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input wicket:id="log-no" type="radio"/><wicket:message key="userinfo.logMyActions.no">No</wicket:message>
+                                            </label>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td><wicket:message key="userinfo.logMyActions.explanation">explanation</wicket:message></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <colgroup>
-                                <col class="col-sm-2"></col>
-                                <col class="col-sm-5"></col>
-                                <col class="col-sm-5"></col>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th colspan="3">Person</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="title-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="title"><wicket:message key="user.title">title</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="title" type="text" wicket:id="title" class="form-control" /></td>
-                                    <td><wicket:message key="title.explanation"/></td>
-                                </tr>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-sm-2"></col>
+                            <col class="col-sm-5"></col>
+                            <col class="col-sm-5"></col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Person</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="title-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="title"><wicket:message key="user.title">title</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="title" type="text" wicket:id="title" class="form-control" /></td>
+                                <td><wicket:message key="title.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="initials-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="initials"><wicket:message key="user.initials">initials</wicket:message></label></td>
-                                    <td><input id="initials" type="text" wicket:id="initials" class="form-control" required /></td>
-                                    <td><wicket:message key="initials.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="initials-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="initials"><wicket:message key="user.initials">initials</wicket:message></label></td>
+                                <td><input id="initials" type="text" wicket:id="initials" class="form-control" required /></td>
+                                <td><wicket:message key="initials.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="prefixes-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="prefixes"><wicket:message key="user.prefixes">prefixes</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="prefixes" type="text" wicket:id="prefixes" class="form-control" /></td>
-                                    <td><wicket:message key="prefixes.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="prefixes-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="prefixes"><wicket:message key="user.prefixes">prefixes</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="prefixes" type="text" wicket:id="prefixes" class="form-control" /></td>
+                                <td><wicket:message key="prefixes.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="surname-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="surname"><wicket:message key="user.surname">surname</wicket:message></label></td>
-                                    <td><input id="surname" type="text" wicket:id="surname" class="form-control" required /></td>
-                                    <td><wicket:message key="surname.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="surname-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="surname"><wicket:message key="user.surname">surname</wicket:message></label></td>
+                                <td><input id="surname" type="text" wicket:id="surname" class="form-control" required /></td>
+                                <td><wicket:message key="surname.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="function-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="function"><wicket:message key="user.function">function</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="function" type="text" wicket:id="function" class="form-control" /></td>
-                                    <td><wicket:message key="function.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="function-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="function"><wicket:message key="user.function">function</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="function" type="text" wicket:id="function" class="form-control" /></td>
+                                <td><wicket:message key="function.explanation"/></td>
+                            </tr>
 
-                                <tr>
-                                    <td>
-                                        <label for="discipline1"><wicket:message key="user.discipline1">Discipline 1</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><select class="form-control" id="discipline1" wicket:id="discipline1" /></td>
-                                    <td><wicket:message key="discipline1.explanation">explanation</wicket:message></td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <label for="discipline1"><wicket:message key="user.discipline1">Discipline 1</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><select class="form-control" id="discipline1" wicket:id="discipline1" /></td>
+                                <td><wicket:message key="discipline1.explanation">explanation</wicket:message></td>
+                            </tr>
 
-                                <tr>
-                                    <td>
-                                        <label for="discipline2"><wicket:message key="user.discipline2">Discipline 2</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><select class="form-control" id="discipline2" wicket:id="discipline2" /></td>
-                                    <td><wicket:message key="discipline2.explanation">explanation</wicket:message></td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <label for="discipline2"><wicket:message key="user.discipline2">Discipline 2</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><select class="form-control" id="discipline2" wicket:id="discipline2" /></td>
+                                <td><wicket:message key="discipline2.explanation">explanation</wicket:message></td>
+                            </tr>
 
-                                <tr>
-                                    <td>
-                                        <label for="discipline3"><wicket:message key="user.discipline3">Discipline 3</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><select class="form-control" id="discipline3" wicket:id="discipline3" /></td>
-                                    <td><wicket:message key="discipline3.explanation">explanation</wicket:message></td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <label for="discipline3"><wicket:message key="user.discipline3">Discipline 3</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><select class="form-control" id="discipline3" wicket:id="discipline3" /></td>
+                                <td><wicket:message key="discipline3.explanation">explanation</wicket:message></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="telephone-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="telephone"><wicket:message key="user.telephone">telephone</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="telephone" type="text" wicket:id="telephone" class="form-control" /></td>
-                                    <td><wicket:message key="telephone.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="telephone-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="telephone"><wicket:message key="user.telephone">telephone</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="telephone" type="text" wicket:id="telephone" class="form-control" /></td>
+                                <td><wicket:message key="telephone.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                    <tr class="feedback">
-                                        <td colspan="3"><span wicket:id="dai-componentFeedback" /></td>
-                                    </tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="dai"><wicket:message key="user.dai">DAI</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="dai" type="text" wicket:id="dai" class="form-control" /></td>
-                                    <td><wicket:message key="dai.explanation">explanation</wicket:message></td>
+                            <wicket:enclosure>
+                                <tr class="feedback">
+                                    <td colspan="3"><span wicket:id="dai-componentFeedback" /></td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="dai"><wicket:message key="user.dai">DAI</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="dai" type="text" wicket:id="dai" class="form-control" /></td>
+                                <td><wicket:message key="dai.explanation">explanation</wicket:message></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <colgroup>
-                                <col class="col-sm-2"></col>
-                                <col class="col-sm-5"></col>
-                                <col class="col-sm-5"></col>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th colspan="3">Organisation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="organization-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="organization"><wicket:message key="user.organization">organization</wicket:message></label></td>
-                                    <td><input id="organization" type="text" wicket:id="organization" class="form-control" required /></td>
-                                    <td><wicket:message key="organization.explanation"/></td>
-                                </tr>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <colgroup>
+                            <col class="col-sm-2"></col>
+                            <col class="col-sm-5"></col>
+                            <col class="col-sm-5"></col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th colspan="3">Organisation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="organization-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="organization"><wicket:message key="user.organization">organization</wicket:message></label></td>
+                                <td><input id="organization" type="text" wicket:id="organization" class="form-control" required /></td>
+                                <td><wicket:message key="organization.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="department-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="department"><wicket:message key="user.department">department</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="department" type="text" wicket:id="department" class="form-control" /></td>
-                                    <td><wicket:message key="department.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="department-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="department"><wicket:message key="user.department">department</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="department" type="text" wicket:id="department" class="form-control" /></td>
+                                <td><wicket:message key="department.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                <tr class="feedback"><td colspan="3"><span wicket:id="address-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="address"><wicket:message key="user.address">address</wicket:message></label></td>
-                                    <td><input id="address" type="text" wicket:id="address" class="form-control" required /></td>
-                                    <td><wicket:message key="address.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                            <tr class="feedback"><td colspan="3"><span wicket:id="address-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="address"><wicket:message key="user.address">address</wicket:message></label></td>
+                                <td><input id="address" type="text" wicket:id="address" class="form-control" required /></td>
+                                <td><wicket:message key="address.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                    <tr class="feedback"><td colspan="3"><span wicket:id="postalCode-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="postalCode"><wicket:message key="user.postalCode">postalCode</wicket:message></label></td>
-                                    <td><input id="postalCode" type="text" wicket:id="postalCode" class="form-control" required /></td>
-                                    <td><wicket:message key="postalCode.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                                <tr class="feedback"><td colspan="3"><span wicket:id="postalCode-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="postalCode"><wicket:message key="user.postalCode">postalCode</wicket:message></label></td>
+                                <td><input id="postalCode" type="text" wicket:id="postalCode" class="form-control" required /></td>
+                                <td><wicket:message key="postalCode.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                    <tr class="feedback"><td colspan="3"><span wicket:id="city-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td><label for="city"><wicket:message key="user.city">city</wicket:message></label></td>
-                                    <td><input id="city" type="text" wicket:id="city" class="form-control" required /></td>
-                                    <td><wicket:message key="city.explanation"/></td>
-                                </tr>
+                            <wicket:enclosure>
+                                <tr class="feedback"><td colspan="3"><span wicket:id="city-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td><label for="city"><wicket:message key="user.city">city</wicket:message></label></td>
+                                <td><input id="city" type="text" wicket:id="city" class="form-control" required /></td>
+                                <td><wicket:message key="city.explanation"/></td>
+                            </tr>
 
-                                <wicket:enclosure>
-                                    <tr class="feedback"><td colspan="3"><span wicket:id="country-componentFeedback"/></td></tr>
-                                </wicket:enclosure>
-                                <tr>
-                                    <td>
-                                        <label for="country"><wicket:message key="user.country">country</wicket:message></label>
-                                        <wicket:message key="optional" />
-                                    </td>
-                                    <td><input id="country" type="text" wicket:id="country" class="form-control" /></td>
-                                    <td><wicket:message key="country.explanation"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            <wicket:enclosure>
+                                <tr class="feedback"><td colspan="3"><span wicket:id="country-componentFeedback"/></td></tr>
+                            </wicket:enclosure>
+                            <tr>
+                                <td>
+                                    <label for="country"><wicket:message key="user.country">country</wicket:message></label>
+                                    <wicket:message key="optional" />
+                                </td>
+                                <td><input id="country" type="text" wicket:id="country" class="form-control" /></td>
+                                <td><wicket:message key="country.explanation"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>
-                        <a wicket:id="update" class="btn btn-primary"><wicket:message key="update">Update</wicket:message></a>
-                        <input type="submit" style="display:none" />
-                        <a wicket:id="cancel" class="btn btn-danger"><wicket:message key="cancel">Cancel</wicket:message></a>
-                    </p>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>
+                    <a wicket:id="update" class="btn btn-primary"><wicket:message key="update">Update</wicket:message></a>
+                    <input type="submit" style="display:none" />
+                    <a wicket:id="cancel" class="btn btn-danger"><wicket:message key="cancel">Cancel</wicket:message></a>
+                </p>
             </div>
         </div>
     </form>
