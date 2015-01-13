@@ -25,6 +25,11 @@ public class StateSortLinkConfig extends SortLinkConfig {
         this.mustHaveStates = mustHaveStates;
     }
 
+    public StateSortLinkConfig(String name, SortType type, SortOrder initialSortOrder, String initialSortOrderTitle, DatasetState... mustHaveStates) {
+        super(name, type, initialSortOrder, initialSortOrderTitle);
+        this.mustHaveStates = mustHaveStates;
+    }
+
     @Override
     public boolean isVisible(SearchData sdata) {
         FacetField stateFacet;
