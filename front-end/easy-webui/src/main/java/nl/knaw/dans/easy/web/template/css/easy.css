@@ -8154,7 +8154,6 @@ a, a:hover {
 .content {
   padding-top: 30px;
   padding-bottom: 30px;
-  width: 100%;
 }
 
 .header {
@@ -8185,18 +8184,8 @@ a, a:hover {
 .search-nav a:hover {
   color: black;
 }
-.search-nav .search {
-  display: inline-block;
-  width: 100%;
-}
-.search-nav .search .input-group, .search-nav .search .form-group {
-  width: 100%;
-}
 .search-nav .search input[type="text"] {
   border-color: #1D6F93;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  width: 100%;
 }
 .search-nav .search-help {
   display: inline-block;
@@ -8223,35 +8212,6 @@ a, a:hover {
 .search-nav .search-extra li {
   display: inline;
   padding-right: 1em;
-}
-
-.nav .management-bar {
-  position: absolute;
-  top: 290px;
-  right: 5%;
-}
-.nav .management-bar ul {
-  border: 1px solid #bbbbbb;
-  background: #efefef;
-  padding: 0.75em;
-}
-.nav .management-bar ul li {
-  display: inline;
-  padding: 0 0.5em;
-  border-right: 1px solid #bbbbbb;
-}
-.nav .management-bar ul li.last-child {
-  border: none;
-  padding-right: 0;
-}
-.nav .admin-banner {
-  position: absolute;
-  top: 30px;
-  right: 5%;
-  margin-right: 15px;
-  width: 400px;
-  z-index: 9999;
-  text-align: right;
 }
 
 .admin-nav {
@@ -8286,6 +8246,16 @@ a, a:hover {
 }
 .admin-nav .dropdown-menu a:hover {
   color: #DD291E;
+}
+
+.search input[type="submit"] {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  line-height: 1.8em;
+}
+.search input.form-control {
+  z-index: 0;
 }
 
 .footer {
@@ -8376,10 +8346,6 @@ div.panel.panel-default form {
 
 form.deposit-form .row {
   padding-bottom: 10px;
-}
-
-.search input.form-control {
-  z-index: 0;
 }
 
 .extra-bottom-spacing {
