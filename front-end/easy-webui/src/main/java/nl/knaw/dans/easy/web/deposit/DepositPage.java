@@ -120,7 +120,6 @@ public class DepositPage extends AbstractEasyNavPage {
     }
 
     private void init(DepositDiscipline discipline, String formDefinitionId) {
-        add(Style.DEPOSIT_HEADER_CONTRIBUTION);
         String definitionId = formDefinitionId;
         if (definitionId == null) {
             definitionId = DepositDiscipline.EMD_DEPOSITFORM_WIZARD;

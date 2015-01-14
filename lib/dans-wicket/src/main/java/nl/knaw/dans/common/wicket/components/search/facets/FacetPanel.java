@@ -113,13 +113,7 @@ public class FacetPanel extends BaseSearchPanel {
         add(new Label("facetName", getFacetNameModel(getFacetName())));
 
         // facet values UL
-        // set column count with a css class (see FacetPanel.css)
         WebMarkupContainer facetValueUl = new WebMarkupContainer("facetValuesUL");
-        add(CSSPackageResource.getHeaderContribution(new ResourceReference(FacetPanel.class, "FacetPanel.css")));
-        int colCount = getConfig().getColumnCount();
-        if (colCount > 1) {
-            facetValueUl.add(new AttributeAppender("class", new Model("fvCol" + colCount), " "));
-        }
         add(facetValueUl);
 
         // facet values LI

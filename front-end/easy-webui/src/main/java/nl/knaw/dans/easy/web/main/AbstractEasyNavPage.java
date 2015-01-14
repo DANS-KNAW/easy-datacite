@@ -184,7 +184,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         add(new BookmarkablePageLink<HomePage>(EASY_LOGO_LINK, HomePage.class));
         add(new BookmarkablePageLink<HomePage>(DANS_LOGO_LINK, HomePage.class));
 
-        add(Style.EASY2_HEADER_CONTRIBUTION);
+        add(Style.EASY_HEADER_CONTRIBUTION);
 
         // Search bar
         add(new SearchBar(SEARCH_PANEL, isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class));

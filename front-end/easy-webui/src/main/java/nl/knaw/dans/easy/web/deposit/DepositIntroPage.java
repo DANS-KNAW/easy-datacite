@@ -33,7 +33,6 @@ public class DepositIntroPage extends AbstractEasyNavPage {
     private DepositService depositService;
 
     public DepositIntroPage() {
-        add(Style.DEPOSIT_HEADER_CONTRIBUTION);
         ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines()) {
 
             private static final long serialVersionUID = -2578773278751553901L;
