@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.io.Serializable;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.download.DownloadList;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -20,6 +21,7 @@ import org.apache.wicket.util.tester.ITestPanelSource;
 import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -32,6 +34,11 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     private static final String ANONYMOUS_DOWNLOAD_LINE = "2013-12-13T00:00:00.000+01:00;anonymous; ; ; ; ;null;\n";
     private static final String PANEL = "panel";
     private static final String PANEL_DOWNLOAD_CSV = PANEL + ":" + DownloadActivityLogPanel.DOWNLOAD_CSV;
+
+    @After
+    public void cleanup() {
+        TestUtil.cleanup();
+    }
 
     @Test
     public void noDLH() throws Exception {

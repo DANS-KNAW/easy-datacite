@@ -8,11 +8,13 @@ import static org.powermock.api.easymock.PowerMock.createMock;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.web.HomePage;
 
+import org.junit.After;
 import org.junit.Test;
 
 public class TestUserInfoPage extends UserInfoFixture {
@@ -24,6 +26,11 @@ public class TestUserInfoPage extends UserInfoFixture {
         public UserInfoPageWrapper() {
             super(userId, inEditMode, enableModeSwith);
         }
+    }
+
+    @After
+    public void reset() {
+        TestUtil.cleanup();
     }
 
     @Test

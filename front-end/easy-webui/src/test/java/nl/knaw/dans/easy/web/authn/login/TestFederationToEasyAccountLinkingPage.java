@@ -1,17 +1,19 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 public class TestFederationToEasyAccountLinkingPage extends Fixture {
-    private static FederationUser federationUser;
+    private FederationUser federationUser;
 
     @Before
     public void mockFederationUser() throws Exception {
@@ -22,6 +24,11 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture {
         EasyMock.expect(federationUser.getGivenName()).andStubReturn("mocked given name");
         EasyMock.expect(federationUser.getSurName()).andStubReturn("mocked surname");
         EasyMock.expect(federationUser.getHomeOrg()).andStubReturn("mocked home org");
+    }
+
+    @After
+    public void reset() {
+        TestUtil.cleanup();
     }
 
     @Test

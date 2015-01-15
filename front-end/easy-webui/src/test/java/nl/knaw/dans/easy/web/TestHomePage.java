@@ -4,12 +4,12 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertNull;
 import static org.powermock.api.easymock.PowerMock.replayAll;
-import static org.powermock.api.easymock.PowerMock.resetAll;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -67,6 +67,11 @@ public class TestHomePage {
     public void setUp() throws Exception {
         setUpUsers();
         setupSearchServiceMock();
+    }
+
+    @After
+    public void tearDown() {
+        TestUtil.cleanup();
     }
 
     private void assertLinkVisibilityConformsToLoggedOffStatus() {
@@ -177,11 +182,6 @@ public class TestHomePage {
         expect(searchServiceMock.getNumberOfItemsInAllWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInOurWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInMyWork(isA(EasyUser.class))).andReturn(1).anyTimes();
-    }
-
-    @After
-    public void tearDown() {
-        resetAll();
     }
 
     private void assertPersonalBarItemsVisible() {

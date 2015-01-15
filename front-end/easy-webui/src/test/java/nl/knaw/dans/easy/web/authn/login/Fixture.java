@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 
@@ -39,8 +40,7 @@ public class Fixture {
     }
 
     @After
-    public void verify() {
-        PowerMock.verifyAll();
-        PowerMock.resetAll();
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 }

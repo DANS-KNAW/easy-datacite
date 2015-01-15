@@ -13,11 +13,15 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
+import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
+import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -31,35 +35,32 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
+import org.apache.wicket.PageParameters;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Ignore
 public class DatasetPermissionTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatasetPermissionTest.class);
     private EasyApplicationContextMock applicationContext;
-    private static DatasetImpl dataset;
+    private Dataset dataset;
     private boolean isDepositor;
     private PermissionSequence permissionSequence;
     private PermissionSequenceList permissionSequenceList;
     private PermissionRequestModel permissionRequestModel;
-    private InMemoryDatabase inMemoryDB;
+    private FileStoreMocker fileStoreMocker;
 
-    static public class PageWrapper extends DatasetViewPage {
-        public PageWrapper() {
-            super(dataset, DatasetViewPage.Mode.VIEW);
-        }
-    }
-
-    public void mockDataset() throws Exception {
+    public Dataset mockDataset() throws Exception {
         permissionRequestModel = new PermissionRequestModel();
         permissionSequence = PowerMock.createMock(PermissionSequence.class);
         permissionSequenceList = PowerMock.createMock(PermissionSequenceList.class);
@@ -67,7 +68,7 @@ public class DatasetPermissionTest {
         expect(permissionSequenceList.getPermissionRequest(isA(EasyUser.class))).andStubReturn(permissionRequestModel);
         expect(permissionSequenceList.isGrantedTo(isA(EasyUser.class))).andStubReturn(true);
 
-        dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId()) {
+        DatasetImpl dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -112,40 +113,39 @@ public class DatasetPermissionTest {
                 return null;
             }
         });
+        return dataset;
+    }
 
+    private DatasetService mockDatsetService(Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
         final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
         expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
         expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
-        applicationContext.setDatasetService(datasetService);
-    }
-
-    private void mockFileStoreAccess() throws Exception {
-        inMemoryDB = new InMemoryDatabase();
-        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
-        inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
-        inMemoryDB.flush();
-        FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
-        applicationContext.putBean("fileStoreAccess", fileStoreAccess);
-        new Data().setFileStoreAccess(fileStoreAccess);;
+        return datasetService;
     }
 
     @Before
     public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
+        dataset = mockDataset();
+        fileStoreMocker = new FileStoreMocker();
+        fileStoreMocker.insertRootFolder(dataset);
+        final FolderItem folder = fileStoreMocker.insertFolder(1, dataset, "a");
+        fileStoreMocker.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
+        fileStoreMocker.logContent(LOGGER);
+        new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
+        applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
+        applicationContext.setDatasetService(mockDatsetService(dataset));
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplineChoices();
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
         applicationContext.expectAuthenticatedAsVisitor();
-        mockDataset();
-        mockFileStoreAccess();
     }
 
     @After
-    public void reset() {
-        PowerMock.resetAll();
-        inMemoryDB.close();
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 
     @Test
@@ -176,9 +176,7 @@ public class DatasetPermissionTest {
         mockPermissionSequenceList();
         isDepositor = true;
 
-        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        PowerMock.replayAll();
-        tester.startPage(PageWrapper.class);
+        final EasyWicketTester tester = startPage();
         final String path = "tabs:tabs-container:tabs:" + 4 + ":link";
         tester.assertVisible(path);
         tester.assertEnabled(path);
@@ -191,8 +189,6 @@ public class DatasetPermissionTest {
         final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
         tester.dumpPage();
         tester.debugComponentTrees();
-
-        inMemoryDB.close();
     }
 
     @Test
@@ -297,14 +293,22 @@ public class DatasetPermissionTest {
     }
 
     private EasyWicketTester showTab(final int number, final String title) {
-        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        PowerMock.replayAll();
-        tester.startPage(PageWrapper.class);
+        final EasyWicketTester tester = startPage();
         final String path = "tabs:tabs-container:tabs:" + number + ":link";
         tester.assertLabel(path + ":title", title);
         tester.clickLink(path);
         tester.debugComponentTrees();
-        tester.assertRenderedPage(PageWrapper.class);
+        tester.assertRenderedPage(DatasetViewPage.class);
+        return tester;
+    }
+
+    private EasyWicketTester startPage() {
+        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
+        PowerMock.replayAll();
+        final PageParameters pageParameters = new PageParameters();
+        pageParameters.add(DatasetViewPage.PM_DATASET_ID, dataset.getStoreId());
+        pageParameters.add(DatasetViewPage.PM_VIEW_MODE, DatasetViewPage.Mode.VIEW.name());
+        tester.startPage(DatasetViewPage.class, pageParameters);
         return tester;
     }
 }

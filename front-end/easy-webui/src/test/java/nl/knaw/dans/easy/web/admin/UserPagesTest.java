@@ -2,9 +2,11 @@ package nl.knaw.dans.easy.web.admin;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 import static org.powermock.api.easymock.PowerMock.createMock;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import nl.knaw.dans.common.lang.ldap.OperationalAttributes;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -13,10 +15,13 @@ import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
+import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.ErrorPage;
 
@@ -26,28 +31,27 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
-@Ignore
 public class UserPagesTest {
-    private static final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
-    private static final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";
-    private static final String FORM_PATH = "userDetailsPanel:switchPanel:userInfoForm";
-    private static final String EDIT_LINK_PATH = "userDetailsPanel:switchPanel:editLink";
+    private final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
+    private final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";
+    private final String FORM_PATH = "userDetailsPanel:switchPanel:userInfoForm";
+    private final String EDIT_LINK_PATH = "userDetailsPanel:switchPanel:editLink";
     private EasyApplicationContextMock applicationContext;
     private EasyUserImpl sessionUser;
 
     @Before
     public void mockApplicationContext() throws Exception {
+        applicationContext = new EasyApplicationContextMock();
+
         sessionUser = new EasyUserTestImpl("mocked-user:archivist");
         sessionUser.setInitials("Archi");
         sessionUser.setSurname("Vist");
         sessionUser.addRole(Role.ARCHIVIST);
         sessionUser.setState(User.State.ACTIVE);
 
-        applicationContext = new EasyApplicationContextMock();
+        applicationContext.setDepositService(mockDespositChoices());
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectNoDatasetsInToolBar();
@@ -55,8 +59,8 @@ public class UserPagesTest {
     }
 
     @After
-    public void reset() {
-        PowerMock.resetAll();
+    public void cleanup() {
+        TestUtil.cleanup();
     }
 
     @Test
@@ -89,7 +93,7 @@ public class UserPagesTest {
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
         tester.dumpPage();
         tester.assertRenderedPage(UsersOverviewPage.class);
-        tester.assertInvisible("addLink");// is it ever made visible?
+        tester.debugComponentTrees();
         tester.clickLink(SHOW_USER_PATH);
         tester.assertRenderedPage(UserDetailsPage.class);
         tester.clickLink(EDIT_LINK_PATH);
@@ -126,9 +130,6 @@ public class UserPagesTest {
         tester.dumpPage("updated");
         tester.assertVisible(EDIT_LINK_PATH);
         tester.assertRenderedPage(UserDetailsPage.class);
-        tester.clickLink("userDetailsPanel:switchPanel:doneLink");
-        tester.dumpPage("done");
-        tester.assertRenderedPage(UsersOverviewPage.class);
     }
 
     @Test
@@ -144,6 +145,16 @@ public class UserPagesTest {
         formTester.submitLink("cancel", false);
         tester.assertVisible(EDIT_LINK_PATH);
         tester.assertRenderedPage(UserDetailsPage.class);
+    }
+
+    /** Mock drop-down list for a discipline. */
+    private DepositService mockDespositChoices() throws ServiceException {
+        final ArrayList<KeyValuePair> choices = new ArrayList<KeyValuePair>();
+        choices.add(new KeyValuePair("custom.Disciplines", "mockedDisciplines"));
+
+        final DepositService depositService = createMock(DepositService.class);
+        expect(depositService.getChoices(isA(String.class), (Locale) isNull())).andStubReturn(new ChoiceList(choices));
+        return depositService;
     }
 
     private ArrayList<EasyUser> prepareDetails() throws ServiceException, ObjectNotAvailableException {

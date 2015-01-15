@@ -5,41 +5,47 @@ import java.io.File;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.FileStoreMocker;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
-import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.tester.ITestPanelSource;
 import org.apache.wicket.util.tester.WicketTester;
-import org.junit.Ignore;
+import org.junit.After;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Ignore
 public class DepositUploadPanelTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepositUploadPanelTest.class);
+
+    @After
+    public void cleanup() {
+        TestUtil.cleanup();
+    }
+
     @Test
     public void smokeTest() throws Exception {
         String datasetId = new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId();
         final Dataset dataset = new DatasetImpl(datasetId);
 
-        final InMemoryDatabase inMemoryDB = initInMemoryDB(dataset);
-        final FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
-        new Data().setFileStoreAccess(fileStoreAccess);
+        final FileStoreMocker inMemoryDB = initInMemoryDB(dataset);
+        new Data().setFileStoreAccess(inMemoryDB.getFileStoreAccess());
 
         final EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
         applicationContextMock.expectStandardSecurity();
         applicationContextMock.expectNoAudioVideoFiles();
-        applicationContextMock.putBean("fileStoreAccess", fileStoreAccess);
+        applicationContextMock.putBean("fileStoreAccess", inMemoryDB.getFileStoreAccess());
 
         PowerMock.replayAll();
 
@@ -57,7 +63,6 @@ public class DepositUploadPanelTest {
         tester.assertVisible("panel:uploadPanel:uploadIframe");
         tester.assertVisible("panel:uploadPanel:uploadProgress");
         FileUtils.write(new File("target/DepositUploadPanel-smokeTest.html"), tester.getServletResponse().getDocument());
-        inMemoryDB.close();
         // How to get into the IFrame to hit the submit button?
 
         // rendered as test:
@@ -71,11 +76,12 @@ public class DepositUploadPanelTest {
         // formTester.submit();
     }
 
-    private InMemoryDatabase initInMemoryDB(final Dataset dataset) throws DomainException {
-        final InMemoryDatabase inMemoryDB = new InMemoryDatabase();
-        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
-        inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
-        inMemoryDB.flush();
-        return inMemoryDB;
+    private FileStoreMocker initInMemoryDB(final Dataset dataset) throws Exception {
+        final FileStoreMocker fileStoreMocker = new FileStoreMocker();
+        fileStoreMocker.insertRootFolder(dataset);
+        final FolderItem folder = fileStoreMocker.insertFolder(1, dataset, "a");
+        fileStoreMocker.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
+        fileStoreMocker.logContent(LOGGER);
+        return fileStoreMocker;
     }
 }

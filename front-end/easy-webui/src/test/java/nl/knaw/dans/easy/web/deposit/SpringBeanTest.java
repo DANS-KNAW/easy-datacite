@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.deposit;
 import static org.junit.Assert.fail;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
@@ -42,6 +43,6 @@ public class SpringBeanTest {
         Assume.assumeTrue(depositService == ((DebugPage) tester.startPage(DebugPage.class)).getDepositService());
         Assume.assumeTrue(depositService == ((DebugPage) tester.startPage(new DebugPage())).getDepositService());
         fail("SpringBean injection problem seems fixed, apply in DepositPage and remove calls to Services.set in DepositTest");
-        PowerMock.resetAll();
+        TestUtil.cleanup();
     }
 }

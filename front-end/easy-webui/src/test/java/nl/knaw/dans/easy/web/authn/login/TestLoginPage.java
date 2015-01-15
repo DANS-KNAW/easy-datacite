@@ -14,6 +14,7 @@ import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.services.EasyUserService;
 import nl.knaw.dans.easy.data.Data;
@@ -31,6 +32,7 @@ import nl.knaw.dans.easy.web.authn.ForgottenPasswordPage;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 
 import org.apache.wicket.util.tester.FormTester;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,6 +53,11 @@ public class TestLoginPage extends Fixture {
 
         expect(federativeUserService.getFederationUrl()).andStubReturn(new URL("http://mocked.federative.url"));
         expect(federativeUserService.isFederationLoginEnabled()).andStubReturn(true);
+    }
+
+    @After
+    public void reset() {
+        TestUtil.cleanup();
     }
 
     @Test

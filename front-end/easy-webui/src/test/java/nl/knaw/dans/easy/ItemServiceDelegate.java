@@ -20,7 +20,6 @@ import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
 import nl.knaw.dans.easy.business.services.EasyItemService;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
-import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
@@ -40,7 +39,6 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.EasyFileItemVOAuthzStrategy;
-import nl.knaw.dans.easy.security.authz.EasyItemContainerVOAuthzStrategy;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
@@ -52,15 +50,15 @@ public class ItemServiceDelegate implements ItemService {
     private static final ItemService INSTANCE = new EasyItemService();
 
     private static final NotImplementedException NOT_IMPLEMENTED_EXCEPTION = new NotImplementedException(
-            "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + InMemoryDatabase.class);
+            "This ItemServices delegates only methods calling the FileStoreAccess which is best mocked via " + FileStoreMocker.class);
 
-    private static final AuthzStrategy CONTAINER_AUTHZ_STRATEGY = new EasyItemContainerVOAuthzStrategy() {
-        // the subclass makes the protected constructor visible
+    private static final AuthzStrategy PERMISSIVE_STRATEGY = new EasyFileItemVOAuthzStrategy() {
         private static final long serialVersionUID = 1L;
-    };
 
-    private static final AuthzStrategy FILE_AUTHZ_STRATEGY = new EasyFileItemVOAuthzStrategy() {
-        private static final long serialVersionUID = 1L;
+        @Override
+        protected boolean canAllBeRead() {
+            return true;
+        }
 
         @Override
         public boolean canUnitBeDiscovered(String unitId) {
@@ -173,7 +171,7 @@ public class ItemServiceDelegate implements ItemService {
     public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid) throws ServiceException {
         List<FileItemVO> files = INSTANCE.getFiles(sessionUser, dataset, parentSid);
         for (FileItemVO item : files)
-            item.setAuthzStrategy(FILE_AUTHZ_STRATEGY);
+            item.setAuthzStrategy(PERMISSIVE_STRATEGY);
         return files;
     }
 
@@ -183,7 +181,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         List<FolderItemVO> fodlers = INSTANCE.getFolders(sessionUser, dataset, parentSid, limit, offset, order, filters);
         for (ItemVO item : fodlers)
-            ((FolderItemVO) item).setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
+            ((FolderItemVO) item).setAuthzStrategy(PERMISSIVE_STRATEGY);
         return fodlers;
     }
 
@@ -192,9 +190,9 @@ public class ItemServiceDelegate implements ItemService {
         List<ItemVO> items = INSTANCE.getFilesAndFolders(sessionUser, dataset, parentSid);
         for (ItemVO item : items)
             if (item instanceof FileItemVO)
-                ((FileItemVO) item).setAuthzStrategy(FILE_AUTHZ_STRATEGY);
+                ((FileItemVO) item).setAuthzStrategy(PERMISSIVE_STRATEGY);
             else if (item instanceof FolderItemVO)
-                ((FolderItemVO) item).setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
+                ((FolderItemVO) item).setAuthzStrategy(PERMISSIVE_STRATEGY);
         return items;
     }
 
@@ -204,7 +202,7 @@ public class ItemServiceDelegate implements ItemService {
     {
         Collection<FileItemVO> fileItems = INSTANCE.getFileItemsRecursively(sessionUser, dataset, items, filter, storeIds);
         for (FileItemVO item : fileItems)
-            item.setAuthzStrategy(FILE_AUTHZ_STRATEGY);
+            item.setAuthzStrategy(PERMISSIVE_STRATEGY);
         return fileItems;
     }
 
@@ -264,7 +262,7 @@ public class ItemServiceDelegate implements ItemService {
     @Override
     public FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException {
         FolderItemVO folder = INSTANCE.getRootFolder(sessionUser, dataset, dmoStoreId);
-        folder.setAuthzStrategy(CONTAINER_AUTHZ_STRATEGY);
+        folder.setAuthzStrategy(PERMISSIVE_STRATEGY);
         return folder;
     }
 
@@ -300,26 +298,27 @@ public class ItemServiceDelegate implements ItemService {
     @SuppressWarnings("unchecked")
     static ItemService delegate(ItemService mock) throws ServiceException, StoreAccessException {
 
-        expect(mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+        ItemService delegate = new ItemServiceDelegate();
+        expect(mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
+        expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
         expect(
                 mock.getFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), anyInt(), anyInt(),
-                        anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(INSTANCE);
+                        anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(delegate);
         expect(
                 mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
-                        anyObject(ItemFilters.class))).andStubDelegateTo(INSTANCE);
+                        anyObject(ItemFilters.class))).andStubDelegateTo(delegate);
         expect(
                 mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
-                        anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
+                        anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
         expect(
                 mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(),
-                        anyObject(ItemFilters.class), (DmoStoreId[]) anyObject())).andStubDelegateTo(INSTANCE);
-        expect(mock.getFilenames(anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.getRootFolder(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.getItemVoAccessibilities(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.getItemVoVisibilities(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
-        expect(mock.getItemVoCreatorRoles(anyObject(ItemVO.class))).andStubDelegateTo(INSTANCE);
+                        anyObject(ItemFilters.class), (DmoStoreId[]) anyObject())).andStubDelegateTo(delegate);
+        expect(mock.getFilenames(anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
+        expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
+        expect(mock.getRootFolder(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class))).andStubDelegateTo(delegate);
+        expect(mock.getItemVoAccessibilities(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
+        expect(mock.getItemVoVisibilities(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
+        expect(mock.getItemVoCreatorRoles(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
         return mock;
     }
 }

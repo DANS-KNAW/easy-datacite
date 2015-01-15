@@ -9,6 +9,7 @@ import java.io.Serializable;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.download.DownloadList;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -25,6 +26,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -35,6 +37,11 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     private static final long serialVersionUID = 1L;
     private static final String PATH_VIEW = "panel:downloadListPanel:timeViewContainer:timeView:";
     private static final String PATH_DOWNLOAD = "panel:downloadActivityLogPanel:download_csv";
+
+    @After
+    public void reset() {
+        TestUtil.cleanup();
+    }
 
     @Test
     public void noList() throws Exception {

@@ -12,6 +12,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
@@ -22,6 +23,7 @@ import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
 
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
@@ -67,6 +69,11 @@ public class TestFederativeAuthenticationResultPage extends Fixture {
         EasyMock.expect(searchService.getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
         applicationContext.setSearchService(searchService);
+    }
+
+    @After
+    public void reset() {
+        TestUtil.cleanup();
     }
 
     @Test
