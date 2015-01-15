@@ -87,7 +87,7 @@ public abstract class SearchResultPanel extends SearchPanel {
         initComponents();
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         // criteria
         add(new SearchCriteriaPanel("searchCriteria", getSearchModel()) {
             private static final long serialVersionUID = -6370349646809914607L;
@@ -157,7 +157,7 @@ public abstract class SearchResultPanel extends SearchPanel {
         }
     }
 
-    private AbstractReadOnlyModel<List> createSearchHitsReadOnlyModel() {
+    protected AbstractReadOnlyModel<List> createSearchHitsReadOnlyModel() {
         return new AbstractReadOnlyModel<List>() {
             private static final long serialVersionUID = -8467661423061481825L;
 
@@ -168,7 +168,7 @@ public abstract class SearchResultPanel extends SearchPanel {
         };
     }
 
-    private ListView<Panel> createSearchHitsList(String id, AbstractReadOnlyModel searchHits) {
+    protected ListView<Panel> createSearchHitsList(String id, AbstractReadOnlyModel searchHits) {
         return new ListView<Panel>(id, searchHits) {
             private static final long serialVersionUID = -6597598635055541684L;
 

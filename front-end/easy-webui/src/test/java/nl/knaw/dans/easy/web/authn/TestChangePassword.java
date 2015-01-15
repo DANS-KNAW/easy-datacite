@@ -7,6 +7,8 @@ import static org.easymock.EasyMock.isA;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.business.services.EasyUserService;
@@ -42,6 +44,7 @@ public class TestChangePassword extends UserInfoFixture {
     @Test
     public void anonymousChangesPassword() throws Exception {
         // this covers a security check, but how to get here manually?
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, ChangePasswordPage.class);
         tester.dumpPage();
         tester.assertRenderedPage(HomePage.class);
@@ -186,7 +189,7 @@ public class TestChangePassword extends UserInfoFixture {
 
     private void addMocks(final EasyUser sessionUser) throws Exception {
         applicationContext.expectAuthenticatedAs(sessionUser);
-        applicationContext.expectNoDatasetsInToolBar();
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         applicationContext.getUserService().changePassword(isA(ChangePasswordMessenger.class));
         expectLastCall().andStubDelegateTo(new EasyUserService() {
             public void changePassword(final ChangePasswordMessenger messenger) {

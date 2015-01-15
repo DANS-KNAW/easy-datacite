@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User.State;
@@ -18,7 +20,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
-import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
 
@@ -51,6 +52,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture {
         EasyMock.expect(federativeUserService.getFederationUrl()).andStubReturn(new URL("https://mock.dans.knaw.nl/Shibboleth.sso/Login"));
         EasyMock.expect(federativeUserService.isFederationLoginEnabled()).andStubReturn(true);
         applicationContext.putBean("federativeUserService", federativeUserService);
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
 
         fedUser = new FederationUser();
         fedUser.setUserId("mockFederationID");
@@ -61,14 +63,6 @@ public class TestFederativeAuthenticationResultPage extends Fixture {
         federationUserFactory = PowerMock.createMock(FederationUserFactory.Factory.class);
         FederationUserFactory.setFactory(federationUserFactory);
 
-        final SearchService searchService = PowerMock.createMock(SearchService.class);
-        EasyMock.expect(searchService.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(searchService.getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(searchService.getNumberOfItemsInAllWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(searchService.getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(searchService.getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(searchService.getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
-        applicationContext.setSearchService(searchService);
     }
 
     @After

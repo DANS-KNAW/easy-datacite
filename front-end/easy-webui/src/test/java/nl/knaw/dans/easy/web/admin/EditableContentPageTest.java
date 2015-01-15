@@ -23,7 +23,6 @@ import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EditableInfoPage;
-import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 import nl.knaw.dans.easy.web.deposit.DepositPanel;
@@ -105,15 +104,6 @@ public class EditableContentPageTest {
         tester.dumpPage();
         doClicks("adminBanner");
         assertSavedContent("pages/AdminBanner.template");
-        tester.dumpPage("edit");
-    }
-
-    @Test
-    public void editHomePage() throws Exception {
-        startPage(HomePage.class);
-        tester.dumpPage();
-        doClicks("editablePanel");
-        assertSavedContent("pages/HomePage.template");
         tester.dumpPage("edit");
     }
 

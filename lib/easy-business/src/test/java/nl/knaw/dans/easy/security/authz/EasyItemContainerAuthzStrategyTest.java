@@ -26,7 +26,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore(value="disabled by EASY-841, 2 commits after v2.9-RC-7. Restored to allow compare with new webui version.")
+@Ignore(value = "disabled by EASY-841, 2 commits after v2.9-RC-7. Restored to allow compare with new webui version.")
 public class EasyItemContainerAuthzStrategyTest {
 
     @Test
@@ -67,7 +67,7 @@ public class EasyItemContainerAuthzStrategyTest {
 
         HashSet<AccessibleTo> accessibleToSet = new HashSet<AccessibleTo>(Arrays.asList(accessibleToArray));
         FileStoreAccess fileStoreAccess = createMock(FileStoreAccess.class);
-        //expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
+        // expect(fileStoreAccess.getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(accessibleToSet);
         new Data().setFileStoreAccess(fileStoreAccess);
     }
 

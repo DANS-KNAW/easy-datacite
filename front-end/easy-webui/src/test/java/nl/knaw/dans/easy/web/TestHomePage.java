@@ -4,6 +4,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertNull;
 import static org.powermock.api.easymock.PowerMock.replayAll;
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
@@ -47,6 +49,7 @@ public class TestHomePage {
         ctx.expectStandardSecurity();
         ctx.expectDefaultResources();
         ctx.setSearchService(searchServiceMock);
+        ctx.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         return ctx;
     }
 

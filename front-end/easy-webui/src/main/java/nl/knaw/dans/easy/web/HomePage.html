@@ -1,10 +1,72 @@
 <html xmlns:wicket>
 <wicket:extend>
-<div class="deposit">
-	<h3><wicket:message key="page.deposit.trigger1">[DEPOSIT TRIGGER]</wicket:message></h3>
-	<a href="#" wicket:id="navDeposit" class="btn btn-black"><wicket:message key="page.deposit.button1">[DEPOSIT BUTTON]</wicket:message></a>
-</div>
 <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
-<span class="editablePanel" wicket:id="editablePanel"></span>
+
+<div class="row extra-bottom-spacing home-deposit">
+    <div class="col-lg-offset-3 col-lg-9 col-md-offset-2 col-md-10 col-sm-offset-1 col-sm-11 col-xs-12">
+        <h2><wicket:message key="page.deposit.trigger1">[DEPOSIT TRIGGER]</wicket:message></h2>
+    </div>
+    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12 extra-bottom-spacing text-center">
+        <a href="#" wicket:id="navDeposit" class="btn btn-black"><wicket:message key="page.deposit.button1">[DEPOSIT BUTTON]</wicket:message></a>
+    </div>
+</div>
+
+<div class="row home-recently-published extra-bottom-spacing">
+    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+        <h2>
+            <wicket:message key="homePage.recentlyPublished.title">
+                [Recently published in EASY]
+            </wicket:message>
+            </h2>
+        <ul wicket:id="homeSearchResultPanel">
+            <li>
+                <a href="#">
+                    Rapport archeologisch bureauonderzoek Kleine der A 1 te Groningen
+                </a>
+                <br />
+                <span>2014-02-21</span>
+                <span>Tuin, B.P. (ArcheoInzicht)</span>
+            </li>
+            <li>
+                <a href="#">
+                    Rapport archeologisch bureauonderzoek kade Kommerzijl, gemeente Zuidhorn
+                </a>
+                <br />
+                <span>2014-01-31</span>
+                <span>Tuin, B.P. (ArcheoInzicht)</span>
+            </li>
+            <li>
+                <a href="#">
+                    Rapport archeologisch bureauonderzoek herstel kademuren Kleine der A te Groningen
+                </a>
+                <br />
+                <span>2013-06-27</span>
+                <span>Tuin, B.P. (ArcheoInzicht)</span>
+            </li>
+            <li>
+                <a href="#">
+                    Rapport archeologisch bureauonderzoek ter voorbereiding van de vernieuwing van de kade van het Oude Winschoterdiep Wz (fase 1) te Groningen
+                </a>
+                <br />
+                <span>2013-06-01</span>
+                <span>Tuin, B.P. (ArcheoInzicht)</span>
+            </li>
+            <li>
+                <a href="#">
+                    Opgraving ter plaatse van de uitbreiding van het EnTranCe-gebouw op het Zernikepark te Groningen
+                </a>
+                <br />
+                <span>2914-03-24</span>
+                <span>La Fèber, Drs. D. (Antea Nederland B.V.)</span>
+            </li>
+            <li>
+                <a href="#">
+                    More datasets
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 </wicket:extend>
 </html>

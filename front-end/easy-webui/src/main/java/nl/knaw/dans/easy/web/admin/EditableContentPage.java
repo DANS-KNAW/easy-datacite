@@ -54,7 +54,6 @@ public class EditableContentPage extends AbstractEasyNavPage {
 
         // LINKS TO EDITABLE PAGES
         addLink("adminBannerEditLink", AbstractEasyNavPage.EDITABLE_ADMIN_BANNER_TEMPLATE);
-        addLink("homepageEditLink", HomePage.EDITABLE_HOMEPAGE_TEMPLATE);
         addLink("registrationEditLink", RegistrationPage.EDITABLE_REGISTRATION_TEMPLATE);
         addLink("depositIntroEditLink", DepositIntroPage.EDITABLE_DEPOSIT_INTRO_TEMPLATE);
         addLink("depositCompleteEditLink", DepositPanel.EDITABLE_DEPOSIT_COMPLETE_TEMPLATE, user);

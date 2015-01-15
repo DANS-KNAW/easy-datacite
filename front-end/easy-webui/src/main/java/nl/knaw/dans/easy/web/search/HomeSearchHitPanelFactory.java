@@ -8,19 +8,18 @@ import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
-public class EasySearchHitPanelFactory implements SearchHitPanelFactory {
+public class HomeSearchHitPanelFactory implements SearchHitPanelFactory {
     private static final long serialVersionUID = 684074651842653845L;
 
-    private static EasySearchHitPanelFactory INSTANCE = new EasySearchHitPanelFactory();
+    private static HomeSearchHitPanelFactory INSTANCE = new HomeSearchHitPanelFactory();
 
-    public static EasySearchHitPanelFactory getInstance() {
+    public static HomeSearchHitPanelFactory getInstance() {
         return INSTANCE;
     }
 
     @SuppressWarnings("unchecked")
     public Panel createHitPanel(String id, SearchHit<?> hit, SearchModel model) {
         assert hit.getData() instanceof EasyDatasetSB : "hit.getData() must be instance of EasyDatasetSB";
-        return new EasyDatasetHitPanel(id, new Model<SearchHit<EasyDatasetSB>>((SearchHit<EasyDatasetSB>) hit), model);
+        return new HomeDatasetHitPanel(id, new Model<SearchHit<EasyDatasetSB>>((SearchHit<EasyDatasetSB>) hit), model);
     }
-
 }

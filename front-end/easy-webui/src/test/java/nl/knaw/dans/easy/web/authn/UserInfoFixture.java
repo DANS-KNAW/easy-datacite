@@ -52,6 +52,7 @@ public class UserInfoFixture {
         applicationContext.expectDefaultResources();
         applicationContext.setDepositService(mockDespositChoices());
         applicationContext.setUserService(userService);
+        applicationContext.expectNoDatasetsInToolBar();
         applicationContext.putBean("federativeUserRepo", mockdFederativeUserRepo);
     }
 

@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore(value="expectation does not work, see TODO")
+@Ignore(value = "expectation does not work, see TODO")
 public class EasyItemContainerAuthzStrategyTest {
 
     private FileStoreMocker fileStoreMocker;

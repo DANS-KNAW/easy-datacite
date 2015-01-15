@@ -5,6 +5,8 @@ import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.createMock;
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyWicketTester;
@@ -67,6 +69,7 @@ public class TestUserInfoPage extends UserInfoFixture {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = shownUser.getId();
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserInfoPageWrapper.class);
         tester.assertRenderedPage(HomePage.class);
     }

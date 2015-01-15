@@ -8110,6 +8110,20 @@ a, a:hover {
   text-decoration: none;
 }
 
+h1, .h1 {
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  line-height: 1.56em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+h2, .h2 {
+  color: #248BB8;
+  font-size: 1.7em;
+  line-height: 1.56em;
+}
+
 .input-group .input-group-btn .dropdown-toggle {
   height: 34px;
 }
@@ -8159,19 +8173,22 @@ a, a:hover {
 .header {
   margin: 0;
   padding: 10px 0 0 0;
-  height: 100px;
+  height: 90px;
 }
 .header .h1, .header h1 {
   padding-top: 8px;
   text-align: center;
+  margin-bottom: 0;
 }
 .header .h2, .header h2 {
   margin-left: 15px;
+  margin-bottom: 0;
 }
 
 .search-nav {
   background: linear-gradient(115deg, #2A9DD3 0%, #248BB8 100%);
-  padding: 30px 0 35px 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
   color: white;
 }
 .search-nav p {
@@ -8248,12 +8265,6 @@ a, a:hover {
   color: #DD291E;
 }
 
-.search input[type="submit"] {
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 1px;
-  line-height: 1.8em;
-}
 .search input.form-control {
   z-index: 0;
 }
@@ -8324,6 +8335,7 @@ div.panel.panel-default h2 {
   display: inline-block;
   font-size: 1.2em;
   text-transform: uppercase;
+  color: black;
 }
 div.panel.panel-default form {
   margin-bottom: 10px;
@@ -8378,6 +8390,10 @@ h1.search-results-heading small {
 .list-group.search-hits .list-group-item h2 i.fa {
   color: #248BB8;
 }
+.list-group.search-hits .list-group-item .row {
+  margin-left: 0;
+  margin-right: 0;
+}
 .list-group.search-hits .linked-list-group-item {
   border-bottom: 1px solid #d5e1e6;
 }
@@ -8410,24 +8426,85 @@ ul.search-criteria li a:hover {
   color: #DD291E;
 }
 
+.home-deposit h2 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.home-recently-published h2 {
+  text-transform: uppercase;
+  color: black;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+.home-recently-published ul {
+  padding: 0;
+}
+.home-recently-published ul li {
+  border-top: 1px solid #d5e1e6;
+  list-style-type: none;
+  padding-left: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.home-recently-published ul li a {
+  color: black;
+}
+.home-recently-published ul li a:before {
+  font-family: "FontAwesome";
+  content: "\f054";
+  margin-left: -1em;
+  color: #248BB8;
+}
+.home-recently-published ul li a:hover, .home-recently-published ul li a:focus, .home-recently-published ul li a:hover:before, .home-recently-published ul li a:focus:before {
+  color: #DD291E;
+}
+.home-recently-published ul li:last-child a {
+  color: #248BB8;
+}
+.home-recently-published ul li:last-child a:hover, .home-recently-published ul li:last-child a:focus {
+  color: #DD291E;
+}
+.home-recently-published ul li span {
+  color: #949294;
+}
+.home-recently-published ul li span:last-child:before {
+  content: " | ";
+}
+
 .btn-black {
   border-color: #242424;
   background: linear-gradient(to bottom, #5B5B5B 0%, black 100%) repeat scroll 0 0 transparent;
-  color: #BCBCBC;
+  color: white;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  line-height: 1.8em;
 }
 .btn-black:hover {
-  color: #BCBCBC;
+  color: white;
   background: black;
 }
 
 .dropdown-black {
   background: black;
   color: white;
+  font-size: 12px;
+  border-radius: 0;
 }
 .dropdown-black li a, .dropdown-black a {
   color: white;
+  padding: 5px 10px;
 }
-.dropdown-black li a:hover, .dropdown-black a:hover {
+.dropdown-black li a:after, .dropdown-black a:after {
+  content: "\f054";
+  font-family: "FontAwesome";
+  position: absolute;
+  right: 0;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.dropdown-black li a:hover, .dropdown-black li a:focus, .dropdown-black li a:active, .dropdown-black a:hover, .dropdown-black a:focus, .dropdown-black a:active {
   background: black;
   color: #BCBCBC;
 }

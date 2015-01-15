@@ -8,7 +8,9 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.net.URL;
 
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
@@ -50,6 +52,7 @@ public class TestLoginPage extends Fixture {
     public void mockFederativeUserService() throws Exception {
         federativeUserService = createMock(FederativeUserService.class);
         applicationContext.putBean("federativeUserService", federativeUserService);
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
 
         expect(federativeUserService.getFederationUrl()).andStubReturn(new URL("http://mocked.federative.url"));
         expect(federativeUserService.isFederationLoginEnabled()).andStubReturn(true);

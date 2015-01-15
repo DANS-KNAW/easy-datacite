@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web.search.pages;
 
-import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.search.FacetValue;
 import nl.knaw.dans.common.lang.search.SearchHit;
-import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.FieldNotFoundException;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.search.simple.SimpleFacetField;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchHit;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -27,7 +26,6 @@ import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 
 import org.apache.wicket.PageParameters;
@@ -47,7 +45,6 @@ public class PublicSearchResultPageTest {
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
-        applicationContext.expectNoDatasetsInToolBar();
     }
 
     @After
@@ -57,8 +54,7 @@ public class PublicSearchResultPageTest {
 
     @Test
     public void noDatasets() throws Exception {
-        expect(applicationContext.getSearchService().searchPublished(isA(SearchRequest.class), isA(EasyUser.class)))//
-                .andStubReturn(null);
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, PublicSearchResultPage.class);
 
         tester.dumpPage();
@@ -68,11 +64,10 @@ public class PublicSearchResultPageTest {
 
     @Test
     public void noMatch() throws Exception {
-        expect(applicationContext.getSearchService().searchPublished(isA(SearchRequest.class), isA(EasyUser.class)))//
-                .andStubReturn(null);
         final PageParameters parameters = new PageParameters();
         String value = "rabarbera";
         parameters.add(SearchBar.QUERY_PARAM, value);
+        applicationContext.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, PublicSearchResultPage.class, parameters);
 
         tester.assertRenderedPage(PublicSearchResultPage.class);
@@ -86,6 +81,7 @@ public class PublicSearchResultPageTest {
         mockGetFacetByName(searchResult, "emd_audience", new ArrayList<FacetValue<?>>());
         mockGetFacetByName(searchResult, "easy_collections", new ArrayList<FacetValue<?>>());
         mockGetFacetByName(searchResult, "ds_accesscategory", new ArrayList<FacetValue<?>>());
+        applicationContext.expectNoDatasetsInToolBar(searchResult);
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, BrowsePage.class);
         tester.dumpPage();
@@ -103,6 +99,7 @@ public class PublicSearchResultPageTest {
         mockGetFacetByName(searchResult, "ds_accesscategory", mockFacetValues(2));
         mockGetFacetByName(searchResult, "ds_state", new ArrayList<FacetValue<?>>());
         EasyMock.expect(searchResult.useRelevanceScore()).andStubReturn(false);
+        applicationContext.expectNoDatasetsInToolBar(searchResult);
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, PublicSearchResultPage.class);
         tester.dumpPage();
@@ -147,10 +144,6 @@ public class PublicSearchResultPageTest {
         final SearchResultMock searchResult = PowerMock.createMock(SearchResultMock.class);
         EasyMock.expect(searchResult.getTotalHits()).andStubReturn(hits.size());
         EasyMock.expect(searchResult.getHits()).andStubReturn(hits);
-        @SuppressWarnings("unchecked")
-        final SearchResult<DatasetSB> searchPublished = (SearchResult<DatasetSB>) applicationContext.getSearchService()//
-                .searchPublished(isA(SearchRequest.class), isA(EasyUser.class));
-        expect(searchPublished).andStubReturn(searchResult);
         return searchResult;
     }
 

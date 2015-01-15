@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy;
 
-import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.isNull;
@@ -15,7 +15,10 @@ import java.util.Map;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.search.SearchRequest;
+import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -144,12 +147,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         expectAuthenticatedAs(sessionUser);
 
         setMockedSearchService();
-        EasyMock.expect(getSearchService().getNumberOfDatasets(eq(sessionUser))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfRequests(eq(sessionUser))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInAllWork(eq(sessionUser))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInMyWork(eq(sessionUser))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInOurWork(eq(sessionUser))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInTrashcan(eq(sessionUser))).andStubReturn(0);
+        expectZeros();
         return sessionUser;
     }
 
@@ -164,12 +162,31 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      */
     public void expectNoDatasetsInToolBar() throws ServiceException {
         setMockedSearchService();
-        EasyMock.expect(getSearchService().getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInAllWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
-        EasyMock.expect(getSearchService().getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
+        expectZeros();
+    }
+
+    /**
+     * Supplies zeros for tool bar elements that show numbers of datasets, regardless of any authenticated user. If no searchService bean is set, a mocked one
+     * is created with PowerMock. Otherwise eventual previous expectations remain effective.
+     * 
+     * @param published
+     *        expected to be returned on any searchPublished call.
+     * @throws ServiceException
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void expectNoDatasetsInToolBar(SearchResult<? extends DatasetSB> published) throws ServiceException {
+        setMockedSearchService();
+        expectZeros();
+        expect(getSearchService().searchPublished((SearchRequest) anyObject(), isA(EasyUser.class))).andStubReturn((SearchResult) published);
+    }
+
+    private void expectZeros() throws ServiceException {
+        expect(getSearchService().getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
+        expect(getSearchService().getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
+        expect(getSearchService().getNumberOfItemsInAllWork(isA(EasyUser.class))).andStubReturn(0);
+        expect(getSearchService().getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
+        expect(getSearchService().getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
+        expect(getSearchService().getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
     }
 
     /**
@@ -371,7 +388,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         return (ItemService) getBean("itemService");
     }
 
-    private void setMockedSearchService() {
+    public void setMockedSearchService() {
         try {
             isMock(getSearchService());
         }

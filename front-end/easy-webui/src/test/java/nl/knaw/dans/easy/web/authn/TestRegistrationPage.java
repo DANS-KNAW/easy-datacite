@@ -5,6 +5,8 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.TestUtil;
@@ -28,6 +30,7 @@ public class TestRegistrationPage {
         ctx.expectDefaultResources();
         ctx.expectStandardSecurity();
         ctx.expectAuthenticatedAsVisitor();
+        ctx.expectNoDatasetsInToolBar(new EmptySearchResult<DatasetSB>());
         KeyValuePair kvp1 = new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE");
         KeyValuePair kvp2 = new KeyValuePair("easy-disciplines:2", "DISCIPLINE 2 DISPLAY VALUE");
         KeyValuePair kvp3 = new KeyValuePair("easy-disciplines:3", "DISCIPLINE 3 DISPLAY VALUE");
