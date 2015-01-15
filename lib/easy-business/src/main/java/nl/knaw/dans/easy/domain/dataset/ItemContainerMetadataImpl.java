@@ -61,6 +61,24 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         return version;
     }
 
+    // needed to fix jibx serialization and omitting empty optional elements in the XML
+    @SuppressWarnings("unused")
+    private boolean hasCreatorRoles() {
+        return getCreatorRoles() != null;
+    }
+
+    // needed to fix jibx serialization and omitting empty optional elements in the XML
+    @SuppressWarnings("unused")
+    private boolean hasVisibleToList() {
+        return getVisibleToList() != null;
+    }
+
+    // needed to fix jibx serialization and omitting empty optional elements in the XML
+    @SuppressWarnings("unused")
+    private boolean hasAccessibleToList() {
+        return getAccessibleToList() != null;
+    }
+
     // ///////////////////////////////////////////
     protected void setNop(List<?> list) {
         // needed for jiBx deserialization

@@ -23,19 +23,19 @@
         <value name="visibleToArray" field="visibleToArray" usage="optional"/>
         <value name="accessibleToArray" field="accessibleToArray" usage="optional"/>
         
-        <structure name="creatorRoles" usage="optional">
+        <structure name="creatorRoles" usage="optional" test-method="hasCreatorRoles">
             <collection get-method="getCreatorRoles" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="creatorRole" type="nl.knaw.dans.easy.domain.model.user.CreatorRole" usage="optional"/>
             </collection> 
         </structure>
         
-        <structure name="visibleToList" usage="optional">
+        <structure name="visibleToList" usage="optional" test-method="hasVisibleToList">
             <collection get-method="getVisibleToList" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="visibleTo" type="nl.knaw.dans.easy.domain.model.VisibleTo" usage="optional"/>
             </collection>
         </structure>
         
-        <structure name="accessibleToList" usage="optional">
+        <structure name="accessibleToList" usage="optional" test-method="hasAccessibleToList">
             <collection get-method="getAccessibleToList" set-method="setNop" type="java.util.ArrayList" usage="optional">
                 <value name="accessibleTo" type="nl.knaw.dans.easy.domain.model.AccessibleTo" usage="optional"/>
             </collection>
