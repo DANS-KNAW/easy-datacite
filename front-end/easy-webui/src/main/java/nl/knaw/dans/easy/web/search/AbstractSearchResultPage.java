@@ -134,7 +134,21 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
             setSearchModel(new SearchModel(criterium));
         }
 
-        EasySearchResultPanel panel = new EasySearchResultPanel(SEARCHRESULT_PANEL, getSearchModel(), showTips(), getSearchResultConfig()) {
+        add(createEasySearchResultPanel(SEARCHRESULT_PANEL));
+
+        // Pagination (page browse panel)
+        int itemStart = getRequestBuilder().getOffset() + 1;
+        int limit = getRequestBuilder().getLimit();
+        int totalHits = getSearchResult().getTotalHits();
+        PageBrowseData pbData = new PageBrowseData(itemStart, limit, totalHits);
+        Model<PageBrowseData> pbDataModel = createPageBrowseDataModel(pbData);
+        PageBrowseLinkListener pbLink = createPageBrowseLinkListener();
+        pageBrowsePanel = createPageBrowsePanel(PAGEBROWSE_PANEL, pbDataModel, pbLink);
+        add(pageBrowsePanel);
+    }
+
+    private EasySearchResultPanel createEasySearchResultPanel(String id) {
+        return new EasySearchResultPanel(id, getSearchModel(), showTips(), getSearchResultConfig()) {
             private static final long serialVersionUID = 4389340592804783670L;
 
             @Override
@@ -161,17 +175,6 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
                 setResponsePage(new AdvSearchPage(searchModel, (Class<? extends AbstractSearchResultPage>) getPage().getClass()));
             }
         };
-        add(panel);
-
-        // Pagination (page browse panel)
-        int itemStart = getRequestBuilder().getOffset() + 1;
-        int limit = getRequestBuilder().getLimit();
-        int totalHits = getSearchResult().getTotalHits();
-        PageBrowseData pbData = new PageBrowseData(itemStart, limit, totalHits);
-        Model<PageBrowseData> pbDataModel = createPageBrowseDataModel(pbData);
-        PageBrowseLinkListener pbLink = createPageBrowseLinkListener();
-        pageBrowsePanel = createPageBrowsePanel(PAGEBROWSE_PANEL, pbDataModel, pbLink);
-        add(pageBrowsePanel);
     }
 
     private Model<PageBrowseData> createPageBrowseDataModel(PageBrowseData pbData) {
