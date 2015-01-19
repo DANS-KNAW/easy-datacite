@@ -1,5 +1,5 @@
 <h2>Search scope</h2>
-<p>DANS EASY can be searched via a general free-text search. It searches in the metadata of all published datasets, but it does not extend into the contents of the uploaded files in datasets. Please use English as well as Dutch words for optimal search results.</p>
+<p>EASY can be searched via a general free-text search. It searches in the metadata of all published datasets, but it does not extend into the contents of the uploaded files in datasets. Please use English as well as Dutch words for optimal search results.</p>
 <h2>Result list</h2>
 <p>A result list shows datasets that match the chosen criteria, mentioned in the 'Criteria' at the top of the list. Criteria may be removed individually using the 'x' mark beside them. <br />Sort options are also available; clicking toggles the sort order (ascending/descending).<br />On most result lists, refine options are available (at the right-hand side). Use those options to filter within the list (e.g. search within the result list).<br />For more about refining and the meaning of the values of the field 'Access', refer to the help on refine (use the '?' mark next to 'Refine').</p>
 <h2>Additional options</h2>

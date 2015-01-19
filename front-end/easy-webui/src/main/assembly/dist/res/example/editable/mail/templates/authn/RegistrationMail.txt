@@ -1,6 +1,6 @@
 Dear ~EasyUser.getDisplayName~,
 
-Thank you for registering your DANS EASY account '~EasyUser.getId~'.
+Thank you for registering your EASY account '~EasyUser.getId~'.
 
 Please click on the link below to confirm your registration and to complete the registration procedure:
 
