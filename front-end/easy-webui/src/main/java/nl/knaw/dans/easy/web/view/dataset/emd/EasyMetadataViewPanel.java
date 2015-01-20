@@ -45,7 +45,7 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel {
 
             FormDefinition formDefinition = formDescriptor.getFormDefinition(DepositDiscipline.EMD_VIEW_DEFINITION);
             FormPage formPage = formDefinition.getFormPage(DepositDiscipline.EMD_VIEW_DEFINITION + ".1");
-            RecursivePanel recursivePanel = new RecursivePanel("recursivePane", getPanelFactory(), formPage);
+            RecursivePanel recursivePanel = new RecursivePanel("recursivePanel", getPanelFactory(), formPage);
             recursivePanel.setHeadVisible(false);
             add(recursivePanel);
         }

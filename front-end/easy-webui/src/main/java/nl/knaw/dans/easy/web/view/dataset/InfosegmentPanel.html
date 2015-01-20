@@ -1,21 +1,22 @@
 <html xmlns:wicket>
 <wicket:panel>
-<table id="info_segment_panel" class="table_standard table_kader">
-<wicket:container wicket:id="statusPanel" >[StatusPanel]</wicket:container>
-<wicket:enclosure child="changeDepositorLink">
-<tr>
-	<td class="setStatusPanelLabelWidth">
-		<label for="depositorName"><wicket:message key="depositor">[Depositor:]</wicket:message>: </label>
-	</td>
-	<td>
-		<span id="depositorName" wicket:id="depositorName">[depositor displayname]</span>
-		
-  	</td>
-  	<td>
-  		<a wicket:id="changeDepositorLink" href="#" class="button">Change...</a>
-  	</td>
-</tr>
-</wicket:enclosure>
-</table>
+    <div class="row extra-bottom-spacing">
+        <div class="col-lg-6">
+            <table class="table table-not-striped">
+                <wicket:container wicket:id="statusPanel">[StatusPanel]</wicket:container>
+                <tr wicket:enclosure="changeDepositorLink">
+                    <td>
+                        <label for="depositorName">
+                            <wicket:message key="depositor">[Depositor:]</wicket:message>:
+                        </label>
+                    </td>
+                    <td wicket:id="depositorName">[depositor displayname]</td>
+                    <td>
+                        <a wicket:id="changeDepositorLink" href="#" class="btn btn-default btn-sm">Change...</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </wicket:panel>
 </html>

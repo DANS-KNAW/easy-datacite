@@ -1,46 +1,61 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-        <wicket:message key="list.downloads"/> <span wicket:id="downloadCount"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span wicket:enclosure="downloadedBytes"><wicket:message key="list.totalBytes"/> <span wicket:id="downloadedBytes"></span></span>
-        
-        <p/>
-        <div wicket:id="timeViewContainer">
-	    	<table class="panel users">
-	    		<thead>
-	    			<tr>
-	    				<td>Date</td>
-	    				<td>User</td>
-	    				<td>Organization</td>
-	    				<td>Function</td>
-	    				<td>Files accessed</td>
-	    				<wicket:enclosure child="detailsHeader">
-	    					<td><span wicket:id="detailsHeader">Details</span></td>
-	    				</wicket:enclosure>
-	    			</tr>
-	    		</thead>
-	        	<tr wicket:id="timeView">
-	                <td>
-	                	<span wicket:id="downloadTime">[downloadTime]</span>
-	                </td>
-	                <td>
-	                	<span wicket:id="displayName">[displayName]</span>
-	                </td>
-	                <td>
-	                	<span wicket:id="organization">[organization]</span>
-	                </td>
-	                <td>
-	               		<span wicket:id="function">[function]</span>
-	                </td>
-	                <td style="text-align:center;">
-	                	<span wicket:id="fileCount">[fileCount]</span>
-	                </td>
-	                <td>
-		                <a href="#" wicket:id="detailsLink"><span wicket:id="detailsLabel">[details ...]</span></a>
-		                <div wicket:id="detailsView">[detailsView]</div>
-	                </td>
-	        	</tr>
-	        </table>
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            <table class="table table-not-striped">
+                <tr>
+                    <td><wicket:message key="list.downloads"/></td>
+                    <td wicket:id="downloadCount"></td>
+                </tr>
+                <tr wicket:enclosure="downloadedBytes">
+                    <td><wicket:message key="list.totalBytes"/></td>
+                    <td wicket:id="downloadedBytes"></td>
+                </tr>
+            </table>
         </div>
+    </div>
+
+    <div class="row">
+        <div wicket:id="timeViewContainer" class="col-lg-12">
+            <table class="table table-striped">
+                <colgroup>
+                    <col class="col-sm-2"></col>
+                    <col class="col-sm-2"></col>
+                    <col class="col-sm-2"></col>
+                    <col class="col-sm-2"></col>
+                    <col class="col-sm-2"></col>
+                    <col class="col-sm-2"></col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Organization</th>
+                        <th>Function</th>
+                        <th>Files accessed</th>
+                        <wicket:enclosure child="detailsHeader">
+                            <th wicket:id="detailsHeader">Details</th>
+                        </wicket:enclosure>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="timeView">
+                        <td wicket:id="downloadTime">[downloadTime]</td>
+                        <td wicket:id="displayName">[displayName]</td>
+                        <td wicket:id="organization">[organization]</td>
+                        <td wicket:id="function">[function]</td>
+                        <td class="text-center" wicket:id="fileCount">[fileCount]</td>
+                        <td>
+                            <a href="#" wicket:id="detailsLink" class="btn btn-default btn-xs">
+                                <span wicket:id="detailsLabel">[details ...]</span>
+                            </a>
+                            <div wicket:id="detailsView"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </wicket:panel>
 </html>

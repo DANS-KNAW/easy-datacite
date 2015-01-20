@@ -5,18 +5,14 @@ import java.util.Set;
 
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem.Type;
 import nl.knaw.dans.common.wicket.components.explorer.content.SelectableFolderContent;
-import nl.knaw.dans.common.wicket.components.explorer.style.ExplorerTheme;
-import nl.knaw.dans.common.wicket.components.explorer.style.WindowsTheme;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IDetachable;
@@ -46,9 +42,6 @@ public class ExplorerPanel extends Panel {
 
     private final BreadcrumbPanel breadcrumbPanel;
 
-    private final ResourceReference theme = new WindowsTheme();
-    private final ResourceReference style = new ExplorerTheme();
-
     @SuppressWarnings("serial")
     public ExplorerPanel(String name, IModel<?> model, final ITreeProvider<ITreeItem> treeProvider) {
         super(name, model);
@@ -72,14 +65,6 @@ public class ExplorerPanel extends Panel {
         };
 
         tree = createTree(treeProvider, newStateModel());
-        tree.add(new AbstractBehavior() {
-            @Override
-            public void renderHead(IHeaderResponse response) {
-                response.renderCSSReference(theme);
-                response.renderCSSReference(style);
-            }
-        });
-
         initialExpand(treeProvider.getRoots().next());
         add(tree);
 
@@ -132,37 +117,8 @@ public class ExplorerPanel extends Panel {
             }
         });
 
-        final Model<IndicatingAjaxLink<Void>> selectAllModel = new Model<IndicatingAjaxLink<Void>>();
-        final Model<IndicatingAjaxLink<Void>> selectNoneModel = new Model<IndicatingAjaxLink<Void>>();
-
-        // select all button
-        IndicatingAjaxLink<Void> selectAll = new IndicatingAjaxLink<Void>("selectAll") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                selectAllClicked(target);
-                this.setVisible(false);
-                target.addComponent(this);
-                selectNoneModel.getObject().setVisible(true);
-                target.addComponent(selectNoneModel.getObject());
-            }
-        };
-        selectAllModel.setObject(selectAll);
-        add(selectAll);
-
-        // select none button
-        IndicatingAjaxLink<Void> selectNone = new IndicatingAjaxLink<Void>("selectNone") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                selectNoneClicked(target);
-                this.setVisible(false);
-                target.addComponent(this);
-                selectAllModel.getObject().setVisible(true);
-                target.addComponent(selectAllModel.getObject());
-            }
-        };
-        selectNone.setVisible(false);
-        selectNoneModel.setObject(selectNone);
-        add(selectNone);
+        final Model<Boolean> toggleSelectAllChecked = new Model<Boolean>(false);
+        add(createToggleSelectAllAjaxCheckBox("toggleSelectAll", toggleSelectAllChecked));
 
         breadcrumbPanel = new BreadcrumbPanel("breadcrumbPanel", content.getSelected().getObject());
         add(breadcrumbPanel);
@@ -176,6 +132,21 @@ public class ExplorerPanel extends Panel {
         table.setOutputMarkupId(true);
         add(table);
 
+    }
+
+    private AjaxCheckBox createToggleSelectAllAjaxCheckBox(String id, final Model<Boolean> toggleSelectAllChecked) {
+        return new AjaxCheckBox(id, toggleSelectAllChecked) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onUpdate(AjaxRequestTarget target) {
+                if (getConvertedInput()) {
+                    selectAllClicked(target);
+                } else {
+                    selectNoneClicked(target);
+                }
+            }
+        };
     }
 
     // recursively expands initially to a folder which has a file or more than one folder

@@ -1,27 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
 <body>
-<wicket:extend>
-<h1 wicket:id="title">[title]</h1>
-<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
-<p>
-<table class="table_standard">
-	<tr>
-		<td><a wicket:id="backToList" href="#">&lt;&lt; Back to list</a></td>
-		<td>
-			<a wicket:id="selectLink" href="#" class="button">Select</a>
-		</td>
-	</tr>
-</table>
-<wicket:container wicket:id="infosegmentPanel">[InfosegmentPanel]</wicket:container>
-</p>
-<div wicket:id="tabs" class="tabpanel">[Tabs]</div>
-</wicket:extend>
+    <wicket:extend>
+        <h1 wicket:id="title">[title]</h1>
+        <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
+        <div class="nav" wicket:id="nav">
+            <ul class="pager">
+                <li class="previous" wicket:enclosure="">
+                    <a wicket:id="backToList" href="#">
+                        <span aria-hidden="true">‹‹‹ </span>
+                        Back to list
+                    </a>
+                </li>
+                <li wicket:enclosure="">
+                    <a wicket:id="selectLink" href="#" class="button">Select</a>
+                </li>
+            </ul>
+        </div>
+        <wicket:container wicket:id="infosegmentPanel">[InfosegmentPanel]</wicket:container>
+        <wicket:container wicket:id="tabs">[Tabs]</wicket:container>
+    </wicket:extend>
 </body>
 </html>

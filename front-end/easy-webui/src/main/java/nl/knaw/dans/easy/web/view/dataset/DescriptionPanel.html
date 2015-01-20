@@ -1,15 +1,11 @@
 <html xmlns:wicket>
 <wicket:panel>
-	<div wicket:id="easyMetadataPanel">[EasyMetadataPanel]</div>
-	<br/>
-	<div wicket:id="downloadPanel">[DownloadPanel]</div>
-	
-	<wicket:enclosure child="editLink">
-	<br/><p/>
-	<div><a href="#" wicket:id="editLink" class="button">Edit metadata</a></div>
-	</wicket:enclosure>
-	
-	<br/>
+    <div wicket:id="easyMetadataPanel" class="extra-bottom-spacing">[EasyMetadataPanel]</div>
+    <div wicket:id="downloadPanel" class="extra-bottom-spacing">[DownloadPanel]</div>
+
+    <div wicket:enclosure="">
+        <a href="#" wicket:id="editLink" class="button">Edit metadata</a>
+    </div>
 </wicket:panel>
 
 </html>

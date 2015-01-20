@@ -1,28 +1,38 @@
 <html xmlns:wicket>
 <body>
 <wicket:panel>
-	<wicket:message key="explanation"></wicket:message>
-     <br/>
-     <br/>
-	<form wicket:id="choiceForm">
-	    <wicket:message key="choice.year"/> 
-		<select wicket:id="yearChoice"> 
-			<option>site 1</option>
-			<option>site 2</option>
-		</select>&nbsp;&nbsp;
-		<wicket:message key="choice.month"/> 
-		<select wicket:id="monthChoice">
-            <option>site 1</option>
-            <option>site 2</option>
-        </select>&nbsp;&nbsp;
-		
-		<input type="submit" style="display:none" />
-        <a wicket:id="submitLink" class="button"><wicket:message key="button.text.refresh">[Refresh]</wicket:message></a>
-    </form>
-    <p/>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>
+                <wicket:message key="explanation"></wicket:message>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="well">
+                <form wicket:id="choiceForm" class="form-inline">
+                    <div class="form-group">
+                        <label for="yearChoice"><wicket:message key="choice.year"></wicket:message></label>
+                        <select id="yearChoice" wicket:id="yearChoice" class="form-control input-sm">
+                            <option>site 1</option>
+                            <option>site 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monthChoice"><wicket:message key="choice.month"></wicket:message></label>
+                        <select id="monthChoice" wicket:id="monthChoice" class="form-control input-sm">
+                            <option>site 1</option>
+                            <option>site 2</option>
+                        </select>
+                    </div>
+
+                    <input type="submit" wicket:id="submitLink" class="btn btn-primary btn-sm" wicket:message="value:button.text.refresh"></input>
+                </form>
+            </div>
+        </div>
+    </div>
     <div wicket:id="downloadListPanel"></div>
-    <br/>
-    
     <div wicket:id="downloadActivityLogPanel"></div>
 </wicket:panel>
 </body>

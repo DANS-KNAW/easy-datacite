@@ -89,8 +89,6 @@ public class FileExplorer extends AbstractDatasetModelPanel {
     public FileExplorer(String id, final DatasetModel datasetModel) {
         super(id, datasetModel);
 
-        add(Style.FILE_EXPLORER_HEADER_CONTRIBUTION);
-
         // check if archivist or depsitor view should be enabled
         if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST)) {
             archivistView = true;

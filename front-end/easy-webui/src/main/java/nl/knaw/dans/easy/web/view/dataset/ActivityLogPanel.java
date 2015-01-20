@@ -25,7 +25,6 @@ import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
-import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -68,7 +67,6 @@ public class ActivityLogPanel extends AbstractEasyPanel {
         super(id);
         this.dataset = dataset;
         final ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
-        add(Style.ACTIVITY_LOG_PANEL_CONTRIBUTION);
         add(activityLogForm);
         displayDownloads(activityLogForm.getYear(), activityLogForm.getMonth());
         downloadActivityLogPanel = new DownloadActivityLogPanel("downloadActivityLogPanel", dataset, getSessionUser());

@@ -132,12 +132,14 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
     private Label createShortHelp() {
         final Label label = new Label("shortHelp", new ResourceModel(shortHelpResourceKey, ""));
         label.setEscapeModelStrings(false);
+        label.setVisible(isInEditMode());
         return label;
     }
 
     private SimpleLabelPanel createSimpleLabel() {
         final SimpleLabelPanel panel = new SimpleLabelPanel("label", labelResourceKey, helpItem, required);
         panel.setPopUpButtonIsVisible(isInEditMode());
+        panel.setOptionalMarkIsVisible(isInEditMode());
         return panel;
     }
 

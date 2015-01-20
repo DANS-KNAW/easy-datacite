@@ -22,7 +22,8 @@ public class SimpleLabelPanel extends AbstractAtomicPanel {
     private final String anchorName;
     private final boolean required;
 
-    private boolean popUpButtonIsVisible = true;;
+    private boolean popUpButtonIsVisible = true;
+    private boolean optionalMarkIsVisible = true;
 
     /**
      * Constructor.
@@ -47,6 +48,14 @@ public class SimpleLabelPanel extends AbstractAtomicPanel {
         this.popUpButtonIsVisible = popUpButtonIsVisible;
     }
 
+    public boolean isOptionalMarkVisible() {
+        return optionalMarkIsVisible;
+    }
+
+    public void setOptionalMarkIsVisible(boolean optionalMarkIsVisible) {
+        this.optionalMarkIsVisible = optionalMarkIsVisible;
+    }
+
     @Override
     protected void onBeforeRender() {
         if (!initiated) {
@@ -58,9 +67,9 @@ public class SimpleLabelPanel extends AbstractAtomicPanel {
 
     private void init() {
         this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))).setEscapeModelStrings(false));
-        this.add(new WebMarkupContainer("optionalMark").setVisible(!required));
+        this.add(new WebMarkupContainer("optionalMark").setVisible(!required & isOptionalMarkVisible()));
         HelpPopup popup = new HelpPopup("popup", anchorName, new HelpFileReader(anchorName).read());
-        popup.setVisible(popUpButtonIsVisible);
+        popup.setVisible(isPopUpButtonIsVisible());
         this.add(popup);
     }
 }

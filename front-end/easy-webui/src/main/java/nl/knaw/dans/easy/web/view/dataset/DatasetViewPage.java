@@ -34,7 +34,6 @@ import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
-import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
@@ -46,13 +45,15 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.IAjaxCallDecorator;
 import org.apache.wicket.ajax.calldecorator.AjaxCallDecorator;
-import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.Loop.LoopItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
@@ -277,10 +278,21 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     }
 
     public void init() {
-        add(Style.VIEW_DATASET_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
         add(new Label("title", getDataset().getPreferredTitle()));
+
+        WebMarkupContainer nav = new WebMarkupContainer("nav") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isVisible() {
+                boolean selectLinkVisible = Mode.SELECT.equals(getMode());
+                boolean backToListLinkVisible = DatasetViewPage.getEasySession().hasRedirectPage(DatasetViewPage.class);
+                return selectLinkVisible | backToListLinkVisible;
+            }
+        };
+        add(nav);
 
         Link backToListLink = new Link("backToList") {
             private static final long serialVersionUID = 2282643032675018321L;
@@ -301,7 +313,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
                 return DatasetViewPage.getEasySession().hasRedirectPage(DatasetViewPage.class);
             }
         };
-        add(backToListLink);
+        nav.add(backToListLink);
 
         Link selectLink = new Link("selectLink") {
 
@@ -312,10 +324,9 @@ public class DatasetViewPage extends AbstractEasyNavPage {
                 logger.debug("Select link clicked.");
                 // TODO what else should happen here? Inform the session? Redirect to ...
             }
-
         };
         selectLink.setVisible(Mode.SELECT.equals(getMode()));
-        add(selectLink);
+        nav.add(selectLink);
 
         InfosegmentPanel infosegmentPanel = new InfosegmentPanel("infosegmentPanel", datasetModel, mode);
         infosegmentPanel.setOutputMarkupId(true);
@@ -336,10 +347,36 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         TabbedPanel tabbedPanel = new AjaxTabbedPanel(WI_VIEW_TABS, tabs) {
             private static final long serialVersionUID = 5796914238322673704L;
 
+            // Fix the hard coded 'selected' class on active list items (Bootstrap uses .active).
+            @Override
+            protected LoopItem newTabContainer(final int tabIndex) {
+                return new LoopItem(tabIndex) {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    protected void onComponentTag(ComponentTag tag) {
+                        super.onComponentTag(tag);
+                        String cssClass = (String) tag.getString("class");
+                        if (cssClass == null) {
+                            cssClass = "";
+                        }
+                        if (getIteration() == getSelectedTab()) {
+                            cssClass += " active";
+                        }
+                        tag.put("class", cssClass.trim());
+                    }
+
+                    @Override
+                    public boolean isVisible() {
+                        return getTabs().get(tabIndex).isVisible();
+                    }
+                };
+            }
+
             // Override newLink to supply an IndicatingAjaxLink (busy indicator)
             @Override
             protected WebMarkupContainer newLink(String linkId, final int index) {
-                return new IndicatingAjaxLink(linkId) {
+                return new AjaxLink<String>(linkId) {
                     private static final long serialVersionUID = 1L;
                     private boolean isClicked = false;
 
@@ -363,12 +400,12 @@ public class DatasetViewPage extends AbstractEasyNavPage {
 
                             @Override
                             public CharSequence decorateOnSuccessScript(CharSequence script) {
-                                // keep indicator shown, while loading a new page
-                                return ";Wicket.showIncrementally('" + getAjaxIndicatorMarkupId() + "');";
+                                // Show indicator while loading a new page
+                                // Javascript (uses JQuery): $("#link300").addClass("indicator");
+                                return ";$(\"#" + getMarkupId() + "\").addClass(\"indicator\");";
                             }
                         };
                     }
-
                 };
             }
         };
