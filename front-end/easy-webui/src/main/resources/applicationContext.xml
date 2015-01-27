@@ -438,11 +438,16 @@
             value="${easy.link.property-right-statement}" />
     </bean>
 
+    <bean id="reusingDataLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.reusing-data}" />
+    </bean>
+
     <bean id="dsaLink" class="java.lang.String">
         <constructor-arg type="java.lang.String"
             value="${easy.link.dsa}" />
     </bean>
-    
+
 
 	<bean id="pakbonValidatorCredentials"
 		class="nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials">

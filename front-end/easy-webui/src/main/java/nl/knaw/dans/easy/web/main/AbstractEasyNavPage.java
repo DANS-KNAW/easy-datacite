@@ -102,6 +102,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
     @SpringBean(name = "propertyRightStatementLink")
     private String propertyRightStatementLink;
 
+    @SpringBean(name = "reusingDataLink")
+    private String reusingDataLink;
+
     @SpringBean(name = "dsaLink")
     private String dsaLink;
 
@@ -237,7 +240,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         addDisclaimerLink();
         addLegalLink();
         addPropertyRightStatementLink();
-        addDsaLinks();
+        addReusingDataLink();
+        addDsaLink();
         add(new VersionPanel(EASY_VERSION));
     }
 
@@ -488,7 +492,11 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         add(new ExternalLink("propertyRightStatementLink", propertyRightStatementLink, getString("page.propertyRightsRef")));
     }
 
-    private void addDsaLinks() {
+    private void addReusingDataLink() {
+        add(new ExternalLink("reusingDataLink", reusingDataLink, getString("page.reusingDataRef")));
+    }
+
+    private void addDsaLink() {
         ExternalLink link = new ExternalLink("dsaLink", dsaLink);
         link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "dsa-logo.gif")));
         add(link);
