@@ -284,10 +284,10 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
         sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
         sortLinks.add(new StateSortLinkConfig(EasyDatasetSB.DS_STATE_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
         if (EasySession.get().getUser().hasRole(Role.ARCHIVIST)) {
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.0to9"));
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.9to0"));
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.0to9"));
-            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.9to0"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.DEPOSITOR_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.ASC, "sortLink.AtoZ"));
+            sortLinks.add(new SortLinkConfig(EasyDatasetSB.ASSIGNEE_ID_FIELD, SortType.BY_VALUE, SortOrder.DESC, "sortLink.ZtoA"));
         }
         return sortLinks;
     }
