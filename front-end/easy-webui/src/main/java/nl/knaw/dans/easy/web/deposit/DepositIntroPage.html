@@ -12,9 +12,10 @@
     <h1><wicket:message key="deposit.intro.title">[New deposit]</wicket:message></h1>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12">
-            <p>
-                <wicket:message key="deposit.intro.lead">[LEAD TEXT]</wicket:message>
-            </p>
+            <wicket:message key="deposit.intro.lead">
+                <a wicket:id="aboutDepositingDataLink" wicket:message="title:deposit.intro.prepare_your_data_link.ref"></a>
+                <a wicket:id="aboutDepositingDataLink2" wicket:message="title:deposit.intro.more_information_link.ref"></a>
+            </wicket:message>
         </div>
     </div>
     <div class="row">

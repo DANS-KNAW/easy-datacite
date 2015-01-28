@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
-import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -31,6 +30,9 @@ public class DepositIntroPage extends AbstractEasyNavPage {
 
     @SpringBean(name = "depositService")
     private DepositService depositService;
+
+    @SpringBean(name = "aboutDepositingDataLink")
+    private String aboutDepositingDataLink;
 
     public DepositIntroPage() {
         ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines()) {
@@ -61,6 +63,9 @@ public class DepositIntroPage extends AbstractEasyNavPage {
         };
         add(listView);
         add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
+
+        add(new ExternalLink("aboutDepositingDataLink", aboutDepositingDataLink, getString("deposit.intro.prepare_your_data_link.title")));
+        add(new ExternalLink("aboutDepositingDataLink2", aboutDepositingDataLink, getString("deposit.intro.more_information_link.title")));
     }
 
     private List<DepositDiscipline> getDisciplines() {

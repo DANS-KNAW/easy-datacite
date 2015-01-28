@@ -210,7 +210,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
         newRules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getEnableToDepositorOrArchivistRule());
         newRules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getEnableToLoggedInUserRule());
 
-        newRules.put("nl.knaw.dans.easy.web.deposit.DepositIntroPage", getEnableToLoggedInUserRule());
         newRules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
 
         // nl.knaw.dans.easy.web.admin.UserDetailsPage components

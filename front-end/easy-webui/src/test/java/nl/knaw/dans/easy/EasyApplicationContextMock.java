@@ -78,6 +78,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     public EasyApplicationContextMock() {
         super();
         expectDefaultFooterLinks();
+        expectOtherExternalLinks();
     }
 
     /**
@@ -124,6 +125,12 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         setLegalLink("http://mocked/legal/url");
         setPropertyRightStatementLink("http://mocked/property-right-statement/url");
         setDsaLink("http://mocked/dsa/url");
+        setReusingDataLink("http://mocked/reusing-data/url");
+    }
+
+    public void expectOtherExternalLinks() {
+        // Following link only appears on deposit intro page, but affects more than just the Deposit test
+        setAboutDepositingDataLink("http://mocked/about-depositing-data-link/url");
     }
 
     /**
@@ -460,6 +467,14 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
 
     private void setDsaLink(final String url) {
         putBean("dsaLink", url);
+    }
+
+    private void setReusingDataLink(final String url) {
+        putBean("reusingDataLink", url);
+    }
+
+    private void setAboutDepositingDataLink(final String url) {
+        putBean("aboutDepositingDataLink", url);
     }
 
     public Security getSecurity() {

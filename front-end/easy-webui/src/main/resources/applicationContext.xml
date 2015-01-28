@@ -448,6 +448,10 @@
             value="${easy.link.dsa}" />
     </bean>
 
+    <bean id="aboutDepositingDataLink" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+            value="${easy.link.about-depositing-data}" />
+    </bean>
 
 	<bean id="pakbonValidatorCredentials"
 		class="nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials">
