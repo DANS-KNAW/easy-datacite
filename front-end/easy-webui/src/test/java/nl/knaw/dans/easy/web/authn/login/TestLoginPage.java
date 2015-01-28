@@ -100,23 +100,6 @@ public class TestLoginPage extends Fixture {
         assertEmptyLoginPage(tester);
     }
 
-    @Test
-    public void depositInReadOnlyMode() throws Exception {
-        final EasyApplicationContextMock applicationContext = new EasyApplicationContextMock();
-        applicationContext.expectStandardSecurity();
-        applicationContext.expectDefaultResources();
-        // an active state requires more to mock
-        applicationContext.expectAuthenticatedAsVisitor().setState(User.State.REGISTERED);
-
-        replayAll();
-        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        tester.startPage(DepositIntroPage.class);
-
-        // in real life the banner says the system is going to shut down
-        tester.dumpPage();
-        assertEmptyLoginPage(tester);
-    }
-
     private void assertEmptyLoginPage(final EasyWicketTester tester) {
         tester.assertRenderedPage(LoginPage.class);
         tester.assertLabel("displayName", "S.U.R. Name");
