@@ -269,9 +269,9 @@ public interface ItemService extends EasyService {
 
     URL getStreamingHost();
 
-    void setMustProcessAudioVideoInstructions(boolean value);
+    void setProcessDataFileInstructions(boolean value);
 
-    boolean mustProcessAudioVideoInstructions();
+    boolean mustProcessDataFileInstructions();
 
     FolderItemVO getRootFolder(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ServiceException;
 

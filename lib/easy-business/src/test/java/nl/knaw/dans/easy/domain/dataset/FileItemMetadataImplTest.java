@@ -55,7 +55,7 @@ public class FileItemMetadataImplTest {
         fimd.setAccessibleTo(AccessibleTo.ANONYMOUS);
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
         String streamingPath = "koeje/paadje";
-        fimd.setStreamingPath(streamingPath);
+        fimd.setStreamingSurrogateUrl(streamingPath);
 
         AdditionalMetadata addmd = fimd.getAdditionalMetadata();
         Element content = getContent("src/test/resources/test-files/add-content.xml");
@@ -167,10 +167,10 @@ public class FileItemMetadataImplTest {
         assertFalse(fimd.isDirty());
 
         fimd.setDirty(false);
-        fimd.setStreamingPath("http://koe.com/");
+        fimd.setStreamingSurrogateUrl("http://koe.com/");
         assertTrue(fimd.isDirty());
         fimd.setDirty(false);
-        fimd.setStreamingPath("http://koe.com/");
+        fimd.setStreamingSurrogateUrl("http://koe.com/");
         assertFalse(fimd.isDirty());
     }
 }

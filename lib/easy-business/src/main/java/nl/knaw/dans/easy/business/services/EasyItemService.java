@@ -79,7 +79,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
 
     private URL streamingHost;
 
-    private boolean processAudioVideoInstructions;
+    private boolean processDataFileInstructions;
 
     @Override
     public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
@@ -451,7 +451,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
             if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID)) {
                 DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
                 FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
-                if (null != description.getFileItemMetadata().getStreamingPath())
+                if (null != description.getFileItemMetadata().getStreamingSurrogateUrl())
                     result.add((FileItemVO) fileItem);
             }
         }
@@ -468,13 +468,13 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
     }
 
     @Override
-    public void setMustProcessAudioVideoInstructions(boolean value) {
-        processAudioVideoInstructions = value;
+    public void setProcessDataFileInstructions(boolean value) {
+        processDataFileInstructions = value;
     }
 
     @Override
-    public boolean mustProcessAudioVideoInstructions() {
-        return processAudioVideoInstructions;
+    public boolean mustProcessDataFileInstructions() {
+        return processDataFileInstructions;
     }
 
     @Override

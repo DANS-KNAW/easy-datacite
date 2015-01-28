@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.dataset;
 
 import nl.knaw.dans.common.lang.repo.AbstractBinaryUnit;
+import java.net.URL;
 
 public class EasyFile extends AbstractBinaryUnit {
 
@@ -13,6 +14,11 @@ public class EasyFile extends AbstractBinaryUnit {
      */
     public EasyFile() {
         super(UnitControlGroup.ManagedContent);
+    }
+    
+    public EasyFile(String url) {
+        super(UnitControlGroup.RedirectedContent);
+        setLocation(url);
     }
 
     public String getUnitId() {

@@ -4,28 +4,26 @@
     <include path="ItemMetadata-binding.xml" />
     <include path="additional-metadata-binding.xml" />
 
-    <mapping class="nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl" name="file-item-md"
-        ns="http://easy.dans.knaw.nl/easy/file-item-md/">
-        
-        <namespace uri="http://easy.dans.knaw.nl/easy/file-item-md/" prefix="fimd"/>
-        <namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
-        
-        <structure type="nl.knaw.dans.easy.domain.dataset.AbstractItemMetadataImpl"/>
-        
-        <value name="mimeType" field="mimeType" usage="optional"/>
-        <value name="size" field="size"/>
-        
-        <value name="creatorRole" field="creatorRole" usage="optional"/>
-        <value name="visibleTo" field="visibleTo" usage="optional"/>
-        <value name="accessibleTo" field="accessibleTo" usage="optional"/>
-        
-        <value name="streamingPath" field="streamingPath" usage="optional"/>
-         
-        <structure name="additional-metadata" ns="http://easy.dans.knaw.nl/easy/additional-metadata/"
-			type="nl.knaw.dans.easy.xml.AdditionalMetadata" field="additionalMetadata" 
-			usage="optional"/>
-        
-        <value style="attribute" name="version" get-method="getVersion" field="version"/>
+    <mapping class="nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl" name="file-item-md" ns="http://easy.dans.knaw.nl/easy/file-item-md/">
+
+        <namespace uri="http://easy.dans.knaw.nl/easy/file-item-md/" prefix="fimd" />
+        <namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd" />
+
+        <structure type="nl.knaw.dans.easy.domain.dataset.AbstractItemMetadataImpl" />
+
+        <value name="mimeType" field="mimeType" usage="optional" />
+        <value name="size" field="size" />
+
+        <value name="creatorRole" field="creatorRole" usage="optional" />
+        <value name="visibleTo" field="visibleTo" usage="optional" />
+        <value name="accessibleTo" field="accessibleTo" usage="optional" />
+
+        <value name="streamingSurrogateUrl" field="streamingSurrogateUrl" usage="optional" />
+
+        <structure name="additional-metadata" ns="http://easy.dans.knaw.nl/easy/additional-metadata/" type="nl.knaw.dans.easy.xml.AdditionalMetadata"
+            field="additionalMetadata" usage="optional" />
+
+        <value style="attribute" name="version" get-method="getVersion" field="version" />
     </mapping>
 
 </binding>

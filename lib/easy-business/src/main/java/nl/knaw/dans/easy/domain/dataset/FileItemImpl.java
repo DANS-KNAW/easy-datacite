@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.dataset;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
+import java.net.*;
 
 import org.dom4j.Element;
 
@@ -95,6 +97,10 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
             super.setLabel(easyFile.getUnitLabel());
             getFileItemMetadataImpl().setName(easyFile.getUnitLabel());
         }
+    }
+    
+    public void setFileDataUrl(String url) {
+        easyFile = new EasyFile(url);
     }
 
     public DublinCoreMetadata getDublinCoreMetadata() {
@@ -182,12 +188,12 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
         getFileItemMetadata().setCreatorRole(creatorRole);
     }
 
-    public String getStreamingPath() {
-        return getFileItemMetadata().getStreamingPath();
+    public String getStreamingSurrogateUrl() {
+        return getFileItemMetadata().getStreamingSurrogateUrl();
     }
 
-    public void setStreamingPath(String streamingPath) {
-        getFileItemMetadata().setStreamingPath(streamingPath);
+    public void setStreamingSurrogateUrl(String streamingPath) {
+        getFileItemMetadata().setStreamingSurrogateUrl(streamingPath);
     }
 
     public boolean isCreatedByArchivist() {

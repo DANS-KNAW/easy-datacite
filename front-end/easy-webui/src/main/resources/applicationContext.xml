@@ -52,6 +52,7 @@
 
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" >
 		<property name="streamingHost" value="${streaming.host}"/>
+        <property name="processDataFileInstructions" value="${process-data-file-instructions}" />
 	</bean>
 	
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService">

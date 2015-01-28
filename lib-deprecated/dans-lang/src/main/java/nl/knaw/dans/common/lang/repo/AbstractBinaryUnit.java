@@ -134,7 +134,7 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
             label = file.getName();
         }
     }
-
+    
     @Override
     public void setFileContent(byte[] bytes, String label, String mimeType) throws IOException {
         this.label = label;

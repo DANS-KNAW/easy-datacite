@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.domain.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.dom4j.Element;
 
@@ -28,9 +29,9 @@ public interface FileItem extends DatasetItem, CommonFileItem {
 
     void setCreatorRole(CreatorRole creatorRole);
 
-    String getStreamingPath();
+    String getStreamingSurrogateUrl();
 
-    void setStreamingPath(String streamingPath);
+    void setStreamingSurrogateUrl(String streamingSurrogateUrl);
 
     boolean isCreatedByArchivist();
 
@@ -55,4 +56,6 @@ public interface FileItem extends DatasetItem, CommonFileItem {
     boolean hasDescriptiveMetadata();
 
     DescriptiveMetadata getDescriptiveMetadata();
+    
+    void setFileDataUrl(String url);
 }

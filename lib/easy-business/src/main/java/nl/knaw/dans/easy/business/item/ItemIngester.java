@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.business.item;
 
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.business.item.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,10 +187,14 @@ public class ItemIngester extends AbstractWorker {
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
 
-            if (Services.getItemService().mustProcessAudioVideoInstructions()) {
-                AudioVideoProperties avProperties = new AudioVideoProperties(file);
-                if (avProperties.available())
-                    kidFile.setStreamingPath(avProperties.getStreamingPath());
+            if (Services.getItemService().mustProcessDataFileInstructions() && DataFileInstructions.isDataFileInstructions(file)) {
+                DataFileInstructions instructions = DataFileInstructions.fromFile(file);
+                if(instructions.getStreamingSurrogateUrl() != null)
+                    kidFile.setStreamingSurrogateUrl(instructions.getStreamingSurrogateUrl().toString());
+                if(instructions.getFileDataUrl() != null) {
+                    kidFile.setFileDataUrl(instructions.getFileDataUrl());
+                    kidFile.setLabel(instructions.getFileName());
+                }
             }
             kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());

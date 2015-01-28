@@ -77,7 +77,7 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
             dsv.setContentDigest(ContentDigestType.DISABLED, null);
             dsv.setLabel(binUnit.getUnitLabel());
 
-            if (binUnit.hasFile()) {
+            if (binUnit.hasFile() || binUnit.getLocation() != null) {
                 dsv.setContentLocation(Type.URL, URI.create(binUnit.getLocation()));
             } else if (binUnit.hasBinaryContent()) {
                 dsv.setBinaryContent(binUnit.getBinaryContent());

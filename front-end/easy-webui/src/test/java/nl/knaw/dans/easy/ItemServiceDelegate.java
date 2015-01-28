@@ -249,13 +249,13 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public void setMustProcessAudioVideoInstructions(boolean value) {
+    public void setProcessDataFileInstructions(boolean value) {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
     }
 
     @Override
-    public boolean mustProcessAudioVideoInstructions() {
+    public boolean mustProcessDataFileInstructions() {
         throw NOT_IMPLEMENTED_EXCEPTION;
     }
 

@@ -96,7 +96,7 @@ public class ItemIngesterTest {
         fileItemMock = PowerMock.createMock(FileItem.class);
 
         EasyItemService itemService = new EasyItemService();
-        itemService.setMustProcessAudioVideoInstructions(false);
+        itemService.setProcessDataFileInstructions(false);
         new Services().setItemService(itemService);
 
         AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>() {
