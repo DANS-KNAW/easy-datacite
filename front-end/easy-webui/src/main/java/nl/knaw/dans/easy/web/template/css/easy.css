@@ -5940,7 +5940,7 @@ ul.list-group li.linked-list-group-item {
   font-weight: normal;
   font-style: normal;
 }
-.fa {
+.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tree-folder-other:before, .tab-row ul li a.indicator:after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -5950,7 +5950,7 @@ ul.list-group li.linked-list-group-item {
 }
 
 /* makes the font 33% larger relative to the icon container */
-.fa-lg {
+.fa-lg, .tab-row ul li a.indicator:after {
   font-size: 1.3333333333em;
   line-height: 0.75em;
   vertical-align: -15%;
@@ -5993,7 +5993,7 @@ ul.list-group li.linked-list-group-item {
   top: 0.1428571429em;
   text-align: center;
 }
-.fa-li.fa-lg {
+.fa-li.fa-lg, .tab-row ul li a.fa-li.indicator:after {
   left: -1.8571428571em;
 }
 
@@ -6011,14 +6011,14 @@ ul.list-group li.linked-list-group-item {
   float: left;
 }
 
-.fa.pull-left {
+.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .pull-left.tree-folder-other:before, .tab-row ul li a.pull-left.indicator:after {
   margin-right: .3em;
 }
-.fa.pull-right {
+.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .pull-right.tree-folder-other:before, .tab-row ul li a.pull-right.indicator:after {
   margin-left: .3em;
 }
 
-.fa-spin {
+.fa-spin, .tab-row ul li a.indicator:after {
   -webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;
 }
@@ -8399,7 +8399,7 @@ h1.search-results-heading small {
   margin: 10px 0;
   line-height: 1.5em;
 }
-.list-group.search-hits .list-group-item h2 i.fa {
+.list-group.search-hits .list-group-item h2 i.fa, .list-group.search-hits .list-group-item h2 i.tree-folder-closed:before, .list-group.search-hits .list-group-item h2 i.tree-folder-open:before, .list-group.search-hits .list-group-item h2 i.tree-folder-other:before {
   color: #248BB8;
 }
 .list-group.search-hits .list-group-item .row {
@@ -8511,18 +8511,15 @@ ul.search-criteria li a:hover {
   padding-left: 3px;
 }
 .fileExplorerPanel table tr th.wicket_orderDown:after {
-  font-family: "FontAwesome";
-  content: "\f0dd";
+  content: "";
   margin-left: 1em;
 }
 .fileExplorerPanel table tr th.wicket_orderUp:after {
-  font-family: "FontAwesome";
-  content: "\f0de";
+  content: "";
   margin-left: 1em;
 }
 .fileExplorerPanel table tr th.wicket_orderNone:after {
-  font-family: "FontAwesome";
-  content: "\f0dc";
+  content: "";
   color: #bbbbbb;
   margin-left: 1em;
 }
@@ -8660,15 +8657,13 @@ span.tree-content .selected span.tree-label {
 }
 
 .tree-folder-closed:before {
-  font-family: "FontAwesome";
-  content: "\f07b";
+  content: "";
   font-size: 1.5em;
   color: #E8BE05;
 }
 
 .tree-folder-open:before, .tree-folder-other:before {
-  font-family: "FontAwesome";
-  content: "\f07c";
+  content: "";
   font-size: 1.5em;
   color: #E8BE05;
 }
@@ -8676,6 +8671,10 @@ span.tree-content .selected span.tree-label {
 .tab-row {
   margin-left: -15px;
   margin-right: -15px;
+}
+.tab-row ul li a.indicator:after {
+  content: "";
+  margin-left: 0.5em;
 }
 
 div.tab-panel {
