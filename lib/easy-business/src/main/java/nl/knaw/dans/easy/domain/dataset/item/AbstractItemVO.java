@@ -102,4 +102,9 @@ public abstract class AbstractItemVO implements ItemVO {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[class=%s, sid=%s, path=%s]", getClass().getSimpleName(), sid, path);
+    }
 }

@@ -54,8 +54,6 @@ public class FileItemMetadataImplTest {
         fimd.setCreatorRole(CreatorRole.ARCHIVIST);
         fimd.setAccessibleTo(AccessibleTo.ANONYMOUS);
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
-        String streamingPath = "koeje/paadje";
-        fimd.setStreamingSurrogateUrl(streamingPath);
 
         AdditionalMetadata addmd = fimd.getAdditionalMetadata();
         Element content = getContent("src/test/resources/test-files/add-content.xml");
@@ -75,7 +73,6 @@ public class FileItemMetadataImplTest {
 
         FileItemMetadata fimd2 = (FileItemMetadata) JiBXObjectFactory.unmarshal(FileItemMetadataImpl.class, fimd.asObjectXML());
         assertEquals(fimd.asXMLString(), fimd2.asXMLString());
-        assertTrue("streaming path not serialized", fimd.asXMLString().contains(streamingPath));
     }
 
     private Element getContent(String filename) throws DocumentException {
@@ -164,13 +161,6 @@ public class FileItemMetadataImplTest {
         assertTrue(fimd.isDirty());
         fimd.setDirty(false);
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
-        assertFalse(fimd.isDirty());
-
-        fimd.setDirty(false);
-        fimd.setStreamingSurrogateUrl("http://koe.com/");
-        assertTrue(fimd.isDirty());
-        fimd.setDirty(false);
-        fimd.setStreamingSurrogateUrl("http://koe.com/");
         assertFalse(fimd.isDirty());
     }
 }

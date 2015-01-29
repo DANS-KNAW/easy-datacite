@@ -62,7 +62,6 @@ public class FileItemDescription implements Serializable {
         addElement(props, metadata, "size", "Size");
         addElement(props, metadata, "creatorRole", "Creator");
         addBaseElement(props, "Accessible", "Accessible");
-        addStreamingURL(props, metadata);
         addAdditionalMetadata(props);
         props.addAll(descriptiveMetadata.getProperties());
 
@@ -83,7 +82,6 @@ public class FileItemDescription implements Serializable {
         addElement(props, metadata, "sid", "Sid");
         addElement(props, metadata, "parentSid", "Parent sid");
         addElement(props, metadata, "datasetSid", "Dataset sid");
-        addStreamingURL(props, metadata);
         addAdditionalMetadata(props);
         props.addAll(descriptiveMetadata.getProperties());
 
@@ -101,14 +99,6 @@ public class FileItemDescription implements Serializable {
             for (Element e : elements) {
                 props.add(new KeyValuePair(e.getName(), e.getText()));
             }
-        }
-    }
-
-    private void addStreamingURL(List<KeyValuePair> props, ArrayList<Element> metadata) {
-        Element streamingPath = getElement(metadata, "streamingPath");
-        if (streamingPath != null) {
-            streamingPath.setName("Streaming url");
-            props.add(new KeyValuePair(streamingPath.getName(), Services.getItemService().getStreamingHost() + "/" + streamingPath.getText()));
         }
     }
 

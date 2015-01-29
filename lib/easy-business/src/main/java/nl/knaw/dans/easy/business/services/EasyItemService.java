@@ -64,6 +64,9 @@ import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 import nl.knaw.dans.easy.xml.ResourceMetadataListValidator;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -76,8 +79,6 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
 
     private ItemWorkDispatcher itemWorDispatcher;
     private DownloadWorkDispatcher downloadWorkDispatcher;
-
-    private URL streamingHost;
 
     private boolean processDataFileInstructions;
 
@@ -443,28 +444,27 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
     }
 
     @Override
-    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
-        List<FileItemVO> result = new LinkedList<FileItemVO>();
-        Collection<FileItemVO> fileItems = getFileItemsRecursively(sessionUser, dataset, new ArrayList<FileItemVO>(), null, dataset.getDmoStoreId());
-
-        for (FileItemVO fileItem : fileItems) {
-            if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID)) {
-                DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
-                FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
-                if (null != description.getFileItemMetadata().getStreamingSurrogateUrl())
-                    result.add((FileItemVO) fileItem);
-            }
+    public boolean allAccessibleToUser(EasyUser sessionUser, Collection<FileItemVO> files) throws ServiceException {
+        for (FileItemVO fileItem : files) {
+            if (!fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
+                return false;
         }
-        return result;
+        return true;
     }
 
     @Override
-    public URL getStreamingHost() {
-        return streamingHost;
-    }
-
-    public void setStreamingHost(String streamingHost) throws MalformedURLException {
-        this.streamingHost = new URL(streamingHost);
+    public Collection<FileItemVO> getAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
+        Collection<FileItemVO> fileItems = getFileItemsRecursively(sessionUser, dataset, new ArrayList<FileItemVO>(), null, dataset.getDmoStoreId());
+        Collection<FileItemVO> result = new LinkedList<FileItemVO>();
+        for (FileItemVO fileItem : fileItems) {
+            DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
+            FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
+            String mime = description.getFileItemMetadata().getMimeType();
+            if (mime != null && (mime.startsWith("video/") || mime.startsWith("audio/"))) {
+                result.add(fileItem);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -505,4 +505,16 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
     public Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException {
         return Data.getFileStoreAccess().getItemVoCreatorRoles(item);
     }
+
+    @Override
+    public String getPresentationFromRelations(Dataset dataset) {
+        List<BasicIdentifier> relations = dataset.getEasyMetadata().getEmdRelation().getDcRelation();
+        for (BasicIdentifier r : relations) {
+            if (EmdConstants.SCHEME_STREAMING_SURROGATE_RELATION.equals(r.getScheme())) {
+                return r.getValue();
+            }
+        }
+        return null;
+    }
+
 }

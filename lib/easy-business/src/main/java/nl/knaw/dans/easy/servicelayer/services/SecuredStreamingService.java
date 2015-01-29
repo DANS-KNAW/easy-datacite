@@ -12,7 +12,7 @@ public interface SecuredStreamingService {
      * @param baseUrl
      *        the base URL as a string
      */
-    void setBaseUrl(String baseUrl);
+    void setTicketServiceUrl(String baseUrl);
 
     /**
      * Sets the duration in milliseconds that tickets are valid.

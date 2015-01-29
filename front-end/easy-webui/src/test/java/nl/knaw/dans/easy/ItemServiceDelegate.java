@@ -239,16 +239,6 @@ public class ItemServiceDelegate implements ItemService {
     }
 
     @Override
-    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
-    }
-
-    @Override
-    public URL getStreamingHost() {
-        throw NOT_IMPLEMENTED_EXCEPTION;
-    }
-
-    @Override
     public void setProcessDataFileInstructions(boolean value) {
         throw NOT_IMPLEMENTED_EXCEPTION;
 
@@ -320,5 +310,20 @@ public class ItemServiceDelegate implements ItemService {
         expect(mock.getItemVoVisibilities(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
         expect(mock.getItemVoCreatorRoles(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
         return mock;
+    }
+
+    @Override
+    public String getPresentationFromRelations(Dataset dataset) {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public Collection<FileItemVO> getAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
+        throw NOT_IMPLEMENTED_EXCEPTION;
+    }
+
+    @Override
+    public boolean allAccessibleToUser(EasyUser sessionUser, Collection<FileItemVO> files) throws ServiceException {
+        throw NOT_IMPLEMENTED_EXCEPTION;
     }
 }

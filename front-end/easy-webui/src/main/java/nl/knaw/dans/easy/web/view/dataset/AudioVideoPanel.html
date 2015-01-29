@@ -1,0 +1,45 @@
+<html xmlns:wicket>
+<head>
+<title>Player</title>
+<wicket:head>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/swfobject.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		function available(v) {
+			return v != undefined && v != "";
+		}
+
+		function startPresentation(presentation) {
+			var flashvars;
+			if (available(ticket)) {
+				flashvars = {
+					presentationXML : presentation,
+					ticket : ticket
+				};
+			} else {
+				flashvars = {
+					presentationXML : presentation
+				};
+			}
+			var params = {
+				AllowScriptAccess : "always",
+				allowFullScreen : "true",
+				wmode : "direct"
+			};
+			swfobject.embedSWF(playerUrl, "player", "400", "300", version,
+					installerUrl, flashvars, params);
+		}
+	</script>
+</wicket:head>
+</head>
+<body>
+	<wicket:panel>
+	    <script type="text/javascript">
+	       if (available(presentation) && available(playerUrl)
+	                && available(installerUrl) && available(version))
+	            startPresentation(presentation);
+	    </script>
+		<div id="player"></div>
+	</wicket:panel>
+</body>
+</html>

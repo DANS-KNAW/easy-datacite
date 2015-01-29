@@ -11,7 +11,7 @@ public class DataFileInstructions {
     private static final String EASY_DATA_FILE_INSTRUCTIONS_DECLARATION = "easy.data-file-instructions";
     private static final String FILE_DATA_URL = "easy.file.data.url";
     private static final String FILE_NAME = "easy.file.name";
-    private static final String STREAMING_SURROGATE_URL = "easy.data-file-instructions.streaming-surrogate-urls";
+    private static final String FILE_MIME_TYPE = "easy.file.mime-type";
 
     private final Properties properties;
 
@@ -49,7 +49,7 @@ public class DataFileInstructions {
         return properties.getProperty(FILE_NAME);
     }
 
-    public String getStreamingSurrogateUrl() {
-        return properties.getProperty(STREAMING_SURROGATE_URL);
+    public String getFileMimeType() {
+        return properties.getProperty(FILE_MIME_TYPE);
     }
 }

@@ -33,6 +33,7 @@ public final class EmdConstants {
     public static final String SCHEME_DMO_ID = "DMO_ID";
     public static final String SCHEME_OAI_ITEM_ID = "OAI_ITEM_ID";
     public static final String SCHEME_AIP_ID = "AIP_ID";
+    public static final String SCHEME_STREAMING_SURROGATE_RELATION = "STREAMING_SURROGATE_RELATION";
 
     /**
      * Value of the scheme attribute of elements representing URI's.

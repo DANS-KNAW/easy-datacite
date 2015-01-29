@@ -29,10 +29,6 @@ public interface FileItem extends DatasetItem, CommonFileItem {
 
     void setCreatorRole(CreatorRole creatorRole);
 
-    String getStreamingSurrogateUrl();
-
-    void setStreamingSurrogateUrl(String streamingSurrogateUrl);
-
     boolean isCreatedByArchivist();
 
     boolean isCreatedByDepositor();

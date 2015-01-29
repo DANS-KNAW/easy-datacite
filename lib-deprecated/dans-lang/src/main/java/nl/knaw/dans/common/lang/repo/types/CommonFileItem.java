@@ -6,6 +6,8 @@ public interface CommonFileItem extends DataModelObject {
 
     String getMimeType();
 
+    void setMimeType(String mimeType);
+
     long getSize();
 
 }

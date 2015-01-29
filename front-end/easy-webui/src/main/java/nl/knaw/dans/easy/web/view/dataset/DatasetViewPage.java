@@ -1,6 +1,9 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import static org.apache.commons.lang.StringUtils.join;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -115,7 +118,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     /**
      * Resource id.
      */
-    public static final String RI_TAB_VIDEO = "tab.video";
+    public static final String RI_TAB_VIDEO = "tab.audio-video";
 
     /**
      * /** Wicket id.
@@ -340,8 +343,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         tabs.add(getAdministrationTab());
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
-        // tabs.add(getRelationsTab());
-        tabs.add(getVideoTab());
+        tabs.add(getAudioVideoTab());
 
         // Using Ajax to show a busy indicator while loading the new page
         TabbedPanel tabbedPanel = new AjaxTabbedPanel(WI_VIEW_TABS, tabs) {
@@ -586,31 +588,51 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     }
 
     @SuppressWarnings("serial")
-    private SimpleTab getVideoTab() {
+    private SimpleTab getAudioVideoTab() {
         return new SimpleTab(new ResourceModel(RI_TAB_VIDEO)) {
-            private List<FileItemVO> avFileItems;
+            private String presentation = presentationPathFromUrl(itemService.getPresentationFromRelations(getDataset()));
+            private boolean isVisible = (datasetHasFormat("video") || datasetHasFormat("audio")) //
+                    && datasetHasPresentationUrl() //
+                    && hasAudioVideoFilesWhichAreAllAccessibleToUser();
 
-            private boolean hasAccessibleAvFileItems() {
-                if (avFileItems == null) {
-                    try {
-                        avFileItems = itemService.getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
-                        return avFileItems.size() > 0;
-                    }
-                    catch (ServiceException e) {
-                        logger.error("Exception when trying to get accessible audio and video files", e);
-                    }
+            private String presentationPathFromUrl(String urlString) {
+                if (urlString == null) {
+                    return null;
                 }
-                return false;
+                String[] prefixAndPresentationPath = urlString.split("presentation=");
+                if (prefixAndPresentationPath.length < 2) {
+                    logger.error("Found invalid streamable version relation '{}'", urlString);
+                    return null;
+                }
+                return prefixAndPresentationPath[1];
             }
 
             @Override
             public Panel getPanel(final String panelId) {
-                return new VideoPanel(panelId, datasetModel, avFileItems, new PageParameters());
+                return new AudioVideoPanel(panelId, presentation);
             }
 
             @Override
             public boolean isVisible() {
-                return (datasetHasFormat("video") || datasetHasFormat("audio")) && hasAccessibleAvFileItems();
+                return isVisible;
+            }
+
+            private boolean datasetHasPresentationUrl() {
+                return presentation != null;
+            }
+
+            private boolean hasAudioVideoFilesWhichAreAllAccessibleToUser() {
+                try {
+                    Collection<FileItemVO> avFiles = itemService.getAudioVideoFiles(getSessionUser(), getDataset());
+                    if (logger.isDebugEnabled())
+                        logger.debug("Found A/V file items: {}", join(avFiles, ", "));
+                    return avFiles.size() > 0 && itemService.allAccessibleToUser(getSessionUser(), avFiles);
+                }
+                catch (ServiceException e) {
+                    logger.error("Could not determine if all audio/video files in dataset {} are accesible to {}", getDataset().getStoreId(), getSessionUser()
+                            .getId());
+                    return false;
+                }
             }
 
             private boolean datasetHasFormat(String f) {

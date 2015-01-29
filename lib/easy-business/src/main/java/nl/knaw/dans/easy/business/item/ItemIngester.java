@@ -183,17 +183,17 @@ public class ItemIngester extends AbstractWorker {
             FileItem kidFile = (FileItem) AbstractDmoFactory.newDmo(FileItem.NAMESPACE);
             getUnitOfWork().attach(kidFile);
 
-            kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
 
             if (Services.getItemService().mustProcessDataFileInstructions() && DataFileInstructions.isDataFileInstructions(file)) {
                 DataFileInstructions instructions = DataFileInstructions.fromFile(file);
-                if (instructions.getStreamingSurrogateUrl() != null)
-                    kidFile.setStreamingSurrogateUrl(instructions.getStreamingSurrogateUrl().toString());
                 if (instructions.getFileDataUrl() != null) {
                     kidFile.setFileDataUrl(instructions.getFileDataUrl());
                     kidFile.setLabel(instructions.getFileName());
+                    kidFile.setMimeType(instructions.getFileMimeType());
                 }
+            } else {
+                kidFile.setFile(file);
             }
             kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());

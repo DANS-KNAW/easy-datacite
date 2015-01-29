@@ -28,8 +28,8 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         setPath(fileItem.getPath());
     }
 
-    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String mimetype, CreatorRole creatorRole, String streamingPath,
-            VisibleTo visibleTo, AccessibleTo accessibleTo)
+    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String mimetype, CreatorRole creatorRole, VisibleTo visibleTo,
+            AccessibleTo accessibleTo)
     {
         super(sid, parentSid, datasetSid, name);
         this.size = size;

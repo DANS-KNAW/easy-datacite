@@ -188,14 +188,6 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
         getFileItemMetadata().setCreatorRole(creatorRole);
     }
 
-    public String getStreamingSurrogateUrl() {
-        return getFileItemMetadata().getStreamingSurrogateUrl();
-    }
-
-    public void setStreamingSurrogateUrl(String streamingPath) {
-        getFileItemMetadata().setStreamingSurrogateUrl(streamingPath);
-    }
-
     public boolean isCreatedByArchivist() {
         return CreatorRole.ARCHIVIST.equals(getFileItemMetadata().getCreatorRole());
     }

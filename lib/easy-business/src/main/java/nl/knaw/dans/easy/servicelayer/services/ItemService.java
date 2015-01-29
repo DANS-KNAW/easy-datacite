@@ -255,20 +255,6 @@ public interface ItemService extends EasyService {
 
     void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads);
 
-    /**
-     * Returns the list of audio and video files that are accessible to the user.
-     * 
-     * @param sessionUser
-     *        the user to check against
-     * @param dataset
-     *        the dataset to search
-     * @return list of audio and video files
-     * @throws ServiceException
-     */
-    List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException;
-
-    URL getStreamingHost();
-
     void setProcessDataFileInstructions(boolean value);
 
     boolean mustProcessDataFileInstructions();
@@ -280,4 +266,10 @@ public interface ItemService extends EasyService {
     Set<VisibleTo> getItemVoVisibilities(ItemVO item) throws StoreAccessException;
 
     Set<CreatorRole> getItemVoCreatorRoles(ItemVO item) throws StoreAccessException;
+
+    String getPresentationFromRelations(Dataset dataset);
+
+    Collection<FileItemVO> getAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException;
+
+    boolean allAccessibleToUser(EasyUser sessionUser, Collection<FileItemVO> files) throws ServiceException;
 }

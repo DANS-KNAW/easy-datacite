@@ -18,8 +18,6 @@
         <value name="visibleTo" field="visibleTo" usage="optional" />
         <value name="accessibleTo" field="accessibleTo" usage="optional" />
 
-        <value name="streamingSurrogateUrl" field="streamingSurrogateUrl" usage="optional" />
-
         <structure name="additional-metadata" ns="http://easy.dans.knaw.nl/easy/additional-metadata/" type="nl.knaw.dans.easy.xml.AdditionalMetadata"
             field="additionalMetadata" usage="optional" />
 

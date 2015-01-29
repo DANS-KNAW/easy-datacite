@@ -8,7 +8,9 @@ import static org.easymock.EasyMock.isNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -209,7 +211,9 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      */
     public void expectNoAudioVideoFiles() throws ServiceException, StoreAccessException {
         setMockedItemService();
-        expect(getItemService().getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new ArrayList<FileItemVO>());
+        expect(getItemService().getAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new LinkedList<FileItemVO>());
+        expect(getItemService().allAccessibleToUser(isA(EasyUser.class), isA(Collection.class))).andStubReturn(false);
+        expect(getItemService().getPresentationFromRelations(isA(Dataset.class))).andStubReturn(null);
     }
 
     /**

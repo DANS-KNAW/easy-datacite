@@ -10,16 +10,15 @@ import nl.knaw.dans.easy.util.HttpClientFacade;
 public class WowzaSecuredStreamingService implements SecuredStreamingService {
     private static Logger log = LoggerFactory.getLogger(WowzaSecuredStreamingService.class);
 
-    private String baseUrl;
+    private String ticketServiceUrl;
     private long accessDurationInMilliseconds;
     private HttpClientFacade http;
 
     @Override
     public void addSecurityTicketToResource(String ticket, String resource) throws ServiceException {
         String xmlMessage = createXmlMessage(ticket, resource);
-        String url = baseUrl + "/acl/ticket";
-        log.debug("Sending following message to url: {}\n {}", url, xmlMessage);
-        int status = http.post(url, xmlMessage);
+        log.debug("Sending following message to url: {}\n {}", ticketServiceUrl, xmlMessage);
+        int status = http.post(ticketServiceUrl, xmlMessage);
         if (!acceptableResponseToPost(status)) {
             throw new ServiceException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
         }
@@ -50,9 +49,9 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService {
 
     @Override
     public void removeSecurityTicket(String ticket) throws ServiceException {
-        int status = http.delete(baseUrl + "/acl/ticket");
+        int status = http.delete(ticketServiceUrl + "/" + ticket);
         if (!acceptableResponseToDelete(status)) {
-            throw new ServiceException(String.format("Failed to remoe security ticket %s, status code: %d", ticket, status));
+            throw new ServiceException(String.format("Failed to remove security ticket %s, status code: %d", ticket, status));
         }
     }
 
@@ -61,8 +60,8 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService {
     }
 
     @Override
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public void setTicketServiceUrl(String ticketServiceUrl) {
+        this.ticketServiceUrl = ticketServiceUrl;
     }
 
     @Override
