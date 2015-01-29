@@ -8,8 +8,9 @@
 <wicket:panel>
     <wicket:enclosure child="popupModal">
         <a wicket:id="helpPopup" class="help-popup-trigger">
+            <span class="sr-only"><wicket:message key="close">Close</wicket:message></span>
             <wicket:child>
-                <i class="fa fa-info-circle fa-lg"></i>
+                <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
             </wicket:child>
         </a>
 
