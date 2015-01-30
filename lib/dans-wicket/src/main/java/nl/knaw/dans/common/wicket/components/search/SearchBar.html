@@ -1,15 +1,17 @@
 <wicket:panel>
-        <form wicket:id="simpleSearchForm" role="form" class="search">
-            <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail2">Search</label>
+    <form wicket:id="simpleSearchForm" role="form" class="search">
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputEmail2">
+                <wicket:message key="searchbar.searchbutton.label">[Search]</wicket:message>
+            </label>
 
-                <div class="input-group">
-                    <input type="text" class="form-control" wicket:id="searchString" placeholder="Search...">
+            <div class="input-group">
+                <input type="text" class="form-control" wicket:id="searchString" wicket:message="placeholder:searchbar.searchfield.placeholder" />
 
-                    <div class="input-group-btn">
-                        <input type="submit" class="btn btn-black" wicket:id="searchSubmitButton" wicket:message="value:searchbar.searchbutton.label" />
-                    </div>
+                <div class="input-group-btn">
+                    <input type="submit" class="btn btn-black" wicket:id="searchSubmitButton" wicket:message="value:searchbar.searchbutton.label" />
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 </wicket:panel>
