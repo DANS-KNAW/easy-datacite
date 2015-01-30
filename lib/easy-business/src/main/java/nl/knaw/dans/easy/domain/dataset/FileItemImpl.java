@@ -98,7 +98,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
             getFileItemMetadataImpl().setName(easyFile.getUnitLabel());
         }
     }
-    
+
     public void setFileDataUrl(String url) {
         easyFile = new EasyFile(url);
     }

@@ -15,7 +15,7 @@ public class EasyFile extends AbstractBinaryUnit {
     public EasyFile() {
         super(UnitControlGroup.ManagedContent);
     }
-    
+
     public EasyFile(String url) {
         super(UnitControlGroup.RedirectedContent);
         setLocation(url);

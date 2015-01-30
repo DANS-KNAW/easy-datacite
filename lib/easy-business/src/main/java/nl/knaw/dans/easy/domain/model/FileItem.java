@@ -56,6 +56,6 @@ public interface FileItem extends DatasetItem, CommonFileItem {
     boolean hasDescriptiveMetadata();
 
     DescriptiveMetadata getDescriptiveMetadata();
-    
+
     void setFileDataUrl(String url);
 }

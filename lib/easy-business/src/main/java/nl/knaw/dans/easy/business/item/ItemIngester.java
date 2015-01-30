@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.business.item;
 
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -189,9 +188,9 @@ public class ItemIngester extends AbstractWorker {
 
             if (Services.getItemService().mustProcessDataFileInstructions() && DataFileInstructions.isDataFileInstructions(file)) {
                 DataFileInstructions instructions = DataFileInstructions.fromFile(file);
-                if(instructions.getStreamingSurrogateUrl() != null)
+                if (instructions.getStreamingSurrogateUrl() != null)
                     kidFile.setStreamingSurrogateUrl(instructions.getStreamingSurrogateUrl().toString());
-                if(instructions.getFileDataUrl() != null) {
+                if (instructions.getFileDataUrl() != null) {
                     kidFile.setFileDataUrl(instructions.getFileDataUrl());
                     kidFile.setLabel(instructions.getFileName());
                 }
