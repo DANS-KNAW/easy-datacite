@@ -1,24 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
-	
-<head>
-	
-</head>
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+
+<head></head>
 
 <body>
-<wicket:panel>
-	<div class="jumpoffMetadataPanel">
-	<div class="metadataRowKey">Jumpoff Fedora id:</div><div wicket:id="jumpoffId">[jumpoffId]</div>
-	<div class="metadataRowKey">Last edited:</div><div wicket:id="lastEdited">[lastEdited]</div>
-	<div class="metadataRowKey">Last edited by:</div><div wicket:id="lastEditedBy">[lastEditedBy]</div>
-	<div class="metadataRowKey">This version edited in:</div><div wicket:id="editorMode">[editorMode]</div>
-	</div>
-</wicket:panel>
+    <wicket:panel>
+        <div class="row">
+            <div class="col-lg-3 col-md-5 col-sm-7">
+                <table class="table table-condensed table-not-striped">
+                    <tr>
+                        <td>Jumpoff Fedora id:</td>
+                        <td wicket:id="jumpoffId">[jumpoffId]</td>
+                    </tr>
+                    <tr>
+                        <td>Last edited:</td>
+                        <td wicket:id="lastEdited">[lastEdited]</td>
+                    </tr>
+                    <tr>
+                        <td>Last edited by:</td>
+                        <td wicket:id="lastEditedBy">[lastEditedBy]</td>
+                    </tr>
+                    <tr>
+                        <td>This version edited in:</td>
+                        <td wicket:id="editorMode">[editorMode]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </wicket:panel>
 </body>
 </html>

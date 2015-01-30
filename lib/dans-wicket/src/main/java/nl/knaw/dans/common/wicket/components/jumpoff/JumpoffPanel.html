@@ -1,40 +1,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
-	
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+
 <head>
-	<wicket:head>
-		<link rel="stylesheet" type="text/css" href="css/jumpoff.css" />
-		<link rel="stylesheet" type="text/css" href="css/jumpoff-markup.css" />
-	</wicket:head>
+    <wicket:head>
+    </wicket:head>
 </head>
 
 <body>
 <wicket:panel>
-
-<div class="jumpoffPanel" >
-	<div wicket:id="viewEditJumpoffPanel">[Jumpoff View / Edit Panel]</div>
-	<p/>
-	<div>
-	<a wicket:id="toggleEditorButton" class="button"><wicket:message key="jumpoffPanel.toggleButton.label">
-		Toggle jumpoff page
-	</wicket:message></a>
-	<a wicket:id="addButton" class="button"><wicket:message key="jumpoffPanel.addButton.label">
-		Add jumpoff page
-	</wicket:message></a>
-	<a wicket:id="editButton" class="button"><wicket:message key="jumpoffPanel.editButton.label">
-		Edit jumpoff page
-	</wicket:message></a>
-	<a wicket:id="deleteButton" class="button"><wicket:message key="jumpoffPanel.deleteButton.label">
-		Delete jumpoff page
-	</wicket:message></a>
-	</div>
-</div>
+    <div class="jumbotron" wicket:id="jumpOff">
+        <div wicket:id="viewEditJumpoffPanel" class="extra-bottom-spacing">[Jumpoff View / Edit Panel]</div>
+        <p>
+            <a wicket:id="toggleEditorButton" class="btn btn-default btn-sm">
+                <wicket:message key="jumpoffPanel.toggleButton.label">
+                    Toggle jumpoff page
+                </wicket:message>
+            </a>
+            <a wicket:id="editButton" class="btn btn-default btn-sm">
+                <wicket:message key="jumpoffPanel.editButton.label">
+                    Edit jumpoff page
+                </wicket:message>
+            </a>
+            <a wicket:id="deleteButton" class="btn btn-danger btn-sm">
+                <wicket:message key="jumpoffPanel.deleteButton.label">
+                    Delete jumpoff page
+                </wicket:message>
+            </a>
+        </p>
+    </div>
+    <p wicket:enclosure="">
+        <a wicket:id="addButton" class="btn btn-default btn-sm">
+            <wicket:message key="jumpoffPanel.addButton.label">
+                Add jumpoff page
+            </wicket:message>
+        </a>
+    </p>
 </wicket:panel>
 </body>
 </html>

@@ -12,6 +12,7 @@ import nl.knaw.dans.common.wicket.model.DMOModel;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 
@@ -24,6 +25,7 @@ public abstract class JumpoffPanel extends CommonPanel {
     private boolean initiated;
     private boolean jumpoffExists;
     private boolean inEditMode;
+    private WebMarkupContainer jumpOff;
 
     private final String resourceAlias;
 
@@ -49,6 +51,14 @@ public abstract class JumpoffPanel extends CommonPanel {
     private void init() {
         JumpoffDmo jumpoffDmo = getJumpoffDmoFor(targetDmo);
 
+        jumpOff = new WebMarkupContainer("jumpOff") {
+            @Override
+            public boolean isVisible() {
+                return jumpoffExists || inEditMode;
+            }
+        };
+        add(jumpOff);
+
         jumpoffExists = jumpoffDmo != null;
         if (jumpoffExists) {
             setDefaultModel(createModel(jumpoffDmo));
@@ -59,7 +69,7 @@ public abstract class JumpoffPanel extends CommonPanel {
         }
 
         viewEditJumpoffPanel.setOutputMarkupId(true);
-        add(viewEditJumpoffPanel);
+        jumpOff.add(viewEditJumpoffPanel);
 
         add(new Link("addButton") {
 
@@ -76,7 +86,7 @@ public abstract class JumpoffPanel extends CommonPanel {
             }
 
         });
-        add(new Link("editButton") {
+        jumpOff.add(new Link("editButton") {
             private static final long serialVersionUID = 5444183424272535973L;
 
             @Override
@@ -103,7 +113,7 @@ public abstract class JumpoffPanel extends CommonPanel {
             }
         };
         deleteButton.add(new SimpleAttributeModifier("onclick", "return confirm('Are you sure you want to delete " + "this jumpoff page?');"));
-        add(deleteButton);
+        jumpOff.add(deleteButton);
 
         Link toggleEditorButton = new Link("toggleEditorButton") {
 
@@ -119,7 +129,7 @@ public abstract class JumpoffPanel extends CommonPanel {
             }
 
         };
-        add(toggleEditorButton);
+        jumpOff.add(toggleEditorButton);
     }
 
     /**
@@ -210,13 +220,13 @@ public abstract class JumpoffPanel extends CommonPanel {
             }
 
         };
-        addOrReplace(viewEditJumpoffPanel);
+        jumpOff.addOrReplace(viewEditJumpoffPanel);
     }
 
     private void switchViewMode() {
         inEditMode = false;
         viewEditJumpoffPanel = new JumpoffViewPanel(WI_CONTENTPANEL, getJumpoffDmoModel());
-        addOrReplace(viewEditJumpoffPanel);
+        jumpOff.addOrReplace(viewEditJumpoffPanel);
     }
 
     private void refreshPanel() {

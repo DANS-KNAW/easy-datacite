@@ -6,31 +6,21 @@
 <head></head>
 <body>
 <wicket:panel>
-
-<table width="98%">
-<tr><td class="w_table_cell">
-
-<b><span wicket:id="creator">[creator]</span>
-<wicket:enclosure>(<span wicket:id="dateCreated">[dateCreated]</span>)</wicket:enclosure>,
-
-
-
-<i><span wicket:id="title">[title]</span></i></b>
-<br/>
-<wicket:enclosure child="pidLink">Persistent Identifier: <a href="#" wicket:id="pidLink"><span wicket:id="pid">[pid]</span></a></wicket:enclosure>
-
-<div style="margin:0px;">
-
-	<span wicket:id="descriptions">
-	<p wicket:id="description">[description]</p>
-	</span>
-
-</div>
-
-</td>
-</tr>
-</table>
+    <div class="row overview">
+        <div class="col-lg-7">
+            <p>
+                <span wicket:id="title" class="title"></span><br/>
+                <span wicket:id="dateCreated"></span>
+                <span wicket:id="creator"></span>
+                <a href="#" wicket:id="pidLink">
+                    <span wicket:id="pid">[pid]</span>
+                </a>
+            </p>
+            <div wicket:id="descriptions">
+                <p wicket:id="description">[description]</p>
+            </div>
+        </div>
+    </div>
 </wicket:panel>
-
 </body>
 </html>
