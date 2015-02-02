@@ -2,7 +2,7 @@
     <wicket:panel>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     <div class="container-fluid">
                         <div class="row extra-bottom-spacing">
                             <a wicket:id="downloadLink" class="btn btn-default btn-sm"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
@@ -17,6 +17,7 @@
                                     <a wicket:id="applyFileRightsLink" class="btn btn-default btn-sm">Change</a>
                                 </form>
                             </div>
+                            <a type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#filtersModal" wicket:id="filterFormTrigger">Filters...</a>
                         </div>
                         <div wicket:id="explorer"></div>
                     </div>
@@ -34,81 +35,7 @@
                         </div>
                     </wicket:enclosure>
                 </div>
-                <div class="col-lg-2" wicket:enclosure="filterForm">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2>Filters</h2>
-                        </div>
-                        <div class="panel-body">
-                            <form wicket:id="filterForm">
-                                <h3>Creator</h3>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="creatorDEPOSITOR" type="checkbox" selected="selected"/> Depositor
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="creatorARCHIVIST" type="checkbox"/> Archivist
-                                    </label>
-                                </div>
-                                <h3>Visible to</h3>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="visibleANONYMOUS" type="checkbox" selected="selected"/> Anonymous
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="visibleKNOWN" type="checkbox"/> Known
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="visibleRESTRICTED_REQUEST" type="checkbox"/> Restricted Request
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="visibleRESTRICTED_GROUP" type="checkbox"/> Restricted Group
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="visibleNONE" type="checkbox"/> None
-                                    </label>
-                                </div>
-                                <h3>Accessible to</h3>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="accessANONYMOUS" type="checkbox"/> Anonymous
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="accessKNOWN" type="checkbox"/> Known
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="accessRESTRICTED_REQUEST" type="checkbox"/> Restricted Request
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="accessRESTRICTED_GROUP" type="checkbox"/> Restricted Group
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input wicket:id="accessNONE" type="checkbox"/> None
-                                    </label>
-                                </div>
-                                <button wicket:id="filtersSubmitLink" class="btn btn-default">Preview</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div wicket:id="modalFileDetails"></div>
@@ -117,5 +44,88 @@
         <div wicket:id="modalUpload"></div>
         <div wicket:id="modalImport"></div>
         <div wicket:id="modalMessage"></div>
+
+        <div class="modal fade" id="filtersModal" tabindex="-1" role="dialog" aria-labelledby="filtersModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form wicket:id="filterForm">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h1 class="modal-title" id="filtersModalLabel">Filters</h1>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Creator</h2>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="creatorDEPOSITOR" type="checkbox" selected="selected"/> Depositor
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="creatorARCHIVIST" type="checkbox"/> Archivist
+                                </label>
+                            </div>
+                            <h2>Visible to</h2>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="visibleANONYMOUS" type="checkbox" selected="selected"/> Anonymous
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="visibleKNOWN" type="checkbox"/> Known
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="visibleRESTRICTED_REQUEST" type="checkbox"/> Restricted Request
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="visibleRESTRICTED_GROUP" type="checkbox"/> Restricted Group
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="visibleNONE" type="checkbox"/> None
+                                </label>
+                            </div>
+                            <h2>Accessible to</h2>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="accessANONYMOUS" type="checkbox"/> Anonymous
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="accessKNOWN" type="checkbox"/> Known
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="accessRESTRICTED_REQUEST" type="checkbox"/> Restricted Request
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="accessRESTRICTED_GROUP" type="checkbox"/> Restricted Group
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input wicket:id="accessNONE" type="checkbox"/> None
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button wicket:id="filtersSubmitLink" class="btn btn-primary" type="button" data-dismiss="modal">Preview</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </wicket:panel>
 </html>

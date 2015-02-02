@@ -51,6 +51,7 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.CloseButt
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -134,6 +135,10 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         filterForm.setVisible(archivistView);
         filterForm.add(createFilterSubmitLink(filterMap));
         add(filterForm);
+
+        WebMarkupContainer filterFormTrigger = new WebMarkupContainer("filterFormTrigger");
+        filterFormTrigger.setVisible(filterForm.isVisible());
+        add(filterFormTrigger);
 
         treeProvider = new TreeItemProvider(datasetModel.getDmoStoreId(), filterMap);
         explorer = createExplorerPanel();
