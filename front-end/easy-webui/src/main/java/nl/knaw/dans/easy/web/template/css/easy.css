@@ -5940,7 +5940,7 @@ ul.list-group li.linked-list-group-item {
   font-weight: normal;
   font-style: normal;
 }
-.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tree-folder-other:before, .tab-row ul li a.indicator:after {
+.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tab-row ul li a.indicator:after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -6011,10 +6011,10 @@ ul.list-group li.linked-list-group-item {
   float: left;
 }
 
-.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .pull-left.tree-folder-other:before, .tab-row ul li a.pull-left.indicator:after {
+.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .tab-row ul li a.pull-left.indicator:after {
   margin-right: .3em;
 }
-.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .pull-right.tree-folder-other:before, .tab-row ul li a.pull-right.indicator:after {
+.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .tab-row ul li a.pull-right.indicator:after {
   margin-left: .3em;
 }
 
@@ -8167,6 +8167,11 @@ h6, .h6 {
   border: none;
 }
 
+label {
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
 #container {
   position: relative;
   width: 1200px;
@@ -8323,13 +8328,14 @@ h6, .h6 {
 .footer ul li {
   margin: 5px 0;
 }
-.footer h3 {
+.footer h1, .footer .h1 {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   font-size: 1em;
   margin-top: 0;
   margin-bottom: 10px;
   line-height: 1.56em;
+  letter-spacing: normal;
 }
 .footer .more:after {
   content: "  ›››";
@@ -8417,7 +8423,7 @@ h1.search-results-heading small {
   margin: 10px 0;
   line-height: 1.5em;
 }
-.list-group.search-hits .list-group-item h2 i.fa, .list-group.search-hits .list-group-item h2 i.tree-folder-closed:before, .list-group.search-hits .list-group-item h2 i.tree-folder-open:before, .list-group.search-hits .list-group-item h2 i.tree-folder-other:before {
+.list-group.search-hits .list-group-item h2 i.fa, .list-group.search-hits .list-group-item h2 i.tree-folder-closed:before, .list-group.search-hits .list-group-item h2 i.tree-folder-open:before {
   color: #248BB8;
 }
 .list-group.search-hits .list-group-item .row {
@@ -8518,9 +8524,6 @@ ul.search-criteria li a:hover {
 .fileExplorerPanel form.form-inline, .fileExplorerPanel form.navbar-form {
   display: inline;
 }
-.fileExplorerPanel table {
-  margin-top: -26px;
-}
 .fileExplorerPanel table caption {
   text-align: left;
   padding-bottom: 2px;
@@ -8545,7 +8548,7 @@ ul.search-criteria li a:hover {
 a.expandall,
 a.collapseall,
 a.up {
-  background-color: #f5f5f5;
+  background-color: #f4f4f4;
   border-radius: 4px;
   padding: 4px 2px 4px 28px;
   color: black;
@@ -8576,7 +8579,10 @@ a.up {
 }
 
 input.toggle-select-all {
-  margin-left: 8px;
+  margin-left: 9px;
+  position: relative;
+  bottom: -26px;
+  margin-top: -26px;
 }
 
 .NoneAccessible {
@@ -8595,11 +8601,6 @@ input.toggle-select-all {
   color: #248BB8 !important;
 }
 
-.contentBar {
-  font-size: 14px;
-  line-height: 19px;
-}
-
 div.tree-subtree {
   margin: 0px 0px 0px 18px;
   padding: 0px;
@@ -8616,33 +8617,29 @@ div.tree-branch-mid {
   background-repeat: repeat-y;
 }
 
-span.tree-junction {
-  display: block;
-  float: left;
-  width: 18px;
-  background-image: url('fileexplorer/tree.gif');
-  background-position: -36px center;
-  background-repeat: no-repeat;
-}
-
-a.tree-junction-expanded {
-  display: block;
-  float: left;
-  width: 18px;
-  background-image: url('fileexplorer/tree.gif');
-  background-position: -18px center;
-  background-repeat: no-repeat;
-  text-decoration: none;
-}
-
+span.tree-junction,
+a.tree-junction-expanded,
 a.tree-junction-collapsed {
   display: block;
   float: left;
   width: 18px;
-  background-image: url('fileexplorer/tree.gif');
-  background-position: 0px center;
   background-repeat: no-repeat;
   text-decoration: none;
+}
+
+span.tree-junction {
+  background-image: url('fileexplorer/tree.gif');
+  background-position: -36px center;
+}
+
+a.tree-junction-expanded {
+  background-image: url('fileexplorer/tree.gif');
+  background-position: -18px center;
+}
+
+a.tree-junction-collapsed {
+  background-image: url('fileexplorer/tree.gif');
+  background-position: 0px center;
 }
 
 table.tree {
@@ -8680,7 +8677,7 @@ span.tree-content .selected span.tree-label {
   color: #E8BE05;
 }
 
-.tree-folder-open:before, .tree-folder-other:before {
+.tree-folder-open:before {
   content: "";
   font-size: 1.5em;
   color: #E8BE05;
