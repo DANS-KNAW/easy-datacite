@@ -18,10 +18,12 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.FileStoreMocker;
 import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.domain.dataset.AdministrativeMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -43,13 +45,11 @@ import org.apache.wicket.PageParameters;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
 public class DatasetPermissionTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatasetPermissionTest.class);
     private EasyApplicationContextMock applicationContext;
@@ -68,7 +68,35 @@ public class DatasetPermissionTest {
         expect(permissionSequenceList.getPermissionRequest(isA(EasyUser.class))).andStubReturn(permissionRequestModel);
         expect(permissionSequenceList.isGrantedTo(isA(EasyUser.class))).andStubReturn(true);
 
-        DatasetImpl dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId()) {
+        DatasetImpl dataset = createDataset();
+        dataset.setPermissionSequenceList(permissionSequenceList);
+        dataset.setState(State.Submitted.toString());
+        dataset.setAuthzStrategy(createAuthzStrategy());
+        dataset.setAdministrativeMetadata(createAMD(createUser()));
+        return dataset;
+    }
+
+    private AdministrativeMetadataImpl createAMD(final EasyUser depositor) {
+        AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl() {
+            private static final long serialVersionUID = 1L;
+
+            public EasyUser getDepositor() {
+                return depositor;
+            }
+        };
+        return administrativeMetadata;
+    }
+
+    private EasyUser createUser() {
+        final EasyUser depositor = new EasyUserTestImpl("easy_user:1");
+        depositor.setFirstname("voornaam");
+        depositor.setSurname("achternaam");
+        depositor.setInitials("v.n.");
+        return depositor;
+    }
+
+    private DatasetImpl createDataset() {
+        return new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -86,9 +114,10 @@ public class DatasetPermissionTest {
                 return AccessCategory.REQUEST_PERMISSION;
             }
         };
-        dataset.setPermissionSequenceList(permissionSequenceList);
-        dataset.setState(State.Submitted.toString());
-        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy() {
+    }
+
+    private EasyItemContainerAuthzStrategy createAuthzStrategy() {
+        return new EasyItemContainerAuthzStrategy() {
             // the subclass makes protected constructors visible
             private static final long serialVersionUID = 1L;
             private ArrayList<AuthzMessage> authzMessages = new ArrayList<AuthzMessage>();
@@ -112,8 +141,7 @@ public class DatasetPermissionTest {
             public EasyItemContainerAuthzStrategy sameStrategy(Object target) {
                 return null;
             }
-        });
-        return dataset;
+        };
     }
 
     private DatasetService mockDatsetService(Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
