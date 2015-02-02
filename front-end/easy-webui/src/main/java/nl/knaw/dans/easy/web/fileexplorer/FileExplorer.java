@@ -39,7 +39,7 @@ import nl.knaw.dans.easy.web.statistics.DownloadStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
-import nl.knaw.dans.easy.web.template.Style;
+import nl.knaw.dans.easy.web.template.Script;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
@@ -88,6 +88,9 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 
     public FileExplorer(String id, final DatasetModel datasetModel) {
         super(id, datasetModel);
+
+        add(Script.JQUERY_UI_CONTRIBUTION);
+        add(Script.FILEEXPLORER_RESIZE_CONTRIBUTION);
 
         // check if archivist or depsitor view should be enabled
         if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST)) {

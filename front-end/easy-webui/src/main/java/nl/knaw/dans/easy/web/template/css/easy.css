@@ -8102,6 +8102,29 @@ ul.list-group li.linked-list-group-item {
   content: "";
 }
 
+.ui-resizable-e {
+  cursor: e-resize;
+  height: 100%;
+  right: -5px;
+  top: 0;
+  width: 7px;
+}
+
+.ui-resizable {
+  position: relative;
+}
+
+.ui-resizable-handle {
+  display: block;
+  font-size: 0.1px;
+  position: absolute;
+}
+
+.ui-resizable-disabled .ui-resizable-handle,
+.ui-resizable-autohide .ui-resizable-handle {
+  display: none;
+}
+
 html {
   font-size: 1em;
 }
@@ -8599,6 +8622,14 @@ input.toggle-select-all {
 
 .EmbargoAccessible {
   color: #248BB8 !important;
+}
+
+.ui-resizable-handle.ui-resizable-e {
+  border-right: 4px double #DDDDDD;
+}
+
+#fileexplorer-resize-container div:first-child .tree {
+  overflow: auto;
 }
 
 div.tree-subtree {
