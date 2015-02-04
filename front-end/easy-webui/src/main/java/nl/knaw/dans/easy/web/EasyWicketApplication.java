@@ -105,6 +105,7 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         guard.addPattern("+*.htm");
         guard.addPattern("+*.ttf");
         guard.addPattern("+*.woff");
+        guard.addPattern("+*.eot");
     }
 
     private void setAliases() {

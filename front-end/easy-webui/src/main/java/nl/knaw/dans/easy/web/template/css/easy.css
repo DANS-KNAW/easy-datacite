@@ -8244,7 +8244,14 @@ label {
 }
 
 .search-nav {
-  background: linear-gradient(115deg, #2a9dd3 0%, #248bb8 100%);
+  background-color: #248BB8;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#FF2A9DD3', endColorstr='#FF248BB8');
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9Ii0wLjEwMjIwOCIgeTE9IjAuMjE5MTg2IiB4Mj0iMS4xMDIyMDgiIHkyPSIwLjc4MDgxNCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJhOWRkMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI0OGJiOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -moz-linear-gradient(335deg, #2a9dd3, #248bb8);
+  background-image: -webkit-linear-gradient(335deg, #2a9dd3, #248bb8);
+  background-image: linear-gradient(115deg, #2a9dd3, #248bb8);
   padding-top: 30px;
   padding-bottom: 30px;
   color: white;
@@ -8780,8 +8787,16 @@ td.w_table_cell a:hover {
 }
 
 .btn-black {
+  background-color: black;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FF5B5B5B', endColorstr='#FF000000');
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzViNWI1YiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5b5b5b), color-stop(100%, #000000));
+  background-image: -moz-linear-gradient(#5b5b5b, #000000);
+  background-image: -webkit-linear-gradient(#5b5b5b, #000000);
+  background-image: linear-gradient(#5b5b5b, #000000);
   border-color: #242424;
-  background: linear-gradient(to bottom, #5b5b5b 0%, #000000 100%) repeat scroll 0 0 transparent;
   color: white;
   text-transform: uppercase;
   font-size: 11px;
