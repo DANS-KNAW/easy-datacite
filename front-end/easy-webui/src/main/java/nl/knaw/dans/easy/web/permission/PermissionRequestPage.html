@@ -1,7 +1,9 @@
 <wicket:extend>
-	<h1 wicket:id="title">[title]</h1>
-	<p><span wicket:id="intro">[intro]</span></p>
-	
-	<div wicket:id="requestPanel">[panel]</div>
-
+    <h1 wicket:id="title">[title]</h1>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+            <p wicket:id="intro">[intro]</p>
+            <wicket:container wicket:id="requestPanel">[panel]</wicket:container>
+        </div>
+    </div>
 </wicket:extend>

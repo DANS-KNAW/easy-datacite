@@ -4,14 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
-import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.store.StoreAccessException;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.model.AccessibleTo;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;

@@ -1,28 +1,6 @@
 <html xmlns:wicket>
 <wicket:panel>
-	<p><wicket:message key="requests.info">[msg]</wicket:message></p>
-
-	<!-- 
-    <div wicket:id="summary">
-        [overview]
-    </div>
-	 -->    
-<!-- TODO remove ListView	 
-    <p/>
-    <table id="userTable" class="panel">
-        <th>
-            <wicket:container wicket:id="header">[header]</wicket:container>
-        </th>
-        <tbody>
-            <wicket:container wicket:id="requests"> <wicket:container wicket:id="request">[persmission request]</wicket:container>
-            </wicket:container>
-        </tbody>
-    </table>
- -->
- 
-	<!-- DataTable -->
-	<table wicket:id="requestTable" class="dataview"></table>
-
-    <p>&nbsp;</p>
+    <p><wicket:message key="requests.info">[msg]</wicket:message></p>
+    <table wicket:id="requestTable" class="table"></table>
 </wicket:panel>
 </html>

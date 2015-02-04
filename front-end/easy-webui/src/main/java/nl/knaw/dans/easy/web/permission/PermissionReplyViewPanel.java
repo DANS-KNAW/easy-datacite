@@ -1,14 +1,5 @@
 package nl.knaw.dans.easy.web.permission;
 
-import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.basic.MultiLineLabel;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.joda.time.DateTime;
-
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
@@ -18,6 +9,15 @@ import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
+
+import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.joda.time.DateTime;
 
 public class PermissionReplyViewPanel extends AbstractEasyPanel {
     private static final long serialVersionUID = 7165279397951054593L;
