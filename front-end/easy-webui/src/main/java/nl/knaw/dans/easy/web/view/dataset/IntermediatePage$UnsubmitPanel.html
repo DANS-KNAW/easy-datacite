@@ -1,28 +1,34 @@
 <html xmlns:wicket>
 <wicket:panel>
+<form wicket:id="intermediateForm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+            <p class="extra-bottom-spacing">
+                Unsubmit dataset
+                <strong wicket:id="datasetTitle">[datasetTitle]</strong>
+                (returns this dataset to the depositor as 'draft').
+            </p>
 
- <form wicket:id="intermediateForm">
-  Unsubmit dataset
-  <b><span wicket:id="datasetTitle">[datasetTitle]</span></b>
-  <p/>
-  (returns this dataset to the depositor as 'draft')
-  <p/>
-  
- <wicket:enclosure child="notifyDepositor">
-  <input id="notifyDepositor" type="checkbox" wicket:id="notifyDepositor"/>
-  <label for="notifyDepositor">Notify depositor</label> <span wicket:id="depositorName"/>
- </wicket:enclosure>
- <br/>
-<wicket:enclosure child="includeLicense"> 
-  <input id="includeLicense" type="checkbox" wicket:id="includeLicense"/>
-  <label for="includeLicense">Include license agreement</label>
-</wicket:enclosure>
- 
- 	<p/>
-  <a wicket:id="submit" href="#" class="pbutton">Unsubmit</a>
-  <a wicket:id="cancel" href="#" class="button">Cancel</a>
-  </form>
-  
+            <div class="checkbox extra-bottom-spacing" wicket:enclosure="notifyDepositor">
+                <label>
+                    <input type="checkbox" wicket:id="notifyDepositor" />
+                    Notify depositor: <span wicket:id="depositorName">[depositorName]</span>
+                </label>
+            </div>
+
+            <div class="checkbox extra-bottom-spacing" wicket:enclosure="includeLicense">
+                <label>
+                    <input type="checkbox" wicket:id="includeLicense" />
+                    Include license agreement
+                </label>
+            </div>
+
+            <p>
+                <button wicket:id="submit" class="btn btn-primary">Unsubmit</button>
+                <button wicket:id="cancel" class="btn btn-danger">Cancel</button>
+            </p>
+        </div>
+    </div>
+</form>
 </wicket:panel>
 </html>
-  
