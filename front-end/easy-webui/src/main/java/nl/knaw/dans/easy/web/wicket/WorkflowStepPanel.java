@@ -192,13 +192,12 @@ public class WorkflowStepPanel extends AbstractEasyPanel {
         checkBox.setOutputMarkupId(true);
         checkBoxContainer.add(checkBox);
 
-        Label checkBoxLabel = new Label("completedLabel", new ResourceModel(getResourceKeyForTitle(), "checkBoxLabel"));
-        checkBoxLabel.add(new SimpleAttributeModifier("for", checkBox.getMarkupId()));
-        checkBoxContainer.add(checkBoxLabel);
+        checkBoxContainer.add(new SimpleAttributeModifier("for", checkBox.getMarkupId()));
+        checkBoxContainer.add(new Label("completedLabel", new ResourceModel(getResourceKeyForTitle(), "checkBoxLabel")));
 
-        Label required = new Label("required", "*");
-        required.setVisible(workflowStep.isRequired());
-        checkBoxContainer.add(required);
+        Label optional = new Label("optional", getString("optional"));
+        optional.setVisible(!workflowStep.isRequired());
+        checkBoxContainer.add(optional);
 
         checkBoxContainer.setVisible(isCheckBoxVisisble());
         add(checkBoxContainer);

@@ -1,34 +1,31 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-<span wicket:id="title">[title]</span>
+    <div class="row">
+        <div class="col-lg-12">
+            <div wicket:id="title">[title]</div>
 
-<wicket:enclosure child="timeSpent">
-<span class="wf-timeSpent">
-	Time spent (hours):
-	<input wicket:id="timeSpent" type="text" />
-</span>
-</wicket:enclosure>
+            <span class="pull-right" wicket:enclosure="timeSpent">
+                Time spent (hours):
+                <input wicket:id="timeSpent" type="text" class="wf-timeSpent form-control" />
+            </span>
 
-<wicket:enclosure child="checkBoxContainer">
-<span wicket:id="checkBoxContainer">
-		<input id="completed" type="checkbox" wicket:id="completed"/>
-		<label for="completed" wicket:id="completedLabel"/>
-		<span wicket:id="required" class="wf-required"/>
-</span>
-</wicket:enclosure>
+            <label for="completed" wicket:id="checkBoxContainer">
+                <input id="completed" type="checkbox" wicket:id="completed"/>
+                <wicket:container wicket:id="completedLabel"></wicket:container>
+                <wicket:container wicket:id="optional"></wicket:container>
+            </label>
 
-<wicket:enclosure child="doneBy">
-<span class="wf-done">
-	<span wicket:id="doneBy" class="wf-doneBy"/>&nbsp;
-	<span wicket:id="doneOnDate" class="wf-doneOnDate"/>
-</span>
-</wicket:enclosure>
+            <span class="pull-right" wicket:enclosure="doneBy">
+                <wicket:container wicket:id="doneBy"></wicket:container>&nbsp;
+                <wicket:container wicket:id="doneOnDate"></wicket:container>
+            </span>
 
-<div wicket:id="kidSteps">
-	<div wicket:id="kidStep"/>
-</div>
+            <wicket:container wicket:id="kidSteps">
+                <wicket:container wicket:id="kidStep"></wicket:container>
+            </wicket:container>
+        </div>
+    </div>
 
 </wicket:panel>
 </html>
-  

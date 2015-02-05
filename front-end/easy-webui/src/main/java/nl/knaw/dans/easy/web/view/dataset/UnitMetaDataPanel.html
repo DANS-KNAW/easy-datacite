@@ -1,32 +1,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    
-<html 
-    xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:wicket="http://wicket.sourceforge.net/" 
-    xml:lang="en" 
-    lang="en">
-    
 
-	<wicket:panel>
-	
-		<div wicket:id="none">
-			no versions available
-		</div>
-		<wicket:enclosure child="versions">
-			<table class="panel">
-				<thead>
-					<tr>
-						<td>Licence created</td>
-						<td>Version id</td>
-					</tr>
-				</thead>
-				<tbody>
-					<wicket:enclosure wicket:id="versions"> <wicket:enclosure wicket:id="version">[version]</wicket:enclosure>
-					</wicket:enclosure>
-				</tbody>
-			</table>
-		</wicket:enclosure>
-	
-	</wicket:panel>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+
+    <wicket:panel>
+
+        <div wicket:id="none">
+            no versions available
+        </div>
+        <table class="table" wicket:enclosure="versions">
+            <thead>
+                <tr>
+                    <th>Licence created</th>
+                    <th>Version id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <wicket:enclosure wicket:id="versions">
+                    <wicket:enclosure wicket:id="version">[version]</wicket:enclosure>
+                </wicket:enclosure>
+            </tbody>
+        </table>
+
+    </wicket:panel>
 </html>
