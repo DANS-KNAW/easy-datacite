@@ -44,7 +44,7 @@ public class TestLoginPage extends Fixture {
     private static final String INVALID_USER_ID = "invalidUserID";
     private static final String PASSWORD = "password";
     private static final String VALID_USER_ID = "validUserID";
-    private static final String REGISTRATION_LINK = "registration";
+    private static final String REGISTRATION_LINK = "loginPanelRegular:registration";
     private static final String FED_LOGIN_SUBMIT = "loginPanelFederation:federationLink";
     private static FederativeUserService federativeUserService;
 

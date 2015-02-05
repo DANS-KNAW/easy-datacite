@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.easy.web.authn.ForgottenPasswordPage;
+import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 
 import org.apache.wicket.markup.html.link.Link;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 class LoginPanelRegular extends AbstractEasyStatelessPanel {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelRegular.class);
+    private static final String REGISTRATION = "registration";
 
     /**
      * Component wicket id.
@@ -44,6 +46,23 @@ class LoginPanelRegular extends AbstractEasyStatelessPanel {
         super(wicketId);
         add(loginForm);
         addForgottenPasswordLink();
+        add(createRegisterLink().setVisible(!isAuthenticated()));
+    }
+
+    private Link<Void> createRegisterLink() {
+        return new Link<Void>(REGISTRATION) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick() {
+                setResponsePage(RegistrationPage.class);
+            }
+
+            @Override
+            public boolean getStatelessHint() {
+                return true;
+            }
+        };
     }
 
     private void addForgottenPasswordLink() {

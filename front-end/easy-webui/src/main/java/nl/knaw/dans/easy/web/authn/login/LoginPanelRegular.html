@@ -1,48 +1,59 @@
 <html xmlns:wicket>
 <body>
 <wicket:panel>
-	<div class="panel panel-default login">
- 		<div class="panel-heading">
-			<h2><wicket:message key="login.option-easy-account.header">[EASY account]</wicket:message></h2>
-		</div>
-		<div class="panel-body">
-			<form wicket:id="loginForm" role="form" class="form-horizontal">
-				<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">[Messages]</div>
-				<input type="hidden" name="token" wicket:id="token" />
-				<wicket:enclosure>
-					<span class="feedback">
-						<span wicket:id="userId-componentFeedback">componentFeedback</span>
-					</span>
-				</wicket:enclosure>
+    <div class="panel panel-default login">
+         <div class="panel-heading">
+            <h2><wicket:message key="login.option-easy-account.header">[EASY account]</wicket:message></h2>
+        </div>
+        <div class="panel-body">
+            <form wicket:id="loginForm" role="form" class="form-horizontal">
+                <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">[Messages]</div>
+                <input type="hidden" name="token" wicket:id="token" />
+                <wicket:enclosure>
+                    <span class="feedback">
+                        <span wicket:id="userId-componentFeedback">[componentFeedback]</span>
+                    </span>
+                </wicket:enclosure>
 
-				<div class="form-group">
-					<label for="userId" class="control-label col-sm-3"><wicket:message key="user.userId">userId</wicket:message></label>
-					<div class="col-sm-9">
-						<input class="form-control" id="userId" wicket:id="userId" type="text" />
-					</div>
-				</div>
+                <div class="form-group">
+                    <label for="userId" class="control-label col-sm-3">
+                        <wicket:message key="user.userId">[userId]</wicket:message>
+                    </label>
+                    <div class="col-sm-9">
+                        <input class="form-control" id="userId" wicket:id="userId" type="text">
+                    </div>
+                </div>
 
-				<wicket:enclosure>
-					<span class="feedback">
-						<span wicket:id="credentials-componentFeedback">componentFeedback</span>
-					</span>
-				</wicket:enclosure>
+                <wicket:enclosure>
+                    <span class="feedback">
+                        <span wicket:id="credentials-componentFeedback">[componentFeedback]</span>
+                    </span>
+                </wicket:enclosure>
 
-				<div class="form-group">
-					<label for="password" class="control-label col-sm-3"><wicket:message key="user.password">password</wicket:message></label>
-					<div class="col-sm-9">
-						<input class="form-control" id="password" wicket:id="credentials" type="password" />
-					</div>
-				</div>
-				<button href="#" wicket:id="login" class="btn btn-primary">Log in</button>
-			</form>
-			<p>
-				<a href="#" wicket:id="forgottenPassword">
-					<wicket:message key="login.forgottenpassword">Forgotten password</wicket:message>
-				</a>
-			</p>
-		</div>
-	</div>
+                <div class="form-group">
+                    <label for="password" class="control-label col-sm-3">
+                        <wicket:message key="user.password">[password]</wicket:message>
+                    </label>
+                    <div class="col-sm-9">
+                        <input class="form-control" id="password" wicket:id="credentials" type="password">
+                    </div>
+                </div>
+                <button href="#" wicket:id="login" class="btn btn-primary">
+                    <wicket:message key="login.button.label">[Log in]</wicket:message>
+                </button>
+            </form>
+            <p>
+                <a href="#" wicket:id="forgottenPassword" wicket:message="title:login.forgottenpassword.title">
+                    <wicket:message key="login.forgottenpassword">[Forgotten password]</wicket:message>
+                </a>
+            </p>
+            <p>
+                <a href="#" wicket:id="registration" wicket:message="title:login.registration.title">
+                    <wicket:message key="login.registration"></wicket:message>
+                </a>
+            </p>
+        </div>
+    </div>
 </wicket:panel>
 </body>
 </html>
