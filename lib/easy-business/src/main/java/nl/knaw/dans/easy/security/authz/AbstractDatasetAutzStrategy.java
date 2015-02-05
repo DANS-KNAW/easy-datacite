@@ -1,7 +1,9 @@
 package nl.knaw.dans.easy.security.authz;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
@@ -17,6 +19,7 @@ import nl.knaw.dans.easy.domain.exceptions.AnonymousUserException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
@@ -301,7 +304,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
             messages.add(new AuthzMessage(MSG_NO_FILES));
         }
 
-        if (easyUser.isAnonymous()) {
+        if (loginNeeded()) {
             // You need to log in to be able to view/access (some of) the files. [Log In]
             messages.add(new AuthzMessage(MSG_LOGIN));
         }
@@ -386,6 +389,41 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
         return new AuthzMessage(SM_UNKNOWN);
     }
 
+    private boolean loginNeeded() {
+
+        return easyUser.isAnonymous() && (containsNonAnonymousAccessFiles() || containsNonAnonymousVisibilityFiles());
+    }
+    
+    private boolean containsNonAnonymousAccessFiles() {
+        
+        try {
+            Set<AccessibleTo> accessibleToValues = Data.getFileStoreAccess().getItemVoAccessibilities(
+                    Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
+            accessibleToValues.remove(AccessibleTo.ANONYMOUS);
+            return !accessibleToValues.isEmpty();
+        }
+        catch (StoreAccessException e) {
+            LOGGER.error("can't establish file access permissions", e);
+        }
+        
+        return false;
+    }
+    
+    private boolean containsNonAnonymousVisibilityFiles() {
+        
+        try {
+            Set<VisibleTo> visibleToValues = Data.getFileStoreAccess().getItemVoVisibilities(
+                    Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
+            visibleToValues.remove(VisibleTo.ANONYMOUS);
+            return !visibleToValues.isEmpty();
+        }
+        catch (StoreAccessException e) {
+            LOGGER.error("can't establish file visibility permissions", e);
+        }
+        
+        return false;
+    }
+    
     private boolean hasOpenAccessForRegisterdUsers() {
         return (AccessCategory.SINGLE_OPEN_ACCESS_FOR_REGISTERED_USERS & getResourceReadProfile()) > 0;
     }
