@@ -89,8 +89,9 @@ public class DepositTest {
     }
 
     @After
-    public void reset() {
+    public void reset() throws Exception {
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 
     private void mockUploadedFiles() throws Exception {

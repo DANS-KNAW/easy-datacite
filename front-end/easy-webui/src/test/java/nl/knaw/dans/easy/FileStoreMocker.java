@@ -1,6 +1,8 @@
 package nl.knaw.dans.easy;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -34,9 +36,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.HSQLDialect;
 import org.slf4j.Logger;
 
-public class FileStoreMocker {
+public class FileStoreMocker implements Closeable {
 
-    private final Session session;
     private final FileStoreAccess fileStoreAccess;
     private final SessionFactory sessionFactory;
 
@@ -59,13 +60,7 @@ public class FileStoreMocker {
 
         final StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-        session = sessionFactory.openSession();
         fileStoreAccess = createFileStoreAccess();
-
-        // cleanup from previous tests
-        deleteAll(FileItemVO.class);
-        deleteAll(FolderItemVO.class);
-        getSession().close();
     }
 
     /**
@@ -208,19 +203,13 @@ public class FileStoreMocker {
         return parent.getDmoStoreId();
     }
 
-    public void deleteAll(final Class<? extends AbstractItemVO> itemClass) {
-
-        getSession().beginTransaction();
-        for (final Object id : getSession().createQuery("SELECT sid FROM " + itemClass.getName()).list())
-            getSession().delete(itemClass.getName(), getSession().get(itemClass, (String) id));
-        getSession().flush();
-        getSession().getTransaction().commit();
-
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
-    private Session getSession() {
-        if (session.isOpen())
-            return session;
-        return sessionFactory.getCurrentSession();
+    @Override
+    public void close() throws IOException {
+        sessionFactory.getCurrentSession().close();
+        sessionFactory.close();
     }
 }

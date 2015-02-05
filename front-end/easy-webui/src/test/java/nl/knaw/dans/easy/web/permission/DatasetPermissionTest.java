@@ -172,8 +172,9 @@ public class DatasetPermissionTest {
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws Exception {
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 
     @Test

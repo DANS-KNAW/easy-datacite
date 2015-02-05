@@ -32,13 +32,11 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 import org.apache.wicket.PageParameters;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore(value = "suffers from dependencies")
 /** See also DatasetPermissionTest.fileExplorerTab */
 public class FileExplorerTabTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerTabTest.class);
@@ -53,6 +51,7 @@ public class FileExplorerTabTest {
 
         applicationContext = new EasyApplicationContextMock();
         fileStoreMocker = new FileStoreMocker();
+        fileStoreMocker.logContent(LOGGER);
         new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
         applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
         applicationContext.expectStandardSecurity();
@@ -63,9 +62,10 @@ public class FileExplorerTabTest {
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws Exception {
 
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 
     @Test
