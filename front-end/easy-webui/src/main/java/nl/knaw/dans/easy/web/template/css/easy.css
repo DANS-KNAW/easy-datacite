@@ -447,7 +447,8 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+.h1,
+.w_captionText, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Glegoo", Georgia, Times New Roman, serif;
   font-weight: 500;
   line-height: 1.1;
@@ -461,7 +462,9 @@ h4 .small, h5 small,
 h5 .small, h6 small,
 h6 .small,
 .h1 small,
-.h1 .small, .h2 small,
+.w_captionText small,
+.h1 .small,
+.w_captionText .small, .h2 small,
 .h2 .small, .h3 small,
 .h3 .small, .h4 small,
 .h4 .small, .h5 small,
@@ -472,15 +475,16 @@ h6 .small,
   color: #bbbbbb;
 }
 
-h1, .h1,
+h1, .h1, .w_captionText,
 h2, .h2,
 h3, .h3 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
 h1 small,
-h1 .small, .h1 small,
+h1 .small, .h1 small, .w_captionText small,
 .h1 .small,
+.w_captionText .small,
 h2 small,
 h2 .small, .h2 small,
 .h2 .small,
@@ -508,7 +512,7 @@ h6 .small, .h6 small,
   font-size: 75%;
 }
 
-h1, .h1 {
+h1, .h1, .w_captionText {
   font-size: 36px;
 }
 
@@ -4294,7 +4298,8 @@ a.badge:hover, a.badge:focus {
   background-color: #efefef;
 }
 .jumbotron h1,
-.jumbotron .h1 {
+.jumbotron .h1,
+.jumbotron .w_captionText {
   color: inherit;
 }
 .jumbotron p {
@@ -4320,7 +4325,8 @@ a.badge:hover, a.badge:focus {
     padding-right: 60px;
   }
   .jumbotron h1,
-  .jumbotron .h1 {
+  .jumbotron .h1,
+  .jumbotron .w_captionText {
     font-size: 63px;
   }
 }
@@ -4395,7 +4401,7 @@ li.feedbackPanelDEBUG,
 li.feedbackPanelUNDEFINED {
   padding-right: 35px;
 }
-.alert-dismissable .close,
+.alert-dismissable .close, .alert-dismissable .w_close,
 .alert-dismissible .close,
 li.feedbackPanelERROR .close,
 li.feedbackPanelWARNING .close,
@@ -4403,7 +4409,15 @@ li.feedbackPanelSUCCESS .close,
 li.feedbackPanelINFO .close,
 li.feedbackPanelFATAL .close,
 li.feedbackPanelDEBUG .close,
-li.feedbackPanelUNDEFINED .close {
+li.feedbackPanelUNDEFINED .close,
+.alert-dismissible .w_close,
+li.feedbackPanelERROR .w_close,
+li.feedbackPanelWARNING .w_close,
+li.feedbackPanelSUCCESS .w_close,
+li.feedbackPanelINFO .w_close,
+li.feedbackPanelFATAL .w_close,
+li.feedbackPanelDEBUG .w_close,
+li.feedbackPanelUNDEFINED .w_close {
   position: relative;
   top: -2px;
   right: -21px;
@@ -5180,7 +5194,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
   border-radius: 3px;
 }
 
-.close {
+.close, .w_close {
   float: right;
   font-size: 21px;
   font-weight: bold;
@@ -5190,7 +5204,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
   opacity: 0.2;
   filter: alpha(opacity=20);
 }
-.close:hover, .close:focus {
+.close:hover, .w_close:hover, .close:focus, .w_close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -5198,7 +5212,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
   filter: alpha(opacity=50);
 }
 
-button.close {
+button.close, button.w_close {
   padding: 0;
   cursor: pointer;
   background: transparent;
@@ -5222,7 +5236,7 @@ button.close {
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
-.modal.fade .modal-dialog {
+.modal.fade .modal-dialog, .modal.fade .wicket-modal {
   -webkit-transform: translate(0, -25%);
   -ms-transform: translate(0, -25%);
   -o-transform: translate(0, -25%);
@@ -5232,7 +5246,7 @@ button.close {
   -o-transition: -o-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
 }
-.modal.in .modal-dialog {
+.modal.in .modal-dialog, .modal.in .wicket-modal {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
@@ -5244,13 +5258,13 @@ button.close {
   overflow-y: auto;
 }
 
-.modal-dialog {
+.modal-dialog, .wicket-modal {
   position: relative;
   width: auto;
   margin: 10px;
 }
 
-.modal-content {
+.modal-content, .w_blue {
   position: relative;
   background-color: #fff;
   border: 1px solid #999;
@@ -5278,22 +5292,22 @@ button.close {
   filter: alpha(opacity=50);
 }
 
-.modal-header {
+.modal-header, .w_caption {
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
   min-height: 16.42857143px;
 }
 
-.modal-header .close {
+.modal-header .close, .w_caption .close, .modal-header .w_close, .w_caption .w_close {
   margin-top: -2px;
 }
 
-.modal-title {
+.modal-title, .w_captionText {
   margin: 0;
   line-height: 1.42857143;
 }
 
-.modal-body {
+.modal-body, .w_content {
   position: relative;
   padding: 15px;
 }
@@ -5330,12 +5344,12 @@ button.close {
 }
 
 @media (min-width: 768px) {
-  .modal-dialog {
+  .modal-dialog, .wicket-modal {
     width: 600px;
     margin: 30px auto;
   }
 
-  .modal-content {
+  .modal-content, .w_blue {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
@@ -6128,11 +6142,11 @@ ul.list-group li.linked-list-group-item {
 @font-face {
   font-family: 'FontAwesome';
   src: url(fonts/fontawesome/fontawesome-webfont.eot?1421305765);
-  src: url(fonts/fontawesome/fontawesome-webfont.eot?&1421305765#iefix) format("embedded-opentype"), url(fonts/fontawesome/fontawesome-webfont.woff2?1421931152) format("woff2"), url(fonts/fontawesome/fontawesome-webfont.woff?1421305765) format("woff"), url(fonts/fontawesome/fontawesome-webfont.ttf?1421305765) format("truetype"), url(fonts/fontawesome/fontawesome-webfont.svg?1421305765#fontawesomeregular) format("svg");
+  src: url(fonts/fontawesome/fontawesome-webfont.eot?&1421305765#iefix) format("embedded-opentype"), url(fonts/fontawesome/fontawesome-webfont.woff2?1423229658) format("woff2"), url(fonts/fontawesome/fontawesome-webfont.woff?1421305765) format("woff"), url(fonts/fontawesome/fontawesome-webfont.ttf?1421305765) format("truetype"), url(fonts/fontawesome/fontawesome-webfont.svg?1421305765#fontawesomeregular) format("svg");
   font-weight: normal;
   font-style: normal;
 }
-.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tab-row ul li a.indicator:after {
+.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tab-row ul li a.indicator:after, .w_close {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -6143,7 +6157,7 @@ ul.list-group li.linked-list-group-item {
 }
 
 /* makes the font 33% larger relative to the icon container */
-.fa-lg, .tab-row ul li a.indicator:after {
+.fa-lg, .tab-row ul li a.indicator:after, .w_close {
   font-size: 1.33333333em;
   line-height: 0.75em;
   vertical-align: -15%;
@@ -6186,7 +6200,7 @@ ul.list-group li.linked-list-group-item {
   top: 0.14285714em;
   text-align: center;
 }
-.fa-li.fa-lg, .tab-row ul li a.fa-li.indicator:after {
+.fa-li.fa-lg, .tab-row ul li a.fa-li.indicator:after, .fa-li.w_close {
   left: -1.85714286em;
 }
 
@@ -6204,10 +6218,10 @@ ul.list-group li.linked-list-group-item {
   float: left;
 }
 
-.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .tab-row ul li a.pull-left.indicator:after {
+.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .tab-row ul li a.pull-left.indicator:after, .pull-left.w_close {
   margin-right: .3em;
 }
-.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .tab-row ul li a.pull-right.indicator:after {
+.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .tab-row ul li a.pull-right.indicator:after, .pull-right.w_close {
   margin-left: .3em;
 }
 
@@ -6368,6 +6382,7 @@ ul.list-group li.linked-list-group-item {
 
 .fa-remove:before,
 .fa-close:before,
+.w_close:before,
 .fa-times:before {
   content: "";
 }
@@ -8499,7 +8514,7 @@ a, a:hover {
   text-decoration: none;
 }
 
-h1, .h1 {
+h1, .h1, .w_captionText {
   font-size: 1.5em;
   letter-spacing: 2px;
   line-height: 1.56em;
@@ -8595,7 +8610,7 @@ label {
   padding: 10px 0 0 0;
   height: 90px;
 }
-.header .h1, .header h1 {
+.header .h1, .header .w_captionText, .header h1 {
   padding-top: 8px;
   text-align: center;
   margin-bottom: 0;
@@ -8720,7 +8735,7 @@ label {
 .footer ul li {
   margin: 5px 0;
 }
-.footer h1, .footer .h1 {
+.footer h1, .footer .h1, .footer .w_captionText {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   font-size: 1em;
@@ -8815,7 +8830,7 @@ h1.search-results-heading small {
   margin: 10px 0;
   line-height: 1.5em;
 }
-.list-group.search-hits .list-group-item h2 i.fa, .list-group.search-hits .list-group-item h2 i.tree-folder-closed:before, .list-group.search-hits .list-group-item h2 i.tree-folder-open:before {
+.list-group.search-hits .list-group-item h2 i.fa, .list-group.search-hits .list-group-item h2 i.tree-folder-closed:before, .list-group.search-hits .list-group-item h2 i.tree-folder-open:before, .list-group.search-hits .list-group-item h2 i.w_close {
   color: #248BB8;
 }
 .list-group.search-hits .list-group-item .row {
@@ -9198,7 +9213,7 @@ input.wf-timeSpent {
   color: #BCBCBC;
 }
 
-.modal-content {
+.modal-content, .w_blue {
   color: black;
 }
 
