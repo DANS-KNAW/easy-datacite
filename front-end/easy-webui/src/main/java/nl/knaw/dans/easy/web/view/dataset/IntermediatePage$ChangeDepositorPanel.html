@@ -1,38 +1,49 @@
 <html xmlns:wicket>
 <wicket:panel>
+<form wicket:id="intermediateForm" class="form-horizontal">
+    <h2 wicket:id="datasetTitle">[datasetTitle]</h2>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+            <div class="form-group">
+                <div class="col-sm-2 col-md-3 control-label">Previous depositor</div>
+                <div class="col-sm-10 col-md-9 form-text" wicket:id="depositorName">[depositorName]</div>
+            </div>
+            <div class="form-group">
+                <label for="selectUserPanel" class="col-sm-2 col-md-3 control-label">New depositor</label>
+                <div class="col-sm-10 col-md-9" wicket:id="selectUserPanel">[selectUserPanel]</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2 col-md-9 col-md-offset-3">
+                    <div class="checkbox" wicket:enclosure="notifyDepositor">
+                        <label>
+                            <input id="notifyDepositor" type="checkbox" wicket:id="notifyDepositor" />
+                            Notify previous depositor
+                        </label>
+                    </div>
+                    <div class="checkbox" wicket:enclosure="notifyNewDepositor">
+                        <label>
+                            <input id="notifyNewDepositor" type="checkbox" wicket:id="notifyNewDepositor" />
+                            Notify new depositor
+                        </label>
+                    </div>
 
- <form wicket:id="intermediateForm">
-  Change depositor of dataset
-  <b><span wicket:id="datasetTitle">[datasetTitle]</span></b>
-  <p/>
+                    <div class="checkbox" wicket:enclosure="includeLicense">
+                        <label>
+                            <input id="includeLicense" type="checkbox" wicket:id="includeLicense" />
+                            Include license agreement
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-Previous depositor: <span wicket:id="depositorName"/>
-<p/>
- <wicket:enclosure child="notifyDepositor">
-  <input id="notifyDepositor" type="checkbox" wicket:id="notifyDepositor"/>
-  <label for="notifyDepositor">Notify previous depositor</label> 
- </wicket:enclosure>
- <p/>
- 
- <div wicket:id="selectUserPanel">[selectUserPanel]</div>
-
-<p/>
- <wicket:enclosure child="notifyNewDepositor">
-  <input id="notifyNewDepositor" type="checkbox" wicket:id="notifyNewDepositor"/>
-  <label for="notifyNewDepositor">Notify new depositor</label> 
- </wicket:enclosure>
- <br/>
- 
-<wicket:enclosure child="includeLicense"> 
-  <input id="includeLicense" type="checkbox" wicket:id="includeLicense"/>
-  <label for="includeLicense">Include license agreement</label>
-</wicket:enclosure>
- 
- 	<p/>
-  <a wicket:id="submit" href="#" class="pbutton">Change</a>
-  <a wicket:id="cancel" href="#" class="button">Cancel</a>
-  </form>
-  <br/>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2 col-md-9 col-md-offset-3">
+                    <button wicket:id="submit" class="btn btn-primary">Change</button>
+                    <button wicket:id="cancel" class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 </wicket:panel>
 </html>
-  
