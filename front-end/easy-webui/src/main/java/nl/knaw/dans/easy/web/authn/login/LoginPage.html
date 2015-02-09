@@ -1,48 +1,20 @@
 <html xmlns:wicket>
 <body>
     <wicket:extend>
-        <div wicket:enclosure="registration">
-            <!--
-            Reason for the enclosure:
-
-            Authorization problems result in showing a login page.
-            Under circumstances (e.g. the system is in read only mode)
-            the user might be logged in anyway.
-
-            In that case the user should rather get an almost empty page
-            than a page with a partial login form.
-            In case of the read only mode the banner announcing the shutdown
-            should be clear enough for the user to explain the otherwise empty page.
-            -->
-            <div class="row">
-                <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
-                    <h1>
-                        <wicket:message key="login.header">Login header</wicket:message>
-                    </h1>
-                    <p><wicket:message key="login.options-intro">Options intro ...</wicket:message></p>
+        <div class="row">
+            <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
+                <h1><wicket:message key="login.header">Login header</wicket:message></h1>
+                <p><wicket:message key="login.options-intro">Options intro ...</wicket:message></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-0 col-sm-5" wicket:id="loginPanelRegular">[LoginPanel Regular]</div>
+            <wicket:enclosure child="loginPanelFederation">
+                <div class="col-lg-1 col-md-1 col-sm-1 login-choose-or-link">
+                    <span><wicket:message key="or">or</wicket:message></span>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-0 col-sm-5" wicket:id="loginPanelRegular">[LoginPanel Regular]</div>
-                <wicket:enclosure child="loginPanelFederation">
-                    <div class="col-lg-1 col-md-1 col-sm-1 login-choose-or-link">
-                        <span><wicket:message key="or">or</wicket:message></span>
-                    </div>
-                    <div class="col-lg-4 col-md-5 col-sm-5" wicket:id="loginPanelFederation">[LoginPanel Federation]</div>
-                </wicket:enclosure>
-            </div>
-            <div class="row">
-                <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-0 col-sm-11 col-xs-12">
-                    <div class="h2">
-                        <wicket:message key="login.registration.header">Registration header</wicket:message>
-                    </div>
-                    <p>
-                        Please, <a href="#" wicket:id="registration">register</a> to be
-                        able to use the full functionality of EASY (e.g. deposit research
-                        data).
-                    </p>
-                </div>
-            </div>
+                <div class="col-lg-4 col-md-5 col-sm-5" wicket:id="loginPanelFederation">[LoginPanel Federation]</div>
+            </wicket:enclosure>
         </div>
     </wicket:extend>
 </body>
