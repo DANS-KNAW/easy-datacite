@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.web.fileexplorer;
 
 import static org.hamcrest.core.Is.is;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,8 +92,9 @@ public class DownloadFilterIntegrationTest {
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws Exception {
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 
     @Test

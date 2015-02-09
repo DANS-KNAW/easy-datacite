@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.view.dataset;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -57,9 +58,10 @@ public class FileExplorerParameterizedTest {
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws IOException {
 
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 
     public FileExplorerParameterizedTest(final UserType userType, final AccessCategory accessCategory) throws Exception {

@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.util.HashSet;
@@ -16,10 +17,12 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.FileStoreMocker;
 import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.domain.dataset.AdministrativeMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -37,21 +40,18 @@ import org.apache.wicket.PageParameters;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore(value = "suffers from test dependencies")
 public class FileExplorerDownloadTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerDownloadTest.class);
 
-    private static final String MESSAGE = "tabs:panel:fe:modalDownload:content:message";
-    private static final String MESSAGE2 = "tabs:panel:fe:modalMessage:content:message";
+    private static final String MODAL_MESSAGE = "tabs:panel:fe:modalMessage:content:message";
     private static final String DOWNLOAD_LINK = "tabs:panel:fe:downloadLink";
 
-    private EasyUserTestImpl sessionUser = new EasyUserTestImpl("normal", true);
+    private SessionUserImpl sessionUser = new SessionUserImpl("normal", true);
     private FileStoreMocker fileStoreMocker;
     private Dataset datasetImplWithLargeFile = createDatasetImpl(1);
     private Dataset datasetImplWithTooManyFiles = createDatasetImpl(2);
@@ -63,7 +63,32 @@ public class FileExplorerDownloadTest {
         final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         final DatasetImpl dataset = new DatasetImpl(dmoStoreId.getStoreId(), emd);
         dataset.setState(DatasetState.PUBLISHED.toString());
-        dataset.setAuthzStrategy(new EasyItemContainerAuthzStrategy(sessionUser, dataset, dataset) {
+        dataset.setAuthzStrategy(createUthzStrategy(dataset));
+        dataset.setAdministrativeMetadata(createAMD(createUser()));
+        return dataset;
+    }
+
+    private AdministrativeMetadataImpl createAMD(final EasyUser depositor) {
+        AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl() {
+            private static final long serialVersionUID = 1L;
+
+            public EasyUser getDepositor() {
+                return depositor;
+            }
+        };
+        return administrativeMetadata;
+    }
+
+    private EasyUser createUser() {
+        final EasyUser depositor = new EasyUserTestImpl("easy_user:1");
+        depositor.setFirstname("voornaam");
+        depositor.setSurname("achternaam");
+        depositor.setInitials("v.n.");
+        return depositor;
+    }
+
+    private EasyItemContainerAuthzStrategy createUthzStrategy(final DatasetImpl dataset) {
+        return new EasyItemContainerAuthzStrategy(sessionUser, dataset, dataset) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -75,8 +100,7 @@ public class FileExplorerDownloadTest {
             public TriState canChildrenBeRead() {
                 return TriState.ALL;
             }
-        });
-        return dataset;
+        };
     }
 
     public void mockFiles() throws Exception {
@@ -117,11 +141,11 @@ public class FileExplorerDownloadTest {
         return datasetServiceMock;
     }
 
-    private static class EasyUserTestImpl extends EasyUserImpl {
+    private static class SessionUserImpl extends EasyUserImpl {
         private static final long serialVersionUID = 1L;
         boolean hasAcceptedGeneralConditions;
 
-        public EasyUserTestImpl(final String userId, final boolean hasAcceptedGeneralConditions) {
+        public SessionUserImpl(final String userId, final boolean hasAcceptedGeneralConditions) {
             super(userId);
             this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
             setFirstname("Norman");
@@ -163,8 +187,8 @@ public class FileExplorerDownloadTest {
 
         tester.dumpPage();
         tester.clickLink(DOWNLOAD_LINK, true);
-        tester.assertLabelContains(MESSAGE2, "Downloading is limited");
-        tester.assertLabelContains(MESSAGE2, "MB per download");
+        tester.assertLabelContains(MODAL_MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MODAL_MESSAGE, "MB per download");
     }
 
     @Test
@@ -175,8 +199,9 @@ public class FileExplorerDownloadTest {
 
         tester.dumpPage();
         tester.clickLink(DOWNLOAD_LINK, true);
-        tester.assertLabelContains(MESSAGE, "Downloading is limited");
-        tester.assertLabelContains(MESSAGE, "MB per download");
+        tester.debugComponentTrees();
+        tester.assertLabelContains(MODAL_MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MODAL_MESSAGE, "MB per download");
     }
 
     @Test
@@ -188,9 +213,9 @@ public class FileExplorerDownloadTest {
 
         tester.dumpPage();
         tester.clickLink(DOWNLOAD_LINK, true);
-        tester.debugComponentTrees();
-        tester.assertLabelContains(MESSAGE2, "Downloading is limited");
-        tester.assertLabelContains(MESSAGE2, "files per download");
+        tester.assertLabelContains(MODAL_MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MODAL_MESSAGE, "files per download");
+        assertTrue(tester.getServletResponse().getDocument().contains("files per download"));
     }
 
     @Test
@@ -201,8 +226,8 @@ public class FileExplorerDownloadTest {
 
         tester.dumpPage();
         tester.clickLink(DOWNLOAD_LINK, true);
-        tester.assertLabelContains(MESSAGE, "Downloading is limited");
-        tester.assertLabelContains(MESSAGE, "files per download");
+        tester.assertLabelContains(MODAL_MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MODAL_MESSAGE, "files per download");
     }
 
     @SuppressWarnings("unchecked")
@@ -218,7 +243,9 @@ public class FileExplorerDownloadTest {
     }
 
     @After
-    public void cleanup() {
+    public void cleanup() throws Exception {
+        PowerMock.verifyAll();
         TestUtil.cleanup();
+        fileStoreMocker.close();
     }
 }

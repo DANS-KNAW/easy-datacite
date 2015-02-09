@@ -10,8 +10,6 @@ import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.easy.FileStoreMocker;
 import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
@@ -42,9 +40,8 @@ public class EasyItemContainerAuthzStrategyTest {
     }
 
     @After
-    public void reset() {
-        fileStoreMocker.deleteAll(FileItemVO.class);
-        fileStoreMocker.deleteAll(FolderItemVO.class);
+    public void reset() throws Exception {
+        fileStoreMocker.close();
         TestUtil.cleanup();
     }
 

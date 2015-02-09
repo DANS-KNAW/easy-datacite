@@ -74,6 +74,7 @@ public class DepositUploadPanelTest {
         // formTester.setValue("file", ACCENT_XML);
         // formTester.setValue("uploadId", "123");
         // formTester.submit();
+        fileStoreMocker.close();
     }
 
     private FileStoreMocker initFileStoreMocker(final Dataset dataset) throws Exception {
