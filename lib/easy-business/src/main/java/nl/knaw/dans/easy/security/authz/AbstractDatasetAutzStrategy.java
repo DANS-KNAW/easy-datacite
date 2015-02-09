@@ -393,9 +393,9 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
 
         return easyUser.isAnonymous() && (containsNonAnonymousAccessFiles() || containsNonAnonymousVisibilityFiles());
     }
-    
+
     private boolean containsNonAnonymousAccessFiles() {
-        
+
         try {
             Set<AccessibleTo> accessibleToValues = Data.getFileStoreAccess().getItemVoAccessibilities(
                     Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
@@ -405,25 +405,24 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
         catch (StoreAccessException e) {
             LOGGER.error("can't establish file access permissions", e);
         }
-        
+
         return false;
     }
-    
+
     private boolean containsNonAnonymousVisibilityFiles() {
-        
+
         try {
-            Set<VisibleTo> visibleToValues = Data.getFileStoreAccess().getItemVoVisibilities(
-                    Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
+            Set<VisibleTo> visibleToValues = Data.getFileStoreAccess().getItemVoVisibilities(Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
             visibleToValues.remove(VisibleTo.ANONYMOUS);
             return !visibleToValues.isEmpty();
         }
         catch (StoreAccessException e) {
             LOGGER.error("can't establish file visibility permissions", e);
         }
-        
+
         return false;
     }
-    
+
     private boolean hasOpenAccessForRegisterdUsers() {
         return (AccessCategory.SINGLE_OPEN_ACCESS_FOR_REGISTERED_USERS & getResourceReadProfile()) > 0;
     }
