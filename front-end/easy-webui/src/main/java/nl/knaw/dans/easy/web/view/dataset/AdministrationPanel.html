@@ -1,37 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/"
+    xml:lang="en"
+    lang="en">
+
 <body>
-	<wicket:panel>
-		<div class="sub-panel">
-			<form wicket:id="workflowForm">
-			
-				<div wicket:id="workflowStepPanel">[workflowStepPanel]</div>
-				
-				<span class="wf-timeSpent wf-bold">Total time spent (hours): &nbsp;
-					<span wicket:id="totalTimeSpent"/>
-				</span>
-				<div class="wf-subheading">Remarks:</div>
-				<textarea id="textArea" class="remarksTextarea" wicket:id="textArea"></textarea>
-				<a wicket:id="saveWorkflow" class="button"><wicket:message key="workflow.save">save</wicket:message></a>
-			</form> 
-		</div>
-		<div class="sub-panel">
-			<div class="wf-heading">Licence agreements (depositor)</div>
-			<div wicket:id="depositorLicense">[license]</div>
-		</div>
-		<div class="sub-panel">
-			<div class="wf-heading">Additional conditions (end user)</div>
-			<div wicket:id="additionalLicense">[additional license]</div>
-			<div wicket:id="licenseUploadPanel"></div>
-			<div wicket:id="licenseUploadPanel-componentFeedback" class="feedback"></div>
-		</div>
-	</wicket:panel>
+    <wicket:panel>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <form wicket:id="workflowForm">
+
+                    <wicket:container wicket:id="workflowStepPanel">[workflowStepPanel]</wicket:container>
+
+                    <div class="pull-right">
+                        <strong>
+                            Total time spent (hours):
+                            <span wicket:id="totalTimeSpent"></span>
+                        </strong>
+                    </div>
+                    <h3><label for="textArea">Remarks</label></h3>
+                    <textarea id="textArea" class="form-control" wicket:id="textArea"></textarea>
+                    <button wicket:id="saveWorkflow" class="btn btn-sm btn-primary"><wicket:message key="workflow.save">save</wicket:message></button>
+                </form>
+
+                <h2>Licence agreements (depositor)</h2>
+                <wicket:container wicket:id="depositorLicense">[license]</wicket:container>
+
+                <h2>Additional conditions (end user)</h2>
+                <wicket:container wicket:id="additionalLicense">[additional license]</wicket:container>
+                <wicket:container wicket:id="licenseUploadPanel"></wicket:container>
+                <div wicket:id="licenseUploadPanel-componentFeedback" class="feedback"></div>
+            </div>
+        </div>
+    </wicket:panel>
 </body>
 </html>
-

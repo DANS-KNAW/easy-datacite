@@ -8786,6 +8786,11 @@ td.w_table_cell a:hover {
   color: #DD291E;
 }
 
+input.wf-timeSpent {
+  width: 2.5em;
+  display: inline;
+}
+
 .btn-black {
   background-color: black;
   *zoom: 1;
