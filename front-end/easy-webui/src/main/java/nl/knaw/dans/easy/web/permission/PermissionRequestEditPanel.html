@@ -1,76 +1,102 @@
 <html xmlns:wicket>
-    <wicket:panel>
+<wicket:panel>
+    <form wicket:id="form" class="form-horizontal">
+        <p wicket:id="intro">[intro]</p>
 
-	<form wicket:id="form">
-		<wicket:enclosure>
-		<p>
-			<span wicket:id="intro">[intro]</span> 
-		</p>
-		</wicket:enclosure>
+        <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">[Messages]</div>
 
-        <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
-        
-        <table class="panel tableWidth">
-            <wicket:enclosure child="status.value">
-            <tr>
-                <td><label class="simpleLabel" wicket:id="status.label"></label><label class="simpleLabel"><wicket:message key="permission.request.status.label">[status label]</wicket:message></label></td>
-                <td><span wicket:id="status.value"></span></td>
-                <td><span wicket:id="status.shorthelp"><wicket:message key="permission.request.status.shorthelp">[status short help]</wicket:message></span></td>
-            </tr>
+        <wicket:enclosure child="status.value">
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <wicket:message key="permission.request.status.label">[status label]</wicket:message>
+                </div>
+                <div class="col-sm-9">
+                    <span class="form-text" wicket:id="status.value"></span>
+                    <span class="help-block" wicket:id="status.shorthelp">
+                        <wicket:message key="permission.request.status.shorthelp">[status short help]</wicket:message>
+                    </span>
+                </div>
+            </div>
+        </wicket:enclosure>
+
+        <wicket:enclosure child="explanation.value">
+            <div class="form-group">
+                <div class="control-label col-sm-3">
+                    <wicket:message key="permission.request.explanation.label">[explanation label]</wicket:message>
+                </div>
+                <div class="col-sm-9">
+                    <span class="form-text" wicket:id="explanation.value"></span>
+                    <span class="help-block" wicket:id="explanation.shorthelp">
+                        <wicket:message key="permission.request.explanation.shorthelp">[explanation short help]</wicket:message>
+                    </span>
+                </div>
+            </div>
+        </wicket:enclosure>
+
+        <div class="feedback" wicket:id="title-componentFeedback"></div>
+        <div class="form-group">
+            <label for="title" class="control-label col-sm-3">
+                <wicket:message key="permission.request.research.title.label">[Title]</wicket:message>
+            </label>
+            <div class="col-sm-9">
+                <input id="title" type="text" wicket:id="title" class="form-control" aria-describedby="helpBlockTitle"/>
+                <span class="help-block" id="helpBlockTitle">
+                    <wicket:message key="permission.request.research.title.shorthelp">[title short help]</wicket:message>
+                </span>
+            </div>
+        </div>
+
+        <div class="feedback" wicket:id="theme-componentFeedback"></div>
+        <div class="form-group">
+            <label for="theme" class="control-label col-sm-3">
+                <wicket:message key="permission.request.research.theme.label">[theme]</wicket:message>
+            </label>
+            <div class="col-sm-9">
+                <textarea id="theme" wicket:id="theme" class="form-control" aria-describedby="helpBlockTheme"></textarea>
+                <span id="helpBlockTheme" class="help-block">
+                    <wicket:message key="permission.request.research.theme.shorthelp">[theme short help]</wicket:message>
+                </span>
+            </div>
+        </div>
+
+        <div wicket:id="editablePanel">[conditions summary]</div>
+        <div class="feedback" wicket:id="acceptConditions-componentFeedback"></div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="checkbox">
+                    <label>
+                        <input id="acceptConditions" type="checkbox" wicket:id="acceptConditions" />
+                        <wicket:message key="permission.request.acceptConditions.label">[Yes, I accept]</wicket:message>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <wicket:enclosure child="additionalLicense">
+            <p wicket:message="permission.request.additionalLicense.note">
+                <a wicket:id="additionalLicense">Additional Conditions of Use</a>
+            </p>
+            <wicket:enclosure key="">
+                <div class="feedback" wicket:id="acceptAdditional-componentFeedback"></div>
             </wicket:enclosure>
-            
-            <wicket:enclosure child="explanation.value">
-            <tr>
-                <td><label class="simpleLabel" wicket:id="explanation.label"></label><label class="simpleLabel"><wicket:message key="permission.request.explanation.label">[explanation label]</wicket:message></label></td>
-                <td><span wicket:id="explanation.value"></span></td>
-                <td><span wicket:id="explanation.shorthelp"><wicket:message key="permission.request.explanation.shorthelp">[explanation short help]</wicket:message></span></td>
-            </tr>
-            </wicket:enclosure>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="checkbox">
+                        <label>
+                            <input wicket:id="acceptAdditional" type="checkbox" />
+                            <span wicket:id="acceptAdditionalLabel">[Yes, I accept]</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </wicket:enclosure>
 
-            <wicket:enclosure><tr class="feedback"><td colspan="3"><span wicket:id="title-componentFeedback" /></td></tr></wicket:enclosure>
-            <tr>
-                <td class="tableLabelWidth"><label class="simpleLabel" for="title"><wicket:message key="permission.request.research.title.label">[Title]</wicket:message></label>
-                <span class="requiredMarkColor">*</span></td>
-                <td class="tableTdInputWidth"><input id="title" type="text" wicket:id="title"  class="tableTdInput" /></td>
-                <td class="tableTdShortHelp"><wicket:message key="permission.request.research.title.shorthelp">[title short help]</wicket:message></td>
-            </tr>
-
-            <wicket:enclosure><tr class="feedback"><td colspan="3"><span wicket:id="theme-componentFeedback" /></td></tr></wicket:enclosure>
-            <tr>
-                <td><label class="simpleLabel" for="theme"><wicket:message key="permission.request.research.theme.label">[theme]</wicket:message></label>
-                <span class="requiredMarkColor">*</span></td>
-                <td class="tableTdInputWidth"><textarea id="theme" type="text" wicket:id="theme" cols="40" rows="6" class="tableTdInput"></textarea></td>
-                <td class="tableTdShortHelp"><wicket:message key="permission.request.research.theme.shorthelp">[theme short help]</wicket:message></td>
-            </tr>
-		</table>
-		
-		
-		<p>
-		<label for="acceptConditions"><span wicket:id="editablePanel">[conditions summary]</span></label>
-		<wicket:enclosure><span class="feedback" wicket:id="acceptConditions-componentFeedback" ></span></wicket:enclosure>
-		<div>
-			<input id="acceptConditions" type="checkbox" wicket:id="acceptConditions" />
-			<label for="acceptConditions"><wicket:message key="permission.request.acceptConditions.label">[Yes, I accept]</wicket:message></label>
-		</div>
-		</p>
-		
-		<wicket:enclosure child="additionalLicense">
-		<p>
-			Please note that <a wicket:id="additionalLicense">Additional Conditions of Use</a> (PDF) apply to this dataset.
-			<wicket:enclosure><span class="feedback" wicket:id="acceptAdditional-componentFeedback" /></wicket:enclosure>
-			<div>
-				<input wicket:id="acceptAdditional" type="checkbox"/>
-				<label for="acceptAdditional" wicket:id="acceptAdditionalLabel">[Yes, I accept]</label>
-			</div>
-		</p>
-		</wicket:enclosure>
-		
-        <p>
-	        <a href="#" wicket:id="submit" class="pbutton"><wicket:message key="label.button.submit">[submit]</wicket:message></a>
-	        <a href="#" wicket:id="cancel" class="button"><wicket:message key="label.button.cancel">[cancel]</wicket:message></a>
-	        <input type="submit" style="display: none;">
-        </p>
-	</form>
-
-    </wicket:panel>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button wicket:id="submit" class="btn btn-primary"><wicket:message key="submit">[Submit]</wicket:message></button>
+                <button wicket:id="cancel" class="btn btn-danger"><wicket:message key="cancel">[Cancel]</wicket:message></button>
+            </div>
+        </div>
+    </form>
+</wicket:panel>
 </html>

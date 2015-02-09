@@ -1,140 +1,170 @@
 <html xmlns:wicket>
-    <wicket:panel>
+<wicket:panel>
 
-		<p>
-            <a href="#" wicket:id="back"><wicket:message key="permission.reply.back">[back]</wicket:message></a>
-	        <input type="submit" style="display: none;">
-		</p>
+     <div class="nav">
+        <ul class="pager">
+            <li class="previous" wicket:enclosure="">
+                <a wicket:id="back" href="#">
+                    <span aria-hidden="true">‹‹‹ </span>
+                    <wicket:message key="permission.reply.back">[back]</wicket:message>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-	<p>
-		<h2><wicket:message key="permission.reply.subtitle.personal.info">[subtitle personal info]</wicket:message></h2>
-	</p>
-	<p>
-		  <table class="panel tableWidth">
-		<tr>
-			<td class="tableLabelWidthReply"><h2>Account</h2></td>
-		</tr>
-		<tr>
-			<td><label for="userId"><wicket:message
-				key="user.userId">User id</wicket:message></label></td>
-			<td><label id="userId" wicket:id="userId" /></td>
-		</tr>
-		<tr>
-			<td><label for="email"><wicket:message key="user.email">User email</wicket:message></label></td>
-			<td><label id="email" wicket:id="email" /></td>
-		</tr>
-		<tr>
-			<td><h2>Person</h2></td>
-		</tr>
-		<tr>
-			<td><label for="name"><wicket:message
-				key="user.displayName">User name</wicket:message></label></td>
-			<td><label id="name" wicket:id="name" /></td>
-		</tr>
-		<tr>
-			<td><label for="function"><wicket:message
-				key="user.function">User function</wicket:message></label></td>
-			<td><label id="function" wicket:id="function" /></td>
-		</tr>
-		<tr>
-			<td><label for="telephone"><wicket:message
-				key="user.telephone">User telephone</wicket:message></label></td>
-			<td><label id="telephone" wicket:id="telephone" /></td>
-		</tr>
-		<tr>
-			<td><label for="discipline1"><wicket:message
-				key="user.discipline1">Discipline 1</wicket:message></label></td>
-			<td><label id="discipline1" wicket:id="discipline1" /></td>
-		</tr>
-		<tr>
-			<td><label for="discipline2"><wicket:message
-				key="user.discipline2">Discipline 2</wicket:message></label></td>
-			<td><label id="discipline2" wicket:id="discipline2" /></td>
-		</tr>
-		<tr>
-			<td><label for="discipline3"><wicket:message
-				key="user.discipline3">Discipline 3</wicket:message></label></td>
-			<td><label id="discipline3" wicket:id="discipline3" /></td>
-		</tr>
-		<tr>
-			<td><label for="dai" ><wicket:message
-				key="user.dai">DAI</wicket:message></label></td>
-			<td><label id="dai" wicket:id="dai" /></td>
-		</tr>				      
-		<tr>
-			<td><h2>Organisation</h2></td>
-		</tr>
-		<tr>
-			<td><label for="organization"><wicket:message
-				key="user.organization">User organization</wicket:message></label></td>
-			<td><label id="organization" wicket:id="organization" /></td>
-		</tr>
+    <h2><wicket:message key="permission.reply.subtitle.personal.info">[subtitle personal info]</wicket:message></h2>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <colgroup>
+                        <col class="col-sm-4"></col>
+                        <col class="col-sm-8"></col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><wicket:message key="user.userId">[User id]</wicket:message></td>
+                            <td><span wicket:id="userId" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.email">[User email]</wicket:message></td>
+                            <td><span wicket:id="email" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <colgroup>
+                        <col class="col-sm-4"></col>
+                        <col class="col-sm-8"></col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Person</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><wicket:message key="user.displayName">[User name]</wicket:message></td>
+                            <td><span id="name" wicket:id="name" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.function">[User function]</wicket:message></td>
+                            <td><span id="function" wicket:id="function" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.telephone">[User telephone]</wicket:message></td>
+                            <td><span id="telephone" wicket:id="telephone" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.discipline1">[Discipline 1]</wicket:message></td>
+                            <td><span id="discipline1" wicket:id="discipline1" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.discipline2">[Discipline 2]</wicket:message></td>
+                            <td><span id="discipline2" wicket:id="discipline2" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.discipline3">[Discipline 3]</wicket:message></td>
+                            <td><span id="discipline3" wicket:id="discipline3" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.dai">[DAI]</wicket:message></td>
+                            <td><span id="dai" wicket:id="dai" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-		<tr>
-			<td><label for="department"><wicket:message
-				key="user.department">User department</wicket:message></label></td>
-			<td><label id="department" wicket:id="department" /></td>
-		</tr>
-		<tr>
-			<td><label for="address"><wicket:message
-				key="user.address">User address</wicket:message></label></td>
-			<td><label id="address" wicket:id="address" /></td>
-		</tr>
-		<tr>
-			<td><label for="postalCode"><wicket:message
-				key="user.postalCode">User postalCode</wicket:message></label></td>
-			<td><label id="postalCode" wicket:id="postalCode" /></td>
-		</tr>
-		<tr>
-			<td><label for="city"><wicket:message key="user.city">User city</wicket:message></label></td>
-			<td><label id="city" wicket:id="city" /></td>
-		</tr>
-		<tr>
-			<td><label for="country"><wicket:message
-				key="user.country">User country</wicket:message></label></td>
-			<td><label id="country" wicket:id="country" /></td>
-		</tr>
-		</table>
-	</p>
-	<p>
-		<h2><wicket:message key="permission.reply.subtitle.motivation">[subtitle motivation]</wicket:message></h2>
-	</p>
-	<p>
-	<table class="panel tableWidth">
-            <tr>
-                <td class="tableLabelWidthReply"><label><wicket:message key="permission.reply.research.title.label">[title label]</wicket:message></label></td>
-                <td><label wicket:id="title" >[research title]</label></td>
-            </tr>
-            <tr>
-                <td><label><wicket:message key="permission.reply.research.theme.label">[theme label]</wicket:message></label></td>
-                <td><label wicket:id="theme" >[research theme]</label></td>
-            </tr>
-            <tr>
-                <td><label><wicket:message key="permission.request.date.label">[title label]</wicket:message></label></td>
-                <td><label wicket:id="date" >[request]</label></td>
-            </tr>
-		</table>
-	</p>
-	
-	<p>
-		<h2><wicket:message key="permission.reply.subtitle.result">[subtitle result]</wicket:message></h2>
-	</p>
-	<p>
-		<table class="panel tableWidth">		
-	        <tr>
-                <td class="tableLabelWidthReply"><label class="simpleLabel" for="status"><wicket:message key="permission.reply.status.label">[explanation]</wicket:message></label></td>
-                <td>
-					<label wicket:id="status">[status]</label>
-				</td>
-            </tr>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <colgroup>
+                        <col class="col-sm-4"></col>
+                        <col class="col-sm-8"></col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Organisation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><wicket:message key="user.organization">[User organization]</wicket:message></td>
+                            <td><span wicket:id="organization" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.department">[User department]</wicket:message></td>
+                            <td><span wicket:id="department" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.address">[User address]</wicket:message></td>
+                            <td><span wicket:id="address" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.postalCode">[User postalCode]</wicket:message></td>
+                            <td><span wicket:id="postalCode" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.city">[User city]</wicket:message></td>
+                            <td><span wicket:id="city" /></td>
+                        </tr>
+                        <tr>
+                            <td><wicket:message key="user.country">[User country]</wicket:message></td>
+                            <td><span wicket:id="country" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-            <tr>
-                <td><label class="simpleLabel" for="explanation"><wicket:message key="permission.reply.explanation.label">[explanation]</wicket:message></label></td>
-                <td><span id="explanation" wicket:id="explanation"></span></td>
-            </tr>
+    <h2><wicket:message key="permission.reply.subtitle.motivation">[subtitle motivation]</wicket:message></h2>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <td><label><wicket:message key="permission.reply.research.title.label">[title label]</wicket:message></label></td>
+                        <td><label wicket:id="title">[research title]</label></td>
+                    </tr>
+                    <tr>
+                        <td><label><wicket:message key="permission.reply.research.theme.label">[theme label]</wicket:message></label></td>
+                        <td><label wicket:id="theme">[research theme]</label></td>
+                    </tr>
+                    <tr>
+                        <td><label><wicket:message key="permission.request.date.label">[title label]</wicket:message></label></td>
+                        <td><label wicket:id="date">[request]</label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
-        </table>
-        </p>
+    <h2><wicket:message key="permission.reply.subtitle.result">[subtitle result]</wicket:message></h2>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <td><label for="status"><wicket:message key="permission.reply.status.label">[explanation]</wicket:message></label></td>
+                        <td><label wicket:id="status">[status]</label></td>
+                    </tr>
+                    <tr>
+                        <td><label for="explanation"><wicket:message key="permission.reply.explanation.label">[explanation]</wicket:message></label></td>
+                        <td><span id="explanation" wicket:id="explanation"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    </wicket:panel>
+</wicket:panel>
 </html>

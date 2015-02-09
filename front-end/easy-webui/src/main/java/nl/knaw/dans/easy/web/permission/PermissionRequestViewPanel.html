@@ -1,49 +1,40 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html 
-	xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:wicket="http://wicket.sourceforge.net/" 
-	xml:lang="en" 
-	lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.sourceforge.net/" xml:lang="en" lang="en">
 <body>
-	<wicket:panel>
-		<p>
-	        <a href="#" wicket:id="back" ><wicket:message key="permission.request.back">[back]</wicket:message></a>
-		</p>
-	
-        <table class="panel"> 
+    <wicket:panel>
+         <div class="nav">
+            <ul class="pager">
+                <li class="previous" wicket:enclosure="">
+                    <a wicket:id="back" href="#">
+                        <span aria-hidden="true">‹‹‹ </span>
+                        <wicket:message key="permission.request.back">[back]</wicket:message>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-horizontal">
             <wicket:enclosure child="status.value">
-            <tr>
-                <td><label for="status.value"><wicket:message key="permission.request.status.label" class="viewRequestLabel">[status label]</wicket:message></label></td>
-                <td><label wicket:id="status.value">[status]</label></td>
-            </tr>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label"><wicket:message key="permission.request.status.label">[status label]</wicket:message></div>
+                    <div class="col-sm-9 form-text" wicket:id="status.value">[status]</div>
+                </div>
             </wicket:enclosure>
-
-            <wicket:enclosure child="explanation.value"> 
-            <tr>
-                <td>
-                	<label for="explanation.value">
-                		<wicket:message key="permission.request.explanation.label" class="viewRequestLabel">[explanation label]</wicket:message>
-                	</label>
-                </td>
-                <td>
-                	<div wicket:id="explanation.value">[explanation]</div>
-                </td>
-            </tr> 
+            <wicket:enclosure child="explanation.value">
+                <div class="form-group">
+                    <div class="col-sm-3 control-label"><wicket:message key="permission.request.explanation.label">[explanation label]</wicket:message></div>
+                    <div class="col-sm-9 form-text" wicket:id="explanation.value">[explanation]</div>
+                </div>
             </wicket:enclosure>
- 
-            <tr>
-                <td><label for="title"><wicket:message key="permission.request.research.title.label" class="viewRequestLabel">[Title]</wicket:message></label></td>
-                <td><label id="title" wicket:id="title">[title]</label></td>
-            </tr>
-
-            <tr>
-                <td><label for="theme"><wicket:message key="permission.request.research.theme.label" class="viewRequestLabel">[theme]</wicket:message></label></td>
-                <td><textarea id="theme" type="text" wicket:id="theme" cols="40" rows="6">[theme]</textarea></td>
-            </tr>
-		</table>
-		
-
+            <div class="form-group">
+                <div class="col-sm-3 control-label"><wicket:message key="permission.request.research.title.label">[Title]</wicket:message></div>
+                <div class="col-sm-9"><input wicket:id="title" disabled="disabled" class="form-control"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3 control-label"><wicket:message key="permission.request.research.theme.label">[theme]</wicket:message></div>
+                <div class="col-sm-9"><textarea wicket:id="theme" disabled="disabled" class="form-control">[theme]</textarea></div>
+            </div>
+        </div>
     </wicket:panel>
 </body>
 </html>

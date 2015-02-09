@@ -8852,3 +8852,8 @@ ul.feedbackPanel {
 tr.feedback li {
   margin: 0;
 }
+
+.form-text {
+    padding-top: 7px;
+    margin-bottom: 0;
+}

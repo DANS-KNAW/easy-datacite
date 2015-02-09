@@ -7,7 +7,6 @@ import java.util.List;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.EnumChoiceRenderer;
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
-import nl.knaw.dans.common.wicket.components.PossiblyDisabledTextArea;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
@@ -29,6 +28,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
@@ -150,7 +150,7 @@ class PermissionReplyForm extends PermissionForm {
         final IChoiceRenderer renderer = new EnumChoiceRenderer(this, prefix);
 
         final FormComponent choice = new DropDownChoice(STATUS_WID, statusModel, STATE_CHOICES, renderer).setRequired(true);
-        final FormComponent explanation = new PossiblyDisabledTextArea(EXPLANATION_WID, explanationModel, editMode);
+        final FormComponent explanation = new TextArea(EXPLANATION_WID, explanationModel);
 
         addFormComponent(choice, statusLabelModel).setEnabled(editMode);
         addFormComponent(explanation, explanationLabelModel);

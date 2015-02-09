@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.permission;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.components.PossiblyDisabledTextArea;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
@@ -24,6 +23,7 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.ResourceLink;
@@ -71,14 +71,12 @@ public class PermissionRequestForm extends PermissionForm {
         final IModel<Boolean> conditionsModel = new PropertyModel<Boolean>(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
         final IModel<String> statusModel = new ResourceModel(STATUS_RESOURCE_KEY + status, "" + status);
 
-        addComponent(new Label("status.label"));
         addComponent(new Label("status.value", statusModel)).setVisible(status != null);
         addComponent(new Label("status.shorthelp").setVisible(!State.Returned.equals(status)));
-        addComponent(new Label("explanation.label"));
         addComponent(new MultiLineLabel("explanation.value", explanation)).setVisible(explanation != null);
         addComponent(new Label("explanation.shorthelp").setVisible(!State.Returned.equals(status)));
         addRequired(new TextField<String>(TITLE_WID, titleModel)).setEnabled(editMode);
-        addRequired(new PossiblyDisabledTextArea<String>(THEME_WID, themeModel, editMode));
+        addRequired(new TextArea<String>(THEME_WID, themeModel));
         addRequired(new CheckBox(CONDITIONS_WID, conditionsModel)).setEnabled(editMode);
 
         // Additional conditions

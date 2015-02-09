@@ -1,11 +1,11 @@
 package nl.knaw.dans.easy.web.permission;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Note maybe a AbstractDatasetModelPanel is better?
 //

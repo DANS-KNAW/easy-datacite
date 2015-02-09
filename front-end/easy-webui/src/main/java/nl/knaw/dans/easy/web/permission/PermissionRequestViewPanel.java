@@ -1,16 +1,5 @@
 package nl.knaw.dans.easy.web.permission;
 
-import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.basic.MultiLineLabel;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nl.knaw.dans.common.wicket.components.PossiblyDisabledTextArea;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
@@ -20,6 +9,18 @@ import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
+
+import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Note maybe a AbstractDatasetModelPanel is better?
 //
@@ -60,10 +61,9 @@ public class PermissionRequestViewPanel extends AbstractEasyPanel {
         boolean isExplanationVisible = (explanation != null) && (!State.Submitted.equals(status));
         add(new MultiLineLabel("explanation.value", explanation).setVisible(isExplanationVisible));
 
-        add(new Label(TITLE_WID, titleModel));
+        add(new TextField<String>(TITLE_WID, titleModel));
 
-        // Note: maybe a MultiLineLabel is better
-        add(new PossiblyDisabledTextArea(THEME_WID, themeModel, editMode));
+        add(new TextArea<String>(THEME_WID, themeModel));
 
         // TODO make it into a back link
         add(new Link(BACK_WID) {
