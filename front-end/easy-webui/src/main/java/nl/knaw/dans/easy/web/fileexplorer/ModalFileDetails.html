@@ -1,28 +1,29 @@
 <html>
 <body>
 <wicket:panel>
-<wicket:enclosure child="message">
-<p/>
-<div wicket:id="message"></div>
-<p/>
-</wicket:enclosure>
-<table>
-	<tr wicket:id="outerList" style="display:block;">
-		<td>
-			<span wicket:id="filename" style="font-weight:bold">[name]</span>
-	
-			<table>
-				<tr wicket:id="innerList">
-					<td wicket:id="key" style="padding-right:1em">[key]</td>
-					<td wicket:id="value">[value]</td>
-				</tr>
-			</table>
-			<br/>
-		</td>
-	</tr>
-</table>
-<div style="text-align: right;"><a wicket:id="close" class="button">Close</a>&nbsp;</div>
-<br/>
+    <div wicket:id="message"></div>
+
+    <dl wicket:enclosure="outerList">
+        <wicket:container wicket:id="outerList">
+            <dt wicket:id="filename">[name]</dt>
+            <dd>
+            <table class="table">
+                <colgroup>
+                    <col class="col-lg-4"/>
+                    <col class="col-lg-8"/>
+                </colgroup>
+                <tr wicket:id="innerList">
+                    <td wicket:id="key">[key]</td>
+                    <td wicket:id="value">[value]</td>
+                </tr>
+            </table>
+            </dd>
+        </wicket:container>
+    </dl>
+
+    <p wicket:enclosure="">
+        <a wicket:id="close" class="btn btn-default pull-right">Close</a>
+    </p>
 </wicket:panel>
 </body>
 </html>

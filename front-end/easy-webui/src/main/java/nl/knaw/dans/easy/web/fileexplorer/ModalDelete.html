@@ -2,16 +2,18 @@
 <body>
 <wicket:panel>
 
-<p><div wicket:id="message"></div></p>
+    <p wicket:id="message"></p>
 
-<wicket:enclosure child="yesLink">
-<p><a wicket:id="yesLink" class="button">yes</a> <a wicket:id="noLink" class="button">no</a></p>
-</wicket:enclosure>
+    <wicket:enclosure child="yesLink">
+        <p>
+            <a wicket:id="yesLink" class="btn btn-success">yes</a>
+            <a wicket:id="noLink" class="btn btn-danger">no</a>
+        </p>
+    </wicket:enclosure>
 
-<wicket:enclosure child="close">
-<div style="text-align: right;"><a wicket:id="close" class="button">Close</a>&nbsp;</div>
-<br/>
-</wicket:enclosure>
+    <p wicket:enclosure="">
+        <a wicket:id="close" class="btn btn-default pull-right">Close</a>
+    </p>
 
 </wicket:panel>
 </body>
