@@ -604,7 +604,9 @@ public class DepositPanel extends AbstractDatasetModelPanel {
                     return false;
                 }
             };
-
+            // Remove the standard <em> tags that Wicket inserts around disabled links/buttons.
+            submit.setAfterDisabledLink("");
+            submit.setBeforeDisabledLink("");
             add(submit);
         }
     }
