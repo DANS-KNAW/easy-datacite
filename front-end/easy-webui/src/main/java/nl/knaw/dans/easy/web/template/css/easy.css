@@ -6150,7 +6150,7 @@ ul.list-group li.linked-list-group-item {
   font-weight: normal;
   font-style: normal;
 }
-.fa, .fileExplorerPanel table tr th.wicket_orderDown:after, .fileExplorerPanel table tr th.wicket_orderUp:after, .fileExplorerPanel table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tab-row ul li a.indicator:after, .w_close {
+.fa, table tr th.wicket_orderDown:after, table tr th.wicket_orderUp:after, table tr th.wicket_orderNone:after, .tree-folder-closed:before, .tree-folder-open:before, .tab-row ul li a.indicator:after, .overview a span:before, .w_close {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -6222,10 +6222,10 @@ ul.list-group li.linked-list-group-item {
   float: left;
 }
 
-.fa.pull-left, .fileExplorerPanel table tr th.pull-left.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-left.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .tab-row ul li a.pull-left.indicator:after, .pull-left.w_close {
+.fa.pull-left, table tr th.pull-left.wicket_orderDown:after, table tr th.pull-left.wicket_orderUp:after, table tr th.pull-left.wicket_orderNone:after, .pull-left.tree-folder-closed:before, .pull-left.tree-folder-open:before, .tab-row ul li a.pull-left.indicator:after, .overview a span.pull-left:before, .pull-left.w_close {
   margin-right: .3em;
 }
-.fa.pull-right, .fileExplorerPanel table tr th.pull-right.wicket_orderDown:after, .fileExplorerPanel table tr th.pull-right.wicket_orderUp:after, .fileExplorerPanel table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .tab-row ul li a.pull-right.indicator:after, .pull-right.w_close {
+.fa.pull-right, table tr th.pull-right.wicket_orderDown:after, table tr th.pull-right.wicket_orderUp:after, table tr th.pull-right.wicket_orderNone:after, .pull-right.tree-folder-closed:before, .pull-right.tree-folder-open:before, .tab-row ul li a.pull-right.indicator:after, .overview a span.pull-right:before, .pull-right.w_close {
   margin-left: .3em;
 }
 
@@ -8919,6 +8919,20 @@ ul.search-criteria li a:hover {
   content: " | ";
 }
 
+table tr th.wicket_orderDown:after {
+  content: "";
+  margin-left: 1em;
+}
+table tr th.wicket_orderUp:after {
+  content: "";
+  margin-left: 1em;
+}
+table tr th.wicket_orderNone:after {
+  content: "";
+  color: #bbbbbb;
+  margin-left: 1em;
+}
+
 .fileExplorerPanel p {
   padding: 8px;
   padding-bottom: 3px;
@@ -8941,19 +8955,6 @@ ul.search-criteria li a:hover {
 }
 .fileExplorerPanel table #message {
   padding-left: 3px;
-}
-.fileExplorerPanel table tr th.wicket_orderDown:after {
-  content: "";
-  margin-left: 1em;
-}
-.fileExplorerPanel table tr th.wicket_orderUp:after {
-  content: "";
-  margin-left: 1em;
-}
-.fileExplorerPanel table tr th.wicket_orderNone:after {
-  content: "";
-  color: #bbbbbb;
-  margin-left: 1em;
 }
 
 a.expandall,
