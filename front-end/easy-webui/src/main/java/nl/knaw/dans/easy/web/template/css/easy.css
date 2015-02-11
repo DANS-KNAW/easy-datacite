@@ -8576,6 +8576,11 @@ label {
   margin-bottom: 10px;
 }
 
+.form-text {
+  padding-top: 7px;
+  margin-bottom: 0;
+}
+
 #container {
   position: relative;
   width: 1200px;
@@ -9146,25 +9151,20 @@ td.w_table_cell a:hover {
 .overview * span {
   color: #949294;
 }
-.overview * span:not(.title):after {
+.overview * span:after {
   content: " | ";
 }
-.overview * span:not(.title):last-child:after {
+.overview * span:last-child:after {
   content: "";
-}
-.overview * span.title {
-  color: black;
-}
-.overview * span.title:before {
-  font-family: "FontAwesome";
-  content: "\f054";
-  margin-left: -0.75em;
-  color: #248BB8;
 }
 .overview a span {
   text-decoration: underline;
 }
-.overview a span:hover {
+.overview a span:before {
+  content: "";
+  color: #248BB8;
+}
+.overview a span:hover, .overview a span:focus, .overview a span:hover:before, .overview a span:focus:before {
   color: #DD291E;
 }
 
@@ -9247,9 +9247,4 @@ ul.feedbackPanel {
 
 tr.feedback li {
   margin: 0;
-}
-
-.form-text {
-    padding-top: 7px;
-    margin-bottom: 0;
 }
