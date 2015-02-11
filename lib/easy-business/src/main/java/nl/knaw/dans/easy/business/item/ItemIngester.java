@@ -191,6 +191,7 @@ public class ItemIngester extends AbstractWorker {
                     kidFile.setFileDataUrl(instructions.getFileDataUrl());
                     kidFile.setLabel(instructions.getFileName());
                     kidFile.setMimeType(instructions.getFileMimeType());
+                    kidFile.setSize(instructions.getFileSize());
                 }
             } else {
                 kidFile.setFile(file);

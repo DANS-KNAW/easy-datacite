@@ -12,6 +12,7 @@ public class DataFileInstructions {
     private static final String FILE_DATA_URL = "easy.file.data.url";
     private static final String FILE_NAME = "easy.file.name";
     private static final String FILE_MIME_TYPE = "easy.file.mime-type";
+    private static final String FILE_SIZE = "easy.file.size";
 
     private final Properties properties;
 
@@ -51,5 +52,13 @@ public class DataFileInstructions {
 
     public String getFileMimeType() {
         return properties.getProperty(FILE_MIME_TYPE);
+    }
+
+    public long getFileSize() {
+        String sizeString = properties.getProperty(FILE_SIZE);
+        if (sizeString == null)
+            return 0;
+        else
+            return Long.parseLong(properties.getProperty(FILE_SIZE).trim());
     }
 }
