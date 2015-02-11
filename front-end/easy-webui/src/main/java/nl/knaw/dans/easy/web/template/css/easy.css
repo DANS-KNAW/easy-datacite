@@ -6146,7 +6146,7 @@ ul.list-group li.linked-list-group-item {
 @font-face {
   font-family: 'FontAwesome';
   src: url(fonts/fontawesome/fontawesome-webfont.eot?1421305765);
-  src: url(fonts/fontawesome/fontawesome-webfont.eot?&1421305765#iefix) format("embedded-opentype"), url(fonts/fontawesome/fontawesome-webfont.woff2?1423229658) format("woff2"), url(fonts/fontawesome/fontawesome-webfont.woff?1421305765) format("woff"), url(fonts/fontawesome/fontawesome-webfont.ttf?1421305765) format("truetype"), url(fonts/fontawesome/fontawesome-webfont.svg?1421305765#fontawesomeregular) format("svg");
+  src: url(fonts/fontawesome/fontawesome-webfont.eot?&1421305765#iefix) format("embedded-opentype"), url(fonts/fontawesome/fontawesome-webfont.woff2?1423557500) format("woff2"), url(fonts/fontawesome/fontawesome-webfont.woff?1421305765) format("woff"), url(fonts/fontawesome/fontawesome-webfont.ttf?1421305765) format("truetype"), url(fonts/fontawesome/fontawesome-webfont.svg?1421305765#fontawesomeregular) format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -8609,18 +8609,24 @@ label {
   padding-bottom: 30px;
 }
 
-.header {
+div#container > .header,
+div#container > header {
   margin: 0;
   padding: 10px 0 0 0;
   height: 90px;
 }
-.header .h1, .header .w_captionText, .header h1 {
+div#container > .header .h1, div#container > .header .w_captionText, div#container > .header h1,
+div#container > header .h1,
+div#container > header .w_captionText,
+div#container > header h1 {
   padding-top: 8px;
   text-align: center;
   margin-bottom: 0;
 }
-.header .h2, .header h2 {
-  margin-left: 15px;
+div#container > .header .h2, div#container > .header h2,
+div#container > header .h2,
+div#container > header h2 {
+  margin-left: 12px;
   margin-bottom: 0;
 }
 
@@ -8715,31 +8721,31 @@ label {
   z-index: 0;
 }
 
-.footer {
+.footer, footer {
   background: #767676;
   color: white;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.footer .row:nth-child(2n) {
+.footer .row:nth-child(2n), footer .row:nth-child(2n) {
   position: relative;
   top: -30px;
 }
-.footer a {
+.footer a, footer a {
   color: inherit;
 }
-.footer a:hover {
+.footer a:hover, footer a:hover {
   text-decoration: underline;
 }
-.footer ul {
+.footer ul, footer ul {
   list-style-type: none;
   margin-left: 0;
   padding-left: 0;
 }
-.footer ul li {
+.footer ul li, footer ul li {
   margin: 5px 0;
 }
-.footer h1, .footer .h1, .footer .w_captionText {
+.footer h1, .footer .h1, .footer .w_captionText, footer h1, footer .h1, footer .w_captionText {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   font-size: 1em;
@@ -8748,32 +8754,32 @@ label {
   line-height: 1.56em;
   letter-spacing: normal;
 }
-.footer .more:after {
+.footer .more:after, footer .more:after {
   content: "  ›››";
 }
-.footer .social {
+.footer .social, footer .social {
   margin-top: 1em;
 }
-.footer .overdans {
+.footer .overdans, footer .overdans {
   text-align: right;
 }
 @media (max-width: 767px) {
-  .footer .overdans {
+  .footer .overdans, footer .overdans {
     text-align: left;
     padding-top: 30px;
   }
 }
-.footer .overdans .driven-by-data {
+.footer .overdans .driven-by-data, footer .overdans .driven-by-data {
   font-style: italic;
 }
-.footer .overdans img {
+.footer .overdans img, footer .overdans img {
   margin-left: 20px;
 }
-.footer .version {
+.footer .version, footer .version {
   text-align: right;
   margin-top: 30px;
 }
-.footer .easy-DSA-link {
+.footer .easy-DSA-link, footer .easy-DSA-link {
   margin-top: -50px;
   text-align: center;
 }
@@ -8874,15 +8880,16 @@ ul.search-criteria li a:hover {
   color: #DD291E;
 }
 
-.home-deposit h2 {
-  text-transform: uppercase;
+.home-deposit h1 {
+  color: #248BB8;
+  font-size: 1.7em;
   letter-spacing: 1px;
 }
 
-.home-recently-published h2 {
-  text-transform: uppercase;
+.home-recently-published h1 {
   color: black;
   font-size: 1.2em;
+  margin-bottom: 10px;
   letter-spacing: 1px;
 }
 .home-recently-published ul {
@@ -9145,7 +9152,7 @@ td.w_table_cell a:hover {
   padding: 1em;
   margin-right: 1.4em;
   margin-bottom: 1.4em;
-  background-color: #e0f0f0;
+  background-color: #E0E0E0;
 }
 
 .jumbotron .jumpoffpage p {

@@ -2,22 +2,24 @@
 <wicket:extend>
 <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
 
-<div class="row extra-bottom-spacing home-deposit">
-    <div class="col-lg-offset-3 col-lg-9 col-md-offset-2 col-md-10 col-sm-offset-1 col-sm-11 col-xs-12">
-        <h2><wicket:message key="page.deposit.trigger1">[DEPOSIT TRIGGER]</wicket:message></h2>
-    </div>
-    <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12 extra-bottom-spacing text-center">
+<section class="row extra-bottom-spacing home-deposit">
+    <header class="col-lg-offset-3 col-lg-9 col-md-offset-2 col-md-10 col-sm-offset-1 col-sm-11 col-xs-12">
+        <h1><wicket:message key="page.deposit.trigger1">[DEPOSIT TRIGGER]</wicket:message></h1>
+    </header>
+    <p class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12 extra-bottom-spacing text-center">
         <a href="#" wicket:id="navDeposit" class="btn btn-black"><wicket:message key="page.deposit.button">[DEPOSIT BUTTON]</wicket:message></a>
-    </div>
-</div>
+    </p>
+</section>
 
-<div class="row home-recently-published extra-bottom-spacing">
+<section class="row home-recently-published extra-bottom-spacing">
     <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-        <h2>
-            <wicket:message key="homePage.recentlyPublished.title">
-                [Recently published in EASY]
-            </wicket:message>
-            </h2>
+        <header>
+            <h1>
+                <wicket:message key="homePage.recentlyPublished.title">
+                    [Recently published in EASY]
+                </wicket:message>
+            </h1>
+        </header>
         <ul wicket:id="homeSearchResultPanel">
             <li>
                 <a href="#">
@@ -66,7 +68,7 @@
             </li>
         </ul>
     </div>
-</div>
+</section>
 
 </wicket:extend>
 </html>
