@@ -155,6 +155,9 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         add(acceptConditions);
 
         registerLink.setEnabled(false);
+        // Remove the standard <em> tags that Wicket inserts around disabled links/buttons.
+        registerLink.setAfterDisabledLink("");
+        registerLink.setBeforeDisabledLink("");
         add(registerLink);
 
         SubmitLink cancelLink = new SubmitLink(RegistrationPage.CANCEL_LINK) {

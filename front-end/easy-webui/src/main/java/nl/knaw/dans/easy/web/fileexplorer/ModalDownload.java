@@ -193,6 +193,9 @@ public class ModalDownload extends Panel {
         link.setVisible(downloadAllowed);
         link.setEnabled(false);
         link.setOutputMarkupId(true);
+        // Remove the standard <em> tags that Wicket inserts around disabled links/buttons.
+        link.setAfterDisabledLink("");
+        link.setBeforeDisabledLink("");
         add(link);
 
         IndicatingAjaxLink<Void> cancel = createCancelLink(window);

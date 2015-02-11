@@ -354,9 +354,10 @@
                             wicket:id="acceptConditions" /> <label class="control-label" for="acceptConditions"><wicket:message key="label.acceptConditions">Yes, I accept conditions</wicket:message></label>
                     </div>
                     <div>
-                        <a wicket:id="register" class="btn btn-primary" role="button"><wicket:message key="registrationpage.register">Register</wicket:message></a>
-                        <input type="submit" style="display: none" />
-                        <a wicket:id="cancelLink" class="btn btn-danger"><wicket:message key="cancel">Cancel</wicket:message></a>
+                        <button wicket:id="register" class="btn btn-primary" role="button">
+                            <wicket:message key="registrationpage.register">Register</wicket:message>
+                        </button>
+                        <button wicket:id="cancelLink" class="btn btn-danger"><wicket:message key="cancel">Cancel</wicket:message></button>
                     </div>
                 </div>
             </div>
