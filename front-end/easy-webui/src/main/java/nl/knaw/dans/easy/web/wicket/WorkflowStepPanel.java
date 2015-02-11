@@ -199,6 +199,10 @@ public class WorkflowStepPanel extends AbstractEasyPanel {
         optional.setVisible(!workflowStep.isRequired());
         checkBoxContainer.add(optional);
 
+        if (workflowStep.isRequired()) {
+            checkBox.add(new SimpleAttributeModifier("required", "required"));
+        }
+
         checkBoxContainer.setVisible(isCheckBoxVisisble());
         add(checkBoxContainer);
 

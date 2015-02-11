@@ -8,7 +8,7 @@
 <wicket:panel>
     <wicket:enclosure child="popupModal">
         <a wicket:id="helpPopup" class="help-popup-trigger">
-            <span class="sr-only"><wicket:message key="close">Close</wicket:message></span>
+            <span class="sr-only"><wicket:message key="close">[Close]</wicket:message></span>
             <wicket:child>
                 <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i>
             </wicket:child>
@@ -21,11 +21,11 @@
                         <button type="button" class="close" data-dismiss="modal">
                             <span aria-hidden="true">&times;</span>
                             <span class="sr-only">
-                                <wicket:message key="close">Close</wicket:message>
+                                <wicket:message key="close">[Close]</wicket:message>
                             </span>
                         </button>
                         <h1 class="modal-title" id="myModalLabel">
-                            <wicket:message key="helppopup.modal.help">Help</wicket:message>
+                            <wicket:message key="helppopup.modal.help">[Help]</wicket:message>
                         </h1>
                     </div>
                     <div class="modal-body" wicket:id="popupHTML">
@@ -33,7 +33,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <wicket:message key="close">Close</wicket:message>
+                            <wicket:message key="close">[Close]</wicket:message>
                         </button>
                     </div>
                 </div>

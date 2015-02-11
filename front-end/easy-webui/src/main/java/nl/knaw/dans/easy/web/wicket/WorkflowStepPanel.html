@@ -14,7 +14,9 @@
                 <label for="completed">
                     <input id="completed" type="checkbox" wicket:id="completed"/>
                     <wicket:container wicket:id="completedLabel"></wicket:container>
-                    <wicket:container wicket:id="optional"></wicket:container>
+                    <span class="optional" wicket:enclosure="optional">
+                        <wicket:container wicket:id="optional"></wicket:container>
+                    </span>
                 </label>
             </div>
 
