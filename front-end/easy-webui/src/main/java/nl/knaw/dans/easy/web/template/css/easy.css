@@ -8919,6 +8919,14 @@ ul.search-criteria li a:hover {
   content: " | ";
 }
 
+.dataset-view-page label {
+  color: #949294;
+}
+.dataset-view-page .radio-inline label, .dataset-view-page .checkbox-inline label,
+.dataset-view-page .radio label, .dataset-view-page .checkbox label {
+  color: black;
+}
+
 table tr th.wicket_orderDown:after {
   content: "";
   margin-left: 1em;
@@ -9156,7 +9164,7 @@ td.w_table_cell a:hover {
   text-decoration: underline;
 }
 .overview a span:before {
-  content: "";
+  content: " ";
   color: #248BB8;
 }
 .overview a span:hover, .overview a span:focus, .overview a span:hover:before, .overview a span:focus:before {

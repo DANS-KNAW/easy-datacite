@@ -10,11 +10,13 @@
                 <input wicket:id="timeSpent" type="text" class="wf-timeSpent form-control" />
             </span>
 
-            <label for="completed" wicket:id="checkBoxContainer">
-                <input id="completed" type="checkbox" wicket:id="completed"/>
-                <wicket:container wicket:id="completedLabel"></wicket:container>
-                <wicket:container wicket:id="optional"></wicket:container>
-            </label>
+            <div class="checkbox-inline" wicket:id="checkBoxContainer">
+                <label for="completed">
+                    <input id="completed" type="checkbox" wicket:id="completed"/>
+                    <wicket:container wicket:id="completedLabel"></wicket:container>
+                    <wicket:container wicket:id="optional"></wicket:container>
+                </label>
+            </div>
 
             <span class="pull-right" wicket:enclosure="doneBy">
                 <wicket:container wicket:id="doneBy"></wicket:container>&nbsp;
