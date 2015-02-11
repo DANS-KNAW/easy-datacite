@@ -248,10 +248,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
                 getEnableToArchivistRule());
 
         // JumpoffPanel
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:toggleEditorButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:toggleEditorButton", getEnableToArchivistOrAdminRule());
         newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getEnableToArchivistOrAdminRule());
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getEnableToArchivistOrAdminRule());
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:editButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:deleteButton", getEnableToArchivistOrAdminRule());
 
         newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
                 getEnableToArchivistOrAdminRule());
