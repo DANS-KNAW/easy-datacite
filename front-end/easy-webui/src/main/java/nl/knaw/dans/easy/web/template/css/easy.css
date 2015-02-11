@@ -4376,7 +4376,7 @@ a.thumbnail.active {
   margin-top: 0;
   color: inherit;
 }
-.alert .alert-link, li.feedbackPanelERROR .alert-link, li.feedbackPanelWARNING .alert-link, li.feedbackPanelSUCCESS .alert-link, li.feedbackPanelINFO .alert-link, li.feedbackPanelFATAL .alert-link, li.feedbackPanelDEBUG .alert-link, li.feedbackPanelUNDEFINED .alert-link {
+.alert .alert-link, li.feedbackPanelERROR .alert-link, li.feedbackPanelWARNING .alert-link, li.feedbackPanelSUCCESS .alert-link, li.feedbackPanelINFO .alert-link, li.feedbackPanelFATAL .alert-link, li.feedbackPanelDEBUG .alert-link, li.feedbackPanelUNDEFINED .alert-link, .alert .feedback a, .feedback .alert a, li.feedbackPanelERROR .feedback a, .feedback li.feedbackPanelERROR a, li.feedbackPanelWARNING .feedback a, .feedback li.feedbackPanelWARNING a, li.feedbackPanelSUCCESS .feedback a, .feedback li.feedbackPanelSUCCESS a, li.feedbackPanelINFO .feedback a, .feedback li.feedbackPanelINFO a, li.feedbackPanelFATAL .feedback a, .feedback li.feedbackPanelFATAL a, li.feedbackPanelDEBUG .feedback a, .feedback li.feedbackPanelDEBUG a, li.feedbackPanelUNDEFINED .feedback a, .feedback li.feedbackPanelUNDEFINED a {
   font-weight: bold;
 }
 .alert > p, li.feedbackPanelERROR > p, li.feedbackPanelWARNING > p, li.feedbackPanelSUCCESS > p, li.feedbackPanelINFO > p, li.feedbackPanelFATAL > p, li.feedbackPanelDEBUG > p, li.feedbackPanelUNDEFINED > p,
@@ -4436,7 +4436,7 @@ li.feedbackPanelUNDEFINED .w_close {
 .alert-success hr, li.feedbackPanelSUCCESS hr {
   border-top-color: #c9e2b3;
 }
-.alert-success .alert-link, li.feedbackPanelSUCCESS .alert-link {
+.alert-success .alert-link, li.feedbackPanelSUCCESS .alert-link, .alert-success .feedback a, .feedback .alert-success a, li.feedbackPanelSUCCESS .feedback a, .feedback li.feedbackPanelSUCCESS a {
   color: #2b542c;
 }
 
@@ -4448,7 +4448,7 @@ li.feedbackPanelUNDEFINED .w_close {
 .alert-info hr, li.feedbackPanelINFO hr, li.feedbackPanelUNDEFINED hr {
   border-top-color: #afcbcf;
 }
-.alert-info .alert-link, li.feedbackPanelINFO .alert-link, li.feedbackPanelUNDEFINED .alert-link {
+.alert-info .alert-link, li.feedbackPanelINFO .alert-link, li.feedbackPanelUNDEFINED .alert-link, .alert-info .feedback a, .feedback .alert-info a, li.feedbackPanelINFO .feedback a, .feedback li.feedbackPanelINFO a, li.feedbackPanelUNDEFINED .feedback a, .feedback li.feedbackPanelUNDEFINED a {
   color: #1c6b8d;
 }
 
@@ -4460,7 +4460,7 @@ li.feedbackPanelUNDEFINED .w_close {
 .alert-warning hr, li.feedbackPanelWARNING hr, li.feedbackPanelDEBUG hr {
   border-top-color: #f7e1b5;
 }
-.alert-warning .alert-link, li.feedbackPanelWARNING .alert-link, li.feedbackPanelDEBUG .alert-link {
+.alert-warning .alert-link, li.feedbackPanelWARNING .alert-link, li.feedbackPanelDEBUG .alert-link, .alert-warning .feedback a, .feedback .alert-warning a, li.feedbackPanelWARNING .feedback a, .feedback li.feedbackPanelWARNING a, li.feedbackPanelDEBUG .feedback a, .feedback li.feedbackPanelDEBUG a {
   color: #66512c;
 }
 
@@ -4472,7 +4472,7 @@ li.feedbackPanelUNDEFINED .w_close {
 .alert-danger hr, li.feedbackPanelERROR hr, li.feedbackPanelFATAL hr {
   border-top-color: #e4b9c0;
 }
-.alert-danger .alert-link, li.feedbackPanelERROR .alert-link, li.feedbackPanelFATAL .alert-link {
+.alert-danger .alert-link, li.feedbackPanelERROR .alert-link, li.feedbackPanelFATAL .alert-link, .alert-danger .feedback a, .feedback .alert-danger a, li.feedbackPanelERROR .feedback a, .feedback li.feedbackPanelERROR a, li.feedbackPanelFATAL .feedback a, .feedback li.feedbackPanelFATAL a {
   color: #843534;
 }
 
