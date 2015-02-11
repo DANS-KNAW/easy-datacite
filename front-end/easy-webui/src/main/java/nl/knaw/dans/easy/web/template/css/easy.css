@@ -448,7 +448,7 @@ hr {
 
 h1, h2, h3, h4, h5, h6,
 .h1,
-.w_captionText, .h2, .h3, .h4, .h5, .h6 {
+.w_captionText, .h2, .h3, .h4, .overview div.h1, .overview div.w_captionText, .h5, .h6 {
   font-family: "Glegoo", Georgia, Times New Roman, serif;
   font-weight: 500;
   line-height: 1.1;
@@ -466,8 +466,10 @@ h6 .small,
 .h1 .small,
 .w_captionText .small, .h2 small,
 .h2 .small, .h3 small,
-.h3 .small, .h4 small,
-.h4 .small, .h5 small,
+.h3 .small, .h4 small, .overview div.h1 small, .overview div.w_captionText small,
+.h4 .small,
+.overview div.h1 .small,
+.overview div.w_captionText .small, .h5 small,
 .h5 .small, .h6 small,
 .h6 .small {
   font-weight: normal;
@@ -494,15 +496,17 @@ h3 .small, .h3 small,
   font-size: 65%;
 }
 
-h4, .h4,
+h4, .h4, .overview div.h1, .overview div.w_captionText,
 h5, .h5,
 h6, .h6 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 h4 small,
-h4 .small, .h4 small,
+h4 .small, .h4 small, .overview div.h1 small, .overview div.w_captionText small,
 .h4 .small,
+.overview div.h1 .small,
+.overview div.w_captionText .small,
 h5 small,
 h5 .small, .h5 small,
 .h5 .small,
@@ -524,7 +528,7 @@ h3, .h3 {
   font-size: 24px;
 }
 
-h4, .h4 {
+h4, .h4, .overview div.h1, .overview div.w_captionText {
   font-size: 18px;
 }
 
@@ -2821,13 +2825,13 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
-.fade {
+.fade, .wicket-mask-dark {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
   -o-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
 }
-.fade.in {
+.fade.in, .wicket-mask-dark {
   opacity: 1;
 }
 
@@ -2835,16 +2839,16 @@ input[type="button"].btn-block {
   display: none;
   visibility: hidden;
 }
-.collapse.in {
+.collapse.in, .collapse.wicket-mask-dark {
   display: block;
   visibility: visible;
 }
 
-tr.collapse.in {
+tr.collapse.in, tr.collapse.wicket-mask-dark {
   display: table-row;
 }
 
-tbody.collapse.in {
+tbody.collapse.in, tbody.collapse.wicket-mask-dark {
   display: table-row-group;
 }
 
@@ -3542,7 +3546,7 @@ tbody.collapse.in {
 .navbar-collapse:after {
   clear: both;
 }
-.navbar-collapse.in {
+.navbar-collapse.in, .navbar-collapse.wicket-mask-dark {
   overflow-y: auto;
 }
 @media (min-width: 992px) {
@@ -3558,7 +3562,7 @@ tbody.collapse.in {
     padding-bottom: 0;
     overflow: visible !important;
   }
-  .navbar-collapse.in {
+  .navbar-collapse.in, .navbar-collapse.wicket-mask-dark {
     overflow-y: visible;
   }
   .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
@@ -5236,7 +5240,7 @@ button.close, button.w_close {
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
-.modal.fade .modal-dialog, .modal.fade .wicket-modal {
+.modal.fade .modal-dialog, .modal.wicket-mask-dark .modal-dialog, .modal.fade .wicket-modal, .modal.wicket-mask-dark .wicket-modal {
   -webkit-transform: translate(0, -25%);
   -ms-transform: translate(0, -25%);
   -o-transform: translate(0, -25%);
@@ -5246,7 +5250,7 @@ button.close, button.w_close {
   -o-transition: -o-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
 }
-.modal.in .modal-dialog, .modal.in .wicket-modal {
+.modal.in .modal-dialog, .modal.wicket-mask-dark .modal-dialog, .modal.in .wicket-modal, .modal.wicket-mask-dark .wicket-modal {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
@@ -5276,18 +5280,18 @@ button.close, button.w_close {
   outline: 0;
 }
 
-.modal-backdrop {
+.modal-backdrop, .wicket-mask-dark {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   background-color: #000;
 }
-.modal-backdrop.fade {
+.modal-backdrop.fade, .wicket-mask-dark {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.modal-backdrop.in {
+.modal-backdrop.in, .wicket-mask-dark {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
@@ -5375,7 +5379,7 @@ button.close, button.w_close {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.tooltip.in {
+.tooltip.in, .tooltip.wicket-mask-dark {
   opacity: 0.9;
   filter: alpha(opacity=90);
 }
@@ -8532,7 +8536,7 @@ h3, .h3 {
   font-size: 1.5em;
 }
 
-h4, .h4 {
+h4, .h4, .overview div.h1, .overview div.w_captionText {
   font-size: 1.3em;
 }
 
@@ -9215,6 +9219,15 @@ input.wf-timeSpent {
 
 .modal-content, .w_blue {
   color: black;
+}
+
+.wicket-modal {
+  z-index: 20001;
+}
+
+.wicket-mask-dark {
+  width: 100%;
+  height: 100%;
 }
 
 ul.feedbackPanel {
