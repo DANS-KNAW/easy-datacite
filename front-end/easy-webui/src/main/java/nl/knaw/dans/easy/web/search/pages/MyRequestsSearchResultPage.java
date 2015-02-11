@@ -4,6 +4,7 @@ import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
 import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
@@ -28,7 +29,8 @@ public class MyRequestsSearchResultPage extends AbstractSearchResultPage {
 
     private void init() {
         setSorting(getSearchModel().getRequestBuilder());
-        add(new EasyEditablePanel("editablePanel", MY_REQUESTS_SEARCH_RESULTS));
+        EasyEditablePanel editablePanel = new EasyEditablePanel("popupHTML", MY_REQUESTS_SEARCH_RESULTS);
+        add(new HelpPopup("myRequestsHelpPopup", "myRequestsHelp", editablePanel));
     }
 
     @Override

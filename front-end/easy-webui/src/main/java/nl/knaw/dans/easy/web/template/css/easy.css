@@ -8814,6 +8814,7 @@ form.deposit-form .row {
 h1.search-results-heading {
   text-transform: uppercase;
   margin: 0;
+  display: inline;
 }
 h1.search-results-heading small {
   color: inherit;
@@ -9219,6 +9220,10 @@ input.wf-timeSpent {
 .dropdown-black li a:hover, .dropdown-black li a:focus, .dropdown-black li a:active, .dropdown-black a:hover, .dropdown-black a:focus, .dropdown-black a:active {
   background: black;
   color: #BCBCBC;
+}
+
+.help-popup-trigger i.fa.fa-lg, .help-popup-trigger i.fa-lg.tree-folder-closed:before, .help-popup-trigger i.tree-folder-closed.w_close:before, .help-popup-trigger i.fa-lg.tree-folder-open:before, .help-popup-trigger i.tree-folder-open.w_close:before, .help-popup-trigger i.w_close {
+  vertical-align: 0;
 }
 
 .modal-content, .w_blue {
