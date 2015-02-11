@@ -1,26 +1,25 @@
 <html xmlns:wicket>
 <wicket:panel>
-<wicket:enclosure child="pubProgress">
-<tr>
-	<td>Publication progress:</td>
-	<td><span wicket:id="pubProgress">[pubProgress]</span></td>
-</tr>
-</wicket:enclosure>
-<wicket:enclosure child="assignToForm">
-<tr>
-<form wicket:id="assignToForm">
-	<td>Assigned to:</td>
-	<td>
-		<select wicket:id="assignTo" class="form_text">
-			<option value="jan">Jan Janssen</option>
-		</select>
-	</td>
-	<td>
-		<a wicket:id="submitLink" class="button">Change</a>
-	</td>
-</form>
-</tr>
-</wicket:enclosure>
+    <wicket:enclosure child="pubProgress">
+        <tr>
+            <td><label>Publication progress</label></td>
+            <td><span wicket:id="pubProgress">[pubProgress]</span></td>
+        </tr>
+    </wicket:enclosure>
+    <wicket:enclosure child="assignToForm">
+        <tr>
+            <form wicket:id="assignToForm">
+                <td><label for="assignTo">Assigned to</label></td>
+                <td>
+                    <select id="assignTo" wicket:id="assignTo" class="form-control input-sm">
+                        <option value="jan">Jan Janssen</option>
+                    </select>
+                </td>
+                <td>
+                    <button wicket:id="submitLink" class="btn btn-sm btn-default">Change</button>
+                </td>
+            </form>
+        </tr>
+    </wicket:enclosure>
 </wicket:panel>
 </html>
-  
