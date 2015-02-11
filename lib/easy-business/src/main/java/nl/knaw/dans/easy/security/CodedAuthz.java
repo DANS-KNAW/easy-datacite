@@ -253,11 +253,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz {
         newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:editButton", getEnableToArchivistOrAdminRule());
         newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:deleteButton", getEnableToArchivistOrAdminRule());
 
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:viewEditJumpoffPanel:editForm",
                 getEnableToArchivistOrAdminRule());
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
-                getEnableToArchivistOrAdminRule());
-        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel",
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:jumpOff:viewEditJumpoffPanel:jumpoffMetadataPanel",
                 getEnableToArchivistOrAdminRule());
 
         // Description tab
