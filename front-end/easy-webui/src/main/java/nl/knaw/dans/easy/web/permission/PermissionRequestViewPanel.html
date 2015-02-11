@@ -17,13 +17,17 @@
             <wicket:enclosure child="status.value">
                 <div class="form-group">
                     <div class="col-sm-3 control-label"><wicket:message key="permission.request.status.label">[status label]</wicket:message></div>
-                    <div class="col-sm-9 form-text" wicket:id="status.value">[status]</div>
+                    <div class="col-sm-9">
+                        <p class="form-control-static" wicket:id="status.value">[status]</p>
+                    </div>
                 </div>
             </wicket:enclosure>
             <wicket:enclosure child="explanation.value">
                 <div class="form-group">
                     <div class="col-sm-3 control-label"><wicket:message key="permission.request.explanation.label">[explanation label]</wicket:message></div>
-                    <div class="col-sm-9 form-text" wicket:id="explanation.value">[explanation]</div>
+                    <div class="col-sm-9">
+                        <p class="form-control-static" wicket:id="explanation.value">[explanation]</p>
+                    </div>
                 </div>
             </wicket:enclosure>
             <div class="form-group">
