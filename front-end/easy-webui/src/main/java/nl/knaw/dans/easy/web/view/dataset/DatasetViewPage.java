@@ -285,18 +285,6 @@ public class DatasetViewPage extends AbstractEasyNavPage {
 
         add(new Label("title", getDataset().getPreferredTitle()));
 
-        WebMarkupContainer nav = new WebMarkupContainer("nav") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean isVisible() {
-                boolean selectLinkVisible = Mode.SELECT.equals(getMode());
-                boolean backToListLinkVisible = DatasetViewPage.getEasySession().hasRedirectPage(DatasetViewPage.class);
-                return selectLinkVisible | backToListLinkVisible;
-            }
-        };
-        add(nav);
-
         Link backToListLink = new Link("backToList") {
             private static final long serialVersionUID = 2282643032675018321L;
 
@@ -316,7 +304,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
                 return DatasetViewPage.getEasySession().hasRedirectPage(DatasetViewPage.class);
             }
         };
-        nav.add(backToListLink);
+        add(backToListLink);
 
         Link selectLink = new Link("selectLink") {
 
@@ -329,7 +317,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
             }
         };
         selectLink.setVisible(Mode.SELECT.equals(getMode()));
-        nav.add(selectLink);
+        add(selectLink);
 
         InfosegmentPanel infosegmentPanel = new InfosegmentPanel("infosegmentPanel", datasetModel, mode);
         infosegmentPanel.setOutputMarkupId(true);

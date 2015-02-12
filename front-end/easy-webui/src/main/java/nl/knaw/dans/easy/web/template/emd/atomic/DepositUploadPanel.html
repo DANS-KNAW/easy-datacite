@@ -30,10 +30,10 @@ function removeMessages()
 /*-->]]>*/</script>
 
 <div wicket:id="uploadPanel"></div>
-<div id="depositUploadPanelbuttons" wicket:id="depositUploadPanelbuttonsPanel">
-    <a wicket:id="popupLink" class="button">Show files...</a>
-    <a wicket:id="deleteFilesLink" class="button">Delete all files</a>
-    <a onclick="removeMessages();" id="removeMessagesButton" class="button" style="visibility: hidden" href="#">Remove messages</a>
+<div id="depositUploadPanelbuttons" wicket:id="depositUploadPanelbuttonsPanel" class="extra-bottom-spacing">
+    <a wicket:id="popupLink" class="btn btn-default btn-xs">Show files...</a>
+    <a wicket:id="deleteFilesLink" class="btn btn-danger btn-xs">Delete all files</a>
+    <a onclick="removeMessages();" id="removeMessagesButton" class="btn btn-default btn-xs" style="visibility: hidden" href="#">Remove messages</a>
     <div wicket:id="popup"></div>
 </div>
 </wicket:panel>

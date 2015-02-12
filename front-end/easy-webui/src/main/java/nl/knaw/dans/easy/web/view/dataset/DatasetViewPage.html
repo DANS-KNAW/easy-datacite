@@ -10,19 +10,19 @@
     <wicket:extend>
         <h1 wicket:id="title">[title]</h1>
         <div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
-        <div class="nav" wicket:id="nav">
+        <div class="nav" wicket:enclosure="">
             <ul class="pager">
-                <li class="previous" wicket:enclosure="">
+                <li class="previous">
                     <a wicket:id="backToList" href="#">
                         <span aria-hidden="true">‹‹‹ </span>
                         Back to list
                     </a>
                 </li>
-                <li wicket:enclosure="">
-                    <a wicket:id="selectLink" href="#" class="button">Select</a>
-                </li>
             </ul>
         </div>
+        <p wicket:enclosure="">
+            <a wicket:id="selectLink" href="#" class="btn btn-default">Select</a>
+        </p>
         <div class="dataset-view-page">
             <wicket:container wicket:id="infosegmentPanel">[InfosegmentPanel]</wicket:container>
             <wicket:container wicket:id="tabs">[Tabs]</wicket:container>

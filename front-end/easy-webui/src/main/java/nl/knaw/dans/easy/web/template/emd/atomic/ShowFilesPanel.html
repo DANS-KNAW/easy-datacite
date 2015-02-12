@@ -2,22 +2,15 @@
 <body>
 <wicket:panel>
 
-<table class="panel users">
-	<thead>
-		<tr>
-			<td>Files</td>
-		</tr>
-	</thead>
-	<tr wicket:id="fileList">
-		<td>
-			<span wicket:id="file"></span>
-		</td>
-	</tr>
-</table>
-	        	
+<ul>
+    <li wicket:id="fileList">
+        <span wicket:id="file"></span>
+    </li>
+</ul>
 
-<div style="text-align: right;"><a wicket:id="close" class="button">Close</a>&nbsp;</div>
-<br/>
+<p>
+    <a wicket:id="close" class="btn btn-default">Close</a>
+</p>
 
 </wicket:panel>
 </body>
