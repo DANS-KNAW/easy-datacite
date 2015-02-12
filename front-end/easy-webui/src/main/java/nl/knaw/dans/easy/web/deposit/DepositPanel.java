@@ -5,7 +5,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.ExcludeMessageFilter;
 import nl.knaw.dans.common.wicket.WicketUtil;
 import nl.knaw.dans.common.wicket.behavior.FormModificationDetectorBehavior;
-import nl.knaw.dans.common.wicket.components.popup.confirm.ConfirmPanel;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
@@ -21,7 +20,6 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EditableInfoPage;
 import nl.knaw.dans.easy.web.ErrorPage;
-import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.RedirectData;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractRepeaterPanel;
@@ -36,7 +34,6 @@ import nl.knaw.dans.easy.web.wicket.WizardNavigationPanel;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -44,7 +41,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
@@ -56,9 +52,6 @@ import org.slf4j.LoggerFactory;
 public class DepositPanel extends AbstractDatasetModelPanel {
     private static final String DEPOSIT_FORM = "depositForm";
     public static final String INFO_PAGE = "deposit.completed.header";
-    private static final String CONFIRM_BUTTON_NAME = "button.confirm";
-    private static final String CONFIRM_TITLE = "submit.warning.title";
-    private static final String CONFIRM_MESSAGE = "submit.warning.message";
 
     private static final long serialVersionUID = 66648246305751046L;
 
