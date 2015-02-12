@@ -1,37 +1,34 @@
 <wicket:panel>
 
+    <div wicket:id="uploadFeedback" class="feedback"></div>
+
     <form wicket:id="simpleUpload">
         <fieldset>
             <legend>Upload files</legend>
-            <p>
-            <label for="upload">File</label>
             <input wicket:id="fileInput" id="upload" type="file" />
-            <input type="submit" value="Upload"/>
+            <input type="submit" value="Upload" class="btn btn-default"/>
         </fieldset>
     </form>
 
-
-    <div wicket:id="uploadFeedback" class="feedback"></div>
-    <p/>
-    <div>
-        <h2>Current files in <span wicket:id="container">[container]</span></h2>
-        <p/>
-        <table class="table table-condensed table-bordered">
-              <tr>
-                  <th>File name</th>
-                  <th>Mime type</th>
-                  <th>href</th>
-                  <th> </th>
-                  <th> </th>
-              </tr>
-            <tr wicket:id="fileList"  class="resource">
-                <td wicket:id="filename">[filename]</td>
-                <td wicket:id="mimeType">[mimeType]</td>
-                <td width="550"><span title="Use this to reference the file in your markup" wicket:id="href">[href]</span></td>
-                <td><a href="#" title="View or download this file" target="_blank" wicket:id="view">view</a></td>
-                <td><a href="#" title="Delete this file" wicket:id="delete"><img src="/images/trash.gif" alt="delete" /></a></td>
-            </tr>
-        </table>
-    </div>
+    <h2>Current files in <span wicket:id="container">[container]</span></h2>
+    <table class="table table-condensed table-bordered">
+        <tr>
+          <th>File name</th>
+          <th>Mime type</th>
+          <th>href</th>
+          <th></th>
+        </tr>
+        <tr wicket:id="fileList">
+            <td wicket:id="filename">[filename]</td>
+            <td wicket:id="mimeType">[mimeType]</td>
+            <td><span title="Use this to reference the file in your markup" wicket:id="href">[href]</span></td>
+            <td>
+                <a href="#" title="View or download this file" target="_blank" wicket:id="view" class="btn btn-default btn-xs">view</a>
+                <a href="#" title="Delete this file" wicket:id="delete" class="btn btn-danger btn-xs">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
 
 </wicket:panel>
