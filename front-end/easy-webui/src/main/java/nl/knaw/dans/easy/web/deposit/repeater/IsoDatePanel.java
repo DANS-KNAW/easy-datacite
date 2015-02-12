@@ -92,16 +92,6 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel> {
                     return "yyyy-MM-dd"; // or "dd/MM/yyyy". the stupid thing always sets a short year
                                          // format: yy.
                 }
-
-                /*
-                 * (non-Javadoc)
-                 * @see org.apache.wicket.extensions.yui.calendar.DatePicker#getIconUrl() Use own DatePicker icon instead of Wicket default one.
-                 */
-                @Override
-                protected CharSequence getIconUrl() {
-                    return "images/icon1.gif";
-                }
-
             };
             dateField.add(datePicker);
             add(dateField);
