@@ -8,10 +8,14 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.EasyResources;
+import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.web.authn.RegistrationPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -64,6 +68,8 @@ public class DepositIntroPage extends AbstractEasyNavPage {
         add(listView);
         add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
 
+        add(new BookmarkablePageLink<RegistrationPage>("createAnAccountLink", RegistrationPage.class));
+        add(createLoginLink("loginToEASYLink"));
         add(new ExternalLink("aboutDepositingDataLink", aboutDepositingDataLink, getString("deposit.intro.prepare_your_data_link.title")));
         add(new ExternalLink("aboutDepositingDataLink2", aboutDepositingDataLink, getString("deposit.intro.more_information_link.title")));
     }
@@ -78,4 +84,19 @@ public class DepositIntroPage extends AbstractEasyNavPage {
             throw new InternalWebError();
         }
     }
+
+    private Link<LoginPage> createLoginLink(String id) {
+        return new Link<LoginPage>(id) {
+            private static final long serialVersionUID = -2538869070667617524L;
+
+            @Override
+            public void onClick() {
+                // Enable redirection to this page which is viewed before login
+                ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
+                setResponsePage(LoginPage.class);
+            }
+
+        };
+    }
+
 }
