@@ -45,9 +45,8 @@ public class RadioChoicePanel extends AbstractChoicePanel<ChoiceList> {
             BootstrapRadioListPanel<KeyValuePair> rc = new BootstrapRadioListPanel<KeyValuePair>("radioList", (IModel<KeyValuePair>) item.getDefaultModel(),
                     getChoiceList().getChoices(), getRenderer());
             if (((KeyValuePair) item.getDefaultModelObject()).getKey() == null) {
-                throw new IllegalArgumentException("The item model object should contain a key value pair for the selected radio button.");
                 // assign default value
-                // rc.setDefaultModelObject(getChoiceList().getChoices().get(0));
+                rc.setDefaultModelObject(getChoiceList().getChoices().get(0));
             }
             add(rc);
         }
