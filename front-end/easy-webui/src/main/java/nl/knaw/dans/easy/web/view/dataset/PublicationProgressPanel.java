@@ -13,7 +13,6 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.easy.web.wicket.AssignToDropChoiceList;
-import nl.knaw.dans.easy.web.wicket.WorkflowProgressPanel;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -58,20 +57,6 @@ public class PublicationProgressPanel extends AbstractEasyPanel {
     }
 
     private void init() {
-        WorkflowProgressPanel pubProgress = new WorkflowProgressPanel("pubProgress", getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow()) {
-            private static final long serialVersionUID = -5454750325730819797L;
-
-            @Override
-            public boolean isVisible() {
-                // NOTE: GK: the publication progress has been disabled, remove if truly unnecessary
-                // return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
-                // || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
-                return false;
-            }
-
-        };
-        add(pubProgress);
-
         try {
             IModel model = new PropertyModel(new AssignModel(getDataset().getAdministrativeMetadata().getWorkflowData()), "userId");
             Form assignToForm = new Form("assignToForm") {
