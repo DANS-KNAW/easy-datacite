@@ -11,10 +11,8 @@ import nl.knaw.dans.common.wicket.components.upload.command.EasyUploadCancelComm
 import nl.knaw.dans.common.wicket.components.upload.command.EasyUploadStatusCommand;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 
-import org.apache.wicket.AbortException;
 import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -108,9 +106,6 @@ public class EasyUpload extends Panel {
         this.setConfig(config);
 
         setOutputMarkupId(true);
-
-        // add css
-        add(CSSPackageResource.getHeaderContribution(new ResourceReference(EasyUpload.class, "EasyUpload.css")));
 
         // add javascript libraries
         add(JavascriptPackageResource.getHeaderContribution(new ResourceReference(EasyUpload.class, "js/lib/json2.js")));
