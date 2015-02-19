@@ -15,7 +15,6 @@
 		<hibernate.version>4.3.7.Final</hibernate.version>
 		<postgresql.version>8.4-701.jdbc3</postgresql.version>
 		<hsqldb.version>1.8.0.10</hsqldb.version>
-		<logdriver.version>1.0</logdriver.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,11 +45,6 @@
 			<artifactId>hsqldb</artifactId>
 			<version>${hsqldb.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.rkbloom.logdriver</groupId>
-			<artifactId>logdriver</artifactId>
-			<version>${logdriver.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
