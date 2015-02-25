@@ -61,6 +61,11 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <fmm:DatastreamInputParm parmName="EMD_carare.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
     <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
   </fmm:Method>
+  <fmm:Method operationLabel="Get metadata formatted as acdm" operationName="getAcdm" wsdlMsgName="getAcdmRequest" wsdlMsgOutput="dissemResponse">
+    <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
+    <fmm:DatastreamInputParm parmName="EMD_acdm.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
+    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
+  </fmm:Method>
 </fmm:MethodMap>
 </foxml:xmlContent>
 </foxml:datastreamVersion>
@@ -90,6 +95,11 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <fbs:DSInputInstruction></fbs:DSInputInstruction>
   </fbs:DSInput>
   <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_carare.xsl">
+    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
+    <fbs:DSMIME>text/xml</fbs:DSMIME>
+    <fbs:DSInputInstruction></fbs:DSInputInstruction>
+  </fbs:DSInput>
+  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_acdm.xsl">
     <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
     <fbs:DSMIME>text/xml</fbs:DSMIME>
     <fbs:DSInputInstruction></fbs:DSInputInstruction>
@@ -131,6 +141,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
     <wsdl:part name="EMD_carare.xsl" type="this:inputType"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getAcdmRequest">
+    <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
+    <wsdl:part name="EMD_acdm.xsl" type="this:inputType"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="response">
     <wsdl:part name="response" type="xsd:base64Binary"></wsdl:part>
   </wsdl:message>
@@ -149,6 +163,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     </wsdl:operation>
     <wsdl:operation name="getCarare">
       <wsdl:input message="this:getCarareRequest"></wsdl:input>
+      <wsdl:output message="this:response"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAcdm">
+      <wsdl:input message="this:getAcdmRequest"></wsdl:input>
       <wsdl:output message="this:response"></wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
@@ -188,6 +206,15 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     </wsdl:operation>
     <wsdl:operation name="getCarare">
       <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_carare.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
+      <wsdl:input>
+        <http:urlReplacement></http:urlReplacement>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml"></mime:content>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAcdm">
+      <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_acdm.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
       <wsdl:input>
         <http:urlReplacement></http:urlReplacement>
       </wsdl:input>

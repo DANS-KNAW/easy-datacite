@@ -41,6 +41,7 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
   <fmm:Method label="Get metadata formatted as oai_dc" operationName="getOAI_DC"></fmm:Method>
   <fmm:Method label="Get metadata formatted as oai_datacite" operationName="getOAI_datacite"></fmm:Method>
   <fmm:Method label="Get metadata formatted as Carare" operationName="getCarare"></fmm:Method>
+  <fmm:Method label="Get metadata formatted as acdm" operationName="getAcdm"></fmm:Method>
   <fmm:Method label="Get metadata formatted as nl_didl" operationName="getNl_didl"></fmm:Method>
 </fmm:MethodMap>
 </foxml:xmlContent>

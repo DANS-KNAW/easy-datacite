@@ -30,6 +30,14 @@ fedora-ingest.sh f \
   8080
 
 ./add-datastream.sh easy-sdep:oai-item1 \
+  EMD_acdm.xsl \
+  "Stylesheet+to+convert+from+EMD+to+acdm+ARIADNE"\
+  fedoraAdmin \
+  $1 \
+  localhost \
+  8080
+
+./add-datastream.sh easy-sdep:oai-item1 \
   EMD_oai_dc.xsl \
   "Stylesheet+to+convert+from+EMD+to+OAI+DC"\
   fedoraAdmin \

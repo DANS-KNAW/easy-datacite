@@ -29,6 +29,7 @@
         <prefix integral="true">oai_datacite</prefix>
         <prefix integral="true">nl_didl</prefix>
         <prefix integral="false">carare</prefix>
+        <prefix integral="false">acdm</prefix>
     </format:prefixes>
     <!-- 
         Optional variables for composing the URL of a jump off page for items.

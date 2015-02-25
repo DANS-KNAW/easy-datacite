@@ -58,8 +58,10 @@
 			<version>1.1.4c</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
+            <!-- Could not use the newer org.apache.httpcomponents:httpclient -->
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
