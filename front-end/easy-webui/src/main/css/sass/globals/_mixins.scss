@@ -1,0 +1,11 @@
+// MIXINS
+
+@mixin all-browsers-gradient($direction, $color1, $color2, $backup-color) {
+    background-color: $backup-color;
+    @include filter-gradient($color1, $color2, $direction);
+    $alt-direction: to bottom;
+    @if $direction == horizontal {
+        $alt-direction: to right;
+    }
+    @include background-image(linear-gradient($alt-direction, $color1, $color2));
+}

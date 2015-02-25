@@ -1,0 +1,25 @@
+#container {
+    position: relative;
+    width: $screen-lg-min;
+    @media (max-width: $screen-xs-max) {
+        width: 100%;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        width: 95%;
+    }
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+        width: 90%;
+    }
+    @media (min-width: $screen-lg-min) {
+        width: $screen-lg-min;
+    }
+
+    margin: 0 auto;
+    padding: 0;
+    background: white;
+}
+
+.content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}

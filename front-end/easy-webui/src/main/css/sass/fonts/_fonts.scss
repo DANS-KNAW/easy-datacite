@@ -1,0 +1,27 @@
+//Glegoo
+@include font-face('Glegoo',
+                   font-files('Glegoo/Glegoo-Regular.woff',
+                              'Glegoo/Glegoo-Regular.ttf',
+                              'Glegoo/Glegoo-Regular.svg'),
+                   'Glegoo/Glegoo-Regular.eot',
+                   normal);
+
+// Open Sans
+@include font-face('Open Sans',
+                   font-files('OpenSans/OpenSans-Regular.woff',
+                              'OpenSans/OpenSans-Regular.ttf',
+                              'OpenSans/OpenSans-Regular.svg'),
+                   'OpenSans/OpenSans-Regular.eot',
+                   normal);
+@include font-face('Open Sans',
+                   font-files('OpenSans/OpenSans-SemiBold.woff',
+                              'OpenSans/OpenSans-SemiBold.ttf',
+                              'OpenSans/OpenSans-SemiBold.svg'),
+                   'OpenSans/OpenSans-SemiBold.eot',
+                   600);
+@include font-face('Open Sans',
+                   font-files('OpenSans/OpenSans-Bold.woff',
+                              'OpenSans/OpenSans-Bold.ttf',
+                              'OpenSans/OpenSans-Bold.svg'),
+                   'OpenSans/OpenSans-Bold.eot',
+                   bold);

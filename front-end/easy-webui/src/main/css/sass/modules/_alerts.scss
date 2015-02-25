@@ -1,0 +1,73 @@
+// These message levels are built in in Wicket 7.0: http://ci.apache.org/projects/wicket/apidocs/7.x/org/apache/wicket/feedback/FeedbackMessage.html.
+// In Wicket 1.4 only SUCCESS is absent: http://ci.apache.org/projects/wicket/apidocs/1.4.x/org/apache/wicket/feedback/FeedbackMessage.html.
+
+ul.feedbackPanel {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.feedback {
+    ul {
+        margin: 1em 0;
+        padding-left: 0;
+        list-style-type: none;
+
+        li {
+            margin: 1em 0;
+        }
+    }
+
+    a {
+        @extend .alert-link;
+    }
+}
+
+tr.feedback {
+    li {
+        margin: 0;
+    }
+}
+
+li {
+    &.feedbackPanelERROR {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-danger;
+    }
+
+    &.feedbackPanelWARNING {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-warning;
+    }
+
+    &.feedbackPanelSUCCESS {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-success;
+    }
+
+    &.feedbackPanelINFO {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-info;
+    }
+
+    &.feedbackPanelFATAL {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-danger;
+    }
+
+    &.feedbackPanelDEBUG {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-warning;
+    }
+
+    &.feedbackPanelUNDEFINED {
+        @extend .alert;
+        @extend .alert-dismissible;
+        @extend .alert-info;
+    }
+}

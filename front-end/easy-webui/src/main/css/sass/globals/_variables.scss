@@ -1,0 +1,81 @@
+// Font definitions
+$sans-serif: 'Open Sans', Arial, Helvetica, sans-serif;
+$serif: 'Glegoo', Georgia, Times New Roman, serif;
+
+
+// Colour definitions
+/// Brand colours
+$DANS-red:                  #DD291E;
+$DANS-blue:                 #00AEDF;
+$DANS-blue2:                #248BB8;
+
+/// Grays (tip: use a hex to cmyk converter to get the percentages)
+$gray-lightest:         darken(#FFF, 04.31%) !default;  // #F4F4F4, Search bar background
+$gray-lighter:          darken(#FFF, 06.27%) !default;  // #EFEFEF, Main nav background
+$gray-light:            darken(#FFF, 26.67%) !default;  // #BBBBBB, menu-item right border + button border
+$gray:                  darken(#FFF, 56.86%) !default;  // #6E6E6E, Footer text
+$text-gray:             darken(#FFF, 65.88%) !default;  // #575756, Body text
+$container-background:  darken(#FFF, 09.80%) !default;  // #E6E6E6
+$content-border:        darken(#FFF, 12.16%) !default;  // #E0E0E0
+$container-border:      darken(#FFF, 32.94%) !default;  // #ABABAB
+
+/// Grays
+$gray01: #F5F5F5;
+$gray02: #F4F4F4;
+$gray03: #F0F0F0;
+$gray04: #EFEFEF;
+$gray05: #EEEEEE;
+$gray26: #E8E8E8;
+$gray06: #E6E6E6;
+$gray07: #E1E1E2;
+$gray08: #E0E0E0;
+$gray09: #DDDDDD;
+$gray10: #CDCDCD;
+$gray11: #CCCCCC;
+$gray12: #C0C0C0;
+$gray13: #BBBBBB;
+$gray25: #ABABAB;
+$gray14: #999999;
+$gray15: #888888;
+$gray16: #787878;
+$gray17: #767676;
+$gray27: #6E6E6E;
+$gray18: #666666;
+$gray19: #575756;
+$gray20: #555555;
+$gray21: #333333;
+$gray22: #2B2B2B;
+$gray23: #222222;
+$gray24: #111111;
+
+/// Other colours
+$link-color:                $DANS-blue2;
+$link-color-hover:          $DANS-red;
+
+$button-black-bg-gradient1: #5B5B5B;
+$button-black-bg-gradient2: black;
+$button-black-bg-hover:     black;
+$button-black-bg:           black;
+$button-black-border:       #242424;
+$button-black-text:         white;
+
+$dropdown-black-bg:         black;
+$dropdown-black-bg-hover:   black;
+$dropdown-black-text:       white;
+$dropdown-black-text-hover: #BCBCBC;
+
+$block-blue-bg-gradient1:   #2A9DD3;
+$block-blue-bg-gradient2:   $DANS-blue2;
+$search-bar-border:         #1D6F93;
+$search-bar-text:           #343434;
+$body-text:                 black;
+$body-bg:                   #E6E6E6;
+$header-menu-text:          #949294;
+$header-menu-text-hover:    $link-color-hover;
+$footer-bg:                 #767676;
+$footer-text:               white;
+
+$search-hit-border:         #d5e1e6;
+$panel-info-bg:             $search-hit-border;
+
+$folder-icon-color:         #E8BE05;

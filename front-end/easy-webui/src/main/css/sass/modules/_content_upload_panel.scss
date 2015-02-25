@@ -1,0 +1,11 @@
+// EASY Upload Panel
+
+#upload-iframe-def {
+    // in a small viewport the upload button wraps to the next line
+    height: 45px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+}

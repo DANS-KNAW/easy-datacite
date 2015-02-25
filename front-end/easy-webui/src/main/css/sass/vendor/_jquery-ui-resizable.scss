@@ -1,0 +1,20 @@
+.ui-resizable-e {
+    cursor: e-resize;
+    height: 100%;
+    right: -5px;
+    top: 0;
+    width: 7px;
+}
+
+.ui-resizable {
+    position: relative;
+}
+.ui-resizable-handle {
+    display: block;
+    font-size: 0.1px;
+    position: absolute;
+}
+.ui-resizable-disabled .ui-resizable-handle,
+.ui-resizable-autohide .ui-resizable-handle {
+    display: none;
+}

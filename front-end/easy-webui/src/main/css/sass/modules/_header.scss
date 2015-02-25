@@ -1,0 +1,108 @@
+$padding: 0.5em;
+$outer-horizontal-space: 15px;
+
+div#container > .header,
+div#container > header {
+    margin: 0;
+    padding-top: 10px;
+    height: 90px;
+
+    .h1, h1 {
+        padding-top: 8px;
+        text-align: center;
+        margin-bottom: 0;
+    }
+    .h2, h2 {
+        margin-bottom: 0;
+    }
+}
+
+.search-nav {
+    @include all-browsers-gradient(horizontal, $block-blue-bg-gradient1, $block-blue-bg-gradient2, $DANS-blue2);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: white;
+
+    p {
+        margin-bottom: 25px;
+        line-height: 1.75em;
+    }
+
+    a {
+        color: white;
+        &:hover {
+            color: black;
+        }
+    }
+
+    .search {
+        // Generic styles for the search panel are defined in _search.scss.
+        input[type="text"] {
+            border-color: $search-bar-border;
+        }
+    }
+
+    .search-help {
+        display: inline-block;
+        padding-top: 8px;
+        margin-left: -15px;
+
+        @media (max-width: $screen-xs-max) {
+            padding-top: 2px;
+            width: 100%;
+            margin-left: 0;
+            a.help-popup-trigger {
+                display: block;
+                width: 100%;
+                text-align: right;
+            }
+        }
+    }
+
+    .search-extra {
+        margin-top: 2px;
+        padding-left: 0;
+        list-style: none;
+
+        li {
+            display: inline;
+            padding-right: 1em;
+        }
+    }
+
+}
+
+.admin-nav {
+    font-size: 0.87em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    @media (max-width: $grid-float-breakpoint) {
+        font-size: 1em;
+    }
+
+    .dropdown.open a.dropdown-toggle,
+    .dropdown.open a.dropdown-toggle:focus,
+    .dropdown.open a.dropdown-toggle:hover {
+        background: none;
+        color: $header-menu-text-hover;
+    }
+
+    .dropdown-menu a {
+        font-size: 0.75em;
+        color: $header-menu-text;
+
+        @media (max-width: $grid-float-breakpoint) {
+            font-size: 0.87em;
+        }
+
+        &:hover {
+            color: $header-menu-text-hover;
+        }
+    }
+}

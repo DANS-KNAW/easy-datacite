@@ -1,0 +1,10 @@
+.progressbar-container {
+	height: 100%;
+}
+
+.progressbar {
+    @extend .progress-bar;
+    @extend .progress-bar-info;
+    @extend .progress-bar-striped;
+    @extend .active;
+}

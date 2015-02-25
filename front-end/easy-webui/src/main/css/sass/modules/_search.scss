@@ -1,0 +1,6 @@
+.search {
+    input.form-control {
+        // Fix the search bar floating above the mobile menu
+        z-index: 0;
+    }
+}

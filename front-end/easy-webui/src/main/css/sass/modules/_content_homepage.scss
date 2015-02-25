@@ -1,0 +1,55 @@
+.home-deposit {
+    h1 {
+        color: $DANS-blue2;
+        font-size: 1.7em;
+        letter-spacing: 1px;
+    }
+}
+
+.home-recently-published {
+    h1 {
+        color: $body-text;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+    ul {
+        padding: 0;
+
+        li {
+            border-top: 1px solid $search-hit-border;
+
+            list-style-type: none;
+            padding-left: 1em;
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+            a {
+                color: $body-text;
+
+                &:before {
+                    @extend .fa;
+                    content: $fa-var-chevron-right;
+                    margin-left: -1em;
+                    color: $DANS-blue2;
+                }
+                &:hover, &:focus,
+                &:hover:before, &:focus:before {
+                    color: $link-color-hover;
+                }
+            }
+            &:last-child a {
+                color: $link-color;
+                &:hover, &:focus {
+                    color: $link-color-hover;
+                }
+            }
+            span {
+                color: $header-menu-text;
+                &:last-child:before {
+                    content: " | ";
+                }
+            }
+        }
+    }
+}

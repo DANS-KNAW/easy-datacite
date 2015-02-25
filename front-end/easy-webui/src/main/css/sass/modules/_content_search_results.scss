@@ -1,0 +1,81 @@
+h1.search-results-heading {
+    text-transform: uppercase;
+    margin: 0;
+    display: inline;
+
+    small {
+        color: inherit;
+    }
+}
+
+.list-group.search-hits {
+    em {
+        // We really should be using the <mark> tag in the HTML, but this is a HTML5 tag, so use <em> instead.
+        background: $state-warning-bg;
+        font-style: normal;
+    }
+    .list-group-item {
+        border: 0;
+        border-radius: 0;
+        padding: 5px 0;
+
+        h2 {
+            font-size: 1.25em;
+            color: black;
+            margin: 10px 0;
+            line-height: 1.5em;
+
+            i.fa {
+                color: $DANS-blue2;
+            }
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+    .linked-list-group-item {
+        border-bottom: 1px solid $search-hit-border;
+
+        &:first-child {
+            border-top: 1px solid $search-hit-border;
+        }
+
+        .list-group-item:hover {  // Could possibly be removed
+            h2, i {
+                color: $DANS-red;
+            }
+        }
+    }
+    dl {
+        // Overwrite the default Bootstrap styling of definition lists
+        dt {
+            color: $header-menu-text;
+            font-weight: normal;
+            text-align: left;
+            width: 80px;
+
+            &:after {
+                content: ":";
+            }
+        }
+
+        dd {
+            width: auto;
+            margin-left: 80px;
+        }
+    }
+}
+
+ul.search-criteria li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    a {
+        &:hover {
+            text-decoration: line-through;
+            color: $DANS-red;
+        }
+    }
+}

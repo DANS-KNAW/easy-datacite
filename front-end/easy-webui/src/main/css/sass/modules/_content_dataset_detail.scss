@@ -1,0 +1,302 @@
+.dataset-view-page {
+    label {
+        color: $header-menu-text;
+    }
+
+    .radio-inline label, .checkbox-inline label,
+    .radio label, .checkbox label {
+        color: $body-text;
+    }
+}
+table {
+    tr {
+        th {
+            &.wicket_orderDown:after {
+                @extend .fa;
+                content: $fa-var-sort-down;
+                margin-left: 1em;
+            }
+
+            &.wicket_orderUp:after {
+                @extend .fa;
+                content: $fa-var-sort-up;
+                margin-left: 1em;
+            }
+
+            &.wicket_orderNone:after {
+                @extend .fa;
+                content: $fa-var-unsorted;
+                color: $gray-light;
+                margin-left: 1em;
+            }
+        }
+    }
+}
+
+//************ STYLE.CSS ***************
+.fileExplorerPanel {
+    p {
+        padding:8px;
+        padding-bottom: 3px;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    .well {
+        margin-bottom: 0;
+    }
+
+    form.form-inline {
+        display: inline;
+    }
+
+    table {
+        caption {
+            text-align: left;
+            padding-bottom: 2px;
+        }
+
+        #message {
+            padding-left: 3px;
+        }
+    }
+}
+
+a.expandall,
+a.collapseall,
+a.up {
+    background-color: $gray-lightest;
+    border-radius: 4px;
+    padding: 4px 2px 4px 28px;
+    color: black;
+    background-repeat: no-repeat;
+    position: relative;
+    top: 10px;
+    margin: 0 5px;
+
+    &:hover {
+        background-color: $gray09;
+    }
+}
+
+a.expandall {
+    background-image: image-url('fileexplorer/expand-all-folders.png', false, false);
+    background-position: 6px 5px;
+}
+
+a.collapseall {
+    background-image: image-url('fileexplorer/collapse-all-folders.png', false, false);
+    background-position: 6px 5px;
+}
+
+a.up {
+    background-image: image-url('fileexplorer/folder-level-up.png', false, false);
+    background-position: 4px 5px;
+}
+
+input.toggle-select-all {
+    margin-left: 9px;
+    position: relative;
+    bottom: -26px;
+    margin-top: -26px;
+}
+
+//**************************************
+//******* FILE-EXPLORER.CSS ************
+.NoneAccessible {
+    color: $brand-danger;
+}
+
+.SomeAccessible {
+    color: $brand-warning;
+}
+
+.AllAccessible {
+    color: $brand-success;
+}
+
+.EmbargoAccessible {
+    color: $brand-primary;
+}
+//**************************************
+//********* FileExplorer Tree **********
+.ui-resizable-handle.ui-resizable-e {
+    border-right: 4px double $gray09;
+}
+#fileexplorer-resize-container div:first-child .tree {
+    overflow: auto;
+}
+div.tree-subtree {
+    margin: 0px 0px 0px 18px;
+    padding: 0px;
+}
+
+div.tree-branch {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.tree-branch-mid {
+    background-image: image-url('fileexplorer/tree.gif', false, false);
+    background-position: -54px center;
+    background-repeat: repeat-y;
+}
+span.tree-junction,
+a.tree-junction-expanded,
+a.tree-junction-collapsed {
+    display: block;
+    float: left;
+    width: 18px;
+    background-repeat: no-repeat;
+    text-decoration: none;
+}
+
+span.tree-junction {
+    background-image: image-url('fileexplorer/tree.gif', false, false);
+    background-position: -36px center;
+}
+
+a.tree-junction-expanded {
+    background-image: image-url('fileexplorer/tree.gif', false, false);
+    background-position: -18px center;
+}
+
+a.tree-junction-collapsed {
+    background-image: image-url('fileexplorer/tree.gif', false, false);
+    background-position: 0px center;
+}
+
+table.tree {
+    border-spacing: 0px;
+    border-collapse: collapse;
+
+    tr.selected {
+        background-color: $brand-primary;
+        color: white;
+    }
+
+    td {
+        // allow tree divs to fill complete td (regretfully height 100% on divs does not work)
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
+span.tree-content {
+    display: block;
+    margin-left: 18px;
+
+    a {
+        color: black;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .selected span.tree-label {
+        background-color: $brand-primary;
+        color: white;
+    }
+}
+
+.tree-folder-closed:before {
+    @extend .fa;
+    content: $fa-var-folder;
+    font-size: 1.5em;
+    color: $folder-icon-color;
+}
+
+.tree-folder-open:before {
+    @extend .fa;
+    content: $fa-var-folder-open;
+    font-size: 1.5em;
+    color: $folder-icon-color;
+}
+//**************************************
+//******* VIEW_DATASET.CSS *************
+.tab-row {
+    ul {
+        @extend .nav;
+        @extend .nav-tabs;
+
+        li a.indicator:after {
+            @extend .fa;
+            @extend .fa-spin;
+            @extend .fa-lg;
+            content: $fa-var-spinner;
+            margin-left: 0.5em;
+        }
+    }
+}
+
+div.tab-panel {
+    padding-top: 2em;
+}
+
+.w_table_cell {
+    line-height: 20px;
+    b {
+        font-size: 110%;
+        line-height: 16px!important;
+    }
+    p {
+        font-size: 110%;
+        line-height: 20px!important;
+    }
+}
+td.w_table_cell a:hover {
+    text-decoration: underline;
+}
+
+// RDF viewer
+.other-panel {
+    padding: 1em;
+    margin-right: 1.4em;
+    margin-bottom: 1.4em;
+    background-color: $gray08;
+}
+
+// ****** Jumpoff page *****************
+.jumbotron .jumpoffpage p {
+    font-size: 1em;
+}
+
+.overview {
+    div.h1 {
+        @extend .h4;
+    }
+    * span {
+        color: $header-menu-text;
+        &:after {
+            content: " | ";
+        }
+        &:last-child:after {
+            content:"";
+        }
+    }
+    a span {
+        text-decoration: underline;
+        &:before {
+            @extend .fa;
+            content: "#{$fa-var-chevron-right}\00a0";
+            color: $DANS-blue2;
+        }
+        &:hover, &:focus,
+        &:hover:before, &:focus:before {
+            color: $link-color-hover;
+        }
+    }
+}
+//**************************************
+// ****** Administration tab ***********
+input.wf-timeSpent {
+    width: 2.5em;
+    display: inline;
+}
+//**************************************
