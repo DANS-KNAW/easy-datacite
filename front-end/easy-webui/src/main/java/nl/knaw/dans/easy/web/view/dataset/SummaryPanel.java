@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -7,13 +9,12 @@ import java.util.List;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 import nl.knaw.dans.pf.language.emd.Term;
-import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.link.Link;
@@ -22,47 +23,35 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SummaryPanel extends AbstractEasyPanel {
+public class SummaryPanel extends AbstractEasyPanel<Object> {
+
     private static final Logger logger = LoggerFactory.getLogger(DescriptionPanel.class);
 
-    /**
-     * Wicket id.
-     */
+    /** Wicket id. */
     public static final String CREATOR = "creator";
 
-    /**
-     * Wicket id.
-     */
+    /** Wicket id. */
     public static final String DATE_CREATED = "dateCreated";
 
-    /**
-     * Wicket id.
-     */
+    /** Wicket id. */
     public static final String TITLE = "title";
 
-    /**
-     * Wicket id.
-     */
-    public static final String PID = "pid";
+    /** Wicket id. */
+    public static final String PID_LABEL = "pid";
 
-    /**
-     * Wicket id.
-     */
+    /** Wicket id. */
+    private static final String PID_LINK = "pidLink";
+
+    /** Wicket id. */
     public static final String DESCRIPTIONS = "descriptions";
 
-    /**
-     * Wicket id.
-     */
+    /** Wicket id. */
     public static final String DESCRIPTION = "description";
 
-    /**
-     * String used to separate creator items.
-     */
+    /** String used to separate creator items. */
     public static final String SEPARATOR = "; ";
 
-    /**
-     * String used to separate creator items.
-     */
+    /** String used to separate creator items. */
     public static final String SEPARATOR_FOR_DATES = ", ";
 
     private final EasyMetadata emd;
@@ -75,25 +64,70 @@ public class SummaryPanel extends AbstractEasyPanel {
         init();
     }
 
-    @SuppressWarnings("unchecked")
     private void init() {
-        add(new Label(CREATOR, getCreators()));
         String dateCreated = getDateCreated();
+        String doi = emd.getEmdIdentifier().getDansManagedDoi();
+        String pid = emd.getEmdIdentifier().getPersistentIdentifier();
+
+        add(new Label(CREATOR, getCreators()));
         add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
         add(new Label(TITLE, getTitles()));
+        add(createListView(DESCRIPTIONS, getDescriptions()));
+        if (!isBlank(doi)) {
+            add(finishLink(PID_LABEL, doi, createDoiLink(PID_LINK, doi)));
+        } else {
+            add(finishLink(PID_LABEL, pid, createPidLink(PID_LINK, pid)));
+        }
+    }
 
-        final String persistentIdentifier = getPersistentIdentifier();
-        Link pidLink = new Link("pidLink") {
+    private static Component finishLink(String wicketID, String label, Link<Object> link) {
+        return link.add(new Label(wicketID, label)).setVisible(!StringUtils.isBlank(label));
+    }
+
+    private ListView<BasicString> createListView(String wicketID, List<BasicString> descriptions) {
+        return new ListView<BasicString>(wicketID, descriptions) {
+
+            private static final long serialVersionUID = -6597598635055541684L;
+
+            @Override
+            protected void populateItem(ListItem<BasicString> item) {
+                final BasicString bString = item.getModelObject();
+                item.add(new MultiLineLabel(DESCRIPTION, bString.getValue()));
+            }
+
+        };
+    }
+
+    private Link<Object> createDoiLink(String wicketID, final String doi) {
+        Link<Object> link = new Link<Object>(wicketID) {
+
+            private static final long serialVersionUID = 1L;
+
+            public String getURL() {
+                return EmdConstants.DOI_RESOLVER + "/" + doi;
+            }
+
+            @Override
+            public void onClick() {
+                logger.debug("pidLink clicked: " + getURL());
+            }
+
+        };
+        return link;
+    }
+
+    private Link<Object> createPidLink(String wicketID, final String pid) {
+        Link<Object> link = new Link<Object>(wicketID) {
 
             private static final long serialVersionUID = -475314441520496889L;
 
             public String getURL() {
                 try {
-                    return EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(persistentIdentifier, "UTF-8");
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(pid, "UTF-8");
                 }
                 catch (UnsupportedEncodingException e) {
                     // happens either never or always
-                    return EmdConstants.BRI_RESOLVER + "?identifier=" + persistentIdentifier;
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" + pid;
                 }
             }
 
@@ -103,20 +137,7 @@ public class SummaryPanel extends AbstractEasyPanel {
             }
 
         };
-        add(pidLink.setVisible(!StringUtils.isBlank(persistentIdentifier)));
-        pidLink.add(new Label("pid", persistentIdentifier));
-
-        add(new ListView(DESCRIPTIONS, getDescriptions()) {
-
-            private static final long serialVersionUID = -6597598635055541684L;
-
-            @Override
-            protected void populateItem(ListItem item) {
-                final BasicString bString = (BasicString) item.getDefaultModelObject();
-                item.add(new MultiLineLabel(DESCRIPTION, bString.getValue()));
-            }
-
-        });
+        return link;
     }
 
     private String getCreators() {
@@ -129,16 +150,6 @@ public class SummaryPanel extends AbstractEasyPanel {
 
     private String getTitles() {
         return emd.toString(SEPARATOR, Term.Name.TITLE);
-    }
-
-    private String getPersistentIdentifier() {
-        EmdIdentifier emdIdentifier = emd.getEmdIdentifier();
-        if (emdIdentifier == null)
-            return null;
-        BasicIdentifier identifier = emdIdentifier.getIdentifier(EmdConstants.SCHEME_PID);
-        if (identifier == null)
-            return null;
-        return identifier.getValue();
     }
 
     private List<BasicString> getDescriptions() {

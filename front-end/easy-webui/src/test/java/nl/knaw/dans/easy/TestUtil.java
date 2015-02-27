@@ -16,6 +16,7 @@ public class TestUtil {
         new Data().setDatasetSearch(null);
         new Data().setEasyStore(null);
         new Data().setFederativeUserRepo(null);
+        new Data().setFileStoreAccess(null);
         new Data().setGroupRepo(null);
         new Data().setMigrationRepo(null);
         new Data().setSearchEngine(null);

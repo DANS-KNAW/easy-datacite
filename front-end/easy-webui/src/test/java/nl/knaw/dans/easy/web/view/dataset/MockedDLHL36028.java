@@ -71,7 +71,7 @@ public class MockedDLHL36028 {
     }
 
     public DownloadList getList() throws Exception {
-        final byte[] data = FileUtil.readFile(new File("src/test/resources/mock-xml/issue560-dlh36028.xml"));
+        final byte[] data = FileUtil.readFile(new File("src/test/resources/issue560-dlh36028.xml"));
 
         // assertions deduce the display name from the email, so exactly one dot in the name portion
         mockUser("s1234567", "n.erd@x.y", "", "", true); // line 1+2

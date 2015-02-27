@@ -1,0 +1,112 @@
+<emd:easymetadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" emd:version="0.1">
+  <emd:title>
+    <dc:title>Getuigen Verhalen, Burgerarbeiders in kamp Vught, interview 05</dc:title>
+  </emd:title>
+  <emd:creator>
+    <eas:creator>
+      <eas:organization>Stichting Nationaal Monument Kamp Vught ©</eas:organization>
+      <eas:entityId eas:scheme="DAI"></eas:entityId>
+    </eas:creator>
+  </emd:creator>
+  <emd:subject>
+    <dc:subject>hulpje van bouwvakkers</dc:subject>
+    <dc:subject>Arbeidsinzet</dc:subject>
+    <dc:subject>Concentratiekampen</dc:subject>
+    <dc:subject>Kamp Vught</dc:subject>
+    <dc:subject>Jodenvervolging</dc:subject>
+    <dc:subject>Bouwvakkers</dc:subject>
+    <dc:subject>Hulpverlening</dc:subject>
+    <dc:subject>Gevangenen</dc:subject>
+    <dc:subject>Oral history</dc:subject>
+    <dc:subject>Tweede Wereldoorlog</dc:subject>
+    <dc:subject>Van Geloven</dc:subject>
+    <dc:subject>Otto Herzberg</dc:subject>
+    <dc:subject>schietongeluk mitrailleur</dc:subject>
+  </emd:subject>
+  <emd:description>
+    <dc:description>Herinneringen van inwoners uit Vught en Cromvoirt aan het bestaan van een concentratiekamp in hun directe omgeving en aan de hulp die aan gevangenen kon worden verleend door personen die vanwege hun dagelijks werk regelmatig in het kamp kwamen.
+
+Geïnterviewde 05 (* 1928) kwam uit een niet welgesteld gezin. Geld was erg welkom. Daarom ging hij als 14-jarig hulpje / keetjongen werken in kamp Vught. Hij hielp bij het uitdelen van specie en bracht koffie rond. Hij verdiende beter dan zijn vader die buiten het kamp werkte. Duitsers waren vriendelijk tegen hem. Zijn lunch is meerdere keren gestolen door gevangenen.
+
+Geïnterviewde heeft weinig mishandelingen gezien, “daar hadden de SS-ers ons niet bij nodig”. Hij vertelt over verschillende groepen gevangenen: Jehova’s Getuigen, Joden, zwarthandelaren. Toen hij 16 was, overleed zijn vader, dat had een grote impact op hem. Hij heeft gevangenen ingeladen zien worden, maar dacht er niet bij na. 
+
+’s Ochtends kon hij meerijden met een paardenwagen naar het kamp, die zat dan helemaal vol met werklieden. Later ging hij op de fiets. Geïnterviewde vertelt dat pas bij de komst van de gevangenen voor de arbeiders duidelijk werd waarvoor de gebouwen dienden. Hij heeft wel eens een brief voor een gevangene gepost, maar kwam er later achter dat het een Joodse gevangene was. Hij schrok van het risico wat hij had gelopen, dus dat heeft hij niet meer gedaan. Hij hield zich afzijdig van zowel gevangenen als Duitsers. 
+
+Geïnterviewde is eenmaal terug geweest naar het kamp met zijn gezin, maar denkt verder vrij weinig aan die periode.</dc:description>
+  </emd:description>
+  <emd:contributor>
+    <eas:contributor>
+      <eas:organization>Zuidenwind Filmproducties</eas:organization>
+      <eas:entityId eas:scheme="DAI"></eas:entityId>
+    </eas:contributor>
+  </emd:contributor>
+  <emd:date>
+    <eas:created eas:format="DAY" eas:scheme="W3CDTF">2008-10-15T00:00:00.000+02:00</eas:created>
+    <eas:available eas:format="DAY" eas:scheme="W3CDTF">2010-03-11T00:00:00.000+01:00</eas:available>
+    <eas:dateSubmitted eas:format="DAY" eas:scheme="W3CDTF">2010-03-11T00:00:00.000+01:00</eas:dateSubmitted>
+  </emd:date>
+  <emd:format>
+    <dc:format>pdf</dc:format>
+    <dc:format>word</dc:format>
+  </emd:format>
+  <emd:identifier>
+    <dc:identifier eas:scheme="AIP_ID">twips.dans.knaw.nl--3466165634048768095-1268318666296</dc:identifier>
+    <dc:identifier eas:identification-system="http://www.persistent-identifier.nl" eas:scheme="PID">urn:nbn:nl:ui:13-poi-rxk</dc:identifier>
+    <dc:identifier eas:scheme="DMO_ID">easy-dataset:41602</dc:identifier>
+  </emd:identifier>
+  <emd:source></emd:source>
+  <emd:language>
+    <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
+    <dc:language>Nederlands</dc:language>
+    <dc:language>Brabants dialect</dc:language>
+  </emd:language>
+  <emd:relation>
+    <eas:relation>
+      <eas:subject-title>Website Zuidenwind Producties</eas:subject-title>
+      <eas:subject-link>http://www.zuidenwind.nl/Welkom</eas:subject-link>
+    </eas:relation>
+    <eas:relation>
+      <eas:subject-title>Website Stichting Nationaal Monument Kamp Vught</eas:subject-title>
+      <eas:subject-link>http://www.nmkampvught.nl/</eas:subject-link>
+    </eas:relation>
+    <eas:relation>
+      <eas:subject-title>Project ‘Burgerarbeiders in kamp Vught’ op Getuigenverhalen.nl</eas:subject-title>
+      <eas:subject-link>http://getuigenverhalen.nl/projecten/burgerarbeiders-kamp-vught</eas:subject-link>
+    </eas:relation>
+    <eas:relation eas:emphasis="true">
+      <eas:subject-title>‘Burgerarbeiders in kamp Vught’, interview 05 op Getuigenverhalen.nl</eas:subject-title>
+      <eas:subject-link>http://getuigenverhalen.nl/interview/interview-05-4</eas:subject-link>
+    </eas:relation>
+    <eas:relation eas:emphasis="true">
+      <eas:subject-title>Project ‘Burgerarbeiders in kamp Vught&apos; in EASY</eas:subject-title>
+      <eas:subject-link>http://www.persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-8k9-vjy</eas:subject-link>
+    </eas:relation>
+  </emd:relation>
+  <emd:coverage>
+    <dct:spatial>Vught</dct:spatial>
+    <dct:spatial>Cromvoirt</dct:spatial>
+    <dct:spatial>Tilburg</dct:spatial>
+    <dct:temporal>najaar 1942 - september 1944</dct:temporal>
+  </emd:coverage>
+  <emd:rights>
+    <dct:accessRights eas:schemeId="common.dcterms.accessrights">REQUEST_PERMISSION</dct:accessRights>
+    <dct:license eas:scheme="EASY version 1">accept</dct:license>
+  </emd:rights>
+  <emd:audience>
+    <dct:audience eas:schemeId="custom.disciplines">easy-discipline:12</dct:audience>
+    <dct:audience eas:schemeId="custom.disciplines">easy-discipline:13</dct:audience>
+  </emd:audience>
+  <emd:other>
+    <eas:application-specific>
+      <eas:metadataformat>SOCIOLOGY</eas:metadataformat>
+    </eas:application-specific>
+    <eas:etc>
+      <property-list>
+        <comment>Synchronization of EasyII</comment>
+        <entry key="conversion.date">2011-07-19T11:02:47.549Z</entry>
+        <entry key="previous.collection-id">twips.dans.knaw.nl--3466165634048768095-1268318666296</entry>
+        <entry key="nl.knaw.dans.easy.tools.task.am.dataset.AudienceCorrectorTask">2011-07-20T19:25:24.313+02:00</entry>
+      </property-list>
+    </eas:etc>
+  </emd:other>
+</emd:easymetadata>
