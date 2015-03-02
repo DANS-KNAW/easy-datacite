@@ -16,6 +16,7 @@
 		
 		<!-- Back-end setup and config files -->
 		<module>back-end/easy-backend-setup</module>
+        <module>back-end/pid-generator</module>
 
 		<!-- Libraries -->
 		<module>lib/dans-pid</module>

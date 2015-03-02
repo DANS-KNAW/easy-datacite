@@ -1,0 +1,13 @@
+/target
+/.project
+/.settings
+/.classpath
+/bin
+.DS_Store
+/target/
+.cache/
+/.cache
+/.worksheet/
+*.sc
+~*
+.~*

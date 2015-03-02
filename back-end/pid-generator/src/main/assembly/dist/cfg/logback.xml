@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="3 minutes">
+	<property name="LOGDIR" value="/var/log/easy-pid-generator" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%-5level [%thread]: %msg %n</Pattern>
+		</encoder>
+	</appender>	
+
+	<root level="warn">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+	<logger name="nl.knaw.dans" level="info" />
+</configuration>

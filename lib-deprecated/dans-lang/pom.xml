@@ -27,11 +27,6 @@
 			<version>1.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>aperture</groupId>
 			<artifactId>aperture</artifactId>
 			<version>1.2.0</version>

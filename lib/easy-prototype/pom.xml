@@ -25,6 +25,8 @@
         <jibx.version>1.2.4.5</jibx.version>
         <jersey.version>1.17.1</jersey.version>
         <scala.version>2.11.4</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+        <scala-maven-plugin.version>3.2.0</scala-maven-plugin.version>
         <scallop.version>0.9.5</scallop.version>
         <scalarx.version>0.23.0</scalarx.version>
         <scala-xml.version>1.0.3</scala-xml.version>
@@ -361,8 +363,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.scala-tools</groupId>
-                    <artifactId>maven-scala-plugin</artifactId>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>scala-maven-plugin</artifactId>
+                    <version>${scala-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -372,12 +375,31 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <scalaCompatVersion>${scala.binary.version}</scalaCompatVersion>
                         <scalaVersion>${scala.version}</scalaVersion>
                         <args>
-                            <arg>-target:jvm-1.5</arg>
+                            <arg>-target:jvm-1.7</arg>
                         </args>
                     </configuration>
                 </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>aspectj-maven-plugin</artifactId>
+					<version>${aspectj-maven-plugin.version}</version>
+					<configuration>
+						<verbose>true</verbose>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<complianceLevel>1.7</complianceLevel>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
                 <plugin>
                     <artifactId>maven-eclipse-plugin</artifactId>
                     <configuration>
