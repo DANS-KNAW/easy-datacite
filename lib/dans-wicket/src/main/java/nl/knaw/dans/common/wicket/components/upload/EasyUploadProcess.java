@@ -261,7 +261,7 @@ public class EasyUploadProcess {
     }
 
     protected void setUploadCompleted(List<File> files) {
-        String msg = "Upload of '" + filename + "' complete";
+        String msg = "Upload of '" + filename + "' complete.";
         if (files.size() > 1 && !files.get(0).getName().equals(filename)) {
             if (!hasDiacritics() || !hasInitialDiacriticFileNames(files))
                 msg += " (" + files.size() + " files and folders)";
