@@ -132,6 +132,15 @@ public class DatasetImplTest {
         assertEquals("Title should be propagated to label of dataset", dataset.getLabel());
     }
 
+    @Test
+    public void getEncodedDansManagedDoi() {
+        Dataset dataset = EasyMock.createMockBuilder(DatasetImpl.class).addMockedMethod("getDansManagedDoi").createMock();
+        EasyMock.expect(dataset.getDansManagedDoi()).andReturn(new String("10.17026/dans-test-doi")).anyTimes();
+        EasyMock.replay(dataset);
+
+        assertEquals("10.17026%2Fdans-test-doi", dataset.getEncodedDansManagedDoi());
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void addRelationsButOnlyOneOfAKind() throws Exception {

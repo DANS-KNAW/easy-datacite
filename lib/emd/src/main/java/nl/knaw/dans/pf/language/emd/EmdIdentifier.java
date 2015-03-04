@@ -143,4 +143,12 @@ public class EmdIdentifier extends AbstractEmdContainer {
         return pid;
     }
 
+    public String getDansManagedDoi() {
+        String doi = null;
+        BasicIdentifier bi = getIdentifier(EmdConstants.SCHEME_DOI);
+        if (bi != null) {
+            doi = bi.getValue();
+        }
+        return doi;
+    }
 }

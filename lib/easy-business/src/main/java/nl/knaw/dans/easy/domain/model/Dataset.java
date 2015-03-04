@@ -78,6 +78,10 @@ public interface Dataset extends DatasetItemContainer {
 
     String getEncodedPersistentIdentifier();
 
+    String getDansManagedDoi();
+
+    String getEncodedDansManagedDoi();
+
     void setLicenseContent(byte[] content);
 
     void setEasyMetadata(String xml);

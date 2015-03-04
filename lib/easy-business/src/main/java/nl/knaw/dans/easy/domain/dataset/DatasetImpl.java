@@ -31,6 +31,7 @@ import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
+import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.exceptions.DeserializationException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -575,14 +576,33 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
             return URLEncoder.encode(getPid(), "UTF-8");
         }
         catch (UnsupportedEncodingException e) {
-            // happens either never or always
-            return getPid();
+            throw new ApplicationException(e);
         }
     }
 
     private String getPid() {
         BasicIdentifier biPid = getEasyMetadata().getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_PID);
         return biPid == null ? null : biPid.getValue();
+    }
+
+    @Override
+    public String getDansManagedDoi() {
+        return getDoi();
+    }
+
+    @Override
+    public String getEncodedDansManagedDoi() {
+        try {
+            return URLEncoder.encode(getDansManagedDoi(), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new ApplicationException(e);
+        }
+    }
+
+    private String getDoi() {
+        BasicIdentifier biDoi = getEasyMetadata().getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_DOI);
+        return biDoi == null ? null : biDoi.getValue();
     }
 
     @Override

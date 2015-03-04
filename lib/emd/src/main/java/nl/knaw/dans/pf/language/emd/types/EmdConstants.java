@@ -64,6 +64,13 @@ public final class EmdConstants {
     public static final String SCHEME_DAI = "DAI";
 
     /**
+     * value of the scheme attribute of elements representing a dataset that can be identified through the 'Digital Object Identification' (DOI). Note that this
+     * is used for DOI's managed by DANS only (prefix 10.17026), and NOT for externally provided DOI's
+     */
+    public static final String SCHEME_DOI = "DOI";
+    public static final String DOI_RESOLVER = "http://dx.doi.org";
+
+    /**
      * value of the scheme attribute of elements representing an identifier that points to Archis OMG_NR.
      */
     public static final String SCHEME_ARCHIS_ONDERZOEK_M_NR = "Archis_onderzoek_m_nr";
