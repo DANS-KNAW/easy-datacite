@@ -5,3 +5,6 @@
 /.settings
 /.DS_Store
 
+# Sass Cache
+*.scssc
+.sass-cache/

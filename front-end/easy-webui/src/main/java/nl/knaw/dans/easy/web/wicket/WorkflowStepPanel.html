@@ -3,12 +3,15 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div wicket:id="title">[title]</div>
-
+            <wicket:remove><!-- 
+            Placed this next span before the title to prevent cursor selection problems with the text input 
+            somehow caused by the pull-right (issue EASY-876).
+             --></wicket:remove>
             <span class="pull-right" wicket:enclosure="timeSpent">
                 Time spent (hours):
                 <input wicket:id="timeSpent" type="text" class="wf-timeSpent form-control" />
             </span>
+            <div wicket:id="title">[title]</div>
 
             <div class="checkbox-inline" wicket:id="checkBoxContainer">
                 <label for="completed">
