@@ -12,8 +12,6 @@ import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.search.simple.EmptySearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.user.User;
-import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.TestUtil;
@@ -31,7 +29,6 @@ import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
 import nl.knaw.dans.easy.web.authn.ForgottenPasswordPage;
-import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.After;

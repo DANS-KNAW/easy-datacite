@@ -20,6 +20,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class TestExactlyOneFieldRequired {
     private boolean errorCalled = false;
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void twoComponentsOneFilledInIsCorrect() throws Exception {
         FormComponent comp1 = PowerMock.createMock(FormComponent.class);
@@ -32,6 +33,7 @@ public class TestExactlyOneFieldRequired {
         requireExactlyOneValidator.validate(form);
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void twoComponentsTwoFilledInIsNotCorrect() throws Exception {
         FormComponent comp1 = PowerMock.createMock(FormComponent.class);
@@ -41,6 +43,8 @@ public class TestExactlyOneFieldRequired {
         Form form = PowerMock.createMock(Form.class);
         replayAll();
         RequireExactlyOneValidator requireExactlyOneValidator = new RequireExactlyOneValidator(comp1, comp2) {
+            private static final long serialVersionUID = 1L;
+
             public void error(org.apache.wicket.markup.html.form.FormComponent<?> fc) {
                 errorCalled = true;
             };

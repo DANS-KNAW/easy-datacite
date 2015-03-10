@@ -62,6 +62,7 @@ public class PasswordPolicyValidatorTest {
     /**
      * Test valid passwords.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Test
     public void testValidPasswords() {
         IValidatable validatable = EasyMock.createMock(IValidatable.class);
@@ -84,6 +85,7 @@ public class PasswordPolicyValidatorTest {
     /**
      * Test invalid passwords.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void testInvalidPasswords() {
         IValidatable validatable = EasyMock.createMock(IValidatable.class);
 

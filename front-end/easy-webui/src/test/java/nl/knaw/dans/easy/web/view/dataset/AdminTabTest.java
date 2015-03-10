@@ -2,9 +2,6 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-
-import java.io.IOException;
-
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;

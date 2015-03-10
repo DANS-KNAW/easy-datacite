@@ -209,6 +209,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * @throws IllegalStateException
      *         if a real {@link ItemService} instance was assigned as bean
      */
+    @SuppressWarnings("unchecked")
     public void expectNoAudioVideoFiles() throws ServiceException, StoreAccessException {
         setMockedItemService();
         expect(getItemService().getAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new LinkedList<FileItemVO>());
