@@ -20,7 +20,6 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

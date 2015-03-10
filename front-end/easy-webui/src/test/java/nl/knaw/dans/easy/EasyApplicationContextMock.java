@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.isNull;
@@ -17,12 +18,16 @@ import java.util.Map;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
@@ -31,9 +36,12 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
@@ -72,6 +80,24 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public class EasyApplicationContextMock extends ApplicationContextMock {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
+
+    private static class DisciplineContainerProxy extends DisciplineContainerImpl {
+
+        private static final long serialVersionUID = 1L;
+        private final List<DisciplineContainer> subDisciplines;
+
+        public DisciplineContainerProxy(final String storeId, final List<DisciplineContainer> subDisciplines) throws ObjectNotInStoreException,
+                RepositoryException
+        {
+            super(storeId);
+            this.subDisciplines = subDisciplines;
+        }
+
+        @Override
+        public List<DisciplineContainer> getSubDisciplines() throws DomainException {
+            return subDisciplines;
+        }
+    }
 
     /**
      * Creates an instance, clears static bean variables and resets all powermocks. Creating the context too late results in more obvious errors that forgetting
@@ -183,7 +209,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * @throws ServiceException
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public void expectNoDatasetsInToolBar(SearchResult<? extends DatasetSB> published) throws ServiceException {
+    public void expectNoDatasetsInToolBar(final SearchResult<? extends DatasetSB> published) throws ServiceException {
         setMockedSearchService();
         expectZeros();
         expect(getSearchService().searchPublished((SearchRequest) anyObject(), isA(EasyUser.class))).andStubReturn((SearchResult) published);
@@ -299,6 +325,49 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
     }
 
     /**
+     * Mocks {@link DisciplineContainerImpl} objects. If no {@link EasyStore} bean is set, a mocked one is created with PowerMock. Otherwise eventual previous
+     * expectations remain effective.
+     * 
+     * @param disciplineStoreId
+     *        typically new DmoStoreId(DisciplineContainer.NAMESPACE, "root") when expecting to use a TermPanelDefinition:dcterms.audience
+     * @param subDisciplines
+     *        typically an ArrayList&lt;DisciplineContainer&gt; when expecting to use a TermPanelDefinition:dcterms.audience
+     * @throws ObjectNotInStoreException
+     *         declaration required to mock EasyStore.retreive
+     * @throws RepositoryException
+     *         declaration required to mock EasyStore.retreive
+     * @throws ServiceException
+     *         declaration required to mock EasyStore.retreive
+     * @throws IllegalStateException
+     *         if a real {@link DepositService} instance was assigned as bean
+     */
+    public void expectDisciplineObject(final DmoStoreId disciplineStoreId, final List<DisciplineContainer> subDisciplines) throws ObjectNotInStoreException,
+            RepositoryException, ServiceException
+    {
+        setMockedEasyStore();
+        final DisciplineContainerProxy proxy = new DisciplineContainerProxy(disciplineStoreId.getStoreId(), subDisciplines);
+        expect(getEasyStore().retrieve(eq(disciplineStoreId))).andStubReturn(proxy);
+    }
+
+    /**
+     * Expects a dataset to be retrieved for any user. If no {@link DatasetService} bean is set, a mocked one is created with PowerMock. Otherwise eventual
+     * previous expectations remain effective.
+     * 
+     * @param id
+     *        storeId of the expected dataset
+     * @param dataset
+     *        either a mock or an instance
+     * @throws ServiceException
+     *         declaration required to mock EasyStore.retreive
+     * @throws IllegalStateException
+     *         if a real {@link DepositService} instance was assigned as bean
+     */
+    public void expectDataset(DmoStoreId id, Dataset dataset) throws ServiceException {
+        setMockedDatasetService();
+        expect(getDatasetService().getDataset(isA(EasyUser.class), eq(id))).andStubReturn(dataset);
+    }
+
+    /**
      * Mocks a {@Link JumpoffDmo}. If no {@link JumpoffService} bean is set, a mocked one is created with PowerMock. Otherwise eventual previous
      * expectations remain effective.
      * 
@@ -331,12 +400,12 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         putBean("jumpoffService", jumpoffService);
     }
 
-    public void setMockedDepositService() {
+    private void setMockedDatasetService() {
         try {
-            isMock(getDepositService());
+            isMock(getDatasetService());
         }
         catch (final NoSuchBeanDefinitionException e) {
-            setDepositService(PowerMock.createMock(DepositService.class));
+            setDatasetService(PowerMock.createMock(DatasetService.class));
         }
     }
 
@@ -348,10 +417,25 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         putBean("datasetService", datasetService);
     }
 
+    private void setMockedDepositService() {
+        try {
+            isMock(getDepositService());
+        }
+        catch (final NoSuchBeanDefinitionException e) {
+            setDepositService(PowerMock.createMock(DepositService.class));
+        }
+    }
+
     public DepositService getDepositService() {
         return (DepositService) getBean("depositService");
     }
 
+    /**
+     * registers the supplied service as a bean
+     * 
+     * @param depositService
+     *        an instance of the EasyDepositService loads form descriptions for deposit pages and the dataset description tab
+     */
     public void setDepositService(final DepositService depositService) {
         putBean("depositService", depositService);
     }
@@ -400,7 +484,26 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         return (ItemService) getBean("itemService");
     }
 
-    public void setMockedSearchService() {
+    private void setMockedEasyStore() throws ServiceException, StoreAccessException {
+        try {
+            isMock(getEasyStore());
+        }
+        catch (final NoSuchBeanDefinitionException e) {
+            final EasyStore mock = PowerMock.createMock(EasyStore.class);
+            setEasyStore(mock);
+        }
+    }
+
+    public void setEasyStore(final EasyStore easyStore) {
+        putBean("easyStore", easyStore);
+        new Data().setEasyStore(easyStore);
+    }
+
+    public EasyStore getEasyStore() {
+        return (EasyStore) getBean("easyStore");
+    }
+
+    private void setMockedSearchService() {
         try {
             isMock(getSearchService());
         }

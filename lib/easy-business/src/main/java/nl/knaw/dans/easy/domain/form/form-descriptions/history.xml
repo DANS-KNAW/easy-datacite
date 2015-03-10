@@ -367,7 +367,7 @@
 			<namespacePrefix>eas</namespacePrefix>
 			<termName>creator</termName>
 		</termPanel>
-		
+
 		<!-- new as of 2012-09-19 -->
 		<termPanel>
 			<properties>
@@ -566,16 +566,16 @@
 						<ref-panelId>dcterms.audience</ref-panelId>
 					</panels>
 				</formPage>
-                <formPage>
-                    <properties>
-                        <id>emd-deposit-form.page.2</id>
-                        <labelResourceKey>discipline.history.page.2.title</labelResourceKey>
-                    </properties>
-                    <cssContainerClassName>depositForm</cssContainerClassName>
-                    <panels>
-                        <ref-panelId>upload</ref-panelId>
-                    </panels>
-                </formPage>
+				<formPage>
+					<properties>
+						<id>emd-deposit-form.page.2</id>
+						<labelResourceKey>discipline.history.page.2.title</labelResourceKey>
+					</properties>
+					<cssContainerClassName>depositForm</cssContainerClassName>
+					<panels>
+						<ref-panelId>upload</ref-panelId>
+					</panels>
+				</formPage>
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.3</id>
@@ -672,6 +672,7 @@
 					<editable>false</editable>
 					<cssContainerClassName>descriptionTab</cssContainerClassName>
 					<panels>
+						<ref-panelId>persistent-identifier</ref-panelId>
 						<ref-panelId>dc.creator</ref-panelId>
 						<ref-panelId>eas.creator</ref-panelId>
 						<ref-panelId>dc.title</ref-panelId>
@@ -688,7 +689,6 @@
 						<ref-panelId>dcterms.temporal</ref-panelId>
 						<ref-panelId>dc.source</ref-panelId>
 						<ref-panelId>dc.identifier</ref-panelId>
-						<ref-panelId>persistent-identifier</ref-panelId>
 						<ref-panelId>dc.format</ref-panelId>
 						<ref-panelId>eas.relation</ref-panelId>
 						<ref-panelId>dc.language.iso639</ref-panelId>

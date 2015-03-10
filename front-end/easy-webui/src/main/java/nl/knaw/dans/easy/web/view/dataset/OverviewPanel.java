@@ -24,7 +24,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OverviewPanel extends AbstractEasyPanel {
+public class OverviewPanel extends AbstractEasyPanel<Object> {
 
     public static final String SUMMARY = "summary";
 

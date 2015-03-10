@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 import java.text.MessageFormat;
 
@@ -21,7 +20,6 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
@@ -122,13 +120,15 @@ public class FileExplorerTabTest {
         dataset.getAdministrativeMetadata().setDepositor(depositor);
         dataset.getAdministrativeMetadata().setDepositor(depositor);
 
-        final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
-        expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
-        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
-        expect(datasetService.getLicenseVersions(dataset)).andStubReturn(null);
-        expect(datasetService.getAdditionalLicenseVersions(dataset)).andStubReturn(null);
+        applicationContext.expectDataset(dataset.getDmoStoreId(), dataset);
+        expectNoLicenseInfo(dataset);
+    }
 
-        applicationContext.setDatasetService(datasetService);
+    private void expectNoLicenseInfo(final Dataset dataset) throws Exception {
+        final DatasetService datasetService = applicationContext.getDatasetService();
+        expect(datasetService.getLicenseVersions(dataset)).andStubReturn(null);
+        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
+        expect(datasetService.getAdditionalLicenseVersions(dataset)).andStubReturn(null);
     }
 
     private EasyUserImpl createDepositor() {

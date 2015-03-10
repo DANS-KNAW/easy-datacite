@@ -56,7 +56,7 @@ public class ActivityLogFixture {
     }
 
     @Before
-    public void resetAll() {
+    public void mockBeans() {
         applicationContext = new EasyApplicationContextMock();
 
         datasetService = PowerMock.createMock(DatasetService.class);

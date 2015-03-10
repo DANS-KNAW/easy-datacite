@@ -1,7 +1,12 @@
 <html xmlns:wicket>
 <wicket:panel>
-<div class="col-lg-12">
-    <a wicket:id="pid" href="#">persistent-identifier</a>
-</div>
+	<div class="col-lg-12">
+		<div wicket:enclosure="urn">
+			<a wicket:id="urn" href="#">[persistent-identifier]</a>
+		</div>
+		<div wicket:enclosure="doi">
+			DOI:<a wicket:id="doi" href="#">[doi]</a>
+		</div>
+	</div>
 </wicket:panel>
 </html>

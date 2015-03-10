@@ -8,24 +8,19 @@ import static org.powermock.api.easymock.PowerMock.createMock;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.FileStoreMocker;
 import nl.knaw.dans.easy.TestUtil;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
@@ -48,28 +43,10 @@ public class DepositTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepositTest.class);
 
-    private final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "1");
+    private final DmoStoreId DISCIPLINE_STORE_ID = new DmoStoreId(DisciplineContainer.NAMESPACE, "root");
     private final DmoStoreId DATASET_STORE_ID = new DmoStoreId(Dataset.NAMESPACE, "1");
     private EasyApplicationContextMock applicationContext;
     private FileStoreMocker fileStoreMocker;
-
-    private static class DisciplineContainerImplStub extends DisciplineContainerImpl {
-
-        // somehow a mock is only seen properly by one test
-
-        private final List<DisciplineContainer> subDisciplines = new ArrayList<DisciplineContainer>();
-
-        public DisciplineContainerImplStub(final String storeId) {
-            super(storeId);
-        }
-
-        @Override
-        public List<DisciplineContainer> getSubDisciplines() throws DomainException {
-            return subDisciplines;
-        }
-
-        private static final long serialVersionUID = 1L;
-    }
 
     @Before
     public void mockApplicationContext() throws Exception {
@@ -83,10 +60,10 @@ public class DepositTest {
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
         applicationContext.expectAuthenticatedAsVisitor();
+        applicationContext.expectDisciplineObject(DISCIPLINE_STORE_ID, new ArrayList<DisciplineContainer>());
         applicationContext.setDepositService(new EasyDepositService());
         applicationContext.setDatasetService(createMock(DatasetService.class));
         mockNewDatasets();
-        mockNoSubDisciplines();
 
         applicationContext.getDatasetService().saveEasyMetadata(isA(EasyUser.class), isA(Dataset.class));
         EasyMock.expectLastCall().anyTimes();
@@ -106,14 +83,6 @@ public class DepositTest {
         fileStoreMocker.insertFile(1, dataset, "rootFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
         fileStoreMocker.insertFile(2, folder, "subFile.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.KNOWN);
         fileStoreMocker.logContent(LOGGER);
-    }
-
-    private void mockNoSubDisciplines() throws ObjectNotInStoreException, RepositoryException, DomainException {
-
-        final DisciplineContainerImplStub rootDiscipline = new DisciplineContainerImplStub(DISCIPLINE_STORE_ID.getStoreId());
-        final EasyStore easyStore = createMock(EasyStore.class);
-        expect(easyStore.retrieve(isA(DmoStoreId.class))).andStubReturn(rootDiscipline);
-        new Data().setEasyStore(easyStore); // no SpringBean injection in easy-business project
     }
 
     private void mockNewDatasets() throws Exception {

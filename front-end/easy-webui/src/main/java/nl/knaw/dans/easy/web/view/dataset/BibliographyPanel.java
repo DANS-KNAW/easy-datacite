@@ -1,30 +1,18 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.Component;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
+import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.IModel;
+import org.joda.time.DateTime;
+
 public class BibliographyPanel extends AbstractEasyPanel<EasyMetadata> {
     private static final long serialVersionUID = -6945991727691872102L;
-
-    private static final Logger logger = LoggerFactory.getLogger(BibliographyPanel.class);
 
     /** Wicket id. */
     public static final String NAME_LABEL = "authorName";

@@ -13,9 +13,6 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
-import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
-import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
@@ -38,7 +35,6 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
-import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
 import org.apache.wicket.PageParameters;
@@ -144,13 +140,6 @@ public class DatasetPermissionTest {
         };
     }
 
-    private DatasetService mockDatsetService(Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException {
-        final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
-        expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
-        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
-        return datasetService;
-    }
-
     @Before
     public void mockApplicationContext() throws Exception {
         applicationContext = new EasyApplicationContextMock();
@@ -162,13 +151,14 @@ public class DatasetPermissionTest {
         fileStoreMocker.logContent(LOGGER);
         new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
         applicationContext.putBean("fileStoreAccess", Data.getFileStoreAccess());
-        applicationContext.setDatasetService(mockDatsetService(dataset));
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplineChoices();
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
         applicationContext.expectAuthenticatedAsVisitor();
+        applicationContext.expectDataset(dataset.getDmoStoreId(), dataset);
+        expect(applicationContext.getDatasetService().getAdditionalLicense(dataset)).andStubReturn(null);
     }
 
     @After

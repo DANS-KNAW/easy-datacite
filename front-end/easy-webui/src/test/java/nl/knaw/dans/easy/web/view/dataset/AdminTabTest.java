@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
@@ -15,7 +14,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
@@ -55,13 +53,11 @@ public class AdminTabTest {
         return dataset;
     }
 
-    private DatasetService mockDatasetService(final Dataset dataset) throws Exception {
-        final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
-        expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
-        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
+    private void expectNoLicenseInfo(final Dataset dataset) throws Exception {
+        final DatasetService datasetService = applicationContext.getDatasetService();
         expect(datasetService.getLicenseVersions(dataset)).andStubReturn(null);
+        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
         expect(datasetService.getAdditionalLicenseVersions(dataset)).andStubReturn(null);
-        return datasetService;
     }
 
     @Before
@@ -77,9 +73,10 @@ public class AdminTabTest {
         applicationContext.expectStandardSecurity();
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplineChoices();
-        applicationContext.setDatasetService(mockDatasetService(dataset));
         applicationContext.expectNoJumpoff();
         applicationContext.expectNoAudioVideoFiles();
+        applicationContext.expectDataset(dataset.getDmoStoreId(), dataset);
+        expectNoLicenseInfo(dataset);
     }
 
     @After
