@@ -20,6 +20,8 @@ import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +60,8 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
     private static final long serialVersionUID = 5181882887614791831L;
 
+    private static final String BIBLIO = "bibliography";
+
     public SummaryPanel(String wicketId, Dataset dataset) {
         super(wicketId);
         emd = dataset.getEasyMetadata();
@@ -78,6 +82,8 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
         } else {
             add(finishLink(PID_LABEL, pid, createPidLink(PID_LINK, pid)));
         }
+
+        add(new BibliographyPanel(BIBLIO, new Model<EasyMetadata>(emd)));
     }
 
     private static Component finishLink(String wicketID, String label, Link<Object> link) {
