@@ -49,7 +49,7 @@
     
     <xsl:template match="emd:easymetadata">
         <!--  1. identifier -->
-        <xsl:apply-templates select="emd:identifier/dc:identifier[@eas:scheme='PID']"/>
+        <xsl:apply-templates select="emd:identifier/dc:identifier[@eas:scheme='DOI']"/>
         
         <!--  2. creators -->
         <xsl:apply-templates select="emd:creator"/>
@@ -79,7 +79,7 @@
         <xsl:call-template name="type" />
         
         <!-- 11. alternateIdentifier OPTIONAL -->
-        <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='PID')]]"/>
+        <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]"/>
         
         <!-- 12. relatedIdentifier -->
         <xsl:apply-templates select="emd:relation" />
@@ -104,9 +104,9 @@
     <!-- ==================================================== -->
     <!-- dc:identifier to datacite identifier -->
     <!-- ==================================================== -->
-    <xsl:template match="emd:identifier/dc:identifier[@eas:scheme='PID']">
+    <xsl:template match="emd:identifier/dc:identifier[@eas:scheme='DOI']">
         <xsl:element name="identifier">
-            <xsl:attribute name="identifierType" select="'URN'"/>
+            <xsl:attribute name="identifierType" select="'DOI'"/>
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
@@ -616,11 +616,14 @@
     <!-- ==================================================== -->
     <!-- dc:identifier to datacite alternateIdentifier -->
     <!-- ==================================================== -->
-    <xsl:template match="emd:identifier[dc:identifier[not(@eas:scheme='PID')]]">
+    <xsl:template match="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]">
         <xsl:element name="alternateIdentifiers">
-            <xsl:for-each select="dc:identifier[not(@eas:scheme='PID')]">
+            <xsl:for-each select="dc:identifier[not(@eas:scheme='DOI')]">
                 <xsl:element name="alternateIdentifier">
                     <xsl:choose>
+                        <xsl:when test="@eas:scheme = 'PID'">
+                            <xsl:attribute name="alternateIdentifierType" select="'URN'"/>
+                        </xsl:when>
                         <xsl:when test="@eas:scheme != ''">
                             <xsl:attribute name="alternateIdentifierType" select="@eas:scheme"/>
                         </xsl:when>
