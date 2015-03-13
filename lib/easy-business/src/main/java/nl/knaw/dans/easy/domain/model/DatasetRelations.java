@@ -1,17 +1,26 @@
 package nl.knaw.dans.easy.domain.model;
 
+import static nl.knaw.dans.common.lang.repo.relations.RelsConstants.DANS_NS;
+import static nl.knaw.dans.common.lang.repo.relations.RelsConstants.OAI_ITEM_ID;
+import static nl.knaw.dans.common.lang.repo.relations.RelsConstants.RDF_LITERAL;
+import static nl.knaw.dans.common.lang.repo.relations.RelsConstants.getObjectURI;
+import static nl.knaw.dans.common.lang.repo.relations.RelsConstants.stripFedoraUri;
+import static nl.knaw.dans.easy.domain.model.Constants.OAI_IDENTIFIER_PREFIX;
+
 import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainerItemRelations;
 import nl.knaw.dans.common.lang.repo.relations.DansOntologyNamespace;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
-import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
+import nl.knaw.dans.common.lang.repo.relations.RelationName;
+import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.pf.language.emd.types.Author;
@@ -29,22 +38,22 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
 
     // OAI-identifier and OAI-sets
     public void addOAIIdentifier() {
-        String oaiId = Constants.OAI_IDENTIFIER_PREFIX + dataset.getStoreId();
-        addRelation(RelsConstants.OAI_ITEM_ID, oaiId, RelsConstants.RDF_LITERAL);
+        String oaiId = OAI_IDENTIFIER_PREFIX + dataset.getStoreId();
+        addRelation(OAI_ITEM_ID, oaiId, RDF_LITERAL);
     }
 
     public void removeOAIIdentifier() {
-        String oaiId = Constants.OAI_IDENTIFIER_PREFIX + dataset.getStoreId();
-        removeRelation(RelsConstants.OAI_ITEM_ID, oaiId);
+        String oaiId = OAI_IDENTIFIER_PREFIX + dataset.getStoreId();
+        removeRelation(OAI_ITEM_ID, oaiId);
     }
 
     public boolean hasOAIIdentifier() {
-        return getRelation(RelsConstants.OAI_ITEM_ID, null).size() == 1;
+        return getRelation(OAI_ITEM_ID, null).size() == 1;
     }
 
     public void addOAISetMembership(DmoStoreId dmoStoreId) {
-        String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
-        addRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, object);
+        String object = getObjectURI(dmoStoreId.getStoreId());
+        addRelation(DANS_NS.IS_MEMBER_OF_OAI_SET, object);
     }
 
     public void addOAISetMembership(List<DmoStoreId> storeIds) {
@@ -54,12 +63,12 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
     }
 
     public void removeOAISetMembership() {
-        removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, null);
+        removeRelation(DANS_NS.IS_MEMBER_OF_OAI_SET, null);
     }
 
     public void removeOAISetMembership(DmoStoreId dmoStoreId) {
-        String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
-        removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, object);
+        String object = getObjectURI(dmoStoreId.getStoreId());
+        removeRelation(DANS_NS.IS_MEMBER_OF_OAI_SET, object);
     }
 
     public void removeOAISetMembership(List<DmoStoreId> storeIds) {
@@ -82,9 +91,9 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
     public Set<DmoStoreId> getOAISetMemberships(DmoNamespace... namespaces) {
         List<DmoNamespace> namespaceList = Arrays.asList(namespaces);
         Set<DmoStoreId> memberships = new HashSet<DmoStoreId>();
-        Set<Relation> allMemberships = getRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET.getURI().toString(), null);
+        Set<Relation> allMemberships = getRelation(DANS_NS.IS_MEMBER_OF_OAI_SET.getURI().toString(), null);
         for (Relation r : allMemberships) {
-            DmoStoreId dmoStoreId = new DmoStoreId(RelsConstants.stripFedoraUri((String) r.getObject()));
+            DmoStoreId dmoStoreId = new DmoStoreId(stripFedoraUri((String) r.getObject()));
             if (namespaceList.isEmpty() || namespaceList.contains(dmoStoreId.getNamespace())) {
                 memberships.add(dmoStoreId);
             }
@@ -102,8 +111,8 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
         if (!ECollection.isECollection(dmoStoreId)) {
             throw new IllegalArgumentException("Not an ECollection: " + dmoStoreId.getStoreId());
         } else {
-            String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
-            addRelation(RelsConstants.DANS_NS.IS_COLLECTION_MEMBER, object);
+            String object = getObjectURI(dmoStoreId.getStoreId());
+            addRelation(DANS_NS.IS_COLLECTION_MEMBER, object);
         }
     }
 
@@ -121,8 +130,8 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
         if (!ECollection.isECollection(dmoStoreId)) {
             throw new IllegalArgumentException("Not an ECollection: " + dmoStoreId.getStoreId());
         } else {
-            String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
-            removeRelation(RelsConstants.DANS_NS.IS_COLLECTION_MEMBER, object);
+            String object = getObjectURI(dmoStoreId.getStoreId());
+            removeRelation(DANS_NS.IS_COLLECTION_MEMBER, object);
         }
     }
 
@@ -150,9 +159,9 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
     public Set<DmoStoreId> getCollectionMemberships(DmoNamespace... namespaces) {
         List<DmoNamespace> namespaceList = Arrays.asList(namespaces);
         Set<DmoStoreId> memberships = new HashSet<DmoStoreId>();
-        Set<Relation> allMemberships = getRelation(RelsConstants.DANS_NS.IS_COLLECTION_MEMBER.getURI().toString(), null);
+        Set<Relation> allMemberships = getRelation(DANS_NS.IS_COLLECTION_MEMBER.getURI().toString(), null);
         for (Relation r : allMemberships) {
-            DmoStoreId dmoStoreId = new DmoStoreId(RelsConstants.stripFedoraUri((String) r.getObject()));
+            DmoStoreId dmoStoreId = new DmoStoreId(stripFedoraUri((String) r.getObject()));
             if (namespaceList.isEmpty() || namespaceList.contains(dmoStoreId.getNamespace())) {
                 memberships.add(dmoStoreId);
             }
@@ -179,12 +188,12 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
         List<Author> creators = dataset.getEasyMetadata().getEmdCreator().getDAIAuthors();
         for (Author author : creators) {
             URI object = author.getDigitalAuthorId().getURI();
-            addRelation(RelsConstants.DANS_NS.HAS_CREATOR_DAI, object);
+            addRelation(DANS_NS.HAS_CREATOR_DAI, object);
         }
         List<Author> contributors = dataset.getEasyMetadata().getEmdContributor().getDAIAuthors();
         for (Author author : contributors) {
             URI object = author.getDigitalAuthorId().getURI();
-            addRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, object);
+            addRelation(DANS_NS.HAS_CONTRIBUTOR_DAI, object);
         }
     }
 
@@ -193,26 +202,44 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset> {
      * dataset.
      */
     public void removeDAIRelations() {
-        removeRelation(RelsConstants.DANS_NS.HAS_CREATOR_DAI, null);
-        removeRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, null);
+        removeRelation(DANS_NS.HAS_CREATOR_DAI, null);
+        removeRelation(DANS_NS.HAS_CONTRIBUTOR_DAI, null);
     }
 
     // Identifiers
-    public void setPersistentIdentifier(String pid) {
-        addRelation(RelsConstants.DANS_NS.HAS_PID, pid, RelsConstants.RDF_LITERAL);
+    public void setPersistentIdentifier(String urn) throws RepositoryException {
+        addPidRelation(urn, DANS_NS.HAS_PID);
     }
 
     public String getPersistentIdentifier() {
-        String persistentIdentifier = null;
-        Set<Relation> pidLiterals = getRelation(RelsConstants.DANS_NS.HAS_PID.getURI().toString(), null);
-        if (!pidLiterals.isEmpty()) {
-            persistentIdentifier = (String) pidLiterals.iterator().next().getObject();
-        }
-        return persistentIdentifier;
+        return getPidRelation(DANS_NS.HAS_PID);
+    }
+
+    public void setDansManagedDOI(String doi) throws RepositoryException {
+        addPidRelation(doi, DANS_NS.HAS_DOI);
+    }
+
+    public String getDansManagedDOI() {
+        return getPidRelation(DANS_NS.HAS_DOI);
+    }
+
+    private String getPidRelation(RelationName hasPid) {
+        Set<Relation> relations = getRelation(hasPid.getURI().toString(), null);
+        if (relations == null || !relations.isEmpty())
+            return (String) relations.iterator().next().getObject();
+        return null;
+    }
+
+    private void addPidRelation(String pid, RelationName hasPid) throws RepositoryException {
+        List<Relation> relations = Data.getEasyStore().getRelations(null, hasPid.getURI().toString(), pid);
+        if (relations.size() > 0)
+            throw new IllegalStateException(pid + " exists for " + relations.get(0).getSubject());
+        // due to latency the above check does not protect against concurrent updates
+        // but it does protect against errors in seed configuration and exhaustion
+        addRelation(hasPid, pid, RDF_LITERAL);
     }
 
     public void setAipId(String aipId) {
-        addRelation(RelsConstants.DANS_NS.HAS_AIP_ID, aipId, RelsConstants.RDF_LITERAL);
+        addRelation(DANS_NS.HAS_AIP_ID, aipId, RDF_LITERAL);
     }
-
 }

@@ -316,7 +316,6 @@
 		destroy-method="close">
 		<property name="mailOffice" ref="mailOffice" />
 		<property name="adminMailer" ref="adminMailer" />
-		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
 	</bean>
 
 	<bean name="mailOffice" class="nl.knaw.dans.easy.mail.EasyMailerImpl">
@@ -344,16 +343,10 @@
 		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
 	</bean>
 
-	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator"
-		destroy-method="close">
-		<constructor-arg ref="pidConnectionConfiguration" />
-	</bean>
-
-	<bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
-		<property name="username" value="${pid.generator.username}" />
-		<property name="password" value="${pid.generator.password}" />
-		<property name="connectionUrl" value="${pid.generator.connectionUrl}" />
-		<property name="driverClass" value="${pid.generator.driver}" />
+	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
+		<constructor-arg value="WEB" />
+		<constructor-arg type="java.net.URL" value="${pid.service.base.url}" />
+		<constructor-arg ref="httpClientFacade" />
 	</bean>
 
 	<!-- ============== -->
@@ -466,10 +459,10 @@
 	<bean id="securedStreamingService" class="nl.knaw.dans.easy.business.services.WowzaSecuredStreamingService">
 		<property name="ticketServiceUrl" value="http://tstreaming11.dans.knaw.nl/acl/ticket" />
 		<property name="accessDurationInMilliseconds" value="60000" />
-		<property name="httpClientFacade">
-			<bean class="nl.knaw.dans.easy.util.ApacheHttpClientFacade" />
-		</property>
+		<property name="httpClientFacade" ref="httpClientFacade"/>
 	</bean>
+    
+    <bean name="httpClientFacade" class="nl.knaw.dans.easy.util.ApacheHttpClientFacade"/>
     
     <bean id="audioVideoPlayerUrl" class="java.lang.String">
         <constructor-arg type="java.lang.String"

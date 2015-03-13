@@ -30,6 +30,7 @@ public class DansOntologyNamespace extends OntologyNamespace {
     public final RelationName HAS_PERIOD;
     public final RelationName IS_JUMPOFF_PAGE_FOR;
     public final RelationName HAS_PID;
+    public final RelationName HAS_DOI;
     public final RelationName HAS_AIP_ID;
 
     /**
@@ -65,6 +66,7 @@ public class DansOntologyNamespace extends OntologyNamespace {
         IS_MEMBER_OF_OAI_SET = new RelationName(this, "isMemberOfOAISet");
         IS_JUMPOFF_PAGE_FOR = new RelationName(this, "isJumpoffPageFor");
         HAS_PID = new RelationName(this, "hasPid");
+        HAS_DOI = new RelationName(this, "hasDoi");
         HAS_AIP_ID = new RelationName(this, "hasAipId");
         HAS_PARENT = new RelationName(this, "hasParent");
         HAS_CHILD = new RelationName(this, "hasChild");

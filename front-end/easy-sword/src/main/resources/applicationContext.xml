@@ -88,15 +88,16 @@
 
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
 		<constructor-arg value="SWORD_INGEST" />
+		<constructor-arg value="${pid.service.base.url}" />
+		<constructor-arg ref="httpClientFacade" />
 	</bean>
+	<bean name="httpClientFacade" class="nl.knaw.dans.easy.util.ApacheHttpClientFacade"/>
 
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices"
 		destroy-method="close">
-		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
 		<property name="mailOffice" ref="mailOffice" />
 		<property name="adminMailer" ref="adminMailer" />
 	</bean>
-	<import resource="pid-context.xml" />
 	<import resource="mail-context.xml" />
 
 	<bean name="security" class="nl.knaw.dans.easy.security.Security">

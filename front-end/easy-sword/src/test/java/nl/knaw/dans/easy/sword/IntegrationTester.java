@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.apache.commons.httpclient.HttpStatus;
