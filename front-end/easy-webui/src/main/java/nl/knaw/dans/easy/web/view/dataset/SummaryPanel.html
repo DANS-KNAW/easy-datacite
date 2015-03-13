@@ -6,16 +6,19 @@
 <head></head>
 <body>
 <wicket:panel>
-    <div class="row overview">
+    <div class="row">
         <div class="col-lg-7">
+            <div wicket:id="bibliography" class="well">[bibliography]</div>
             <div wicket:id="title" class="h1"></div>
-            <p>
-                <span wicket:id="dateCreated"></span>
-                <span wicket:id="creator"></span>
-                <a href="#" wicket:id="pidLink">
-                    <span wicket:id="pid">[pid]</span>
-                </a>
-            </p>
+            <div class="overview">
+                <p>
+                    <span wicket:id="dateCreated"></span>
+                    <span wicket:id="creator"></span>
+                    <a href="#" wicket:id="pidLink">
+                        <span wicket:id="pid">[pid]</span>
+                    </a>
+                </p>
+            </div>
             <div wicket:id="descriptions">
                 <p wicket:id="description">[description]</p>
             </div>
