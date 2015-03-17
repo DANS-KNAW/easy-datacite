@@ -132,7 +132,7 @@ public class XMLTransformer implements ErrorListener {
         this(url, TF_XALAN);
     }
 
-    public XMLTransformer(URL url, String transformerFactoryName) throws TransformerException {
+    public XMLTransformer(URL url, String transformerFactoryName) {
         if (transformerFactoryName == null) {
             transformerFactoryName = TF_XALAN;
             logger.warn("Parameter 'transformerFactoryName' is null. Using default TransformerFactory.");

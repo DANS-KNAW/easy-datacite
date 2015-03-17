@@ -28,6 +28,7 @@
 		<module>lib/easy-fedora</module>
 		<module>lib/easy-ldap</module>
 		<module>lib/easy-prototype</module>
+        <module>lib/easy-datacite</module>
 		<module>lib/emd</module>
 		<module>lib/pakbon</module>
 		<module>lib/xml</module>
