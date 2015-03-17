@@ -14,8 +14,7 @@
 			<properties>
 				<id>upload</id>
 				<labelResourceKey>label.upload</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.upload.dataset
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.upload.dataset</shortHelpResourceKey>
 				<helpItem>Upload</helpItem>
 			</properties>
 			<modelClass>EasyMetadata</modelClass>
@@ -37,8 +36,7 @@
 			<properties>
 				<id>dc.contributor</id>
 				<labelResourceKey>label.dc.contributor</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dc.contributor
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.contributor</shortHelpResourceKey>
 				<helpItem>Contributor</helpItem>
 				<property>
 					<name>hideWhenEmpty</name>
@@ -76,8 +74,7 @@
 			<properties>
 				<id>dc.date.available</id>
 				<labelResourceKey>label.dc.date.available</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dc.date.available
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.date.available</shortHelpResourceKey>
 				<helpItem>DateAvailable</helpItem>
 			</properties>
 			<modelClass>AvailableDateWrapper</modelClass>
@@ -98,8 +95,7 @@
 			<properties>
 				<id>dc.description</id>
 				<labelResourceKey>label.dc.description</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dc.description
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.description</shortHelpResourceKey>
 				<helpItem>Description</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -155,8 +151,7 @@
 			<properties>
 				<id>dc.language.iso639</id>
 				<labelResourceKey>label.dc.language.iso639</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dc.language.iso639
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.language.iso639</shortHelpResourceKey>
 				<helpItem>LanguageIso639</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -234,8 +229,7 @@
 			<properties>
 				<id>dcterms.audience</id>
 				<labelResourceKey>label.dcterms.audience</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dcterms.audience
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.audience</shortHelpResourceKey>
 				<helpItem>Audience</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -256,8 +250,7 @@
 			<properties>
 				<id>dcterms.accessrights</id>
 				<labelResourceKey>label.dcterms.accessrights</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dcterms.accessrights
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.accessrights</shortHelpResourceKey>
 				<helpItem>AccessRights</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -279,8 +272,7 @@
 			<properties>
 				<id>dcterms.created</id>
 				<labelResourceKey>label.dcterms.created</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dcterms.created
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.created</shortHelpResourceKey>
 				<helpItem>DateCreatedFreeForm</helpItem>
 			</properties>
 			<modelClass>SingleBasicDateWrapper</modelClass>
@@ -314,8 +306,7 @@
 			<properties>
 				<id>dcterms.spatial</id>
 				<labelResourceKey>label.dcterms.spatial</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dcterms.spatial
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.spatial</shortHelpResourceKey>
 				<helpItem>Spatial</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -329,8 +320,7 @@
 			<properties>
 				<id>dcterms.temporal</id>
 				<labelResourceKey>label.dcterms.temporal</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dcterms.temporal
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.temporal</shortHelpResourceKey>
 				<helpItem>Temporal</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -382,8 +372,7 @@
 			<properties>
 				<id>eas.contributor</id>
 				<labelResourceKey>label.eas.contributor</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.eas.contributor
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.contributor</shortHelpResourceKey>
 				<helpItem>EasContributor</helpItem>
 			</properties>
 			<modelClass>AuthorListWrapper</modelClass>
@@ -563,8 +552,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.1</id>
-						<labelResourceKey>discipline.history.page.1.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.1.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -580,8 +568,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.2</id>
-						<labelResourceKey>discipline.history.page.2.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.2.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -591,8 +578,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.3</id>
-						<labelResourceKey>discipline.history.page.3.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.3.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -608,8 +594,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.4</id>
-						<labelResourceKey>discipline.history.page.4.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.4.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -622,8 +607,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.5</id>
-						<labelResourceKey>discipline.history.page.5.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.5.title</labelResourceKey>
 					</properties>
 					<editable>false</editable>
 					<cssContainerClassName>depositForm</cssContainerClassName>
@@ -643,8 +627,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page</id>
-						<labelResourceKey>discipline.history.page.archivist.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.history.page.archivist.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>

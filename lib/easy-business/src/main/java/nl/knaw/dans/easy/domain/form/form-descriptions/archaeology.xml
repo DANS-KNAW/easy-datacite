@@ -48,8 +48,7 @@
 			<properties>
 				<id>upload</id>
 				<labelResourceKey>label.upload</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.upload.dataset
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.upload.dataset</shortHelpResourceKey>
 				<helpItem>Upload</helpItem>
 			</properties>
 			<modelClass>EasyMetadata</modelClass>
@@ -92,8 +91,7 @@
 			<properties>
 				<id>dc.contributor</id>
 				<labelResourceKey>label.dc.contributor</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.dc.contributor
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.contributor</shortHelpResourceKey>
 				<helpItem>Contributor</helpItem>
 				<property>
 					<name>hideWhenEmpty</name>
@@ -522,8 +520,7 @@
 			<properties>
 				<id>eas.contributor</id>
 				<labelResourceKey>label.eas.contributor</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.eas.contributor
-				</shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.contributor</shortHelpResourceKey>
 				<helpItem>EasContributor</helpItem>
 			</properties>
 			<modelClass>AuthorListWrapper</modelClass>
@@ -636,8 +633,7 @@
 			<modelClass>PointListWrapper</modelClass>
 			<panelClass>PointPanel</panelClass>
 			<repeating>true</repeating>
-			<validatorClassName>nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator
-			</validatorClassName>
+			<validatorClassName>nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator</validatorClassName>
 			<choiceListDefinition>
 				<properties>
 					<id>archaeology.eas.spatial</id>
@@ -812,8 +808,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.1</id>
-						<labelResourceKey>discipline.archaeology.page.1.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.1.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -824,8 +819,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.2</id>
-						<labelResourceKey>discipline.archaeology.page.2.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.2.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -843,8 +837,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.3</id>
-						<labelResourceKey>discipline.archaeology.page.3.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.3.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -859,8 +852,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.4</id>
-						<labelResourceKey>discipline.archaeology.page.4.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.4.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -874,8 +866,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.5</id>
-						<labelResourceKey>discipline.archaeology.page.5.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.5.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -885,8 +876,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.6</id>
-						<labelResourceKey>discipline.archaeology.page.6.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.6.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -898,8 +888,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.7</id>
-						<labelResourceKey>discipline.archaeology.page.7.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.7.title</labelResourceKey>
 					</properties>
 					<editable>false</editable>
 					<cssContainerClassName>depositForm</cssContainerClassName>
@@ -919,8 +908,7 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form-page</id>
-						<labelResourceKey>discipline.archaeology.page.archivist.title
-						</labelResourceKey>
+						<labelResourceKey>discipline.archaeology.page.archivist.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
