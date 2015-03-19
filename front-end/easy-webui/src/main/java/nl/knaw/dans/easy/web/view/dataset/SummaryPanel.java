@@ -35,9 +35,6 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
     public static final String DATE_CREATED = "dateCreated";
 
     /** Wicket id. */
-    public static final String TITLE = "title";
-
-    /** Wicket id. */
     public static final String PID_LABEL = "pid";
 
     /** Wicket id. */
@@ -74,7 +71,6 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
         add(new Label(CREATOR, getCreators()));
         add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
-        add(new Label(TITLE, getTitles()));
         add(createListView(DESCRIPTIONS, getDescriptions()));
         if (!isBlank(doi)) {
             add(finishLink(PID_LABEL, doi, createDoiLink(PID_LINK, doi)));
@@ -151,10 +147,6 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
     private String getDateCreated() {
         return emd.toString(SEPARATOR_FOR_DATES, Term.Name.CREATED);
-    }
-
-    private String getTitles() {
-        return emd.toString(SEPARATOR, Term.Name.TITLE);
     }
 
     private List<BasicString> getDescriptions() {
