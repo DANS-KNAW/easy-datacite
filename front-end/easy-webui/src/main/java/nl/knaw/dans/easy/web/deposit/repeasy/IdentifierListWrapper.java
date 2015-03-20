@@ -1,14 +1,20 @@
 package nl.knaw.dans.easy.web.deposit.repeasy;
 
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_AIP_ID;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_DMO_ID;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_DOI;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_PID;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
-import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
@@ -16,7 +22,12 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
 
     private static final long serialVersionUID = -8745696945204069167L;
 
-    private static List<String> SCHEMENAME_FILTER_LIST;
+    private static List<String> NON_EDITABLE = Arrays.asList(new String[] {SCHEME_PID, SCHEME_DOI, SCHEME_DMO_ID, SCHEME_AIP_ID, SCHEME_ARCHIS_ONDERZOEK_M_NR});
+    private static List<String> IMMUTABLE = Arrays.asList(new String[] {SCHEME_DMO_ID, SCHEME_ARCHIS_ONDERZOEK_M_NR});
+    private static List<String> PERSISTENT = Arrays.asList(new String[] {SCHEME_PID, SCHEME_DOI});
+
+    private boolean showOnlyPeristent = false;
+    private boolean showNoPeristent = false;
 
     public IdentifierListWrapper(List<BasicIdentifier> wrappedList) {
         super(wrappedList);
@@ -26,8 +37,7 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
     public List<IdentifierModel> getInitialEditableItems() {
         List<IdentifierModel> listItems = new ArrayList<IdentifierModel>();
         for (BasicIdentifier basicIdentifier : getWrappedList()) {
-            boolean editable = !getNonEditableShemes().contains(basicIdentifier.getScheme());
-            if (basicIdentifier.getValue() != null && editable) {
+            if (basicIdentifier.getValue() != null && isEditable(basicIdentifier.getScheme())) {
                 listItems.add(new IdentifierModel(basicIdentifier));
             }
         }
@@ -36,33 +46,18 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
 
     private void removeAllEditableItems() {
         List<BasicIdentifier> editableList = new ArrayList<BasicIdentifier>();
-        for (BasicIdentifier bi : getWrappedList()) {
-            boolean editable = !getNonEditableShemes().contains(bi.getScheme());
-            {
-                if (editable) {
-                    editableList.add(bi);
-                }
+        for (BasicIdentifier basicIdentifier : getWrappedList()) {
+            if (isEditable(basicIdentifier.getScheme())) {
+                editableList.add(basicIdentifier);
             }
         }
         getWrappedList().removeAll(editableList);
     }
 
-    private List<String> getNonEditableShemes() {
-        if (SCHEMENAME_FILTER_LIST == null) {
-            SCHEMENAME_FILTER_LIST = new ArrayList<String>();
-            SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_PID);
-            SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_AIP_ID);
-            SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
-            SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_DMO_ID);
-
-        }
-        return SCHEMENAME_FILTER_LIST;
-    }
-
     public List<IdentifierModel> getInitialItems() {
         List<IdentifierModel> listItems = new ArrayList<IdentifierModel>();
         for (BasicIdentifier basicIdentifier : getWrappedList()) {
-            if (basicIdentifier.getValue() != null) {
+            if (basicIdentifier.getValue() != null && isWanted(basicIdentifier.getScheme())) {
                 listItems.add(new IdentifierModel(basicIdentifier));
             }
         }
@@ -87,8 +82,28 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
     }
 
     @Override
-    public ChoiceRenderer getChoiceRenderer() {
+    public ChoiceRenderer<KeyValuePair> getChoiceRenderer() {
         return new KvpChoiceRenderer();
+    }
+
+    private boolean isEditable(String scheme) {
+        return !NON_EDITABLE.contains(scheme);
+    }
+
+    private boolean isWanted(String scheme) {
+        if (showOnlyPeristent)
+            return PERSISTENT.contains(scheme);
+        if (showNoPeristent)
+            return !PERSISTENT.contains(scheme);
+        return true;
+    }
+
+    public void showNoPeristent(boolean showNoPeristent) {
+        this.showNoPeristent = showNoPeristent;
+    }
+
+    public void showOnlyPeristent(boolean showOnlyPeristent) {
+        this.showOnlyPeristent = showOnlyPeristent;
     }
 
     public static class IdentifierModel implements Serializable {
@@ -111,10 +126,7 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
 
         public void setScheme(KeyValuePair schemeKVP) {
             String scheme = schemeKVP == null ? null : schemeKVP.getKey();
-            boolean immutable = EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR.equals(basicIdentifier.getScheme());
-            immutable |= EmdConstants.SCHEME_DMO_ID.equals(basicIdentifier.getScheme());
-
-            if (!immutable) {
+            if (!IMMUTABLE.contains(basicIdentifier.getScheme())) {
                 basicIdentifier.setScheme(scheme);
             }
         }

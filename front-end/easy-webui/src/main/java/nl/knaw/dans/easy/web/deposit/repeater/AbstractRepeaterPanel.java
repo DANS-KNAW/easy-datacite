@@ -289,7 +289,17 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         }
         super.init(); // skeletonPanel
 
-        final WebMarkupContainer listViewContainer = new WebMarkupContainer("listViewContainer") {
+        final WebMarkupContainer listViewContainer = createListViewContainer();
+
+        @SuppressWarnings("unchecked")
+        final ListView listView = createListView(listViewContainer);
+        listViewContainer.add(listView);
+        add(listViewContainer.setOutputMarkupId(true));
+
+    }
+
+    private WebMarkupContainer createListViewContainer() {
+        return new WebMarkupContainer("listViewContainer") {
             private static final long serialVersionUID = -3643269307322617461L;
 
             @Override
@@ -299,9 +309,10 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
                 super.onAfterRender();
             }
         };
+    }
 
-        @SuppressWarnings("unchecked")
-        final ListView listView = new ListView("listView", listItems) {
+    private ListView<T> createListView(final WebMarkupContainer listViewContainer) {
+        return new ListView<T>("listView", listItems) {
 
             private static final long serialVersionUID = -1211775601610374234L;
 
@@ -320,35 +331,12 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
                 final WebMarkupContainer buttonsHolder = new WebMarkupContainer("buttonsHolder");
                 if (isInEditMode()) {
                     // create and add the minus link.
-                    AjaxSubmitLink minusLink = new AjaxSubmitLink("minusLink") {
-
-                        private static final long serialVersionUID = -1068301614895419955L;
-
-                        @Override
-                        protected void onSubmit(final AjaxRequestTarget target, final Form form) {
-                            logger.debug("onSubmit minusLink. removedItemIndex=" + item.getIndex());
-                            handleMinusButtonClicked(item, target, form);
-                            target.addComponent(listViewContainer);
-                        }
-
-                    };
+                    AjaxSubmitLink minusLink = createMinusLink(listViewContainer, item);
                     minusLink.setVisible(isRepeating() && listItems.size() != 1);
                     buttonsHolder.add(minusLink);
 
                     // create and add the plus link.
-                    AjaxSubmitLink plusLink = new AjaxSubmitLink("plusLink") {
-
-                        private static final long serialVersionUID = -1068301614895419955L;
-
-                        @Override
-                        protected void onSubmit(final AjaxRequestTarget target, final Form form) {
-                            logger.debug("onSubmit plusLink");
-                            handlePlusButtonClicked(target, form);
-                            logger.debug("addComponent");
-                            target.addComponent(listViewContainer);
-                        }
-
-                    };
+                    AjaxSubmitLink plusLink = createPlusLink(listViewContainer);
                     plusLink.setVisible(isRepeating() && item.getIndex() == listItems.size() - 1);
                     buttonsHolder.add(plusLink);
                 } else {
@@ -358,11 +346,36 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 
                 item.add(buttonsHolder);
             }
-
         };
-        listViewContainer.add(listView);
-        add(listViewContainer.setOutputMarkupId(true));
+    }
 
+    private AjaxSubmitLink createPlusLink(final WebMarkupContainer listViewContainer) {
+        return new AjaxSubmitLink("plusLink") {
+
+            private static final long serialVersionUID = -1068301614895419955L;
+
+            @Override
+            protected void onSubmit(final AjaxRequestTarget target, final Form form) {
+                logger.debug("onSubmit plusLink");
+                handlePlusButtonClicked(target, form);
+                logger.debug("addComponent");
+                target.addComponent(listViewContainer);
+            }
+        };
+    }
+
+    private AjaxSubmitLink createMinusLink(final WebMarkupContainer listViewContainer, final ListItem item) {
+        return new AjaxSubmitLink("minusLink") {
+
+            private static final long serialVersionUID = -1068301614895419955L;
+
+            @Override
+            protected void onSubmit(final AjaxRequestTarget target, final Form form) {
+                logger.debug("onSubmit minusLink. removedItemIndex=" + item.getIndex());
+                handleMinusButtonClicked(item, target, form);
+                target.addComponent(listViewContainer);
+            }
+        };
     }
 
     private void clearItemMessages() {

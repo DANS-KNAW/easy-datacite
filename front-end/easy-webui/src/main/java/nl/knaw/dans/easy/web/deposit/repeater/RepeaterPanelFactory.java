@@ -12,6 +12,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.form.ChoiceListDefinition;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
+import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.wicket.IModelFactory;
 import nl.knaw.dans.easy.web.wicket.IPanelFactory;
 import nl.knaw.dans.easy.web.wicket.PanelFactoryException;
@@ -194,19 +195,21 @@ public class RepeaterPanelFactory implements IPanelFactory {
         return boxPanel;
     }
 
-    public Panel createIdentifierPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException {
-        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
-        IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, choiceList);
-        identifierPanel.setPanelDefinition(spDef);
-        return identifierPanel;
+    public Panel createIdentifierPanel(StandardPanelDefinition spDef, IModel<IdentifierListWrapper> model) throws ServiceException {
+        String choiceDefID = spDef.getChoiceListDefinitions().get(0).getId();
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDefID, getLocale());
+        return createIdentifierPanel(spDef, model, choiceList);
     }
 
-    public Panel createSimpleIdentifierPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException {
-        List<KeyValuePair> kvpList = new ArrayList<KeyValuePair>();
-        IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, new ChoiceList(kvpList));
+    public Panel createSimpleIdentifierPanel(StandardPanelDefinition spDef, IModel<IdentifierListWrapper> model) throws ServiceException {
+        ChoiceList choiceList = new ChoiceList(new ArrayList<KeyValuePair>());
+        return createIdentifierPanel(spDef, model, choiceList);
+    }
+
+    private Panel createIdentifierPanel(StandardPanelDefinition spDef, IModel<IdentifierListWrapper> model, ChoiceList choiceList) {
+        model.getObject().showNoPeristent(true);
+        IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, choiceList);
         identifierPanel.setPanelDefinition(spDef);
-        identifierPanel.setDropdownVisible(false);
         return identifierPanel;
     }
 

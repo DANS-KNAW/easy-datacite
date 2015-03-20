@@ -10,7 +10,6 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -29,7 +28,7 @@ public class PersistentIdentifierPanel extends AbstractCustomPanel {
     protected Panel getCustomComponentPanel() {
         EmdIdentifier emdID = ((EasyMetadata) getModelObject()).getEmdIdentifier();
         String doi = emdID.getDansManagedDoi();
-        String urn = isBlank(doi) ? emdID.getPersistentIdentifier() : null;
+        String urn = emdID.getPersistentIdentifier();
         CustomPanel panel = new CustomPanel(CUSTOM_PANEL_ID);
         panel.add(createLink("urn", EmdConstants.BRI_RESOLVER + "?identifier=", urn));
         panel.add(createLink("doi", EmdConstants.DOI_RESOLVER + "/", doi));

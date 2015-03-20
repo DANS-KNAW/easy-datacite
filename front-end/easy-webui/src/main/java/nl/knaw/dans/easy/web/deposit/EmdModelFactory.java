@@ -34,6 +34,7 @@ import nl.knaw.dans.easy.web.wicket.IModelFactory;
 import nl.knaw.dans.easy.web.wicket.ModelFactoryException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.injection.web.InjectorHolder;
@@ -122,9 +123,8 @@ public class EmdModelFactory implements IModelFactory {
         return msg;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createEasyMetadataModel(StandardPanelDefinition definition) {
-        return new Model(getDataset().getEasyMetadata());
+    public IModel<EasyMetadata> createEasyMetadataModel(StandardPanelDefinition definition) {
+        return new Model<EasyMetadata>(getDataset().getEasyMetadata());
     }
 
     protected EasyMetadata getEasyMetadata() {
@@ -141,107 +141,104 @@ public class EmdModelFactory implements IModelFactory {
         return new Model<CMDIFormatChoiceWrapper>(cmdi);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked"})
     public IModel<AuthorListWrapper> createAuthorListWrapperModel(StandardPanelDefinition definition) {
         AuthorListWrapper alw = new AuthorListWrapper(getEasyMetadataList(definition));
-        return new Model(alw);
+        return new Model<AuthorListWrapper>(alw);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createIsoDateListWrapperModel(StandardPanelDefinition definition) {
+    public IModel<IsoDateListWrapper> createIsoDateListWrapperModel(StandardPanelDefinition definition) {
         IsoDateListWrapper dlw = new IsoDateListWrapper(getEasyMetadata().getEmdDate());
-        return new Model(dlw);
+        return new Model<IsoDateListWrapper>(dlw);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createBasicDateListWrapperModel(StandardPanelDefinition definition) {
+    public IModel<BasicDateListWrapper> createBasicDateListWrapperModel(StandardPanelDefinition definition) {
         BasicDateListWrapper bdlw = new BasicDateListWrapper(getEasyMetadata().getEmdDate());
-        return new Model(bdlw);
+        return new Model<BasicDateListWrapper>(bdlw);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createSingleISODateWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new SingleISODateWrapper(getEasyMetadataList(definition)));
+    @SuppressWarnings({"unchecked"})
+    public IModel<SingleISODateWrapper> createSingleISODateWrapperModel(StandardPanelDefinition definition) {
+        return new Model<SingleISODateWrapper>(new SingleISODateWrapper(getEasyMetadataList(definition)));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createAvailableDateWrapperModel(StandardPanelDefinition definition) {
+    @SuppressWarnings({"unchecked"})
+    public IModel<? extends SingleISODateWrapper> createAvailableDateWrapperModel(StandardPanelDefinition definition) {
         final DatasetState state = getDataset().getAdministrativeState();
         if (state != null && !state.equals(DatasetState.DRAFT))
-            return new Model(new SingleISODateWrapper(getEasyMetadataList(definition)));
+            return new Model<SingleISODateWrapper>(new SingleISODateWrapper(getEasyMetadataList(definition)));
         else {
             final DateTime min = new DateTime(new DateTime().toString(LimitedDateWrapper.DateModel.DATE_FORMAT));
             final DateTime max = min.plusYears(2);
-            return new Model(new LimitedDateWrapper(getEasyMetadataList(definition), min, max));
+            return new Model<LimitedDateWrapper>(new LimitedDateWrapper(getEasyMetadataList(definition), min, max));
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public IModel createSingleBasicDateWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new SingleBasicDateWrapper(getEasyMetadataList(definition)));
+    @SuppressWarnings({"unchecked"})
+    public IModel<SingleBasicDateWrapper> createSingleBasicDateWrapperModel(StandardPanelDefinition definition) {
+        return new Model<SingleBasicDateWrapper>(new SingleBasicDateWrapper(getEasyMetadataList(definition)));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createBasicStringListWrapperModel(StandardPanelDefinition definition) {
+    @SuppressWarnings({"unchecked"})
+    public IModel<BasicStringListWrapper> createBasicStringListWrapperModel(StandardPanelDefinition definition) {
         String schemeName = null;
         String schemeId = null;
         if (definition.hasChoicelistDefinition()) {
             schemeName = definition.getChoiceListDefinitions().get(0).getSchemeName();
             schemeId = definition.getChoiceListDefinitions().get(0).getId();
         }
-        return new Model(new BasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
+        return new Model<BasicStringListWrapper>(new BasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createBasicRemarkListWrapperModel(StandardPanelDefinition definition) {
+    @SuppressWarnings({"unchecked"})
+    public IModel<BasicRemarkListWrapper> createBasicRemarkListWrapperModel(StandardPanelDefinition definition) {
         String schemeName = null;
         String schemeId = null;
         if (definition.hasChoicelistDefinition()) {
             schemeName = definition.getChoiceListDefinitions().get(0).getSchemeName();
             schemeId = definition.getChoiceListDefinitions().get(0).getId();
         }
-        return new Model(new BasicRemarkListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
+        return new Model<BasicRemarkListWrapper>(new BasicRemarkListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createSchemedBasicStringListWrapperModel(StandardPanelDefinition definition) {
+    @SuppressWarnings({"unchecked"})
+    public IModel<SchemedBasicStringListWrapper> createSchemedBasicStringListWrapperModel(StandardPanelDefinition definition) {
         String schemeName = null;
         String schemeId = null;
         if (definition.hasChoicelistDefinition()) {
             schemeName = definition.getChoiceListDefinitions().get(0).getSchemeName();
             schemeId = definition.getChoiceListDefinitions().get(0).getId();
         }
-        return new Model(new SchemedBasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
+        return new Model<SchemedBasicStringListWrapper>(new SchemedBasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createPointListWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new PointListWrapper(getEasyMetadataList(definition)));
+    @SuppressWarnings({"unchecked"})
+    public IModel<PointListWrapper> createPointListWrapperModel(StandardPanelDefinition definition) {
+        return new Model<PointListWrapper>(new PointListWrapper(getEasyMetadataList(definition)));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createBoxListWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new BoxListWrapper(getEasyMetadataList(definition)));
+    @SuppressWarnings({"unchecked"})
+    public IModel<BoxListWrapper> createBoxListWrapperModel(StandardPanelDefinition definition) {
+        return new Model<BoxListWrapper>(new BoxListWrapper(getEasyMetadataList(definition)));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createIdentifierListWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new IdentifierListWrapper(getEasyMetadataList(definition)));
+    @SuppressWarnings("unchecked")
+    public IModel<IdentifierListWrapper> createIdentifierListWrapperModel(StandardPanelDefinition definition) {
+        return new Model<IdentifierListWrapper>(new IdentifierListWrapper(getEasyMetadataList(definition)));
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public IModel createRelationListWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new RelationListWrapper(getEasyMetadata().getEmdRelation()));
+    public IModel<RelationListWrapper> createRelationListWrapperModel(StandardPanelDefinition definition) {
+        return new Model<RelationListWrapper>(new RelationListWrapper(getEasyMetadata().getEmdRelation()));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public IModel createLicenseWrapperModel(StandardPanelDefinition definition) {
-        return new Model(new LicenseWrapper(getEasyMetadata().getEmdRights(), getEasyMetadataList(definition)));
+    @SuppressWarnings({"unchecked"})
+    public IModel<LicenseWrapper> createLicenseWrapperModel(StandardPanelDefinition definition) {
+        return new Model<LicenseWrapper>(new LicenseWrapper(getEasyMetadata().getEmdRights(), getEasyMetadataList(definition)));
     }
 
     @SuppressWarnings({"rawtypes"})
     private List getEasyMetadataList(StandardPanelDefinition definition) {
-        List easyMetadataList = null;
+        List<MetadataItem> easyMetadataList = null;
         TermPanelDefinition tpDef = (TermPanelDefinition) definition;
         try {
             Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());

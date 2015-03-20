@@ -1,5 +1,12 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_AIP_ID;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_DMO_ID;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_DOI;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_OAI_ITEM_ID;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_PID;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +17,8 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
-import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper.IdentifierModel;
-import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -22,14 +27,14 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IdentifierPanel extends AbstractChoicePanel {
 
     private static final long serialVersionUID = -822413494904086019L;
+    private static final Logger logger = LoggerFactory.getLogger(IdentifierPanel.class);
 
-    private boolean dropdownVisible = true;
-
-    // part of quick fix
     private static Map<String, String> SCHEMENAME_MAP;
 
     /**
@@ -42,12 +47,8 @@ public class IdentifierPanel extends AbstractChoicePanel {
      * @param choices
      *        a list of choices
      */
-    public IdentifierPanel(final String wicketId, final IModel model, final ChoiceList choiceList) {
+    public IdentifierPanel(final String wicketId, final IModel<IdentifierListWrapper> model, final ChoiceList choiceList) {
         super(wicketId, model, choiceList);
-    }
-
-    public void setDropdownVisible(boolean dropdownVisible) {
-        this.dropdownVisible = dropdownVisible;
     }
 
     @Override
@@ -63,22 +64,19 @@ public class IdentifierPanel extends AbstractChoicePanel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        private final BasicIdentifier identifier;
-
         RepeatingEditModePanel(final ListItem<IdentifierModel> item) {
             super(REPEATING_PANEL_ID);
-            identifier = item.getModelObject().getBasicIdentifier();
 
             List<KeyValuePair> choices = getChoices();
 
-            final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(), "scheme"), choices,
-                    getRenderer());
+            PropertyModel<KeyValuePair> dropDownPM = new PropertyModel<KeyValuePair>(item.getDefaultModelObject(), "scheme");
+            PropertyModel<String> valuePM = new PropertyModel<String>(item.getDefaultModelObject(), "value");
 
-            schemeChoice.setVisible(dropdownVisible);
+            final DropDownChoice<KeyValuePair> schemeChoice = new DropDownChoice<KeyValuePair>("schemeChoice", dropDownPM, choices, getRenderer());
+            schemeChoice.setVisible(choices.size() > 0);
             schemeChoice.setNullValid(isNullValid());
-            final TextField valueField = new TextField("valueField", new PropertyModel(item.getDefaultModelObject(), "value"));
             add(schemeChoice);
-            add(valueField);
+            add(new TextField<String>("valueField", valuePM));
         }
 
     }
@@ -87,55 +85,40 @@ public class IdentifierPanel extends AbstractChoicePanel {
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem item) {
+        RepeatingViewModePanel(final ListItem<IdentifierModel> item) {
             super(REPEATING_PANEL_ID);
-            // quick fix!!
-            IdentifierListWrapper.IdentifierModel im = (IdentifierModel) item.getDefaultModelObject();
-            String scheme = im.getBasicIdentifier().getScheme();
-            String schemeName = null;
-            if (scheme != null) {
-                schemeName = lookup(scheme);
-            }
-            Label schemeLabel = new Label("schemeName", schemeName);
-            add(schemeLabel);
-            // end quick fix
-            PropertyModel pm = new PropertyModel(item.getDefaultModel(), "value");
-            Label label = new Label("noneditable", pm);
-            add(label);
+            IdentifierModel im = (IdentifierModel) item.getDefaultModelObject();
+            PropertyModel<IdentifierModel> pm = new PropertyModel<IdentifierModel>(item.getDefaultModel(), "value");
+            add(new Label("schemeName", lookup(im.getBasicIdentifier().getScheme())));
+            add(new Label("noneditable", pm));
         }
 
     }
 
-    // part of quick fix: identifiers not editable or not editable on this panel
     private static String lookup(String scheme) {
         if (SCHEMENAME_MAP == null) {
             SCHEMENAME_MAP = new HashMap<String, String>();
-            SCHEMENAME_MAP.put("PID", "Persistent identifier: ");
-            SCHEMENAME_MAP.put("DMO_ID", "Fedora Identifier: ");
-            SCHEMENAME_MAP.put("OAI_ITEM_ID", "OAI item id: ");
-            SCHEMENAME_MAP.put("AIP_ID", "AipId: ");
-            SCHEMENAME_MAP.put("Archis_onderzoek_m_nr", "Archis onderzoeksmeldingsnr.");
+            SCHEMENAME_MAP.put(null, null);
+            SCHEMENAME_MAP.put(SCHEME_PID, "Persistent identifier: ");
+            SCHEMENAME_MAP.put(SCHEME_DOI, "DOI: ");
+            SCHEMENAME_MAP.put(SCHEME_DMO_ID, "Fedora Identifier: ");
+            SCHEMENAME_MAP.put(SCHEME_AIP_ID, "AipId: ");
+            SCHEMENAME_MAP.put(SCHEME_ARCHIS_ONDERZOEK_M_NR, "Archis onderzoeksmeldingsnr.");
+            SCHEMENAME_MAP.put(SCHEME_OAI_ITEM_ID, "OAI item id: ");
             try {
                 ChoiceList cl = ChoiceListGetter.getInstance().getChoiceList("archaeology.dc.identifier", null);
                 for (KeyValuePair kvp : cl.getChoices()) {
                     SCHEMENAME_MAP.put(kvp.getKey(), kvp.getValue() + ": ");
                 }
             }
-            catch (ObjectNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             catch (CacheException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("could not load choice list. " + e.getMessage(), e);
             }
             catch (ResourceNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("could not load choice list. " + e.getMessage(), e);
             }
             catch (DomainException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("could not load choice list. " + e.getMessage(), e);
             }
         }
         return SCHEMENAME_MAP.get(scheme);

@@ -4,7 +4,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
-public class KvpChoiceRenderer extends ChoiceRenderer {
+public class KvpChoiceRenderer extends ChoiceRenderer<KeyValuePair> {
     private static final String IDENT_STRING = "---";
     private static final long serialVersionUID = -1055346602839443523L;
 
@@ -13,7 +13,7 @@ public class KvpChoiceRenderer extends ChoiceRenderer {
     }
 
     @Override
-    public Object getDisplayValue(Object object) {
+    public String getDisplayValue(KeyValuePair object) {
         String result = (String) super.getDisplayValue(object);
 
         KeyValuePair kvp = (KeyValuePair) object;

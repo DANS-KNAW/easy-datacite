@@ -128,8 +128,8 @@ public class DetailsTabTest {
         // annotation springbean injection did not work in RelationViewPanel$CustomPanel
         new Services().setDepositService(applicationContext.getDepositService());
 
-        mockDOI();
         loadEmd("60916");
+        mockDOI();
         startDetailsTab().dumpPage();
     }
 
