@@ -6,6 +6,7 @@
 .DS_Store
 /target/
 .cache/
+/.tmpBin/
 /.cache
 /.worksheet/
 *.sc

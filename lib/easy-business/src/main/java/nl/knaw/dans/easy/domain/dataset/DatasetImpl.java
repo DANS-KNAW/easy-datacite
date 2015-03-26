@@ -572,6 +572,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     @Override
     public String getEncodedPersistentIdentifier() {
+        if (getPid() == null)
+            return null;
         try {
             return URLEncoder.encode(getPid(), "UTF-8");
         }
@@ -592,6 +594,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     @Override
     public String getEncodedDansManagedDoi() {
+        if (getDansManagedDoi() == null)
+            return null;
         try {
             return URLEncoder.encode(getDansManagedDoi(), "UTF-8");
         }

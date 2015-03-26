@@ -267,7 +267,6 @@
 		destroy-method="close">
 		<property name="mailOffice" ref="mailOffice" />
 		<property name="adminMailer" ref="adminMailer" />
-		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
 	</bean>
 
 	<bean name="mailOffice" class="nl.knaw.dans.easy.mail.EasyMailerImpl">
@@ -293,18 +292,6 @@
 		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}" />
 		<property name="exeptionMailInterval" value="15" />
 		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
-	</bean>
-
-	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator"
-		destroy-method="close">
-		<constructor-arg ref="pidConnectionConfiguration" />
-	</bean>
-
-	<bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
-		<property name="username" value="${pid.generator.username}" />
-		<property name="password" value="${pid.generator.password}" />
-		<property name="connectionUrl" value="${pid.generator.connectionUrl}" />
-		<property name="driverClass" value="${pid.generator.driver}" />
 	</bean>
 
 	<!-- ============== -->
