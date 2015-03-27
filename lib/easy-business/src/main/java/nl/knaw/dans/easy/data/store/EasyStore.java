@@ -45,7 +45,7 @@ public interface EasyStore extends DmoStore {
 
     URL getFileURL(DmoStoreId dmoStoreId);
 
-    URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId);
+    URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId) throws RepositoryException;
 
     URL getStreamURL(DmoStoreId dmoStoreId, String streamId);
 

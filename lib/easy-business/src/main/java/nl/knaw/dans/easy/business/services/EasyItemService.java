@@ -123,7 +123,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
 
     @Override
     public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException,
-            CommonSecurityException, ServiceException
+            CommonSecurityException, ServiceException, RepositoryException
     {
         return getItemWorkDispatcher().getDescriptiveMetadataURL(sessionUser, dataset, fileItemId);
     }

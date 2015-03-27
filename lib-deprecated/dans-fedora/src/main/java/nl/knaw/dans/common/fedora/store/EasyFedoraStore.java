@@ -14,18 +14,23 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
+import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.DatasetFactory;
 import nl.knaw.dans.easy.domain.dataset.DescriptiveMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.FileItemFactory;
+import nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.FolderItemFactory;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.download.DownloadHistoryFactory;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
+import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
+import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
@@ -75,13 +80,26 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore {
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId) {
-        final String spec = getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + DescriptiveMetadataImpl.UNIT_ID;
+    public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId) throws RepositoryException {
+
+        if (dmdStreamExists(dmoStoreId)){
+            // in the older datasets descriptive metadata of a file is stored in a separate stream
+            return getDescriptiveMetadataStreamURL(dmoStoreId, DescriptiveMetadataImpl.UNIT_ID);
+        } else {
+            return getDescriptiveMetadataStreamURL(dmoStoreId, FileItemMetadataImpl.UNIT_ID);
+        }
+    }
+
+    private boolean dmdStreamExists(DmoStoreId dmoStoreId) throws RepositoryException {
+        return !Data.getEasyStore().getUnitMetadata(dmoStoreId, new DsUnitId(DescriptiveMetadataImpl.UNIT_ID)).isEmpty();
+    }
+
+    private URL getDescriptiveMetadataStreamURL(DmoStoreId dmoStoreId, String streamUnitId) {
         try {
-            return new URL(spec);
+            return new URL(getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + streamUnitId);
         }
         catch (MalformedURLException e) {
-            throw new ApplicationException(e);
+          throw new ApplicationException(e);
         }
     }
 

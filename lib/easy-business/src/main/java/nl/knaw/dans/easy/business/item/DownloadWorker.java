@@ -35,6 +35,7 @@ import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
+import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
@@ -219,48 +220,34 @@ public class DownloadWorker {
      */
     File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException, RepositoryException {
         final File metaFile = File.createTempFile("meta", ".xml");
-        boolean hasMetaData = false;
+        boolean hasFileItems = false;
         final PrintStream metaOutputStream = new PrintStream(metaFile);
         metaOutputStream.println("<?xml version='1.0' encoding='UTF-8'?>");
         metaOutputStream.println("<metadata>");
 
         for (final ItemVO item : items) {
             if (item instanceof FileItemVO) {
-                List<UnitMetadata> umdList = Data.getEasyStore().getUnitMetadata(new DmoStoreId(item.getSid()), new DsUnitId(DescriptiveMetadata.UNIT_ID));
-                if (!umdList.isEmpty()) {
-                    hasMetaData = true;
-                    collectMetadata(metaOutputStream, item);
-                }
-
-                // NB: the left part of the expression is our primary objective, so keep it on the left!
-                // hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
+                collectMetadata(metaOutputStream, item);
+                hasFileItems = true;
             }
         }
         metaOutputStream.println("</metadata>");
         metaOutputStream.close();
-        if (hasMetaData) {
+        if (hasFileItems) {
             return metaFile;
         }
         return null;
     }
 
-    private boolean collectMetadata(final PrintStream metaOutputStream, final ItemVO item) throws IOException {
+    private void collectMetadata(final PrintStream metaOutputStream, final ItemVO item) throws IOException, RepositoryException {
         InputStream stream = null;
-        try {
-            stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
-            int b;
-            while (0 < (b = stream.read())) {
-                metaOutputStream.write(b);
-            }
+        stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
+        int b;
+        while (0 < (b = stream.read())) {
+            metaOutputStream.write(b);
         }
-        catch (final FileNotFoundException e) {
-            return false;
-        }
-        finally {
-            if (stream != null)
-                stream.close();
-        }
-        return true;
+        if (stream != null)
+            stream.close();
     }
 
     private static List<ItemVO> getRequestedItemVOs(final Collection<RequestedItem> requestedItems) throws StoreAccessException {

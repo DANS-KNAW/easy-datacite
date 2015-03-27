@@ -120,7 +120,7 @@ public class ItemWorkDispatcher {
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException {
+    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException, RepositoryException {
         URL url = Data.getEasyStore().getDescriptiveMetadataURL(fileItemId);
         return url;
     }

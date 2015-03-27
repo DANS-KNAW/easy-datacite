@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -63,7 +64,7 @@ public interface ItemService extends EasyService {
             ServiceException;
 
     URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
-            ServiceException;
+            ServiceException, RepositoryException;
 
     /**
      * Add the contents of the given directory <code>rootFile</code> as {@link FolderItem}s and {@link FileItem}s to the {@link DatasetItemContainer} with the
