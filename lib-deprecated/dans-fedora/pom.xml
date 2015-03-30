@@ -43,10 +43,6 @@
             <artifactId>easy-business</artifactId>
         </dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>jaxrpc</groupId>
 			<artifactId>jaxrpc</artifactId>
 			<version>unknown</version>

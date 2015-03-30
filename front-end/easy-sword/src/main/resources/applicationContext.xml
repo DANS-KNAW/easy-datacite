@@ -89,9 +89,7 @@
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
 		<constructor-arg value="SWORD_INGEST" />
 		<constructor-arg value="${pid.service.base.url}" />
-		<constructor-arg ref="httpClientFacade" />
 	</bean>
-	<bean name="httpClientFacade" class="nl.knaw.dans.easy.util.ApacheHttpClientFacade"/>
 
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices"
 		destroy-method="close">

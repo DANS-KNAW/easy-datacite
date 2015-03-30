@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.util.HttpClientFacade;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +31,9 @@ public class SubmissionDispatcherFactory {
      *        the URL (protocol,host,port) of the RESTfull PID service
      * @throws MalformedURLException
      */
-    public SubmissionDispatcherFactory(Style style, URL pidService, HttpClientFacade clientFacade) {
+    public SubmissionDispatcherFactory(Style style, URL pidService) {
         this.style = style;
-        this.pidClient = new PidClient(pidService, clientFacade);
+        this.pidClient = new PidClient(pidService);
         INSTANCE = this;
         logger.info(String.format("Created %s in style %s with PID service %s", this, this.style, pidService));
     }
