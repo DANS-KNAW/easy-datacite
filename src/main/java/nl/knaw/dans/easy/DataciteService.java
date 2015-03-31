@@ -18,7 +18,7 @@ public class DataciteService {
 
     private static final String CONTENT_TYPE = "application/xml;charset=UTF-8";
 
-    private static final Logger logger = LoggerFactory.getLogger(DataciteService.class);
+    private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
     private final DataciteServiceConfiguration configuration;
 
@@ -30,37 +30,46 @@ public class DataciteService {
     }
 
     public void create(EasyMetadata... emds) throws DataciteServiceException {
-        send(0, "Creating %s DOIs resulted in %s. First DOI %s", emds);
+        String result = post(resourcesBuilder.create(emds));
+        String message = createMessage(result, "Creating", emds);
+        if (getCount(0, result) == emds.length)
+            logger.info(message);
+        else {
+            logger.error(message);
+            throw new DataciteServiceException(message);
+        }
     }
 
     public void update(EasyMetadata... emds) throws DataciteServiceException {
-        send(1, "Updating %s DOIs resulted in %s. First DOI %s", emds);
-    }
-
-    private void send(int countPositionInResponse, String format, EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
-        String firstDOI = emds[0].getEmdIdentifier().getDansManagedDoi();
-        String message = String.format(format, emds.length, result, firstDOI);
-        if (getCount(countPositionInResponse, result) == emds.length)
+        String message = createMessage(result, "Updating", emds);
+        if (getCount(1, result) == emds.length)
             logger.info(message);
         else {
-            if (getCount(0, result) + getCount(1, result) == emds.length)
+            if (getCount(0, result) + getCount(1, result) == emds.length) {
                 logger.warn(message);
-            else {
+            } else {
                 logger.error(message);
                 throw new DataciteServiceException(message);
             }
         }
     }
 
+    private String createMessage(String result, String crudType, EasyMetadata... emds) {
+        String firstDOI = emds[0].getEmdIdentifier().getDansManagedDoi();
+        String format = crudType + " %s DOIs resulted in %s. First DOI %s";
+        return String.format(format, emds.length, result, firstDOI);
+    }
+
     /** @return something like "dois created: 0, dois updated: 0 (TEST OK)" */
     private String post(String content) throws DataciteServiceException {
         try {
             ClientResponse response = createWebResource().type(CONTENT_TYPE).post(ClientResponse.class, content);
+            String entity = response.getEntity(String.class);
             if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-                throw new DataciteServiceException("DOI post failed : HTTP error code : " + response.getStatus());
+                throw createPostFailedException(response.getStatus(), entity);
             }
-            return response.getEntity(String.class);
+            return entity;
         }
         catch (UniformInterfaceException e) {
             throw createPostFailedException(e);
@@ -76,8 +85,12 @@ public class DataciteService {
         return client.resource(configuration.getDoiRegistrationUri());
     }
 
-    private DataciteServiceException createPostFailedException(Exception e) {
-        return new DataciteServiceException("DOI post request failed: " + e.getMessage(), e);
+    private DataciteServiceException createPostFailedException(int status, String cause) {
+        return new DataciteServiceException("DOI post failed : HTTP error code : " + status + "\n" + cause);
+    }
+
+    private DataciteServiceException createPostFailedException(Exception cause) {
+        return new DataciteServiceException("DOI post failed: " + cause.getMessage(), cause);
     }
 
     /** @return the i-th number from something like "dois created: 0, dois updated: 0 (TEST OK)" */

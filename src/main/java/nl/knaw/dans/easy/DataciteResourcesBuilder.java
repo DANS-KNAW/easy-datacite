@@ -28,7 +28,7 @@ public class DataciteResourcesBuilder {
     private static final String EXCEPTION_MESSAGE_FORMAT = "Could not create content for DataCite request. DOI = %s, reason : %s";
     private static final String MISSING_STYLESHEET = "Stylesheet not found on classpath: '%s'";
 
-    private static final Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilder.class);
+    private static Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilder.class);
 
     private final URL styleSheetURL;
 

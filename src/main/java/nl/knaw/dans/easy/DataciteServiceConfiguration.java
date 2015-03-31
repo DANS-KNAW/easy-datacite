@@ -13,7 +13,7 @@ public class DataciteServiceConfiguration {
 
     public String getUsername() {
         if (StringUtils.isBlank(username))
-            throw new IllegalStateException("username not configured");
+            throw new IllegalStateException("DataCite username not configured");
         return username;
     }
 
@@ -23,7 +23,7 @@ public class DataciteServiceConfiguration {
 
     public String getPassword() {
         if (StringUtils.isBlank(password))
-            throw new IllegalStateException("password not configured");
+            throw new IllegalStateException("DataCite password not configured");
         return password;
     }
 
@@ -33,7 +33,7 @@ public class DataciteServiceConfiguration {
 
     public String getDoiRegistrationUri() {
         if (StringUtils.isBlank(doiRegistrationUri))
-            throw new IllegalStateException("doiRegistrationUri not configured");
+            throw new IllegalStateException("DataCite URI not configured");
         return doiRegistrationUri;
     }
 
@@ -46,6 +46,8 @@ public class DataciteServiceConfiguration {
     }
 
     public String getXslEmd2datacite() {
+        if (StringUtils.isBlank(xslEmd2datacite))
+            throw new IllegalStateException("Missing XSLT style sheet for EMD to DataCite transformation.");
         return xslEmd2datacite;
     }
 
