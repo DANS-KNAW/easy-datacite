@@ -111,8 +111,8 @@ public interface EasyResources {
     String UNSUBMIT_DATASET = "view.unsubmit_dataset";
     String NO_PUBLISHED_DATAFILES = "view.no_published_datafiles";
     String WORKFLOW_NOT_COMPLETED = "view.workflow_not_completed";
-    String UNABLE_TO_PUBLISH = "view.unable_to_publish";
-    String UNABLE_TO_UNPUBLISH = "view.unable_to_unpublish";
+    String UNABLE_TO_PUBLISH_DATASET = "view.unable_to_publish_dataset";
+    String UNABLE_TO_UNPUBLISH_DATSET = "view.unable_to_unpublish_dataset";
     String UNABLE_TO_MAINTAIN_DATASET = "view.unable_to_maintain_dataset";
     String UNABLE_TO_REPUBLISH_DATASET = "view.unable_to_republish_dataset";
     String UNABLE_TO_CHANGE_DEPOSITOR = "view.unable_to_change_depositor";

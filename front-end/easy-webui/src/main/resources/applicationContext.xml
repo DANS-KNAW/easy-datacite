@@ -48,10 +48,12 @@
 		class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
 
 	<bean name="datasetService"
-		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
+		class="nl.knaw.dans.easy.business.services.EasyDatasetService">
+		<constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
+	</bean>
 
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" >
-        <property name="processDataFileInstructions" value="${process-data-file-instructions}" />
+		<property name="processDataFileInstructions" value="${process-data-file-instructions}" />
 	</bean>
 	
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService">
@@ -343,9 +345,17 @@
 		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
 	</bean>
 
+	<bean name="dataciteServiceConfiguration"
+		class="nl.knaw.dans.easy.DataciteServiceConfiguration">
+		<property name="username" value="${datacite.username}" />
+		<property name="password" value="${datacite.password}" />
+		<property name="doiRegistrationUri" value="${datacite.registration.uri}" />
+	</bean>
+
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
 		<constructor-arg value="WEB" />
 		<constructor-arg type="java.net.URL" value="${pid.service.base.url}" />
+		<constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
 	</bean>
 
 	<!-- ============== -->

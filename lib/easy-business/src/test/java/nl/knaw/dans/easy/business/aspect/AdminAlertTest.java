@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.DataciteServiceConfiguration;
 import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
@@ -70,7 +71,7 @@ public class AdminAlertTest {
         EasyUser sessionUser = new EasyUserImpl("ben");
         sessionUser.setState(State.ACTIVE);
 
-        DatasetService ds = new EasyDatasetService();
+        DatasetService ds = new EasyDatasetService(new DataciteServiceConfiguration());
 
         Dataset dataset = new DatasetImpl("foo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.DRAFT);

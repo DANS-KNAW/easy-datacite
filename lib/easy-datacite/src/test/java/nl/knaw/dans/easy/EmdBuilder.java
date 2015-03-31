@@ -10,11 +10,16 @@ import org.apache.commons.io.FileUtils;
 
 public class EmdBuilder {
 
-    private static final String EMD_FILE = "src/test/resources/emd.xml";
+    private static final String DEFAULT_EMD = "emd.xml";
+    private static final File FOLDER = new File("src/test/resources");
     private String xml;
 
     public EmdBuilder() throws Exception {
-        xml = FileUtils.readFileToString(new File(EMD_FILE), "UTF-8");
+        xml = FileUtils.readFileToString(new File(FOLDER, DEFAULT_EMD), "UTF-8");
+    }
+
+    public EmdBuilder(String fileName) throws Exception {
+        xml = FileUtils.readFileToString(new File(FOLDER, fileName), "UTF-8");
     }
 
     public EasyMetadata build() throws Exception {

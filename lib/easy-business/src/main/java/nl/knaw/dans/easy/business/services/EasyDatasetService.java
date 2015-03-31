@@ -17,6 +17,9 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.DataciteService;
+import nl.knaw.dans.easy.DataciteServiceConfiguration;
+import nl.knaw.dans.easy.DataciteServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.dataset.AdditionalLicenseUnit;
@@ -69,13 +72,11 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 
     private static final String LANGUAGE_LITERATURE_DISCIPLINE_ID = "easy-discipline:14";
 
-    public EasyDatasetService() {
-        this(DisciplineCollectionImpl.getInstance());
-    }
+    private final DataciteService dataciteService;
 
-    // used for unit testing
-    protected EasyDatasetService(final DisciplineCollection disciplineCollection) {
-        this.disciplineCollection = disciplineCollection;
+    public EasyDatasetService(DataciteServiceConfiguration dataciteServiceConfiguration) {
+        this.disciplineCollection = DisciplineCollectionImpl.getInstance();
+        this.dataciteService = new DataciteService(dataciteServiceConfiguration);
     }
 
     @Override
@@ -278,6 +279,12 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     public void publishDataset(final EasyUser sessionUser, final Dataset dataset, final boolean mustNotifyDepositor, final boolean mustIncludeLicense)
             throws ServiceException, DataIntegrityException
     {
+        try {
+            dataciteService.create(dataset.getEasyMetadata());
+        }
+        catch (DataciteServiceException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
         getDatasetWorkDispatcher().publishDataset(sessionUser, dataset, mustNotifyDepositor, mustIncludeLicense);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Published dataset with sid " + dataset.getStoreId());
@@ -320,6 +327,12 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     public void republishDataset(final EasyUser sessionUser, final Dataset dataset, final boolean mustNotifyDepositor, final boolean mustIncludeLicense)
             throws ServiceException, DataIntegrityException
     {
+        try {
+            dataciteService.update(dataset.getEasyMetadata());
+        }
+        catch (DataciteServiceException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
         getDatasetWorkDispatcher().republishDataset(sessionUser, dataset, mustNotifyDepositor, mustIncludeLicense);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Republished dataset with sid " + dataset.getStoreId());

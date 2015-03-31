@@ -19,7 +19,7 @@ public class DataciteResourcesBuilderTest {
         // covers just one of the exceptions thrown by the private method createDoiData
         EasyMetadata emd = new EmdBuilder().build();
         try {
-            new DataciteResourcesBuilder("invalid.xsl").create(emd);
+            new DataciteResourcesBuilder("empty.xsl").create(emd);
         }
         catch (DataciteServiceException e) {
             assertThat(e.getMessage(), containsString(emd.getEmdIdentifier().getDansManagedDoi()));

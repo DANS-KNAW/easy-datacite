@@ -89,9 +89,12 @@
 			<artifactId>dmo-collections</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-datacite</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>1.8</version>
 		</dependency>
 	</dependencies>
 	<build>

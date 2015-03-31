@@ -2,11 +2,9 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -50,7 +48,13 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
     FileStoreAccess fileStoreAccess;
 
     public enum Mode {
-        UNSUBMIT, PUBLISH, UNPUBLISH, MAINTAIN, REPUBLISH, CHANGE_DEPOSITOR
+        UNSUBMIT("Unsubmit dataset"), PUBLISH("Publish dataset"), UNPUBLISH("Unpublish dataset"), MAINTAIN("Maintain dataset"), REPUBLISH("Republish dataset"), CHANGE_DEPOSITOR(
+                "Change depositor");
+        private String title;
+
+        Mode(String title) {
+            this.title = title;
+        }
     }
 
     public IntermediatePage(DatasetModel datasetModel, Mode mode) {
@@ -58,24 +62,19 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         this.datasetModel = datasetModel;
 
         addCommonFeedbackPanel();
+        add(new Label(ID_TITLE, mode.title));
 
         if (Mode.UNSUBMIT.equals(mode)) {
-            add(new Label(ID_TITLE, "Unsubmit dataset"));
             add(new UnsubmitPanel());
         } else if (Mode.PUBLISH.equals(mode)) {
-            add(new Label(ID_TITLE, "Publish dataset"));
             add(new PublishPanel());
         } else if (Mode.UNPUBLISH.equals(mode)) {
-            add(new Label(ID_TITLE, "Unpublish dataset"));
             add(new UnpublishPanel());
         } else if (Mode.MAINTAIN.equals(mode)) {
-            add(new Label(ID_TITLE, "Maintain dataset"));
             add(new MaintainPanel());
         } else if (Mode.REPUBLISH.equals(mode)) {
-            add(new Label(ID_TITLE, "Republish dataset"));
             add(new RepublishPanel());
         } else if (Mode.CHANGE_DEPOSITOR.equals(mode)) {
-            add(new Label(ID_TITLE, "Change depositor"));
             add(new ChangeDepositorPanel());
         }
     }
@@ -118,39 +117,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
                 || fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, VisibleTo.KNOWN);
     }
 
-    // UnsubmitPanel
-    protected class UnsubmitPanel extends AbstractEasyPanel implements SubmitLinkListener {
-        // UnpublishPanel
-        protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
-
-            private static final long serialVersionUID = -6362817621826949894L;
-
-            private final IntermediateForm form;
-
-            public UnpublishPanel() {
-                super(ID_INTERMEDIATE_PANEL);
-                form = new IntermediateForm(this);
-                form.setShowNotifyDepositor(true, true);
-                add(form);
-            }
-
-            public void onSubmit(SubmitLink submitLink) {
-                try {
-                    Services.getDatasetService().unpublishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
-                    final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.SUBMITTED.toString().toLowerCase());
-                    logger.info(message);
-                    setResponsePage(getReturnToPage());
-                }
-                catch (ServiceException e) {
-                    final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
-                    logger.error(message, e);
-                }
-                catch (DataIntegrityException e) {
-                    final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
-                    logger.error(message, e);
-                }
-            }
-        }
+    protected class UnsubmitPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
 
         private static final long serialVersionUID = 3939391030695512753L;
 
@@ -166,24 +133,16 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         public void onSubmit(SubmitLink submitLink) {
             try {
                 Services.getDatasetService().unsubmitDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
-                final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.DRAFT.toString().toLowerCase());
-                logger.info(message);
-                setResponsePage(getReturnToPage());
+                stateChangeSucceeded(DatasetState.DRAFT);
             }
-            catch (ServiceException e) {
-                final String message = errorMessage(EasyResources.UNSUBMIT_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
-            }
-            catch (DataIntegrityException e) {
-                final String message = errorMessage(EasyResources.UNSUBMIT_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
+            catch (Exception e) {
+                changeFailed(EasyResources.UNSUBMIT_DATASET, e);
             }
         }
 
     }
 
-    // PublishPanel
-    protected class PublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
+    protected class PublishPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
         private static final long serialVersionUID = -78333439372508804L;
 
         private final IntermediateForm form;
@@ -200,24 +159,16 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         public void onSubmit(SubmitLink submitLink) {
             try {
                 Services.getDatasetService().publishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor(), form.getMustIncludeLicense());
-                final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.PUBLISHED.toString().toLowerCase());
-                logger.info(message);
-                setResponsePage(getReturnToPage());
+                stateChangeSucceeded(DatasetState.PUBLISHED);
             }
-            catch (ServiceException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_PUBLISH, getDataset().getStoreId());
-                logger.error(message, e);
-            }
-            catch (DataIntegrityException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_PUBLISH, getDataset().getStoreId());
-                logger.error(message, e);
+            catch (Exception e) {
+                changeFailed(EasyResources.UNABLE_TO_PUBLISH_DATASET, e);
             }
         }
 
     }
 
-    // UnpublishPanel
-    protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
+    protected class UnpublishPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
 
         private static final long serialVersionUID = -6362817621826949894L;
 
@@ -233,23 +184,15 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         public void onSubmit(SubmitLink submitLink) {
             try {
                 Services.getDatasetService().unpublishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
-                final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.SUBMITTED.toString().toLowerCase());
-                logger.info(message);
-                setResponsePage(getReturnToPage());
+                stateChangeSucceeded(DatasetState.SUBMITTED);
             }
-            catch (ServiceException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
-                logger.error(message, e);
-            }
-            catch (DataIntegrityException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
-                logger.error(message, e);
+            catch (Exception e) {
+                changeFailed(EasyResources.UNABLE_TO_UNPUBLISH_DATSET, e);
             }
         }
     }
 
-    // MaintainPanel
-    protected class MaintainPanel extends AbstractEasyPanel implements SubmitLinkListener {
+    protected class MaintainPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
         private static final long serialVersionUID = -1580189067742854756L;
 
         private final IntermediateForm form;
@@ -264,23 +207,15 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         public void onSubmit(SubmitLink submitLink) {
             try {
                 Services.getDatasetService().maintainDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
-                final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.MAINTENANCE.toString().toLowerCase());
-                logger.info(message);
-                setResponsePage(getReturnToPage());
+                stateChangeSucceeded(DatasetState.MAINTENANCE);
             }
-            catch (ServiceException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_MAINTAIN_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
-            }
-            catch (DataIntegrityException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_MAINTAIN_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
+            catch (Exception e) {
+                changeFailed(EasyResources.UNABLE_TO_MAINTAIN_DATASET, e);
             }
         }
     }
 
-    // RepublishPanel
-    protected class RepublishPanel extends AbstractEasyPanel implements SubmitLinkListener {
+    protected class RepublishPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
         private static final long serialVersionUID = -8958880253397322216L;
 
         private final IntermediateForm form;
@@ -297,23 +232,15 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
         public void onSubmit(SubmitLink submitLink) {
             try {
                 Services.getDatasetService().republishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor(), form.getMustIncludeLicense());
-                final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.PUBLISHED.toString().toLowerCase());
-                logger.info(message);
-                setResponsePage(getReturnToPage());
+                stateChangeSucceeded(DatasetState.PUBLISHED);
             }
-            catch (ServiceException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_REPUBLISH_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
-            }
-            catch (DataIntegrityException e) {
-                final String message = errorMessage(EasyResources.UNABLE_TO_REPUBLISH_DATASET, getDataset().getStoreId());
-                logger.error(message, e);
+            catch (Exception e) {
+                changeFailed(EasyResources.UNABLE_TO_REPUBLISH_DATASET, e);
             }
         }
     }
 
-    // ChangeDepositorPanel
-    protected class ChangeDepositorPanel extends AbstractEasyPanel implements SubmitLinkListener {
+    protected class ChangeDepositorPanel extends AbstractEasyPanel<Object> implements SubmitLinkListener {
 
         private static final long serialVersionUID = 5992545250405060874L;
 
@@ -342,24 +269,33 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
                 try {
                     Services.getDatasetService().changeDepositor(getSessionUser(), getDataset(), newDepositor, form.getMustNotifyDepositor(),
                             notifyNewDepositor.slavink);
-                    final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
-                    logger.info(message);
-                    setResponsePage(getReturnToPage());
+                    changeSucceeded();
                 }
-                catch (ServiceException e) {
-                    final String message = errorMessage(EasyResources.UNABLE_TO_CHANGE_DEPOSITOR, getDataset().getStoreId());
-                    logger.error(message, e);
-                }
-                catch (DataIntegrityException e) {
-                    final String message = errorMessage(EasyResources.UNABLE_TO_CHANGE_DEPOSITOR, getDataset().getStoreId());
-                    logger.error(message, e);
+                catch (Exception e) {
+                    changeFailed(EasyResources.UNABLE_TO_CHANGE_DEPOSITOR, e);
                 }
             }
         }
     }
 
-    // IntermediateForm
-    protected class IntermediateForm extends Form {
+    private void changeSucceeded() {
+        final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
+        logger.info(message);
+        setResponsePage(getReturnToPage());
+    }
+
+    private void stateChangeSucceeded(DatasetState datasetState) {
+        final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, datasetState.toString().toLowerCase());
+        logger.info(message);
+        setResponsePage(getReturnToPage());
+    }
+
+    private void changeFailed(String messageKey, Throwable cause) {
+        String message = errorMessage(messageKey, getDataset().getStoreId(), cause.getMessage());
+        logger.error(message, cause);
+    }
+
+    protected class IntermediateForm extends Form<Object> {
 
         private static final long serialVersionUID = 8451362357786696012L;
 
@@ -412,7 +348,47 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
             includeLicenseCheckBox.setVisible(showIncludeLicense);
             add(includeLicenseCheckBox);
 
-            final CheckBox notifyDepositorCheckBox = new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked")) {
+            final CheckBox notifyDepositorCheckBox = createDepositorCheckBox(includeLicenseCheckBox);
+            notifyDepositorCheckBox.setVisible(showNotifyDepositor);
+            add(notifyDepositorCheckBox);
+            add(new Label(ID_DEPOSITOR_NAME, getDepositorName()));
+
+            SubmitLink submit = createSubmitLink();
+            add(submit);
+
+            SubmitLink cancel = cerateCancelLink();
+            cancel.setDefaultFormProcessing(true);
+            add(cancel);
+
+        }
+
+        private SubmitLink createSubmitLink() {
+            return new SubmitLink(ID_SUBMIT) {
+
+                private static final long serialVersionUID = 3347417451829990314L;
+
+                @Override
+                public void onSubmit() {
+                    listener.onSubmit(this);
+                }
+
+            };
+        }
+
+        private SubmitLink cerateCancelLink() {
+            return new SubmitLink(ID_CANCEL) {
+
+                private static final long serialVersionUID = -145305839630590645L;
+
+                @Override
+                public void onSubmit() {
+                    setResponsePage(getReturnToPage());
+                }
+            };
+        }
+
+        private CheckBox createDepositorCheckBox(final CheckBox includeLicenseCheckBox) {
+            return new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked")) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -429,34 +405,6 @@ public abstract class IntermediatePage extends AbstractEasyNavPage {
                     }
                 }
             };
-            notifyDepositorCheckBox.setVisible(showNotifyDepositor);
-            add(notifyDepositorCheckBox);
-            add(new Label(ID_DEPOSITOR_NAME, getDepositorName()));
-
-            SubmitLink submit = new SubmitLink(ID_SUBMIT) {
-
-                private static final long serialVersionUID = 3347417451829990314L;
-
-                @Override
-                public void onSubmit() {
-                    listener.onSubmit(this);
-                }
-
-            };
-            add(submit);
-
-            SubmitLink cancel = new SubmitLink(ID_CANCEL) {
-
-                private static final long serialVersionUID = -145305839630590645L;
-
-                @Override
-                public void onSubmit() {
-                    setResponsePage(getReturnToPage());
-                }
-            };
-            cancel.setDefaultFormProcessing(true);
-            add(cancel);
-
         }
     }
 

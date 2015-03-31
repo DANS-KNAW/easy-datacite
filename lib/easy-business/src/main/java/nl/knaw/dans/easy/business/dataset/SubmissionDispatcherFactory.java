@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.DataciteService;
+import nl.knaw.dans.easy.DataciteServiceConfiguration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +22,9 @@ public class SubmissionDispatcherFactory {
 
     private static SubmissionDispatcherFactory INSTANCE;
 
-    private Style style;
-    private PidClient pidClient;
+    private final Style style;
+    private final PidClient pidClient;
+    private final DataciteService dataciteService;
 
     /**
      * NO PUBLIC CONSTRUCTOR, use with Spring context.
@@ -29,13 +32,17 @@ public class SubmissionDispatcherFactory {
      * @param style
      * @param pidService
      *        the URL (protocol,host,port) of the RESTfull PID service
+     * @param dataciteServiceConfiguration
      * @throws MalformedURLException
      */
-    public SubmissionDispatcherFactory(Style style, URL pidService) {
+    public SubmissionDispatcherFactory(Style style, URL pidService, DataciteServiceConfiguration dataciteServiceConfiguration) {
         this.style = style;
-        this.pidClient = new PidClient(pidService);
+        pidClient = new PidClient(pidService);
+        dataciteService = new DataciteService(dataciteServiceConfiguration);
         INSTANCE = this;
-        logger.info(String.format("Created %s in style %s with PID service %s", this, this.style, pidService));
+        logger.info(String.format("Created %s in style %s with PID service %s, dataciteService %s and datacite style-sheet %s",
+                SubmissionDispatcherFactory.class.getName(), style, pidService, dataciteServiceConfiguration.getDoiRegistrationUri(),
+                dataciteServiceConfiguration.getXslEmd2datacite()));
     }
 
     public static SubmissionDispatcher newSubmissionDispatcher() throws ServiceException {
@@ -66,6 +73,7 @@ public class SubmissionDispatcherFactory {
             processors.add(new MetadataPidGenerator(pidClient));
             processors.add(new MetadataLicenseGenerator());
             processors.add(new DatasetIngester(false));
+            processors.add(new EbiuDoiSubmitter(dataciteService));
             break;
         default:
             throw new IllegalStateException("No style defined for " + style);

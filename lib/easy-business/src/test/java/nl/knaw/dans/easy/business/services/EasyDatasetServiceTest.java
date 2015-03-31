@@ -1,10 +1,16 @@
 package nl.knaw.dans.easy.business.services;
 
+import static nl.knaw.dans.easy.data.store.EasyUnitOfWork.createIngestMessage;
 import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.easymock.PowerMock.createMock;
+import static org.powermock.api.easymock.PowerMock.replayAll;
+import static org.powermock.api.easymock.PowerMock.resetAll;
+import static org.powermock.api.easymock.PowerMock.verifyAll;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,16 +19,17 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.DataciteServiceConfiguration;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
-import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
@@ -31,7 +38,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
-import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
@@ -52,16 +58,10 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(AbstractDmoFactory.class)
 public class EasyDatasetServiceTest extends TestHelper {
 
     private static EasyStore easyStore;
@@ -74,19 +74,25 @@ public class EasyDatasetServiceTest extends TestHelper {
     public void before() {
         new Security(new CodedAuthz());
 
-        fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
+        fileStoreAccess = createMock(FileStoreAccess.class);
         new Data().setFileStoreAccess(fileStoreAccess);
 
-        easyStore = EasyMock.createMock(EasyStore.class);
+        easyStore = createMock(EasyStore.class);
         Data data = new Data();
         data.setEasyStore(easyStore);
 
-        userRepo = EasyMock.createMock(EasyUserRepo.class);
+        userRepo = createMock(EasyUserRepo.class);
         data.setUserRepo(userRepo);
 
-        disciplineCollection = EasyMock.createMock(DisciplineCollection.class);
+        disciplineCollection = createMock(DisciplineCollection.class);
 
-        service = new EasyDatasetService(disciplineCollection);
+        service = new EasyDatasetService(new DataciteServiceConfiguration());
+        Whitebox.setInternalState(service, "disciplineCollection", disciplineCollection);
+    }
+
+    @After
+    public void after() {
+        resetAll();
     }
 
     @AfterClass
@@ -105,44 +111,44 @@ public class EasyDatasetServiceTest extends TestHelper {
         user.addRole(Role.ARCHIVIST);
         user.setState(State.ACTIVE);
 
-        EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
+        expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
 
-        EasyMock.replay(easyStore);
+        replayAll();
         service.getDataModelObject(user, storeId);
-        EasyMock.verify(easyStore);
+        verifyAll();
 
     }
 
-    // @Test
-    // @Ignore
-    // public void getDataset() throws Exception {
-    // DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
-    // EasyUser user = new EasyUserImpl("foo");
-    // user.addRole(Role.ARCHIVIST);
-    // user.setState(State.ACTIVE);
-    //
-    // EasyMock.reset(easyStore);
-    // EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
-    //
-    // EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(AccessibleTo.class))).andStubReturn(new HashSet<AccessibleTo>());
-    // EasyMock.expect(Data.getFileStoreAccess().getValuesFor(isA(DmoStoreId.class), eq(VisibleTo.class))).andStubReturn(new HashSet<VisibleTo>());
-    //
-    // EasyMock.replay(easyStore, fileStoreAccess);
-    // Dataset dataset = service.getDataset(user, storeId);
-    // EasyMock.verify(easyStore);
-    //
-    // AuthzStrategy strategy = dataset.getAuthzStrategy();
-    // assertNotNull(strategy);
-    //
-    // // the dataset has no children so we expect they cannot be discovered.
-    // assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeDiscovered());
-    // assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeRead());
-    //
-    // // we are archivist so we can discover and read the unpublished dataset.
-    // assertTrue(strategy.canBeDiscovered());
-    // assertTrue(strategy.canBeRead());
-    // }
+    @Test
+    @Ignore
+    public void getDataset() throws Exception {
+        DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
+        EasyUser user = new EasyUserImpl("foo");
+        user.addRole(Role.ARCHIVIST);
+        user.setState(State.ACTIVE);
+
+        EasyMock.reset(easyStore);
+        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
+
+        EasyMock.expect(fileStoreAccess.getFolderItemVO(isA(DmoStoreId.class))).andStubReturn(null);
+        // TODO fix next, still reported as not expected method call
+        EasyMock.expect(fileStoreAccess.getItemVoVisibilities(null)).andStubReturn(new HashSet<VisibleTo>());
+
+        EasyMock.replay(easyStore, fileStoreAccess);
+        Dataset dataset = service.getDataset(user, storeId);
+        EasyMock.verify(easyStore);
+
+        AuthzStrategy strategy = dataset.getAuthzStrategy();
+        assertNotNull(strategy);
+
+        // the dataset has no children so we expect they cannot be discovered.
+        assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeDiscovered());
+        assertEquals(AuthzStrategy.TriState.NONE, strategy.canChildrenBeRead());
+
+        // we are archivist so we can discover and read the unpublished dataset.
+        assertTrue(strategy.canBeDiscovered());
+        assertTrue(strategy.canBeRead());
+    }
 
     @Test(expected = DataIntegrityException.class)
     public void saveEasyMetadataNoDepositorOnDataset() throws Exception {
@@ -178,16 +184,15 @@ public class EasyDatasetServiceTest extends TestHelper {
 
         TestReporter reporter = new TestReporter();
 
-        EasyMock.reset(easyStore, userRepo);
-        EasyMock.expect(easyStore.ingest(dataset, EasyUnitOfWork.createIngestMessage("dummy-dataset:1", sessionUser))).andReturn("dummy-dataset:1").times(1);
-        EasyMock.expect(userRepo.exists("jan")).andReturn(true);
-        EasyMock.replay(easyStore, userRepo);
+        expect(easyStore.ingest(dataset, createIngestMessage("dummy-dataset:1", sessionUser))).andReturn("dummy-dataset:1").times(1);
+        expect(userRepo.exists("jan")).andReturn(true);
+        replayAll();
         {
             service.saveEasyMetadata(sessionUser, dataset, reporter);
             // DRAFT flag set by DatasetStore.ingest
             // assertEquals(AdministrativeState.DRAFT, dataset.getAdministrativeState());
         }
-        EasyMock.verify(easyStore, userRepo);
+        verifyAll();
         assertEquals(1, reporter.getTotalActionCount());
         assertEquals(1, reporter.getIngestedDatasetCount());
     }
@@ -205,14 +210,13 @@ public class EasyDatasetServiceTest extends TestHelper {
 
         TestReporter reporter = new TestReporter();
 
-        EasyMock.reset(easyStore, userRepo);
-        EasyMock.expect(easyStore.ingest(dataset, EasyUnitOfWork.createIngestMessage("dummy-dataset:1", sessionUser))).andReturn("dummy-dataset:1").times(1);
-        EasyMock.expect(userRepo.exists("piet")).andReturn(true);
-        EasyMock.replay(easyStore, userRepo);
+        expect(easyStore.ingest(dataset, createIngestMessage("dummy-dataset:1", sessionUser))).andReturn("dummy-dataset:1").times(1);
+        expect(userRepo.exists("piet")).andReturn(true);
+        replayAll();
         {
             service.saveAdministrativeMetadata(sessionUser, dataset, reporter);
         }
-        EasyMock.verify(easyStore, userRepo);
+        verifyAll();
         assertEquals(1, reporter.getTotalActionCount());
         assertEquals(1, reporter.getIngestedDatasetCount());
     }
@@ -229,14 +233,12 @@ public class EasyDatasetServiceTest extends TestHelper {
 
         TestReporter reporter = new TestReporter();
 
-        EasyMock.reset(easyStore, userRepo);
-        EasyMock.expect(easyStore.ingest(dataset, EasyUnitOfWork.createIngestMessage("dummy-dataset:1", sessionUser))).andThrow(
-                new RepositoryException("Store closed for holidays."));
-        EasyMock.expect(userRepo.exists("jan")).andReturn(true);
+        expect(easyStore.ingest(dataset, createIngestMessage("dummy-dataset:1", sessionUser))).andThrow(new RepositoryException("Store closed for holidays."));
+        expect(userRepo.exists("jan")).andReturn(true);
 
-        EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
+        expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), eq(FileItemVO.class))).andStubReturn(true);
 
-        EasyMock.replay(easyStore, userRepo, fileStoreAccess);
+        replayAll();
 
         try {
             service.saveEasyMetadata(sessionUser, dataset, reporter);
@@ -245,10 +247,10 @@ public class EasyDatasetServiceTest extends TestHelper {
             se = e;
         }
 
-        EasyMock.verify(easyStore, userRepo, fileStoreAccess);
         assertEquals(0, reporter.getTotalActionCount());
         assertEquals(1, reporter.reportedExceptions.size());
         assertEquals(se, reporter.reportedExceptions.get(0));
+        verifyAll();
 
         throw (se);
     }
@@ -271,17 +273,21 @@ public class EasyDatasetServiceTest extends TestHelper {
 
         TestReporter reporter = new TestReporter();
 
+        expect(userRepo.exists("jan")).andStubReturn(true);
+        expect(easyStore.isUpdateable(dataset, "jan"));
+        // TODO fix next, still reported as not expected method call
+        expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), eq(FileItemVO.class))).andStubReturn(false);
+        replayAll();
+
         // For updating MetadataUnits an arbitrary StoreImpl is chosen by EasyUnitOfWork.
         // It happens to be FileItemStore.
-        EasyMock.reset(easyStore);
 
         // Since nothing is dirty, we do not expect updates. (if dirty checking in emd is done with
         // string comparison)
-        EasyMock.replay(easyStore);
         {
             service.saveEasyMetadata(sessionUser, dataset, reporter);
         }
-        EasyMock.verify(easyStore);
+        verifyAll();
 
         assertEquals(0, reporter.getTotalActionCount());
         assertEquals(0, reporter.getUpdatedMetadataUnitCount());
@@ -296,54 +302,70 @@ public class EasyDatasetServiceTest extends TestHelper {
         sessionUser.setState(State.ACTIVE);
         dataset.getAdministrativeMetadata().setDepositorId("xyz");
         DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, sessionUser);
-        EasyMock.expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), EasyMock.eq(FileItemVO.class))).andStubReturn(true);
-        EasyMock.replay(fileStoreAccess);
+        expect(fileStoreAccess.hasMember(isA(DmoStoreId.class), eq(FileItemVO.class))).andStubReturn(true);
+        replayAll();
         service.submitDataset(submission);
     }
 
+    private static int newDmoCount;
+
     @Test
     public void createDatasetTest() throws RepositoryException, ServiceException, ObjectNotFoundException, DomainException {
-        Dataset input = new DatasetImpl("dummy-dataset:1");
+        final Dataset input = new DatasetImpl("dummy-dataset:1");
+
+        newDmoCount = 0;
+        AbstractDmoFactory.register(Dataset.NAMESPACE, new AbstractDmoFactory<Dataset>() {
+            @Override
+            public Dataset newDmo() {
+                newDmoCount++;
+                return input;
+            }
+
+            @Override
+            public DmoNamespace getNamespace() {
+                throw new IllegalStateException("call not expected");
+            }
+
+            @Override
+            public Dataset createDmo(String storeId) {
+                throw new IllegalStateException("call not expected storeId=" + storeId);
+            }
+        });
 
         // test SOCIOLOGY, UNSPECIFIED AND HISTORY
-        PowerMock.mockStatic(AbstractDmoFactory.class);
-        EasyMock.reset(easyStore);
-        EasyMock.expect(AbstractDmoFactory.newDmo(Dataset.NAMESPACE)).andReturn(input).times(3);
-        PowerMock.replay(AbstractDmoFactory.class);
         {
             Dataset output = service.newDataset(MetadataFormat.SOCIOLOGY);
             assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
             assertEquals(input, output);
-
-            output = service.newDataset(MetadataFormat.UNSPECIFIED);
-            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            assertEquals(input, output);
-
-            output = service.newDataset(MetadataFormat.HISTORY);
-            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            assertEquals(input, output);
+            assertEquals(newDmoCount, 1);
         }
-        PowerMock.verify(AbstractDmoFactory.class);
+        {
+            Dataset output = service.newDataset(MetadataFormat.UNSPECIFIED);
+            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
+            assertEquals(input, output);
+            assertEquals(newDmoCount, 2);
+        }
+        {
+            Dataset output = service.newDataset(MetadataFormat.HISTORY);
+            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
+            assertEquals(input, output);
+            assertEquals(newDmoCount, 3);
+        }
 
         // test ARCHAEOLOGY
-        DisciplineContainer discInput = new DisciplineContainerImpl("dummy-discipline:1");
-
-        PowerMock.reset(AbstractDmoFactory.class);
-        EasyMock.expect(AbstractDmoFactory.newDmo(Dataset.NAMESPACE)).andReturn(input).times(1);
-        EasyMock.reset(disciplineCollection);
-        EasyMock.expect(disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name())).andReturn(discInput).times(1);
-        EasyMock.replay(easyStore, disciplineCollection);
-        PowerMock.replay(AbstractDmoFactory.class);
         {
+            DisciplineContainer discInput = new DisciplineContainerImpl("dummy-discipline:1");
+            expect(disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name())).andReturn(discInput).times(1);
+            replayAll(AbstractDmoFactory.class);
             Dataset output = service.newDataset(MetadataFormat.ARCHAEOLOGY);
 
             assertEquals(1, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
             BasicString audience = output.getEasyMetadata().getEmdAudience().getTermsAudience().get(0);
             assertEquals("dummy-discipline:1", audience.getValue());
             assertEquals(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX, audience.getSchemeId());
+            assertEquals(newDmoCount, 4);
+            verifyAll();
         }
-        EasyMock.verify(disciplineCollection);
-        PowerMock.verify(AbstractDmoFactory.class);
     }
 
     private static class TestReporter extends WorkReporter {
