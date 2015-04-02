@@ -4,13 +4,13 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
+import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
 import org.purl.sword.atom.Contributor;
@@ -184,7 +184,7 @@ public class EasySwordServer implements SWORDServer {
         final DepositResponse depostiResponse = new DepositResponse(Deposit.ACCEPTED);
         depostiResponse.setEntry(swordEntry);
         depostiResponse.setLocation(storeID);
-        depostiResponse.setHttpResponse(swordEntry.isNoOp() ? HttpStatus.SC_OK : HttpStatus.SC_ACCEPTED);
+        depostiResponse.setHttpResponse(swordEntry.isNoOp() ? SC_OK : SC_ACCEPTED);
         return depostiResponse;
     }
 
@@ -258,6 +258,6 @@ public class EasySwordServer implements SWORDServer {
         log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}", adr.getUsername(), adr.getIPAddress(), adr.getLocation()));
         EasyBusinessFacade.getUser(adr.getUsername(), adr.getPassword());
 
-        return new AtomDocumentResponse(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        return new AtomDocumentResponse(SC_NOT_IMPLEMENTED);
     }
 }

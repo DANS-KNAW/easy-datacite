@@ -1,26 +1,38 @@
 package nl.knaw.dans.easy.business.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.servicelayer.services.SecuredStreamingService;
-import nl.knaw.dans.easy.util.HttpClientFacade;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 public class WowzaSecuredStreamingService implements SecuredStreamingService {
     private static Logger log = LoggerFactory.getLogger(WowzaSecuredStreamingService.class);
 
-    private String ticketServiceUrl;
+    private URI ticketServiceURI;
     private long accessDurationInMilliseconds;
-    private HttpClientFacade http;
 
     @Override
     public void addSecurityTicketToResource(String ticket, String resource) throws ServiceException {
         String xmlMessage = createXmlMessage(ticket, resource);
-        log.debug("Sending following message to url: {}\n {}", ticketServiceUrl, xmlMessage);
-        int status = http.post(ticketServiceUrl, xmlMessage);
-        if (!acceptableResponseToPost(status)) {
-            throw new ServiceException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
+        log.debug("Sending following message to url: {}\n {}", ticketServiceURI, xmlMessage);
+        try {
+            int status = Client.create().resource(ticketServiceURI).post(ClientResponse.class, xmlMessage).getStatus();
+            if (!acceptableResponseToPost(status)) {
+                throw new ServiceException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
+            }
+        }
+        catch (UniformInterfaceException e) {
+            throw new ServiceException(String.format("Failed to add security ticket %s to resource %s: %s", ticket, resource, e.getMessage()), e);
         }
     }
 
@@ -49,10 +61,27 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService {
 
     @Override
     public void removeSecurityTicket(String ticket) throws ServiceException {
-        int status = http.delete(ticketServiceUrl + "/" + ticket);
+        URI uri = composeDeleteURI(ticket);
+        int status = Client.create().resource(uri).post(ClientResponse.class).getStatus();
         if (!acceptableResponseToDelete(status)) {
             throw new ServiceException(String.format("Failed to remove security ticket %s, status code: %d", ticket, status));
         }
+    }
+
+    private URI composeDeleteURI(String ticket) throws ServiceException {
+        try {
+            return new URL(ticketServiceURI.toURL(), ticket).toURI();
+        }
+        catch (MalformedURLException e) {
+            throw createUriException(ticket, e);
+        }
+        catch (URISyntaxException e) {
+            throw createUriException(ticket, e);
+        }
+    }
+
+    private ServiceException createUriException(String ticket, Exception e) {
+        return new ServiceException(String.format("Failed to remove security ticket %s: %s", ticket, e.getMessage()), e);
     }
 
     private boolean acceptableResponseToDelete(int status) {
@@ -61,16 +90,16 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService {
 
     @Override
     public void setTicketServiceUrl(String ticketServiceUrl) {
-        this.ticketServiceUrl = ticketServiceUrl;
+        try {
+            this.ticketServiceURI = new URI(ticketServiceUrl);
+        }
+        catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
     }
 
     @Override
     public void setAccessDurationInMilliseconds(long ms) {
         this.accessDurationInMilliseconds = ms;
     }
-
-    public void setHttpClientFacade(HttpClientFacade http) {
-        this.http = http;
-    }
-
 }

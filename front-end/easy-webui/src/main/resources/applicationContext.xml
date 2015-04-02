@@ -346,7 +346,6 @@
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
 		<constructor-arg value="WEB" />
 		<constructor-arg type="java.net.URL" value="${pid.service.base.url}" />
-		<constructor-arg ref="httpClientFacade" />
 	</bean>
 
 	<!-- ============== -->
@@ -459,10 +458,7 @@
 	<bean id="securedStreamingService" class="nl.knaw.dans.easy.business.services.WowzaSecuredStreamingService">
 		<property name="ticketServiceUrl" value="http://tstreaming11.dans.knaw.nl/acl/ticket" />
 		<property name="accessDurationInMilliseconds" value="60000" />
-		<property name="httpClientFacade" ref="httpClientFacade"/>
 	</bean>
-    
-    <bean name="httpClientFacade" class="nl.knaw.dans.easy.util.ApacheHttpClientFacade"/>
     
     <bean id="audioVideoPlayerUrl" class="java.lang.String">
         <constructor-arg type="java.lang.String"

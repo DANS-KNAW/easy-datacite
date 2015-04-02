@@ -84,6 +84,8 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
+			<version>4.3.6</version>
 		</dependency>
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
 		<!-- Dependency on logback-classic binding for slf4j -->

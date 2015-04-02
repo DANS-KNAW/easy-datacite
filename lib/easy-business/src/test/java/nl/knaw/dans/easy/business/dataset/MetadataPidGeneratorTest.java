@@ -24,13 +24,10 @@ import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.util.ApacheHttpClientFacade;
-import nl.knaw.dans.easy.util.HttpClientFacade;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MetadataPidGeneratorTest {
@@ -62,18 +59,9 @@ public class MetadataPidGeneratorTest {
         resetAll();
     }
 
-    @Ignore
-    @Test
-    public void justMockFacade() throws Exception {
-        HttpClientFacade clientFacade = createMock(HttpClientFacade.class);
-        expect(clientFacade.post(isA(URL.class))).andStubReturn(NEW_DOI.getBytes());// but getting null
-        String result = new PidClient(new URL("http://localhost:8084"), clientFacade).getPid(PidClient.Type.doi);
-        assertThat(result, is(NEW_DOI));
-    }
-
     @Test
     public void errorHandling() throws Exception {
-        pidClient = new PidClient(new URL("http://"), new ApacheHttpClientFacade());
+        pidClient = new PidClient(new URL("http://"));
         // log will show:
         // Can't generate PIDs URI does not specify a valid host name: http:/pids?type=urn for a:b
         assertThat(execute(new DatasetImpl("a:b")), is(false));
