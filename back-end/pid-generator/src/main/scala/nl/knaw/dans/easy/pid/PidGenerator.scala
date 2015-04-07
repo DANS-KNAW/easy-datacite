@@ -4,16 +4,27 @@ import java.lang.Math.pow
 import scala.util.Try
 import scala.util.Failure
 import scala.util.Success
+import scala.util.Success
+import scala.util.Success
+import scala.util.Success
 
 case class PidGenerator(seed: SeedStorage, firstSeed: Long, format: Long => String) {
   def next(): Try[String] = {
-    getNextPidNumber(seed.read) match {
-      case Some(next) => {
-        seed.write(next)
-        seed.check(next)
-        Success(format(next))
+    seed.read match {
+      case Success(s) => getNextPidNumber(s) match {
+        case Some(next) => {
+          seed.write(next)
+          seed.check(next) match {
+            case Success(result) =>
+              if (result) Success(format(next))
+              else Failure(SeedNotCorrectlySaved())
+            case Failure(_) => Failure(IncorrectSeedException())
+          }
+          Success(format(next))
+        }
+        case None => Failure(RanOutOfSeedsException())
       }
-      case None => Failure(RanOutOfSeedsException())
+      case Failure(_) => Failure(IncorrectSeedException())
     }
   }
 
@@ -35,3 +46,5 @@ case class PidGenerator(seed: SeedStorage, firstSeed: Long, format: Long => Stri
 }
 
 case class RanOutOfSeedsException() extends Exception
+case class IncorrectSeedException() extends Exception
+case class SeedNotCorrectlySaved() extends Exception

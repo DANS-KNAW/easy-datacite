@@ -12,7 +12,7 @@ public class EmdBuilder {
 
     private static final String EMD_FILE = "src/test/resources/emd.xml";
     private String xml;
-    
+
     public EmdBuilder() throws Exception {
         xml = FileUtils.readFileToString(new File(EMD_FILE), "UTF-8");
     }
@@ -21,7 +21,7 @@ public class EmdBuilder {
         return new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
     }
 
-    public EmdBuilder replaceAll(String search,String replace) throws Exception {
+    public EmdBuilder replaceAll(String search, String replace) throws Exception {
         xml = xml.replaceAll(search, replace);
         return this;
     }

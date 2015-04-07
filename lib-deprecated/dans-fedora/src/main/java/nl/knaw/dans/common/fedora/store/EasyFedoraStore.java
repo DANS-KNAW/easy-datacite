@@ -82,7 +82,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore {
 
     public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId) throws RepositoryException {
 
-        if (dmdStreamExists(dmoStoreId)){
+        if (dmdStreamExists(dmoStoreId)) {
             // in the older datasets descriptive metadata of a file is stored in a separate stream
             return getDescriptiveMetadataStreamURL(dmoStoreId, DescriptiveMetadataImpl.UNIT_ID);
         } else {
@@ -99,7 +99,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore {
             return new URL(getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + streamUnitId);
         }
         catch (MalformedURLException e) {
-          throw new ApplicationException(e);
+            throw new ApplicationException(e);
         }
     }
 

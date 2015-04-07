@@ -47,7 +47,8 @@ class PidService extends ScalatraServlet with ScalateSupport {
   post("/") {
     def response(result: Try[String]) = result match {
       case Success(pid) => Ok(pid)
-      case Failure(_) => NotFound("No more identifiers")
+      case Failure(RanOutOfSeedsException()) => NotFound("No more identifiers")
+      case Failure(_) =>  InternalServerError("Incorrect seed encountered")
     }
     params.get("type") match {
       case Some(pidType) => pidType match {
