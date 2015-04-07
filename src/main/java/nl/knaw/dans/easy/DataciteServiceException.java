@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy;
 
-public class DataciteServiceException extends Exception{
+public class DataciteServiceException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
