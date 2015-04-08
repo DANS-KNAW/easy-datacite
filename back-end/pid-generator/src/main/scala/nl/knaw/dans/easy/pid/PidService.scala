@@ -13,7 +13,11 @@ class PidService extends ScalatraServlet with ScalateSupport {
   val log = LoggerFactory.getLogger(getClass)
   val home = new File(System.getenv("PID_GENERATOR_HOME"))
   val conf = ConfigFactory.parseFile(new File(home, "cfg/application.conf"))
-  val urns = PidGenerator(FileBasedSeedStorage(new File(home, "seed/urn.txt")),
+  val urns = PidGenerator(
+    DbBasedSeedStorage(
+      "urn",
+      conf.getLong("types.urn.firstSeed"),
+      new File(home, "cfg/hibernate.conf.xml")),
     conf.getLong("types.urn.firstSeed"),
     format(
       prefix = conf.getString("types.urn.namespace"),
@@ -27,7 +31,11 @@ class PidService extends ScalatraServlet with ScalateSupport {
     '1' -> 'x',
     'i' -> 'w',
     'l' -> 'v')
-  val dois = PidGenerator(FileBasedSeedStorage(new File(home, "seed/doi.txt")),
+  val dois = PidGenerator(
+    DbBasedSeedStorage(
+      "doi",
+      conf.getLong("types.doi.firstSeed"),
+      new File(home, "cfg/hibernate.conf.xml")),
     conf.getLong("types.doi.firstSeed"),
     format(
       prefix = conf.getString("types.doi.namespace"),
@@ -45,17 +53,22 @@ class PidService extends ScalatraServlet with ScalateSupport {
   }
 
   post("/") {
-    def response(result: Try[String]) = result match {
+    def respond(result: Try[String]) = result match {
       case Success(pid) => Ok(pid)
-      case Failure(RanOutOfSeedsException()) => NotFound("No more identifiers")
-      case Failure(_) =>  InternalServerError("Incorrect seed encountered")
+      case Failure(RanOutOfSeeds()) => NotFound("No more identifiers")
+      case Failure(_) => InternalServerError("Error when retrieving previous seed or saving current seed")
     }
+    try {
     params.get("type") match {
       case Some(pidType) => pidType match {
-        case "urn" => response(urns.next())
-        case "doi" => response(dois.next())
+        case "urn" => respond(urns.next())
+        case "doi" => respond(dois.next())
+        case pidType => BadRequest(s"Unknown PID type $pidType")
       }
-      case None => response(dois.next())
+      case None => respond(dois.next())
+    }
+    } catch {
+      case e: Exception => InternalServerError(s"Error: ${e.getClass}, msg = ${e.getMessage}")
     }
   }
 }

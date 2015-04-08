@@ -9,24 +9,9 @@ import scala.util.Success
 import scala.util.Success
 
 case class PidGenerator(seed: SeedStorage, firstSeed: Long, format: Long => String) {
-  def next(): Try[String] = {
-    seed.read match {
-      case Success(s) => getNextPidNumber(s) match {
-        case Some(next) => {
-          seed.write(next)
-          seed.check(next) match {
-            case Success(result) =>
-              if (result) Success(format(next))
-              else Failure(SeedNotCorrectlySaved())
-            case Failure(_) => Failure(IncorrectSeedException())
-          }
-          Success(format(next))
-        }
-        case None => Failure(RanOutOfSeedsException())
-      }
-      case Failure(_) => Failure(IncorrectSeedException())
-    }
-  }
+  def next(): Try[String] =
+    seed.calculateAndPersist(getNextPidNumber).map(format(_))
+
 
   /**
    * Generates a new PID number from a provided seed. The PID number is then formatted as a DOI or a URN.
@@ -44,7 +29,3 @@ case class PidGenerator(seed: SeedStorage, firstSeed: Long, format: Long => Stri
     else Some(newSeed)
   }
 }
-
-case class RanOutOfSeedsException() extends Exception
-case class IncorrectSeedException() extends Exception
-case class SeedNotCorrectlySaved() extends Exception

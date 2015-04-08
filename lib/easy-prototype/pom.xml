@@ -38,6 +38,8 @@
         <config.version>1.2.1</config.version>
         <apache-httpcomponents.version>4.3.6</apache-httpcomponents.version>
         <sardine.version>5.4</sardine.version>
+        <postgresql.version>8.4-701.jdbc3</postgresql.version>
+        <hibernate.version>4.3.7.Final</hibernate.version>
     </properties>
     <dependencies>
         <dependency>
@@ -356,6 +358,16 @@
                 <artifactId>sardine</artifactId>
                 <version>${sardine.version}</version>
             </dependency>
+	        <dependency>
+	            <groupId>postgresql</groupId>
+	            <artifactId>postgresql</artifactId>
+	            <version>${postgresql.version}</version>
+            </dependency>
+	        <dependency>
+	            <groupId>org.hibernate</groupId>
+	            <artifactId>hibernate-core</artifactId>
+	            <version>${hibernate.version}</version>
+	        </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
