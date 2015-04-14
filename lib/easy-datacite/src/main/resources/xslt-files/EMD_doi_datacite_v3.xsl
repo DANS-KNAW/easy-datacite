@@ -85,7 +85,8 @@
         <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]"/>
         
         <!-- 12. relatedIdentifier -->
-        <xsl:apply-templates select="emd:relation" />
+        <!-- https://drivenbydata.atlassian.net/browse/EASY-892 -->
+        <!-- <xsl:apply-templates select="emd:relation" /> -->
         
         <!-- 13. size OPTIONAL -->
         <!-- unavailable -->

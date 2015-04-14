@@ -6,6 +6,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeThat;
 import static org.powermock.api.easymock.PowerMock.createMock;
@@ -127,7 +128,7 @@ public class DataciteServiceTest {
         // - now we cover more code of the configuration class
         // - here we have the before/after methods to assert the logging anyway
         final String xslFileName = "notFound.xsl";
-        Capture<String> capturedMessage = expectLoggedError();
+        Capture<String> capturedMessage = expectLoggedError(1);
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setXslEmd2datacite(xslFileName);
         try {
@@ -150,7 +151,7 @@ public class DataciteServiceTest {
     @Test
     public void createFailureDoiWithCredentialsFromJvmArguments() throws Exception {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
-        Capture<String> capturedMessage = expectLoggedError();
+        Capture<String> capturedMessage = expectLoggedError(1);
         DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
         EasyMetadata emd1 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-123").build();
         EasyMetadata emd2 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build();
@@ -175,14 +176,12 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
 
-        Capture<String> capturedMessage = expectLoggedInfo();
+        Capture<String> capturedMessage = expectLoggedInfo(1);
         EasyMetadata emd = new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build();
         // with a UUID we this test doesn't run into trouble if testMode is accidently false
         try {
             replayAll();
             new DataciteService(config).create(emd);
-            // DataCite created while an update was expected
-            // for example a republish while the publish somehow wasn't sent to DataCite
             assertThat(capturedMessage.getValue(), containsString("created: 1"));
             assertThat(capturedMessage.getValue(), containsString("updated: 0"));
             assertThat(capturedMessage.getValue(), containsString("Creating 1"));
@@ -197,7 +196,7 @@ public class DataciteServiceTest {
     @Ignore
     @Test
     public void inconsistenCounts() throws Exception {
-        Capture<String> capturedMessage = expectLoggedError();
+        Capture<String> capturedMessage = expectLoggedError(1);
         // this test requires mocking the service
         // new DataciteService(config).update(emds);
         assertThat(capturedMessage.getValue(), containsString("created: 1"));
@@ -211,7 +210,7 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
 
-        Capture<String> capturedMessage = expectLoggedInfo();
+        Capture<String> capturedMessage = expectLoggedInfo(1);
         EasyMetadata[] emds = {new EmdBuilder().replaceAll("dans-test-123", "dans-test-123").build(),
                 new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build()};
         try {
@@ -234,9 +233,9 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
 
-        Capture<String> capturedMessage = expectLoggedWarn();
+        Capture<String> capturedMessage = expectLoggedWarn(1);
         EasyMetadata emd = new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build();
-        // with a UUID we this test doesn't run into trouble if testMode is accidently false
+        // with a UUID this test doesn't run into trouble if testMode is accidently false
         try {
             replayAll();
             new DataciteService(config).update(emd);
@@ -259,6 +258,22 @@ public class DataciteServiceTest {
         DataciteService dataciteService = new DataciteService(getConfigWithCredentialsFromJVM());
 
         EasyMetadata emd = new EmdBuilder("maxi-emd.xml").build();
+        createWithMissingRelationType(dataciteService, emd);
+    }
+
+    @Test
+    public void incompleteRelationsEmdWithCredentialsFromJvmArguments() throws Exception {
+        // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
+        DataciteService dataciteService = new DataciteService(getConfigWithCredentialsFromJVM());
+
+        EasyMetadata emd = new EmdBuilder("incomplete-relations-emd.xml").build();
+        createWithMissingRelationType(dataciteService, emd);
+    }
+
+    private void createWithMissingRelationType(DataciteService dataciteService, EasyMetadata emd) throws Exception {
+        // mock a style sheet that does generate the disabled relations, without type attribute they are not valid for DataCite
+        String templateCall = "<xsl:apply-templates select=\"emd:relation\" />";
+        File hackedXsl = hackXsl(dataciteService, "<!-- " + templateCall + " -->", templateCall);
         try {
             replayAll();
             dataciteService.create(emd);
@@ -266,11 +281,13 @@ public class DataciteServiceTest {
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
-            // TODO fix EMD_doi_datacite_v3.xsl
             // TODO let scala generate EMD's
-            Assert.assertThat(e.getMessage(), org.hamcrest.core.StringContains.containsString("HTTP error code : 400"));
-            Assert.assertThat(e.getMessage(), org.hamcrest.core.StringContains.containsString("The attribute 'relationType' is required but missing."));
+            Assert.assertThat(e.getMessage(), containsString("HTTP error code : 400"));
+            Assert.assertThat(e.getMessage(), containsString("The attribute 'relationType' is required but missing."));
             verifyAll();
+        }
+        finally {
+            hackedXsl.delete();
         }
     }
 
@@ -278,10 +295,12 @@ public class DataciteServiceTest {
     public void hackedStyleSheetWithCredentialsFromJvmArguments() throws Exception {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration configWithCredentialsFromJVM = getConfigWithCredentialsFromJVM();
-        DataciteService dataciteService = new DataciteService(configWithCredentialsFromJVM);
 
-        hackXsl(dataciteService);
         EasyMetadata[] emds = {new EmdBuilder().build(), new EmdBuilder().build()};
+
+        // mock a stylesheet that produces output that is invalid for DataCite
+        DataciteService dataciteService = new DataciteService(configWithCredentialsFromJVM);
+        File hackedXsl = hackXsl(dataciteService, "<xsl:apply-templates select=\"emd:title\"/>", "");
         try {
             replayAll();
             dataciteService.update(emds);
@@ -293,37 +312,43 @@ public class DataciteServiceTest {
             assertThat(e.getMessage(), containsString("Expected is one of ( {http://datacite.org/schema/kernel-3}titles"));
             verifyAll();
         }
+        finally {
+            hackedXsl.delete();
+        }
     }
 
-    private Capture<String> expectLoggedError() {
+    private Capture<String> expectLoggedError(int times) {
         Capture<String> capturedMessage = new Capture<String>();
         loggerMock.error((capture(capturedMessage)));
-        expectLastCall().once();
+        expectLastCall().times(times);
         return capturedMessage;
     }
 
-    private Capture<String> expectLoggedWarn() {
+    private Capture<String> expectLoggedWarn(int times) {
         Capture<String> capturedMessage = new Capture<String>();
         loggerMock.warn((capture(capturedMessage)));
-        expectLastCall().once();
+        expectLastCall().times(times);
         return capturedMessage;
     }
 
-    private Capture<String> expectLoggedInfo() {
+    private Capture<String> expectLoggedInfo(int times) {
         Capture<String> capturedMessage = new Capture<String>();
         loggerMock.info((capture(capturedMessage)));
-        expectLastCall().once();
+        expectLastCall().times(times);
         return capturedMessage;
     }
 
-    /** Hacks the configured style sheet that does not produce any title though required by DataCite */
-    private void hackXsl(DataciteService dataciteService) throws Exception {
+    private File hackXsl(DataciteService dataciteService, String search, String replace) throws Exception {
         String xsl = FileUtils.readFileToString(new File("src/main/resources/" + new DataciteServiceConfiguration().getXslEmd2datacite()));
-        File hackedFile = new File("target/tmp.xsl");
-        FileUtils.write(hackedFile, xsl.replace("<xsl:apply-templates select=\"emd:title\"/>", ""));
-        URL url = new URL("FILE://" + hackedFile.getAbsolutePath());
-        DataciteResourcesBuilder resourcesBuilder = getInternalState(dataciteService, DataciteResourcesBuilder.class);
-        setInternalState(resourcesBuilder, "styleSheetURL", url);
+        String replaced = xsl.replaceAll(search, replace);
+        assertTrue("replace to hack the stylesheet failed", !xsl.equals(replaced));
+
+        // it looks like XMLTransformer cashes style sheets per URL
+        File hackedFile = new File("target/" + UUID.randomUUID() + ".xsl");
+        FileUtils.write(hackedFile, replaced);
+        DataciteResourcesBuilder resourcesBuilder = getInternalState(dataciteService, "resourcesBuilder");
+        setInternalState(resourcesBuilder, "styleSheetURL", new URL("FILE://" + hackedFile.getAbsolutePath()));
+        return hackedFile;
     }
 
     private DataciteServiceConfiguration getConfigWithCredentialsFromJVM() {

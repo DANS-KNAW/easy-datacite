@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title>Prehistorische bewoning op het World Forum gebied - Den Haag</dc:title>
+    </emd:title>
+    <emd:creator>
+        <dc:creator>Archeologisch Onderzoek Leiden BV</dc:creator>
+        <dc:creator>Hamburg, T. (drs.) (projectleider, auteur)</dc:creator>
+        <dc:creator>Meurkens, L. (drs.) (auteur)</dc:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject>Archeologisch: opgraving</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">NX</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">ELCF</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">ELA</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">NBAS</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>Tussen 7 en 20 juni 2006 heeft Archol BV in opdracht van de Afdeling Archeologie, dienst Stadsbeheer van de gemeente Den Haag een
+archeologisch onderzoek uitgevoerd op het terrein van de voormalige Statenhal aan de Eisenhowerlaan in Den Haag. Tussen 21 september en 5 oktober vond een tweede onderzoek plaats pal ten oosten van deze vindplaats op het terrein van de voormalige Van Goghzaal. Het tweede onderzoek, waarin met name het bestuderen van een oudere bewoningsfase uit de midden-bronstijd centraal stond, heeft alleen enkele greppels opgeleverd die tot het akkersysteem uit de late ijzertijd behoren. Er werd wel nog een tweede bewoningsniveau aangetroffen, dat op stratigrafische gronden jonger moet zijn dan dat uit de ijzertijd. Door het gebrek aan vondstmateriaal en sporen is de aard en datering hiervan echter onduidelijk.</dc:description>
+    </emd:description>
+    <emd:publisher>
+        <dc:publisher>Archeologisch Onderzoek Leiden BV</dc:publisher>
+    </emd:publisher>
+    <emd:contributor/>
+    <emd:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="YEAR">2007-01-01T00:00:00.000+01:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2010-01-08T00:00:00.000+01:00</eas:available>
+        <eas:dateCopyrighted eas:scheme="W3CDTF" eas:format="YEAR">2007-01-01T00:00:00.000+01:00</eas:dateCopyrighted>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2010-01-08T00:00:00.000+01:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type>Resultaten en gegevens van het DO</dc:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Collection</dc:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Text</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format>AutoCad 2004</dc:format>
+        <dc:format>application/msaccess</dc:format>
+        <dc:format>application/msexcel</dc:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/msword</dc:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/pdf</dc:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">text/plain</dc:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">image/jpeg</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier eas:scheme="ISSN">1569-2396</dc:identifier>
+        <dc:identifier eas:scheme="Archis_waarneming">410173</dc:identifier>
+        <dc:identifier>Archol Rapport 83</dc:identifier>
+        <dc:identifier>DHS32 (Archol)</dc:identifier>
+        <dc:identifier>1132 (Archol)</dc:identifier>
+        <dc:identifier eas:scheme="AIP_ID">twips.dans.knaw.nl-2523225611789280552-1262964480477</dc:identifier>
+        <dc:identifier eas:scheme="eDNA-project">a12198</dc:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-f7q-89s</dc:identifier>
+        <dc:identifier eas:scheme="Archis_onderzoek_m_nr" eas:schemeId="archaeology.dc.identifier" eas:identification-system="http://archis2.archis.nl">17659</dc:identifier>
+        <dc:identifier eas:scheme="Archis_onderzoek_m_nr" eas:schemeId="archaeology.dc.identifier" eas:identification-system="http://archis2.archis.nl">19113</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:34136</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-765</dc:identifier>
+    </emd:identifier>
+    <emd:source/>
+    <emd:language>
+        <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
+    </emd:language>
+    <emd:relation>
+        <eas:replaces>
+            <eas:subject-title>Prehistorische bewoning op het World Forum gebied - Den Haag (replaces)</eas:subject-title>
+            <eas:subject-link>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-aka-hff</eas:subject-link>
+        </eas:replaces>
+        <eas:replaces>
+            <eas:subject-title>Prehistorische bewoning op het World Forum gebied - Den Haag (replaces)</eas:subject-title>
+            <eas:subject-link>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-o91-cwf</eas:subject-link>
+        </eas:replaces>
+        <eas:replaces>
+            <eas:subject-title>Prehistorische bewoning op het World Forum gebied - Den Haag (replaces)</eas:subject-title>
+            <eas:subject-link>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-ict-82u</eas:subject-link>
+        </eas:replaces>
+    </emd:relation>
+    <emd:coverage>
+        <dct:spatial>30D</dct:spatial>
+        <dct:spatial>Congresgebouw</dct:spatial>
+        <dct:spatial>Den Haag</dct:spatial>
+        <dct:spatial>Zuid-Holland</dct:spatial>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">BRONS</dct:temporal>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">IJZ</dct:temporal>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">BRONSM</dct:temporal>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">BRONSL</dct:temporal>
+        <eas:spatial>
+            <eas:point eas:scheme="RD" eas:schemeId="archaeology.eas.spatial">
+                <eas:x>79249</eas:x>
+                <eas:y>456633</eas:y>
+            </eas:point>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dct:accessRights>
+        <dct:license eas:scheme="Easy version 1">accept</dct:license>
+        <dct:rightsHolder>Archeologisch Onderzoek Leiden BV</dct:rightsHolder>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:2</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+        </eas:application-specific>
+        <eas:etc>
+            <property-list>
+                <comment>New migration of Archeology metadata (archis OMN, audience)</comment>
+                <entry key="conversion.date">2011-07-08T20:28:13.012Z</entry>
+                <entry key="previous.collection-id">twips.dans.knaw.nl-2523225611789280552-1262964480477</entry>
+                <entry key="nl.knaw.dans.easy.tools.task.am.dataset.AudienceCorrectorTask">2011-07-20T18:18:36.583+02:00</entry>
+                <entry key="nl.knaw.dans.easy.tools.task.am.dataset.GroupCorrectorTask">2011-07-20T18:18:36.697+02:00</entry>
+                <entry key="nl.knaw.dans.easy.tools.task.am.dataset.EmdCorrectorTask">2011-08-05T03:13:25.019+02:00</entry>
+                <entry key="nl.knaw.dans.easy.tools.task.am.dataset.EasDateCorrector">2011-08-07T15:12:44.360+02:00</entry>
+            </property-list>
+        </eas:etc>
+    </emd:other>
+</emd:easymetadata>

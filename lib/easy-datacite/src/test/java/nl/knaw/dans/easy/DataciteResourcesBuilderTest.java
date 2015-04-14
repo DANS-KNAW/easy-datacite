@@ -1,11 +1,26 @@
 package nl.knaw.dans.easy;
 
-import nl.knaw.dans.easy.DataciteServiceConfiguration;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.DOI_RESOLVER;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.SCHEME_DOI;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import static org.powermock.api.easymock.PowerMock.verifyAll;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,5 +95,52 @@ public class DataciteResourcesBuilderTest {
         assertThat(out, containsString(emd2.getEmdIdentifier().getDansManagedDoi()));
         // further proof of the pudding is eating it: sending it to datacite
         logger.debug(out);
+    }
+
+    @Ignore(value="used as a sample")
+    @Test
+    public void teasyEmds() throws Exception {
+        int[] failing = {5, 48, 82};
+        for (int i : failing) {
+        //for (int i = 1000; i < 2000; i++) {
+            try {
+                EasyMetadata emd = readTeasyEmd(i);
+                if (StringUtils.isNotBlank(emd.getEmdIdentifier().getPersistentIdentifier()))
+                    try {
+                        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emd);
+                    }
+                    catch (DataciteServiceException e) {
+                        System.err.println(emd.getEmdIdentifier().getDatasetId() + " " + emd.getEmdIdentifier().getPersistentIdentifier());
+                        Assert.assertThat(e.getMessage(), containsString("transformation failed"));
+                        Assert.assertThat(e.getMessage(), containsString("An empty sequence"));
+                        Assert.assertThat(e.getMessage(), containsString("dates"));
+                    }
+            }
+            catch (FileNotFoundException e) {
+                // no dataset, skip
+            }
+        }
+        verifyAll();
+    }
+
+    private EasyMetadata readTeasyEmd(int i) throws Exception {
+        InputStream inputStream = new URL("http://teasy.dans.knaw.nl:8080/fedora/get/easy-dataset:" + i + "/EMD").openStream();
+        try {
+            String xml = IOUtils.toString(inputStream, "UTF-8");
+            EasyMetadata emd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
+            if (StringUtils.isBlank(emd.getEmdIdentifier().getDansManagedDoi()))
+                emd.getEmdIdentifier().add(createDOI());
+            return emd;
+        }
+        finally {
+            inputStream.close();
+        }
+    }
+
+    private BasicIdentifier createDOI() {
+        BasicIdentifier bi = new BasicIdentifier("10.5072/dans-test-123");
+        bi.setIdentificationSystem(URI.create(DOI_RESOLVER));
+        bi.setScheme(SCHEME_DOI);
+        return bi;
     }
 }
