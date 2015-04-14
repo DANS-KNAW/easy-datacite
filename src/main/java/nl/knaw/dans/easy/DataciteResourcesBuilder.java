@@ -25,7 +25,7 @@ public class DataciteResourcesBuilder {
     private static final String RESOURCES_FORMAT = "<resources>\n%s\n</resources>";
     private static final String DOI_DATA_FORMAT = " <DOIdata>\n  <DOI>%s</DOI>\n  <URL>%s</URL>\n  <metadata>\n   %s\n   </metadata>\n </DOIdata>";
 
-    private static final String EXCEPTION_MESSAGE_FORMAT = "Could not create content for DataCite request. DOI = %s, reason : %s";
+    private static final String EXCEPTION_MESSAGE_FORMAT = "EMD to DataCite transformation failed. %s, DOI = %s, reason : %s";
     private static final String MISSING_STYLESHEET = "Stylesheet not found on classpath: '%s'";
 
     private static Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilder.class);
@@ -70,13 +70,13 @@ public class DataciteResourcesBuilder {
             return String.format(DOI_DATA_FORMAT, doi, doiUrl, dataciteMetadata);
         }
         catch (XMLSerializationException e) {
-            throw createServiceException(doi, e);
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
         }
         catch (IOException e) {
-            throw createServiceException(doi, e);
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
         }
         catch (TransformerException e) {
-            throw createServiceException(doi, e);
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
         }
     }
 
@@ -85,8 +85,8 @@ public class DataciteResourcesBuilder {
         return new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
     }
 
-    private DataciteServiceException createServiceException(String doi, Exception e) {
-        String message = String.format(EXCEPTION_MESSAGE_FORMAT, doi, e.getMessage());
+    private DataciteServiceException createServiceException(String fedoraID, String doi, Exception e) {
+        String message = String.format(EXCEPTION_MESSAGE_FORMAT, fedoraID, doi, e.getMessage());
         return new DataciteServiceException(message, e);
     }
 
