@@ -9,6 +9,7 @@ import nl.knaw.dans.common.lang.ldap.OperationalAttributes;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.business.authn.LoginService;
 import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.authn.RegistrationService;
@@ -43,22 +44,26 @@ public class EasyUserService extends AbstractEasyService implements UserService 
 
     public EasyUserService() {}
 
+    @Override
     public UsernamePasswordAuthentication newUsernamePasswordAuthentication() throws ServiceException {
         return loginService.newAuthentication();
     }
 
+    @Override
     public RegistrationMailAuthentication newRegistrationMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
             throws ServiceException
     {
         return registrationService.newAuthentication(userId, returnedTime, returnedToken);
     }
 
+    @Override
     public ForgottenPasswordMailAuthentication newForgottenPasswordMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
             throws ServiceException
     {
         return getPasswordService().newAuthentication(userId, returnedTime, returnedToken);
     }
 
+    @Override
     public void authenticate(Authentication authentication) throws ServiceException {
         if (authentication instanceof UsernamePasswordAuthentication) {
             loginService.login((UsernamePasswordAuthentication) authentication);
@@ -85,10 +90,12 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         }
     }
 
+    @Override
     public void logout(final EasyUser user) throws ServiceException {
         // If everything from this point on is stateless than there's no need to do anything.
     }
 
+    @Override
     public EasyUser getUserById(EasyUser sessionUser, final String uid) throws ObjectNotAvailableException, ServiceException {
         EasyUser user = null;
         try {
@@ -106,42 +113,56 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return user;
     }
 
+    @Override
     public List<EasyUser> getUserByEmail(final String email) throws ServiceException {
-        List<EasyUser> users = null;
         try {
-            users = Data.getUserRepo().findByEmail(email);
+            return Data.getUserRepo().findByEmail(email);
         }
         catch (RepositoryException e) {
             logger.debug("Could not retrieve users by email: ", e);
             throw new ServiceException("Could not retrieve users by email: ", e);
         }
-        return users;
     }
 
+    @Override
     public List<EasyUser> getUsersByRole(Role role) throws ServiceException {
-        List<EasyUser> users = null;
         try {
-            users = Data.getUserRepo().findByRole(role);
+            return Data.getUserRepo().findByRole(role);
         }
         catch (RepositoryException e) {
             logger.debug("Could not retrieve users by role: ", e);
             throw new ServiceException("Could not retrieve users by role: ", e);
         }
-        return users;
     }
 
+    @Override
     public List<EasyUser> getAllUsers() throws ServiceException {
-        List<EasyUser> users = null;
         try {
-            users = Data.getUserRepo().findAll();
+            return Data.getUserRepo().findAll();
         }
         catch (final RepositoryException e) {
             logger.debug("Could not retrieve users: ", e);
             throw new ServiceException("Could not retrieve users: ", e);
         }
-        return users;
     }
 
+    @Override
+    public List<EasyUser> getUsersByState(State state) throws ServiceException {
+        try {
+            List<EasyUser> users = Data.getUserRepo().findAll();
+            List<EasyUser> filtered = new ArrayList<EasyUser>(users);
+            for (EasyUser user : users)
+                if (!user.getState().equals(state))
+                    filtered.remove(user);
+            return filtered;
+        }
+        catch (final RepositoryException e) {
+            logger.debug("Could not retrieve users: ", e);
+            throw new ServiceException("Could not retrieve users: ", e);
+        }
+    }
+
+    @Override
     public List<Group> getAllGroups() throws ServiceException {
         List<Group> groups = null;
         try {
@@ -154,6 +175,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return groups;
     }
 
+    @Override
     public List<String> getAllGroupIds() throws ServiceException {
         List<String> groupIds = new ArrayList<String>();
         for (Group group : getAllGroups()) {
@@ -162,6 +184,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return groupIds;
     }
 
+    @Override
     public Map<String, String> getByCommonNameStub(String stub, long maxCount) throws ServiceException {
         Map<String, String> idNameMap = null;
         try {
@@ -175,6 +198,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
     }
 
     @MutatesUser
+    @Override
     public EasyUser update(final EasyUser sessionUser, final EasyUser user) throws ServiceException {
         // validate user
 
@@ -199,18 +223,21 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return user;
     }
 
+    @Override
     public Registration handleRegistrationRequest(final Registration registration) throws ServiceException {
         registrationService.handleRegistrationRequest(registration);
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
 
+    @Override
     public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException {
         registrationService.handleRegistrationRequest(registration);
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
 
+    @Override
     public boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException {
         boolean hasPassword;
         try {
@@ -223,11 +250,13 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return hasPassword;
     }
 
+    @Override
     public void changePassword(final ChangePasswordMessenger messenger) throws ServiceException {
         // delegate to specialized service.
         getPasswordService().changePassword(messenger);
     }
 
+    @Override
     public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) throws ServiceException {
         // delegate to specialized service.
         // We can send a new password by mail:
@@ -238,6 +267,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         getPasswordService().sendUpdatePasswordLink(messenger);
     }
 
+    @Override
     public OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException {
         try {
             return Data.getUserRepo().getOperationalAttributes(user.getId());
@@ -247,6 +277,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         }
     }
 
+    @Override
     public OperationalAttributes getOperationalAttributes(Group group) throws ServiceException {
         try {
             return Data.getGroupRepo().getOperationalAttributes(group.getId());
@@ -256,6 +287,7 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         }
     }
 
+    @Override
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
     }
@@ -268,10 +300,12 @@ public class EasyUserService extends AbstractEasyService implements UserService 
         return passwordService;
     }
 
+    @Override
     public void setPasswordService(PasswordService passwordService) {
         this.passwordService = passwordService;
     }
 
+    @Override
     public void setRegistrationService(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }

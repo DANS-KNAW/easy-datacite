@@ -1,17 +1,24 @@
 <html xmlns:wicket>
 <wicket:panel>
 
-    <li wicket:id="listItemsWithCount">
-        <a href="#" wicket:id="link">
-            <span wicket:id="text">[Title]</span>
-            (<span wicket:id="numberOf">[0]</span>)
-        </a>
-    </li>
-    <li wicket:id="listItemsWithoutCount">
-        <a href="#" wicket:id="link">
-            <span wicket:id="text">[Title]</span>
-        </a>
-    </li>
+	<li><p><br>datasets</p>
+		<ul>
+			<li wicket:id="datasetPages"><a href="#" wicket:id="link"> <span
+					wicket:id="text">[Title]</span> (<span wicket:id="numberOf">[0]</span>)
+			</a></li>
+		</ul></li>
+	<li><p><br>users</p>
+		<ul>
+			<li wicket:id="userPages"><a href="#" wicket:id="link"> <span
+					wicket:id="text">[Title]</span>
+			</a></li>
+		</ul></li>
+	<li><p><br>other</p>
+		<ul>
+			<li wicket:id="otherPages"><a href="#" wicket:id="link"> <span
+					wicket:id="text">[Title]</span>
+			</a></li>
+		</ul></li>
 
 </wicket:panel>
 </html>

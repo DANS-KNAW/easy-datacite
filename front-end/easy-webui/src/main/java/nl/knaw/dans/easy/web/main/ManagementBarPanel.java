@@ -1,7 +1,9 @@
 package nl.knaw.dans.easy.web.main;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
 import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
@@ -12,6 +14,8 @@ import nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
+import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
@@ -35,36 +39,49 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel {
     public ManagementBarPanel(final String wicketId) {
         super(wicketId);
 
-        RepeatingView listItemsWithCount = new RepeatingView("listItemsWithCount");
-        RepeatingView listItemsWithoutCount = new RepeatingView("listItemsWithoutCount");
+        RepeatingView datasetPages = new RepeatingView("datasetPages");
+        RepeatingView userPages = new RepeatingView("userPages");
+        RepeatingView otherPages = new RepeatingView("otherPages");
 
-        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, AllWorkSearchResultPage.class, "page.allwork", createAllWorkModel()));
-        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, OurWorkSearchResultPage.class, "page.ourwork", createOurWorkModel()));
-        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, MyWorkSearchResultPage.class, "page.mywork", createMyWorkModel()));
-        listItemsWithCount.add(createListLinkWithCount(listItemsWithCount, TrashCanSearchResultPage.class, "page.trashcan", createTrashCanModel()));
+        createChild(datasetPages).add(createCountedLink(AllWorkSearchResultPage.class, "page.allwork", createAllWorkModel()));
+        createChild(datasetPages).add(createCountedLink(OurWorkSearchResultPage.class, "page.ourwork", createOurWorkModel()));
+        createChild(datasetPages).add(createCountedLink(MyWorkSearchResultPage.class, "page.mywork", createMyWorkModel()));
+        createChild(datasetPages).add(createCountedLink(TrashCanSearchResultPage.class, "page.trashcan", createTrashCanModel()));
+        createChild(otherPages).add(createLink(EditableContentPage.class, "page.editableContent"));
 
-        listItemsWithoutCount.add(createListLinkWithoutCount(listItemsWithoutCount, UsersOverviewPage.class, "page.users"));
-        listItemsWithoutCount.add(createListLinkWithoutCount(listItemsWithoutCount, EditableContentPage.class, "page.editableContent"));
+        // role users would repeat all users, other states not wanted by https://drivenbydata.atlassian.net/browse/EASY-853
+        createChild(userPages).add(createLink(UsersOverviewPage.class, "page.users.all"));
+        createChild(userPages).add(createFilteredLink("state", State.ACTIVE.name()));
+        createChild(userPages).add(createFilteredLink("state", State.BLOCKED.name()));
+        createChild(userPages).add(createFilteredLink("state", State.REGISTERED.name()));
+        createChild(userPages).add(createFilteredLink("role", Role.ARCHIVIST.name()));
+        createChild(userPages).add(createFilteredLink("role", Role.ADMIN.name()));
 
-        add(listItemsWithCount);
-        add(listItemsWithoutCount);
+        add(datasetPages);
+        add(userPages);
+        add(otherPages);
     }
 
-    private WebMarkupContainer createListLinkWithCount(RepeatingView listItems, Class linkItem, String name, LoadableDetachableModel<Integer> numberOf) {
-        WebMarkupContainer item = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link = new SecureEasyPageLink("link", linkItem);
-        link.add(new Label("text", getString(name)));
-        link.add(new Label("numberOf", numberOf));
-        item.add(link);
-        return item;
+    private MarkupContainer createChild(RepeatingView listItems) {
+        MarkupContainer child = new WebMarkupContainer(listItems.newChildId());
+        listItems.add(child);
+        return child;
     }
 
-    private WebMarkupContainer createListLinkWithoutCount(RepeatingView listItems, Class linkItem, String name) {
-        WebMarkupContainer item = new WebMarkupContainer(listItems.newChildId());
-        SecureEasyPageLink link = new SecureEasyPageLink("link", linkItem);
-        link.add(new Label("text", getString(name)));
-        item.add(link);
-        return item;
+    private MarkupContainer createCountedLink(Class<? extends AbstractEasyNavPage> linkItem, String name, LoadableDetachableModel<Integer> numberOf) {
+        return createLink(linkItem, name).add(new Label("numberOf", numberOf));
+    }
+
+    private MarkupContainer createLink(Class<? extends AbstractEasyNavPage> linkItem, String name) {
+        Label label = new Label("text", getString(name));
+        return new SecureEasyPageLink("link", linkItem).add(label);
+    }
+
+    private MarkupContainer createFilteredLink(String pageParameKey, String pageParamValue) {
+        PageParameters pageParams = new PageParameters();
+        pageParams.add(pageParameKey, pageParamValue);
+        Label label = new Label("text", getString("page.users." + pageParameKey + "." + pageParamValue));
+        return new SecureEasyPageLink("link", UsersOverviewPage.class, pageParams).add(label);
     }
 
     // Note: the following members are much alike, maybe we can refactor this
