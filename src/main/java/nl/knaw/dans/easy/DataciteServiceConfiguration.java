@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy;
 
+import java.net.URL;
+
 import org.apache.commons.lang.StringUtils;
 
 public class DataciteServiceConfiguration {
@@ -10,6 +12,7 @@ public class DataciteServiceConfiguration {
     private String password;
     private String doiRegistrationUri = DEFAULT_DATACITE_URL;
     private String xslEmd2datacite = DEFAULT_XSL;
+    private URL datasetResolver;
 
     public String getUsername() {
         if (StringUtils.isBlank(username))
@@ -58,5 +61,15 @@ public class DataciteServiceConfiguration {
      */
     public void setXslEmd2datacite(String xslEmd2datacite) {
         this.xslEmd2datacite = xslEmd2datacite;
+    }
+
+    public URL getDatasetResolver() {
+        if (datasetResolver == null)
+            throw new IllegalStateException("Host to resolve datasets by fedoraID is not configured.");
+        return datasetResolver;
+    }
+
+    public void setDatasetResolver(URL datasetResolver) {
+        this.datasetResolver = datasetResolver;
     }
 }

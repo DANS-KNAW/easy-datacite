@@ -115,6 +115,7 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
         <dc:identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dc:identifier>
         <dc:identifier xml:lang="deu-DEU" eas:scheme="BRI" eas:identification-system="http://pid.org/sys1">urn:nbn:nl:ui:13-70r-6pj</dc:identifier>
         <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-321</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:maxi1</dc:identifier>
     </emd:identifier>
     <emd:source>
         <dc:source xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dc:source>
