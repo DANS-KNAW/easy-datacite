@@ -14,6 +14,6 @@
 		<property name="hibernate.connection.username">{{ pid_db_username }}</property>
 		<property name="hibernate.connection.password">{{ pid_db_password }}</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://{{ pid_db_host }}:{{ pid_db_port }}/pid_db</property>
-		<mapping resource="/nl/knaw/dans/easy/pid/seed.hbm.xml" />
+		<mapping resource="/seed.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
