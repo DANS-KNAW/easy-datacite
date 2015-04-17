@@ -1,13 +1,12 @@
 package nl.knaw.dans.easy;
 
-import static nl.knaw.dans.pf.language.emd.types.EmdConstants.DOI_RESOLVER;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.xml.transform.TransformerException;
 
@@ -31,12 +30,14 @@ public class DataciteResourcesBuilder {
     private static Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilder.class);
 
     private final URL styleSheetURL;
+    private final URL datasetResolver;
 
     /**
      * @param xslEmdToDatacite
      *        location on the class path of the XSL that transforms an EMD to a DataCite resource
      */
-    public DataciteResourcesBuilder(String xslEmdToDatacite) {
+    public DataciteResourcesBuilder(String xslEmdToDatacite, URL datasetResolver) {
+        this.datasetResolver = datasetResolver;
         styleSheetURL = this.getClass().getClassLoader().getResource(xslEmdToDatacite);
         if (styleSheetURL == null) {
             String message = String.format(MISSING_STYLESHEET, xslEmdToDatacite);
@@ -65,9 +66,9 @@ public class DataciteResourcesBuilder {
     private String createDoiData(EasyMetadata emd) throws DataciteServiceException {
         String doi = emd.getEmdIdentifier().getDansManagedDoi();
         try {
-            URL doiUrl = new URL(new URL(DOI_RESOLVER), doi);
+            String url = datasetResolver + "/" + emd.getEmdIdentifier().getDatasetId();
             String dataciteMetadata = transform(toInputStrem(emd));
-            return String.format(DOI_DATA_FORMAT, doi, doiUrl, dataciteMetadata);
+            return String.format(DOI_DATA_FORMAT, doi, url, dataciteMetadata);
         }
         catch (XMLSerializationException e) {
             throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);

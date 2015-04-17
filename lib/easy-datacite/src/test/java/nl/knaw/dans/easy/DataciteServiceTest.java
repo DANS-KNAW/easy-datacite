@@ -64,6 +64,7 @@ public class DataciteServiceTest {
         config.setUsername("failing-name");
         config.setPassword("failing-passwd");
         config.setDoiRegistrationUri("http://failing-url");
+        config.setDatasetResolver(new URL("http://some.domain/and/path"));
         DataciteService service = new DataciteService(config);
         try {
             replayAll();
@@ -101,6 +102,7 @@ public class DataciteServiceTest {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername("failing-name");
         config.setPassword("failing-passwd");
+        config.setDatasetResolver(new URL("http://some.domain/and/path"));
         DataciteService service = new DataciteService(config);
         try {
             replayAll();
@@ -123,13 +125,14 @@ public class DataciteServiceTest {
     }
 
     @Test
-    public void xslNotFound() {
+    public void xslNotFound() throws Exception {
         // tested here (not only in the ResourcesBuilderTest) because
         // - now we cover more code of the configuration class
         // - here we have the before/after methods to assert the logging anyway
         final String xslFileName = "notFound.xsl";
         Capture<String> capturedMessage = expectLoggedError(1);
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
+        config.setDatasetResolver(new URL("http://some.domain/and/path"));
         config.setXslEmd2datacite(xslFileName);
         try {
             replayAll();
@@ -351,7 +354,7 @@ public class DataciteServiceTest {
         return hackedFile;
     }
 
-    private DataciteServiceConfiguration getConfigWithCredentialsFromJVM() {
+    private DataciteServiceConfiguration getConfigWithCredentialsFromJVM() throws Exception {
         Properties systemProperties = System.getProperties();
         String userName = systemProperties.getProperty("datacite.user", "");
         String password = systemProperties.getProperty("datacite.password", "");
@@ -360,6 +363,7 @@ public class DataciteServiceTest {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername(userName.toString());
         config.setPassword(password.toString());
+        config.setDatasetResolver(new URL("http://some.domain/and/path"));
         return config;
     }
 

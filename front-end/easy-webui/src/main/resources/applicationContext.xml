@@ -350,6 +350,7 @@
 		<property name="username" value="${datacite.username}" />
 		<property name="password" value="${datacite.password}" />
 		<property name="doiRegistrationUri" value="${datacite.registration.uri}" />
+		<property name="datasetResolver" value="${dataset.resolver.uri}" />
 	</bean>
 
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">

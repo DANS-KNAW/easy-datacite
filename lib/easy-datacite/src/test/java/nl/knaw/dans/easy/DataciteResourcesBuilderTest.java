@@ -9,6 +9,7 @@ import static org.powermock.api.easymock.PowerMock.verifyAll;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
@@ -34,7 +35,7 @@ public class DataciteResourcesBuilderTest {
         // covers just one of the exceptions thrown by the private method createDoiData
         EasyMetadata emd = new EmdBuilder().build();
         try {
-            new DataciteResourcesBuilder("empty.xsl").create(emd);
+            new DataciteResourcesBuilder("empty.xsl", getResolver()).create(emd);
         }
         catch (DataciteServiceException e) {
             assertThat(e.getMessage(), containsString(emd.getEmdIdentifier().getDansManagedDoi()));
@@ -43,24 +44,24 @@ public class DataciteResourcesBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void noEmdA() throws Exception {
-        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create();
+        createDefaultBuilder().create();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void noEmdB() throws Exception {
         EasyMetadata[] emds = {};
-        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emds);
+        createDefaultBuilder().create(emds);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void noEmdC() throws Exception {
         EasyMetadata[] emds = null;
-        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emds);
+        createDefaultBuilder().create(emds);
     }
 
     @Test(expected = IllegalStateException.class)
     public void classpath() throws Exception {
-        new DataciteResourcesBuilder("notFound.xsl").create();
+        new DataciteResourcesBuilder("notFound.xsl", getResolver()).create();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,7 +69,7 @@ public class DataciteResourcesBuilderTest {
         EasyMetadata emd = new EmdBuilder().replaceAll("10.5072/dans-test-123", "\t").build();
         assertThat(emd.getEmdIdentifier().getDansManagedDoi(), equalTo("\t"));
 
-        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emd);
+        createDefaultBuilder().create(emd);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class DataciteResourcesBuilderTest {
 
         EasyMetadata emd = new EmdBuilder().build();
 
-        String out = new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emd);
+        String out = createDefaultBuilder().create(emd);
 
         assertThat(out, containsString(emd.getEmdIdentifier().getDansManagedDoi()));
         assertThat(out, containsString(emd.getPreferredTitle()));
@@ -89,7 +90,7 @@ public class DataciteResourcesBuilderTest {
         EasyMetadata emd1 = new EmdBuilder().build();
         EasyMetadata emd2 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build();
 
-        String out = new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emd1, emd2);
+        String out = createDefaultBuilder().create(emd1, emd2);
 
         assertThat(out, containsString(emd1.getEmdIdentifier().getDansManagedDoi()));
         assertThat(out, containsString(emd2.getEmdIdentifier().getDansManagedDoi()));
@@ -107,7 +108,7 @@ public class DataciteResourcesBuilderTest {
                 EasyMetadata emd = readTeasyEmd(i);
                 if (StringUtils.isNotBlank(emd.getEmdIdentifier().getPersistentIdentifier()))
                     try {
-                        new DataciteResourcesBuilder(XSL_EMD2DATACITE).create(emd);
+                        new DataciteResourcesBuilder(XSL_EMD2DATACITE, getResolver()).create(emd);
                     }
                     catch (DataciteServiceException e) {
                         System.err.println(emd.getEmdIdentifier().getDatasetId() + " " + emd.getEmdIdentifier().getPersistentIdentifier());
@@ -142,5 +143,13 @@ public class DataciteResourcesBuilderTest {
         bi.setIdentificationSystem(URI.create(DOI_RESOLVER));
         bi.setScheme(SCHEME_DOI);
         return bi;
+    }
+
+    private DataciteResourcesBuilder createDefaultBuilder() throws MalformedURLException {
+        return new DataciteResourcesBuilder(XSL_EMD2DATACITE, getResolver());
+    }
+
+    private URL getResolver() throws MalformedURLException {
+        return new URL("http://some.domain/and/path");
     }
 }

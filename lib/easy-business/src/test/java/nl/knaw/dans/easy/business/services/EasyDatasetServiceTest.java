@@ -12,6 +12,7 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.resetAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,7 +72,7 @@ public class EasyDatasetServiceTest extends TestHelper {
     private static DisciplineCollection disciplineCollection;
 
     @Before
-    public void before() {
+    public void before() throws Exception {
         new Security(new CodedAuthz());
 
         fileStoreAccess = createMock(FileStoreAccess.class);
@@ -86,7 +87,9 @@ public class EasyDatasetServiceTest extends TestHelper {
 
         disciplineCollection = createMock(DisciplineCollection.class);
 
-        service = new EasyDatasetService(new DataciteServiceConfiguration());
+        DataciteServiceConfiguration dataciteServiceConfiguration = new DataciteServiceConfiguration();
+        dataciteServiceConfiguration.setDatasetResolver(new URL("http://some.domain/and/path"));
+        service = new EasyDatasetService(dataciteServiceConfiguration);
         Whitebox.setInternalState(service, "disciplineCollection", disciplineCollection);
     }
 

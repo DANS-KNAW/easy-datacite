@@ -26,7 +26,7 @@ public class DataciteService {
 
     public DataciteService(DataciteServiceConfiguration configuration) {
         this.configuration = configuration;
-        resourcesBuilder = new DataciteResourcesBuilder(configuration.getXslEmd2datacite());
+        resourcesBuilder = new DataciteResourcesBuilder(configuration.getXslEmd2datacite(), configuration.getDatasetResolver());
     }
 
     public void create(EasyMetadata... emds) throws DataciteServiceException {

@@ -4,6 +4,9 @@ import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.createMock;
 import static org.powermock.api.easymock.PowerMock.replayAll;
+
+import java.net.URL;
+
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.mail.AdminMailer;
@@ -71,7 +74,9 @@ public class AdminAlertTest {
         EasyUser sessionUser = new EasyUserImpl("ben");
         sessionUser.setState(State.ACTIVE);
 
-        DatasetService ds = new EasyDatasetService(new DataciteServiceConfiguration());
+        DataciteServiceConfiguration dataciteServiceConfiguration = new DataciteServiceConfiguration();
+        dataciteServiceConfiguration.setDatasetResolver(new URL("http://some.domain/and/path"));
+        DatasetService ds = new EasyDatasetService(dataciteServiceConfiguration);
 
         Dataset dataset = new DatasetImpl("foo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.DRAFT);
