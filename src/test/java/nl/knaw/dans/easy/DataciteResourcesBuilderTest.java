@@ -97,12 +97,12 @@ public class DataciteResourcesBuilderTest {
         logger.debug(out);
     }
 
-    @Ignore(value="used as a sample")
+    @Ignore(value = "used as a sample")
     @Test
     public void teasyEmds() throws Exception {
         int[] failing = {5, 48, 82};
         for (int i : failing) {
-        //for (int i = 1000; i < 2000; i++) {
+            // for (int i = 1000; i < 2000; i++) {
             try {
                 EasyMetadata emd = readTeasyEmd(i);
                 if (StringUtils.isNotBlank(emd.getEmdIdentifier().getPersistentIdentifier()))
