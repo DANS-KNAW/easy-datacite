@@ -66,7 +66,7 @@ public class DataciteResourcesBuilder {
     private String createDoiData(EasyMetadata emd) throws DataciteServiceException {
         String doi = emd.getEmdIdentifier().getDansManagedDoi();
         try {
-            String url = datasetResolver + "/" + emd.getEmdIdentifier().getDatasetId();
+            String url = datasetResolver + (datasetResolver.getPath().endsWith("/") ? "" : "/") + emd.getEmdIdentifier().getDatasetId();
             String dataciteMetadata = transform(toInputStrem(emd));
             return String.format(DOI_DATA_FORMAT, doi, url, dataciteMetadata);
         }
