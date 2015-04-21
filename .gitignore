@@ -1,4 +1,31 @@
-/.project
-/.settings
+#### maven
+
+target/
+bin/
+
+#### eclipse
+
+.project
+.classpath
+.settings/
+
+#### MAC
+
 .DS_Store
 
+#### scala
+
+.cache/
+.tmpBin/
+.worksheet/
+*.sc
+
+#### (vim?) backup files
+
+~*
+.~*
+
+#### Sass Cache (webui)
+
+*.scssc
+.sass-cache/

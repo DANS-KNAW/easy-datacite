@@ -1,8 +1,1 @@
-/target
-/bin
-/.project
-/.classpath
-/.settings
-/.DS_Store
-
-/audit-log
+test-output/
