@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="3 minutes">
-	<property name="LOGDIR" value="/var/log/pid-generator" />
+	<property name="LOGDIR" value="$PID_GENERATOR_HOME/log/pid-generator.log" />
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
