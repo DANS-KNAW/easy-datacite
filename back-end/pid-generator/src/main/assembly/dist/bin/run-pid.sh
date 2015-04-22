@@ -1,6 +1,7 @@
 #!/bin/sh
 
-java -Dlogback.configurationFile=$PID_GENERATOR_HOME/cfg/logback.xml \
-     -jar $PID_GENERATOR_HOME/bin/jetty-runner.jar \
-     --port {{ pid_generator_port }} pid-generator.war 
-
+pushd $PID_GENERATOR_HOME
+java -Dlogback.configurationFile=cfg/logback.xml \
+     -jar bin/jetty-runner.jar \
+     --port {{ pid_generator_port }} bin/pid-generator.war 
+popd
