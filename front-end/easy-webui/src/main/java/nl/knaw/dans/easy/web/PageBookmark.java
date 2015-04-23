@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web;
 import nl.knaw.dans.common.lang.ALiasDelegate;
 import nl.knaw.dans.common.lang.ALiasDelegate.AliasInterface;
 import nl.knaw.dans.easy.web.admin.UserDetailsPage;
+import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
 import nl.knaw.dans.easy.web.authn.ChangePasswordPage;
 import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
@@ -51,6 +52,7 @@ public enum PageBookmark implements AliasInterface<Page> {
     myRequests(MyRequestsSearchResultPage.class, "myRequest"), //
     migration(MigrationRedirectPage.class, "dms"), //
     userDetailsPage(UserDetailsPage.class, "users"), //
+    userOverviewPage(UsersOverviewPage.class, "useroverview"), //
     helpPage(HelpPage.class, "help");
 
     private static ALiasDelegate<Page> delegate = new ALiasDelegate<Page>(PageBookmark.values());

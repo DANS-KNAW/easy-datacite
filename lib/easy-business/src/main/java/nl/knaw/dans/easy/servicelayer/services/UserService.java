@@ -9,6 +9,7 @@ import java.util.Map;
 import nl.knaw.dans.common.lang.ldap.OperationalAttributes;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.business.authn.LoginService;
 import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.authn.RegistrationService;
@@ -92,5 +93,7 @@ public interface UserService {
     void setLoginService(LoginService loginService);
 
     void setRegistrationService(RegistrationService registrationService);
+
+    List<EasyUser> getUsersByState(State state) throws ServiceException;
 
 }

@@ -27,15 +27,13 @@ import nl.knaw.dans.easy.web.ErrorPage;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.util.tester.FormTester;
-import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserPagesTest {
+public class UserDetailsPageTest {
     private final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
-    private final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";
     private final String FORM_PATH = "userDetailsPanel:switchPanel:userInfoForm";
     private final String EDIT_LINK_PATH = "userDetailsPanel:switchPanel:editLink";
     private EasyApplicationContextMock applicationContext;
@@ -61,44 +59,6 @@ public class UserPagesTest {
     @After
     public void cleanup() {
         TestUtil.cleanup();
-    }
-
-    @Test
-    public void smokeTestNoUsers() throws Exception {
-        prepareOveriew(new ArrayList<EasyUser>());
-        EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
-        tester.assertRenderedPage(UsersOverviewPage.class);
-        tester.dumpPage();
-    }
-
-    @Test
-    public void smokeTestOneUser() throws Exception {
-        final EasyUserImpl user = new EasyUserTestImpl("mocked-user:visitor1");
-        user.setInitials("Visi");
-        user.setSurname("Tor");
-        user.addRole(Role.USER);
-        user.setState(User.State.ACTIVE);
-
-        final ArrayList<EasyUser> users = new ArrayList<EasyUser>();
-        users.add(user);
-        prepareOveriew(users);
-        EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
-        tester.assertRenderedPage(UsersOverviewPage.class);
-        tester.dumpPage();
-    }
-
-    @Test
-    public void smokeTestMultipleUsers() throws Exception {
-        prepareOveriew(prepareDetails());
-        final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
-        tester.dumpPage();
-        tester.assertRenderedPage(UsersOverviewPage.class);
-        tester.debugComponentTrees();
-        tester.clickLink(SHOW_USER_PATH);
-        tester.assertRenderedPage(UserDetailsPage.class);
-        tester.clickLink(EDIT_LINK_PATH);
-        tester.assertRenderedPage(UserDetailsPage.class);
-        tester.newFormTester(FORM_PATH).submit();
     }
 
     @Test
@@ -186,9 +146,5 @@ public class UserPagesTest {
         expect(userService.getAllUsers()).andStubReturn(users);
         expect(userService.update(isA(EasyUser.class), isA(EasyUser.class))).andStubReturn(depositor);
         return users;
-    }
-
-    private void prepareOveriew(final ArrayList<EasyUser> users) throws ServiceException {
-        EasyMock.expect(applicationContext.getUserService().getAllUsers()).andStubReturn(users);
     }
 }
