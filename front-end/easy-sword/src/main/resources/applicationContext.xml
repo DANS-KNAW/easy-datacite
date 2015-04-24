@@ -68,9 +68,18 @@
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
 	<bean name="federativeUserService"
 		class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
-	<bean name="datasetService"
-		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
-	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+    <bean name="datasetService"
+        class="nl.knaw.dans.easy.business.services.EasyDatasetService">
+        <constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
+    </bean>
+    <bean name="dataciteServiceConfiguration"
+        class="nl.knaw.dans.easy.DataciteServiceConfiguration">
+        <property name="username" value="${datacite.username}" />
+        <property name="password" value="${datacite.password}" />
+        <property name="doiRegistrationUri" value="${datacite.registration.uri}" />
+        <property name="datasetResolver" value="${dataset.resolver.uri}" />
+    </bean>
+    <bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
 	<bean name="depositService"
 		class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
 	<bean name="disciplineService"
@@ -88,7 +97,8 @@
 
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
 		<constructor-arg value="SWORD_INGEST" />
-		<constructor-arg value="${pid.service.base.url}" />
+		<constructor-arg type="java.net.URL" value="${pid.service.base.url}" />
+        <constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />		
 	</bean>
 
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices"
