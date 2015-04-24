@@ -43,7 +43,8 @@ class PidService extends ScalatraServlet with ScalateSupport {
       len = 7,
       charMap = doiIllegalCharMap,
       dashPos = conf.getInt("types.doi.dashPosition")))
-
+  log.info("PID Generator Service running ...")
+      
   get("/") {
     Ok("Persistent Identifier Generator running")
   }
