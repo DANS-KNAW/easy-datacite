@@ -34,10 +34,6 @@
 			<artifactId>spring-beans</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>dans-pid</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>jrdf</groupId>
 			<artifactId>jrdf</artifactId>
 			<version>${jrdf.version}</version>

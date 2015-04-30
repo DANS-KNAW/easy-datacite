@@ -73,11 +73,6 @@
         <dependencies>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
-                <artifactId>dans-pid</artifactId>
-                <version>${easy.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-datacite</artifactId>
                 <version>${easy.version}</version>
             </dependency>

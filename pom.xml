@@ -19,7 +19,6 @@
         <module>back-end/pid-generator</module>
 
 		<!-- Libraries -->
-		<module>lib/dans-pid</module>
 		<module>lib/dans-solr</module>
 		<module>lib/dans-wicket</module>
 		<module>lib/ddm</module>
