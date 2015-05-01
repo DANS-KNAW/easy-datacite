@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
@@ -27,9 +26,9 @@
 			<version>1.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>aperture</groupId>
-			<artifactId>aperture</artifactId>
-			<version>1.2.0</version>
+			<groupId>org.semanticdesktop.aperture</groupId>
+			<artifactId>aperture-core</artifactId>
+			<version>1.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.semweb4j</groupId>

@@ -21,7 +21,7 @@
         <commons-csv.version>1.1</commons-csv.version>
         <janino.version>2.6.1</janino.version>
         <jetty.version>6.1H.22</jetty.version>
-        <wicket.version>1.4.22</wicket.version>
+        <wicket.version>1.4.23</wicket.version>
         <jibx.version>1.2.4.5</jibx.version>
         <jersey.version>1.8</jersey.version>
         <scala.version>2.11.6</scala.version>
@@ -39,7 +39,10 @@
         <apache-httpcomponents.version>4.3.6</apache-httpcomponents.version>
         <sardine.version>5.4</sardine.version>
         <postgresql.version>8.4-701.jdbc3</postgresql.version>
-        <hibernate.version>4.3.7.Final</hibernate.version>
+        <hibernate.version>4.3.9.Final</hibernate.version>
+        <activation.version>1.1.1</activation.version>
+        <mail-api.version>1.5.3</mail-api.version>
+        <joda-time.version>2.7</joda-time.version>
     </properties>
     <dependencies>
         <dependency>
@@ -373,6 +376,21 @@
 	            <artifactId>hibernate-core</artifactId>
 	            <version>${hibernate.version}</version>
 	        </dependency>
+	        <dependency>
+	            <groupId>javax.activation</groupId>
+	            <artifactId>activation</artifactId>
+	            <version>${activation.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>javax.mail</groupId>
+	            <artifactId>javax.mail-api</artifactId>
+	            <version>${mail-api.version}</version>
+	        </dependency>
+			<dependency>
+			    <groupId>joda-time</groupId>
+			    <artifactId>joda-time</artifactId>
+			    <version>${joda-time.version}</version>
+			</dependency>	        
         </dependencies>
     </dependencyManagement>
     <build>
