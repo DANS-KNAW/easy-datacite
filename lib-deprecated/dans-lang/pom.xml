@@ -26,9 +26,9 @@
 			<version>1.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.semanticdesktop.aperture</groupId>
-			<artifactId>aperture-core</artifactId>
-			<version>1.6.0</version>
+			<groupId>aperture</groupId>
+			<artifactId>aperture</artifactId>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.semweb4j</groupId>
