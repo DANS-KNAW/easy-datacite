@@ -1,21 +1,21 @@
-#### maven
+#### Maven
 
 target/
 bin/
 
-#### eclipse
+#### Eclipse
 
 .project
 .classpath
 .settings/
 
-#### MAC
+#### Mac OS X
 
 .DS_Store
 
-#### scala
+#### Scala
 
-.cache/
+.cache
 .tmpBin/
 .worksheet/
 *.sc
@@ -29,3 +29,7 @@ bin/
 
 *.scssc
 .sass-cache/
+
+#### IntelliJ 
+.idea
+*.iml
