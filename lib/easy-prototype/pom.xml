@@ -42,6 +42,7 @@
         <hibernate.version>4.3.9.Final</hibernate.version>
         <activation.version>1.1.1</activation.version>
         <mail-api.version>1.5.3</mail-api.version>
+        <mail-impl.version>1.4.7</mail-impl.version>
         <joda-time.version>2.7</joda-time.version>
     </properties>
     <dependencies>
@@ -340,57 +341,63 @@
                 <version>${scalamock.version}</version>
                 <scope>test</scope>
             </dependency>
-			<dependency>
-				<groupId>org.scalatra</groupId>
-				<artifactId>scalatra_2.11</artifactId>
-				<version>${scalatra.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.scalatra</groupId>
-				<artifactId>scalatra-scalate_2.11</artifactId>
-				<version>${scalatra.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.scalacheck</groupId>
-				<artifactId>scalacheck_2.11</artifactId>
-				<version>${scalacheck.version}</version>
-				<scope>test</scope>
-			</dependency>
-	        <dependency>
-	            <groupId>com.typesafe</groupId>
-	            <artifactId>config</artifactId>
-	            <version>${config.version}</version>
-	        </dependency>        
+            <dependency>
+                <groupId>org.scalatra</groupId>
+                <artifactId>scalatra_2.11</artifactId>
+                <version>${scalatra.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatra</groupId>
+                <artifactId>scalatra-scalate_2.11</artifactId>
+                <version>${scalatra.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scalacheck</groupId>
+                <artifactId>scalacheck_2.11</artifactId>
+                <version>${scalacheck.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>config</artifactId>
+                <version>${config.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.lookfirst</groupId>
                 <artifactId>sardine</artifactId>
                 <version>${sardine.version}</version>
             </dependency>
-	        <dependency>
-	            <groupId>postgresql</groupId>
-	            <artifactId>postgresql</artifactId>
-	            <version>${postgresql.version}</version>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
-	        <dependency>
-	            <groupId>org.hibernate</groupId>
-	            <artifactId>hibernate-core</artifactId>
-	            <version>${hibernate.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>javax.activation</groupId>
-	            <artifactId>activation</artifactId>
-	            <version>${activation.version}</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>javax.mail</groupId>
-	            <artifactId>javax.mail-api</artifactId>
-	            <version>${mail-api.version}</version>
-	        </dependency>
-			<dependency>
-			    <groupId>joda-time</groupId>
-			    <artifactId>joda-time</artifactId>
-			    <version>${joda-time.version}</version>
-			</dependency>	        
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${activation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>javax.mail-api</artifactId>
+                <version>${mail-api.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>javax.mail</groupId>
+               <artifactId>mail</artifactId>
+               <version>${mail-impl.version}</version>
+               <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -437,42 +444,42 @@
                         </args>
                     </configuration>
                 </plugin>
-	            <plugin>
-	                <groupId>org.scalatest</groupId>
-	                <artifactId>scalatest-maven-plugin</artifactId>
-	                <version>${scalatest-maven-plugin.version}</version>
-	                <configuration>
-	                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-	                    <junitxml>.</junitxml>
-	                    <filereports>WDF TestSuite.txt</filereports>
-	                </configuration>
-	                <executions>
-	                    <execution>
-	                        <id>test</id>
-	                        <goals>
-	                            <goal>test</goal>
-	                        </goals>
-	                    </execution>
-	                </executions>
-	            </plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>aspectj-maven-plugin</artifactId>
-					<version>${aspectj-maven-plugin.version}</version>
-					<configuration>
-						<verbose>true</verbose>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
-						<complianceLevel>1.7</complianceLevel>
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>compile</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
+                <plugin>
+                    <groupId>org.scalatest</groupId>
+                    <artifactId>scalatest-maven-plugin</artifactId>
+                    <version>${scalatest-maven-plugin.version}</version>
+                    <configuration>
+                        <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                        <junitxml>.</junitxml>
+                        <filereports>WDF TestSuite.txt</filereports>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>test</id>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <version>${aspectj-maven-plugin.version}</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <complianceLevel>1.7</complianceLevel>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <artifactId>maven-eclipse-plugin</artifactId>
                     <configuration>
