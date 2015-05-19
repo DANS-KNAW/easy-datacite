@@ -6,9 +6,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
@@ -21,6 +23,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,28 +31,44 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
     private static final Logger logger = LoggerFactory.getLogger(DescriptionPanel.class);
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     public static final String CREATOR = "creator";
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     public static final String DATE_CREATED = "dateCreated";
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     public static final String PID_LABEL = "pid";
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     private static final String PID_LINK = "pidLink";
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     public static final String DESCRIPTIONS = "descriptions";
 
-    /** Wicket id. */
+    /**
+     * Wicket id.
+     */
     public static final String DESCRIPTION = "description";
 
-    /** String used to separate creator items. */
+    /**
+     * String used to separate creator items.
+     */
     public static final String SEPARATOR = "; ";
 
-    /** String used to separate creator items. */
+    /**
+     * String used to separate creator items.
+     */
     public static final String SEPARATOR_FOR_DATES = ", ";
 
     private final EasyMetadata emd;
@@ -66,8 +85,9 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
     private void init() {
         String dateCreated = getDateCreated();
-        String doi = emd.getEmdIdentifier().getDansManagedDoi();
-        String pid = emd.getEmdIdentifier().getPersistentIdentifier();
+        EmdIdentifier emdIdentifier = emd.getEmdIdentifier();
+        String doi = emdIdentifier.getDansManagedDoi();
+        String pid = emdIdentifier.getPersistentIdentifier();
 
         add(new Label(CREATOR, getCreators()));
         add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
@@ -77,8 +97,10 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
         } else {
             add(finishLink(PID_LABEL, pid, createPidLink(PID_LINK, pid)));
         }
-
-        add(new BibliographyPanel(BIBLIO, new Model<EasyMetadata>(emd)));
+        if (emdIdentifier != null && (emdIdentifier.getPersistentIdentifier() != null || emdIdentifier.getDansManagedDoi() != null))
+            add(new BibliographyPanel(BIBLIO, new Model<EasyMetadata>(emd)));
+        else
+            add(new Label(BIBLIO, getString("bibliography.draft")));
     }
 
     private static Component finishLink(String wicketID, String label, Link<Object> link) {

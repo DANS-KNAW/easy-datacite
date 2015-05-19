@@ -1,10 +1,9 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
-import static nl.knaw.dans.easy.domain.model.PermissionSequence.State.Submitted;
-
 import java.util.Collections;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.DatasetProxy;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
@@ -54,11 +53,22 @@ public class OverviewTabTest {
 
     @Test
     public void withoutDOI() throws Exception {
-        Dataset dataset = mockDataset();
+        Dataset dataset = mockDataset(DatasetState.DRAFT);
         applicationContext.expectDataset(dataset.getDmoStoreId(), dataset);
         EasyWicketTester tester = startPage();
         tester.dumpPage();
         tester.assertLabel(LABEL_PATH, dataset.getEasyMetadata().getEmdIdentifier().getPersistentIdentifier());
+    }
+
+    @Test
+    public void neitherDoiNorUrn() throws Exception {
+        Dataset dataset = mockDataset(DatasetState.DRAFT);
+        dataset.getEasyMetadata().getEmdIdentifier().removeAllIdentifiers(EmdConstants.SCHEME_PID);
+
+        applicationContext.expectDataset(dataset.getDmoStoreId(), dataset);
+        EasyWicketTester tester = startPage();
+        tester.dumpPage();
+        tester.assertContainsNot("identifier=null");
     }
 
     @Test
@@ -73,15 +83,15 @@ public class OverviewTabTest {
     private Dataset mockDatasetWithDoi() throws Exception {
         BasicIdentifier doi = new BasicIdentifier("10.5072/dans-1234-abcd");
         doi.setScheme(EmdConstants.SCHEME_DOI);
-        Dataset dataset = mockDataset();
+        Dataset dataset = mockDataset(DatasetState.SUBMITTED);
         dataset.getEasyMetadata().getEmdIdentifier().add(doi);
         return dataset;
     }
 
-    private Dataset mockDataset() throws Exception {
+    private Dataset mockDataset(DatasetState state) throws Exception {
         datasetStoreId = new DmoStoreId(Dataset.NAMESPACE, "1");
         List<DisciplineContainer> parentDisciplines = Collections.<DisciplineContainer> emptyList();
-        DatasetProxy dataset = new DatasetProxy(datasetStoreId.toString(), createDepositor(), Submitted, parentDisciplines);
+        DatasetProxy dataset = new DatasetProxy(datasetStoreId.toString(), createDepositor(), state, parentDisciplines);
         dataset.setEasyMetadata(FileUtil.readWholeFileAsUTF8("src/test/resources/41602-EMD.xml"));
         return dataset;
     }

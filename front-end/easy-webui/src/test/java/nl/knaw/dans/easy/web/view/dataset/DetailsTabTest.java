@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
-import static nl.knaw.dans.easy.domain.model.PermissionSequence.State.Submitted;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.DatasetProxy;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
@@ -45,7 +45,7 @@ public class DetailsTabTest {
         applicationContext = new EasyApplicationContextMock();
         fileStoreMocker = new FileStoreMocker();
         List<DisciplineContainer> parentDisciplines = Collections.<DisciplineContainer> emptyList();
-        dataset = new DatasetProxy(DATASET_STORE_ID.toString(), createDepositor(), Submitted, parentDisciplines);
+        dataset = new DatasetProxy(DATASET_STORE_ID.toString(), createDepositor(), DatasetState.SUBMITTED, parentDisciplines);
         loadEmd("41602");
 
         new Data().setFileStoreAccess(fileStoreMocker.getFileStoreAccess());
