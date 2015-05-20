@@ -14,6 +14,16 @@ public class UploadStatus implements Serializable {
 
     private String message;
 
+    private String checksum;
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
+    }
+
     public UploadStatus(String message) {
         this.message = message;
         percentComplete = 0;

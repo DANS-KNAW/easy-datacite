@@ -1,6 +1,7 @@
 package nl.knaw.dans.common.wicket.components.upload;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessRunner;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.wicket.util.upload.DiskFileItem;
 import org.apache.wicket.util.upload.FileItem;
@@ -208,6 +210,18 @@ public class EasyUploadProcess {
 
         LOG.info("Received file " + uploadedFile.getAbsolutePath());
 
+        try {
+            String md5Hex = DigestUtils.md5Hex(new FileInputStream(uploadedFile));
+            LOG.info("Calculated MD5 for '" + uploadedFile.getName() + "' = " + md5Hex);
+            status.setChecksum(md5Hex);
+        }
+        catch (FileNotFoundException e) {
+            error("Error while calculating MD5", e);
+        }
+        catch (IOException e) {
+            error("Error while calculating MD5", e);
+        }
+
         List<File> files = new ArrayList<File>(2);
         if (!hasDiacritics())
             files.add(uploadedFile);
@@ -262,6 +276,9 @@ public class EasyUploadProcess {
 
     protected void setUploadCompleted(List<File> files) {
         String msg = "Upload of '" + filename + "' complete.";
+        if (status.getChecksum() != null)
+            msg += " (MD5=" + status.getChecksum() + ")";
+
         if (files.size() > 1 && !files.get(0).getName().equals(filename)) {
             if (!hasDiacritics() || !hasInitialDiacriticFileNames(files))
                 msg += " (" + files.size() + " files and folders)";
