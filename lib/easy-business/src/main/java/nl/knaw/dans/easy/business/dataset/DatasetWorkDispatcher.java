@@ -33,7 +33,7 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
-import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import static nl.knaw.dans.pf.language.emd.types.EmdConstants.*;
 import nl.knaw.dans.pf.language.xml.exc.XMLException;
 
 import org.joda.time.DateTime;
@@ -51,14 +51,11 @@ public class DatasetWorkDispatcher {
     }
 
     public Dataset cloneDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException {
-        DatasetImpl clonedDataset = null;
-        EasyMetadata emd = dataset.getEasyMetadata();
         try {
-            EasyMetadata clonedEmd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(new EmdMarshaller(emd).getXmlByteArray());
-            clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_PID);
-            clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
-            clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_DMO_ID);
-            clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_AIP_ID);
+            byte[] emdBytes = new EmdMarshaller(dataset.getEasyMetadata()).getXmlByteArray();
+            EasyMetadata clonedEmd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(emdBytes);
+            for (String scheme : new String[] {SCHEME_PID, SCHEME_OAI_ITEM_ID, SCHEME_DMO_ID, SCHEME_DMO_ID, SCHEME_AIP_ID, SCHEME_DOI})
+                clonedEmd.getEmdIdentifier().removeIdentifier(scheme);
 
             clonedEmd.getEmdRights().getTermsLicense().clear();
             clonedEmd.getEmdDate().getEasDateSubmitted().clear();
@@ -71,9 +68,10 @@ public class DatasetWorkDispatcher {
             clonedEmd.getEmdCreator().getDcCreator().clear();
             clonedEmd.getEmdContributor().getDcContributor().clear();
 
-            clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
+            DatasetImpl clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             clonedDataset.setEasyMetadata(clonedEmd);
             clonedDataset.getAdministrativeMetadata().setDepositor(sessionUser);
+            return clonedDataset;
         }
         catch (XMLException e) {
             throw new ServiceException(e);
@@ -81,7 +79,6 @@ public class DatasetWorkDispatcher {
         catch (RepositoryException e) {
             throw new ServiceException(e);
         }
-        return clonedDataset;
     }
 
     @MutatesDataset
