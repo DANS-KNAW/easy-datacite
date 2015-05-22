@@ -9,7 +9,6 @@
     </parent>
     <artifactId>easy-datacite</artifactId>
     <packaging>jar</packaging>
-    <version>${easy.version}</version>
     <name>EASY Datacite Library</name>
     <dependencies>
         <dependency>
