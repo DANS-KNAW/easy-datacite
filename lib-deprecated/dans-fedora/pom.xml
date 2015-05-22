@@ -9,7 +9,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-fedora</artifactId>
-    <version>${easy.version}</version>
 	<name>DEPPRECATED DANS Fedora Utilities</name>
 	<dependencies>
 		<dependency>

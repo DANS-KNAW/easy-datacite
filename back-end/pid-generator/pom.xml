@@ -9,7 +9,6 @@
         <relativePath>../../lib/easy-prototype</relativePath>
     </parent>
     <artifactId>pid-generator</artifactId>
-    <version>${easy.version}</version>
     <packaging>war</packaging>
     <name>PID Generator Service</name>
     <description>Service that generates unique Persistent Identifiers on demand. Supported types are URN and DOI</description>

@@ -9,7 +9,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>istore</artifactId>
-    <version>${easy.version}</version>
 	<name>DEPPRECATED Store Interfaces</name>
 	<dependencies>
 		<dependency>

@@ -9,8 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-backend-setup</artifactId>
-    <version>${easy.version}</version>
-	<name>EASY Back-end Set-up Files</name>
+    <name>EASY Back-end Set-up Files</name>
 	<description>Package of files needed to set up the back-end services for EASY</description>
 	<build>
 		<finalName>easy-backend-setup</finalName>

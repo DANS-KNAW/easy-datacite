@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>pakbon</artifactId>
-    <version>${easy.version}</version>
 	<name>Archaeological Pakbon (SIKB0102) Library</name>
 	<dependencies>
 		<dependency>

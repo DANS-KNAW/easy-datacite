@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-solr</artifactId>
-    <version>${easy.version}</version>
 	<name>DANS SOLR Library</name>
 	<properties>
 		<solr.version>3.5.0</solr.version>

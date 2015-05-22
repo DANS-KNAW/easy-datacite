@@ -12,7 +12,6 @@
     <version>2.x-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
-        <easy.version>2.11-RC-2</easy.version>
         <aspectj.version>1.7.2</aspectj.version>
         <servlet-api.version>2.5</servlet-api.version>
         <json.version>20080701</json.version>
@@ -78,103 +77,103 @@
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-datacite</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-solr</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-wicket</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>ddm</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-business</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-business-mocking</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-fedora</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-ldap</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>emd</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>pakbon</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>xml</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-fedora</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-jibx</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-lang</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dans-ldap</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>dmo-collections</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>idmo-collections</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>isecurity</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>istore</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>store</artifactId>
-                <version>${easy.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>

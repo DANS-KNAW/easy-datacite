@@ -8,7 +8,6 @@
         <relativePath>../../lib/easy-prototype</relativePath>
     </parent>
     <artifactId>easy-rest</artifactId>
-    <version>${easy.version}</version>
     <packaging>war</packaging>
     <name>EASY Experimental REST API</name>
     <description>RESTful API for EASY</description>

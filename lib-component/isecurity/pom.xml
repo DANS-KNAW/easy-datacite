@@ -9,7 +9,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>		
 	</parent>
 	<artifactId>isecurity</artifactId>
-    <version>${easy.version}</version>
 	<name>DEPPRECATED Security Interfaces</name>
 	<dependencies>
 		<dependency>

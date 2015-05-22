@@ -9,7 +9,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-lang</artifactId>
-    <version>${easy.version}</version>
 	<name>DEPPRECATED DANS Lang</name>
 	<dependencies>
 		<dependency>

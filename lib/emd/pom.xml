@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>	
 	<artifactId>emd</artifactId>
-    <version>${easy.version}</version>
 	<name>EASY Metadata Library (EMD)</name>
 	<dependencies>
 		<dependency>

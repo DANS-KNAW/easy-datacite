@@ -9,7 +9,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-ldap</artifactId>
-    <version>${easy.version}</version>
 	<name>DEPPRECATED DANS LDAP Library</name>
 	<dependencies>
 		<dependency>

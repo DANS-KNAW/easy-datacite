@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-fedora</artifactId>
-    <version>${easy.version}</version>
 	<name>EASY Fedora Library</name>
 	<properties>
 		<hsqldb.version>1.8.0.10</hsqldb.version>

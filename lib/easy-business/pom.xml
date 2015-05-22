@@ -9,7 +9,6 @@
         <relativePath>../easy-prototype</relativePath>
     </parent>
     <artifactId>easy-business</artifactId>
-    <version>${easy.version}</version>
     <name>EASY Business Library</name>
     <properties>
         <jrdf.version>0.5.5.4</jrdf.version>

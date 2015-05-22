@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-ldap</artifactId>
-    <version>${easy.version}</version>
 	<name>EASY LDAP Library</name>
 	<dependencies>
 		<dependency>
