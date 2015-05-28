@@ -59,6 +59,7 @@ public class DataciteServiceTest {
     }
 
     @Test
+    @Ignore
     public void urlDoesNotExist() throws Exception {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername("failing-name");
@@ -98,6 +99,7 @@ public class DataciteServiceTest {
     }
 
     @Test
+    @Ignore
     public void userDoesNotExist() throws Exception {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername("failing-name");

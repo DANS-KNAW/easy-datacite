@@ -1,14 +1,15 @@
 package nl.knaw.dans.easy;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
@@ -18,6 +19,7 @@ import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 public class DataciteResourcesBuilder {
 
@@ -49,8 +51,9 @@ public class DataciteResourcesBuilder {
     public String create(EasyMetadata... emds) throws DataciteServiceException {
         validateArguments(emds);
         StringBuffer sb = new StringBuffer();
-        for (EasyMetadata emd : emds)
+        for (EasyMetadata emd : emds) {
             sb.append(createDoiData(emd));
+        }
         return String.format(RESOURCES_FORMAT, sb.toString());
     }
 
@@ -67,7 +70,7 @@ public class DataciteResourcesBuilder {
         String doi = emd.getEmdIdentifier().getDansManagedDoi();
         try {
             String url = datasetResolver + (datasetResolver.getPath().endsWith("/") ? "" : "/") + emd.getEmdIdentifier().getDatasetId();
-            String dataciteMetadata = transform(toInputStrem(emd));
+            String dataciteMetadata = transform(toSource(emd));
             return String.format(DOI_DATA_FORMAT, doi, url, dataciteMetadata);
         }
         catch (XMLSerializationException e) {
@@ -81,9 +84,9 @@ public class DataciteResourcesBuilder {
         }
     }
 
-    private ByteArrayInputStream toInputStrem(EasyMetadata emd) throws UnsupportedEncodingException, XMLSerializationException {
-        String xmlString = new EmdMarshaller(emd).getXmlString();
-        return new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+    private Source toSource(EasyMetadata emd) throws UnsupportedEncodingException, XMLSerializationException {
+        Document prunedEmd = new DocumentPruner(new EmdMarshaller(emd).getW3cDomDocument()).prune();
+        return new DOMSource(prunedEmd);
     }
 
     private DataciteServiceException createServiceException(String fedoraID, String doi, Exception e) {
@@ -91,9 +94,10 @@ public class DataciteResourcesBuilder {
         return new DataciteServiceException(message, e);
     }
 
-    private String transform(InputStream inputStream) throws UnsupportedEncodingException, TransformerException {
+    private String transform(Source source) throws UnsupportedEncodingException, TransformerException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        new XMLTransformer(styleSheetURL, XMLTransformer.TF_SAXON).transform(inputStream, out);
+        Result result = new StreamResult(out);
+        new XMLTransformer(styleSheetURL, XMLTransformer.TF_SAXON).transform(source, result);
         return new String(out.toByteArray(), "UTF-8");
     }
 }

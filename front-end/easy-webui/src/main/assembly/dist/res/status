@@ -1,0 +1,4 @@
+#exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword)
+#Thu May 28 10:56:18 CEST 2015
+is.read.only=false
+refresh.frequency=120000
