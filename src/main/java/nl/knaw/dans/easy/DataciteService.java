@@ -64,6 +64,7 @@ public class DataciteService {
     /** @return something like "dois created: 0, dois updated: 0 (TEST OK)" */
     private String post(String content) throws DataciteServiceException {
         try {
+            logger.debug("THIS IS SENT TO DATACITE: {}", content);
             ClientResponse response = createWebResource().type(CONTENT_TYPE).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != Response.Status.OK.getStatusCode()) {
