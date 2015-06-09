@@ -55,6 +55,17 @@ public class DataciteService {
         }
     }
 
+    public void createOrUpdate(EasyMetadata... emds) throws DataciteServiceException {
+        String result = post(resourcesBuilder.create(emds));
+        String message = createMessage(result, "Creating/updating", emds);
+        if (getCount(0, result) + getCount(1, result) == emds.length)
+            logger.info(message);
+        else {
+            logger.error(message);
+            throw new DataciteServiceException(message);
+        }
+    }
+
     private String createMessage(String result, String crudType, EasyMetadata... emds) {
         String firstDOI = emds[0].getEmdIdentifier().getDansManagedDoi();
         String format = crudType + " %s DOIs resulted in %s. First DOI %s";
