@@ -1,5 +1,8 @@
 package nl.knaw.dans.easy;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.ws.rs.core.Response;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -18,6 +21,9 @@ public class DataciteService {
 
     private static final String CONTENT_TYPE = "application/xml;charset=UTF-8";
 
+    private static final Pattern createdResultPattern = Pattern.compile("dois created:\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern updatedResultPattern = Pattern.compile("dois updated:\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
+
     private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
     private final DataciteServiceConfiguration configuration;
@@ -32,7 +38,7 @@ public class DataciteService {
     public void create(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
         String message = createMessage(result, "Creating", emds);
-        if (getCount(0, result) == emds.length)
+        if (getCreatedCount(result) == emds.length)
             logger.info(message);
         else {
             logger.error(message);
@@ -43,22 +49,18 @@ public class DataciteService {
     public void update(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
         String message = createMessage(result, "Updating", emds);
-        if (getCount(1, result) == emds.length)
+        if (getUpdatedCount(result) == emds.length)
             logger.info(message);
         else {
-            if (getCount(0, result) + getCount(1, result) == emds.length) {
-                logger.warn(message);
-            } else {
-                logger.error(message);
-                throw new DataciteServiceException(message);
-            }
+            logger.error(message);
+            throw new DataciteServiceException(message);
         }
     }
 
     public void createOrUpdate(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
         String message = createMessage(result, "Creating/updating", emds);
-        if (getCount(0, result) + getCount(1, result) == emds.length)
+        if (getCreatedCount(result) + getUpdatedCount(result) == emds.length)
             logger.info(message);
         else {
             logger.error(message);
@@ -105,8 +107,29 @@ public class DataciteService {
         return new DataciteServiceException("DOI post failed: " + cause.getMessage(), cause);
     }
 
-    /** @return the i-th number from something like "dois created: 0, dois updated: 0 (TEST OK)" */
-    private int getCount(int i, String postResult) {
-        return Integer.parseInt(postResult.split(",")[i].replaceAll("\\D+", ""));
+    private int getCreatedCount(String result) throws DataciteServiceException {
+        return getCountFromPatternAndMessage(createdResultPattern, result);
+    }
+
+    private int getUpdatedCount(String result) throws DataciteServiceException {
+        return getCountFromPatternAndMessage(updatedResultPattern, result);
+    }
+
+    private int getCountFromPatternAndMessage(Pattern p, String msg) throws DataciteServiceException {
+        Matcher m = p.matcher(msg);
+        if (m.find()) {
+            try {
+                return Integer.parseInt(m.group(1));
+            }
+            catch (NumberFormatException e) {
+                countError(p.toString());
+            }
+        }
+        countError(p.toString());
+        return -1; // To calm down compiler
+    }
+
+    private void countError(String patternString) throws DataciteServiceException {
+        throw new DataciteServiceException("DOI post succeeded but could retrieve result count with pattern: " + patternString);
     }
 }
