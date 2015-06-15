@@ -37,41 +37,31 @@ public class DataciteService {
 
     public void create(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
-        String message = createMessage(result, "Creating", emds);
-        if (getCreatedCount(result) == emds.length)
-            logger.info(message);
-        else {
-            logger.error(message);
-            throw new DataciteServiceException(message);
-        }
+        logResult("Creating", getCreatedCount(result) != emds.length, result, emds);
     }
 
     public void update(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
-        String message = createMessage(result, "Updating", emds);
-        if (getUpdatedCount(result) == emds.length)
-            logger.info(message);
-        else {
-            logger.error(message);
-            throw new DataciteServiceException(message);
-        }
+        logResult("Updating", getUpdatedCount(result) != emds.length, result, emds);
     }
 
     public void createOrUpdate(EasyMetadata... emds) throws DataciteServiceException {
         String result = post(resourcesBuilder.create(emds));
-        String message = createMessage(result, "Creating/updating", emds);
-        if (getCreatedCount(result) + getUpdatedCount(result) == emds.length)
-            logger.info(message);
-        else {
-            logger.error(message);
-            throw new DataciteServiceException(message);
-        }
+        logResult("Creating/updating", false, result, emds);
     }
 
-    private String createMessage(String result, String crudType, EasyMetadata... emds) {
+    private void logResult(String crudType, boolean warn, String result, EasyMetadata... emds) throws DataciteServiceException {
         String firstDOI = emds[0].getEmdIdentifier().getDansManagedDoi();
         String format = crudType + " %s DOIs resulted in %s. First DOI %s";
-        return String.format(format, emds.length, result, firstDOI);
+        String message = String.format(format, emds.length, result, firstDOI);
+        if (getCreatedCount(result) + getUpdatedCount(result) != emds.length) {
+            logger.error(message);
+            if (getCreatedCount(result) >= 0 && getUpdatedCount(result) >= 0)
+                throw new DataciteServiceException(message); // we could interpret both numbers but they don't add up correctly
+        } else if (warn)
+            logger.warn(message);
+        else
+            logger.info(message);
     }
 
     /** @return something like "dois created: 0, dois updated: 0 (TEST OK)" */
@@ -107,29 +97,29 @@ public class DataciteService {
         return new DataciteServiceException("DOI post failed: " + cause.getMessage(), cause);
     }
 
-    private int getCreatedCount(String result) throws DataciteServiceException {
+    private int getCreatedCount(String result) {
         return getCountFromPatternAndMessage(createdResultPattern, result);
     }
 
-    private int getUpdatedCount(String result) throws DataciteServiceException {
+    private int getUpdatedCount(String result) {
         return getCountFromPatternAndMessage(updatedResultPattern, result);
     }
 
-    private int getCountFromPatternAndMessage(Pattern p, String msg) throws DataciteServiceException {
+    private int getCountFromPatternAndMessage(Pattern p, String msg) {
         Matcher m = p.matcher(msg);
         if (m.find()) {
             try {
                 return Integer.parseInt(m.group(1));
             }
             catch (NumberFormatException e) {
-                countError(p.toString());
+                countNoutFoundError(p.toString());
             }
         }
-        countError(p.toString());
-        return -1; // To calm down compiler
+        countNoutFoundError(p.toString());
+        return -1; // default, not only satisfies compiler, but also allows further checks
     }
 
-    private void countError(String patternString) throws DataciteServiceException {
-        throw new DataciteServiceException("DOI post succeeded but could retrieve result count with pattern: " + patternString);
+    private void countNoutFoundError(String patternString) {
+        logger.error("DOI post succeeded but could not extract result count with pattern: " + patternString);
     }
 }
