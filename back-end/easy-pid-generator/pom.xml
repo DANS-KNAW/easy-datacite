@@ -8,9 +8,9 @@
         <version>2.x-SNAPSHOT</version>
         <relativePath>../../lib/easy-prototype</relativePath>
     </parent>
-    <artifactId>pid-generator</artifactId>
+    <artifactId>easy-pid-generator</artifactId>
     <packaging>war</packaging>
-    <name>PID Generator Service</name>
+    <name>EASY PID Generator Service</name>
     <description>Service that generates unique Persistent Identifiers on demand. Supported types are URN and DOI</description>
     <dependencies>
         <dependency>
@@ -77,7 +77,7 @@
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
-        <finalName>pid-generator</finalName>
+        <finalName>easy-pid-generator</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

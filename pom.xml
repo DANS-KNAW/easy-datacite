@@ -16,7 +16,7 @@
 		
 		<!-- Back-end setup and config files -->
 		<module>back-end/easy-backend-setup</module>
-        <module>back-end/pid-generator</module>
+        <module>back-end/easy-pid-generator</module>
 
 		<!-- Libraries -->
 		<module>lib/dans-solr</module>

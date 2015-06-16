@@ -11,7 +11,7 @@ import scala.util.Failure
 
 class PidService extends ScalatraServlet with ScalateSupport {
   val log = LoggerFactory.getLogger(getClass)
-  val home = new File(System.getenv("PID_GENERATOR_HOME"))
+  val home = new File(System.getenv("EASY_PID_GENERATOR_HOME"))
   val conf = ConfigFactory.parseFile(new File(home, "cfg/application.conf"))
   val urns = PidGenerator(
     DbBasedSeedStorage(
