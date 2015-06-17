@@ -29,8 +29,6 @@ import nl.knaw.dans.easy.domain.dataset.FolderItemFactory;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.download.DownloadHistoryFactory;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
-import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
-import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
