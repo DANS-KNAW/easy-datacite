@@ -3,6 +3,7 @@ package nl.knaw.dans.common.fedora.store;
 import java.net.URI;
 import java.util.Set;
 
+import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.ContentLocation.Type;
 import nl.knaw.dans.common.fedora.fox.ControlGroup;
 import nl.knaw.dans.common.fedora.fox.Datastream;
@@ -74,7 +75,11 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
             ds.setVersionable(binUnit.isVersionable());
             DatastreamVersion dsv = ds.addDatastreamVersion(null, binUnit.getMimeType());
             dsv.setLabel(binUnit.getUnitLabel());
-
+            if (binUnit.getFileSha1Checksum() != null) {
+                dsv.setContentDigest(ContentDigestType.SHA_1, binUnit.getFileSha1Checksum());
+            } else {
+                dsv.setContentDigest(ContentDigestType.DISABLED, null);
+            }
             if (binUnit.hasFile() || binUnit.getLocation() != null) {
                 dsv.setContentLocation(Type.URL, URI.create(binUnit.getLocation()));
             } else if (binUnit.hasBinaryContent()) {

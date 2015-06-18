@@ -27,6 +27,8 @@ public interface BinaryUnit extends Unit {
 
     void setFileContent(byte[] bytes, String label, String mimeType) throws IOException;
 
+    String getFileSha1Checksum();
+
     /**
      * Set the given byte array as inline content. Careful! Only works on ingest! Not on update.
      * 

@@ -3,6 +3,8 @@ package nl.knaw.dans.common.lang.repo;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +12,9 @@ import java.net.URL;
 
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.util.FileUtil;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +39,8 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
 
     private URL fileURL;
 
+    private String fileSha1Checksum;
+
     public AbstractBinaryUnit() {
         this(DEFAULT_CONTROLGROUP);
     }
@@ -53,6 +60,10 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
             return mimeType;
         }
     }
+
+    public String getFileSha1Checksum() {
+        return fileSha1Checksum;
+    };
 
     public boolean hasFile() {
         return file != null;
@@ -128,10 +139,12 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
             mimeType = null;
             size = 0;
             label = null;
+            fileSha1Checksum = null;
         } else {
             mimeType = FileUtil.getMimeType(file);
             size = file.length();
             label = file.getName();
+            fileSha1Checksum = calculateSha1Checksum(file);
         }
     }
 
@@ -153,6 +166,7 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
         }
         this.size = file.length();
         fileIsTempFile = true;
+        fileSha1Checksum = calculateSha1Checksum(file);
     }
 
     @Override
@@ -202,6 +216,25 @@ public abstract class AbstractBinaryUnit implements BinaryUnit {
 
     public void setFileURL(URL fileURL) {
         this.fileURL = fileURL;
+    }
+
+    private String calculateSha1Checksum(File file) {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            String hex = DigestUtils.sha1Hex(fis);
+            logger.debug("Calculated SHA1 checksum for '{0}' = {1}", file.getName(), hex);
+            return hex;
+        }
+        catch (FileNotFoundException e) {
+            throw new ApplicationException("Error while calculating SHA1 checksum", e);
+        }
+        catch (IOException e) {
+            throw new ApplicationException("Error while calculating SHA1 checksum", e);
+        }
+        finally {
+            IOUtils.closeQuietly(fis);
+        }
     }
 
 }

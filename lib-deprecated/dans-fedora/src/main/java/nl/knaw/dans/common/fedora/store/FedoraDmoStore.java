@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.fedora.Fedora;
+import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.ControlGroup;
 import nl.knaw.dans.common.fedora.fox.Datastream;
 import nl.knaw.dans.common.fedora.fox.DatastreamVersion;
@@ -279,8 +280,8 @@ public class FedoraDmoStore extends AbstractDmoStore {
         } else {
             getFedora().getDatastreamManager().addDatastream(dmoStoreId.getStoreId(), binUnit.getUnitId(), null, binUnit.getUnitLabel(),
                     binUnit.isVersionable(), binUnit.getMimeType(), null, binUnit.getLocation(),
-                    ControlGroup.values()[binUnit.getUnitControlGroup().ordinal()], Datastream.State.A, DatastreamVersion.CONTENT_DIGEST_TYPE.code, null,
-                    logMessage);
+                    ControlGroup.values()[binUnit.getUnitControlGroup().ordinal()], Datastream.State.A, ContentDigestType.SHA_1.code,
+                    binUnit.getFileSha1Checksum(), logMessage);
         }
         return timestamp;
     }
