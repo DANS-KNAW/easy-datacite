@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.fedora.Fedora;
-import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.ControlGroup;
 import nl.knaw.dans.common.fedora.fox.Datastream;
+import nl.knaw.dans.common.fedora.fox.DatastreamVersion;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
 import nl.knaw.dans.common.fedora.fox.FoxConstants;
 import nl.knaw.dans.common.fedora.rdf.FedoraRelationsConverter;
@@ -255,7 +255,7 @@ public class FedoraDmoStore extends AbstractDmoStore {
         } else {
             getFedora().getDatastreamManager().addDatastream(dmoStoreId.getStoreId(), mdUnit.getUnitId(), null, mdUnit.getUnitLabel(), mdUnit.isVersionable(),
                     FoxConstants.MIMETYPE_XML, mdUnit.getUnitFormat(), new ByteArrayInputStream(mdUnit.asObjectXML()), ControlGroup.X, Datastream.State.A,
-                    ContentDigestType.DISABLED.code, null, logMessage);
+                    DatastreamVersion.CONTENT_DIGEST_TYPE.code, null, logMessage);
         }
         return timestamp;
     }
@@ -274,11 +274,13 @@ public class FedoraDmoStore extends AbstractDmoStore {
 
         if (existingUnits.contains(binUnit.getUnitId())) {
             timestamp = getFedora().getDatastreamManager().modifyDatastreamByReference(dmoStoreId.getStoreId(), binUnit.getUnitId(), null,
-                    binUnit.getUnitLabel(), binUnit.getMimeType(), null, binUnit.getLocation(), ContentDigestType.DISABLED.code, null, logMessage, false);
+                    binUnit.getUnitLabel(), binUnit.getMimeType(), null, binUnit.getLocation(), DatastreamVersion.CONTENT_DIGEST_TYPE.code, null, logMessage,
+                    false);
         } else {
             getFedora().getDatastreamManager().addDatastream(dmoStoreId.getStoreId(), binUnit.getUnitId(), null, binUnit.getUnitLabel(),
                     binUnit.isVersionable(), binUnit.getMimeType(), null, binUnit.getLocation(),
-                    ControlGroup.values()[binUnit.getUnitControlGroup().ordinal()], Datastream.State.A, ContentDigestType.DISABLED.code, null, logMessage);
+                    ControlGroup.values()[binUnit.getUnitControlGroup().ordinal()], Datastream.State.A, DatastreamVersion.CONTENT_DIGEST_TYPE.code, null,
+                    logMessage);
         }
         return timestamp;
     }

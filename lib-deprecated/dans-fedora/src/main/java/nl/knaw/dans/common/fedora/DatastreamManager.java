@@ -7,7 +7,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.ContentLocation;
 import nl.knaw.dans.common.fedora.fox.ControlGroup;
 import nl.knaw.dans.common.fedora.fox.DataStreamMetaData;
@@ -133,7 +132,7 @@ public class DatastreamManager {
         String mimeType = null;
         String formatURI = null;
         String contentLocation = null;
-        String contentDigestType = ContentDigestType.DISABLED.code;
+        String contentDigestType = DatastreamVersion.CONTENT_DIGEST_TYPE.code;
         String checksum = null;
 
         final List<DatastreamVersion> datastreamVersions = datastream.getDatastreamVersions();
@@ -690,8 +689,8 @@ public class DatastreamManager {
     public DateTime modifyDatastreamByValue(final String sid, final String streamId, final String label, final String formatUri,
             final TimestampedObject timestampedObj, final byte[] objectXml, final String logMessage) throws RepositoryException
     {
-        final DateTime modificationTime = modifyDatastreamByValue(sid, streamId, null, label, FoxConstants.MIMETYPE_XML, formatUri, objectXml, null, null,
-                logMessage, false);
+        final DateTime modificationTime = modifyDatastreamByValue(sid, streamId, null, label, FoxConstants.MIMETYPE_XML, formatUri, objectXml,
+                DatastreamVersion.CONTENT_DIGEST_TYPE.code, null, logMessage, false);
         timestampedObj.setTimestamp(modificationTime);
         timestampedObj.setDirty(false);
         return modificationTime;

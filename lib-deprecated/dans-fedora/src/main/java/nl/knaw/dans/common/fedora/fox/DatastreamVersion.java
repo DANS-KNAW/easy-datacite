@@ -23,7 +23,7 @@ import org.joda.time.DateTime;
 public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamVersion> {
 
     public static String MIMETYPE_XML = "text/xml";
-
+    public static ContentDigestType CONTENT_DIGEST_TYPE = ContentDigestType.SHA_1;
     private static final long serialVersionUID = 2904449323405243287L;
 
     private static final int MAX_ID_LENGTH = 64;
@@ -35,7 +35,7 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
     private Set<URI> altIds = new LinkedHashSet<URI>();
     private URI formatURI;
     private long size;
-    private ContentDigest contentDigest;
+    private ContentDigest contentDigest = new ContentDigest(CONTENT_DIGEST_TYPE.code, null);
     private ContentLocation contentLocation;
     private XMLContent xmlContent;
     private byte[] binaryContent;
