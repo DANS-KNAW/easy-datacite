@@ -5,12 +5,17 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPanel;
 
-import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
@@ -38,17 +43,18 @@ public class UploadPanel extends AbstractCustomPanel {
             return new UploadModePanel();
         } else {
             DmoStoreId datasetId = datasetModel.getObject().getDmoStoreId();
-            List<String> list = new ArrayList<String>();
+            List<FileItemVO> fileItemVOs = new ArrayList<FileItemVO>();
             try {
-                list = itemService.getFilenames(datasetId);
-                if (list == null || list.isEmpty()) {
-                    super.setVisible(false);
-                }
+                EasyUser currentUser = ((EasySession) getSession()).getUser();
+                itemService.getFileItemsRecursively(currentUser, datasetModel.getObject(), fileItemVOs, null, datasetId);
             }
             catch (ServiceException e) {
                 logger.error(e.getMessage());
             }
-            return new ViewModePanel(list);
+            if (fileItemVOs.isEmpty()) {
+                super.setVisible(false);
+            }
+            return new ViewModePanel(fileItemVOs);
         }
     }
 
@@ -68,17 +74,21 @@ public class UploadPanel extends AbstractCustomPanel {
 
         private static final long serialVersionUID = -1141097831590702485L;
 
-        public ViewModePanel(List<String> list) {
+        public ViewModePanel(List<FileItemVO> fileItemVOs) {
             super(CUSTOM_PANEL_ID);
-            String values = "";
-            for (String s : list) {
-                values += s + "\n";
-            }
-            MultiLineLabel label = new MultiLineLabel("noneditable", values);
-            add(label);
 
+            ListView<FileItemVO> listView = new ListView<FileItemVO>("uploadedfiles", fileItemVOs) {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                protected void populateItem(ListItem<FileItemVO> item) {
+                    FileItemVO fileItemVO = item.getModelObject();
+                    item.add(new Label("path", fileItemVO.getPath()));
+                    item.add(new Label("checksum", fileItemVO.getSha1Checksum()));
+                }
+            };
+            add(listView);
         }
-
     }
 
 }

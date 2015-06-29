@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.domain.dataset;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
-import java.net.*;
 
 import org.dom4j.Element;
 
@@ -33,8 +31,8 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     private EasyFile easyFile;
     private FileItemMetadataImpl fileItemMetadata;
     private DescriptiveMetadata descriptiveMetadata;
-
     private DublinCoreMetadata dc;
+    private String sha1Checksum;
 
     public FileItemImpl(String storeId) {
         super(storeId);
@@ -260,6 +258,18 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem {
     @Override
     public String getAutzStrategyName() {
         return "nl.knaw.dans.easy.security.authz.EasyFileItemAuthzStrategy";
+    }
+
+    @Override
+    public String getSha1Checksum() {
+        if (sha1Checksum == null && easyFile != null) {
+            sha1Checksum = easyFile.getFileSha1Checksum();
+        }
+        return sha1Checksum;
+    }
+
+    public void setFileSha1Checksum(String sha1Checksum) {
+        this.sha1Checksum = sha1Checksum;
     }
 
 }

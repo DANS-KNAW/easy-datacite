@@ -2,15 +2,14 @@ package nl.knaw.dans.easy.domain.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
-import org.dom4j.Element;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.types.CommonFileItem;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
+
+import org.dom4j.Element;
 
 public interface FileItem extends DatasetItem, CommonFileItem {
     DmoNamespace NAMESPACE = new DmoNamespace("easy-file");
@@ -54,4 +53,6 @@ public interface FileItem extends DatasetItem, CommonFileItem {
     DescriptiveMetadata getDescriptiveMetadata();
 
     void setFileDataUrl(String url);
+
+    String getSha1Checksum();
 }

@@ -14,6 +14,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     private CreatorRole creatorRole;
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
+    private String sha1Checksum;
 
     public FileItemVO() {}
 
@@ -26,10 +27,11 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         visibleTo = fileItem.getVisibleTo();
         accessibleTo = fileItem.getAccessibleTo();
         setPath(fileItem.getPath());
+        setSha1Checksum(fileItem.getSha1Checksum());
     }
 
-    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String mimetype, CreatorRole creatorRole, VisibleTo visibleTo,
-            AccessibleTo accessibleTo)
+    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String sha1Checksum, String mimetype, CreatorRole creatorRole,
+            VisibleTo visibleTo, AccessibleTo accessibleTo)
     {
         super(sid, parentSid, datasetSid, name);
         this.size = size;
@@ -37,6 +39,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         this.creatorRole = creatorRole;
         this.visibleTo = visibleTo;
         this.setAccessibleTo(accessibleTo);
+        this.sha1Checksum = sha1Checksum;
     }
 
     public int getSize() {
@@ -79,6 +82,14 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         return accessibleTo;
     }
 
+    public String getSha1Checksum() {
+        return sha1Checksum;
+    }
+
+    public void setSha1Checksum(String sha1Checksum) {
+        this.sha1Checksum = sha1Checksum;
+    }
+
     /**
      * Hack needed because there is no unification of key abstractions in the DANS software development process.
      * 
@@ -116,7 +127,8 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
                 && creatorRole.equals(f.creatorRole) 
                 && mimetype.equals(f.mimetype) 
                 && size == f.size
-                && visibleTo.equals(f.visibleTo);
+                && visibleTo.equals(f.visibleTo)
+            	&& sha1Checksum.equals(f.sha1Checksum);
             //@formatter:on
 
         }
@@ -136,6 +148,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         visibleTo = fileItem.getVisibleTo();
         accessibleTo = fileItem.getAccessibleTo();
         setPath(fileItem.getPath());
+        setSha1Checksum(fileItem.getSha1Checksum());
     }
 
 }

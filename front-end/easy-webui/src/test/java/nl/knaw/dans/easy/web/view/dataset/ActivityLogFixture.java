@@ -43,7 +43,7 @@ public class ActivityLogFixture {
 
     protected static final DateTime DOWNLOAD_DATE_TIME = new DateTime("2013-12-13");
     protected static final FolderItemVO FOLDER_ITEM_VO = new FolderItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256);
-    protected static final FileItemVO FILE_ITEM_VO = new FileItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256, "mimeType", //
+    protected static final FileItemVO FILE_ITEM_VO = new FileItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256, "sha1", "mimeType",
             CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
     protected DatasetService datasetService;
     protected UserService userService;

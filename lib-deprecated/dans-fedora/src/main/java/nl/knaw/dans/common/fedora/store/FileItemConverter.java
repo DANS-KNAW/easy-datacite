@@ -1,10 +1,12 @@
 package nl.knaw.dans.common.fedora.store;
 
+import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.DatastreamVersion;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
+import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl;
 import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
@@ -43,6 +45,15 @@ public class FileItemConverter extends AbstractDobConverter<FileItemImpl> {
             if (dmdVersion != null) {
                 Element element = dmdVersion.getXmlContentElement();
                 fileItem.setDescriptiveMetadata(element);
+            }
+
+            DatastreamVersion efVersion = digitalObject.getLatestVersion(EasyFile.UNIT_ID);
+            if (efVersion != null) {
+                if (ContentDigestType.SHA_1 == ContentDigestType.forCode(efVersion.getChecksumType())) {
+                    fileItem.setFileSha1Checksum(efVersion.getContentDigest());
+                } else {
+                    logger.warn("Checksum Type was not SHA_1 but: " + efVersion.getChecksumType());
+                }
             }
         }
         catch (XMLDeserializationException e) {

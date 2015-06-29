@@ -37,6 +37,9 @@
         <property name="accessibleTo" type="nl.knaw.dans.easy.fedora.db.AccessibleToEnumUserType">
             <column name="accessible_to" length="32" not-null="true" />
         </property>
+        <property name="sha1Checksum" type="string">
+            <column name="sha1checksum" length="40" not-null="false" /><!-- allow null while in transition phase of adding a checksum for all files -->
+        </property>
     </class>
     
 </hibernate-mapping>

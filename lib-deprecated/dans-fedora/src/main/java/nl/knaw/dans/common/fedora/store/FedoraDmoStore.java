@@ -275,8 +275,8 @@ public class FedoraDmoStore extends AbstractDmoStore {
 
         if (existingUnits.contains(binUnit.getUnitId())) {
             timestamp = getFedora().getDatastreamManager().modifyDatastreamByReference(dmoStoreId.getStoreId(), binUnit.getUnitId(), null,
-                    binUnit.getUnitLabel(), binUnit.getMimeType(), null, binUnit.getLocation(), DatastreamVersion.CONTENT_DIGEST_TYPE.code, null, logMessage,
-                    false);
+                    binUnit.getUnitLabel(), binUnit.getMimeType(), null, binUnit.getLocation(), ContentDigestType.SHA_1.code, binUnit.getFileSha1Checksum(),
+                    logMessage, false);
         } else {
             getFedora().getDatastreamManager().addDatastream(dmoStoreId.getStoreId(), binUnit.getUnitId(), null, binUnit.getUnitLabel(),
                     binUnit.isVersionable(), binUnit.getMimeType(), null, binUnit.getLocation(),
