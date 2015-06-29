@@ -18,32 +18,6 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
 
     private static final long serialVersionUID = -396869998619454854L;
 
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int totalFileCount;
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int childFileCount;
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int totalFolderCount;
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int childFolderCount;
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int[] creatorRoleArray = null;
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int[] visibleToArray = null;
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private int[] accessibleToArray = null;
-
     private String version;
 
     protected ItemContainerMetadataImpl() {
@@ -61,45 +35,9 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         return version;
     }
 
-    // needed to fix jibx serialization and omitting empty optional elements in the XML
-    @SuppressWarnings("unused")
-    private boolean hasCreatorRoles() {
-        return getCreatorRoles() != null;
-    }
-
-    // needed to fix jibx serialization and omitting empty optional elements in the XML
-    @SuppressWarnings("unused")
-    private boolean hasVisibleToList() {
-        return getVisibleToList() != null;
-    }
-
-    // needed to fix jibx serialization and omitting empty optional elements in the XML
-    @SuppressWarnings("unused")
-    private boolean hasAccessibleToList() {
-        return getAccessibleToList() != null;
-    }
-
     // ///////////////////////////////////////////
     protected void setNop(List<?> list) {
         // needed for jiBx deserialization
-    }
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private List<CreatorRole> getCreatorRoles() {
-        return null;
-    }
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private List<VisibleTo> getVisibleToList() {
-        return null;
-    }
-
-    @SuppressWarnings("unused")
-    // required for deserialisation by JiBX
-    private List<AccessibleTo> getAccessibleToList() {
-        return null;
     }
 
     // ////////////////////////////////////////////
