@@ -29,6 +29,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -200,17 +201,28 @@ public class LicenseComposer {
     }
 
     private void formatUploadedFileNames(final Document document) throws DocumentException, LicenseComposerException {
-        final List<String> fileNames = getDatasetFileNames(dataset.getDmoStoreId());
-        if (fileNames == null || fileNames.size() == 0) {
+        final List<FileItemVO> fileItemVOs = getDatasetFileItemVOs(dataset.getDmoStoreId());
+        if (fileItemVOs == null || fileItemVOs.size() == 0) {
             document.add(new Paragraph("No uploaded files."));
             return;
         }
         final Paragraph paragraph = new Paragraph("Uploaded files:");
         paragraph.setSpacingAfter(3);
         document.add(paragraph);
-        for (final String name : fileNames) {
-            document.add(new Paragraph(name));
+
+        try {
+            Table table = new Table(2);
+            table.setPadding(3);
+            for (final FileItemVO fileItemVO : fileItemVOs) {
+                table.addCell(fileItemVO.getPath());
+                table.addCell("(SHA-1 checksum: " + fileItemVO.getSha1Checksum() + ")");
+            }
+            document.add(table);
         }
+        catch (final BadElementException e) {
+            throw new LicenseComposerException(e);
+        }
+
     }
 
     protected Element formatMetaData(final Document document) throws LicenseComposerException {
@@ -362,12 +374,12 @@ public class LicenseComposer {
         return styles;
     }
 
-    private static List<String> getDatasetFileNames(final DmoStoreId sid) throws LicenseComposerException {
+    private static List<FileItemVO> getDatasetFileItemVOs(final DmoStoreId sid) throws LicenseComposerException {
         try {
-            return Data.getFileStoreAccess().getFilenames(sid);
+            return Data.getFileStoreAccess().getDatasetFiles(sid);
         }
-        catch (final StoreAccessException e) {
-            throw new LicenseComposerException("can not find uploaded filenames of dataset", e);
+        catch (StoreAccessException e) {
+            throw new LicenseComposerException("can not find uploaded files of dataset", e);
         }
     }
 
