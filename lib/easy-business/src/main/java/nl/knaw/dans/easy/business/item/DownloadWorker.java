@@ -39,6 +39,7 @@ import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,9 +163,38 @@ public class DownloadWorker {
         if (descriptiveFileMetadata != null)
             zipItems.add(new ZipItem(METADATA_PATH + DESCRIPTIVE_METADATA_FILE_NAME, descriptiveFileMetadata.toURI().toURL()));
 
+        final File checksumsFile = createSha1ChecksumsFile(items);
+        zipItems.add(new ZipItem("manifest-sha1.txt", checksumsFile));
+
         final File zipFile = File.createTempFile("easy", ".zip", ZIP_FILE_DIR);
         ZipUtil.zipFiles(zipFile, zipItems);
         return zipFile;
+    }
+
+    private File createSha1ChecksumsFile(final List<? extends ItemVO> items) throws IOException {
+        final File file = File.createTempFile("manifest-sha1", ".txt");
+        PrintStream fileOutputStream = null;
+        try {
+            fileOutputStream = new PrintStream(file);
+            for (final ItemVO item : items) {
+                if (item instanceof FileItemVO) {
+                    String path = item.getPath().trim();
+                    String sha1 = ((FileItemVO) item).getSha1Checksum();
+                    if (sha1 == null || sha1.isEmpty()) {
+                        sha1 = "-------------not-calculated-------------";
+                    }
+                    fileOutputStream.println(sha1 + " " + path);
+                }
+            }
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e) {
+            throw new IOException("Could not print checksums to file", e);
+        }
+        finally {
+            IOUtils.closeQuietly(fileOutputStream);
+        }
+        return file;
     }
 
     // Note: could determine total size of files before trying to zip them
