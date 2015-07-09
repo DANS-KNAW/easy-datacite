@@ -41,6 +41,7 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,7 +216,11 @@ public class LicenseComposer {
             table.setPadding(3);
             for (final FileItemVO fileItemVO : fileItemVOs) {
                 table.addCell(fileItemVO.getPath());
-                table.addCell("(SHA-1 checksum: " + fileItemVO.getSha1Checksum() + ")");
+                String sha1 = fileItemVO.getSha1Checksum();
+                if (StringUtils.isBlank(sha1)) {
+                    sha1 = "-------------not-calculated-------------";
+                }
+                table.addCell("(SHA-1 checksum: " + sha1 + ")");
             }
             document.add(table);
         }

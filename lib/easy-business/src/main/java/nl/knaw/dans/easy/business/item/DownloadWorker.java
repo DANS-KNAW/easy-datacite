@@ -40,6 +40,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,7 +181,7 @@ public class DownloadWorker {
                 if (item instanceof FileItemVO) {
                     String path = item.getPath().trim();
                     String sha1 = ((FileItemVO) item).getSha1Checksum();
-                    if (sha1 == null || sha1.isEmpty()) {
+                    if (StringUtils.isBlank(sha1)) {
                         sha1 = "-------------not-calculated-------------";
                     }
                     fileOutputStream.println(sha1 + " " + path);

@@ -13,6 +13,7 @@ import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPanel;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -84,7 +85,11 @@ public class UploadPanel extends AbstractCustomPanel {
                 protected void populateItem(ListItem<FileItemVO> item) {
                     FileItemVO fileItemVO = item.getModelObject();
                     item.add(new Label("path", fileItemVO.getPath()));
-                    item.add(new Label("checksum", fileItemVO.getSha1Checksum()));
+                    String sha1 = fileItemVO.getSha1Checksum();
+                    if (StringUtils.isBlank(sha1)) {
+                        sha1 = "-------------not-calculated-------------";
+                    }
+                    item.add(new Label("checksum", sha1));
                 }
             };
             add(listView);
