@@ -36,7 +36,9 @@
 		class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
 
 	<bean name="datasetService"
-		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
+		class="nl.knaw.dans.easy.business.services.EasyDatasetService">
+		<constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
+	</bean>
 
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
 
@@ -294,6 +296,13 @@
 		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
 	</bean>
 
+	<bean name="dataciteServiceConfiguration"
+		class="nl.knaw.dans.easy.DataciteServiceConfiguration">
+		<property name="username" value="dummy" />
+		<property name="password" value="dummy" />
+		<property name="doiRegistrationUri" value="http://dummy.com" />
+		<property name="datasetResolver" value="http://dummy.com" />
+	</bean>
 	<!-- ============== -->
 	<!-- Miscellaneous -->
 	<!-- ============== -->
