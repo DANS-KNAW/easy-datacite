@@ -1,46 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.knaw.dans.easy</groupId>
-	<artifactId>easy-app</artifactId>
-	<version>2.x-SNAPSHOT</version>
-	<name>EASY Applications Master Build</name>
-	<packaging>pom</packaging>
-	<modules>
-		<!-- Front-end Modules -->
-		<module>front-end/easy-webui</module>
-		<module>front-end/easy-sword</module>
-		<module>front-end/easy-rest</module>
-		<module>front-end/easy-proai</module>
-		
-		<!-- Back-end setup and config files -->
-		<module>back-end/easy-backend-setup</module>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>nl.knaw.dans.easy</groupId>
+    <artifactId>easy-app</artifactId>
+    <version>2.x-SNAPSHOT</version>
+    <name>EASY Applications Master Build</name>
+    <packaging>pom</packaging>
+    <scm>
+        <developerConnection>scm:git:ssh://develop.dans.knaw.nl/home/blessed/git/service/easy/easy-app.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.2</version>
+            </plugin>
+        </plugins>
+    </build>
+    <modules>
+        <!-- Front-end Modules -->
+        <module>front-end/easy-webui</module>
+        <module>front-end/easy-sword</module>
+        <module>front-end/easy-rest</module>
+        <module>front-end/easy-proai</module>
+
+        <!-- Back-end setup and config files -->
+        <module>back-end/easy-backend-setup</module>
         <module>back-end/easy-pid-generator</module>
 
-		<!-- Libraries -->
-		<module>lib/dans-solr</module>
-		<module>lib/dans-wicket</module>
-		<module>lib/ddm</module>
-		<module>lib/easy-business</module>
-		<module>lib/easy-business-mocking</module>
-		<module>lib/easy-fedora</module>
-		<module>lib/easy-ldap</module>
-		<module>lib/easy-prototype</module>
+        <!-- Libraries -->
+        <module>lib/dans-solr</module>
+        <module>lib/dans-wicket</module>
+        <module>lib/ddm</module>
+        <module>lib/easy-business</module>
+        <module>lib/easy-business-mocking</module>
+        <module>lib/easy-fedora</module>
+        <module>lib/easy-ldap</module>
+        <module>lib/easy-prototype</module>
         <module>lib/easy-datacite</module>
-		<module>lib/emd</module>
-		<module>lib/pakbon</module>
-		<module>lib/xml</module>
+        <module>lib/emd</module>
+        <module>lib/pakbon</module>
+        <module>lib/xml</module>
 
-		<!-- Deprecated -->
- 		<module>lib-deprecated/dans-ldap</module>	
-		<module>lib-deprecated/dans-jibx</module>
-		<module>lib-deprecated/dans-lang</module>
-		<module>lib-deprecated/dans-fedora</module>
-		<module>lib-component/idmo-collections</module>
-		<module>lib-component/isecurity</module>
-		<module>lib-component/istore</module>
-		<module>lib-component/dmo-collections</module>
-		<module>lib-component/store</module>
-	</modules>
+        <!-- Deprecated -->
+        <module>lib-deprecated/dans-ldap</module>
+        <module>lib-deprecated/dans-jibx</module>
+        <module>lib-deprecated/dans-lang</module>
+        <module>lib-deprecated/dans-fedora</module>
+        <module>lib-component/idmo-collections</module>
+        <module>lib-component/isecurity</module>
+        <module>lib-component/istore</module>
+        <module>lib-component/dmo-collections</module>
+        <module>lib-component/store</module>
+    </modules>
 </project>
