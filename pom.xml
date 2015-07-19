@@ -19,6 +19,7 @@
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <developmentVersion>2.x-SNAPSHOT</developmentVersion>
                 </configuration>
             </plugin>
         </plugins>
