@@ -21,6 +21,7 @@
         <janino.version>2.6.1</janino.version>
         <jetty.version>6.1H.22</jetty.version>
         <wicket.version>1.4.23</wicket.version>
+        <wicketstuff.version>1.4.21</wicketstuff.version>
         <jibx.version>1.2.4.5</jibx.version>
         <jersey.version>1.8</jersey.version>
         <scala.version>2.11.6</scala.version>
@@ -74,6 +75,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>wicket-tree</groupId>
+                <artifactId>wicket-tree-mod</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>easy-datacite</artifactId>
@@ -251,6 +257,42 @@
                 <groupId>org.codehaus.janino</groupId>
                 <artifactId>janino</artifactId>
                 <version>${janino.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.wicket</groupId>
+               <artifactId>wicket</artifactId>
+              <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.wicket</groupId>
+               <artifactId>wicket-extensions</artifactId>
+               <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.apache.wicket</groupId>
+               <artifactId>wicket-datetime</artifactId>
+               <version>${wicket.version}</version>
+               <exclusions>
+                   <exclusion>
+                       <groupId>joda-time</groupId>
+                       <artifactId>joda-time</artifactId>
+                   </exclusion>
+               </exclusions>
+            </dependency>
+            <dependency>
+               <groupId>org.wicketstuff</groupId>
+               <artifactId>tinymce</artifactId>
+               <version>${wicketstuff.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.wicketstuff</groupId>
+               <artifactId>progressbar</artifactId>
+               <version>${wicketstuff.version}</version>
+            </dependency>
+            <dependency>
+               <groupId>org.wicketstuff</groupId>
+               <artifactId>progressbar-spring</artifactId>
+               <version>${wicketstuff.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.wicket</groupId>

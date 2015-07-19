@@ -18,17 +18,14 @@
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket</artifactId>
-			<version>${wicket.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-extensions</artifactId>
-			<version>${wicket.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-datetime</artifactId>
-			<version>${wicket.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>joda-time</groupId>
@@ -39,17 +36,14 @@
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>tinymce</artifactId>
-			<version>${wicketstuff.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>progressbar</artifactId>
-			<version>${wicketstuff.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>progressbar-spring</artifactId>
-			<version>${wicketstuff.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
@@ -58,7 +52,6 @@
 		<dependency>
 			<groupId>wicket-tree</groupId>
 			<artifactId>wicket-tree-mod</artifactId>
-			<version>0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
             <groupId>commons-codec</groupId>

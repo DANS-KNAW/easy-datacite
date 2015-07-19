@@ -32,7 +32,6 @@
         <module>front-end/easy-proai</module>
 
         <!-- Back-end setup and config files -->
-        <module>back-end/easy-backend-setup</module>
         <module>back-end/easy-pid-generator</module>
 
         <!-- Libraries -->
@@ -54,10 +53,12 @@
         <module>lib-deprecated/dans-jibx</module>
         <module>lib-deprecated/dans-lang</module>
         <module>lib-deprecated/dans-fedora</module>
+        <module>lib-deprecated/wicket-tree</module>
         <module>lib-component/idmo-collections</module>
         <module>lib-component/isecurity</module>
         <module>lib-component/istore</module>
         <module>lib-component/dmo-collections</module>
         <module>lib-component/store</module>
+        
     </modules>
 </project>
