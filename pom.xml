@@ -7,8 +7,8 @@
     <name>EASY Applications Master Build</name>
     <packaging>pom</packaging>
     <scm>
-        <developerConnection>scm:git:ssh://develop.dans.knaw.nl/home/blessed/git/service/easy/easy-app.git</developerConnection>
-        <tag>v2.12-beta-2</tag>
+        <developerConnection>scm:git:ssh://gerrit.dans.knaw.nl:29418/service/easy/easy-app.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
     <build>
         <plugins>
@@ -19,7 +19,6 @@
             </plugin>
         </plugins>
     </build>
-    
     <modules>
         <!-- Front-end Modules -->
         <module>front-end/easy-webui</module>
