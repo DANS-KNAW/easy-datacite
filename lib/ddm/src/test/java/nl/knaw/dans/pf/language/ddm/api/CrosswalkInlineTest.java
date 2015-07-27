@@ -17,10 +17,12 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class CrosswalkInlineTest {
     private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
     private static final String W3CDTF_TYPE = " xsi:type='dcterms:W3CDTF'";

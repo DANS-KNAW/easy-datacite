@@ -8,8 +8,10 @@ import javax.xml.transform.stream.StreamSource;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.validation.XMLValidator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ValidatorTest {
 
     @Test
