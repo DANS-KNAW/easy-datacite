@@ -169,7 +169,7 @@ public class PublicSearchResultPageTest {
     private void assertFacet(final EasyWicketTester tester) {
         tester.assertRenderedPage(PublicSearchResultPage.class);
         tester.assertLabelContains("resultMessage", "2 <small>results</small>");
-        final String hitsPath = "searchResultPanel:searchHits:";
+        final String hitsPath = "searchResultPanel:tabs:panel:searchHits:";
         tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open (registered users)");
         tester.assertLabel(FACET_VALUE_LINK + ":facetCount", "2");
         tester.assertLabel(hitsPath + "0:searchHit:showDataset:disciplines:0:disciplineName", "mocked Discipline");

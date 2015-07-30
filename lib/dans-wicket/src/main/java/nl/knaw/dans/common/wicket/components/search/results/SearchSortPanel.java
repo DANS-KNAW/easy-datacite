@@ -3,18 +3,15 @@ package nl.knaw.dans.common.wicket.components.search.results;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.search.SortField;
-import nl.knaw.dans.common.lang.search.SortOrder;
 import nl.knaw.dans.common.lang.search.SortType;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.wicket.components.search.BaseSearchPanel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.ResourceModel;
 
 /**
  * This panel shows the sort options for the search result panel based on a list of sort link config objects. It updates the sort fields in the request builder

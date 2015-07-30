@@ -57,6 +57,13 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+        
+        <dependency>
+			<groupId>nl.knaw.dans.libs</groupId>
+			<artifactId>wicket-leaflet-lib</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+        
 	</dependencies>
 	<build>
 		<resources>
