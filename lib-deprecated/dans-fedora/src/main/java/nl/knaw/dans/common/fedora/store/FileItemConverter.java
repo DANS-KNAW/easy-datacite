@@ -1,11 +1,18 @@
 package nl.knaw.dans.common.fedora.store;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import nl.knaw.dans.common.fedora.fox.ContentDigestType;
 import nl.knaw.dans.common.fedora.fox.DatastreamVersion;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
+import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemMetadataImpl;
@@ -13,7 +20,11 @@ import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 
+import org.dom4j.Document;
 import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.XPath;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

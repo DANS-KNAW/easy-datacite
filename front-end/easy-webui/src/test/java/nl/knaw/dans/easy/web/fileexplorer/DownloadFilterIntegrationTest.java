@@ -35,10 +35,12 @@ import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class DownloadFilterIntegrationTest {
 
     // A mocked FileStoreAcess has more chances on mistakes than the tested class so we skip the pure unit test.

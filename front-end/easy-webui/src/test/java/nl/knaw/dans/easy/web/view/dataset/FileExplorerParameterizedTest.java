@@ -32,6 +32,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.PageParameters;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,6 +41,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 @RunWith(Parameterized.class)
 public class FileExplorerParameterizedTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerParameterizedTest.class);

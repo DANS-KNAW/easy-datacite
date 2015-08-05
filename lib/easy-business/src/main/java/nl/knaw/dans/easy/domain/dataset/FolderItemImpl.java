@@ -56,7 +56,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
     @Override
     public void setLabel(String label) {
         super.setLabel(label);
-        getDatasetItemContainerMetadata().setName(label);
+        getDatasetItemMetadata().setName(label);
     }
 
     public DublinCoreMetadata getDublinCoreMetadata() {
@@ -77,9 +77,8 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
 
     public ItemContainerMetadataImpl getDatasetItemContainerMetadata() {
         if (itemContainerMetadata == null) {
-            itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
+            itemContainerMetadata = new ItemContainerMetadataImpl();
         }
-        itemContainerMetadata.setDmoStoreId(getDmoStoreId());
         return itemContainerMetadata;
     }
 
@@ -191,5 +190,4 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
             return container.getUnitOfWork();
         }
     }
-
 }

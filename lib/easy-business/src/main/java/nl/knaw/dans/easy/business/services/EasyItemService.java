@@ -424,7 +424,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService 
         FileItem fileItem;
         try {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId())) {
+            if (!fileItem.getDatasetId().equals(dataset.getDmoStoreId())) {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }
         }

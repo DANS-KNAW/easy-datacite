@@ -31,11 +31,13 @@ import org.apache.wicket.util.tester.FormTester;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class DepositTest {
     private static final String LIST_VIEW = ":recursivePanel:listViewContainer:listView:";
 

@@ -7,6 +7,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.xml.AdditionalContent;
@@ -25,20 +26,14 @@ public class FileItemDescription implements Serializable {
     private static final Logger logger = LoggerFactory.getLogger(FileItemDescription.class);
 
     private final FileItemMetadata fileItemMetadata;
-
+    private final FileItem fileItem;
     private final DescriptiveMetadata descriptiveMetadata;
 
-    public FileItemDescription(FileItemMetadata fileItemMetadata) {
-        this(fileItemMetadata, null);
-    }
-
-    public FileItemDescription(FileItemMetadata fileItemMetadata, DescriptiveMetadata descriptiveMetadata) {
-        this.fileItemMetadata = fileItemMetadata;
-        if (descriptiveMetadata == null) {
-            this.descriptiveMetadata = new DescriptiveMetadataImpl(new BaseElement("content"));
-        } else {
-            this.descriptiveMetadata = descriptiveMetadata;
-        }
+    public FileItemDescription(FileItem fileItem) {
+        this.fileItem = fileItem;
+        fileItemMetadata = fileItem.getFileItemMetadata();
+        descriptiveMetadata = fileItem.getDescriptiveMetadata() == null ? new DescriptiveMetadataImpl(new BaseElement("content")) : fileItem
+                .getDescriptiveMetadata();
     }
 
     public FileItemMetadata getFileItemMetadata() {
@@ -79,12 +74,11 @@ public class FileItemDescription implements Serializable {
         addElement(props, metadata, "creatorRole", "Creator");
         addElement(props, metadata, "visibleTo", "Visible to");
         addElement(props, metadata, "accessibleTo", "Accessible to");
-        addElement(props, metadata, "sid", "Sid");
-        addElement(props, metadata, "parentSid", "Parent sid");
-        addElement(props, metadata, "datasetSid", "Dataset sid");
+        props.add(new KeyValuePair("Sid", fileItem.getStoreId()));
+        props.add(new KeyValuePair("Parent sid", fileItem.getParentId().getStoreId()));
+        props.add(new KeyValuePair("Dataset sid", fileItem.getDatasetId().getStoreId()));
         addAdditionalMetadata(props);
         props.addAll(descriptiveMetadata.getProperties());
-
         return props;
     }
 

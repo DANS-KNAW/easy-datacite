@@ -99,15 +99,6 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl> {
             logger.warn("No administrative metadata found on retrieved digital object. sid=" + digitalObject.getSid());
         }
 
-        DatastreamVersion icmdVersion = digitalObject.getLatestVersion(DatasetItemContainerMetadata.UNIT_ID);
-        if (icmdVersion != null) {
-            Element element = icmdVersion.getXmlContentElement();
-            ItemContainerMetadataImpl icmd = (ItemContainerMetadataImpl) unmarshal(ItemContainerMetadataImpl.class, element);
-            icmd.setDirty(false);
-            icmd.setTimestamp(icmdVersion.getTimestamp());
-            dataset.setItemContainerMetadata(icmd);
-        }
-
         DatastreamVersion pslVersion = digitalObject.getLatestVersion(PermissionSequenceList.UNIT_ID);
         if (pslVersion != null) {
             Element element = pslVersion.getXmlContentElement();

@@ -21,11 +21,13 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.tester.ITestPanelSource;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class DepositUploadPanelTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(DepositUploadPanelTest.class);
 

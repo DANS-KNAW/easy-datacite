@@ -1,7 +1,5 @@
 package nl.knaw.dans.easy.domain.dataset;
 
-import org.apache.commons.lang.StringUtils;
-
 import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.model.DatasetItemMetadata;
@@ -49,6 +47,7 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
     }
 
     public void setPath(String path) {
+        evaluateDirty(path, this.path);
         this.path = path;
     }
 
@@ -68,8 +67,6 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
     protected void setName(String name) {
         evaluateDirty(name, this.name);
         this.name = name;
-        if (path == null)
-            path = name;
     }
 
     public boolean isVersionable() {
@@ -80,37 +77,34 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
         this.versionable = versionable;
     }
 
+    /*
+     * IMPORTANT NOTE These JiBX methods must be kept around as long as there are FILE_ITEM_METADTA datastreams that contain sids, parentSids or datastreamSids.
+     * The current code does not use or save those in the FILE_ITEM_METADATA anymore. After we have removed them from all existing FILE_ITEM_METADATA
+     * datastreams, we can proceed to remove below methods from this class and corresponding jibx bindings from ItemMetadata-binding.xml.
+     */
+
     // methods for JiBX-serialization
-    protected void setSid(String sid) {
-        if (!StringUtils.isBlank(sid))
-            dmoStoreId = new DmoStoreId(sid);
-    }
+    protected void setSid(String sid) {}
 
     // methods for JiBX-serialization
     protected String getSid() {
-        return dmoStoreId == null ? "" : dmoStoreId.getStoreId();
+        return null;
     }
 
     // methods for JiBX-serialization
-    protected void setParentSid(String parentSid) {
-        if (!StringUtils.isBlank(parentSid))
-            this.parentDmoStoreId = new DmoStoreId(parentSid);
-    }
+    protected void setParentSid(String parentSid) {}
 
     // methods for JiBX-serialization
     protected String getParentSid() {
-        return parentDmoStoreId == null ? null : parentDmoStoreId.getStoreId();
+        return null;
     }
 
     // methods for JiBX-serialization
-    protected void setDatasetSid(String datasetSid) {
-        if (!StringUtils.isBlank(datasetSid))
-            this.datasetDmoStoreId = new DmoStoreId(datasetSid);
-    }
+    protected void setDatasetSid(String datasetSid) {}
 
     // methods for JiBX-serialization
     protected String getDatasetSid() {
-        return datasetDmoStoreId == null ? null : datasetDmoStoreId.getStoreId();
+        return null;
     }
 
 }

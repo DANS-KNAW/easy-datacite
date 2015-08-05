@@ -47,8 +47,7 @@ public class FolderItemVO extends AbstractItemVO {
     public FolderItemVO() {}
 
     public FolderItemVO(FolderItem folderItem) {
-        super(folderItem.getDmoStoreId().getStoreId(), folderItem.getDatasetItemMetadata().getParentDmoStoreId().getStoreId(), folderItem.getDatasetId()
-                .getStoreId(), folderItem.getLabel());
+        super(folderItem.getDmoStoreId().getStoreId(), folderItem.getParentId().toString(), folderItem.getDatasetId().getStoreId(), folderItem.getLabel());
         setPath(folderItem.getPath());
     }
 
@@ -87,7 +86,7 @@ public class FolderItemVO extends AbstractItemVO {
         if (!getSid().equals(folderItem.getStoreId())) {
             throw new IllegalArgumentException("Cannot update FolderItemVO " + getSid() + " to " + folderItem);
         }
-        setParentSid(folderItem.getDatasetItemContainerMetadata().getParentDmoStoreId().getStoreId());
+        setParentSid(folderItem.getParentId().getStoreId());
         setDatasetSid(folderItem.getDatasetId().getStoreId());
         setName(folderItem.getLabel());
         setPath(folderItem.getPath());

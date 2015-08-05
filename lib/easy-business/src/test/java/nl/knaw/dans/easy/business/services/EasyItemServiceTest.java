@@ -102,52 +102,8 @@ public class EasyItemServiceTest extends TestHelper {
 
         EasyMock.verify(easyStore);
 
-        assertEquals(fid.getFileItemMetadata().getDmoStoreId(), fileItemId);
         assertNotNull(fid.getDescriptiveMetadata());
         assertNotNull(fid.getDescriptiveMetadata().getProperties());
-    }
-
-    @Ignore("SydSynchronizer is not mockable")
-    @Test
-    public void addDirectoryContents() throws ResourceNotFoundException, ServiceException, ObjectNotInStoreException, RepositoryException {
-        TestReporter reporter = new TestReporter();
-        EasyUser sessionUser = getTestUser();
-        List<File> filesToIngest = new ArrayList<File>();
-        filesToIngest.add(Tester.getFile("test-files/EasyItemService/filesToIngest/folder1"));
-        filesToIngest.add(Tester.getFile("test-files/EasyItemService/filesToIngest/folder1/file1A.txt"));
-
-        File rootFile = Tester.getFile("test-files/EasyItemService/filesToIngest");
-        Dataset dataset = new DatasetImpl("easy-dataset:1");
-        dataset.getAdministrativeMetadata().setDepositor(sessionUser);
-        DmoStoreId parentId = dataset.getDmoStoreId();
-        DmoStoreId datasetId = new DmoStoreId("easy-dataset:1");
-        DmoStoreId folderItemId = new DmoStoreId("easy-folder:original");
-
-        PowerMock.mockStatic(AbstractDmoFactory.class);
-        EasyMock.reset(easyStore, fileStoreAccess);
-
-        EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId)).andReturn(new ArrayList<ItemVO>()).times(1);
-        EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:original"));
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders(folderItemId)).andReturn(new ArrayList<ItemVO>()).times(1);
-
-        EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:1"));
-        EasyMock.expect(AbstractDmoFactory.newDmo(FileItem.NAMESPACE)).andReturn(new FileItemImpl("easy-file:1"));
-
-        EasyMock.expect(easyStore.ingest(EasyMock.isA(FileItem.class), EasyMock.eq("Ingested by  (testUser)"))).andReturn("easy-file:1");
-        EasyMock.expect(easyStore.ingest(EasyMock.isA(FolderItem.class), EasyMock.eq("Ingested by  (testUser)"))).andReturn("easy-folder:1");
-        EasyMock.expect(easyStore.ingest(dataset, "Ingested by  (testUser)")).andReturn("easy-dataset:1");
-
-        EasyMock.replay(easyStore, fileStoreAccess);
-        PowerMock.replay(AbstractDmoFactory.class);
-        service.addDirectoryContents(sessionUser, dataset, parentId, rootFile, filesToIngest, reporter);
-
-        EasyMock.verify(easyStore, fileStoreAccess);
-        PowerMock.verify(AbstractDmoFactory.class);
-
-        assertTrue(reporter.workStarted);
-        assertEquals(3, reporter.getIngestedObjectCount());
-        assertTrue(reporter.workEnded);
     }
 
     @Test(expected = CommonSecurityException.class)

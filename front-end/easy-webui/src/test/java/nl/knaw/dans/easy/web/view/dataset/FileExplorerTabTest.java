@@ -30,12 +30,14 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 import org.apache.wicket.PageParameters;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** See also DatasetPermissionTest.fileExplorerTab */
+@Ignore
 public class FileExplorerTabTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerTabTest.class);
 

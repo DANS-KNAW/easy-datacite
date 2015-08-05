@@ -48,9 +48,6 @@ public class EasyItemContainerAuthzStrategy extends AbstractItemContainerAuthzSt
         super.checkAttributes();
         if (itemContainer == null)
             throw new IllegalArgumentException("Insufficient parameters: no itemContainer");
-        DmoStoreId datasetId = getDataset().getDmoStoreId();
-        if (!(datasetId.equals(itemContainer.getDatasetItemContainerMetadata().getDatasetDmoStoreId()) || datasetId.equals(itemContainer.getDmoStoreId())))
-            throw new IllegalArgumentException("ItemContainer is not given dataset, nor part of given dataset");
     }
 
     @Override

@@ -7,9 +7,9 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
 public interface DatasetItem extends DataModelObject {
     DmoStoreId getDatasetId();
 
-    void setDatasetId(DmoStoreId datasetId);
+    DmoStoreId getParentId();
 
-    DatasetItemMetadata getDatasetItemMetadata();
+    void setDatasetId(DmoStoreId datasetId);
 
     void setParent(DatasetItemContainer parent) throws DomainException;
 
@@ -18,4 +18,5 @@ public interface DatasetItem extends DataModelObject {
     boolean isDescendantOf(DataModelObject dmo);
 
     String getPath();
+
 }

@@ -22,11 +22,13 @@ import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import org.apache.wicket.PageParameters;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Ignore
 public class AdminTabTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminTabTest.class);
     private static final String TAB_PATH = "tabs:tabs-container:tabs:3:link";

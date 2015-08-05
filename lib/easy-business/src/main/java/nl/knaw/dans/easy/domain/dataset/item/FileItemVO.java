@@ -19,8 +19,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     public FileItemVO() {}
 
     public FileItemVO(FileItem fileItem) {
-        super(fileItem.getDmoStoreId().getStoreId(), fileItem.getFileItemMetadata().getParentDmoStoreId().getStoreId(), fileItem.getDatasetId().getStoreId(),
-                fileItem.getLabel());
+        super(fileItem.getDmoStoreId().getStoreId(), fileItem.getParentId().getStoreId(), fileItem.getDatasetId().getStoreId(), fileItem.getLabel());
         size = (int) fileItem.getSize();
         mimetype = fileItem.getFileItemMetadata().getMimeType();
         creatorRole = fileItem.getCreatorRole();
@@ -139,7 +138,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         if (!getSid().equals(fileItem.getStoreId())) {
             throw new IllegalArgumentException("Cannot update FileItemVO " + getSid() + " to " + fileItem);
         }
-        setParentSid(fileItem.getDatasetItemMetadata().getParentDmoStoreId().getStoreId());
+        setParentSid(fileItem.getParentId().toString());
         setDatasetSid(fileItem.getDatasetId().getStoreId());
         setName(fileItem.getLabel());
         size = (int) fileItem.getSize();

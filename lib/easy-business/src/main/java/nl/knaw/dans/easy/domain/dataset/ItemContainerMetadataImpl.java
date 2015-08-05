@@ -20,13 +20,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
 
     private String version;
 
-    protected ItemContainerMetadataImpl() {
-        super();
-    }
-
-    public ItemContainerMetadataImpl(DmoStoreId sid) {
-        super(sid);
-    }
+    protected ItemContainerMetadataImpl() {}
 
     public String getVersion() {
         if (version == null) {

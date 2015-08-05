@@ -112,7 +112,7 @@ public class ItemWorkDispatcher {
     }
 
     public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException {
-        return new FileItemDescription(fileItem.getFileItemMetadata(), fileItem.getDescriptiveMetadata());
+        return new FileItemDescription(fileItem);
     }
 
     public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException {
@@ -129,7 +129,7 @@ public class ItemWorkDispatcher {
         FileItem fileItem;
         try {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId())) {
+            if (!fileItem.getDatasetId().equals(dataset.getDmoStoreId())) {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }
         }

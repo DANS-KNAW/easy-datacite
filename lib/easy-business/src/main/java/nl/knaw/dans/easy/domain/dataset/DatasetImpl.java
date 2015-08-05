@@ -370,7 +370,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
         metadataUnits.add(dcmd);
         metadataUnits.add(new EmdMetadataUnitXMLBeanAdapter(emd));
-        metadataUnits.add(getDatasetItemContainerMetadata());
+        // metadataUnits.add(getDatasetItemContainerMetadata());
         metadataUnits.add(getAdministrativeMetadata());
         metadataUnits.add(getPermissionSequenceList());
 
@@ -379,31 +379,6 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     public DublinCoreMetadata getDublinCoreMetadata() {
         return getEasyMetadata().getDublinCoreMetadata();
-    }
-
-    public DatasetItemMetadata getDatasetItemMetadata() {
-        return getDatasetItemContainerMetadata();
-    }
-
-    public ItemContainerMetadataImpl getDatasetItemContainerMetadata() {
-        if (itemContainerMetadata == null) {
-            itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
-        }
-
-        // in case storeId was not known at time of instantiation of ItemContainerMetadataImpl.
-        itemContainerMetadata.setDmoStoreId(getDmoStoreId());
-
-        return itemContainerMetadata;
-    }
-
-    /**
-     * NOT PART OF PUBLIC API - only use by DatasetConverter.
-     * 
-     * @param itemContainerMetadata
-     *        the thing to set
-     */
-    public void setItemContainerMetadata(ItemContainerMetadataImpl itemContainerMetadata) {
-        this.itemContainerMetadata = itemContainerMetadata;
     }
 
     @Override
