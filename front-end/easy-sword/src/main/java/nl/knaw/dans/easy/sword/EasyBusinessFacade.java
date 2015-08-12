@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.sword;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import nl.knaw.dans.easy.domain.dataset.AdministrativeMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -32,6 +34,7 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
+import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
@@ -319,14 +322,27 @@ public class EasyBusinessFacade {
         sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
         sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
         try {
-            final List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId());
-            sb.append(MessageFormat.format(format, "archived file names: " + Arrays.deepToString(filenames.toArray())));
+            final List<String> filenames = getFilesInfo(dataset.getDmoStoreId());// Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId());
+            sb.append(MessageFormat.format(format, "archived files: " + Arrays.deepToString(filenames.toArray())));
         }
         catch (final StoreAccessException e) {
-            sb.append(MessageFormat.format(format, "problem retreiving file names: " + e.getMessage()));
-            logger.error("problem retreiving file names of " + dataset.getStoreId(), e);
+            sb.append(MessageFormat.format(format, "problem retreiving files info: " + e.getMessage()));
+            logger.error("problem retreiving files info of " + dataset.getStoreId(), e);
         }
         return sb.toString();
+    }
+
+    private static List<String> getFilesInfo(DmoStoreId parentSid) throws StoreAccessException {
+        List<String> filesInfo = new ArrayList<String>();
+        final List<FileItemVO> fileItemVOs = Data.getFileStoreAccess().getDatasetFiles(parentSid);
+        for (final FileItemVO fileItemVO : fileItemVOs) {
+            String sha1 = fileItemVO.getSha1Checksum();
+            if (StringUtils.isBlank(sha1)) {
+                sha1 = "-------------not-calculated-------------";
+            }
+            filesInfo.add(fileItemVO.getPath() + " (SHA-1 checksum: " + sha1 + ")");
+        }
+        return filesInfo;
     }
 
     public static void resetNoOpSubmitCounter() {
