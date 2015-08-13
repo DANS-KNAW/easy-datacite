@@ -19,7 +19,7 @@ import nl.knaw.dans.pf.language.emd.types.IsoDate;
 import org.joda.time.DateTime;
 
 public interface Dataset extends DatasetItemContainer {
-    AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
+    AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS;
 
     String NAME_SPACE_VALUE = "easy-dataset";
 

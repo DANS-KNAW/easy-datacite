@@ -72,7 +72,7 @@ public class DatasetImplTest {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         AccessCategory ac = dataset.getAccessCategory();
         assertNotNull(ac);
-        assertEquals(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS, ac);
+        assertEquals(Dataset.DEFAULT_ACCESS_CATEGORY, ac);
 
         dataset.getEasyMetadata().getEmdRights().setAccessCategory(AccessCategory.REQUEST_PERMISSION);
         ac = dataset.getAccessCategory();
