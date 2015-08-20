@@ -6,7 +6,7 @@
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-task-prototype</artifactId>
 		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../lib/easy-task-prototype</relativePath>
+		<relativePath>../../lib-deprecated/easy-task-prototype</relativePath>
 	</parent>
 	<artifactId>easy-pakbon-preprocess</artifactId>
 	<name>EASY Pakbon Preprocessor Application</name>

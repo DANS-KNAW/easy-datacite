@@ -54,6 +54,8 @@
         <module>lib-deprecated/dans-lang</module>
         <module>lib-deprecated/dans-fedora</module>
         <module>lib-deprecated/wicket-tree</module>
+        <module>lib-deprecated/easy-task-prototype</module>
+        <module>lib-deprecated/easy-repotask-framework</module>
         <module>lib-component/idmo-collections</module>
         <module>lib-component/isecurity</module>
         <module>lib-component/istore</module>

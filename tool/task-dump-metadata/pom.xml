@@ -4,8 +4,8 @@
 	<parent>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-task-prototype</artifactId>
-		<relativePath>../../lib/easy-task-prototype</relativePath>
 		<version>2.x-SNAPSHOT</version>
+                <relativePath>../../lib-deprecated/easy-task-prototype</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.knaw.dans.easy.task</groupId>

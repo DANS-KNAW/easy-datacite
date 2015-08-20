@@ -6,6 +6,7 @@
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-prototype</artifactId>
 		<version>2.x-SNAPSHOT</version>
+                <relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-task-prototype</artifactId>
 	<name>EASY Task Prototype</name>
