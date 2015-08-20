@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?><mgmData>
+    <createDate>Mon Jul 20 09:27:10 CEST 2009</createDate>
+    
+    
+    
+    
+    <applicationData>
+        <payLoad><surveyedUsers><user>milcow</user><user>mvdd</user><user>roderick</user><user>hvdengel</user><user>myriamvw</user><user>jhendriks</user><user>boshoven</user><user>ecpronk</user><user>ronbakx</user><user>lwebley</user><user>danielstiller</user><user>wagelink</user><user>asimons01</user><user>arjandenbraven1</user><user>venlo</user><user>marjolijn</user><user>jcichy</user><user>valentijng</user><user>kheil</user><user>yoda1987</user><user>hsharch</user><user>rsvandermolen</user><user>mruijt</user><user>hst</user><user>orion</user><user>teddiestexts</user><user>gmauro</user><user>jasper1</user><user>juliusvanroemburg</user><user>ivobeckers</user><user>mkd</user><user>matthijshv</user><user>ronald</user><user>jbosman</user><user>argo</user><user>estherp</user><user>aprilvis</user><user>hps</user></surveyedUsers><mgmDataWorkFlow>
+    <workflowContentsPane>
+        <aipId>twips.dans.knaw.nl-6731496536029815457-1248074830293</aipId>
+        <QDCTitle>Publicaties Amsterdams Archeologisch Centrum</QDCTitle>
+        <steps>
+            <step checkUser="M Wansleeben" name="Ingest (deponering): SIP" timestamp="02-09-2009  14:58:37" workdone="true">
+                <comment/>
+                <action checkUser="" name="controle op compleetheid SIP (files in &quot;original&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op project metadata (qualified Dublin Core, inhoudelijk)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op technische metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op auteursrechtelijk beschermde files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op leesbaarheid files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op inhoudelijke metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle van het keuzeformulier (voorwaarden) t.b.v. de licentieovereenkomst" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="toepassen specifieke restricties files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle aanlevering teksten (en afbeeldingen) van de &quot;startpagina&quot;" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="M Wansleeben" name="Archivering (processing): AIP" timestamp="02-09-2009  14:58:37" workdone="true">
+                <comment/>
+                <action checkUser="" name="conversie files, conform DANS kennisdatabank &quot;data formats&quot; (prefered formats, presentation formats)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="structureren dataset tot een logisch geheel (directories, benaming files)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="terugplaatsen in AIP (bulkimport in &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="(opnieuw) genereren en controleren metadata" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="M Wansleeben" name="Access (dissemination, presentatie, beschikbaarstelling): DIP" timestamp="02-09-2009  14:58:38" workdone="true">
+                <comment/>
+                <action checkUser="" name="files op &quot;published&quot; zetten (in &quot;original&quot; en/of &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="opmaken, aanpassen startpagina" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="interne webcontrole DIP (startpagina, browsers, file selecties, downloads, restricties)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="definitieve licentie-overeenkomst controleren en versturen" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="externe controle door depositor (e-mail, ok?)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="PR-waardigheid: ja/nee (actie: nieuwsbrief, website, e-mail etc.)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+        </steps>
+        <assignedCategories>
+            <as_cat_option>
+                <assignedCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignedCategoryId>
+                <assignedCategory>Archaeology</assignedCategory>
+            </as_cat_option>
+        </assignedCategories>
+        <defaultCategories>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--3877089603410664659-1167404201644</assignableCategoryId>
+                <assignableCategory>Humanities</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignableCategoryId>
+                <assignableCategory>Archaeology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4716150812278475559-1179232222017</assignableCategoryId>
+                <assignableCategory>Arts</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4733002081456780760-1179232222018</assignableCategoryId>
+                <assignableCategory>Dramaturgy</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-3180514122698846372-1179232222020</assignableCategoryId>
+                <assignableCategory>History of arts and architecture</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--851120861906449362-1167404201730</assignableCategoryId>
+                <assignableCategory>Media sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4798816158715385611-1179232222022</assignableCategoryId>
+                <assignableCategory>Musicology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2420648360013283155-1167404201658</assignableCategoryId>
+                <assignableCategory>History</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4882489041661314738-1179232222025</assignableCategoryId>
+                <assignableCategory>Antiquity</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8705622768336717974-1179232222026</assignableCategoryId>
+                <assignableCategory>Middle Ages</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4545589382812876436-1179232222027</assignableCategoryId>
+                <assignableCategory>Early modern history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5445338150376925912-1179232222028</assignableCategoryId>
+                <assignableCategory>Modern history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1626707285658575928-1179232222029</assignableCategoryId>
+                <assignableCategory>Contemporary history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--560981449881204170-1167404201700</assignableCategoryId>
+                <assignableCategory>Language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--915500746194146706-1179232222034</assignableCategoryId>
+                <assignableCategory>Baltic and Slavonic language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-494019541955206240-1179232222035</assignableCategoryId>
+                <assignableCategory>Classic studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8892112836057854005-1179232222036</assignableCategoryId>
+                <assignableCategory>Germanic language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1664220330900522393-1179232222037</assignableCategoryId>
+                <assignableCategory>Romance language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5356103616710907849-1179232222037</assignableCategoryId>
+                <assignableCategory>Language and literature studies of other language groups</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-3379185122158297399-1179232222041</assignableCategoryId>
+                <assignableCategory>Palaeography, bibliology, bibliography, library science</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-6757450354537199768-1179232222042</assignableCategoryId>
+                <assignableCategory>Philosophy</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2972209387049654312-1167404201721</assignableCategoryId>
+                <assignableCategory>Theology and religious sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4322691534929405083-1167404201739</assignableCategoryId>
+                <assignableCategory>Social sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-9114271648305385366-1167404201747</assignableCategoryId>
+                <assignableCategory>Economics</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-586008441499901126-1179232222054</assignableCategoryId>
+                <assignableCategory>Environmental studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8705792611160991161-1167404201786</assignableCategoryId>
+                <assignableCategory>Political and administrative sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-7081372298344446016-1179232222055</assignableCategoryId>
+                <assignableCategory>Political science</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6501498988674914221-1179232222057</assignableCategoryId>
+                <assignableCategory>Social and Public administration</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4141687065604901338-1167404201776</assignableCategoryId>
+                <assignableCategory>Science of law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1813684252649430041-1179232222059</assignableCategoryId>
+                <assignableCategory>History of Law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5231158159310158800-1179232222060</assignableCategoryId>
+                <assignableCategory>Private (procedural) law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1878317216296702315-1179232222061</assignableCategoryId>
+                <assignableCategory>Criminal (procedural) law and criminology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-2455252083686505562-1179232222062</assignableCategoryId>
+                <assignableCategory>Constitutional and administrative law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--3864311175356110225-1179232222062</assignableCategoryId>
+                <assignableCategory>Interdisciplinary branches of law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6444107780939215925-1179232222064</assignableCategoryId>
+                <assignableCategory>International law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8358278453772674951-1179232222067</assignableCategoryId>
+                <assignableCategory>Traffic and transport studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6017685496380663529-1167404201757</assignableCategoryId>
+                <assignableCategory>Behavioural sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5970608499174934761-1179232222075</assignableCategoryId>
+                <assignableCategory>Gerontology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4601533421575847334-1179232222075</assignableCategoryId>
+                <assignableCategory>Pedagogics</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8678549457098647324-1167404201765</assignableCategoryId>
+                <assignableCategory>Psychology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4703409498310334937-1179232222077</assignableCategoryId>
+                <assignableCategory>Science of education</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8739414114196558923-1179232222081</assignableCategoryId>
+                <assignableCategory>Socio-cultural sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5809345335496157091-1179232222081</assignableCategoryId>
+                <assignableCategory>Communication sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4291646046830212917-1179232222083</assignableCategoryId>
+                <assignableCategory>Cultural anthropology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8111764871415549454-1179232222084</assignableCategoryId>
+                <assignableCategory>Demography</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1108176216815842098-1179232222085</assignableCategoryId>
+                <assignableCategory>Development studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5070650447881373670-1179232222085</assignableCategoryId>
+                <assignableCategory>Leisure and recreation studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4701355164954206121-1179232222086</assignableCategoryId>
+                <assignableCategory>Personnel administration and management</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--725140682333689695-1179232222087</assignableCategoryId>
+                <assignableCategory>Social geography</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5039225243970760691-1179232222088</assignableCategoryId>
+                <assignableCategory>Social security studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1307254666806078241-1167404201797</assignableCategoryId>
+                <assignableCategory>Sociology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5785833506701748052-1179232222090</assignableCategoryId>
+                <assignableCategory>Urban and rural planning</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--7812525368032742033-1179232222091</assignableCategoryId>
+                <assignableCategory>Women's studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4667124701540888169-1179232222015</assignableCategoryId>
+                <assignableCategory>Life sciences and medicine</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-7998051165110996685-1179232222015</assignableCategoryId>
+                <assignableCategory>Health sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-9203215916833700147-1223996427623</assignableCategoryId>
+                <assignableCategory>Geospatial sciences</assignableCategory>
+            </as_cat_option>
+        </defaultCategories>
+    </workflowContentsPane>
+</mgmDataWorkFlow><appHTML> <div>  
+<HR/>  
+<table border="0" cellpadding="5">  
+<tr>  
+<td valign="top" width="100">  
+<font size="-1">  
+<A href="http://www.aacprojectenbureau.nl/" target="_blank">AAC</A>  
+</font>  
+</td>  
+<td valign="top">  
+<img alt="AAC Projectenbureau" border="1" src="/customAIP/twips.dans.knaw.nl-6731496536029815457-1248074830293/aac_logo.jpg"/><p/>   
+<H4>AAC / Projectenbureau</H4>
+<H3>AACpublicaties</H3>  
+<p>  
+<table cellpading="3"> 
+<tr><td align="left"><b>eDNA</b></td><td align="right"><b>AAC</b></td><td align="left"><b>Titel</b></td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-7121126499732413574-1251890109705">a01724</a></td><td align="right" valign="top">1</td><td>Inventariserend veldonderzoek van een nederzetting uit de vroege ijzertijd en een boerenerf uit de 15e-17e eeuw in de gemeente Geldrop. een archeologisch onderzoek in het kader van het Zuidnederlandproject van de universiteit van Amsterdam</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4581238115932287794-1251890233166">a01725</a></td><td align="right" valign="top">2</td><td>Archeologische begeleiding van een waterpartij op het terrein van kasteel Assumburg, gemeente Heemskerk</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1670910461978667882-1251889870468">a01726</a></td><td align="right" valign="top">3</td><td>Inventariserend veldonderzoek op het terrein van 'De Rustende Jager', gemeente Bergen (NH)</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2686595416905473750-1251889802202">a01727</a></td><td align="right" valign="top">4</td><td>Quick scan oostelijk West-Friesland</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--828377162742465586-1251889975911">a01728</a></td><td align="right" valign="top">5</td><td>Twee fortbruggen op Texel, De Schans in Oudeschild</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8685529858795244178-1251890170642">a01729</a></td><td align="right" valign="top">6</td><td>Een cultuurlandschap uit de bronstijd. Inventariserend archeologisch veldonderzoek van het bedrijventerrein Zwaagdijk-oost, Wervershoof 2001</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8581306833395840347-1251889932094">a01730</a></td><td align="right" valign="top">7</td><td>Boerenland op klei en zand. Inventariserend onderzoek op de locatie Soetendaal te Vierlingsbeek, gemeente Boxmeer</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3524166647525868400-1251889967967">a01731</a></td><td align="right" valign="top">8</td><td>Begraven Beugen. Inventariserend veldonderzoek op het toekomstig bedrijvenpark Beugen-zuid, gemeente Boxmeer.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2275668251644667921-1251889846489">a01732</a></td><td align="right" valign="top">9</td><td>Inventariserend veldonderzoek in het plangebied 'De Horn, gemeente Rijnsburg. Een archeologisch onderzoek in het kader van het frisia project van de universiteit van Amsterdam</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--5859604896027424073-1251889907814">a01733</a></td><td align="right" valign="top">10</td><td>Bureau-onderzoek en inventariserend veldonderzoek naar archeologische waarden in het plangebied 'De Horn, gemeente Rijnsburg</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--7587866952230517754-1251889999885">a01734</a></td><td align="right" valign="top">11</td><td>Waterlaat 5, archeologisch onderzoek op het toekomstige bedrijventerrein 'Waterlaat 5', gemeente Bergeijk</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-7233682176825915375-1251889991579">a01735</a></td><td align="right" valign="top">12</td><td>Het Oer-IJ Estuarium. Archeologische kennisinventarisatie (aki)</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2259776677931132866-1251889944125">a01736</a></td><td align="right" valign="top">13</td><td>Aan de rand van Berga. Archeologisch onderzoek aan voormalige volkstuinencomplex ten noorden van Zorgcentrum St. Joseph, gemeente Bergeijk.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--7221559368545001120-1251889891204">a01737</a></td><td align="right" valign="top">14</td><td>Romeins glas van de opgravingen in Midden-Delfland</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1841639051546105440-1251890052082">a01738</a></td><td align="right" valign="top">15</td><td>Inventariserend veldonderzoek op de 'Sengerswei', gemeente Bergeijk. Het uitbreidingsterrein van het gemeentehuis</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4623910400447082802-1251890146583">a01739</a></td><td align="right" valign="top">16</td><td>Inventariserend veldonderzoek op het noordoostelijke deel van het perceel 'Het Molenkamp'. Assumburg-oud Haerlem, gemeente Heemskerk</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6333150414101730157-1251889854806">a01740</a></td><td align="right" valign="top">17</td><td>Sporen in de klei. Opgraving langs 'De Snevert', op de locatie van de toekomstige fietstunnel bij 'De Hoep', gemeente Schagen</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6222239612726685208-1251890067081">a01741</a></td><td align="right" valign="top">20</td><td>In de vijver van de kloostertuin. Archeologische begeleiding in de kloostertuin van de benedictinessen Onze-lieve-vrouwe abdij, gemeente Oosterhout</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--5347929211367273445-1251889922505">a01742</a></td><td align="right" valign="top">21</td><td>Begraven Beugen II. Inventariserend veldonderzoek op het toekomstige bedrijvenpark Beugen-Zuid, gemeente Boxmeer</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4227295496629689163-1251890220810">a01743</a></td><td align="right" valign="top">22</td><td>De kwaliteit van de waarneming, een vergelijking van boormethoden voor archeologisch inventariserend veldonderzoek</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8525045577046461664-1251890158253">a01744</a></td><td align="right" valign="top">23</td><td>Een nederzetting uit de Romeinse tijd in Poeldijk. Archeologisch onderzoek op vindplaats B.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2556404106278630004-1251890094715">a01745</a></td><td align="right" valign="top">24</td><td>Onderweg naar gisteren. Archeologisch onderzoek naar 2000 jaar wegopbouw langs de noordzijde van het Vrijthof te Maastricht</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--356440310161604732-1251889862508">a01746</a></td><td align="right" valign="top">25</td><td>Boegheim bezocht? Inventariserend veldonderzoek op het plangebied Boegheim te Beugen, gemeente Boxmeer</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--5278898447246273823-1251889879224">a01747</a></td><td align="right" valign="top">26</td><td>Gulle gaven, greppels en waterputten. De opgraving Wijk bij Duurstede, David van Bourgondiëweg</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--8454245489134118483-1251890035106">a01748</a></td><td align="right" valign="top">27</td><td>Ruimte voor water. Proefsleuven door een toekomstige waterberging in de Oude Lierpolder, gemeente Westland</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6922895157313599818-1251890183249">a01749</a></td><td align="right" valign="top">28</td><td>Rondom de Luchense Loop. Een archeologische bureaustudie en verkennend booronderzoek van het plangebied Luchen in de gemeente Geldrop-Mierlo (NB).</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--713337241685129499-1251889983871">a01750</a></td><td align="right" valign="top">30</td><td>Inventariserend veldonderzoek op het voormalige schoolterrein aan de Kettingstraat, gemeente Geldrop-Mierlo (NB).</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--7055213898925701759-1251889959885">a01751</a></td><td align="right" valign="top">31</td><td>Het Bakkerspleintje in Castricum. Inventariserend veldonderzoek op het Bakkerspleintje, gemeente Castricum.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--2375278430829700982-1251890007811">a01752</a></td><td align="right" valign="top">32</td><td>Graven op de markt. Een middeleeuwse nederzetting en begraafplaats op de markt in Oosterhout.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4899822509500414538-1251890023093">a01753</a></td><td align="right" valign="top">33</td><td>Archeologische bureauonderzoek voor het plangebied Chopinstraat e.o. te Heemskerk.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-6188545291739909038-1251889836920">a01754</a></td><td align="right" valign="top">34</td><td>Verkennend booronderzoek plangebied 'De Smelen, gemeente Geldrop-Mierlo (NB)</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-6253351428370148589-1251887534274">a01755</a></td><td align="right" valign="top">37</td><td>Calamiteitenberging Woudse Polder. Archeologisch onderzoek in het kadetracé.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1844549242675002511-1251889898403">a01756</a></td><td align="right" valign="top">40</td><td>De archeologie van een nat cultuurlandschap. Onderzoek in het tracé van de PW205, provincie Noord-Brabant (Helmond, Aarle-Rixtel, Beek en Donk).</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1577899695905853616-1251890196012">a01757</a></td><td align="right" valign="top">41</td><td>Limmen 'De Krocht'. De opgraving van een middeleeuwse plattelandsnederzetting in Kennemerland.</td></tr> 
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3587930274928684877-1251890082465">a01758</a></td><td align="right" valign="top">42</td><td>Sporen van landgebruik. Inventariserend veldonderzoek in de plangebieden Daalakkers, Leemskuilen en Hoefzicht II in Westerhoven, gemeente Bergeijk.</td></tr> 
+</table>
+</p>
+<h3>AAC notities</h3>
+<table border="0" cellpadding="3">
+<tr><td><b>EDNA</b></td><td><b>AAC</b></td><td><b>Titel</b></td></tr>
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-687128515135706527-1272979186597">a12514</a></td><td align="right" valign="top">2</td><td valign="top">Heemskerk PWN Waterweg</td></tr>
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--2116022322762830146-1272967644210">a12512</a></td><td align="right" valign="top">30</td><td valign="top">Castricum Bakkum Stetweg Bureauonderzoek</td></tr>
+</table>
+<H3>AACbriefrapporten</H3> 
+<p>
+<table cellpading="3"> 
+<tr><td align="left"><b>eDNA</b></td><td align="right"><b>AAC</b></td><td align="left"><b>Titel</b></td></tr>
+<tr><td valign="top"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8464457591900765602-1272880151551">a12495</a></td><td align="right" valign="top">AAC-PB-BkBw/mp/2001/3</td><td>Bergeijk Brandweer</td></tr>
+</table> 
+</p>
+</td> 
+</tr> 
+</table> 
+<HR/> 
+</div></appHTML></payLoad>
+    <depositor>mwans</depositor></applicationData>
+<lastEdit>Tue Jul 19 17:35:42 CEST 2011</lastEdit><fileActions>
+    <fileAction>
+        <description>Management data created</description>
+        <dateStamp>Mon Jul 20 09:27:10 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:10 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:13 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:13 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:33 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:33 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:33 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:33 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:47 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:47 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:47 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:58 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:58 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:27:58 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:28:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:28:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:28:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:28:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:38:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:38:08 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:38:09 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:38:09 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:45:27 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:45:27 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:45:27 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Jul 20 09:45:27 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 11:57:29 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 11:57:30 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 11:57:30 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:24:19 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:24:19 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:24:19 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:24:19 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:25:19 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:27:24 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:27:24 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:27:25 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:17 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:17 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:26 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:26 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:26 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:26 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:29 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:29 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:29 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:34 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:34 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:34 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:35 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:54 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:54 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:54 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:55 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>File update</description>
+        <dateStamp>Wed Sep 02 12:30:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 12:30:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:25:21 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:25:35 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:25:35 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:26:02 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:26:02 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:26:12 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Sep 02 13:26:13 CEST 2009</dateStamp>
+    </fileAction>
+</fileActions><assignedToCategories>
+    <categoryId>root</categoryId>
+    <categoryId>twips.dans.knaw.nl--5889743577094153589-1167753019366</categoryId>
+    <categoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</categoryId>
+</assignedToCategories><mirrors/></mgmData>

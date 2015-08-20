@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<timestamp key="time" datePattern="yyyy-MM-dd_HH.mm.ss"/>
+	<!--  Note that you can pass it via java -DHOME="myhomepath" -->
+	<property name="LOG_DIR" value="${HOME}/batch/logs/pakbon-preprocess/${time}" />
+	<property name="REP_DIR" value="${HOME}/batch/reports/pakbon-preprocess/${time}" />
+
+	<!-- command line user will see this -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>pakbonpreprocess: %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!--  Note we could have a RollingFileAppender if we wanted to 'rotate' the logs -->
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${LOG_DIR}/pakbonpreprocess.log</file>
+		<encoder>
+			<pattern>[%date] %level: %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="REPORT" class="ch.qos.logback.core.FileAppender">
+		<file>${REP_DIR}/pakbonpreprocess.csv</file>
+		<encoder>
+			<pattern>%date; %level; %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="nl.knaw.dans.easy.pakbonpreprocess" level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="Reporter" level="INFO">
+		<appender-ref ref="REPORT" />
+	</logger>
+
+	<!-- turn OFF all logging (children can override) -->
+	<root level="OFF">
+		<!-- needed to comment this out 
+		<appender-ref ref="CONSOLE" />
+		 -->
+	</root>
+</configuration>

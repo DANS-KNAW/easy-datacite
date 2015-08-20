@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/application-context.xml"/>
+	<import resource="app/store-context.xml"/>
+	<import resource="app/ldap-context.xml"/>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="purgeDatasetsTask" />
+			</list>
+		</property>
+		<property name="reportDir" value="${taskrunner.reportDir}"/>
+	</bean>
+	
+	<bean name="purgeDatasetsTask" class="nl.knaw.dans.easy.tools.task.PurgeDatasetsTask">
+		<constructor-arg index="0">
+			<ref bean="aipIdConverter"/>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<list>
+				<value>data/sine_depositor.txt</value>
+				<value>data/in_trashcan.txt</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="aipIdConverter" class="nl.knaw.dans.easy.tools.dataset.AipIdConverter"/>
+	
+</beans>

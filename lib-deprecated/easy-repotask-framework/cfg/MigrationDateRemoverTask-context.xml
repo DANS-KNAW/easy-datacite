@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<import resource="app/include-all-context.xml"/>
+
+	<!-- Removes migration dates from permission requests
+		https://drivenbydata.onjira.com/browse/EASY-369 -->
+
+	<bean
+		name="rl"
+		class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg
+			index="0"
+			value="${rl.reportdir}/"/>
+	</bean>
+
+	<bean
+		name="taskRunner"
+		class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		name="datasetTaskController"
+		class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<constructor-arg>
+			<list>
+				<bean
+					name="datasetLoggingFilter"
+					class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetLoggingFilter"/>
+				<ref bean="stateFilter"/>
+				<ref bean="accessFilter"/>
+			</list>
+		</constructor-arg>
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.MigrationDateRemoverTask"/>
+<!-- 				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.SaveDatasetTask"/> -->
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		name="stateFilter"
+		class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetStateFilter">
+		<constructor-arg>
+			<list>
+				<value>PUBLISHED</value>
+				<value>MAINTENANCE</value>
+				<value>SUBMITTED</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean
+		id="accessFilter"
+		class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetAccessCategoryFilter">
+		<constructor-arg>
+			<list>
+				<value>REQUEST_PERMISSION</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

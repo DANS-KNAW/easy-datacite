@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- import other contexts -->
+	<import resource="app/default-context.xml" />
+
+	<!-- Define the TaskRunner -->
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- bean for RL-logging -->
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+
+	<!-- A TaskRunnerReporter used by RL-logging -->
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter"
+		destroy-method="close">
+		<constructor-arg ref="taskRunner" />
+		<property name="reports">
+			<list>
+				<!-- Define an event-name reporter for the event-name 'global' -->
+				<bean name="globalReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport" />
+
+				<!-- Define an event-name reporter for MyTask events (optional) -->
+				<!-- In code of MyTask: -->
+				<!-- RL.info(new Event(getTaskName(), message1, message2)); -->
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="ChangeAccessRightsTask" />
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="DatasetLoggingFilter" />
+				</bean>
+
+				<!-- Define an event-name reporter for 'let-op' events (optional) -->
+				<!-- In code of Task: -->
+				<!-- RL.info(new Event("let-op", message1, message2)); -->
+				<!-- <bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"> 
+					<constructor-arg value="let-op"/> </bean> -->
+
+				<!-- Define an overview reporter -->
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport" />
+
+				<!-- Define an error overview reporter -->
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport" />
+
+				<!-- Write detail reports in {rl.reportdir}/details/ -->
+				<!-- See for example DatasetTaskController.onEvent(Event event) -->
+				<!-- <bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport"/> -->
+
+				<!-- Also redirect RL-logging to standard logging -->
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport" />
+
+			</list>
+		</property>
+	</bean>
+
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<constructor-arg>
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetLoggingFilter" />
+			</list>
+		</constructor-arg>
+		<property name="tasks">
+			<list>
+				<ref bean="addCmdiFormatTask" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="addCmdiFormatTask"
+		class="nl.knaw.dans.easy.tools.task.am.dataset.AddCmdiFormatTask">
+		<property name="mediaType" value="application/x-cmdi+xml" />
+		<property name="pids">
+			<list>
+				<!-- IPNV datasets -->
+				<value>urn:nbn:nl:ui:13-jd8-ppx</value>
+				<value>urn:nbn:nl:ui:13-gep-1cc</value>
+				<value>urn:nbn:nl:ui:13-0e1-fhd</value>
+				<value>urn:nbn:nl:ui:13-fo0-73m</value>
+				<value>urn:nbn:nl:ui:13-6oi-ndb</value>
+				<value>urn:nbn:nl:ui:13-1lq-288</value>
+				<value>urn:nbn:nl:ui:13-y59-slr</value>
+				<value>urn:nbn:nl:ui:13-b0b-til</value>
+				<value>urn:nbn:nl:ui:13-32o-wzy</value>
+				<value>urn:nbn:nl:ui:13-p6e-98b</value>
+				<value>urn:nbn:nl:ui:13-hmk-kec</value>
+				<value>urn:nbn:nl:ui:13-867-2wp</value>
+				<value>urn:nbn:nl:ui:13-ta2-l7u</value>
+				<value>urn:nbn:nl:ui:13-3w3-iw7</value>
+				<value>urn:nbn:nl:ui:13-8kh-n5s</value>
+				<value>urn:nbn:nl:ui:13-yfr-5vp</value>
+				<value>urn:nbn:nl:ui:13-vgf-o92</value>
+				<value>urn:nbn:nl:ui:13-o7p-336</value>
+				<value>urn:nbn:nl:ui:13-0b5-lvj</value>
+				<value>urn:nbn:nl:ui:13-myu-z3s</value>
+				<value>urn:nbn:nl:ui:13-lpu-n0o</value>
+				<value>urn:nbn:nl:ui:13-vvc-bfh</value>
+				<value>urn:nbn:nl:ui:13-nqk-kxq</value>
+				<value>urn:nbn:nl:ui:13-fsm-7hp</value>
+				<value>urn:nbn:nl:ui:13-k0n-lpw</value>
+				<value>urn:nbn:nl:ui:13-lbg-xm1</value>
+				<value>urn:nbn:nl:ui:13-apo-dhq</value>
+				<value>urn:nbn:nl:ui:13-kp9-ryy</value>
+				<value>urn:nbn:nl:ui:13-dhk-jvb</value>
+				<value>urn:nbn:nl:ui:13-2ct-u5s</value>
+				<value>urn:nbn:nl:ui:13-c99-xgx</value>
+				<value>urn:nbn:nl:ui:13-ftm-jhz</value>
+				<value>urn:nbn:nl:ui:13-tku-83v</value>
+				<value>urn:nbn:nl:ui:13-t8k-p3k</value>
+				<value>urn:nbn:nl:ui:13-8ii-3md</value>
+				<value>urn:nbn:nl:ui:13-lsj-82e</value>
+				<value>urn:nbn:nl:ui:13-dfo-9ib</value>
+				<value>urn:nbn:nl:ui:13-l4a-0b0</value>
+				<value>urn:nbn:nl:ui:13-1jl-ggx</value>
+				<value>urn:nbn:nl:ui:13-cqd-i42</value>
+				<value>urn:nbn:nl:ui:13-wnw-bm7</value>
+				<value>urn:nbn:nl:ui:13-n4w-ll0</value>
+				<value>urn:nbn:nl:ui:13-onq-hrv</value>
+				<value>urn:nbn:nl:ui:13-gdz-0qh</value>
+				<value>urn:nbn:nl:ui:13-ygr-gmi</value>
+				<value>urn:nbn:nl:ui:13-exu-ao0</value>
+				<value>urn:nbn:nl:ui:13-rvp-sp1</value>
+				<value>urn:nbn:nl:ui:13-5if-4ak</value>
+				<value>urn:nbn:nl:ui:13-2fg-fwf</value>
+				<value>urn:nbn:nl:ui:13-09k-ezm</value>
+				<value>urn:nbn:nl:ui:13-b6j-4ob</value>
+				<value>urn:nbn:nl:ui:13-w5l-g6i</value>
+				<value>urn:nbn:nl:ui:13-6h4-3p0</value>
+				<value>urn:nbn:nl:ui:13-rw7-qhm</value>
+				<value>urn:nbn:nl:ui:13-rmo-g47</value>
+				<value>urn:nbn:nl:ui:13-mwa-prk</value>
+				<value>urn:nbn:nl:ui:13-g4p-hdh</value>
+				<value>urn:nbn:nl:ui:13-gmu-9va</value>
+				<value>urn:nbn:nl:ui:13-8cp-042</value>
+				<value>urn:nbn:nl:ui:13-u0b-igf</value>
+				<value>urn:nbn:nl:ui:13-98l-hc1</value>
+				<value>urn:nbn:nl:ui:13-1pb-b8o</value>
+				<value>urn:nbn:nl:ui:13-99y-fm5</value>
+				<value>urn:nbn:nl:ui:13-ol1-p0u</value>
+				<value>urn:nbn:nl:ui:13-792-b2z</value>
+				<value>urn:nbn:nl:ui:13-kot-4tj</value>
+				<value>urn:nbn:nl:ui:13-ybl-xk4</value>
+				<value>urn:nbn:nl:ui:13-xsm-tw9</value>
+				<value>urn:nbn:nl:ui:13-vx8-jpm</value>
+				<value>urn:nbn:nl:ui:13-kts-1gg</value>
+				<value>urn:nbn:nl:ui:13-4h8-5ly</value>
+				<value>urn:nbn:nl:ui:13-mhn-hrn</value>
+				<value>urn:nbn:nl:ui:13-mhn-hrn</value>
+				<value>urn:nbn:nl:ui:13-cio-v5d</value>
+				<value>urn:nbn:nl:ui:13-eed-58g</value>
+				<value>urn:nbn:nl:ui:13-mxk-ljs</value>
+				<value>urn:nbn:nl:ui:13-aug-qwt</value>
+				<value>urn:nbn:nl:ui:13-cl4-tlq</value>
+				<value>urn:nbn:nl:ui:13-rzh-13f</value>
+				<value>urn:nbn:nl:ui:13-s08-k2c</value>
+				<value>urn:nbn:nl:ui:13-a88-x5c</value>
+				<value>urn:nbn:nl:ui:13-56f-q1h</value>
+				<value>urn:nbn:nl:ui:13-ibw-bx2</value>
+				<value>urn:nbn:nl:ui:13-c32-069</value>
+				<value>urn:nbn:nl:ui:13-6eu-baq</value>
+				<value>urn:nbn:nl:ui:13-c0b-qfj</value>
+				<value>urn:nbn:nl:ui:13-95v-i2h</value>
+				<value>urn:nbn:nl:ui:13-7eg-d62</value>
+				<value>urn:nbn:nl:ui:13-5xh-esn</value>
+				<value>urn:nbn:nl:ui:13-985-glh</value>
+				<value>urn:nbn:nl:ui:13-v1l-zpv</value>
+				<value>urn:nbn:nl:ui:13-jnp-b24</value>
+				<value>urn:nbn:nl:ui:13-fp8-yhu</value>
+				<value>urn:nbn:nl:ui:13-yjp-ml9</value>
+				<value>urn:nbn:nl:ui:13-cdx-ylw</value>
+				<value>urn:nbn:nl:ui:13-c8y-h2h</value>
+				<value>urn:nbn:nl:ui:13-0bg-596</value>
+				<value>urn:nbn:nl:ui:13-gck-hnb</value>
+				<value>urn:nbn:nl:ui:13-561-o6o</value>
+				<value>urn:nbn:nl:ui:13-fai-kmt</value>
+				<value>urn:nbn:nl:ui:13-glt-6ie</value>
+				<value>urn:nbn:nl:ui:13-dd6-jb7</value>
+				<value>urn:nbn:nl:ui:13-xra-kdo</value>
+				<value>urn:nbn:nl:ui:13-gu4-w5d</value>
+				<value>urn:nbn:nl:ui:13-49m-1zm</value>
+				<value>urn:nbn:nl:ui:13-4i8-gpf</value>
+				<value>urn:nbn:nl:ui:13-bfi-sbz</value>
+				<value>urn:nbn:nl:ui:13-ugi-i5k</value>
+				<value>urn:nbn:nl:ui:13-v53-i31</value>
+				<value>urn:nbn:nl:ui:13-vot-cq6</value>
+				<value>urn:nbn:nl:ui:13-30f-rrv</value>
+				<value>urn:nbn:nl:ui:13-xik-w6c</value>
+				<value>urn:nbn:nl:ui:13-szf-e5t</value>
+				<value>urn:nbn:nl:ui:13-38i-5c2</value>
+				<value>urn:nbn:nl:ui:13-o3w-ra7</value>
+				<value>urn:nbn:nl:ui:13-fiq-rq0</value>
+				<value>urn:nbn:nl:ui:13-x99-bst</value>
+				<value>urn:nbn:nl:ui:13-8e6-6ce</value>
+				<value>urn:nbn:nl:ui:13-mkt-xmz</value>
+				<value>urn:nbn:nl:ui:13-1fp-v84</value>
+				<value>urn:nbn:nl:ui:13-vnw-qbt</value>
+				<value>urn:nbn:nl:ui:13-4pa-x6i</value>
+				<value>urn:nbn:nl:ui:13-wog-33j</value>
+				<value>urn:nbn:nl:ui:13-x7c-7xk</value>
+				<value>urn:nbn:nl:ui:13-izm-ubx</value>
+				<value>urn:nbn:nl:ui:13-o3h-f1q</value>
+				<value>urn:nbn:nl:ui:13-eup-vrv</value>
+				<value>urn:nbn:nl:ui:13-3i5-fhg</value>
+				<value>urn:nbn:nl:ui:13-sle-hqx</value>
+				<value>urn:nbn:nl:ui:13-fsq-sei</value>
+				<value>urn:nbn:nl:ui:13-68k-6rr</value>
+				<value>urn:nbn:nl:ui:13-0lt-lgg</value>
+				<value>urn:nbn:nl:ui:13-0cl-iw6</value>
+				<value>urn:nbn:nl:ui:13-jmv-4tv</value>
+				<value>urn:nbn:nl:ui:13-lih-5gc</value>
+				<value>urn:nbn:nl:ui:13-e26-q0y</value>
+				<value>urn:nbn:nl:ui:13-qwl-bkv</value>
+				<value>urn:nbn:nl:ui:13-4bs-efo</value>
+				<value>urn:nbn:nl:ui:13-94k-wu2</value>
+				<value>urn:nbn:nl:ui:13-aix-h87</value>
+				<value>urn:nbn:nl:ui:13-45f-g70</value>
+				<value>urn:nbn:nl:ui:13-7dk-1g0</value>
+				<value>urn:nbn:nl:ui:13-nf9-qfp</value>
+				<value>urn:nbn:nl:ui:13-bk7-xqp</value>
+				<value>urn:nbn:nl:ui:13-vt4-227</value>
+				<value>urn:nbn:nl:ui:13-87c-zxk</value>
+				<value>urn:nbn:nl:ui:13-pqx-03x</value>
+				<value>urn:nbn:nl:ui:13-1qj-zn2</value>
+				<value>urn:nbn:nl:ui:13-asp-fq3</value>
+				<value>urn:nbn:nl:ui:13-ch1-rac</value>
+				<value>urn:nbn:nl:ui:13-3qn-xuh</value>
+				<value>urn:nbn:nl:ui:13-qmk-oay</value>
+				<value>urn:nbn:nl:ui:13-7z4-m4n</value>
+				<value>urn:nbn:nl:ui:13-yo6-jkw</value>
+				<value>urn:nbn:nl:ui:13-gcv-yss</value>
+				<value>urn:nbn:nl:ui:13-d13-rb5</value>
+				<value>urn:nbn:nl:ui:13-0cq-vol</value>
+				<value>urn:nbn:nl:ui:13-o82-23m</value>
+				<value>urn:nbn:nl:ui:13-w3g-2wj</value>
+				<value>urn:nbn:nl:ui:13-h6u-9uk</value>
+				<value>urn:nbn:nl:ui:13-5wi-k76</value>
+				<value>urn:nbn:nl:ui:13-o4n-wuw</value>
+				<value>urn:nbn:nl:ui:13-6ks-g8t</value>
+				<value>urn:nbn:nl:ui:13-ns7-p3y</value>
+				<value>urn:nbn:nl:ui:13-law-urv</value>
+				<value>urn:nbn:nl:ui:13-g31-qc4</value>
+				<value>urn:nbn:nl:ui:13-snj-gcp</value>
+				<value>urn:nbn:nl:ui:13-x3c-3ay</value>
+				<value>urn:nbn:nl:ui:13-955-ed3</value>
+				<value>urn:nbn:nl:ui:13-1di-lzk</value>
+				<value>urn:nbn:nl:ui:13-ufa-nkc</value>
+				<value>urn:nbn:nl:ui:13-2px-roh</value>
+				<value>urn:nbn:nl:ui:13-pih-ub6</value>
+				<value>urn:nbn:nl:ui:13-4lw-cr3</value>
+				<value>urn:nbn:nl:ui:13-11k-ia0</value>
+				<value>urn:nbn:nl:ui:13-jnz-rvx</value>
+				<value>urn:nbn:nl:ui:13-gvj-6tb</value>
+				<value>urn:nbn:nl:ui:13-s3h-lt8</value>
+				<value>urn:nbn:nl:ui:13-q5l-jup</value>
+				<value>urn:nbn:nl:ui:13-htg-u7j</value>
+				<value>urn:nbn:nl:ui:13-rus-0h4</value>
+				<value>urn:nbn:nl:ui:13-18b-4q6</value>
+				<value>urn:nbn:nl:ui:13-tbn-lls</value>
+				<value>urn:nbn:nl:ui:13-nep-cit</value>
+				<value>urn:nbn:nl:ui:13-l3f-xbs</value>
+				<value>urn:nbn:nl:ui:13-s2p-b1i</value>
+				<value>urn:nbn:nl:ui:13-4v3-9w8</value>
+				<value>urn:nbn:nl:ui:13-lgg-0sd</value>
+				<value>urn:nbn:nl:ui:13-bda-obi</value>
+				<value>urn:nbn:nl:ui:13-muq-aob</value>
+				<value>urn:nbn:nl:ui:13-w0y-f4t</value>
+				<value>urn:nbn:nl:ui:13-k8s-1wr</value>
+				<value>urn:nbn:nl:ui:13-fuf-vn8</value>
+				<value>urn:nbn:nl:ui:13-idv-ogg</value>
+				<value>urn:nbn:nl:ui:13-hh1-0k6</value>
+				<value>urn:nbn:nl:ui:13-mfc-nf2</value>
+				<value>urn:nbn:nl:ui:13-zhd-9rv</value>
+				<value>urn:nbn:nl:ui:13-tvb-yro</value>
+				<value>urn:nbn:nl:ui:13-s2i-b10</value>
+				<value>urn:nbn:nl:ui:13-5f7-e1z</value>
+				<value>urn:nbn:nl:ui:13-g4z-zeu</value>
+				<value>urn:nbn:nl:ui:13-812-vgz</value>
+				<value>urn:nbn:nl:ui:13-efy-6f0</value>
+				<value>urn:nbn:nl:ui:13-86y-bip</value>
+				<value>urn:nbn:nl:ui:13-t6h-ecr</value>
+				<value>urn:nbn:nl:ui:13-d8p-yuh</value>
+				<value>urn:nbn:nl:ui:13-7ts-i28</value>
+				<value>urn:nbn:nl:ui:13-1e6-gdf</value>
+				<value>urn:nbn:nl:ui:13-qag-0gc</value>
+				<value>urn:nbn:nl:ui:13-qdk-m5z</value>
+				<value>urn:nbn:nl:ui:13-ymn-t29</value>
+				<value>urn:nbn:nl:ui:13-zf2-88i</value>
+				<value>urn:nbn:nl:ui:13-32a-7ew</value>
+				<value>urn:nbn:nl:ui:13-miy-54d</value>
+				<value>urn:nbn:nl:ui:13-b3l-gzy</value>
+				<value>urn:nbn:nl:ui:13-mih-qwr</value>
+				<value>urn:nbn:nl:ui:13-wqj-tpm</value>
+				<value>urn:nbn:nl:ui:13-kw0-61z</value>
+				<value>urn:nbn:nl:ui:13-3uu-3eo</value>
+				<value>urn:nbn:nl:ui:13-2gp-mth</value>
+				<value>urn:nbn:nl:ui:13-8tw-byr</value>
+				<value>urn:nbn:nl:ui:13-xl3-ths</value>
+				<value>urn:nbn:nl:ui:13-75p-8sc</value>
+				<value>urn:nbn:nl:ui:13-and-qq9</value>
+				<value>urn:nbn:nl:ui:13-7xl-ej9</value>
+				<value>urn:nbn:nl:ui:13-orq-yhu</value>
+				<value>urn:nbn:nl:ui:13-8j2-mgv</value>
+				<value>urn:nbn:nl:ui:13-ele-c8o</value>
+				<value>urn:nbn:nl:ui:13-kw4-84d</value>
+				<value>urn:nbn:nl:ui:13-6zy-eri</value>
+				<value>urn:nbn:nl:ui:13-jqc-buc</value>
+				<value>urn:nbn:nl:ui:13-gqk-8rt</value>
+				<value>urn:nbn:nl:ui:13-ei4-kae</value>
+				<value>urn:nbn:nl:ui:13-ucn-j5v</value>
+				<value>urn:nbn:nl:ui:13-bzh-2r0</value>
+				<value>urn:nbn:nl:ui:13-pat-ni9</value>
+				<value>urn:nbn:nl:ui:13-ob7-5le</value>
+				<value>urn:nbn:nl:ui:13-6n2-q27</value>
+				<value>urn:nbn:nl:ui:13-4i7-so8</value>
+				<value>urn:nbn:nl:ui:13-435-tjh</value>
+				<value>urn:nbn:nl:ui:13-4iz-t7a</value>
+				<value>urn:nbn:nl:ui:13-tm3-l7y</value>
+				<value>urn:nbn:nl:ui:13-8dd-xlw</value>
+				<value>urn:nbn:nl:ui:13-bk5-dkj</value>
+				<value>urn:nbn:nl:ui:13-tu3-usc</value>
+				<value>urn:nbn:nl:ui:13-faq-m7l</value>
+				<!-- TDS datasets -->
+				<value>urn:nbn:nl:ui:13-6oz8-ik</value>
+				<value>urn:nbn:nl:ui:13-j7g1-bb</value>
+				<value>urn:nbn:nl:ui:13-misc-sg</value>
+				<value>urn:nbn:nl:ui:13-mbta-rp</value>
+				<value>urn:nbn:nl:ui:13-vvfi-6e</value>
+				<value>urn:nbn:nl:ui:13-g15f-v7</value>
+				<value>urn:nbn:nl:ui:13-bqmv-24</value>
+				<value>urn:nbn:nl:ui:13-7as8-7l</value>
+				<value>urn:nbn:nl:ui:13-m1d8-jc</value>
+				<value>urn:nbn:nl:ui:13-2i46-ri</value>
+				<value>urn:nbn:nl:ui:13-kqw7-q5</value>
+				<value>urn:nbn:nl:ui:13-utlh-dr</value>
+				<value>urn:nbn:nl:ui:13-6gnj-57</value>
+				<value>urn:nbn:nl:ui:13-77w4-50</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

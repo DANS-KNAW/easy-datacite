@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/default-context.xml"/>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="metadataDumpTask" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="metadataDumpTask" class="nl.knaw.dans.easy.tools.task.dump.MetadataDumpTask" >
+	    <property name="overwrite" value="true" />
+	    <property name="dumpDcDataStream" value="false" />
+	    <property name="useAipIdForOutputFileNames" value="true" />
+	    <property name="includeDatasetPid" value="false" />
+	    <property name="includeFilePids" value="false" />
+	    <property name="includeFileSha1Hash" value="true" />
+	    <property name="includeMimeType" value="false" />
+	    <property name="includePermissionSequences" value="true" />
+	    <property name="includeAdministrativeMetadata" value="true" />
+	    <property name="includeDeletedDatasets" value="true" />
+	    <property name="outputEncoding" value="UTF-8" />
+		<property name="outputDir" value="target/dump" />
+		<property name="aipListOutputDir" value="target/dump" />
+		<!-- property name="aipListOutputDir" value="/mnt/develop/easy1output" / -->
+		<property name="maxResults" value="500" />
+		<property name="maxTries" value="3" />
+		<property name="startSid" value="1" />
+		<property name="stopSid" value="50000" />
+		<property name="sidList" value="/mnt/hgfs/CentOS_share/vm-data/SVN/easy/trunk/easy/easy-tools/easy-repo-tools/updated-permissions.txt" />
+		
+		<property name="dcFields">
+			<list>
+				<value>Creator</value>
+				<value>Title</value>
+				<value>Description</value>
+				<value>Language</value>
+				<value>Date</value>
+				<value>Coverage</value>
+				<value>Relation</value>
+			</list>
+		</property>
+	</bean>	
+	
+</beans>

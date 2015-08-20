@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<EasyMetadata xmlns:emd="http://easy.dans.knaw.nl/dms/easymetadata" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:abr="http://easy.dans.knaw.nl/easy/dc/arch/abr/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <emd:meta>
+        <shortname>dc</shortname>
+        <breed>arch</breed>
+        <description>a metadata format based on Dublin Core describing archaeological datasets</description>
+        <containerClassname>nl.knaw.dans.dms.qdc.arch.core.ArchDCContainer</containerClassname>
+    </emd:meta>
+    <archisNr>
+        <value>13723</value>
+    </archisNr>
+    <dc:title>
+        <value>Een archeologisch inventariserend veldonderzoek (IVO) door middel van een proefsleuf in een terprestant te Goutum, gemeente Leeuwarden (Fr.)</value>
+    </dc:title>
+    <dcterms:alternative>
+        <value>ARC-Publicaties 132</value>
+    </dcterms:alternative>
+    <dc:creator>
+        <value>Tuinstra, S.J.</value>
+    </dc:creator>
+    <dc:contributor>
+        <value>Ufkes, A.</value>
+    </dc:contributor>
+    <dcterms:created dcterms:W3CDTF="true" format="yyyy" scheme="ISO 8601">
+        <stringValue>2005</stringValue>
+        <value>2005-01-01T00:00:00+01:00</value>
+    </dcterms:created>
+    <dc:rights>
+        <value>ARC b.v.</value>
+    </dc:rights>
+    <dc:publisher>
+        <value>ARC b.v.</value>
+    </dc:publisher>
+    <dc:description>
+        <value>In opdracht van de gemeente Leeuwarden heeft ARC bv (Archaeological Research &amp; Consultancy) een archeologisch inventariserend veldonderzoek verricht op het nieuwe terrein van de Sportvereniging Blauw–Wit in Goutum (gem. Leeuwarden). De aanleiding voor dit IVO bestond uit het voornemen om op het terrein een ontsluitingsweg aan te leggen ten behoeve van een nieuw te bouwen voetbalcomplex. In dit terrein bevind zich het restant van de terp Teerns. Deze terp is rond 1925 afgegraven, maar booronderzoek door RAAP Archeologisch Adviesbureau (Exaltus 2002) heeft aangetoond dat in een deel van het terrein nog een archeologische laag aanwezig is met sporen die te dateren zijn als Late IJzertijd/Romeinse Tijd.
+            Het archeologisch onderzoek vond plaats op 30 en 31 juli 2003 en werd uitgevoerd door drs. S.J. Tuinstra (projectleider), met medewerking van mw. drs. G.M.A. Bergsma (veldtechniek), dhr. B. Huizenga en dhr. A.M. Draaisma (ArgeologyskWurkferban Fryslan) als veldmedewerkers. De graafmachine werd geleverd door dhr. J. Bergman. Mw. drs. A. Ufkes bestudeerde het aangetroffen aardewerk, de keramische artefacten, gebakken klei en bouwmaterialen.
+            
+            Conclusie
+            Met de in het voorgaande hoofdstuk verwoorde resultaten kunnen de onderzoeksvragen uit het PvE als volgt worden beantwoord:
+            
+            1 Wat is de aard, omvang, intensiteit en ouderdom/fasering van de bewoningssporen?
+            De vondstconcentratie in het noorden van de sleuf, het in elkaar overlopen van de veenlaag met de terpophoging, alsmede het dikker worden van dit ophogingspakket, lijkt er op te wijzen dat zich in het noorden van de proefsleuf de aanzet van een terp bevindt. Het feit dat het hier gaat om de onderste terplaag op de natuurlijke ondergrond, pleit er ook voor dat het dikkere deel van het antropogene pakket meer de naar de kern van de terp wijst. Hierbij moet wel worden opgemerkt dat door de grootschalige terpafgravingen en de zeer beperkte omvang van de opgraving niet met zekerheid te zeggen is waar de oudste kern van de terp zich bevindt. De resterende dikte van de terplaag kan ook het resultaat zijn van diverse latere processen, en hoeft niet noodzakelijkerwijs met de positie van de kern te maken te hebben. Mocht de oudste kern inderdaad in noordelijke richting te vinden zijn, dan ligt de oudste kern niet in het midden van de uiteindelijke terp. Het terprestant kent nog maar ´e´en duidelijke antropogene laag, die, gezien de scherpe overgang in de bouwvoor, aan de bovenzijde niet meer intact is. Hoever de terp zich nog uitstrekt is aan de hand van de huidige onderzoeksgegevens niet te bepalen. Mogelijk gaat het hier om restanten van de oudste bewoning ter plaatse. Deze eerste bewoning is mogelijk vanaf 200/150 v. Chr. te dateren, waarbij het zwaartepunt waarschijnlijk iets v´o´or de jaartelling tot in de eerste eeuw n. Chr. ligt. Het vondstmateriaal is overwegend afkomstig uit de ophogingslaag, maar ook uit een kuil en enkele greppels of sloten is aardewerk geborgen. De vondsten in de veenlaag en de waargenomen vergraving van het veen lijken erop te wijzen dat de oudste bewoning direct op het veen begonnen is. De in vlak 2 aanwezige greppels zouden met deze fase te maken kunnen hebben. Deze greppels worden afgedekt door de terplaag. Mogelijk hebben we hier te maken met een veenontginningsfase rond 200/150 v. Chr. waarna de terp is aangelegd, die op basis van de vondsten uit de nu nog aanwezig terplaag minimaal tot 300 n. Chr. in gebruik is gebleven. Hoe daarna de ontwikkeling van de uit historische bronnnen bekende terp Teerns is geweest, is door de afgravingen helaas niet meer te achterhalen.
+            
+            2 Hoe waardevol zijn de aangetroffen vondsten en sporen?
+            De resten zijn intact en van goede kwaliteit. Weliswaar zijn grote delen van de terp rond 1925 afgegraven, maar de terpzool is nog aanwezig en relatief onverstoord. Na de afgraving is het land waarschijnlijk altijd als grasland in gebruik gebleven en niet zwaar geploegd. Omdat het hier de onderste en dus de oudste terplaag betreft, kan nader onderzoek zeker meer inzicht geven in het ontstaan van de terp en de activiteiten die hier hebben plaatsgevonden. Daarom is het terrein zeker archeologisch waardevol te noemen.
+            
+            Aanbeveling
+            Door de aanwezigheid van de onderste terplaag is het terrein als archeologisch waardevol te bestempelen. Hierbij moet worden opgemerkt dat de archeologische laag zich direct onder de bouwvoor bevindt. Deze laag zal bij elke activiteit op dit terrein worden verstoord. Zelfs al vinden er niet direct bodemverstorende ingrepen plaats, dan nog zal, gezien de ligging van de archeologische sporen vlak onder het maaiveld, door het berijden met zware machines het bodemarchief worden aangetast. Onderzoek, voorafgaande aan welke activiteit dan ook op het terrein, wordt aanbevolen. Bij toekomstig onderzoek verdient het aanbeveling om, gezien de samenstelling van het aangetroffen vondstcomplex, speciale aandacht te besteden aan keramische artefacten en op bijvoorbeeld Sonderformen te letten die worden afgedaan als ‘kaasvorm’, ‘zeef’ of ‘vergiet’, om zo een poging te doen om de werkelijke functie te achterhalen.</value>
+    </dc:description>
+    <dc:subject>
+        <value>archeologisch: inventariserend veldonderzoek (proefsleuven)</value>
+        <value>Terp</value>
+    </dc:subject>
+    <abr:temporal scheme="ABR_Periode">
+        <value>
+            <optionLabel>IJzertijd laat: 250 - 12 vC</optionLabel>
+            <optionValue>IJZL</optionValue>
+        </value>
+        <value>
+            <optionLabel>Romeinse tijd: 12 vC - 450 nC</optionLabel>
+            <optionValue>ROM</optionValue>
+        </value>
+    </abr:temporal>
+    <dcterms:spatialPoint>
+        <value scheme="RD" schemeLabel="RD (in m.)">
+            <x>184000</x>
+            <y>577000</y>
+        </value>
+    </dcterms:spatialPoint>
+    <dcterms:spatial>
+        <value>Friesland</value>
+        <value>Leeuwarden</value>
+        <value>Goutum</value>
+        <value>Blauw–Wit</value>
+        <value>6C</value>
+    </dcterms:spatial>
+    <dc:identifier>
+        <value scheme="" schemeLabel="--no scheme--">
+            <string>2003/102 (ARC-projectcode)</string>
+        </value>
+        <value scheme="eDNA-project" schemeLabel="eDNA-project">
+            <string>a01692</string>
+        </value>
+        <value scheme="" schemeLabel="--no scheme--">
+            <string>twips.dans.knaw.nl--1043561323458542347-1241772168113</string>
+        </value>
+        <value scheme="" schemeLabel="--no scheme--">
+            <string>132 (ARC-publicatie)</string>
+        </value>
+        <value scheme="ISSN" schemeLabel="ISSN">
+            <string>1574-6879</string>
+        </value>
+    </dc:identifier>
+    <emd:persistentIdentifier>
+        <value scheme="" schemeLabel="">
+            <label>urn:nbn:nl:ui:13-yp3-3b6</label>
+            <url>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-yp3-3b6</url>
+        </value>
+    </emd:persistentIdentifier>
+    <dc:relation fieldType="textarea">
+        <value scheme="isPartOf" schemeLabel="is part of">
+            <label>ARC publicaties</label>
+            <url></url>
+        </value>
+    </dc:relation>
+    <dcterms:DCMIType>
+        <value>
+            <optionLabel>Text</optionLabel>
+            <optionValue>Text</optionValue>
+        </value>
+    </dcterms:DCMIType>
+    <dc:type>
+        <value>publicatie</value>
+    </dc:type>
+    <dc:formatIMT>
+        <value>
+            <optionLabel>application/pdf</optionLabel>
+            <optionValue>application/pdf</optionValue>
+        </value>
+    </dc:formatIMT>
+    <dc:languageISO>
+        <value>
+            <optionLabel>Dutch</optionLabel>
+            <optionValue>dut/nld</optionValue>
+        </value>
+    </dc:languageISO>
+    <dc:date>
+        <value dcterms:W3CDTF="true" format="yyyy" scheme="" schemeLabel="">
+            <stringValue>2003</stringValue>
+            <date>2003-01-01T00:00:00+01:00</date>
+        </value>
+        <value dcterms:W3CDTF="true" format="yyyy" scheme="" schemeLabel="bla">
+            <stringValue>2004</stringValue>
+            <date>2004-01-01T00:00:00+01:00</date>
+        </value>
+        <value dcterms:W3CDTF="true" format="yyyy-MM-dd" scheme="dateSubmitted" schemeLabel="Date submitted">
+            <stringValue>2009-05-08</stringValue>
+            <date>2009-05-08T00:00:00+02:00</date>
+        </value>
+    </dc:date>
+    <dcterms:accessRights>
+        <value>
+            <optionLabel>Open access for registered users - Unrestricted access for all registered EASY users</optionLabel>
+            <optionValue>ar_everyone</optionValue>
+        </value>
+    </dcterms:accessRights>
+    <dcterms:available dcterms:W3CDTF="true" format="yyyy-MM-dd" scheme="ISO 8601">
+        <stringValue>2009-04-29</stringValue>
+        <value>2009-04-29T00:00:00+02:00</value>
+    </dcterms:available>
+    <licenseAccepted>
+        <value>
+            <optionLabel>I accept the terms of the license agreement</optionLabel>
+            <optionValue>accepted</optionValue>
+        </value>
+    </licenseAccepted>
+</EasyMetadata>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- Required interface iStore -->
+	<bean class="nl.knaw.dans.c.dmo.collections.store.Store$Registrator">
+		<property name="storeManager" ref="storeManager" />
+	</bean>
+
+	<!-- Provided interface iDmoCollections -->
+	<bean name="dmoCollections" class="nl.knaw.dans.c.dmo.collections.DmoCollectionsImpl">
+		<property name="securityAgents" ref="dmoCollectionsAgents" />
+	</bean>
+
+	<!-- the factory bean for security agents -->
+	<bean id="componentSecurity" class="nl.knaw.dans.easy.security.components.ComponentSecurity" />
+
+	<!-- the bean to be created via the factory bean -->
+	<bean id="dmoCollectionsAgents" factory-bean="componentSecurity"
+		factory-method="getDmoCollectionsAgents" />
+
+</beans>

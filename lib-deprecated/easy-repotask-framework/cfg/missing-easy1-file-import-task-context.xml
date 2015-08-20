@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/default-context.xml"/>
+	<import resource="app/store-context.xml"/>
+	<import resource="app/ldap-context.xml"/>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+					<property name="tasks">
+						<list>
+							<bean class="nl.knaw.dans.easy.tools.task.am.dataset.MissingEasy1FilesImporter" >
+								<property name="importFile" value="/home/ewoutb/importfromeasy1.csv" />
+								<property name="aipstoreLocations">
+									<list>
+										<value>/data/vancis2104/data/07/actie1</value>
+										<value>/data/vancis2104/data/07/actie2</value>
+										<value>/data/vancis2106/data/12/actie3</value>
+										<value>/data/vancis2106/data/12/actie3-aanvulling</value>
+									</list>
+								</property>
+								<property name="metadataExportRoot" value="/home/ewoutb/metadataexport" />
+							</bean>
+						</list>
+					</property>
+				</bean>	
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="dataciteServiceConfiguration"
+		class="nl.knaw.dans.easy.DataciteServiceConfiguration">
+		<property name="username" value="${datacite.username}" />
+		<property name="password" value="${datacite.password}" />
+		<property name="doiRegistrationUri" value="${datacite.registration.uri}" />
+		<property name="datasetResolver" value="${dataset.resolver.uri}" />
+	</bean>
+
+	<import resource="application-context.xml" />
+	<import resource="store-context.xml" />
+	<import resource="istore-context.xml" />
+	<import resource="idmo-collections-context.xml" />
+	<import resource="ldap-context.xml" />
+	<import resource="service-context.xml" />
+	<import resource="security-context.xml" />
+
+	<!-- Platform Modules -->
+	<import resource="idmo-collections-context.xml" />
+	<import resource="istore-context.xml" />
+
+
+	<!-- RL is configured programmatically, so don't configure it here! -->
+
+	<bean name="reporter" class="nl.knaw.dans.easy.ebiu.TaskRunnerReporter">
+		<constructor-arg ref="taskRunner" />
+		<property name="reports">
+			<list>
+				<bean name="globalReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport" />
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport" />
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport" />
+				<bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport" />
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport" />
+				<bean name="pidMapReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="pid-map" />
+				</bean>
+				<bean name="processedReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="processed" />
+				</bean>
+				<bean name="skippedReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="skipped" />
+				</bean>
+				<bean name="rejectedReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="rejected" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="taskRunner" class="nl.knaw.dans.easy.ebiu.TaskRunner">
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.ebiu.UserDetectorTask">
+
+					<!-- proxyUserAllowed: false means Unix username must be equal to Easy 
+						username -->
+					<!-- When allowing archivists to run tasks from command line, set to 
+						false. -->
+					<property name="proxyUserAllowed" value="${easy.ebiu.proxyUserAllowed}" />
+
+					<!-- Are we authenticating the user with her Easy-username and -pass? -->
+					<property name="needsAuthentication" value="${easy.ebiu.needsAuthentication}" />
+
+					<!-- Must the Easy user have role archivist? -->
+					<property name="archivistRequired" value="${easy.ebiu.archivistRequired}" />
+
+				</bean>
+
+				<ref bean="batchController" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

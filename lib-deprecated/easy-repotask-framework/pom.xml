@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>	
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+	</parent>
+	<artifactId>easy-repotask-framework</artifactId>
+	<name>EASY Repo-task Framework</name>
+	<description>Framework for creating Repository Tasks.</description>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business-mocking</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-fedora</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>dans-fedora</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-ldap</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf</groupId>
+			<artifactId>saxon9</artifactId>
+			<version>b9-1-0-6j</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+			<exclusions>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>dans-solr</artifactId>
+		</dependency>
+	</dependencies>
+</project>

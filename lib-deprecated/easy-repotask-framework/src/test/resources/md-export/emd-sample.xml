@@ -1,0 +1,46 @@
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+	emd:version="0.1">
+	<emd:title>
+		<dc:title>Title01</dc:title>
+	</emd:title>
+	<emd:creator>
+		<dc:creator>Creator01</dc:creator>
+	</emd:creator>
+	<emd:description>
+		<dc:description>Description line 1
+Description line 2</dc:description>
+	</emd:description>
+	<emd:publisher>
+		<dc:publisher>Publisher01</dc:publisher>
+	</emd:publisher>
+	<emd:date>
+		<eas:created eas:scheme="W3CDTF" eas:format="YEAR">2010-01-01T00:00:00.000+01:00</eas:created>
+		<eas:available eas:scheme="W3CDTF" eas:format="DAY">2010-01-20T00:00:00.000+01:00</eas:available>
+		<eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2010-01-20T00:00:00.000+01:00</eas:dateSubmitted>
+	</emd:date>
+	<emd:type>
+		<dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Collection</dc:type>
+	</emd:type>
+	<emd:format>
+		<dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/pdf</dc:format>
+	</emd:format>
+	<emd:identifier>
+		<dc:identifier eas:scheme="AIP_ID">twips.dans.knaw.nl--3181297438128206496-1264018179846</dc:identifier>
+		<dc:identifier eas:scheme="PID"
+			eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-gc3-dlv</dc:identifier>
+		<dc:identifier eas:scheme="DMO_ID">easy-dataset:11</dc:identifier>
+	</emd:identifier>
+	<emd:language>
+		<dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
+	</emd:language>
+	<emd:rights>
+		<dc:rights>Rights01</dc:rights>
+		<dcterms:accessRights eas:schemeId="common.dcterms.accessrights">GROUP_ACCESS</dcterms:accessRights>
+	</emd:rights>
+	<emd:audience>
+		<dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:1</dcterms:audience>
+	</emd:audience>
+</emd:easymetadata>
+

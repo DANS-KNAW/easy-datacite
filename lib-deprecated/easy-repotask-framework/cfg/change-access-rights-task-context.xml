@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- import other contexts -->
+	<import resource="app/default-context.xml"/>
+	
+	<!-- Define the TaskRunner -->
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- bean for RL-logging -->
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<!-- A TaskRunnerReporter used by RL-logging -->
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter" destroy-method="close">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<!-- Define an event-name reporter for the event-name 'global'    -->
+				<bean name="globalReport" class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"/>
+				
+				<!-- Define an event-name reporter for MyTask events (optional)   -->
+				<!-- In code of MyTask:                                           -->
+				<!-- RL.info(new Event(getTaskName(), message1, message2));       -->
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="ChangeAccessRightsTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="DatasetLoggingFilter"/>					
+				</bean>
+				
+				<!-- Define an event-name reporter for 'let-op' events (optional)  -->
+				<!-- In code of Task:                                              -->
+				<!-- RL.info(new Event("let-op", message1, message2));             -->
+				<!-- 
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="let-op"/>
+				</bean>
+				-->
+				
+				<!-- Define an overview reporter                                    -->
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>
+				
+				<!-- Define an error overview reporter                              -->
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>
+				
+				<!-- Write detail reports in {rl.reportdir}/details/                -->
+				<!-- See for example DatasetTaskController.onEvent(Event event)     -->
+				<!-- 
+				<bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport"/>
+				-->
+				
+				<!-- Also redirect RL-logging to standard logging                   -->
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>
+				
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<constructor-arg>
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetLoggingFilter"/>
+				<ref bean="dcRightsFilter" />
+				<ref bean="datasetStateFilter"/>
+				<ref bean="accessCategoryFilter"/>
+			</list>
+		</constructor-arg>
+		<property name="tasks">
+			<list>
+				<ref bean="changeAccessRightsTask"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="changeAccessRightsTask" class="nl.knaw.dans.easy.tools.task.am.dataset.ChangeAccessRightsTask">
+		<property name="targetFileVisibility">
+			<list>
+				<value>RESTRICTED_GROUP</value>
+				<value>RESTRICTED_REQUEST</value>
+			</list>
+		</property>
+		<property name="targetFileAccessibility">
+			<list>
+				<value>RESTRICTED_GROUP</value>
+				<value>RESTRICTED_REQUEST</value>
+			</list>
+		</property>
+		<property name="newDatasetAccessCategory" value="OPEN_ACCESS" />
+		<property name="newFileVisibility" value="ANONYMOUS" />
+		<property name="newFileAccessibility" value="KNOWN" />
+		<property name="listOnlyMode" value="false" />
+	</bean>
+	
+	<!-- Filter settings -->
+	<bean id="dcRightsFilter" class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetDcRightsFilter">
+		<constructor-arg>
+			<list>
+				<value>ADC</value>
+				<value>ADC Archeoprojecten</value>
+				<value>ADC Archeoprojecten (veldonderzoek)</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="datasetStateFilter" class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetStateFilter">
+		<constructor-arg>
+			<list>
+				<value>PUBLISHED</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="accessCategoryFilter" class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetAccessCategoryFilter">
+		<constructor-arg>
+			<list>
+				<value>GROUP_ACCESS</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+</beans>

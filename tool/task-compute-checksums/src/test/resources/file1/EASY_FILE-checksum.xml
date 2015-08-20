@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastreamProfile xmlns="http://www.fedora.info/definitions/1/0/management/"
+                   xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.fedora.info/definitions/1/0/management/ http://www.fedora.info/definitions/1/0/datastreamProfile.xsd"
+                   pid="easy-file:1" dsID="EASY_FILE">
+    <dsLabel>logback-test.xml</dsLabel>
+    <dsVersionID>EASY_FILE.0</dsVersionID>
+    <dsCreateDate>2015-07-06T08:51:27.055Z</dsCreateDate>
+    <dsState>A</dsState>
+    <dsMIME>text/xml</dsMIME>
+    <dsFormatURI></dsFormatURI>
+    <dsControlGroup>M</dsControlGroup>
+    <dsSize>581</dsSize>
+    <dsVersionable>false</dsVersionable>
+    <dsInfoType></dsInfoType>
+    <dsLocation>easy-file:1+EASY_FILE+EASY_FILE.0</dsLocation>
+    <dsLocationType>INTERNAL_ID</dsLocationType>
+    <dsChecksumType>SHA-1</dsChecksumType>
+    <dsChecksum>23b1304789895fc772e950d33ef9bf8a1aa71517</dsChecksum>
+</datastreamProfile>

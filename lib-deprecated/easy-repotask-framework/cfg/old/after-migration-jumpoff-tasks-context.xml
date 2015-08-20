@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/application-context.xml"/>
+	<import resource="app/store-context.xml"/>
+	<import resource="app/ldap-context.xml"/>
+	
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter" destroy-method="close">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<bean name="globalReport" class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"/>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="HtmlMarkupReaderTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="MissingLinkCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="InternalLinkCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="LinkReporterTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="SaveJumpoffDmoTask"/>
+				</bean>
+				
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="MediaplayerTextCorrectorTask"/>
+				</bean>
+				
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="jumpoffDmoTaskController" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="jumpoffDmoTaskController" class="nl.knaw.dans.easy.tools.jumpoff.JumpoffDmoTaskController">
+		<property name="tasks">
+			<list>
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.HtmlMarkupReaderTask"/-->
+				
+				<!-- html corrections -->
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.MissingLinkCorrectorTask">
+					<constructor-arg value="${easystore.webLocation}"/>
+				</bean-->
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.InternalLinkCorrectorTask"/-->
+				
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.LinkReporterTask"/-->
+				
+				<!-- text corrections -->
+				<bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.MediaplayerTextCorrectorTask"/>
+				
+				<bean class="nl.knaw.dans.easy.tools.task.am.jumpoff.SaveJumpoffDmoTask"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

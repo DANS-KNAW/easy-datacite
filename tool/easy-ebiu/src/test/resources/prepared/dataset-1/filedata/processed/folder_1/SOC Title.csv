@@ -1,0 +1,21 @@
+title;http://purl.org/dc/elements/1.1/;SOC Title
+creator;http://easy.dans.knaw.nl/easy/easymetadata/eas/;User, Dr. T.E.S.T this (DANS)
+subject;http://purl.org/dc/elements/1.1/;SOC Subject
+description;http://purl.org/dc/elements/1.1/;SOC Description
+contributor;http://easy.dans.knaw.nl/easy/easymetadata/eas/;User, Dr. T.E.S.T this (DANS)
+created;http://purl.org/dc/terms/;2013-07-31
+created;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+available;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+dateSubmitted;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+type;http://purl.org/dc/elements/1.1/;Dataset
+format;http://purl.org/dc/elements/1.1/;SOC Format
+identifier;http://purl.org/dc/elements/1.1/;SOC Identifier;urn:nbn:nl:ui:13-psx4-yv;easy-dataset:4219
+relation;http://easy.dans.knaw.nl/easy/easymetadata/eas/;title=SOC Relation URI=http://www.dans.knaw.nl
+source;http://purl.org/dc/elements/1.1/;SOC Source
+language;http://purl.org/dc/elements/1.1/;dut/nld;SOC Language
+spatial;http://purl.org/dc/terms/;SOC Coverage
+temporal;http://purl.org/dc/terms/;SOC Temporal Coverage
+accessRights;http://purl.org/dc/terms/;OPEN_ACCESS
+license;http://purl.org/dc/terms/;accept
+audience;http://purl.org/dc/terms/;easy-discipline:27
+remarks;http://easy.dans.knaw.nl/easy/easymetadata/eas/;SOC Remarks

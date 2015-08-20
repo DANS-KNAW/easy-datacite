@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+ 
+	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">
+		<constructor-arg ref="ldapClient"/>
+		<constructor-arg value="${ldap.context.users}"/>
+	</bean>
+	
+	<bean name="groupRepo" class="nl.knaw.dans.easy.ldap.EasyLdapGroupRepo">
+        <constructor-arg ref="ldapClient"/>
+        <constructor-arg value="${ldap.context.groups}"/>
+    </bean>
+	
+	<bean name="migrationRepo" class="nl.knaw.dans.easy.ldap.EasyLdapMigrationRepo">
+		<constructor-arg ref="ldapClient"/>
+		<constructor-arg value="${ldap.context.migration}"/>
+	</bean>
+	
+	<bean name="ldapClient" class="nl.knaw.dans.common.ldap.ds.LdapClient">
+		<property name="dirContextSupplier" ref="dirContextSupplier"/>
+	</bean>
+
+	<bean name="dirContextSupplier" class="nl.knaw.dans.common.ldap.ds.StandAloneDS" >
+		<property name="providerURL" value="${ldap.providerURL}"/>
+		<property name="securityPrincipal" value="${ldap.securityPrincipal}"/>
+		<property name="securityCredentials" value="${ldap.securityCredentials}"/>
+	</bean>
+	
+</beans>

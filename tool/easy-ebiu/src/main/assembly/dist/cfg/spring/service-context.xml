@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- ================= -->
+	<!-- Business Services -->
+	<!-- ================= -->
+	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
+		<property name="depositService" ref="depositService"/>
+		<property name="datasetService" ref="datasetService"/>
+		<property name="itemService" ref="itemService"/>
+		<property name="userService" ref="userService"/>
+		<property name="migrationService" ref="migrationService"/>
+		<property name="searchService" ref="searchService"/>
+		<property name="disciplineService" ref="disciplineService" />
+		<property name="collectionService" ref="collectionService"/>
+		<property name="jumpoffService" ref="jumpoffService" />
+
+	</bean>
+	
+	<bean name="jumpoffService" class="nl.knaw.dans.easy.business.services.EasyJumpoffService"/>
+
+	<bean name="disciplineService" class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
+
+	<bean name="depositService" class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
+
+	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService">
+		<constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
+	</bean>
+
+	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" >
+		<property name="processDataFileInstructions" value="${process-data-file-instructions}" />
+	</bean>
+
+	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
+	
+	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
+	
+	<bean name="migrationService" class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
+	
+	<bean name="collectionService" class="nl.knaw.dans.easy.business.services.EasyCollectionService" />
+	
+</beans>

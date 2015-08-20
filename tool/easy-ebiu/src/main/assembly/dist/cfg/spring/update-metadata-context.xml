@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="batch-context.xml"/>
+	
+	<bean name="batchController" class="nl.knaw.dans.easy.ebiu.task.BatchController">
+		<constructor-arg value="update-metadata" />
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.ebiu.task.ResourceMetadataCollector"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.DatasetRetriever"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.FileMetadataUpdater">
+					<constructor-arg ref="updateStrategy"/>
+					<property name="finalStepInCycle" value="true"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="updateStrategy" class="nl.knaw.dans.easy.business.md.amd.ElementnameUpdateStrategy">
+		<!-- required: the id of the additional content -->
+		<constructor-arg value="addi"/>
+	</bean>
+	
+</beans>

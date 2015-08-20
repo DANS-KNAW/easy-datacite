@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone="yes"?>
+<damd:administrative-md xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" version="0.1">
+    <datasetState>SUBMITTED</datasetState>
+    <lastStateChange>2014-04-03T09:32:35.829+02:00</lastStateChange>
+    <depositorId>depositorid</depositorId>
+    <stateChangeDates/>
+    <groupIds/>
+    <damd:workflowData version="0.1">
+        <assigneeId>NOT_ASSIGNED</assigneeId>
+    </damd:workflowData>
+</damd:administrative-md>

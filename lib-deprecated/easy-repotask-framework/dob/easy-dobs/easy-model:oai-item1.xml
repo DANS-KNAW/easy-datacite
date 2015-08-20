@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" VERSION="1.1" PID="easy-model:oai-item1">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Content Model of OAI Item Objects"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC1.0" LABEL="Dublin Core Record for this object" CREATED="2012-04-19T16:20:17.372+02:00" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="406">
+            <foxml:xmlContent>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>Content Model of OAI Item Objects</dc:title>
+  <dc:identifier>easy-model:oai-item1</dc:identifier>
+</oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="RELS-EXT1.0" LABEL="RDF Statements about this object" CREATED="2012-04-19T16:20:17.372+02:00" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="527">
+            <foxml:xmlContent>
+            <rdf:RDF xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                    <rdf:Description rdf:about="info:fedora/easy-model:oai-item1">
+                        <fedora-model:hasModel rdf:resource="info:fedora/fedora-system:ContentModel-3.0"/>
+                        <fedora-model:hasService rdf:resource="info:fedora/easy-sdef:oai-item1"/>
+                    </rdf:Description>
+                </rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="DS-COMPOSITE-MODEL" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DS-COMPOSITE-MODEL1.0" LABEL="Datastream Composite Model" CREATED="2008-07-21T15:51:43.343+02:00" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSCompositeModel-1.0" SIZE="694">
+            <foxml:xmlContent>
+            <dsCompositeModel xmlns="info:fedora/fedora-system:def/dsCompositeModel#">
+                    <dsTypeModel ID="RELS-EXT">
+                        <form FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" MIME="application/rdf+xml"/>
+                    </dsTypeModel>
+                    <dsTypeModel ID="DC">
+                        <form FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" MIME="text/xml"/>
+                    </dsTypeModel>
+                    <dsTypeModel ID="EMD">
+                        <form FORMAT_URI="http://easy.dans.knaw.nl/easy/easymetadata/" MIME="text/xml"/>
+                    </dsTypeModel>
+                </dsCompositeModel>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>

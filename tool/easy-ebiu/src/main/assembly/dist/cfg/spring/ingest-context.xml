@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<import resource="batch-context.xml"/>
+
+	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
+		<constructor-arg value="BATCH_INGEST"/>
+		<constructor-arg type="java.net.URL" value="${pid.service.base.url}" />
+		<constructor-arg type="nl.knaw.dans.easy.DataciteServiceConfiguration" ref="dataciteServiceConfiguration" />
+	</bean>
+
+	<bean name="batchController" class="nl.knaw.dans.easy.ebiu.task.BatchController">
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.ebiu.task.EasyMetadataCollector"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.EasyMetadataCheck"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.AdministrativeMetadataCollector"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.ResourceMetadataCollector"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.AdditionalMetadataFilesCollector"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.DatasetIngester"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.FileIngester"/>
+				<bean class="nl.knaw.dans.easy.ebiu.task.DatasetStateSetter">
+					<property name="finalStepInCycle" value="true"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

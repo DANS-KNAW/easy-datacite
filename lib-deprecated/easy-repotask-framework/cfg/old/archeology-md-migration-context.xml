@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/application-context.xml"/>
+	<import resource="app/store-context.xml"/>
+	
+	<!-- Defines a default configuration of the report logs -->
+	<import resource="app/taskrunner-reporter-context.xml"/>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="archMdMigration" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="archMdMigration" class="nl.knaw.dans.easy.tools.task.adhoc.ArcheologyMetadataMigration">
+		<constructor-arg index="0" value="${aipstore.data.directory}"/>
+		<constructor-arg index="1" value="data/xslt/emd-emd-converter_01.xsl"/>
+		<constructor-arg index="2" value="net.sf.saxon.TransformerFactoryImpl"/>
+	</bean>
+	
+</beans>

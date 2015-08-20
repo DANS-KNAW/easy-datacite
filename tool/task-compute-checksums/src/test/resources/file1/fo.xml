@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foxml:digitalObject VERSION="1.1" PID="easy-file:1"
+                     xmlns:foxml="info:fedora/fedora-system:def/foxml#"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Inactive"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="logback-test.xml"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="easyadmin"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="2015-07-06T08:51:26.968Z"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE="2015-07-16T10:10:16.548Z"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="AUDIT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="AUDIT.0" LABEL="Audit Trail for this object" CREATED="2015-07-06T08:51:26.968Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:format/xml.fedora.audit">
+            <foxml:xmlContent>
+                <audit:auditTrail xmlns:audit="info:fedora/fedora-system:def/audit#">
+                    <audit:record ID="AUDREC1">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>ingest</audit:action>
+                        <audit:componentID></audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-06T08:51:26.968Z</audit:date>
+                        <audit:justification>Ingested easy-file:1 by EASY Admin (easyadmin)</audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC2">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>EASY_FILE_METADATA</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T07:22:36.131Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC3">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>RELS-EXT</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T07:22:36.154Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC4">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>EASY_FILE_METADATA</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T07:57:31.677Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC5">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>RELS-EXT</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T07:57:31.702Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC6">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>EASY_FILE_METADATA</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T08:08:36.082Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC7">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>RELS-EXT</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T08:08:36.109Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC8">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>EASY_FILE_METADATA</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T08:08:51.454Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC9">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>RELS-EXT</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T08:08:51.475Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC10">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>EASY_FILE_METADATA</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T10:10:16.513Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                    <audit:record ID="AUDREC11">
+                        <audit:process type="Fedora API-M"/>
+                        <audit:action>modifyDatastreamByValue</audit:action>
+                        <audit:componentID>RELS-EXT</audit:componentID>
+                        <audit:responsibility>easy_webui</audit:responsibility>
+                        <audit:date>2015-07-16T10:10:16.548Z</audit:date>
+                        <audit:justification></audit:justification>
+                    </audit:record>
+                </audit:auditTrail>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="DC" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="DC.0" LABEL="Dublin Core Record for this object" CREATED="2015-07-06T08:51:27.053Z" MIMETYPE="text/xml" SIZE="410">
+            <foxml:contentDigest TYPE="SHA-1" DIGEST="1e569e8aca6c0b2d03c23eb42eba9274777ea76f"/>
+            <foxml:xmlContent>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>logback-test.xml</dc:title>
+                    <dc:type>text/xml</dc:type>
+                    <dc:identifier>easy-file:1</dc:identifier>
+                </oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="EASY_FILE" STATE="A" CONTROL_GROUP="M" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="EASY_FILE.0" LABEL="logback-test.xml" CREATED="2015-07-06T08:51:27.055Z" MIMETYPE="text/xml" SIZE="581">
+            <foxml:contentDigest TYPE="SHA-1" DIGEST="23b1304789895fc772e950d33ef9bf8a1aa71517"/>
+            <foxml:contentLocation TYPE="INTERNAL_ID" REF="easy-file:1+EASY_FILE+EASY_FILE.0"/>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="EASY_FILE_METADATA" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="EASY_FILE_METADATA.5" LABEL="Metadata for this FileItem" CREATED="2015-07-16T10:10:16.513Z" MIMETYPE="text/xml" SIZE="484">
+            <foxml:contentDigest TYPE="SHA-1" DIGEST="ef1df046f4c91860206a58e369fd08cefe0f181d"/>
+            <foxml:xmlContent>
+                <fimd:file-item-md xmlns:fimd="http://easy.dans.knaw.nl/easy/file-item-md/" xmlns:addmd="http://easy.dans.knaw.nl/easy/additional-metadata/" version="0.1"><sid>easy-file:1</sid><name>logback-test.xml</name><parentSid>easy-dataset:1</parentSid><datasetSid>easy-dataset:1</datasetSid><path>logback-test.xml</path><mimeType>text/xml</mimeType><size>581</size><creatorRole>ARCHIVIST</creatorRole><visibleTo>ANONYMOUS</visibleTo><accessibleTo>ANONYMOUS</accessibleTo></fimd:file-item-md>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="RELS-EXT.5" LABEL="rels-ext" CREATED="2015-07-16T10:10:16.548Z" MIMETYPE="text/xml" SIZE="634">
+            <foxml:contentDigest TYPE="SHA-1" DIGEST="43ee41c81944cf38ced0881a752d64e5f116700a"/>
+            <foxml:xmlContent>
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+                    <rdf:Description rdf:about="info:fedora/easy-file:1">
+                        <hasModel xmlns="info:fedora/fedora-system:def/model#" rdf:resource="info:fedora/easy-model:EDM1FILE"></hasModel>
+                        <isSubordinateTo xmlns="http://dans.knaw.nl/ontologies/relations#" rdf:resource="info:fedora/easy-dataset:1"></isSubordinateTo>
+                        <isMemberOf xmlns="http://dans.knaw.nl/ontologies/relations#" rdf:resource="info:fedora/easy-dataset:1"></isMemberOf>
+                        <hasModel xmlns="info:fedora/fedora-system:def/model#" rdf:resource="info:fedora/dans-container-item-v1"></hasModel>
+                    </rdf:Description>
+
+                </rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>

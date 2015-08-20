@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/default-context.xml"/>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter" destroy-method="close">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<bean name="globalReport" class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"/>				
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="AddMetadataRelationTask"/>					
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="DatasetLoggingFilter"/>					
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="SaveDatasetTask"/>					
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="CompleteRequiredAdministrativeStepsTask" />
+				</bean>													
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="PublishDatasetTask"/>					
+				</bean>				
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>								
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>			
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>				
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<constructor-arg>
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetLoggingFilter" />
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetDcCreatorFilter">
+					<constructor-arg value="Stichting Mondelinge Geschiedenis Indonesië (SMGI)"/>
+				</bean>				
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetStateFilter">
+					<constructor-arg value="SUBMITTED"/>
+				</bean>				
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetAccessCategoryFilter">
+					<constructor-arg value="REQUEST_PERMISSION"/>
+				</bean>
+			</list>
+		</constructor-arg>
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.AddMetadataRelationTask">
+					<constructor-arg>
+						<list>
+							<ref bean="addSgmiRelation" />
+						</list>
+					</constructor-arg>
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.SaveDatasetTask" />
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.CompleteRequiredAdministrativeStepsTask">
+					<property name="archivistId" ref="archivistIdString" />
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.PublishDatasetTask">
+					<property name="archivistId" ref="archivistIdString" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- The Archivist ID to use -->
+	<bean id="archivistIdString" class="java.lang.String"><constructor-arg value="emiliealsarchivaris"/></bean>
+	
+	<!-- Relations to be added -->
+	<bean id="addSgmiRelation" class="nl.knaw.dans.easy.domain.model.emd.types.Relation">
+		<property name="subjectTitle">
+			<bean class="nl.knaw.dans.easy.domain.model.emd.types.BasicString">
+				<constructor-arg value="Hoofdpagina Interviewcollectie Stichting Mondelinge Geschiedenis Indonesië" />
+			</bean>
+		</property>
+		<property name="subjectLink">
+			<bean class="java.net.URI">
+				<constructor-arg value="http://www.persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-8kif-xb" />
+			</bean>
+		</property>
+		<property name="emphasis" value="true"/>
+	</bean>
+	
+</beans>

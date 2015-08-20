@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-task-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../../lib/easy-task-prototype</relativePath>		
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.knaw.dans.easy.task</groupId>
+	<artifactId>task-assign-datasets-to-collections</artifactId>
+	<name>Task: Assign Datasets To Collections</name>
+	<properties>
+		<main-class>nl.knaw.dans.easy.tools.Main</main-class>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-repotask-framework</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

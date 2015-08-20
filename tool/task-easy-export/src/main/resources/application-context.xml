@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="homeDir"
+		class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory">
+		<property name="environmentVariableName" value="EASY_EXPORT_HOME" />
+	</bean>
+
+	<bean
+		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+		<constructor-arg ref="homeDir" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	</bean>
+
+	<import resource="store-context.xml" />
+	<import resource="idmo-collections-context.xml" />
+	<import resource="istore-context.xml" />
+
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<bean name="taskController"
+					class="nl.knaw.dans.easy.tools.task.ListedDmoStoreIdsTaskController">
+					<constructor-arg index="0" value="${dataset.ids}" />
+					<property name="tasks">
+						<list>
+							<ref bean="export" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="inputConverter" class="nl.knaw.dans.easy.task.InputConverter">
+	</bean>
+
+	<bean name="export" class="nl.knaw.dans.easy.task.ExportDatasetsTask">
+		<constructor-arg index="0" value="${export.folder}" />
+		<constructor-arg index="1" value="${fedora.base.url}" />
+	</bean>
+
+	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
+
+</beans>

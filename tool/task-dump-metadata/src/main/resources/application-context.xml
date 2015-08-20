@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="homeDir"
+		class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory">
+		<property name="environmentVariableName" value="EASY_TASK_DUMP_METADATA_HOME" />
+	</bean>
+
+	<bean
+		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+		<constructor-arg ref="homeDir" />
+	</bean>	
+
+	<import resource="idmo-collections-context.xml" />
+	<import resource="istore-context.xml" />
+	<import resource="ldap-context.xml" />
+	<import resource="security-context.xml" />
+	<import resource="store-context.xml" />
+
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="metadataDumpTask" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="metadataDumpTask" class="nl.knaw.dans.easy.tools.task.dump.MetadataDumpTask" >
+		<property name="overwrite" value="${task.overwrite}" />
+		<property name="dumpDcDataStream" value="false" />
+		<property name="useAipIdForOutputFileNames" value="false" />
+		<property name="includeDatasetPid" value="${task.includeDatasetPid}" />
+		<property name="includeFilePids" value="${task.includeFilePids}" />
+		<property name="includeFileSha1Hash" value="${task.includeFileSha1Hash}" />
+		<property name="includeMimeType" value="${task.includeMimeType}" />
+		<property name="includePermissionSequences" value="${task.includePermissionSequences}" />
+		<property name="includeAdministrativeMetadata" value="${task.includeAdministrativeMetadata}" />
+		<property name="includeDeletedDatasets" value="${task.includeDeletedDatasets}" />
+		<property name="outputEncoding" value="UTF-8" />
+		<property name="outputDir" value="${task.outputdir}" />
+		<property name="aipListOutputDir" value="${task.aipListOutputDir}" />
+		<property name="maxResults" value="${task.maxDatasets}" />
+		<property name="maxTries" value="3" />
+		<property name="startSid" value="1" />
+		<property name="stopSid" value="${task.stopSid}" />
+
+		<property name="dcFields">
+			<list>
+				<value>Creator</value>
+				<value>Title</value>
+				<value>Description</value>
+				<value>Language</value>
+				<value>Date</value>
+				<value>Coverage</value>
+				<value>Relation</value>
+			</list>
+		</property>
+	</bean>	
+
+	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
+</beans>

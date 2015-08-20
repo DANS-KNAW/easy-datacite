@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- Defines a default configuration of the report logs -->
+	
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<!-- path to the directory where reports should be written -->
+		<constructor-arg value="${rl.reportdir}"/>
+		<!-- should we execute 'chmod a=rwx'? -->
+		<constructor-arg value="${rl.allreadwrite}"/>
+		<!-- should we extend the report directory with an extra time-based directory? -->
+		<constructor-arg value="${rl.timebaseddirectory}"/>
+		<!-- the reporter to use -->
+		<property name="reporter" ref="reporter"/>
+	</bean>
+	
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/include-all-context.xml"/>
+	
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter"
+		destroy-method="close">
+		<constructor-arg ref="taskRunner" />
+		<property name="reports">
+			<list>
+				<bean name="globalReport"
+					class="nl.knaw.dans.common.lang.log.EventNameOverviewReport" />
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport" />
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport" />
+				<!-- bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport" / -->
+				
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="PurgeDeletedDatasetTask"/>
+				</bean>
+				
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<constructor-arg ref="datasetStateFilter" />
+		<property name="tasks">
+			<list>
+				<bean
+					class="nl.knaw.dans.easy.tools.task.am.dataset.DuplicatedMetadataFieldsRemoverTask">
+					<property name="testMode" value="true"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+
+	<bean name="datasetStateFilter"
+		class="nl.knaw.dans.easy.tools.task.am.dataset.DatasetStateFilter">
+		<constructor-arg>
+			<list>
+				<value>PUBLISHED</value>
+				<value>MAINTENANCE</value>
+				<value>SUBMITTED</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

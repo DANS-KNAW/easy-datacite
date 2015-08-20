@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="app/application-context.xml"/>
+	<import resource="app/store-context.xml"/>
+	<import resource="app/ldap-context.xml"/>
+	
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter" destroy-method="close">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<bean name="globalReport" class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"/>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="DeletedDatasetPurgerTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="AipIdCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="ArchisCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="GroupCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="AudienceCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="WorkflowCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="EmdCorrectorTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="CheckUserIdTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="RelationLinkCorrectorTask"/>
+				</bean>
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>
+				<bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport"/>
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.DeletedDatasetPurgerTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.AipIdCorrectorTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.ArchisCorrectorTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.AudienceCorrectorTask">
+					<constructor-arg value="${aipstore.data.directory}"/>
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.GroupCorrectorTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.WorkflowCorrectorTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.EmdCorrectorTask">
+					<constructor-arg value="${aipstore.data.directory}"/>
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.RelationLinkCorrectorTask"/>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.SaveDatasetTask"/>
+				
+				<!-- only reporting -->
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.CheckUserIdTask"/>
+				
+				<!-- tasks that save mutations on their own -->
+				<!-- we will set access and visibility according to henkk's table -->
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.dataset.FileRightsNoAccessCorrectorTask"/ -->
+				<!-- bean class="nl.knaw.dans.easy.tools.task.am.dataset.FileRightsGroupAccessCorrectorTask"/ -->
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+</beans>

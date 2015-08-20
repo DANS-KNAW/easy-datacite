@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+ 
+	<bean name="fedora" class="nl.knaw.dans.common.fedora.Fedora">
+		<constructor-arg index="0"><value>${fedora.base.url}</value></constructor-arg>
+		<constructor-arg index="1"><value>${fedora.admin.username}</value></constructor-arg>
+		<constructor-arg index="2"><value>${fedora.admin.userpass}</value></constructor-arg>
+	</bean >
+
+    <bean name="easyStore" class="nl.knaw.dans.common.fedora.store.EasyFedoraStore">
+        <constructor-arg index="0" value="${easy.store.name}"/>
+        <constructor-arg index="1" ref="fedora"/>
+        <property name="eventListeners">
+        	<list>
+        		<ref bean="fileStoreSyncListener"/>
+        		<ref bean="repoSearchListener"/>
+        	</list>
+        </property>
+    </bean>
+    
+    <!-- ====== A subset of file and folder metadata is kept in the fedora database ======= -->
+    <!-- fileStoreSyncListener is responsible for keeping this (part of) the database in sync with Fedora store -->
+    <bean name="fileStoreSyncListener" class="nl.knaw.dans.easy.fedora.db.FileStoreSyncListener" depends-on="dbUtilRegistrator"/>
+    
+	<bean name="fileStoreAccess" class="nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess" depends-on="dbUtilRegistrator"/>
+		
+	<bean name="dbUtilRegistrator" class="nl.knaw.dans.easy.db.DbUtil$Registrator">
+		<property name="localConfig" ref="dbLocalConfig"/>
+	</bean>
+
+	<bean name="dbLocalConfig" class="nl.knaw.dans.easy.db.DbLocalConfig">
+		<constructor-arg index="0"><value>${fedora.db.username}</value></constructor-arg>
+		<constructor-arg index="1"><value>${fedora.db.password}</value></constructor-arg>
+		<constructor-arg index="2"><value>${fedora.db.connectionUrl}</value></constructor-arg>
+		<constructor-arg index="3"><value>${fedora.db.hbnDriverClass}</value></constructor-arg>
+		<constructor-arg index="4"><value>${fedora.db.hbnDialect}</value></constructor-arg>
+	</bean >
+	
+	<!-- ====== Search ======= -->
+	<bean name="searchEngine" class="nl.knaw.dans.common.solr.SolrSearchEngine">
+    	<constructor-arg index="0"><value>${solr.url}</value></constructor-arg>
+    	<constructor-arg index="1" ref="easySearchBeanFactory" />
+    </bean>
+
+    <bean name="easySearchBeanFactory" class="nl.knaw.dans.easy.data.search.EasySearchBeanFactory" />
+    
+    <!-- repoSearchListener is responsible for keeping the search index in sync with Fedora store -->
+    <bean name="repoSearchListener" class="nl.knaw.dans.common.lang.reposearch.RepoSearchListener">
+    	<constructor-arg ref="searchEngine"/>
+    </bean>
+    
+    <bean name="datasetSearch" class="nl.knaw.dans.easy.data.search.DatasetSearchImpl">
+		<constructor-arg index="0" ref="searchEngine"/>
+	</bean >
+	<!-- ====== /Search ======= -->
+	
+	<bean name="collectionAccess" class="nl.knaw.dans.easy.data.collections.DmoCollectionsAccessImpl">
+		<constructor-arg ref="dmoCollections"/>
+	</bean>
+	
+</beans>

@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?><mgmData>
+    <createDate>Wed Apr 01 10:21:30 CEST 2009</createDate>
+    
+    
+    
+    
+    <applicationData>
+        <payLoad><surveyedUsers><user>valentijng</user><user>milcow</user><user>mvdd</user><user>henkka</user><user>roderick</user><user>cfhcoppens</user><user>vandasselaar</user><user>arjandenbraven1</user><user>willemsimon</user><user>sdecock</user><user>inga</user><user>fcg1</user><user>hpm</user><user>asmei</user><user>argeos</user><user>eec1</user><user>anuman</user><user>ronaldvisser</user><user>bourgeoisqpj</user><user>hvdengel</user><user>svm913</user><user>bloo18</user><user>kploeg</user><user>menho</user><user>vkersing</user><user>jhendriks</user><user>sannebeumer</user><user>ivoboor</user><user>joyce</user><user>suzannedekruif</user><user>silvia</user><user>marjolijn</user><user>jcichy</user><user>molja</user><user>dmeens</user><user>evakaptijn1</user><user>hst</user><user>archeologie</user><user>wjthijs</user><user>yoda1987</user><user>bartgroenlo</user><user>dkast</user><user>ananeu</user><user>stebner</user><user>bhend</user><user>ltheelen</user><user>npran</user><user>bpenning</user><user>hmolt</user><user>antoinette</user><user>jopbrijker</user><user>vanderhoeven</user><user>jas</user><user>robhoukes</user><user>ekmietes</user><user>pietria</user><user>epkobult</user><user>mbenj</user><user>anneliessalome</user><user>klwinthagen</user><user>kwans</user><user>mtump</user><user>myriamvw</user><user>ivoherm</user><user>vgili</user><user>huibjan</user><user>chrisluinge</user><user>jpicardt</user><user>mdahh</user><user>geuch</user><user>boshoven</user><user>boot</user><user>ecpronk</user><user>archeopro</user><user>informatiebeheer</user><user>tbvd</user><user>emiliealsarchivaris</user><user>ronbakx</user><user>mruijt</user><user>rsvandermolen</user><user>pip</user><user>wentinkk</user><user>suemoerman</user><user>glenn</user><user>lwebley</user><user>danielstiller</user><user>mavdlind</user><user>jbouwmeester</user><user>heering</user><user>jbex</user><user>laurentss</user><user>amull</user><user>hkoopmanschap</user><user>ivelthuis</user><user>sknippenberg</user><user>mwans</user><user>tonvanbommel</user><user>arcmarielle</user><user>tuijn</user><user>hveen</user><user>pcboe</user><user>okke</user><user>kwink1</user><user>venlo</user><user>afreericks</user><user>desteekproef</user><user>marsaan</user><user>khebinck</user><user>rveer</user><user>dominiek</user><user>kheil</user><user>maver</user><user>kmata</user><user>svanderveen</user><user>hsharch</user><user>erinlyklema</user><user>pfijma</user><user>fhogenboom</user><user>127023</user><user>aflvh</user><user>ngroot</user><user>marionburger</user><user>raap</user><user>ryan</user><user>tymondehaas</user><user>tgroo</user><user>oudhuis</user><user>fjpost</user><user>marijke62</user><user>13enckh0</user><user>cgbakker</user><user>brouwer</user><user>martha</user><user>aukje</user><user>gerard</user><user>jacqui</user><user>lvdb</user><user>hboon</user><user>mosin</user><user>nicovm</user><user>hanslaros</user><user>greatmaze</user><user>orion</user><user>baac</user><user>hart</user><user>gmauro</user><user>sdiependaal</user><user>estherp</user><user>dorientekiefte</user><user>ksnijder</user><user>enord</user><user>purmerdm</user><user>guidospanjaard</user><user>jellevh</user><user>ww</user><user>juliusvanroemburg</user><user>jdr1</user><user>mikekobes</user><user>eartharch</user><user>lolke</user><user>jcichynormaluser</user><user>nickos</user><user>athovinga</user><user>ivobeckers</user><user>ablonk</user><user>mkd</user><user>amhck</user><user>robertarcheologiedenhaag</user><user>stokkel</user><user>fbuur</user><user>artvanweerelt</user><user>wiep</user><user>oranjewoud</user><user>oerlemans</user><user>josselyn</user><user>mhn440</user><user>lmbvdf</user><user>petrak</user><user>jkklop</user><user>exsitusilex</user><user>hugo</user><user>jossschrijen</user><user>hvromen</user><user>bvissers77</user><user>hansamse</user><user>jbosman</user><user>cbran</user><user>miriam1</user><user>jdemoor</user><user>cckalis</user><user>mirandadewit</user><user>aprilvis</user><user>econsultancy</user><user>mbats</user><user>jetske</user><user>boodt</user><user>mhorn</user><user>mariekep</user><user>petrosilius</user><user>rloue</user><user>shornikx</user><user>dennisvanleeuwen</user><user>mjansen</user><user>asloo</user><user>pjcvalen</user><user>hps</user><user>skodd</user><user>gnoens</user><user>binkem</user></surveyedUsers><mgmDataWorkFlow>
+    <workflowContentsPane>
+        <aipId>twips.dans.knaw.nl--5762177928943175215-1238574089841</aipId>
+        <QDCTitle>Overzicht van gearchiveerde rapporten en datasets per archeologische organisatie en specifieke projecten</QDCTitle>
+        <steps>
+            <step checkUser="Drs. V.L. Gilissen (archivaris)" name="Ingest (deponering): SIP" timestamp="01-04-2009  11:18:05" workdone="true">
+                <comment/>
+                <action checkUser="" name="controle op compleetheid SIP (files in &quot;original&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op project metadata (qualified Dublin Core, inhoudelijk)" timestamp="" workdone="true">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op technische metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op auteursrechtelijk beschermde files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op leesbaarheid files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op inhoudelijke metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle van het keuzeformulier (voorwaarden) t.b.v. de licentieovereenkomst" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="toepassen specifieke restricties files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle aanlevering teksten (en afbeeldingen) van de &quot;startpagina&quot;" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="" name="Archivering (processing): AIP" timestamp="" workdone="true">
+                <comment/>
+                <action checkUser="" name="conversie files, conform DANS kennisdatabank &quot;data formats&quot; (prefered formats, presentation formats)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="structureren dataset tot een logisch geheel (directories, benaming files)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="terugplaatsen in AIP (bulkimport in &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="(opnieuw) genereren en controleren metadata" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="" name="Access (dissemination, presentatie, beschikbaarstelling): DIP" timestamp="" workdone="true">
+                <comment/>
+                <action checkUser="" name="files op &quot;published&quot; zetten (in &quot;original&quot; en/of &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="opmaken, aanpassen startpagina" timestamp="" workdone="true">
+                    <comment/>
+                </action>
+                <action checkUser="" name="interne webcontrole DIP (startpagina, browsers, file selecties, downloads, restricties)" timestamp="" workdone="true">
+                    <comment/>
+                </action>
+                <action checkUser="" name="definitieve licentie-overeenkomst controleren en versturen" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="externe controle door depositor (e-mail, ok?)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="PR-waardigheid: ja/nee (actie: nieuwsbrief, website, e-mail etc.)" timestamp="" workdone="true">
+                    <comment/>
+                </action>
+            </step>
+        </steps>
+        <assignedCategories>
+            <as_cat_option>
+                <assignedCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignedCategoryId>
+                <assignedCategory>Archaeology</assignedCategory>
+            </as_cat_option>
+        </assignedCategories>
+        <defaultCategories>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--3877089603410664659-1167404201644</assignableCategoryId>
+                <assignableCategory>Humanities</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignableCategoryId>
+                <assignableCategory>Archaeology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4716150812278475559-1179232222017</assignableCategoryId>
+                <assignableCategory>Arts</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4733002081456780760-1179232222018</assignableCategoryId>
+                <assignableCategory>Dramaturgy</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-3180514122698846372-1179232222020</assignableCategoryId>
+                <assignableCategory>History of arts and architecture</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--851120861906449362-1167404201730</assignableCategoryId>
+                <assignableCategory>Media sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4798816158715385611-1179232222022</assignableCategoryId>
+                <assignableCategory>Musicology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2420648360013283155-1167404201658</assignableCategoryId>
+                <assignableCategory>History</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4882489041661314738-1179232222025</assignableCategoryId>
+                <assignableCategory>Antiquity</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8705622768336717974-1179232222026</assignableCategoryId>
+                <assignableCategory>Middle Ages</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4545589382812876436-1179232222027</assignableCategoryId>
+                <assignableCategory>Early modern history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5445338150376925912-1179232222028</assignableCategoryId>
+                <assignableCategory>Modern history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1626707285658575928-1179232222029</assignableCategoryId>
+                <assignableCategory>Contemporary history</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--560981449881204170-1167404201700</assignableCategoryId>
+                <assignableCategory>Language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--915500746194146706-1179232222034</assignableCategoryId>
+                <assignableCategory>Baltic and Slavonic language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-494019541955206240-1179232222035</assignableCategoryId>
+                <assignableCategory>Classic studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8892112836057854005-1179232222036</assignableCategoryId>
+                <assignableCategory>Germanic language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1664220330900522393-1179232222037</assignableCategoryId>
+                <assignableCategory>Romance language and literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5356103616710907849-1179232222037</assignableCategoryId>
+                <assignableCategory>Language and literature studies of other language groups</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-3379185122158297399-1179232222041</assignableCategoryId>
+                <assignableCategory>Palaeography, bibliology, bibliography, library science</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-6757450354537199768-1179232222042</assignableCategoryId>
+                <assignableCategory>Philosophy</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2972209387049654312-1167404201721</assignableCategoryId>
+                <assignableCategory>Theology and religious sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4322691534929405083-1167404201739</assignableCategoryId>
+                <assignableCategory>Social sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-9114271648305385366-1167404201747</assignableCategoryId>
+                <assignableCategory>Economics</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-586008441499901126-1179232222054</assignableCategoryId>
+                <assignableCategory>Environmental studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8705792611160991161-1167404201786</assignableCategoryId>
+                <assignableCategory>Political and administrative sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-7081372298344446016-1179232222055</assignableCategoryId>
+                <assignableCategory>Political science</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6501498988674914221-1179232222057</assignableCategoryId>
+                <assignableCategory>Social and Public administration</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4141687065604901338-1167404201776</assignableCategoryId>
+                <assignableCategory>Science of law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1813684252649430041-1179232222059</assignableCategoryId>
+                <assignableCategory>History of Law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5231158159310158800-1179232222060</assignableCategoryId>
+                <assignableCategory>Private (procedural) law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1878317216296702315-1179232222061</assignableCategoryId>
+                <assignableCategory>Criminal (procedural) law and criminology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-2455252083686505562-1179232222062</assignableCategoryId>
+                <assignableCategory>Constitutional and administrative law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--3864311175356110225-1179232222062</assignableCategoryId>
+                <assignableCategory>Interdisciplinary branches of law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6444107780939215925-1179232222064</assignableCategoryId>
+                <assignableCategory>International law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8358278453772674951-1179232222067</assignableCategoryId>
+                <assignableCategory>Traffic and transport studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6017685496380663529-1167404201757</assignableCategoryId>
+                <assignableCategory>Behavioural sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5970608499174934761-1179232222075</assignableCategoryId>
+                <assignableCategory>Gerontology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4601533421575847334-1179232222075</assignableCategoryId>
+                <assignableCategory>Pedagogics</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8678549457098647324-1167404201765</assignableCategoryId>
+                <assignableCategory>Psychology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4703409498310334937-1179232222077</assignableCategoryId>
+                <assignableCategory>Science of education</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--8739414114196558923-1179232222081</assignableCategoryId>
+                <assignableCategory>Socio-cultural sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5809345335496157091-1179232222081</assignableCategoryId>
+                <assignableCategory>Communication sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4291646046830212917-1179232222083</assignableCategoryId>
+                <assignableCategory>Cultural anthropology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8111764871415549454-1179232222084</assignableCategoryId>
+                <assignableCategory>Demography</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-1108176216815842098-1179232222085</assignableCategoryId>
+                <assignableCategory>Development studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5070650447881373670-1179232222085</assignableCategoryId>
+                <assignableCategory>Leisure and recreation studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4701355164954206121-1179232222086</assignableCategoryId>
+                <assignableCategory>Personnel administration and management</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--725140682333689695-1179232222087</assignableCategoryId>
+                <assignableCategory>Social geography</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5039225243970760691-1179232222088</assignableCategoryId>
+                <assignableCategory>Social security studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1307254666806078241-1167404201797</assignableCategoryId>
+                <assignableCategory>Sociology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-5785833506701748052-1179232222090</assignableCategoryId>
+                <assignableCategory>Urban and rural planning</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--7812525368032742033-1179232222091</assignableCategoryId>
+                <assignableCategory>Women's studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4667124701540888169-1179232222015</assignableCategoryId>
+                <assignableCategory>Life sciences and medicine</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-7998051165110996685-1179232222015</assignableCategoryId>
+                <assignableCategory>Health sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-9203215916833700147-1223996427623</assignableCategoryId>
+                <assignableCategory>Geospatial sciences</assignableCategory>
+            </as_cat_option>
+        </defaultCategories>
+    </workflowContentsPane>
+</mgmDataWorkFlow><appHTML> <div>      
+<HR/>      
+<table border="0" cellpadding="5">      
+<tr>      
+<td valign="top" width="100">      
+<font size="-1"> 
+<a href="#organisaties">Organisaties</a><br/>      
+<a href="#projecten">Projecten</a><br/> 
+<img border="1" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/sokkia.jpg" width="100"/>      
+</font>      
+</td>      
+<td valign="top">   
+<h3><a name="organisaties"/>Organisaties</h3>     
+<table border="0" cellpadding="5" width="100%">     
+<tr><td bgcolor="#708870" width="60%"><b><font color="#ffffff">Organisatie</font></b></td><td align="center" bgcolor="#708870" width="10%"><b><font color="#ffffff">Publicaties</font></b></td><td align="center" bgcolor="#708870" width="10%"><b><font color="#ffffff">Datasets</font></b></td></tr> 
+<tr><td bgcolor="#ffffff">AAC/Projectenbureau</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-6731496536029815457-1248074830293"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3369621606516036775-1232030623288"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">ACVU-HBS</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2091005351698997303-1259589412733"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2008407410853142990-1178791281273"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">ADC Archeoprojecten</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3149953782801880031-1181220768394"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4875565301256932870-1216795777295"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">ARC bv</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4099521177877627309-1241785547359"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8504953156633915632-1216711678495"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr>  
+<tr><td bgcolor="#ffffff">ARCADIS</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-5798522748236548393-1285661123862"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>  
+<tr><td bgcolor="#ffffff">ArchaeoBone</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4669260927464173882-1295701370689"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Archeoplan Eco</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8667823584478437830-1295694639695"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Archol bv</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4687412693532860069-1181225820511"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4603138084457531646-1184316175682"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">ARGO</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3176971028474784901-1311239811263"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">BAAC bv</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--5762349837790506893-1263309579001"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-7309401535442444096-1216810967835"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Bilan Fontys Hogescholen</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1647088533087553290-1263218553719"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">BOOR</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-669373922612137809-1237377743040"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Econsultancy B.V.</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3454893153863596083-1291889003458"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Almere</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-7445542401380661297-1184056630097"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>  
+<tr><td bgcolor="#ffffff">Gemeente Breda</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4426874637733824007-1310462361886"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Den Haag</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--790003726271689412-1181546613030"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Deventer</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1310129167199891819-1285831777001"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>  
+<tr><td bgcolor="#ffffff">Gemeente Dordrecht</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-5170087920741829588-1240493033180"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-5170087920741829588-1240493033180"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Groningen</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--427352616722609369-1292329042968"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Vlaardingen</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8969510363104675240-1181223944353"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Gemeente Zutphen</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6905052676136989883-1264502184434"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">GIA</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6945426583334955706-1223647646690"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Grontmij</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3181297438128206496-1264018179846"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Hazenberg Archeologie</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6970221026874245708-1282030801654"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Hollandia Archeologie bv</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-290140022965098986-1217156531708"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">IDDS Archeologie B.V.</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-623534389518297851-1233583882540"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Jacobs en Burnier</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-9013989944129961587-1225974266947"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Libau</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3637097243169811641-1311252918902"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Oranjewoud</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--2399260396814666870-1261147637567"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--9032108195703847255-1236262604244"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Periplus Archeomare BV</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-5359501827205780259-1308667882480"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>
+<tr><td bgcolor="#ffffff">RAAP</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3873397773962490852-1181549227524"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--997501325752306999-1231251251382"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">RCE</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4487523935544215908-1308649071935"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">ScaraB</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3474204901513912882-1295701579851"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">SMA</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-6617591096761522170-1264538465574"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">SOB Research</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-6476042327144964727-1264537978015"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">SRE Milieudienst</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-992064636674562794-1297759534639"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Steekproef</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--8372706036273454754-1257452645914"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr> 
+<tr><td bgcolor="#ffffff">Synthegra</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-149021867320811619-1259591512134"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>  
+<tr><td bgcolor="#ffffff">Vestigia</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3839579330432894277-1257452066888"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>     
+<tr><td bgcolor="#ffffff">Walcherse Archeologische Dienst</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--1221245612731608382-1311235595076"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td bgcolor="#ffffff"/></tr>     
+</table>     
+<p/>   
+<h3><a name="projecten"/>Projecten</h3>     
+<table border="0" cellpadding="5" width="100%">     
+<tr><td bgcolor="#708870" width="60%"><b><font color="#ffffff">Project</font></b></td><td align="center" bgcolor="#708870" width="10%"><b><font color="#ffffff">Publicaties</font></b></td><td align="center" bgcolor="#708870" width="10%"><b><font color="#ffffff">Datasets</font></b></td></tr> 
+<tr><td bgcolor="#ffffff">AWZI Harnaschpolder</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-7570000504078936900-1251285213641"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Betuweroute</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--2865205251658534860-1190992026703"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">HSL</td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2746935872634271488-1176736345530"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4753441948834874728-1209470213519"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Maaswerken (Zandmaas/Grensmaas/Maasroute)</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3470749953166574984-1233670209541"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Odyssee projecten</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--5415862324634317309-1283847698306"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Oogst van Malta</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--8109073467006952119-1246345461810"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Valkenburg (ROB-opgravingen)</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-191170604857536161-1266846325035"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">Verbreding A2</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--8690741103522015722-1214983936637"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+<tr><td bgcolor="#ffffff">VleuGel - Spoorverbreding Vleuten-Geldermalsen</td><td bgcolor="#ffffff"/><td align="center" bgcolor="#ffffff"><a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6250903857209421681-1258365102539"><img border="0" src="/customAIP/twips.dans.knaw.nl--5762177928943175215-1238574089841/OK.jpg"/></a></td></tr> 
+</table>     
+</td>      
+</tr>      
+</table>      
+<HR/>      
+</div></appHTML></payLoad>
+    <depositor>vgili</depositor></applicationData>
+<lastEdit>Tue Aug 02 12:31:27 CEST 2011</lastEdit><fileActions>
+    <fileAction>
+        <description>Management data created</description>
+        <dateStamp>Wed Apr 01 10:21:30 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:21:30 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:21:32 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:21:32 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:23:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:23:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:23:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:23:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:49 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:49 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:49 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:49 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:51 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:51 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:51 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:25:56 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:03 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:03 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:03 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:12 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:12 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:13 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:13 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:43 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:43 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:43 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>File update</description>
+        <dateStamp>Wed Apr 01 10:26:55 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:55 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:26:55 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:29:47 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:29:57 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:29:57 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:30:04 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:30:04 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:30:15 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 10:30:16 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:12:48 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:01 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:11 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:23 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:24 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:31 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:32 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:46 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 11:13:46 CEST 2009</dateStamp>
+    </fileAction>
+</fileActions><assignedToCategories>
+    <categoryId>root</categoryId>
+    <categoryId>twips.dans.knaw.nl-385132847568087580-1196763197027</categoryId>
+    <categoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</categoryId>
+</assignedToCategories><mirrors/></mgmData>

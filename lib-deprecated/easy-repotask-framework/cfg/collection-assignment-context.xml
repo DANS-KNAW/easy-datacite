@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- import other contexts -->
+	<import resource="app/default-context.xml"/>
+	
+	<!-- ############################################################################# -->
+	<!-- Whether we are running in test-mode depends on system property 'mode.test'.   -->
+	<!-- Command line:    java -Dmode.test=true|false                                  -->
+	<!-- Eclipse VM Arguments: -Dmode.test=true|false                                  -->
+	<!-- ############################################################################# -->
+	
+	<!-- bean for RL-logging -->
+	<bean name="rl" class="nl.knaw.dans.common.lang.log.RL">
+		<constructor-arg index="0" value="${rl.reportdir}/" />
+		<property name="reporter" ref="reporter" />
+	</bean>
+	
+	<!-- A TaskRunnerReporter used by RL-logging -->
+	<bean name="reporter" class="nl.knaw.dans.easy.tools.TaskRunnerReporter" destroy-method="close">
+		<constructor-arg ref="taskRunner"/>
+		<property name="reports">
+			<list>
+				<!-- Define an event-name reporter for the event-name 'global'    -->
+				<bean name="globalReport" class="nl.knaw.dans.common.lang.log.EventNameOverviewReport"/>
+				
+				<!-- Define an event-name reporters for assignmentTask events     -->
+				<!-- In code of Task:                                           -->
+				<!-- RL.info(new Event(getTaskName(), message1, message2));       -->
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="OralHistoryCollectionAssignmentTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="CarareCollectionAssignmentTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="GetuigenVerhalenCollectionAssignmentTask"/>
+				</bean>
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="WO2CollectionAssignmentTask"/>
+				</bean>
+				
+				<!-- Define an event-name reporter for 'let-op' events (optional)  -->
+				<!-- In code of Task:                                              -->
+				<!-- RL.info(new Event("let-op", message1, message2));             -->
+				<!-- 
+				<bean class="nl.knaw.dans.common.lang.log.EventNameOverviewReport">
+					<constructor-arg value="let-op"/>
+				</bean>
+				-->
+				
+				<!-- Define an overview reporter                                    -->
+				<bean name="overviewReport" class="nl.knaw.dans.common.lang.log.OverviewReport"/>
+				
+				<!-- Define an error overview reporter                              -->
+				<bean name="errorOverviewReport" class="nl.knaw.dans.common.lang.log.ErrorOverviewReport"/>
+				
+				<!-- Write detail reports in {rl.reportdir}/details/                -->
+				<!-- See for example DatasetTaskController.onEvent(Event event)     -->
+				<!-- 
+				<bean name="detailReport" class="nl.knaw.dans.common.lang.log.DetailReport"/>
+				-->
+				
+				<!-- Also redirect RL-logging to standard logging                   -->
+				<bean name="loggerReport" class="nl.knaw.dans.common.lang.log.LoggerReport"/>
+				
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="taskRunner" class="nl.knaw.dans.easy.tools.TaskRunner">
+		<property name="tasks">
+			<list>
+				<ref bean="datasetTaskController" />
+				<ref bean="mailReportTask" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="datasetTaskController" class="nl.knaw.dans.easy.tools.dataset.DatasetTaskController">
+		<property name="tasks">
+			<list>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.OralHistoryCollectionAssignmentTask">
+					<constructor-arg value="${mode.test}" />
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.CarareCollectionAssignmentTask">
+					<constructor-arg value="${mode.test}" />
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.GetuigenVerhalenCollectionAssignmentTask">
+					<constructor-arg value="${mode.test}" />
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.WO2CollectionAssignmentTask">
+					<constructor-arg value="${mode.test}" />
+				</bean>
+				<bean class="nl.knaw.dans.easy.tools.task.am.dataset.SaveDatasetTask"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="mailReportTask" class="nl.knaw.dans.easy.tools.mail.MailReportTask">
+		<property name="reportTitle"><value>collection assignment</value></property>
+		<property name="textContent"><value>
+			There are new collection assignment reports available.  Please, find the reports attached to this E-mail.
+			If there is just the global overview report it means no assignments were done.
+		
+			This message is sent automatically by the collection assignment repository task.
+		</value></property>
+		<property name="htmlContent"><value> 
+		    &lt;body&gt;&lt;p&gt;
+			There is a new collection assignment report available.  Please, find the report attached to this E-mail.
+			&lt;/p&gt;&lt;p&gt;
+			&lt;body&gt;&lt;p&gt;
+			If there is just the global overview report it means no assignments were done.
+		    &lt;/p&gt;&lt;p&gt;
+			This message is sent automatically by the collection assignment repository task.
+			&lt;/p&gt;
+		</value></property>
+		<property name="excludedReportPrefixes">
+			<list>
+				<value>overview</value>
+			</list>
+		</property>		
+		<property name="recipients">
+			<list>
+				<value>jan.van.mansum@dans.knaw.nl</value>
+				<value>valentijn.gilissen@dans.knaw.nl</value>
+				<value>chris.baars@dans.knaw.nl</value>
+			</list>
+		</property>
+		<property name="fromAddress" value="jan.van.mansum@dans.knaw.nl" />
+	</bean>
+</beans>

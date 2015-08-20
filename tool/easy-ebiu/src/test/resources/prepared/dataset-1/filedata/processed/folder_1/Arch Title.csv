@@ -1,0 +1,26 @@
+title;http://purl.org/dc/elements/1.1/;Arch Title
+alternative;http://purl.org/dc/terms/;Arch AltTitle
+creator;http://easy.dans.knaw.nl/easy/easymetadata/eas/;User, T.E.S.T this (DANS)
+subject;http://purl.org/dc/elements/1.1/;XXX;Arch Subject
+description;http://purl.org/dc/elements/1.1/;The Arch Description
+publisher;http://purl.org/dc/elements/1.1/;The Publisher
+contributor;http://easy.dans.knaw.nl/easy/easymetadata/eas/;User, T.E.S.T. this (DANS)
+valid;http://purl.org/dc/terms/;2013-07-31
+created;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+available;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+issued;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+dateSubmitted;http://easy.dans.knaw.nl/easy/easymetadata/eas/;2013-07-31
+type;http://purl.org/dc/elements/1.1/;Dataset;Arch Type
+format;http://purl.org/dc/elements/1.1/;text/xml;Arch Format
+identifier;http://purl.org/dc/elements/1.1/;123456;urn:nbn:nl:ui:13-pp8t-7u;easy-dataset:4218
+isFormatOf;http://easy.dans.knaw.nl/easy/easymetadata/eas/;title=Relation URI=http://easy.dans.knaw.nl
+source;http://purl.org/dc/elements/1.1/;Arch Source
+language;http://purl.org/dc/elements/1.1/;dut/nld;Arch Language
+spatial;http://purl.org/dc/terms/;Spatial Coverage
+temporal;http://purl.org/dc/terms/;XXX;Arch Temporal Coverage
+spatial;http://easy.dans.knaw.nl/easy/easymetadata/eas/;scheme=RD x=1 y=1;scheme=RD north=1 east=1 south=-1 west=-1
+accessRights;http://purl.org/dc/terms/;REQUEST_PERMISSION
+license;http://purl.org/dc/terms/;accept
+rightsHolder;http://purl.org/dc/terms/;The Rights Holder
+audience;http://purl.org/dc/terms/;easy-discipline:2
+remarks;http://easy.dans.knaw.nl/easy/easymetadata/eas/;Arch Remarks

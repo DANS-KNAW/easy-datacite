@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?><mgmData>
+    <createDate>Mon Apr 16 17:12:25 CEST 2007</createDate>
+    
+    
+    
+    
+    <applicationData>
+        <payLoad><surveyedUsers><user>mwans</user><user>milcow</user><user>ableeker</user><user>kwans</user><user>dominiek</user><user>imjvossen</user><user>valentijng</user><user>heiko</user><user>rvhorik</user><user>arjandenbraven1</user><user>npran</user><user>jopbrijker</user><user>hvdengel</user><user>robhoukes</user><user>mvdd</user><user>jjhuisman</user><user>jroes</user><user>ronbakx</user><user>lwebley</user><user>mavdlind</user><user>dmeens</user><user>gerard</user><user>petrosilius</user></surveyedUsers><mgmDataWorkFlow>
+    <workflowContentsPane>
+        <aipId>twips.dans.knaw.nl-2746935872634271488-1176736345530</aipId>
+        <steps>
+            <step checkUser="Milco Wansleeben" name="Ingest (deponering): SIP" timestamp="8-5-2007  12:40:42" workdone="true">
+                <comment/>
+                <action checkUser="" name="controle op compleetheid SIP (files in &quot;original&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op project metadata (qualified Dublin Core, inhoudelijk)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op technische metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op auteursrechtelijk beschermde files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op leesbaarheid files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle op inhoudelijke metadata files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle van het keuzeformulier (voorwaarden) t.b.v. de licentieovereenkomst" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="toepassen specifieke restricties files" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="controle aanlevering teksten (en afbeeldingen) van de &quot;startpagina&quot;" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="Milco Wansleeben" name="Archivering (processing): AIP" timestamp="8-5-2007  12:40:43" workdone="true">
+                <comment/>
+                <action checkUser="" name="conversie files, conform DANS kennisdatabank &quot;data formats&quot; (prefered formats, presentation formats)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="structureren dataset tot een logisch geheel (directories, benaming files)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="terugplaatsen in AIP (bulkimport in &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="(opnieuw) genereren en controleren metadata" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+            <step checkUser="Milco Wansleeben" name="Access (dissemination, presentatie, beschikbaarstelling): DIP" timestamp="8-5-2007  12:40:43" workdone="true">
+                <comment/>
+                <action checkUser="" name="files op &quot;published&quot; zetten (in &quot;original&quot; en/of &quot;processed&quot;)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="opmaken, aanpassen startpagina" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="interne webcontrole DIP (startpagina, browsers, file selecties, downloads, restricties)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="definitieve licentie-overeenkomst controleren en versturen" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="externe controle door depositor (e-mail, ok?)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+                <action checkUser="" name="PR-waardigheid: ja/nee (actie: nieuwsbrief, website, e-mail etc.)" timestamp="" workdone="false">
+                    <comment/>
+                </action>
+            </step>
+        </steps>
+        <assignedCategories>
+            <as_cat_option>
+                <assignedCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignedCategoryId>
+                <assignedCategory>Archaeology</assignedCategory>
+            </as_cat_option>
+        </assignedCategories>
+        <defaultCategories>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8705792611160991161-1167404201786</assignableCategoryId>
+                <assignableCategory>Public administration &amp; political science</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--3877089603410664659-1167404201644</assignableCategoryId>
+                <assignableCategory>Humanities</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2420648360013283155-1167404201658</assignableCategoryId>
+                <assignableCategory>History</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</assignableCategoryId>
+                <assignableCategory>Archaeology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-8678549457098647324-1167404201765</assignableCategoryId>
+                <assignableCategory>Psychology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--560981449881204170-1167404201700</assignableCategoryId>
+                <assignableCategory>Language studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--5348488879454885334-1167404201714</assignableCategoryId>
+                <assignableCategory>Literature studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--1307254666806078241-1167404201797</assignableCategoryId>
+                <assignableCategory>Sociology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-4322691534929405083-1167404201739</assignableCategoryId>
+                <assignableCategory>Social sciences</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-9114271648305385366-1167404201747</assignableCategoryId>
+                <assignableCategory>Economics &amp; business studies</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--6017685496380663529-1167404201757</assignableCategoryId>
+                <assignableCategory>Behavioral science &amp; education</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl-870443823044967258-1167404201676</assignableCategoryId>
+                <assignableCategory>History of art</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--2972209387049654312-1167404201721</assignableCategoryId>
+                <assignableCategory>Theology</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--4141687065604901338-1167404201776</assignableCategoryId>
+                <assignableCategory>Law</assignableCategory>
+            </as_cat_option>
+            <as_cat_option>
+                <assignableCategoryId>twips.dans.knaw.nl--851120861906449362-1167404201730</assignableCategoryId>
+                <assignableCategory>Film, music &amp; theater studies</assignableCategory>
+            </as_cat_option>
+        </defaultCategories>
+    </workflowContentsPane>
+</mgmDataWorkFlow><appHTML> <div>  
+<HR/>                   
+<table border="0" cellpadding="5"> 
+<tr>                  
+<td valign="top" width="100">
+<a href="dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--4753441948834874728-1209470213519">   
+<img alt="logo" border="1" src="/customAIP/twips.dans.knaw.nl-2746935872634271488-1176736345530/hsl_klein.jpg"/></a>
+<img alt="logo" border="1" src="/customAIP/twips.dans.knaw.nl-2746935872634271488-1176736345530/hsl_logo.bmp"/>
+</td>     
+<td>  
+<H3>Rapportages Hoge Snelheidslijn (HSL-Zuid/A16)</H3>  
+<HR/>
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-158007786154379801-1211896672182">Rapportage Archeologische Monumentenzorg 113 - Witte Vlekken Ingekleurd. Archeologie in het tracé van de HSL-Zuid.</a>: <b>Kranendonk, P.; Kroft, P. van der; Lanzing, J.J. &amp; B.H.F.M. Meijlink</b> 2006. <p/>
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8318764917867018760-1174909888847">HSL-Zuid/A16 Interne Rapportages 1</a>: <b>Tichelman, G. &amp; J.J. Lanzing</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 2, Jacobswoude/Hoogmadesche Polder. <p/>  
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--6150994396405638356-1174909889577">HSL-Zuid/A16 Interne Rapportages 2</a>: <b>Thanos, C.S.I.</b> 2004. Aanvullend Archeologisch Inventarisatie in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 14, 'Kijfhoek', gemeente Heerjansdam. Booronderzoek.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-506522168277147119-1174909892562">HSL-Zuid/A16 Interne Rapportages 3</a>: <b>Lohof, E.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 14, 'Kijfhoek', gemeente Heerjansdam. Graafonderzoek.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-5980523531949844649-1174909895548">HSL-Zuid/A16 Interne Rapportages 4</a>: <b>Sier, M.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 15, 'Kleine Lindt-Noord'.<p/>  
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-1027862979565236828-1174909881233">HSL-Zuid/A16 Interne Rapportages 5</a>: <b>Molenaar, S.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 20, Station Lage Zwaluwe, gemeente Zevenbergen.<p/>   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-4558389704170935236-1174909884831">HSL-Zuid/A16 Interne Rapportages 6</a>: <b>Thanos, C.S.I.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, Vindplaats 21, 'Oude Moerdijkse Weg', Zevenbergschen Hoek.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-2406049247257209914-1174909884636">HSL-Zuid/A16 Interne Rapportages 7</a>: <b>Meijlink, B.H.F.M.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 22, 'Zevenbergschen Hoek'.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--492840835306840454-1174909888676">HSL-Zuid/A16 Interne Rapportages 8</a>: <b>Meijlink, B.H.F.M.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 29, 'Effen-Zuid', gemeente Breda.<p/>	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8275195548156817671-1174909888507">HSL-Zuid/A16 Interne Rapportages 9</a>: <b>Anscher, T.J. ten, R.F.B. Isarin, P.F.B. Jongste, P. van der Kroft, J.J.W. de Moor &amp; W.K. van Zijverden</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 33, 'Galder'.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-3969859853130991669-1174909891253">HSL-Zuid/A16 Interne Rapportages 10</a>: <b>Lanzing, J.J.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 36 (Leiderdorp/Munnikkenpolder).<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--3159752832775073260-1174909898531">HSL-Zuid/A16 Interne Rapportages 11</a>: <b>Peters, F.J.C.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 37, Rotterdam, Overschiese Kleiweg.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl--8720015997409246535-1174909896861">HSL-Zuid/A16 Interne Rapportages 12</a>: <b>Thanos, C.S.I.</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 38, 'Develweg', gemeente Heerjansdam Booronderzoek.<p/>  
+	   
+<a href="http://easy.dans.knaw.nl/dms?command=AIP_info&amp;aipId=twips.dans.knaw.nl-8490910445686824224-1174909894201">HSL-Zuid/A16 Interne Rapportages 13</a>: <b>Velde, H.M. van der</b> 2004. Aanvullend Archeologisch Onderzoek in het tracé van de Hogesnelheidslijn-Zuid/A16, vindplaats 38, Heerjansdam-Develweg Graafonderzoek.<p/>  
+</td>
+</tr>
+</table>  
+<HR/>  
+</div>  
+</appHTML></payLoad>
+    <depositor>mwans</depositor></applicationData>
+<lastEdit>Tue Jun 21 21:30:17 CEST 2011</lastEdit><fileActions>
+    <fileAction>
+        <description>Management data created</description>
+        <dateStamp>Mon Apr 16 17:12:25 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:12:25 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:13:12 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:13:38 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:13:55 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:14:16 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:14:26 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:14:29 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Mon Apr 16 17:14:49 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:08:35 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:09:03 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:10:50 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:11:04 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:11:24 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 11:11:25 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Tue May 08 15:18:15 CEST 2007</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Fri Apr 25 14:48:08 CEST 2008</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:15:24 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:15:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:15:37 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:15:52 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:04 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:04 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:22 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:22 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:33 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:34 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:45 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:57 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:16:57 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:21:59 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:22:12 CEST 2009</dateStamp>
+    </fileAction>
+    <fileAction>
+        <description>Metadata update</description>
+        <dateStamp>Wed Apr 01 15:22:12 CEST 2009</dateStamp>
+    </fileAction>
+</fileActions><assignedToCategories>
+    <categoryId>root</categoryId>
+    <categoryId>twips.dans.knaw.nl--5889743577094153589-1167753019366</categoryId>
+    <categoryId>twips.dans.knaw.nl-6592139428738467602-1167404201686</categoryId>
+</assignedToCategories><mirrors/></mgmData>

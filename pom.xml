@@ -60,5 +60,14 @@
         <module>lib-component/dmo-collections</module>
         <module>lib-component/store</module>
         
+        <!-- Tools -->
+        <module>tool/easy-ebiu</module>
+        <module>tool/easy-pakbon-preprocess</module>
+        <module>tool/process-sip</module>
+        <module>tool/task-assign-datasets-to-collections</module>
+        <module>tool/task-compute-checksums</module>
+        <module>tool/task-dump-metadata</module>
+        <module>tool/task-easy-export</module>
+        
     </modules>
 </project>
