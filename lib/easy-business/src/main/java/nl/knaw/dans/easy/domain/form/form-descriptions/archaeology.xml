@@ -813,7 +813,9 @@
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
+						<!-- EASY-933 Temporary removed from deposit because it doesn't work
 						<ref-panelId>archis2.edit</ref-panelId>
+						 -->
 					</panels>
 				</formPage>
 				<formPage>
