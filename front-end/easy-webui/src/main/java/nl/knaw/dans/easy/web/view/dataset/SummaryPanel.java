@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
@@ -77,8 +78,10 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
 
     private static final String BIBLIO = "bibliography";
 
+    private static final String EXT_DOI_LINK = "external-DOI-link";
+
     public SummaryPanel(String wicketId, Dataset dataset) {
-        super(wicketId);
+        super(wicketId, new Model(dataset));
         emd = dataset.getEasyMetadata();
         init();
     }

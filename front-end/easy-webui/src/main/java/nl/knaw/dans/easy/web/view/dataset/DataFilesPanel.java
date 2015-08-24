@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.view.dataset;
 import java.io.Serializable;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.easy.data.Data;
@@ -20,7 +21,10 @@ import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.permission.PermissionRequestPage;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -93,12 +97,23 @@ public class DataFilesPanel extends AbstractDatasetModelPanel {
         add(createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED + ".button", dataset));
         add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_EMBARGO));
         add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_GROUP));
-        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_OTHER));
         add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_NO_FILES));
         add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_DEPOSITOR));
         add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_DEPOSITOR_DRAFT));
 
         add(new FileExplorer("fe", datasetModel).setVisible(showFileExplorer));
+
+        final boolean hasOtherAccessdDoi = !StringUtils.isBlank(getDataset().getEasyMetadata().getEmdIdentifier().getOtherAccessDoi());
+
+        final Label otherAccessLabel = new Label(AbstractDatasetAutzStrategy.MSG_OTHER, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_OTHER,
+                datasetModel));
+        add(otherAccessLabel);
+        otherAccessLabel.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_OTHER, messages) & !hasOtherAccessdDoi);
+
+        final ExternalDOILinkPanel externalDOILinkPanel = new ExternalDOILinkPanel("explorer.message.other-access-doi", new Model<EasyMetadata>(
+                dataset.getEasyMetadata()));
+        add(externalDOILinkPanel);
+        externalDOILinkPanel.setVisible(!AccessCategory.isAccessible(dataset.getAccessCategory()) & hasOtherAccessdDoi);
     }
 
     private Label createMessageLabel(final IModel<? extends Object> model, final List<AuthzMessage> messages, final String wicketId) {

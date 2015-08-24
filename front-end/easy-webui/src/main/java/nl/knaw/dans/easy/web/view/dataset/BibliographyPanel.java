@@ -6,6 +6,7 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -18,6 +19,7 @@ public class BibliographyPanel extends AbstractEasyPanel<EasyMetadata> {
     public static final String NAME_LABEL = "authorName";
     public static final String DATE_LABEL = "publicationDate";
     public static final String TITLE_LABEL = "title";
+    public static final String MANAGING_ORG_LABEL = "managingOrganisation";
     public static final String URL_LABEL = "url";
 
     public static final String SEPARATOR = "; ";
@@ -36,14 +38,21 @@ public class BibliographyPanel extends AbstractEasyPanel<EasyMetadata> {
         String titleStr = getTitle(emd);
         add(new Label(TITLE_LABEL, titleStr).add(new SimpleAttributeModifier("title", titleStr)));
 
-        // URL
-        String doi = emd.getEmdIdentifier().getDansManagedDoi();
+        String managingOrganisation = "";
+        String doi = emd.getEmdIdentifier().getOtherAccessDoi();
+        final boolean hasOtherAccessdDoi = !isBlank(doi);
+        if (!hasOtherAccessdDoi) {
+            doi = emd.getEmdIdentifier().getDansManagedDoi();
+            managingOrganisation = "DANS.";
+        }
         String pid = emd.getEmdIdentifier().getPersistentIdentifier();
         if (!isBlank(doi)) {
             add(new Label(URL_LABEL, EmdConstants.DOI_RESOLVER + "/" + doi));
         } else {
             add(new Label(URL_LABEL, EmdConstants.BRI_RESOLVER + "?identifier=" + pid));
         }
+
+        add(new Label(MANAGING_ORG_LABEL, managingOrganisation).setVisible(!hasOtherAccessdDoi));
     }
 
     private String getDate(EasyMetadata emd) {
