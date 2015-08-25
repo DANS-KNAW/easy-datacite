@@ -151,4 +151,13 @@ public class EmdIdentifier extends AbstractEmdContainer {
         }
         return doi;
     }
+
+    public String getOtherAccessDoi() {
+        String doi = null;
+        BasicIdentifier bi = getIdentifier(EmdConstants.SCHEME_DOI_OTHER_ACCESS);
+        if (bi != null) {
+            doi = bi.getValue();
+        }
+        return doi;
+    }
 }

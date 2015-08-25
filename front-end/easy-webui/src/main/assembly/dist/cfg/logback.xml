@@ -1,101 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="3 minutes">
-	<property name="LOGDIR" value="/var/log/easy-webui" />
+    <property name="LOGDIR" value="/var/log/easy-webui" />
 
-	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
-	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<Pattern>%highlight(%-5level [%thread]: %msg) %n</Pattern>
-		</encoder>
-	</appender>
-	
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<Pattern>%-5level [%thread]: %msg %n</Pattern>
-		</encoder>
-	</appender>	
+    <!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
+    <appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%highlight(%-5level [%thread]: %msg) %n</Pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%-5level [%thread]: %msg %n</Pattern>
+        </encoder>
+    </appender>    
 
-	<appender name="STATISTICS_ROLLING_FILE_LOG"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGDIR}/statistics.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>${LOGDIR}/statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
+    <appender name="STATISTICS_ROLLING_FILE_LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGDIR}/statistics.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGDIR}/statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
 
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
 
-		<encoder>
-			<pattern>%d - %m%n</pattern>
-		</encoder>
-	</appender>
+        <encoder>
+            <pattern>%d - %m%n</pattern>
+        </encoder>
+    </appender>
 
-	<appender name="SERVICE_PROFILING__ROLLING_FILE_LOG"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGDIR}/service-profiling.csv</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>${LOGDIR}/service-profiling.%d{yyyy-MM-dd}.csv
-			</fileNamePattern>
+    <appender name="SERVICE_PROFILING__ROLLING_FILE_LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGDIR}/service-profiling.csv</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGDIR}/service-profiling.%d{yyyy-MM-dd}.csv
+            </fileNamePattern>
 
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
 
-		<encoder>
-			<pattern>%d - %m%n</pattern>
-		</encoder>
-	</appender>
+        <encoder>
+            <pattern>%d - %m%n</pattern>
+        </encoder>
+    </appender>
 
-	<appender name="EASY_LOG"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGDIR}/easy-webui.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>${LOGDIR}/easy-webui.%d{yyyy-MM-dd}.log</fileNamePattern>
+    <appender name="EASY_LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGDIR}/easy-webui.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGDIR}/easy-webui.%d{yyyy-MM-dd}.log</fileNamePattern>
 
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>%p %d [%t] - %m%n</pattern>
-		</encoder>
-	</appender>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%p %d [%t] - %m%n</pattern>
+        </encoder>
+    </appender>
 
-	<appender name="EASY_ERROR_LOG"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>ERROR</level>
-		</filter>
-		<file>${LOGDIR}/easy-webui-error.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- daily rollover -->
-			<fileNamePattern>${LOGDIR}/easy-webui-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+    <appender name="EASY_ERROR_LOG"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${LOGDIR}/easy-webui-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOGDIR}/easy-webui-error.%d{yyyy-MM-dd}.log</fileNamePattern>
 
-			<!-- keep 30 days' worth of history -->
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>%p %d [%t] - %m%n</pattern>
-		</encoder>
-	</appender>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%p %d [%t] - %m%n</pattern>
+        </encoder>
+    </appender>
 
-	<root level="warn">
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="EASY_LOG" />
-	</root>
+    <root level="warn">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="EASY_LOG" />
+    </root>
 
-	<logger name="nl.knaw.dans" level="info" />
+    <logger name="nl.knaw.dans" level="info" />
 
-	<logger name="nl.knaw.dans.easy.business.aspect.ServiceProfiling"
-		level="info" additiviy="false">
-		<appender-ref ref="SERVICE_PROFILING_ROLLING_FILE_LOG" />
-	</logger>
+    <logger name="nl.knaw.dans.easy.business.aspect.ServiceProfiling"
+        level="off" additiviy="false">
+        <appender-ref ref="SERVICE_PROFILING_ROLLING_FILE_LOG" />
+    </logger>
 
-	<logger name="statistics" level="info" additivity="false">
-		<appender-ref ref="STATISTICS_ROLLING_FILE_LOG" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
+    <logger name="statistics" level="info" additivity="false">
+        <appender-ref ref="STATISTICS_ROLLING_FILE_LOG" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
 
+    <logger name="org.apache.wicket.markup.html.internal.InlineEnclosure" level="off" />
+    <logger name="org.apache.wicket.Localizer" level="off" />
+    <logger name="org.apache.wicket.markup.parser.TagAttributes" level="off" /> 
 </configuration>

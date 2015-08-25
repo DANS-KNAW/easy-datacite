@@ -68,6 +68,7 @@ public final class EmdConstants {
      * is used for DOI's managed by DANS only (prefix 10.17026), and NOT for externally provided DOI's
      */
     public static final String SCHEME_DOI = "DOI";
+    public static final String SCHEME_DOI_OTHER_ACCESS = "DOI_OTHER_ACCESS";
     public static final String DOI_RESOLVER = "http://dx.doi.org";
 
     /**
