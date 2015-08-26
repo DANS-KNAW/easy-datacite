@@ -280,7 +280,8 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             throws ServiceException, DataIntegrityException
     {
         try {
-            dataciteService.create(dataset.getEasyMetadata());
+            if (dataset.getEasyMetadata().getEmdIdentifier().getOtherAccessDoi() == null)
+                dataciteService.create(dataset.getEasyMetadata());
         }
         catch (DataciteServiceException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -328,7 +329,8 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             throws ServiceException, DataIntegrityException
     {
         try {
-            dataciteService.update(dataset.getEasyMetadata());
+            if (dataset.getEasyMetadata().getEmdIdentifier().getOtherAccessDoi() == null)
+                dataciteService.update(dataset.getEasyMetadata());
         }
         catch (DataciteServiceException e) {
             throw new ServiceException(e.getMessage(), e);
