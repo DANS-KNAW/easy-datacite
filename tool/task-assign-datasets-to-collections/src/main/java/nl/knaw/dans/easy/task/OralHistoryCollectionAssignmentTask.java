@@ -49,7 +49,7 @@ public class OralHistoryCollectionAssignmentTask extends AbstractCollectionAssig
         List<BasicString> subjects = emd.getEmdSubject().getDcSubject();
         for (BasicString bs : subjects) {
             String value = bs.getValue();
-            if (SUBJECT_ORAL_HISTORY.equalsIgnoreCase(value)) {
+            if (value != null && value.toLowerCase().startsWith(SUBJECT_ORAL_HISTORY)) {
                 return true;
             }
         }
