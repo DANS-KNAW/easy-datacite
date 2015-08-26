@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-app</artifactId>
-    <version>2.12-beta-4</version>
+    <version>2.x-SNAPSHOT</version>
     <name>EASY Applications Master Build</name>
     <packaging>pom</packaging>
     <scm>
         <developerConnection>scm:git:ssh://gerrit.dans.knaw.nl:29418/service/easy/easy-app.git</developerConnection>
-        <tag>v2.12-beta-4</tag>
+        <tag>HEAD</tag>
     </scm>
     <build>
         <plugins>
