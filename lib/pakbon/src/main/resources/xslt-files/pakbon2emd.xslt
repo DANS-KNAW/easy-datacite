@@ -456,7 +456,7 @@
       <emd:rights>
 
         <!-- default toegangscategorie -->
-        <dcterms:accessRights eas:scheme="" eas:schemeId="common.dcterms.accessrights">GROUP_ACCESS</dcterms:accessRights>
+        <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">GROUP_ACCESS</dcterms:accessRights>
 
         <!-- license agreements accepted -->
         <dcterms:license eas:scheme="EASY version 1">accept</dcterms:license>

@@ -1,0 +1,86 @@
+#!/bin/sh
+
+SCRIPT_LOCATION=$(cd $(dirname $0)/..; pwd)
+
+if [[ -z $EASY_EXPORT_HOME ]]
+then
+    # no home variable was set, default to SCRIPT_LOCATION
+    export EASY_EXPORT_HOME=$SCRIPT_LOCATION
+fi
+
+if [ $# -eq 0 ]
+then
+  echo "
+  arguments:
+
+    required: <IDs>
+    optional: <folder>
+              -Deasy.host=localhost
+              -Dlogback.configurationFile=<logConfig>
+    Note: the presence of any JVM argument (-D...) makes <folder> mandatory
+    <IDs>       is a string or a file (extension irrelevant) with datasetIDs to export
+                ID's should be separated by whitespace and/or a colon ','
+    <folder>    default:" ~/easy-export "
+    <logConfig> default: $(cd $(dirname $(dirname $0))/..; pwd)/cfg/logback.xml
+                drop <appender-ref ref='STDOUT' /> in your own version
+                if you want to rely on the central logging
+    
+  command examples:
+
+    for few datasets and the default export folder
+
+      $(basename $0) 'easy-dataset:1 easy-dataset:2'
+
+    for many datasets (ids in the file 'ids.txt'),
+    an explicit export folder (exports),
+    output collected in a log file (> export.log)
+    execution in the background (by the &)
+
+      $(basename $0) ids.txt exports > export.log &
+
+  example <IDs> file:
+  
+    easy-dataset:1, easy-dataset:2 easy-dataset:3
+    easy-dataset:4
+    easy-dataset:5
+"
+    exit 1
+fi
+
+if [ -f $1 ]
+then
+    N=$(cd $(dirname $1); pwd)/$(basename $1)
+else
+    N=$1
+fi
+
+if [ $# -eq 1 ]
+then
+    H=~/easy-export
+    JVM_ARGS="-Ddataset.ids=$N -Dexport.folder=$H"
+else
+    H=$(cd $(dirname $2); pwd)/$(basename $2)
+    JVM_ARGS="-Ddataset.ids=$N -Dexport.folder=$H ${*:3}"
+fi
+
+if [ -e $H ]
+then
+    echo $H exists, please choose a directory that does not yet exist
+    exit 1
+fi
+
+# execute
+#
+# command line arguments are passed on as JVM arguments
+# that allows to override and/or extend application.properties
+# for example -Deasy.host=evm or -Deasy.host=localhost
+#
+# optional after the .jar: alternative for application-context.xml
+# create a run script for each delivered alternative
+
+pushd $SCRIPT_LOCATION/bin
+java -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener \
+     -Dlogback.configurationFile=$EASY_EXPORT_HOME/cfg/logback.xml \
+     $JVM_ARGS \
+     -jar $SCRIPT_LOCATION/bin/task-easy-export.jar 
+popd
