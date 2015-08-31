@@ -68,6 +68,7 @@ case class FedoraObjectProcessor(objectIds: String = "easy-dataset:*",
     val query: String = s"$fedoraBaseUrl/objects?resultFormat=xml&$params"
     log.info(query)
     val result = Http(query)
+      .timeout(connTimeoutMs = 15000, readTimeoutMs = 180000)
       .header("Content-Type", "application/xml")
       .header("Charset", "UTF-8").asString
     if (result.isSuccess) {

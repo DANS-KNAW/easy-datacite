@@ -123,7 +123,7 @@ case class NiceFedoraRestApi(baseUrl: String, user: String, password: String, re
       dontHurry()
       val url: String = s"$baseUrl/$query"
       val result = Http(url)
-        .timeout(connTimeoutMs = 5000, readTimeoutMs = 180000)
+        .timeout(connTimeoutMs = 15000, readTimeoutMs = 180000)
         .method("PUT")
         .auth(user, password).asString
       lastResponseCompletion = LocalDateTime.now
@@ -140,7 +140,7 @@ case class NiceFedoraRestApi(baseUrl: String, user: String, password: String, re
 			  dontHurry()
 			  val url: String = s"$baseUrl/$query"
 			  val result = Http(url)
-			  .timeout(connTimeoutMs = 5000, readTimeoutMs = 180000)
+			  .timeout(connTimeoutMs = 15000, readTimeoutMs = 180000)
 			  .method("GET")
 			  .auth(user, password)
 			  .header("Content-Type", "text/xml") // fedora needs to have 'text/xml' for the xml datastreams !
