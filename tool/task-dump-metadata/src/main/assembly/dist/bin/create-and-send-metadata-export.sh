@@ -37,6 +37,7 @@ else
 fi
 
 check_set "$ERROR_MAIL_RECIPIENT" "ERROR_MAIL_RECIPIENT"
+check_set "$TARGET_URL" "TARGET_URL"
 ############ END: GENERIC REPORTING PART ##############
 
 echo "Recreating metadata-export directory: $METADATA_EXPORT_DIR ..."
@@ -53,10 +54,7 @@ nice tar -czvf $ZIPPED_EXPORT *
 check_errs $? "Failed to zip metadata export"
 popd
 
-check_set "$KEY_FOR_TARGET_SERVER" "KEY_FOR_TARGET_SERVER"
-check_set "$TARGET_URL" "TARGET_URL"
-
-scp -i $KEY_FOR_TARGET_SERVER $ZIPPED_EXPORT $TARGET_URL
+scp $ZIPPED_EXPORT $TARGET_URL
 check_errs $? "Failed to copy zipped metadata export to talfalab01 server"
 
 rm $ZIPPED_EXPORT
