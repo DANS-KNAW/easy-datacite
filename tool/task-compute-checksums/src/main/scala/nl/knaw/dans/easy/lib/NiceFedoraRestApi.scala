@@ -127,8 +127,10 @@ case class NiceFedoraRestApi(baseUrl: String, user: String, password: String, re
         .method("PUT")
         .auth(user, password).asString
       lastResponseCompletion = LocalDateTime.now
-      if (result.code != 200)
-        Failure(new scala.Exception(s"$url : HTTP-result code=${result.code} body: ${result.body}"))
+      if (result.code != 200) {
+        if (result.code == 404) Failure(new scala.Exception(s"OBJECT NOT FOUND: $url"))
+        else Failure(new scala.Exception(s"$url : HTTP-result code=${result.code} body: ${result.body}"))
+      }
       else
         Success(result.body)
     }

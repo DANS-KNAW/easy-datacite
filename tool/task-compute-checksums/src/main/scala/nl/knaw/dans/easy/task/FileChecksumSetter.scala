@@ -25,8 +25,8 @@ class FileChecksumSetter(logger: Logger,
       if (!skipObjIds.contains(fields(1))) {
         setChecksum(fields(0), fields(1), fields(2)) match {
           case Failure(e) =>
-            logger.error(e.getMessage)
-            return
+            logger.warn(e.getMessage)
+            if(!e.getMessage.startsWith("OBJECT NOT FOUND")) return
           case Success(_) =>
         }
       } else {
