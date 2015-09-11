@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /etc/profile.d/task-dump-metadata.sh
+
 DATE=`date +%Y-%m-%d`
 ZIPPED_EXPORT="$EASY_TASK_DUMP_METADATA_HOME/tmp/metadata-export-$DATE.tgz"
 METADATA_EXPORT_DIR="$EASY_TASK_DUMP_METADATA_HOME/tmp/output"
