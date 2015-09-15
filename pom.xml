@@ -70,6 +70,7 @@
         <module>tool/task-compute-checksums</module>
         <module>tool/task-dump-metadata</module>
         <module>tool/task-datastream-cleanup</module>
+        <module>tool/task-change-depositor</module>
         <module>tool/task-easy-export</module>
         
     </modules>
