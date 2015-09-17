@@ -21,7 +21,7 @@ buildNumber.properties
 
 #### Scala
 
-.cache
+.cache*
 .tmpBin/
 .worksheet/
 *.sc
