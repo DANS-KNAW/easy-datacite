@@ -1,210 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<artifactId>easy-prototype</artifactId>
-		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../lib/easy-prototype</relativePath>
-	</parent>
-	<artifactId>easy-webui</artifactId>
-	<name>EASY Web-UI Application</name>
-	<packaging>war</packaging>
-	<description>Easy Web user interface application</description>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>nl.knaw.dans.easy</groupId>
+        <artifactId>easy-prototype</artifactId>
+        <version>2.x-SNAPSHOT</version>
+        <relativePath>../../lib/easy-prototype</relativePath>
+    </parent>
+    <artifactId>easy-webui</artifactId>
+    <name>EASY Web-UI Application</name>
+    <packaging>war</packaging>
+    <description>Easy Web user interface application</description>
     <properties>
         <logdriver.version>1.0</logdriver.version>
     </properties>
-	<dependencies>
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>easy-business</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>dans-wicket</artifactId>
-			<exclusions>
-				<!-- Slf4j 1.5.0 is a dependency of wicket 1.4.12, but we need Slf4j 
-					1.6.4 for solr -->
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>servlet-api</artifactId>
-					<groupId>javax.servlet</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>easy-business</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>dans-wicket</artifactId>
+            <exclusions>
+                <!-- Slf4j 1.5.0 is a dependency of wicket 1.4.12, but we need Slf4j 
+                    1.6.4 for solr -->
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<!-- This is an end-application, so it should declare a slf4j-binding -->
-		<!-- Dependency on logback-classic binding for slf4j -->
-		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
-		<!-- -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<!-- Normally the scope would be runtime, but we have compile-time dependencies 
-				from code that loads the logback configuration. -->
-			<scope>compile</scope>
-		</dependency>
-		<!-- -->
+        <!-- This is an end-application, so it should declare a slf4j-binding -->
+        <!-- Dependency on logback-classic binding for slf4j -->
+        <!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
+        <!-- -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <!-- Normally the scope would be runtime, but we have compile-time dependencies 
+                from code that loads the logback configuration. -->
+            <scope>compile</scope>
+        </dependency>
+        <!-- -->
 
-		<!-- Dependencies on Repositories and other Data Access Points -->
-		<!-- REMINDER: these dependencies are only here so that Spring can instantiate 
-			and inject these dependencies! -->
-		<!-- There should never be a dependency on these projects from the code 
-			body! -->
-		<!-- TEST: comment out these dependencies and the project should still 
-			compile. -->
-		<!-- (It would be better if we could do this in a different way) -->
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>easy-ldap</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>easy-fedora</artifactId>
-		</dependency>
+        <!-- Dependencies on Repositories and other Data Access Points -->
+        <!-- REMINDER: these dependencies are only here so that Spring can instantiate 
+            and inject these dependencies! -->
+        <!-- There should never be a dependency on these projects from the code 
+            body! -->
+        <!-- TEST: comment out these dependencies and the project should still 
+            compile. -->
+        <!-- (It would be better if we could do this in a different way) -->
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>easy-ldap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>easy-fedora</artifactId>
+        </dependency>
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>dans-fedora</artifactId>
         </dependency>
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>dans-solr</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-management</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-naming</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-spring</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-plus</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>nl.knaw.dans.easy</groupId>
-			<artifactId>pakbon</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>2.5</version>
-		</dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>dans-solr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-management</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-naming</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>pakbon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>2.5</version>
+        </dependency>
         <dependency>
             <groupId>net.rkbloom.logdriver</groupId>
             <artifactId>logdriver</artifactId>
             <version>${logdriver.version}</version>
             <scope>test</scope>
         </dependency>
-	</dependencies>
-	<build>
-		<finalName>easy-webui</finalName>
-		<resources>
-			<resource>
-				<filtering>true</filtering>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>conf/app/**/*.*</include>
-					<include>version.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>conf/dataset/**/*.*</include>
-					<include>conf/*.*</include>
-					<include>logback.xml</include>
-					<include>applicationContext.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.html</include>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-					<include>**/*.pdf</include>
-					<include>**/*.*</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>**/package.html</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<!-- Exclude almost everything, until the Web-UI has been cleaned up 
-						and doesn't result in an enormous web of related classes anymore -->
-					<excludePackageNames>nl.knaw.dans.easy.web.*</excludePackageNames>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+    <build>
+        <finalName>easy-webui</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>conf/app/**/*.*</include>
+                    <include>version.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>conf/dataset/**/*.*</include>
+                    <include>conf/*.*</include>
+                    <include>logback.xml</include>
+                    <include>applicationContext.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.html</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.pdf</include>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/package.html</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                     <failOnError>false</failOnError>
+                    <!-- Exclude almost everything, until the Web-UI has been cleaned up 
+                        and doesn't result in an enormous web of related classes anymore -->
+                    <excludePackageNames>nl.knaw.dans.easy.web.*</excludePackageNames>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
