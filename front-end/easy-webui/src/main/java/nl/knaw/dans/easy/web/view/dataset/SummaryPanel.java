@@ -89,8 +89,11 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
     private void init() {
         String dateCreated = getDateCreated();
         EmdIdentifier emdIdentifier = emd.getEmdIdentifier();
-        String doi = emdIdentifier.getDansManagedDoi();
         String pid = emdIdentifier.getPersistentIdentifier();
+        String doi = emdIdentifier.getDansManagedDoi();
+        if (isBlank(doi)) {
+            doi = emdIdentifier.getOtherAccessDoi();
+        }
 
         add(new Label(CREATOR, getCreators()));
         add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
@@ -100,7 +103,8 @@ public class SummaryPanel extends AbstractEasyPanel<Object> {
         } else {
             add(finishLink(PID_LABEL, pid, createPidLink(PID_LINK, pid)));
         }
-        if (emdIdentifier != null && (emdIdentifier.getPersistentIdentifier() != null || emdIdentifier.getDansManagedDoi() != null))
+
+        if (!isBlank(doi) || !isBlank(pid))
             add(new BibliographyPanel(BIBLIO, new Model<EasyMetadata>(emd)));
         else
             add(new Label(BIBLIO, getString("bibliography.draft")));

@@ -40,8 +40,8 @@ public class BibliographyPanel extends AbstractEasyPanel<EasyMetadata> {
 
         String managingOrganisation = "";
         String doi = emd.getEmdIdentifier().getOtherAccessDoi();
-        final boolean hasOtherAccessdDoi = !isBlank(doi);
-        if (!hasOtherAccessdDoi) {
+        final boolean hasOtherAccessDoi = !isBlank(doi);
+        if (!hasOtherAccessDoi) {
             doi = emd.getEmdIdentifier().getDansManagedDoi();
             managingOrganisation = "DANS.";
         }
@@ -52,7 +52,7 @@ public class BibliographyPanel extends AbstractEasyPanel<EasyMetadata> {
             add(new Label(URL_LABEL, EmdConstants.BRI_RESOLVER + "?identifier=" + pid));
         }
 
-        add(new Label(MANAGING_ORG_LABEL, managingOrganisation).setVisible(!hasOtherAccessdDoi));
+        add(new Label(MANAGING_ORG_LABEL, managingOrganisation).setVisible(!hasOtherAccessDoi));
     }
 
     private String getDate(EasyMetadata emd) {
