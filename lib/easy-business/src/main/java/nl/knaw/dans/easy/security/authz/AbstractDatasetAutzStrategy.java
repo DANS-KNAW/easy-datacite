@@ -391,15 +391,16 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
 
     private boolean loginNeeded() {
 
-        return easyUser.isAnonymous() && (containsNonAnonymousAccessFiles() || containsNonAnonymousVisibilityFiles());
+        return easyUser.isAnonymous() && (containsNonAnonymousAccessibleFiles() || containsNonAnonymousVisibileFiles());
     }
 
-    private boolean containsNonAnonymousAccessFiles() {
+    private boolean containsNonAnonymousAccessibleFiles() {
 
         try {
             Set<AccessibleTo> accessibleToValues = Data.getFileStoreAccess().getItemVoAccessibilities(
                     Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
             accessibleToValues.remove(AccessibleTo.ANONYMOUS);
+            accessibleToValues.remove(AccessibleTo.NONE);
             return !accessibleToValues.isEmpty();
         }
         catch (StoreAccessException e) {
@@ -409,11 +410,12 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy {
         return false;
     }
 
-    private boolean containsNonAnonymousVisibilityFiles() {
+    private boolean containsNonAnonymousVisibileFiles() {
 
         try {
             Set<VisibleTo> visibleToValues = Data.getFileStoreAccess().getItemVoVisibilities(Data.getFileStoreAccess().getRootFolder(dataset.getDmoStoreId()));
             visibleToValues.remove(VisibleTo.ANONYMOUS);
+            visibleToValues.remove(VisibleTo.NONE);
             return !visibleToValues.isEmpty();
         }
         catch (StoreAccessException e) {
