@@ -1,4 +1,5 @@
 #!/bin/bash
+#chkconfig: 2345 88 12
 #
 # easy-pid-generator
 #
