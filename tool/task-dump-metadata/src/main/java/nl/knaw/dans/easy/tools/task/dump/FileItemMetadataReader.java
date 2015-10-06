@@ -131,7 +131,7 @@ public class FileItemMetadataReader {
 
     private FileItemMetadataPrinter createFileItemMetadataPrinter(final String filePid) throws ReaderException {
         try {
-            return new FileItemMetadataPrinter(findFileMetaData(filePid), findFileData(filePid), includeFilePids, includeFileSha1Hash, includeMimeType);
+            return new FileItemMetadataPrinter(stripNamespace(filePid), findFileMetaData(filePid), findFileData(filePid), includeFilePids, includeFileSha1Hash, includeMimeType);
         }
         catch (final NoSuchAlgorithmException e) {
             throw new ReaderException(e, "Could not calculate hash for file.  Algorithm not supported: '%s'", e.getMessage());

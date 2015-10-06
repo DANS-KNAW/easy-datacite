@@ -19,10 +19,12 @@ public class FileItemMetadataPrinter {
     private String hash;
     private final boolean includePid;
     private final boolean includeMimeType;
+    private final String filePid;
 
-    public FileItemMetadataPrinter(FileItemMetadata metadata, URL data, boolean includePid, boolean includeSha1Hash, boolean includeMimeType)
+    public FileItemMetadataPrinter(String filePid, FileItemMetadata metadata, URL data, boolean includePid, boolean includeSha1Hash, boolean includeMimeType)
             throws NoSuchAlgorithmException, IOException
     {
+        this.filePid = filePid;
         this.metadata = metadata;
         if (includeSha1Hash) {
             this.hash = calculateSha1Hash(data);
@@ -59,7 +61,8 @@ public class FileItemMetadataPrinter {
     public String toString() {
         try {
             // @formatter:off
-        return  (includeMimeType ? property("mimeType", metadata.getMimeType()) : "")
+        return  (includePid ? property("PID", filePid) : "")
+                + (includeMimeType ? property("mimeType", metadata.getMimeType()) : "")
                 + property("size", Long.toString(metadata.getSize())) 
                 + property("name", metadata.getName()) 
                 + property("path", metadata.getPath())

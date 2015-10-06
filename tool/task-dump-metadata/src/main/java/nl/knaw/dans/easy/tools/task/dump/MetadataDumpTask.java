@@ -59,7 +59,7 @@ public class MetadataDumpTask extends AbstractTask {
     private boolean dumpDcDataStream = false;
     private boolean useAipIdForOutputFileNames = true;
     private boolean includeDatasetPid = false;
-    private boolean includeFilePids = false;
+    private boolean includeFilePids = true;
     private boolean includeFileSha1Hash = true;
     private boolean includeMimeType = true;
     private boolean includePermissionSequences = true;
