@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title>fabeltjeskrant</dc:title>
+    </emd:title>
+    <emd:creator>
+        <eas:creator>
+            <eas:title>dr.</eas:title>
+            <eas:initials>A</eas:initials>
+            <eas:prefix>v.d</eas:prefix>
+            <eas:surname>Coen</eas:surname>
+            <eas:organization>KNAW</eas:organization>
+            <eas:entityId eas:scheme="DAI">93313935x</eas:entityId>
+        </eas:creator>
+        <eas:creator>
+            <eas:organization>DANS</eas:organization>
+            <eas:entityId/>
+        </eas:creator>
+        <eas:creator>
+            <eas:title>MSc.</eas:title>
+            <eas:initials>E</eas:initials>
+            <eas:surname>Ind</eas:surname>
+            <eas:entityId eas:scheme="DAI">13313935x</eas:entityId>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject/>
+    <emd:description>
+        <dc:description>tv serie</dc:description>
+    </emd:description>
+    <emd:publisher/>
+    <emd:contributor/>
+    <emd:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2015-10-20T00:00:00.000+02:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2015-10-20T00:00:00.000+02:00</eas:available>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2015-10-20T12:49:18.983+02:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
+    </emd:type>
+    <emd:format/>
+    <emd:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-xi8e-7b</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-2cz-jv4n</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:386510</dc:identifier>
+    </emd:identifier>
+    <emd:source/>
+    <emd:language/>
+    <emd:relation/>
+    <emd:coverage/>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="archaeology.dcterms.accessrights">OPEN_ACCESS</dct:accessRights>
+        <dct:license>accept</dct:license>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:2</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+            <eas:pakbon-status>NOT_IMPORTED</eas:pakbon-status>
+        </eas:application-specific>
+        <eas:etc/>
+    </emd:other>
+</emd:easymetadata>
