@@ -37,6 +37,7 @@ import static nl.knaw.dans.pf.language.emd.types.EmdConstants.*;
 import nl.knaw.dans.pf.language.xml.exc.XMLException;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 public class DatasetWorkDispatcher {
 
@@ -213,7 +214,8 @@ public class DatasetWorkDispatcher {
     }
 
     public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException {
-        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
+        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId())
+                                                 , unitMetadata.getCreationDate().toDateTime(DateTimeZone.UTC));
         return url;
     }
 
