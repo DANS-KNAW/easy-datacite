@@ -61,7 +61,7 @@
         <dependency>
 			<groupId>nl.knaw.dans.libs</groupId>
 			<artifactId>wicket-leaflet-lib</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0-beta-1</version>
 		</dependency>
         
 	</dependencies>
