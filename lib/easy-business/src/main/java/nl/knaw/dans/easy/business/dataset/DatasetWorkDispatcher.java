@@ -214,8 +214,8 @@ public class DatasetWorkDispatcher {
     }
 
     public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException {
-        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId())
-                                                 , unitMetadata.getCreationDate().toDateTime(DateTimeZone.UTC));
+        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()),
+                unitMetadata.getCreationDate().toDateTime(DateTimeZone.UTC));
         return url;
     }
 
