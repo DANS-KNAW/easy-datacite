@@ -31,9 +31,6 @@
         <module>front-end/easy-rest</module>
         <module>front-end/easy-proai</module>
 
-        <!-- Back-end setup and config files -->
-        <module>back-end/easy-pid-generator</module>
-
         <!-- Libraries -->
         <module>lib/dans-solr</module>
         <module>lib/dans-wicket</module>

@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.knaw.dans.shared</groupId>
-        <artifactId>dans-prototype</artifactId>
-        <version>1.14</version>
+        <artifactId>dans-java-prototype</artifactId>
+        <version>1.15</version>
     </parent>
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-prototype</artifactId>
