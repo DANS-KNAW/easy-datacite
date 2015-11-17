@@ -60,14 +60,14 @@ public class SearchHitsMapViewPanel extends SearchPanel {
 
             @Override
             public void addMarkers(List<Marker> markers, AjaxRequestTarget target) {
+                int numHits = getSearchResult().getHits().size();
                 String msg = "";
                 if (markers.size() >= MAX_NUM_MARKERS) {
                     markers.subList(MAX_NUM_MARKERS, markers.size()).clear();
-                    msg = String.format("Showing the first %d locations, please reduce the results to see them on the map", MAX_NUM_MARKERS);
-                } else if (markers.size() == 1) {
-                    msg = "1 result has a location presented on the map";
+                    msg = String.format("Showing the first %d locations of %d results, please reduce the results to see them on the map", MAX_NUM_MARKERS,
+                            numHits);
                 } else {
-                    msg = String.format("%d results have a location presented on the map", markers.size());
+                    msg = String.format("%d of %d results have a location presented on the map", markers.size(), numHits);
                 }
                 super.addMarkers(markers, target);
 
@@ -89,6 +89,8 @@ public class SearchHitsMapViewPanel extends SearchPanel {
             @SuppressWarnings("unchecked")
             final DatasetSB datasetSB = ((SimpleSearchHit<DatasetSB>) hit).getData();
             LOGGER.debug("sid: {} coverage: {}", datasetSB.getStoreId(), datasetSB.getDcCoverage());
+            // Note that it would be faster if the extracted locations where indexed at dataset ingestion,
+            // so it could be retrieved from the datasetSB without string parsing and calculations.
             LonLat lonlat = LocationExtractor.getLocation(datasetSB.getDcCoverage());
             if (lonlat != null) {
                 if (loc.size() < MAX_NUM_MARKERS) {
@@ -107,21 +109,27 @@ public class SearchHitsMapViewPanel extends SearchPanel {
         // escape the string for html (but keep the whitespaces for correct wrapping)
         title = Strings.escapeMarkup(title, false, true).toString();
 
-        // construct url to dataset using the StoreID
-        // assume we are running on the same host as EASY webui
-        // maybe this code slows it down and we could optimize it...
-        String absPath = RequestUtils.toAbsolutePath(RequestCycle.get().getRequest().getRelativePathPrefixToContextRoot());
-        if (!absPath.endsWith("/"))
-            absPath = absPath + "/";
-        // up to and including the first slash after the double slashes
-        int slashslash = absPath.indexOf("//") + 2;
-        int end = absPath.indexOf('/', slashslash) + 1;
-        String baseUrl = absPath.substring(0, end);
-
-        // Link for the dataset
-        String hrefStr = baseUrl + "ui/datasets/id/" + datasetSB.getStoreId();
+        // construct url (link) to dataset using the StoreID
+        String hrefStr = getBaseUrl() + "ui/datasets/id/" + datasetSB.getStoreId();
 
         return "<a href='" + hrefStr + "'>" + title + "</a>";
+    }
+
+    private static String baseUrl = null;
+
+    private static String getBaseUrl() {
+        // assume baseUrl does not change runtime, then we only have to determine it once
+        if (baseUrl == null) {
+            String absPath = RequestUtils.toAbsolutePath(RequestCycle.get().getRequest().getRelativePathPrefixToContextRoot());
+            if (!absPath.endsWith("/"))
+                absPath = absPath + "/";
+            // up to and including the first slash after the double slashes
+            int slashslash = absPath.indexOf("//") + 2;
+            int end = absPath.indexOf('/', slashslash) + 1;
+            baseUrl = absPath.substring(0, end);
+        }
+
+        return baseUrl;
     }
 
     @Override
