@@ -8,6 +8,8 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
+import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.easy.pakbonpreprocess.Converter;
 import nl.knaw.dans.platform.language.pakbon.PakbonValidator;
 
@@ -34,6 +36,11 @@ public class ConverterTest {
     public static final String INVALID_DIR_STR = "invalid";
 
     public static File admFile;
+
+    @BeforeClass
+    public static void beforeTestClass() {
+        new ResourceLocator(new FileSystemHomeDirectory(new File("src/test/resources")));
+    }
 
     @BeforeClass
     public static void setup() {

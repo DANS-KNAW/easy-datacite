@@ -190,12 +190,10 @@ public class Converter {
      * @throws ConversionException
      */
     private void convertDatasetWithValidPakbon(File pakbonFile) throws ConversionException {
-        InputStream inputStream;
         try {
-            inputStream = new FileInputStream(pakbonFile);
             logger.info("Loading file: " + pakbonFile.getAbsolutePath());
 
-            byte[] bytes = transformer.transform(inputStream);
+            byte[] bytes = transformer.transform(pakbonFile);
             // NOTE that the xslt used by transform specifies that the output is UTF-8
             // So if you want a string for logging : String emdStr = new String(bytes, "UTF-8");
 
@@ -215,9 +213,6 @@ public class Converter {
             copyPakbonfile(pakbonFile);
 
             savePakbonfileMetadataRelation(pakbonFile, metadatadirectory);
-        }
-        catch (FileNotFoundException e) {
-            throw new ConversionException("Could not transform file: " + pakbonFile.getAbsolutePath(), e);
         }
         catch (TransformerException e) {
             throw new ConversionException("Could not transform file: " + pakbonFile.getAbsolutePath(), e);
