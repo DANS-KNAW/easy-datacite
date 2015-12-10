@@ -12,6 +12,8 @@ import scala.xml.XML
 object Main { 
 
   val log = LoggerFactory.getLogger(getClass)
+  val prefixDct = "dct"
+  val prefixDcterms="dcterms"
 
   def main(args: Array[String]) {
 
@@ -52,11 +54,11 @@ object Main {
     Util.getDatastreamXmlOrLogError(pid, streamId) match {
       case None => Success(false)
       case Some(xml) => Try {
-          val (removed, xmlOldAudienceRemoved) = removeAudience(xml, pid, streamId)
+          val (removed, prefOld, xmlOldAudienceRemoved) = removeAudience(xml, pid, streamId)
           if (removed) {
-            val (added, newXml) = addNewAudience(xmlOldAudienceRemoved, pid, streamId)
+            val (added, newXml) = addNewAudience(xmlOldAudienceRemoved, prefOld, pid, streamId)
             if (added) {
-              log.info(s"$pid/$streamId change audience discipline: ${settings.odis} -> ${settings.ndis}")
+              log.info(s"$pid/$streamId change ${prefOld}:audience discipline: ${settings.odis} -> ${settings.ndis}")
               settings.updater.updateDatastream(pid, streamId, newXml.head.toString())
               true
             } else false
@@ -89,35 +91,46 @@ object Main {
     }
   }
 
-  def removeAudience(xml: Node, pid : String, streamId :String)(implicit settings : Settings): (Boolean, Seq[Node]) = {
+  def removeAudience(xml: Node, pid : String, streamId :String)(implicit settings : Settings): (Boolean, String, Seq[Node]) = {
 
     var changed = false
+    var prefixOld = ""
     object datasetTransformer extends RuleTransformer(new RewriteRule {
       override def transform(n: Node): Seq[Node] = n match {
-        case audience@Elem("dct", "audience", attribs, scope, _*) if audience.text.trim() == settings.odis =>
+        case audience@Elem(prefix, "audience", attribs, scope, _*) if List(prefixDct, prefixDcterms).contains(prefix) && audience.text.trim() == settings.odis =>
           changed = true
+          prefixOld=prefix
           Seq()
         case other => other
       }
     })
+    //when changed is false, pref is "".
     val outputXml = datasetTransformer.transform(xml)
-    (changed, outputXml)
+    (changed, prefixOld, outputXml)
   }
 
-  def addNewAudience(xml: Seq[Node], pid: String, streamId :String)(implicit settings : Settings): (Boolean, Seq[Node]) = {
+  def addNewAudience(xml: Seq[Node], prefOld: String, pid: String, streamId :String)(implicit settings : Settings): (Boolean, Seq[Node]) = {
 
     var newDiscipline = false
     object datasetTransformer extends RuleTransformer(new RewriteRule {
       override def transform(n: Node): Seq[Node] = n match {
-        case audience@Elem("emd", "audience", attribs, scope, _*) if audience.child.exists(_.text.trim == settings.ndis) =>
+        //Here, we don't need to check the audience prefix. It will only check whether the ndis exist or not
+        case audience@Elem("emd", "audience", attribs, scope, _*) if( audience.child.exists(_.text.trim == settings.ndis)) =>
           newDiscipline = true;
           audience
         case audience@Elem("emd", "audience", attribs, scope, _*) if !audience.child.exists(_.text.trim == settings.ndis) =>
           newDiscipline = true
-          <emd:audience>
-            <dct:audience eas:schemeId="custom.disciplines">{settings.ndis}</dct:audience>
-            { audience.child.map(copyNodeNoNamespace) }
-          </emd:audience>
+          //check the original prefix
+          if (prefOld == prefixDct)
+            <emd:audience>
+              <dct:audience eas:schemeId="custom.disciplines">{settings.ndis}</dct:audience>
+              { audience.child.map(copyNodeNoNamespace) }
+            </emd:audience>
+          else 
+            <emd:audience>
+              <dcterms:audience eas:schemeId="custom.disciplines">{settings.ndis}</dcterms:audience>
+              { audience.child.map(copyNodeNoNamespace) }
+            </emd:audience>
         case other => other
       }
     })
