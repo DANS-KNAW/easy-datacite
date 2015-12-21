@@ -58,7 +58,7 @@ public class EasyBusinessFacade {
     /**
      * Gets an authenticated user.
      * 
-     * @param userID
+     * @param userId
      * @param password
      * @return
      * @throws SWORDAuthenticationException
@@ -158,7 +158,6 @@ public class EasyBusinessFacade {
 
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         final FormDefinition formDefinition = getFormDefinition(metadata);
-        enhanceWithDefaults(metadata);
 
         // detect as much as possible errors before irreversible creation of the dataset
         // from now on, treat any error as a bad request to return the ID of the created draft dataset
@@ -180,21 +179,6 @@ public class EasyBusinessFacade {
         }
 
         return dataset;
-    }
-
-    /**
-     * Enhances the custom metadata with defaults present in the metadata of the dataset.
-     * 
-     * @param metadata
-     *        the custom metadata
-     * @return the custom metadata
-     */
-    private static EasyMetadata enhanceWithDefaults(final EasyMetadata metadata) {
-        final List<BasicString> audienceList = metadata.getEmdAudience().getTermsAudience();
-        if (!audienceList.isEmpty()) {
-            metadata.getEmdAudience().getTermsAudience().add(audienceList.get(0));
-        }
-        return metadata;
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */

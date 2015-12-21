@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 
 import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
 import nl.knaw.dans.pf.language.xml.exc.XMLException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Abstract validator capable of handling multiple schema sources.

@@ -55,7 +55,7 @@ public class Ddm2EmdTest {
      */
     @Before
     public void setUp() {
-        crosswalk = new Ddm2EmdCrosswalk();
+        crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
         inputSourceEmdXmlExpected = new InputSource(emdXmlExpected);
     }
 
@@ -202,7 +202,6 @@ public class Ddm2EmdTest {
         }
         return n;
     }
-
 }
 
 class SimpleNamespaceContext implements NamespaceContext {

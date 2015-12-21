@@ -10,9 +10,9 @@ public enum NameSpace {
     GML("gml", "http://www.opengis.net/gml"), //
     DCX_DAI("dcx-dai", "http://easy.dans.knaw.nl/schemas/dcx/dai/", "http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-dai.xsd"), //
     DCX_GML("dcx-gml", "http://easy.dans.knaw.nl/schemas/dcx/gml/", "http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd"), //
-    DDM("ddm", "http://easy.dans.knaw.nl/schemas/md/ddm/", "http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd"), //
-    XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd"), //
-    NARCIS_TYPE("narcis", "http://easy.dans.knaw.nl/schemas/vocab/narcis-type/", "http://easy.dans.knaw.nl/schemas/vocab/2012/10/narcis-type.xsd",
+    DDM("ddm", "http://easy.dans.knaw.nl/schemas/md/ddm/", "http://easy.dans.knaw.nl/schemas/md/2015/12/ddm.xsd"), //
+    XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://easy.dans.knaw.nl/schemas/md/2015/12/ddm.xsd"), //
+    NARCIS_TYPE("narcis", "http://easy.dans.knaw.nl/schemas/vocab/narcis-type/", "http://easy.dans.knaw.nl/schemas/vocab/2015/narcis-type.xsd",
             EmdConstants.SCHEME_ID_DISCIPLINES), //
     ABR("abr", "http://www.den.nl/standaard/166/Archeologisch-Basisregister/", "http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd",
             "archaeology.dcterms.temporal"), //
