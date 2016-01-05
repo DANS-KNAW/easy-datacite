@@ -1,6 +1,12 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -8,12 +14,13 @@ import javax.xml.transform.stream.StreamSource;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.validation.XMLValidator;
 
+import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class ValidatorTest {
 
+    @Ignore
     @Test
     public void testValidation() throws Exception {
         // XMLErrorHandler handler = DDMValidator.instance().validate(
@@ -32,5 +39,40 @@ public class ValidatorTest {
         XMLErrorHandler handler = XMLValidator.validate(xmlSource, s1, s2);
         System.err.println(handler.getMessages());
         System.err.println(handler.passed());
+    }
+
+    @Test
+    public void testDDMValidation() throws Exception {
+        Assume.assumeTrue(canConnect("http://easy.dans.knaw.nl/schemas"));
+        XMLErrorHandler handler = new DDMValidator().validate(new File("src/test/resources/input/ddm.xml"));
+        assertTrue(handler.passed());
+    }
+
+    @Test
+    public void testDDMValidationWithDOI() throws Exception {
+        Assume.assumeTrue(canConnect("http://easy.dans.knaw.nl/schemas"));
+        XMLErrorHandler handler = new DDMValidator().validate(new File("src/test/resources/input/ddm-with-doi.xml"));
+        assertTrue(handler.passed());
+    }
+
+    private boolean canConnect(String url) {
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) new URL(url).openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+            return true;
+        }
+        catch (MalformedURLException e) {
+            return false;
+        }
+        catch (IOException e) {
+            return false;
+        }
+        finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
     }
 }

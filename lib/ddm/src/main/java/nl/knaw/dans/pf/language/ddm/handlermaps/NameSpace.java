@@ -14,9 +14,10 @@ public enum NameSpace {
     XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://easy.dans.knaw.nl/schemas/md/2015/12/ddm.xsd"), //
     NARCIS_TYPE("narcis", "http://easy.dans.knaw.nl/schemas/vocab/narcis-type/", "http://easy.dans.knaw.nl/schemas/vocab/2015/narcis-type.xsd",
             EmdConstants.SCHEME_ID_DISCIPLINES), //
+    IDENTIFIER_TYPE("id-type", "http://easy.dans.knaw.nl/schemas/vocab/identifier-type/", "http://easy.dans.knaw.nl/schemas/vocab/2015/identifier-type.xsd"), //
     ABR("abr", "http://www.den.nl/standaard/166/Archeologisch-Basisregister/", "http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd",
-            "archaeology.dcterms.temporal"), //
-    ;
+            "archaeology.dcterms.temporal");
+
     public final String uri;
     public final String prefix;
     public final String xsd;
