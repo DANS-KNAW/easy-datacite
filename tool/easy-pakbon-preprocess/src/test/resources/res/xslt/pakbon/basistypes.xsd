@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  targetNamespace="http://www.sikb.nl/sikb0102/2.1.0"
+  xmlns:sikb="http://www.sikb.nl/sikb0102/2.1.0"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  version="2.1.0">
+
+  <!-- Datatypes -->
+  <simpleType name="uuid">
+    <annotation>
+      <documentation>
+        Een universeel unieke sleutel (UUID) is een identificatie standaard die wordt gebruikt in software-industrie, gestandaardiseerd door de Open Software Foundation (OSF) als onderdeel van de Distributed Computing Environment (DCE).
+
+        De bedoeling van UUID's is het mogelijk maken van unieke sleutels zonder significante centrale coördinatie. In deze context betekent het woord unieke "praktisch unieke" in plaats van "gegarandeerd uniek". Omdat de sleutels een eindige grootte hebben is het in principe mogelijk dat twee verschillende gegevensverzamelingen dezelfde sleutel delen.
+        Iedereen kan een UUID maken en gebruiken met redelijke zekerheid dat deze niet door iemand anders in gebruik is. Informatie voorzien van UUID's kunnen dus later worden gecombineerd tot een enkele database zonder dat er conflicten ontstaan tussen de sleutels (ID’s).
+
+        Definitie
+        Een UUID is een 16-byte (128-bit) nummer. In zijn canonieke vorm, is een UUID vertegenwoordigd met 32 hexadecimale cijfers, weergegeven in vijf groepen van elkaar gescheiden door koppeltekens, in de vorm 8-4-4-4-12 voor een totaal van 36 tekens (32 cijfers en vier streepjes). Bijvoorbeeld:
+
+        550e8400-e29b-41d4-a716-446655440000
+      </documentation>
+    </annotation>
+    <restriction base="string">
+      <pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}" />
+    </restriction>
+  </simpleType>
+
+  <!-- Attributes -->
+  <attribute name="id" type="sikb:uuid">
+    <annotation>
+      <documentation>Unieke identifier waarmee SIKB0102 objecten van elkaar onderscheiden kunnen worden. Hij is verplicht voor elk SIKB0102 object. </documentation>
+    </annotation>
+  </attribute>
+
+  <!-- Basistypes -->
+  <complexType name="BasisType">
+    <annotation>
+      <documentation>Basis type waar alle complextypes van moeten erven voor extensie met eigen elementen. Alle entiteiten moeten minstens deze elementen bevatten.</documentation>
+    </annotation>
+    <sequence>
+      <element name="informatie" type="string" minOccurs="0" maxOccurs="1">
+        <annotation>
+          <documentation>Aanvullende informatie</documentation>
+        </annotation>
+      </element>
+    </sequence>
+    <attribute ref="sikb:id" use="required">
+      <annotation>
+        <documentation>Unieke identifier</documentation>
+      </annotation>
+    </attribute>
+    <attribute name="bronId" type="string" use="optional">
+      <annotation>
+        <documentation>De originele ID van het brongegeven.</documentation>
+      </annotation>
+    </attribute>
+  </complexType>
+  <complexType name="BasisLocatieType">
+    <annotation>
+      <documentation>Basis locatie type met een optionele verwijzing naar een geo-locatie.</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="sikb:BasisType">
+        <sequence>
+          <element name="geolocatieId" type="sikb:uuid" minOccurs="0" maxOccurs="1">
+            <annotation>
+              <documentation>Verwijzing naar geo-locatie type.</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="BasisNaamType">
+    <annotation>
+      <documentation>Basis naam type met een veld voor naam.</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="sikb:BasisType">
+        <sequence>
+          <element name="naam" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+              <documentation>De naam van het brongegeven.</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="BasisLocatieNaamType">
+    <annotation>
+      <documentation>Basis locatie en naam type met een veld voor naam.</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="sikb:BasisLocatieType">
+        <sequence>
+          <element name="naam" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+              <documentation>De naam van het brongegeven.</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>

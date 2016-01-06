@@ -107,14 +107,15 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess {
 
     private String transform(File pakbon) throws UploadPostProcessException {
         try {
-            byte[] result = new Pakbon2EmdTransformer().transform(FileUtils.openInputStream(pakbon));
+            byte[] result = new Pakbon2EmdTransformer().transform(pakbon);
             return new String(result, "UTF-8");
         }
         catch (IOException e) {
             error("Could not open uploaded Pakbon for transformation", e);
         }
         catch (TransformerException e) {
-            error("Error during Pakbon to EASY metadata tranformation process", e);
+            // error("Error during Pakbon to EASY metadata tranformation process", e);
+            error("Error during Pakbon to EASY metadata tranformation process" + "; " + e.getMessage(), e);
         }
         return null;
     }
