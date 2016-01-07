@@ -106,6 +106,9 @@ public class SearchHitsMapViewPanel extends SearchPanel {
 
     private static String getMarkerInfo(DatasetSB datasetSB) {
         String title = datasetSB.getDcTitleSortable();
+        if (title == null)
+            title = ""; // avoid NPE, but leave link text empty
+
         // escape the string for html (but keep the whitespaces for correct wrapping)
         title = Strings.escapeMarkup(title, false, true).toString();
 
