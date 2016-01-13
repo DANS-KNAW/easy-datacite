@@ -35,7 +35,7 @@ public class LocationExtractor {
                         }
                         break; // first one found is returned
                     }
-                    catch (IllegalArgumentException e) {
+                    catch (Exception e) {// IllegalArgumentException e) {
                         LOGGER.debug("Could not extract location: " + e.getMessage());
                         continue; // just ignore and skip this item
                     }
