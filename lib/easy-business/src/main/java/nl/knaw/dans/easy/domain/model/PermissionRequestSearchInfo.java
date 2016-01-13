@@ -5,6 +5,7 @@ import java.io.Serializable;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 public class PermissionRequestSearchInfo implements Serializable {
@@ -32,7 +33,7 @@ public class PermissionRequestSearchInfo implements Serializable {
         setRequesterId(fromString.substring(0, s1));
         setState(State.valueOf(fromString.substring(s1 + 1, s2)));
         String substring = fromString.substring(s2 + 1);
-        if (!"null".equals(substring))
+        if (!"null".equals(substring) && !StringUtils.isBlank(substring))
             setStateLastModified(new DateTime(substring));
     }
 
