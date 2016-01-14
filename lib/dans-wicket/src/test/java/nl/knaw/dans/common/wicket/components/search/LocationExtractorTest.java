@@ -16,9 +16,17 @@ public class LocationExtractorTest {
     // RD central point (x=155000 y=463000) is inside the 'Onze Lieve Vrouwetoren' in Amersfoort, The Netherlands.
     // WGS84 for this central point: x=52.155174 y=5.387206
     final static LonLat centerRD = new LonLat(5.387206, 52.155174);
+    final static LonLat originRD = new LonLat(3.313542, 47.974767); // RD (x=0 y=0)
 
     private static double[] lonLatAsArray(final LonLat lonLat) {
         return new double[] {lonLat.getLon(), lonLat.getLat()};
+    }
+
+    @Test
+    public void testNonWhitespaceCoverage() {
+        List<String> dcCoverage = Arrays.asList("xxxxxxxx");
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
     }
 
     @Test
@@ -110,5 +118,46 @@ public class LocationExtractorTest {
 
         LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
         assertArrayEquals(lonLatAsArray(centerRD), lonLatAsArray(lonLat), DELTA);
+    }
+
+    @Test
+    public void testInvalidRangeRDPoint() {
+        List<String> dcCoverage = Arrays.asList("scheme=RD x=155000 y=463000463000");
+
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
+    }
+
+    @Test
+    public void testInvalidRangeRDBox() {
+        List<String> dcCoverage = Arrays.asList("scheme=RD north=463001 east=155001 south=462999462999 west=154999");
+
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
+    }
+
+    @Test
+    public void testInvaliRDPointWhitespace() {
+        List<String> dcCoverage = Arrays.asList("scheme=RD x= 155000  y=463000");
+
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
+    }
+
+    @Test
+    public void testInvalidRangeWGS84Point() {
+        List<String> dcCoverage = Arrays.asList("scheme=http://www.opengis.net/def/crs/EPSG/0/4326 x=152.155174 y=5.387206");
+
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
+    }
+
+    @Test
+    public void testInvalidRangeWGS84Box() {
+        List<String> dcCoverage = Arrays
+                .asList("scheme=http://www.opengis.net/def/crs/EPSG/0/4326 north=5.387207 east=52.155175 south=3005.387205 west=52.155173");
+
+        LonLat lonLat = LocationExtractor.getLocation(dcCoverage);
+        assertNull(lonLat);
     }
 }
