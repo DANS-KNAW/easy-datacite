@@ -19,7 +19,7 @@ public class OfflineDDMValidator extends AbstractValidator2 {
     private static final Logger logger = LoggerFactory.getLogger(OfflineDDMValidator.class);
 
     // Note that the online url's can be found in nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace
-    final static String LOCAL_SCHEMA_DIR = "../../../easy-schema/src/";
+    final static String LOCAL_SCHEMA_DIR = "target/easy-schema/";
     final static String DDM_xsd = "md/2015/12/ddm.xsd";
     final static String DCX_GML_xsd = "dcx/2012/10/dcx-gml.xsd";
     final static String NARCIS_TYPE_xsd = "vocab/2015/narcis-type.xsd";
