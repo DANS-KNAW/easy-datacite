@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.isNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,18 +57,21 @@ import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.easymock.EasyMock;
 import org.powermock.api.easymock.PowerMock;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.core.env.Environment;
 
 /**
  * Mock of the file applicationContext.xml, one of the two helper classes that eases unit testing of the easy webui application. A sample calling sequence is
  * shown by {@link EasyWicketTester}. <br>
  * <br>
- * The expectXxx methods add beans that are required for subclasses of {@link AbsractEasyNavPage}, think of the tool bars. The JavaDoc of each expect method
- * tells which beans are set and which beans are mocked ones. You can extend the expectations for the mocked beans and/or provide alternative beans with the
- * get/put-BeanName methods. Vice versa an expectXxx method extends the expectations of existing mocked beans.<br>
+ * The expectXxx methods add beans that are required for subclasses of {@link nl.knaw.dans.easy.web.main.AbstractEasyNavPage}, think of the tool bars. The
+ * JavaDoc of each expect method tells which beans are set and which beans are mocked ones. You can extend the expectations for the mocked beans and/or provide
+ * alternative beans with the get/put-BeanName methods. Vice versa an expectXxx method extends the expectations of existing mocked beans.<br>
  * <br>
  * The provided beans assume the use of annotated SpringBean injection. In the page under test and its components you may have to replace the deprecated use of
  * Services.getXyZ() by:
@@ -80,6 +84,36 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 public class EasyApplicationContextMock extends ApplicationContextMock {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
+
+    @Override
+    public String getApplicationName() {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public String[] getBeanNamesForAnnotation(Class<? extends Annotation> aClass) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> aClass) throws BeansException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public <A extends Annotation> A findAnnotationOnBean(String s, Class<A> aClass) throws NoSuchBeanDefinitionException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public <T> T getBean(Class<T> aClass) throws BeansException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Environment getEnvironment() {
+        throw new NotImplementedException();
+    }
 
     private static class DisciplineContainerProxy extends DisciplineContainerImpl {
 
@@ -226,8 +260,8 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
 
     /**
      * Supplies expectations for datasets without accessible audio/video files. If no itemService bean is set, a mocked one is created with PowerMock. Calls to
-     * {@link ItemService#getAccessibleAudioVideoFiles(EasyUser, Dataset)} are mocked and methods calling {@link FileStoreAccess} are delegated. If required,
-     * you can mock the delegated methods via {@link FileStoreMocker}.
+     * {@link ItemService#getAudioVideoFiles(EasyUser, Dataset)} are mocked and methods calling {@link FileStoreAccess} are delegated. If required, you can mock
+     * the delegated methods via {@link FileStoreMocker}.
      * 
      * @throws ServiceException
      *         required by the syntax
@@ -276,7 +310,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * Mocks a choice list for disciplines. If no {@link DepositService} bean is set, a mocked one is created with PowerMock. Otherwise eventual previous
      * expectations remain effective.
      * 
-     * @param user
+     * @param keyValuePairs
      * @throws ServiceException
      *         declaration required to mock depositService.getChoices
      * @throws IllegalStateException
@@ -371,7 +405,6 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
      * Mocks a {@Link JumpoffDmo}. If no {@link JumpoffService} bean is set, a mocked one is created with PowerMock. Otherwise eventual previous
      * expectations remain effective.
      * 
-     * @param user
      * @throws ServiceException
      *         declaration required to mock JumpoffService.getJumpoffDmoFor
      * @throws IllegalStateException
