@@ -31,7 +31,7 @@
         </encoder>
     </appender>
 
-    <appender name="SERVICE_PROFILING__ROLLING_FILE_LOG"
+    <appender name="SERVICE_PROFILING_ROLLING_FILE_LOG"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGDIR}/service-profiling.csv</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
