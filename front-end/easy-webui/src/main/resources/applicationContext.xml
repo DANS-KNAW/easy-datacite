@@ -470,21 +470,5 @@
 		<property name="ticketServiceUrl" value="http://tstreaming11.dans.knaw.nl/acl/ticket" />
 		<property name="accessDurationInMilliseconds" value="60000" />
 	</bean>
-    
-    <bean id="audioVideoPlayerUrl" class="java.lang.String">
-        <constructor-arg type="java.lang.String"
-            value="${easy.audio-video.player-url}" />
-    </bean>
-    
-    <bean id="audioVideoVersion" class="java.lang.String">
-        <constructor-arg type="java.lang.String"
-            value="${easy.audio-video.version}" />
-    </bean>
-    
-     <bean id="audioVideoInstallerUrl" class="java.lang.String">
-        <constructor-arg type="java.lang.String"
-            value="${easy.audio-video.installer-url}" />
-    </bean>
-    
 </beans>
  

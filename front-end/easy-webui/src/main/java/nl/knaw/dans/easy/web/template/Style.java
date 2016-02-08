@@ -9,6 +9,7 @@ public class Style {
     public static final HeaderContributor
 
             USER_SELECTOR_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/user_selector.css"),
+            AUDIO_VIDEO_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/krusty.css"),
             EASY_HEADER_CONTRIBUTION = getHeaderContribution(Style.class, "css/easy.css");
-    // @formatter:on 
+    // @formatter:on
 }
