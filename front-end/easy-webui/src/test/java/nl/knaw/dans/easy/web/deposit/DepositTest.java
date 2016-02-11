@@ -37,7 +37,6 @@ import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
 public class DepositTest {
     private static final String LIST_VIEW = ":recursivePanel:listViewContainer:listView:";
 

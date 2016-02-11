@@ -2,6 +2,7 @@ package nl.knaw.dans.common.lang.repo;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author ecco Sep 27, 2009
  */
-public abstract class AbstractTimestampedObject implements TimestampedObject {
+public abstract class AbstractTimestampedObject implements TimestampedObject, Serializable {
 
     private static final long serialVersionUID = 6037999236969220251L;
 

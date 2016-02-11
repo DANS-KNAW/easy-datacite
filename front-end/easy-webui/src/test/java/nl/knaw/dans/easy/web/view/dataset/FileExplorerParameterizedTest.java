@@ -41,7 +41,6 @@ import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
 @RunWith(Parameterized.class)
 public class FileExplorerParameterizedTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerParameterizedTest.class);

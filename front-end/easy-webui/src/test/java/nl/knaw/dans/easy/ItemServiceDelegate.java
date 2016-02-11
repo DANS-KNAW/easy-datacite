@@ -309,21 +309,22 @@ public class ItemServiceDelegate implements ItemService {
         expect(mock.getItemVoAccessibilities(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
         expect(mock.getItemVoVisibilities(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
         expect(mock.getItemVoCreatorRoles(anyObject(ItemVO.class))).andStubDelegateTo(delegate);
+        expect(mock.getPresentationFromRelations(anyObject(Dataset.class))).andStubDelegateTo(delegate);
         return mock;
     }
 
     @Override
     public String getPresentationFromRelations(Dataset dataset) {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        return INSTANCE.getPresentationFromRelations(dataset);
     }
 
     @Override
     public Collection<FileItemVO> getAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        throw NOT_IMPLEMENTED_EXCEPTION; // would require implementation of getFileItemDescription
     }
 
     @Override
     public boolean allAccessibleToUser(EasyUser sessionUser, Collection<FileItemVO> files) throws ServiceException {
-        throw NOT_IMPLEMENTED_EXCEPTION;
+        throw NOT_IMPLEMENTED_EXCEPTION; // ItemVO's need AuthzStrategy
     }
 }

@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** See also DatasetPermissionTest.fileExplorerTab */
-@Ignore
 public class FileExplorerTabTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileExplorerTabTest.class);
 

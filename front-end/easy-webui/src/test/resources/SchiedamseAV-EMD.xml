@@ -1,0 +1,72 @@
+<emd:easymetadata emd:version="0.1" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:dct="http://purl.org/dc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <emd:title>
+        <dc:title>Getuigen Verhalen, Schiedamse Bleekneusjes, interview 05</dc:title>
+    </emd:title>
+    <emd:creator>
+        <eas:creator>
+            <eas:initials>D</eas:initials>
+            <eas:surname>Posit</eas:surname>
+            <eas:organization>DANS</eas:organization>
+            <eas:entityId eas:scheme="DAI"/>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject>Schiedam</dc:subject>
+        <dc:subject>Morsestraat</dc:subject>
+        <dc:subject>Hongertochten</dc:subject>
+        <dc:subject>Hongerwinter</dc:subject>
+        <dc:subject>Tweede Wereldoorlog</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>Meneer heeft de hongerwinter thuis in Schiedam meegemaakt. Hij werd op grond van zijn slechte gezondheid in september 1945 uitgezonden naar Zweden. Hij beschrijft de heenreis naar Denemarken in een viswagen, het verblijf in quarantaine aan de kust van Zweden en de opname in een Luthers pleeggezin in Malm?. Dit gezin bestond uit man, vrouw, grootmoeder en kind. Het verblijf in Zweden heeft hem naar zijn zeggen het leven gered. Hij leed aan astma en er waren betere medische voorzieningen in Zweden. Hij ervoer in het pleeggezin meer warmte dan hij thuis had ervaren. Hij vond het niet leuk om in april (of mei?)1946 met de trein terug te moeten keren naar Schiedam. Hij is Zweden als zijn eigenlijke thuis blijven ervaren.</dc:description>
+    </emd:description>
+    <emd:publisher/>
+    <emd:contributor>
+        <eas:contributor>
+            <eas:initials>JOS</eas:initials>
+            <eas:surname>Teunissen</eas:surname>
+            <eas:entityId eas:scheme="DAI"/>
+        </eas:contributor>
+    </emd:contributor>
+    <emd:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2014-09-09T00:00:00.000+02:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2014-09-09T00:00:00.000+02:00</eas:available>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2014-09-09T15:10:52.238+02:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type eas:schemeId="common.dc.type" eas:scheme="DCMI">Dataset</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format>video/mpeg</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-2ajw-cq</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID"/>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-zu8-njxg</dc:identifier>
+    </emd:identifier>
+    <emd:source/>
+    <emd:language>
+        <dc:language eas:schemeId="common.dc.language" eas:scheme="ISO 639">dut/nld</dc:language>
+    </emd:language>
+    <emd:relation>
+        <dc:relation eas:scheme="STREAMING_SURROGATE_RELATION">http://tstreaming11.dans.knaw.nl/site/index.html?presentation=/domain/dans/user/pieter/collection/test/presentation/test9</dc:relation>
+    </emd:relation>
+    <emd:coverage>
+        <dct:spatial>Schiedam, Zuid-Holland, Nederland</dct:spatial>
+        <dct:temporal>1940-1946</dct:temporal>
+    </emd:coverage>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="common.dcterms.accessrights">REQUEST_PERMISSION</dct:accessRights>
+        <dct:license>accept</dct:license>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:11</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>UNSPECIFIED</eas:metadataformat>
+            <eas:pakbon-status>NOT_IMPORTED</eas:pakbon-status>
+        </eas:application-specific>
+        <eas:etc/>
+    </emd:other>
+</emd:easymetadata>

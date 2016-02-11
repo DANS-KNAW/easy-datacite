@@ -274,7 +274,24 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         setMockedItemService();
         expect(getItemService().getAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new LinkedList<FileItemVO>());
         expect(getItemService().allAccessibleToUser(isA(EasyUser.class), isA(Collection.class))).andStubReturn(false);
-        expect(getItemService().getPresentationFromRelations(isA(Dataset.class))).andStubReturn(null);
+    }
+
+    /**
+     * Supplies expectations for datasets without accessible audio/video files. If no itemService bean is set, a mocked one is created with PowerMock. Calls to
+     * {@link ItemService#getAudioVideoFiles(EasyUser, Dataset)} are mocked and methods calling {@link FileStoreAccess} are delegated. If required, you can mock
+     * the delegated methods via {@link FileStoreMocker}.
+     * 
+     * @throws ServiceException
+     *         required by the syntax
+     * @throws StoreAccessException
+     * @throws IllegalStateException
+     *         if a real {@link ItemService} instance was assigned as bean
+     */
+    @SuppressWarnings("unchecked")
+    public void expectAudioVideoFiles(boolean allAccessibleToUser, LinkedList<FileItemVO> avFiles) throws ServiceException, StoreAccessException {
+        setMockedItemService();
+        expect(getItemService().getAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(avFiles);
+        expect(getItemService().allAccessibleToUser(isA(EasyUser.class), isA(Collection.class))).andStubReturn(allAccessibleToUser);
     }
 
     /**

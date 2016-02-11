@@ -3,6 +3,7 @@ package nl.knaw.dans.easy;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.HSQLDialect;
 import org.slf4j.Logger;
 
-public class FileStoreMocker implements Closeable {
+public class FileStoreMocker implements Closeable, Serializable {
 
     private final FileStoreAccess fileStoreAccess;
     private final SessionFactory sessionFactory;
@@ -167,7 +168,22 @@ public class FileStoreMocker implements Closeable {
         fileItemMetadata.setParentDmoStoreId(parent.getDmoStoreId());
         fileItemMetadata.setDatasetDmoStoreId(getDatasetId(parent));
 
-        final FileItemImpl item = new FileItemImpl(new DmoStoreId(FileItem.NAMESPACE, id + "").getStoreId());
+        final FileItemImpl item = new FileItemImpl(new DmoStoreId(FileItem.NAMESPACE, id + "").getStoreId()) {
+            @Override
+            public DmoStoreId getDatasetId() {
+                return fileItemMetadata.getDatasetDmoStoreId();
+            }
+
+            @Override
+            public DmoStoreId getParentId() {
+                return parent.getDmoStoreId();
+            }
+
+            @Override
+            public byte[] calcMd5() {
+                return "xyz".getBytes();
+            }
+        };
         item.setFileItemMetadata(fileItemMetadata);
         item.setLabel(buildPath(parent, label));
         item.setMimeType("text");
@@ -190,7 +206,7 @@ public class FileStoreMocker implements Closeable {
         else if (!(parent instanceof FolderItem))
             return label;
         else
-            return ((FolderItem) parent).getLabel() + "/" + label;
+            return parent.getLabel() + "/" + label;
     }
 
     private static DmoStoreId getDatasetId(final DatasetItemContainer parent) {
