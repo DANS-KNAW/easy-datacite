@@ -2,26 +2,7 @@
 <head></head>
 <body>
 <wicket:panel>
-	<!--See also https://github.com/Noterik/krusty-minimal/blob/dans/production/index.html -->
-	<div>
-		<header style="display: none"></header>
-		<div role="main">
-			<div class="presentation" style="width: 640px; height: 320px;"></div>
-		</div>
-		<footer style="display: none"></footer>
-	</div>
-
-	<!-- JavaScript at the bottom for fast page loading -->
-	<script src="js/jquery.krusty-minimal.min.js"></script>
-	<script wicket:id="presentationScript">
-        $(document).ready(function(){
-            $('.presentation').krusty({
-                'uri': '/domain/dans/user/somebody/collection/something/presentation/somewhat',
-                'quality': '360p'
-            });
-        })
-    </script>
-	<div id="player"></div>
+	<iframe wicket:id="audioVideoPlayer" width="640" height="320" src="" allowfullscreen></iframe>
 </wicket:panel>
 </body>
 </html>

@@ -451,6 +451,11 @@
             value="${easy.link.dsa}" />
     </bean>
 
+    <bean id="audioVideoPlayerUrl" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+                         value="${easy.audio-video.player-url}" />
+    </bean>
+
     <bean id="aboutDepositingDataLink" class="java.lang.String">
         <constructor-arg type="java.lang.String"
             value="${easy.link.about-depositing-data}" />

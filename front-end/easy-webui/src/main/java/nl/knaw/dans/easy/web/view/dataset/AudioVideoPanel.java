@@ -15,6 +15,9 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.UUID;
 
 import static nl.knaw.dans.easy.web.template.Style.AUDIO_VIDEO_HEADER_CONTRIBUTION;
@@ -26,39 +29,25 @@ public class AudioVideoPanel extends Panel {
     @SpringBean(name = "securedStreamingService")
     private SecuredStreamingService securedStreamingService;
 
+    @SpringBean(name = "audioVideoPlayerUrl")
+    private String audioVideoPlayerUrl;
+
     public AudioVideoPanel(String id, String presentationPath) {
         super(id);
-        log.debug("presentationPath = " + presentationPath);
-        Component component = createScriptComponent(presentationPath);
-        if (StringUtils.isBlank(presentationPath))
-            component.setVisible(false);
-        else
-            registerTicketForPresentation(presentationPath);
-        add(AUDIO_VIDEO_HEADER_CONTRIBUTION);
-        add(component);
-    }
-
-    private Component createScriptComponent(String presentationPath) {
-        // @formatter:off
-        final String script =
-                "        $(document).ready(function(){\n" +
-                "            $('.presentation').krusty({\n" +
-                "                'uri': '" + presentationPath + "',\n" +
-                "                'quality': '360p'\n" +
-                "            });\n" +
-                "        })\n";
-        // @formatter:on
-        return new Label("presentationScript") {
-            @Override
-            protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
-                // a plain label would replace the quotes with &#039;
-                replaceComponentTagBody(markupStream, openTag, script);
-            }
-        };
-    }
-
-    private boolean registerTicketForPresentation(String presentationPath) {
         String ticket = UUID.randomUUID().toString();
+        String source = "";
+        if (registerTicketForPresentation(presentationPath, ticket)) {
+            try {
+                source = new URL(audioVideoPlayerUrl + "?uri=" + presentationPath + "&ticket=" + ticket).toString();
+            }
+            catch (MalformedURLException e) {
+                log.error("Video URL turned out invalid A/V Player URL = {}, presentation path = {}", audioVideoPlayerUrl, presentationPath);
+            }
+        }
+        add(new PlayerFrame("audioVideoPlayer", source));
+    }
+
+    private boolean registerTicketForPresentation(String presentationPath, String ticket) {
         try {
             securedStreamingService.addSecurityTicketToResource(ticket, presentationPath);
             return true;

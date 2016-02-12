@@ -578,22 +578,10 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     @SuppressWarnings("serial")
     private SimpleTab getAudioVideoTab() {
         return new SimpleTab(new ResourceModel(RI_TAB_VIDEO)) {
-            private String presentation = presentationPathFromUrl(itemService.getPresentationFromRelations(getDataset()));
+            private String presentation = itemService.getPresentationFromRelations(getDataset());
             private boolean isVisible = (datasetHasFormat("video") || datasetHasFormat("audio")) //
                     && datasetHasPresentationUrl() //
                     && hasAudioVideoFilesWhichAreAllAccessibleToUser();
-
-            private String presentationPathFromUrl(String urlString) {
-                if (urlString == null) {
-                    return null;
-                }
-                String[] prefixAndPresentationPath = urlString.split("presentation=");
-                if (prefixAndPresentationPath.length < 2) {
-                    logger.error("Found invalid streamable version relation '{}'", urlString);
-                    return null;
-                }
-                return prefixAndPresentationPath[1];
-            }
 
             @Override
             public Panel getPanel(final String panelId) {
