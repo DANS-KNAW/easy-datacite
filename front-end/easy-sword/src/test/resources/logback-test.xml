@@ -17,5 +17,7 @@
 	</logger>
 	<logger name="nl.knaw.dans.easy.sword" level="debug">
 	</logger>
+	<logger name="nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk" level="debug">
+	</logger>
 
 </configuration>

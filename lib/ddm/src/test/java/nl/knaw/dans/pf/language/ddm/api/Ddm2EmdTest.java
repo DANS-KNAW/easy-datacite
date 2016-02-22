@@ -3,10 +3,18 @@
  */
 package nl.knaw.dans.pf.language.ddm.api;
 
-import static org.junit.Assert.assertEquals;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import org.junit.Test;
+import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,92 +22,38 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
-import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
-import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
-
 /**
  * @author Eko Indarto
  */
 public class Ddm2EmdTest {
-    Exception ex;
-    Ddm2EmdCrosswalk crosswalk;
-    String emdXmlExpected = "src/test/resources/input/emd-actual-expected.xml";
-    String ddmXml = "src/test/resources/input/ddm-creators-organization-mixed.xml";
-    String emdXmlActual = "target/emd-actual.xml";
-    InputSource inputSourceEmdXmlExpected;
-    InputSource inputSourceEmdXmlActual;
-    EasyMetadata emd;
-
-    /**
-     * Set up for tests.
-     */
-    @Before
-    public void setUp() {
-        crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
-        inputSourceEmdXmlExpected = new InputSource(emdXmlExpected);
-    }
 
     @Test
-    public void test() {
+    public void extensiveTest() throws Exception {
 
+        Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
+        String emdXmlExpected = "src/test/resources/input/emd-actual-expected.xml";
+        String ddmXml = "src/test/resources/input/ddm-creators-organization-mixed.xml";
+        String emdXmlActual = "target/emd-actual.xml";
+        InputSource inputSourceEmdXmlExpected = new InputSource(emdXmlExpected);
         XPath xpath = createNewIntance();
-        try {
-            // Conversion
-            emd = crosswalk.createFrom(new File(ddmXml));
-            String emdString = new EmdMarshaller(emd).getXmlString();
-            // Write the conversion result
-            Files.write(Paths.get(emdXmlActual), emdString.getBytes(StandardCharsets.UTF_8));
-            // Compare only the <emd:creator> element
-            inputSourceEmdXmlActual = new InputSource(emdXmlActual);
-            XPathExpression expr = xpath.compile(".//emd:creator");
-            Object emdCreatorExpectedObject = expr.evaluate(inputSourceEmdXmlExpected, XPathConstants.NODESET);
-            NodeList emdCreatorExptectedNodeList = (NodeList) emdCreatorExpectedObject;
-            Object emdCreatorActualObject = expr.evaluate(inputSourceEmdXmlActual, XPathConstants.NODESET);
-            NodeList emdCreatorActualNodeList = (NodeList) emdCreatorActualObject;
+        // Conversion
+        EasyMetadata emd = crosswalk.createFrom(new File(ddmXml));
+        String emdString = new EmdMarshaller(emd).getXmlString();
+        // Write the conversion result
+        Files.write(Paths.get(emdXmlActual), emdString.getBytes(StandardCharsets.UTF_8));
+        // Compare only the <emd:creator> element
+        InputSource inputSourceEmdXmlActual = new InputSource(emdXmlActual);
+        XPathExpression expr = xpath.compile(".//emd:creator");
+        Object emdCreatorExpectedObject = expr.evaluate(inputSourceEmdXmlExpected, XPathConstants.NODESET);
+        NodeList emdCreatorExptectedNodeList = (NodeList) emdCreatorExpectedObject;
+        Object emdCreatorActualObject = expr.evaluate(inputSourceEmdXmlActual, XPathConstants.NODESET);
+        NodeList emdCreatorActualNodeList = (NodeList) emdCreatorActualObject;
 
-            for (int i = 0; i < emdCreatorExptectedNodeList.getLength(); i++) {
-                Node emdCreatorExptectedNode = emdCreatorExptectedNodeList.item(i);
-                Node emdCreatorActualNode = emdCreatorActualNodeList.item(i);
-                compareNodes(emdCreatorExptectedNode, emdCreatorActualNode);
-            }
+        for (int i = 0; i < emdCreatorExptectedNodeList.getLength(); i++) {
+            Node emdCreatorExptectedNode = emdCreatorExptectedNodeList.item(i);
+            Node emdCreatorActualNode = emdCreatorActualNodeList.item(i);
+            compareNodes(emdCreatorExptectedNode, emdCreatorActualNode);
         }
-        catch (CrosswalkException e) {
-            ex = e;
-        }
-        catch (IOException e) {
-            ex = e;
-        }
-        catch (XMLSerializationException e) {
-            ex = e;
-        }
-        catch (XPathExpressionException e) {
-            ex = e;
-        }
-        catch (Exception e) {
-            ex = e;
-        }
-
-        assertEquals(null, ex);
     }
 
     private XPath createNewIntance() {
