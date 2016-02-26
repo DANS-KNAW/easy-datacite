@@ -105,6 +105,8 @@
         <!-- 17. description -->
         <xsl:apply-templates select="emd:description[dc:description | dcterms:abstract | dcterms:tableOfContents]" />
         
+        <!-- 18. geoLocations -->
+        <xsl:call-template name="geo"/>
     </xsl:template>
     
     
@@ -439,15 +441,6 @@
             
             <xsl:apply-templates select="emd:subject/dc:subject[@eas:schemeId = 'archaeology.dc.subject' and . != '']"/>
             
-            <!-- Spatial subjects (we lose something, maybe) -->
-            <xsl:for-each select="emd:coverage/dcterms:spatial">
-                <xsl:element name="subject">
-                    <xsl:apply-templates select="."/>
-                </xsl:element>
-            </xsl:for-each>
-            
-            <xsl:apply-templates select="emd:coverage/eas:spatial"/>
-            
             <!-- Temporal subjects -->
             <xsl:if test="emd:coverage/dcterms:temporal[not(@eas:schemeId = 'archaeology.dcterms.temporal')]">
                 <xsl:for-each select="emd:coverage/dcterms:temporal[not(@eas:schemeId = 'archaeology.dcterms.temporal')]">
@@ -714,63 +707,82 @@
         <xsl:variable name="str" select="normalize-space($abr-type/xs:schema/xs:simpleType[@name='periode']/xs:restriction/xs:enumeration[@value=$code-string]/xs:annotation/xs:documentation/text())"/>
         <xsl:value-of select="$str"/>
     </xsl:template>
-    
-    <!-- eas:spatial to mods:subject/mods:geographic -->
+
+
+    <!-- ==================================================== -->
+    <!-- Spatial subjects -->
+    <!-- ==================================================== -->
+    <xsl:template name="geo">
+        <xsl:element name="geoLocations">
+            <xsl:apply-templates select="emd:coverage/dcterms:spatial" />
+            <xsl:apply-templates select="emd:coverage/eas:spatial"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="emd:coverage/dcterms:spatial">
+        <xsl:element name="geoLocation">
+            <xsl:element name="geoLocationPlace">
+                <xsl:value-of select="."/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+
+    <!-- eas:spatial to geoLocationPoint,geoLocationBox -->
     <xsl:template match="emd:coverage/eas:spatial">
-        <xsl:apply-templates select="eas:point"/>
-        <xsl:apply-templates select="eas:box"/>
+        <!-- Coordinates entered in degrees vary: some are in decimal, others in degree, minutes and seconds. -->
+        <!-- Ignore coordinates in degrees for now. -->
+        <xsl:apply-templates select="eas:point[@eas:scheme = 'RD']"/>
+        <xsl:apply-templates select="eas:box[@eas:scheme = 'RD']"/>
     </xsl:template>
     <!-- =================================================================================== -->
-    <xsl:template match="eas:point">
-        <xsl:element name="subject">
-            <xsl:value-of select="concat('Spatial coverage: ', 'x=', eas:x, '; y=', eas:y, '; units=', @eas:scheme)"/>
+    <xsl:template match="eas:point[@eas:scheme = 'degrees']">
+        <xsl:element name="geoLocation">
+            <xsl:element name="geoLocationPoint">
+                <xsl:value-of select="concat(eas:x, ' ', eas:y)"/>
+            </xsl:element>
         </xsl:element>
     </xsl:template>
     <!-- =================================================================================== -->
     <xsl:template match="eas:point[@eas:scheme = 'RD']">
-        <xsl:element name="subject">
-            <xsl:value-of select="concat('Spatial coverage: ', 'x=', eas:x, '; y=', eas:y, '; units=m; (Dutch National Grid projection)')"/>
-        </xsl:element>
-        <!-- same point in WGS84 -->
+        <!-- point in WGS84 -->
         <xsl:if test="string(number(eas:x)) != 'NaN' and string(number(eas:y)) != 'NaN'">
-            <xsl:element name="subject">
-                <xsl:variable name="transformed">
-                    Spatial coverage: 
-                    <xsl:call-template name="rd-to-lat-long">
-                        <xsl:with-param name="x" select="eas:x"/>
-                        <xsl:with-param name="y" select="eas:y"/>
-                    </xsl:call-template>
-                    (EPSG projection; see http://www.opengis.net/def/crs/EPSG/0/4326)
-                </xsl:variable>
-                <xsl:value-of select="normalize-space($transformed)"/>
+            <xsl:element name="geoLocation">
+                <xsl:element name="geoLocationPoint">
+                    <xsl:variable name="transformed">
+                        <xsl:call-template name="rd-to-lat-long">
+                            <xsl:with-param name="x" select="eas:x"/>
+                            <xsl:with-param name="y" select="eas:y"/>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:value-of select="normalize-space($transformed)"/>
+                </xsl:element>
             </xsl:element>
         </xsl:if>
     </xsl:template>
     <!-- =================================================================================== -->
-    <xsl:template match="eas:box">
-        <xsl:element name="subject">
-            <xsl:value-of select="concat('Spatial coverage: ', 'north=', eas:north, '; east=', eas:east, '; south=', eas:south, '; west=', eas:west, '; units=', @eas:scheme)"/>
+    <xsl:template match="eas:box[@eas:scheme = 'degrees']">
+        <xsl:element name="geoLocation">
+            <xsl:element name="geoLocationBox">
+                <xsl:value-of select="concat(eas:south, ' ', eas:west, ' ', eas:north, ' ', eas:east)"/>
+            </xsl:element>
         </xsl:element>
     </xsl:template>
     <!-- =================================================================================== -->
     <xsl:template match="eas:box[@eas:scheme = 'RD']">
-        <xsl:element name="subject">
-            <xsl:value-of select="concat('north=', eas:north, '; east=', eas:east, '; south=', eas:south, '; west=', eas:west, '; units=m; (Dutch National Grid projection)')"/>
-        </xsl:element>
-        <!-- same box in WGS84 -->
+        <!-- box in WGS84 -->
         <xsl:if test="string(number(eas:north)) != 'NaN' and string(number(eas:east)) != 'NaN' and string(number(eas:south)) != 'NaN' and string(number(eas:west)) != 'NaN'">
-            <xsl:element name="subject">
-                <xsl:variable name="transformed">
-                    Spatial coverage: 
-                    <xsl:call-template name="box-converter">
-                        <xsl:with-param name="north" select="eas:north"/>
-                        <xsl:with-param name="east" select="eas:east"/>
-                        <xsl:with-param name="south" select="eas:south"/>
-                        <xsl:with-param name="west" select="eas:west"/>
-                    </xsl:call-template>
-                    (EPSG projection; see http://www.opengis.net/def/crs/EPSG/0/4326)
-                </xsl:variable>
-                <xsl:value-of select="normalize-space($transformed)"/>
+            <xsl:element name="geoLocation">
+                <xsl:element name="geoLocationBox">
+                    <xsl:variable name="transformed">
+                        <xsl:call-template name="box-converter">
+                            <xsl:with-param name="north" select="eas:north"/>
+                            <xsl:with-param name="east" select="eas:east"/>
+                            <xsl:with-param name="south" select="eas:south"/>
+                            <xsl:with-param name="west" select="eas:west"/>
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:value-of select="normalize-space($transformed)"/>
+                </xsl:element>
             </xsl:element>
         </xsl:if>
     </xsl:template>
@@ -810,7 +822,7 @@
                 <xsl:with-param name="south" select="$south"/>
             </xsl:call-template>
         </xsl:variable>
-        <xsl:value-of select="concat($lat-n, ' ', $lon-e, ' ', $lat-s, ' ', $lon-w)"/>
+        <xsl:value-of select="concat($lat-s, ' ', $lon-w, ' ', $lat-n, ' ', $lon-e)"/>
     </xsl:template>
     <!-- =================================================================================== -->
     <!-- RD y, east, west to latitude converter                                              -->
