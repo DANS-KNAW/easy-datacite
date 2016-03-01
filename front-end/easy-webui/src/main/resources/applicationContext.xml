@@ -471,9 +471,9 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="securedStreamingService" class="nl.knaw.dans.easy.business.services.WowzaSecuredStreamingService">
-		<property name="ticketServiceUrl" value="http://tstreaming11.dans.knaw.nl/acl/ticket" />
-		<property name="accessDurationInMilliseconds" value="60000" />
+	<bean id="ticketService" class="nl.knaw.dans.easy.business.services.LennyTicketService">
+		<property name="ticketServiceUrl" value="${easy.audio-video.ticket-service.url}" />
+		<property name="accessDurationInMilliseconds" value="${easy.audio-video.ticket-service.ticket-duration-ms}" />
 	</bean>
 </beans>
  

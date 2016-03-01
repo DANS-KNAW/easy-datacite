@@ -5,7 +5,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 /**
  * Service provides secured access to media streams. The security is based on tickets that grant access to a specific resource for a standard time.
  */
-public interface SecuredStreamingService {
+public interface TicketService {
     /**
      * Sets the base URL under which the resources are accessed.
      * 
@@ -23,7 +23,7 @@ public interface SecuredStreamingService {
     void setAccessDurationInMilliseconds(long ms);
 
     /**
-     * Instructs the {@link SecuredStreamingService} to grant access to <code>resource</code> to clients that send <code>ticket</code> along (as long as
+     * Instructs the {@link TicketService} to grant access to <code>resource</code> to clients that send <code>ticket</code> along (as long as
      * <code>ticket</code> is valid). Other tickets stay valid until they expire or are canceled with a call to {@link #removeSecurityTicket(String)}.
      * 
      * @param ticket
@@ -35,8 +35,7 @@ public interface SecuredStreamingService {
     void addSecurityTicketToResource(String ticket, String resource) throws ServiceException;
 
     /**
-     * Instructs the {@link SecuredStreamingService} to invalidate <code>ticket</code>. Subsequent requests based on the ticket must be denied by the streaming
-     * server.
+     * Instructs the {@link TicketService} to invalidate <code>ticket</code>. Subsequent requests based on the ticket must be denied by the streaming server.
      * 
      * @param ticket
      * @throws ServiceException

@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.servicelayer.services.SecuredStreamingService;
+import nl.knaw.dans.easy.servicelayer.services.TicketService;
 import org.apache.wicket.PageParameters;
 import org.junit.After;
 import org.junit.Before;
@@ -58,7 +58,7 @@ public class AudioVideoTabTest {
         applicationContext.expectDataset(DATASET_STORE_ID, dataset);
         applicationContext.setDepositService(new EasyDepositService());
         applicationContext.putBean("audioVideoPlayerUrl", "https://localhost/dummy");
-        applicationContext.putBean("securedStreamingService", new SecuredStreamingService() {
+        applicationContext.putBean("securedStreamingService", new TicketService() {
             @Override
             public void setTicketServiceUrl(String baseUrl) {}
 

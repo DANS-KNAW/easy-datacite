@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.servicelayer.services.SecuredStreamingService;
+import nl.knaw.dans.easy.servicelayer.services.TicketService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.ComponentTag;
@@ -23,8 +23,8 @@ import static nl.knaw.dans.easy.web.template.Style.AUDIO_VIDEO_HEADER_CONTRIBUTI
 public class AudioVideoPanel extends Panel {
     private static final Logger log = LoggerFactory.getLogger(AudioVideoPanel.class);
 
-    @SpringBean(name = "securedStreamingService")
-    private SecuredStreamingService securedStreamingService;
+    @SpringBean(name = "ticketService")
+    private TicketService ticketService;
 
     @SpringBean(name = "audioVideoPlayerUrl")
     private String audioVideoPlayerUrl;
@@ -46,7 +46,7 @@ public class AudioVideoPanel extends Panel {
 
     private boolean registerTicketForPresentation(String presentationPath, String ticket) {
         try {
-            securedStreamingService.addSecurityTicketToResource(ticket, presentationPath);
+            ticketService.addSecurityTicketToResource(ticket, presentationPath);
             return true;
         }
         catch (ServiceException e) {

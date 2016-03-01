@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.servicelayer.services.SecuredStreamingService;
+import nl.knaw.dans.easy.servicelayer.services.TicketService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,10 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
-public class WowzaSecuredStreamingService implements SecuredStreamingService {
-    private static Logger log = LoggerFactory.getLogger(WowzaSecuredStreamingService.class);
+import javax.ws.rs.core.MediaType;
+
+public class LennyTicketService implements TicketService {
+    private static Logger log = LoggerFactory.getLogger(LennyTicketService.class);
 
     private URI ticketServiceURI;
     private long accessDurationInMilliseconds;
@@ -26,7 +28,7 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService {
         String xmlMessage = createXmlMessage(ticket, resource);
         log.debug("Sending following message to url: {}\n {}", ticketServiceURI, xmlMessage);
         try {
-            int status = Client.create().resource(ticketServiceURI).post(ClientResponse.class, xmlMessage).getStatus();
+            int status = Client.create().resource(ticketServiceURI).type(MediaType.TEXT_XML_TYPE).post(ClientResponse.class, xmlMessage).getStatus();
             if (!acceptableResponseToPost(status)) {
                 throw new ServiceException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
             }
