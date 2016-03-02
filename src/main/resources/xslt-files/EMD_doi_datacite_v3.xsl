@@ -643,22 +643,25 @@
     <!-- ==================================================== -->
     <xsl:template match="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]">
         <xsl:element name="alternateIdentifiers">
-            <xsl:for-each select="dc:identifier[not(@eas:scheme='DOI')]">
-                <xsl:element name="alternateIdentifier">
-                    <xsl:choose>
-                        <xsl:when test="@eas:scheme = 'PID'">
-                            <xsl:attribute name="alternateIdentifierType" select="'URN'"/>
-                        </xsl:when>
-                        <xsl:when test="@eas:scheme != ''">
-                            <xsl:attribute name="alternateIdentifierType" select="@eas:scheme"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:attribute name="alternateIdentifierType" select="'Unknown'"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <xsl:value-of select="."/>
-                </xsl:element>
-            </xsl:for-each>
+            <!-- we cannot tell whether identifiers other than the ones matched below
+                 belong to the dataset, so we leave them out (EASY-1002) -->
+            <xsl:apply-templates select="dc:identifier[@eas:scheme='PID']" />
+            <xsl:apply-templates select="dc:identifier[@eas:scheme='DMO_ID']" />
+            <xsl:apply-templates select="dc:identifier[@eas:scheme='AIP_ID']" />
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="dc:identifier[@eas:scheme='PID']">
+        <xsl:element name="alternateIdentifier">
+            <xsl:attribute name="alternateIdentifierType" select="'URN'"/>
+            <xsl:value-of select="."/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="dc:identifier[@eas:scheme='DMO_ID' or @eas:scheme='AIP_ID']">
+        <xsl:element name="alternateIdentifier">
+            <xsl:attribute name="alternateIdentifierType" select="@eas:scheme" />
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
     
