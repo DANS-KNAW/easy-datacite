@@ -4,7 +4,6 @@ import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.HomeDirectory;
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
@@ -28,10 +27,12 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.vocabulary.MapFromXSD;
+
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,15 +42,17 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
+import static org.easymock.EasyMock.contains;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 import static org.powermock.api.easymock.PowerMock.createMock;
 import static org.powermock.api.easymock.PowerMock.replayAll;
@@ -99,15 +102,18 @@ public class TestDdmEmdDocumentation {
         final EasyMetadata emd = crosswalker.createFrom(readFile(INPUT));
 
         logger.info(crosswalker.getXmlErrorHandler().getMessages());
-        writeFile(new File(OUTPUT, "emd.xml"), new EmdMarshaller(emd).getXmlString());
+        String xmlString = new EmdMarshaller(emd).getXmlString();
+        writeFile(new File(OUTPUT, "emd.xml"), xmlString);
         writeFile(new File(OUTPUT, "emd.html"), getMetadataAsHTML(emd));
 
+        assertTrue(!xmlString.toLowerCase().contains("not supported"));
+        assertTrue(!xmlString.toLowerCase().contains("not implemented"));
         assertThat(crosswalker.getXmlErrorHandler().getErrors().size(), is(0));
         assertThat(crosswalker.getXmlErrorHandler().getFatalErrors().size(), is(0));
         List<SAXParseException> warnings = crosswalker.getXmlErrorHandler().getWarnings();
-        assertThat(warnings.size(), is(12));
+        assertThat(warnings.size(), is(13));
         assertThat(warnings.get(0).getMessage(), is("skipped http://purl.org/dc/terms/ accessRights [not yet configured/implemented]"));
-        assertThat(warnings.get(11).getMessage(), is("skipped mods:recordOrigin at level:4"));
+        assertThat(warnings.get(12).getMessage(), is("skipped mods:recordOrigin at level:4"));
     }
 
     private void expectDepositDisciplines() throws Exception {

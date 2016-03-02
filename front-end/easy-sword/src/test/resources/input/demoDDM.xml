@@ -16,21 +16,30 @@
     limitations under the License.
 
 -->
-<ddm:DDM xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/"
-		 xmlns:dc="http://purl.org/dc/elements/1.1/"
-		 xmlns:dcmitype="http://purl.org/dc/dcmitype/"
-		 xmlns:dct="http://purl.org/dc/terms/"
-		 xmlns:dcterms="http://purl.org/dc/terms/"
-		 xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+<ddm:DDM xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
 		 xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
 		 xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
+		 xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+		 xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/"
+		 xmlns:dc="http://purl.org/dc/elements/1.1/"
+		 xmlns:dct="http://purl.org/dc/terms/"
+		 xmlns:dcterms="http://purl.org/dc/terms/"
+
+		 xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+
 		 xsi:schemaLocation="
-		http://www.den.nl/standaard/166/Archeologisch-Basisregister/ http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd
-		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd
-		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
+		 http://easy.dans.knaw.nl/schemas/dcx/ http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx.xsd
+		 http://easy.dans.knaw.nl/schemas/dcx/dai/ http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-dai.xsd
+		 http://easy.dans.knaw.nl/schemas/dcx/gml/ http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
+		 http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2015/12/ddm.xsd
+		 http://easy.dans.knaw.nl/schemas/vocab/narcis-type/ http://easy.dans.knaw.nl/schemas/vocab/2015/narcis-type.xsd
+		 http://www.den.nl/standaard/166/Archeologisch-Basisregister/ http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd
+		 http://www.w3.org/2001/XMLSchema-instance http://easy.dans.knaw.nl/schemas/md/emd/2013/11/xml.xsd
+		 http://purl.org/dc/terms/ http://easy.dans.knaw.nl/schemas/emd/2013/11/qdc.xsd
+
+		 http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/dc.xsd
 ">
 
 	<!-- If you view this example in a browser, click 'page source' to see the namespace declarations. -->
@@ -53,7 +62,7 @@
 		-->
 
 		<!-- One or more dc:title, dct:title, dct:alternative -->
-		<dc:title xml:lang="en">Title of the dataset</dc:title>
+		<dc:title xml:lang="en">Title of the dataset 6</dc:title>
 		<dc:title xml:lang="nl">Titel van de dataset</dc:title>
 
 		<!-- One or more dc:description, dct:description, dct:abstract, dct:tableOfContents -->
@@ -95,59 +104,99 @@
 
 	<!-- DDM instances MAY have one ddm:dcmiMetadata element -->
 	<ddm:dcmiMetadata>
-		<!-- some items that cause internal errors when submitted for real with Sword-V1 -->
-		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
-		<dcterms:audience>vrije tekst</dcterms:audience>
-		<dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
+		<!--
+            Sword-V1 returns HTTP/1.1 500 Internal Server Error with the following fields
 
+            <dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
+            <dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
+            <dcterms:audience>vrije tekst</dcterms:audience>
+        -->
+
+		<!-- ================================================================ not copied to EMD -->
+
+		<!-- with 'skipped' warnings -->
+		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
+		<dc:rights>not implemented 2</dc:rights>
+		<dcterms:rights>not implemented 3</dcterms:rights>
+		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
+		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
+		<!-- See http://dublincore.org/documents/dcmi-period/#sec4  -->
+		<dc:coverage xsi:type="dct:Period">name=The Great Depression; start=1929; end=1939;</dc:coverage>
+		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
+		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
+
+		<!-- no 'skipped' warnings -->
 		<dcterms:audience><!-- empty: does not show up --></dcterms:audience>
-		<!-- =============================================================== relations -->
-		<dc:relation>relatie nummer 01</dc:relation>
-		<dcterms:relation>relatie nummer 02</dcterms:relation>
-		<dcterms:conformsTo>relatie nummer 03</dcterms:conformsTo>
-		<dcterms:isVersionOf>relatie nummer 04</dcterms:isVersionOf>
-		<dcterms:hasVersion>relatie nummer 05</dcterms:hasVersion>
-		<dcterms:isReplacedBy>relatie nummer 06</dcterms:isReplacedBy>
-		<dcterms:replaces>relatie nummer 07</dcterms:replaces>
-		<dcterms:isRequiredBy>relatie nummer 08</dcterms:isRequiredBy>
-		<dcterms:requires>relatie nummer 09</dcterms:requires>
-		<dcterms:isPartOf>relatie nummer 10</dcterms:isPartOf>
-		<dcterms:hasPart>relatie nummer 11</dcterms:hasPart>
-		<dcterms:isReferencedBy>relatie nummer 12</dcterms:isReferencedBy>
-		<dcterms:references>relatie nummer 13</dcterms:references>
-		<dcterms:isFormatOf>relatie nummer 14</dcterms:isFormatOf>
-		<dcterms:hasFormat>relatie nummer 15</dcterms:hasFormat>
+		<dcterms:instructionalMethod>not supported 01</dcterms:instructionalMethod>
+		<dcterms:accrualMethod>not supported 02</dcterms:accrualMethod>
+		<dcterms:accrualPolicy>not supported 03</dcterms:accrualPolicy>
+		<dcterms:accrualPeriodicity>not supported 04</dcterms:accrualPeriodicity>
+		<dcterms:mediator>not supported 05</dcterms:mediator>
+		<dcterms:provenance>not supported 06</dcterms:provenance>
+		<dcterms:bibliographicCitation>not supported 07</dcterms:bibliographicCitation>
+		<dcterms:medium>not supported 08</dcterms:medium>
+		<dcterms:license>not supported 09</dcterms:license>
+		<dcterms:extent>not supported 10</dcterms:extent>
+		<dcterms:abstract>not implemented 5</dcterms:abstract>
+		<dcterms:tableOfContents>not implemented 6</dcterms:tableOfContents>
+
+		<dcterms:relation xsi:type='dcterms:URI'>not implemented because of the type</dcterms:relation>
+
+		<!--  ================================================================ relations -->
+
+		<dc:relation>urn:nbn:nl:ui:13-2ajw-cq</dc:relation>
+		<dcterms:relation><!-- DOI -->10.5072/dans-xeh-dxup</dcterms:relation>
+		<dcterms:conformsTo>http://doi.org/10.1111/sode.12120</dcterms:conformsTo>
+		<dcterms:isVersionOf>http://hdl.handle.net/2066/121062</dcterms:isVersionOf>
+		<dcterms:hasVersion>http://www.persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-2ajw-cq</dcterms:hasVersion>
+		<dcterms:isReplacedBy>A descriptin of object 6</dcterms:isReplacedBy>
+		<dcterms:replaces>A descriptin of object 7</dcterms:replaces>
+		<dcterms:isRequiredBy>A descriptin of object 8</dcterms:isRequiredBy>
+		<dcterms:requires>A descriptin of object 9</dcterms:requires>
+		<dcterms:isPartOf>A descriptin of object 10</dcterms:isPartOf>
+		<dcterms:hasPart>A descriptin of object 11</dcterms:hasPart>
+		<dcterms:isReferencedBy>A descriptin of object 12</dcterms:isReferencedBy>
+		<dcterms:references>A descriptin of object 13</dcterms:references>
+		<dcterms:isFormatOf>A descriptin of object 14</dcterms:isFormatOf>
+		<dcterms:hasFormat>A descriptin of object 15</dcterms:hasFormat>
+
 		<!-- ================================================================ dates -->
+
 		<ddm:available>1900</ddm:available>
-		<dcterms:created xsi:type='dcterms:W3CDTF'>1900-04</dcterms:created>
+		<dcterms:created xsi:type='dcterms:W3CDTF'>1901-04</dcterms:created>
 		<dcterms:created>03-2013</dcterms:created>
-		<dcterms:available xsi:type='dcterms:W3CDTF'>1900-04</dcterms:available>
-		<dcterms:available>03-2013</dcterms:available>
-		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateAccepted>
-		<dcterms:dateAccepted>03-2013</dcterms:dateAccepted>
-		<dcterms:valid xsi:type='dcterms:W3CDTF'>1900-04</dcterms:valid>
-		<dcterms:valid>03-2013</dcterms:valid>
-		<dcterms:issued xsi:type='dcterms:W3CDTF'>1900-04</dcterms:issued>
-		<dcterms:issued>03-2013</dcterms:issued>
-		<dcterms:modified xsi:type='dcterms:W3CDTF'>1900-04</dcterms:modified>
-		<dcterms:modified>03-2013</dcterms:modified>
-		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateCopyrighted>
-		<dcterms:dateCopyrighted>03-2013</dcterms:dateCopyrighted>
-		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateSubmitted>
-		<dcterms:dateSubmitted>03-2013</dcterms:dateSubmitted>
-		<dcterms:date xsi:type='dcterms:W3CDTF'>1900-04</dcterms:date>
-		<dcterms:date>03-2013</dcterms:date>
-		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
-		<dc:date>03-2013</dc:date>
+		<dcterms:available xsi:type='dcterms:W3CDTF'>1902-04</dcterms:available>
+		<dcterms:available>04-2013</dcterms:available>
+		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1903-04</dcterms:dateAccepted>
+		<dcterms:dateAccepted>05-2013</dcterms:dateAccepted>
+		<dcterms:valid xsi:type='dcterms:W3CDTF'>1904-04</dcterms:valid>
+		<dcterms:valid>06-2013</dcterms:valid>
+		<dcterms:issued xsi:type='dcterms:W3CDTF'>1905-04</dcterms:issued>
+		<dcterms:issued>07-2013</dcterms:issued>
+		<dcterms:modified xsi:type='dcterms:W3CDTF'>1906-04</dcterms:modified>
+		<dcterms:modified>08-2013</dcterms:modified>
+		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1907-04</dcterms:dateCopyrighted>
+		<dcterms:dateCopyrighted>09-2013</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1908-04</dcterms:dateSubmitted>
+		<dcterms:dateSubmitted>10-2013</dcterms:dateSubmitted>
+		<dcterms:date xsi:type='dcterms:W3CDTF'>1909-04</dcterms:date>
+		<dcterms:date>11-2013</dcterms:date>
+		<dc:date xsi:type='dcterms:W3CDTF'>1910-04</dc:date>
+		<dc:date>12-2013</dc:date>
+
 		<!-- ================================================================ authors -->
-		<!-- some items that cause internal errors when submitted for real with Sword-V1 -->
-		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>maker met dai</dcx-dai:creator>
-		<dcx-dai:contributor DAI='1234567897'>bijdrager met DAI</dcx-dai:contributor>
+
 		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'><!-- empty: does not show up --></dcx-dai:creator>
-		<dc:creator>maker</dc:creator>
-		<dc:contributor>bijdrager</dc:contributor>
-		<dcterms:creator>maker term</dcterms:creator>
-		<dcterms:contributor>bijdrager term</dcterms:contributor>
+		<!--
+			Sword-V1 returns HTTP/1.1 400 Bad Request: invalid meta data [Incomplete value eas.creator index=1]
+
+			<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>maker met dai</dcx-dai:creator>
+			<dcx-dai:contributor DAI='1234567897'>bijdrager met DAI</dcx-dai:contributor>
+			<dc:creator>maker</dc:creator>
+			<dc:contributor>bijdrager</dc:contributor>
+			<dcterms:creator>maker term</dcterms:creator>
+			<dcterms:contributor>bijdrager term</dcterms:contributor>
+		-->
 
 		<dcx-dai:creatorDetails>
 			<dcx-dai:author>
@@ -172,34 +221,20 @@
 				</dcx-dai:organization>
 			</dcx-dai:author>
 		</dcx-dai:contributorDetails>
-		<!-- =================================================== not supported -->
-		<dcterms:instructionalMethod>not supported 01</dcterms:instructionalMethod>
-		<dcterms:accrualMethod>not supported 02</dcterms:accrualMethod>
-		<dcterms:accrualPolicy>not supported 03</dcterms:accrualPolicy>
-		<dcterms:accrualPeriodicity>not supported 04</dcterms:accrualPeriodicity>
-		<dcterms:mediator>not supported 05</dcterms:mediator>
-		<dcterms:provenance>not supported 06</dcterms:provenance>
-		<dcterms:bibliographicCitation>not supported 07</dcterms:bibliographicCitation>
-		<dcterms:medium>not supported 08</dcterms:medium>
-		<dcterms:license>not supported 09</dcterms:license>
-		<dcterms:extent>not supported 10</dcterms:extent>
-		<!-- =================================================== not yet implemented -->
-		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
-		<dc:rights>not implemented 2</dc:rights>
-		<dcterms:rights>not implemented 3</dcterms:rights>
-		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
-		<dcterms:abstract>not implemented 5</dcterms:abstract>
-		<dcterms:tableOfContents>not implemented 6</dcterms:tableOfContents>
+
 		<!-- =================================================== language -->
+
 		<dcterms:language>Nederlands</dcterms:language>
 		<dc:language>Engels</dc:language>
 		<dc:language xsi:type='dcterms:ISO639-3'>Ned</dc:language>
 		<dc:language xsi:type='dcterms:ISO639-2'>en</dc:language>
 		<dcterms:language xsi:type='dcterms:ISO639-3'>Dui</dcterms:language>
 		<dcterms:language xsi:type='dcterms:ISO639-2'>fr</dcterms:language>
+
 		<!-- =================================================== misceleneous -->
-		<dcterms:identifier>IDA</dcterms:identifier>
-		<dc:identifier>IDB</dc:identifier>
+
+		<dcterms:identifier>some ientifier 1</dcterms:identifier>
+		<dc:identifier>some ientifier 2</dc:identifier>
 		<dcterms:description>beschrijving</dcterms:description>
 		<dcterms:format>formaat</dcterms:format>
 		<dcterms:alternative>alternatief</dcterms:alternative>
@@ -214,21 +249,25 @@
 		<dc:type>Tiepe</dc:type>
 		<dc:source>nog een bron</dc:source>
 		<dcterms:subject>onderwerp</dcterms:subject>
-		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
-		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
-
-		<!-- Use explicitely typed values, when possible -->
-		<dct:issued xsi:type="dct:W3CDTF">2012-10-09</dct:issued>
 
 		<!-- Repeat elements that have independent meaning -->
 		<dc:subject>school leavers</dc:subject>
 		<dc:subject>labour market</dc:subject>
 
+		<!-- Use explicitely typed values, when possible -->
+		<dct:issued xsi:type="dct:W3CDTF">2012-10-09</dct:issued>
+
 		<!-- ====================================================== coverage -->
+
 		<dc:coverage>Dekking</dc:coverage>
 		<dcterms:coverage>meer dekking</dcterms:coverage>
+
+		<!-- On or more items per period -->
+
 		<dcterms:temporal>bronzen tijdperk</dcterms:temporal>
-		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
+
+		<!-- On or more items per location -->
+
 		<dcterms:spatial>Ruimte</dcterms:spatial>
 		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
 			<Point xmlns="http://www.opengis.net/gml">
@@ -259,8 +298,6 @@
 				<pos>83575.4 455271.2 1.12</pos>
 			</Point>
 		</dcx-gml:spatial>
-		<!-- Use 'name=value' and ';' for lists of items that belong together -->
-		<dc:coverage xsi:type="dct:Period">name=The Great Depression; start=1929; end=1939;</dc:coverage>
 
 		<!-- Use ';' for separation of list items. Use of line breaks is allowed -->
 		<dct:tableOfContents>
@@ -277,6 +314,9 @@
 		The content of the ddm:additional-xml element is free, as long as its namespace is ##other.
 		Use this element for short notations. Complete metadata records in other formats should
 		preferably go into separate files.
+		
+		Nothing will be copied to EMD
+		
 		Below is an example of usage of the ddm:additional-xml element. It uses a mods:recordInfo
 		element to provide meaningfull information about the origin of this DDM instance.
 		-->
