@@ -85,8 +85,7 @@
         <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]"/>
         
         <!-- 12. relatedIdentifier -->
-        <!-- https://drivenbydata.atlassian.net/browse/EASY-892 -->
-        <!-- <xsl:apply-templates select="emd:relation" /> -->
+        <xsl:apply-templates select="emd:relation" />
         
         <!-- 13. size OPTIONAL -->
         <!-- unavailable -->
@@ -568,27 +567,82 @@
     <!-- emd:relation to datacite relatedIdentifiers -->
     <!-- ==================================================== -->
     <xsl:template match="emd:relation">
-        <xsl:if test="eas:*[eas:subject-link != '']">
-            <xsl:element name="relatedIdentifiers">
-                <xsl:for-each select="eas:*[eas:subject-link != '']">
-                    <xsl:variable name="rawid" select="eas:subject-link/text()" />
-                    <xsl:choose>
-                        <xsl:when test="starts-with($rawid, 'http://persistent-identifier.nl/?identifier=')">
-                            <xsl:element name="relatedIdentifier">
-                                <xsl:attribute name="relatedIdentifierType" select="'URN'"/>
-                                <xsl:value-of select="substring-after($rawid, 'http://persistent-identifier.nl/?identifier=')"/>
-                            </xsl:element>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:element name="relatedIdentifier">
-                                <xsl:attribute name="relatedIdentifierType" select="'URL'"/>
-                                <xsl:value-of select="$rawid"/>
-                            </xsl:element>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </xsl:for-each>
-            </xsl:element>
-        </xsl:if>
+        <xsl:element name="relatedIdentifiers">
+            <xsl:apply-templates select="eas:isReferencedBy[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isReplacedBy[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:replaces[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isPartOf[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:hasPart[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isVersionOf[eas:subject-link != '']" />
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template name="relatedIdentifier">
+        <xsl:param name="link" />
+        <xsl:param name="relationType" />
+        <xsl:element name="relatedIdentifier">
+            <xsl:attribute name="relationType" select="$relationType" />
+            <xsl:choose>
+                <xsl:when test="contains($link, 'persistent-identifier.nl')">
+                    <xsl:attribute name="relatedIdentifierType" select="'URN'"/>
+                    <xsl:value-of select="substring-after($link, 'persistent-identifier.nl/?identifier=')"/>
+                </xsl:when>
+                <xsl:when test="contains($link, 'doi.org')">
+                    <xsl:attribute name="relatedIdentifierType" select="'DOI'"/>
+                    <xsl:value-of select="substring-after($link, 'doi.org/')"/>
+                </xsl:when>
+                <xsl:when test="contains($link, 'hdl.handle.net')">
+                    <xsl:attribute name="relatedIdentifierType" select="'Handle'"/>
+                    <xsl:value-of select="substring-after($link, 'hdl.handle.net/')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="relatedIdentifierType" select="'URL'"/>
+                    <xsl:value-of select="$link"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="eas:isReferencedBy[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsReferencedBy'"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="eas:isReplacedBy[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsPreviousVersionOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="eas:replaces[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsNewVersionOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="eas:isPartOf[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsPartOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="eas:hasPart[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'HasPart'"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="eas:isVersionOf[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsDerivedFrom'"/>
+        </xsl:call-template>
     </xsl:template>
     
     <!-- ==================================================== -->
