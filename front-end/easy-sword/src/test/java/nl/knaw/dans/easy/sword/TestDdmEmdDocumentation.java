@@ -51,6 +51,7 @@ import static org.easymock.EasyMock.contains;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.not;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -111,9 +112,10 @@ public class TestDdmEmdDocumentation {
         assertThat(crosswalker.getXmlErrorHandler().getErrors().size(), is(0));
         assertThat(crosswalker.getXmlErrorHandler().getFatalErrors().size(), is(0));
         List<SAXParseException> warnings = crosswalker.getXmlErrorHandler().getWarnings();
-        assertThat(warnings.size(), is(13));
+        assertThat(warnings.size(), is(12));
         assertThat(warnings.get(0).getMessage(), is("skipped http://purl.org/dc/terms/ accessRights [not yet configured/implemented]"));
-        assertThat(warnings.get(12).getMessage(), is("skipped mods:recordOrigin at level:4"));
+        assertThat(warnings.get(11).getMessage(), is("skipped mods:recordOrigin at level:4"));
+        assertThat(xmlString, containsString("Houder van rechten"));// EASY-1004
     }
 
     private void expectDepositDisciplines() throws Exception {

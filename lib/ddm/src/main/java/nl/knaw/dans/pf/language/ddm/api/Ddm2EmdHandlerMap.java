@@ -23,28 +23,7 @@ import nl.knaw.dans.pf.language.ddm.datehandlers.TermsIssuedHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.TermsModiefiedHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.TermsValidHandler;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
-import nl.knaw.dans.pf.language.ddm.handlers.AccessRightsHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.AudienceHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.ContributorDetailsHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.CreatorDetailsHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DaiContributorHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DaiCreatorHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcCoverageHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcFormatHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcLanguageHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcPublisherHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcSourceHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DcTypeHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.DescriptionHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.IdentifierHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.SimpleContributorHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.SimpleCreatorHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.SkippedFieldHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.SubjectHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.TermsSpatialHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.TermsTemporalHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.TitleHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.*;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
@@ -175,6 +154,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("/dc:contributor", simpleContributorHandler);
         map.put("/dcterms:creator", simpleCreatorHandler);
         map.put("/dcterms:contributor", simpleContributorHandler);
+        map.put("/dcterms:rightsHolder", new TermsRightsHolderHandler());
         map.put("/dcx-dai:contributorDetails", new ContributorDetailsHandler());
         map.put("/dcx-dai:creatorDetails", new CreatorDetailsHandler());
         map.put("/dcx-dai:creator", new DaiCreatorHandler());
@@ -275,10 +255,8 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("/dcterms:accessRights", NOT_YET_IMPLEMENTED);
         map.put("/dc:rights", NOT_YET_IMPLEMENTED);
         map.put("/dcterms:rights", NOT_YET_IMPLEMENTED);
-        map.put("/dcterms:rightsHolder", NOT_YET_IMPLEMENTED);
         // <ref-panelId>dc.rights</ref-panelId>
         // <ref-panelId>dcterms.accessrights</ref-panelId>
-        // <ref-panelId>dcterms.rightsHolder</ref-panelId>
         // EasyMetadataImpl: EmdRights emdRights;
 
         // life science / archaeology

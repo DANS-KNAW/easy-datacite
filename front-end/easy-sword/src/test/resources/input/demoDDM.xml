@@ -118,7 +118,6 @@
 		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
 		<dc:rights>not implemented 2</dc:rights>
 		<dcterms:rights>not implemented 3</dcterms:rights>
-		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
 		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
 		<!-- See http://dublincore.org/documents/dcmi-period/#sec4  -->
 		<dc:coverage xsi:type="dct:Period">name=The Great Depression; start=1929; end=1939;</dc:coverage>
@@ -186,6 +185,7 @@
 
 		<!-- ================================================================ authors -->
 
+		<dcterms:rightsHolder>Houder van rechten</dcterms:rightsHolder>
 		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'><!-- empty: does not show up --></dcx-dai:creator>
 		<!--
 			Sword-V1 returns HTTP/1.1 400 Bad Request: invalid meta data [Incomplete value eas.creator index=1]
