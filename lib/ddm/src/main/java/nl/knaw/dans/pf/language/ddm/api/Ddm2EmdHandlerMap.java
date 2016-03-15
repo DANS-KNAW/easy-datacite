@@ -163,6 +163,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
 
     private void putRalationHandlers() {
         final BasicIdentifierHandler dcRelationHandler = new DcRelationHandler();
+        map.put("/ddm:relation", dcRelationHandler);
         map.put("/dc:relation", dcRelationHandler);
         map.put("/dcterms:relation", dcRelationHandler);
         map.put("/dcterms:conformsTo", new TermsConformsToHandler());

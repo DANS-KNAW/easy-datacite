@@ -3,8 +3,13 @@ package nl.knaw.dans.pf.language.ddm.api;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 
 import nl.knaw.dans.common.lang.id.DAI;
@@ -17,12 +22,11 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
 public class CrosswalkInlineTest {
     private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
     private static final String W3CDTF_TYPE = " xsi:type='dcterms:W3CDTF'";
@@ -35,7 +39,25 @@ public class CrosswalkInlineTest {
     private static final Logger logger = LoggerFactory.getLogger(CrosswalkInlineTest.class);
 
     // for some tests we need the offline validator
-    private static Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
+    private static Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(new SpecialValidator());
+
+    @BeforeClass
+    public static void externalSchemaCheck() {
+        // only the dais test really works offline
+        assumeTrue("can access " + NameSpace.DC.xsd, canConnect(NameSpace.DC.xsd));
+    }
+
+    private static boolean canConnect(String url) {
+        try {
+            HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+            urlConnection.connect();
+            urlConnection.disconnect();
+            return true;
+        }
+        catch (IOException e) {
+            return false;
+        }
+    }
 
     @Test
     public void dais() {

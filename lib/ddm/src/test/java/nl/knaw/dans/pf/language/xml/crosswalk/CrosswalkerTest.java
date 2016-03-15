@@ -108,7 +108,19 @@ public class CrosswalkerTest {
 
     @Test
     public void complex() throws Exception {
-        StringBuffer result = crosswalk.createFrom(new File("src/test/resources/input/abstract.xml"));
+        // @formatter:off
+        String s = "<?xml version='1.0' encoding='UTF-8'?>\n" +
+                "<root>\n" +
+                "  <simple xml:lang='en'>abc</simple>\n" +
+                "  <complex>\n" +
+                "    abc\n" +
+                "    <skip>def</skip>\n" +
+                "    ghi\n" +
+                "    <use xml:lang='nl'>jkl</use>\n" +
+                "  </complex>\n" +
+                "</root>";
+        // @formatter:on
+        StringBuffer result = crosswalk.createFrom(s);
         assertThat(result.toString(), is("-en-abc-nl-jkl"));
         assertThat(crosswalk.getXmlErrorHandler().getWarnings().size(), is(2));
     }
