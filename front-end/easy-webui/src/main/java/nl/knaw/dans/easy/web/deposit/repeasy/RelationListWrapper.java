@@ -39,12 +39,13 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
     }
 
     private <R extends MetadataItem> void addRelations(Map<String, List<R>> dcRels) {
-        for (String type : dcRels.keySet()){
+        for (String type : dcRels.keySet()) {
             List<MetadataItem> l = new ArrayList<MetadataItem>();
             l.addAll(dcRels.get(type));
             if (listMap.containsKey(type))
                 listMap.get(type).addAll(l);
-            else listMap.put(type,l);
+            else
+                listMap.put(type, l);
         }
     }
 
@@ -128,8 +129,9 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
                     new URL(value);
                     subjectTitle = relationType == null ? value : relationType;
                     subjectLink = value;
-                } catch (MalformedURLException e) {
-                    subjectTitle = (relationType == null ? "" : relationType + ": " ) + value;
+                }
+                catch (MalformedURLException e) {
+                    subjectTitle = (relationType == null ? "" : relationType + ": ") + value;
                     subjectLink = null;
                 }
                 emphasis = false;
