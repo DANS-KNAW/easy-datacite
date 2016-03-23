@@ -498,7 +498,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
 
     private void addDsaLink() {
         ExternalLink link = new ExternalLink("dsaLink", dsaLink);
-        link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "dsa-logo.gif")));
+        link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "logo-DSA.gif")));
+        link.add(new Image("nestorSeal", new ResourceReference(AbstractEasyNavPage.class, "logo-NESTOR.png")));
+        link.add(new Image("wdsLogo", new ResourceReference(AbstractEasyNavPage.class, "logo-WDS.png")));
         add(link);
     }
 
