@@ -2,7 +2,8 @@ package nl.knaw.dans.easy.task
 
 import java.io.PrintWriter
 
-import scala.xml.transform.RuleTransformer
+import nl.knaw.dans.easy.DataciteService
+
 
 /**
  *
@@ -16,5 +17,6 @@ import scala.xml.transform.RuleTransformer
 case class Settings(testMode : Boolean,
                     sendEmails : Boolean,
                     updater: StreamUpdater,
+                    ds : DataciteService,
                     writer : PrintWriter,
                     writer_2 : PrintWriter)

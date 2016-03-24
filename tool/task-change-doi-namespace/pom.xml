@@ -18,6 +18,15 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>ddm</artifactId>
+			<version>2.13</version>
+		</dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>easy-datacite</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 		</dependency>

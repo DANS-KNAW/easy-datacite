@@ -1,11 +1,14 @@
 package nl.knaw.dans.easy.task
 
+
 import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.io.Source
 import scala.xml.transform.{RewriteRule, RuleTransformer}
 import scala.xml.{Elem, Node, Text}
+import nl.knaw.dans.pf.language.emd.{EasyMetadata, EasyMetadataImpl}
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller
 
 object Main {
 
@@ -42,6 +45,27 @@ object Main {
     log.info(s"Inspecting: $pid")
     if (changeNamespaceEMD(pid) && changeNamespaceDC(pid) && changeNamespaceRelsExt(pid)) {
       addToDepositorDatasets(getDepositor(pid), pid)
+      registerDoi(pid)
+    }
+  }
+
+  def registerDoi(pid: String) (implicit settings: Settings) = {
+    val emdXml = getEMDXml(pid)
+    if (emdXml.isEmpty)
+      log.error("Error in getting EMD in the xml format, the EMD in xml format contains an empty string.")
+    else {
+      log.info(s"Register $pid to the datacite server.")
+      val emd = new EmdUnmarshaller[EasyMetadata](classOf[EasyMetadataImpl]).unmarshal(getEMDXml(pid))
+      settings.ds.create(emd)
+    }
+  }
+
+  def getEMDXml(pid: String)(implicit settings : Settings): String = {
+
+    val streamId = "EMD"
+    Util.getXml(pid, streamId) match {
+      case None => ""
+      case Some(xml) => xml.toString()
     }
   }
 
