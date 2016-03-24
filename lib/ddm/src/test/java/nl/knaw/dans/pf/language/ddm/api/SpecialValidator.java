@@ -18,7 +18,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
 public class SpecialValidator extends AbstractValidator2 {
     private static final Logger logger = LoggerFactory.getLogger(SpecialValidator.class);
 
-    public final static String LOCAL_SCHEMA_DIR = getSchemaVersion();
+    public final static String LOCAL_SCHEMA_DIR = "target/easy-schema/";
 
     // Note that the online url's can be found in nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace
     public final static Map<String, File> RECENT_SCHEMAS = getRecentXsds();
@@ -39,14 +39,6 @@ public class SpecialValidator extends AbstractValidator2 {
         else
             return key;
 
-    }
-
-    private static String getSchemaVersion() {
-        String snapshot_schema = System.getProperty("SNAPSHOT_SCHEMA");
-        if (isBlank(snapshot_schema) || !snapshot_schema.toLowerCase().equals("true"))
-            return "target/easy-schema/";
-        else
-            return "target/easy-schema-1.x-SNAPSHOT/";
     }
 
     private static Map<String, File> getRecentXsds() {
