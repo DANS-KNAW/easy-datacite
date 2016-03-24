@@ -6,7 +6,7 @@ import nl.knaw.dans.easy.task.Main._
 
 import scala.collection.mutable
 import scala.io.Source
-import scala.util.{Success, Failure}
+import scala.util.{Failure, Success}
 
 object EmailProcessing {
 
@@ -14,9 +14,7 @@ object EmailProcessing {
   val EMAIL_FROM = "info@dans.knaw.nl"
   val EMAIL_FROM_NAME = "Data Archiving and Networked Services"
   val EMAIL_CC = List("info@dans.knaw.nl")
-  val EMAIL_SUBJECT = "DOI namespace changed"
-  val EMAIL_PROLOG = "This email has been sent to you because...\nblah, blah, blah....\nblah, blah, blah....\n\nThe following datasets have been modified: "
-  val EMAIL_EPILOG = "\n\nCheers,\nEASY TEAM"
+  val EMAIL_SUBJECT = "Attentie: verkeerde voorvoegsels in de DOI's in de EASY-deposit confirmation e-mails van september 2015"
 
   def process()(implicit settings: Settings, depositors : mutable.Map[String, String]) = {
 
@@ -35,7 +33,7 @@ object EmailProcessing {
           log.warn(s"Email address was not found for the depositor $depositor; concerns datasets:$changedDatasets")
           settings.writer_2.println(s"Email address was not found for the depositor $depositor; concerns datasets:$changedDatasets")
         case Some(receiver) =>
-          sendEmail(settings.testMode, settings.sendEmails, receiver, EMAIL_CC, EMAIL_SUBJECT, EMAIL_PROLOG + changedDatasets + EMAIL_EPILOG)
+          sendEmail(settings.testMode, settings.sendEmails, receiver, EMAIL_CC, EMAIL_SUBJECT, genEmailMessage(changedDatasets))
       }
     }
   }
@@ -62,5 +60,23 @@ object EmailProcessing {
           settings.writer_2.println(s"An email has been sent to $receivers")
       }
     }
+  }
+
+  def genEmailMessage(datasets: String): String = {
+    s"""Geachte data-depositor,
+
+      Een van de voornaamste diensten voor het duurzaam toegankelijk maken van digitale onderzoeksdata is het toekennen van een unieke identificatie aan de dataset: de zogeheten Persistent Identifier.
+      Datasets in EASY worden voorzien van een DOI (Digital Object Identifier). De DOI wordt automatisch toegekend bij het deponeren, na het versturen (submitten) van de dataset in EASY wordt deze direct met u gedeeld in de ontvangstbevestiging (deposit confirmation).
+
+      Alle DOI’s in EASY hebben hetzelfde begin: ‘http://dx.doi.org/10.17026/dans-’. De rest van de link is per dataset verschillend en uniek.
+
+      Met onze spijt is het recentelijk aan het licht gekomen dat er over de maand september 2015 een fout in de configuratie van de DOI-generator zat. Hierdoor zijn in deze maand verkeerde DOI’s met u gedeeld in de ontvangstbevestiging.
+      De fout heeft geen betrekking op het unieke gedeelte van de DOI, maar op het vaste gedeelte. Hier is het foutieve nummer 10.5072 komen te staan in plaats van het juiste nummer 10.17026.
+      De referenties in EASY zijn allemaal automatisch hersteld. Heeft u echter zelf inmiddels op basis van het verkeerde nummer referenties naar uw dataset gebruikt, dan moeten wij u helaas vragen om deze referenties zelf te achterhalen en te corrigeren.
+      Onze oprechte excuses voor het ongemak. We hebben maatregelen genomen om er voor te zorgen dat de fout zich niet opnieuw voor kan doen.
+
+      Voor u heeft het betrekking op de volgende datasets: $datasets
+
+      Neem voor nadere informatie contact op met chris.baars@dans.knaw.nl"""
   }
 }
