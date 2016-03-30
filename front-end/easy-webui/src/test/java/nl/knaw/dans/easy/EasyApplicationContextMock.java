@@ -186,7 +186,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         setDisclaimerLink("http://mocked/disclaimer/url");
         setLegalLink("http://mocked/legal/url");
         setPropertyRightStatementLink("http://mocked/property-right-statement/url");
-        setDsaLink("http://mocked/dsa/url");
+        setCertificeringLink("http://mocked/certificering/url");
         setReusingDataLink("http://mocked/reusing-data/url");
     }
 
@@ -623,8 +623,8 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         putBean("propertyRightStatementLink", url);
     }
 
-    private void setDsaLink(final String url) {
-        putBean("dsaLink", url);
+    private void setCertificeringLink(final String url) {
+        putBean("certificeringLink", url);
     }
 
     private void setReusingDataLink(final String url) {

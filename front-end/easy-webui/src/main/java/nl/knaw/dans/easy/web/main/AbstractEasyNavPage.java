@@ -105,8 +105,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
     @SpringBean(name = "reusingDataLink")
     private String reusingDataLink;
 
-    @SpringBean(name = "dsaLink")
-    private String dsaLink;
+    @SpringBean(name = "certificeringLink")
+    private String certificeringLink;
 
     /**
      * Default constructor.
@@ -241,7 +241,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         addLegalLink();
         addPropertyRightStatementLink();
         addReusingDataLink();
-        addDsaLink();
+        addCertificeringLinkLink();
         add(new VersionPanel(EASY_VERSION));
     }
 
@@ -496,8 +496,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         add(new ExternalLink("reusingDataLink", reusingDataLink, getString("page.reusingDataRef")));
     }
 
-    private void addDsaLink() {
-        ExternalLink link = new ExternalLink("dsaLink", dsaLink);
+    private void addCertificeringLinkLink() {
+        ExternalLink link = new ExternalLink("certificeringLink", certificeringLink);
         link.add(new Image("dsaLogo", new ResourceReference(AbstractEasyNavPage.class, "logo-DSA.gif")));
         link.add(new Image("nestorSeal", new ResourceReference(AbstractEasyNavPage.class, "logo-NESTOR.png")));
         link.add(new Image("wdsLogo", new ResourceReference(AbstractEasyNavPage.class, "logo-WDS.png")));

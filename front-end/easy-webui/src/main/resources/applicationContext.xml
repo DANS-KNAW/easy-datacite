@@ -445,10 +445,10 @@
         <constructor-arg type="java.lang.String"
             value="${easy.link.reusing-data}" />
     </bean>
-
-    <bean id="dsaLink" class="java.lang.String">
+    
+    <bean id="certificeringLink" class="java.lang.String">
         <constructor-arg type="java.lang.String"
-            value="${easy.link.dsa}" />
+            value="${easy.link.certificering}" />
     </bean>
 
     <bean id="audioVideoPlayerUrl" class="java.lang.String">
