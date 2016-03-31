@@ -70,7 +70,7 @@ object EmailProcessing {
 
       Alle DOI’s in EASY hebben hetzelfde begin: ‘http://dx.doi.org/10.17026/dans-’. De rest van de link is per dataset verschillend en uniek.
 
-      Met onze spijt is het recentelijk aan het licht gekomen dat er over de maand september 2015 een fout in de configuratie van de DOI-generator zat. Hierdoor zijn in deze maand verkeerde DOI’s met u gedeeld in de ontvangstbevestiging.
+      Tot onze spijt is het recentelijk aan het licht gekomen dat er over de maand september 2015 een fout in de configuratie van de DOI-generator zat. Hierdoor zijn in deze maand verkeerde DOI’s met u gedeeld in de ontvangstbevestiging.
       De fout heeft geen betrekking op het unieke gedeelte van de DOI, maar op het vaste gedeelte. Hier is het foutieve nummer 10.5072 komen te staan in plaats van het juiste nummer 10.17026.
       De referenties in EASY zijn allemaal automatisch hersteld. Heeft u echter zelf inmiddels op basis van het verkeerde nummer referenties naar uw dataset gebruikt, dan moeten wij u helaas vragen om deze referenties zelf te achterhalen en te corrigeren.
       Onze oprechte excuses voor het ongemak. We hebben maatregelen genomen om er voor te zorgen dat de fout zich niet opnieuw voor kan doen.
