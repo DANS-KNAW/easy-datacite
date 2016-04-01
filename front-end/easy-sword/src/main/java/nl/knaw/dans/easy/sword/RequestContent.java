@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public class RequestContent {
     enum MDFileName {
-        easyMetadata("deprecated"), DansDatasetMetadata("preferred metadata format");
+        DansDatasetMetadata("preferred metadata format");
 
         static boolean accepts(final File file) {
             final String baseName = file.getName().replace(".xml", "");
@@ -92,24 +92,21 @@ public class RequestContent {
     }
 
     private EasyMetadata createEasyMetadata(final File metadataFile) throws SWORDErrorException, SWORDException {
-        if (metadataFile.getName().startsWith(MDFileName.easyMetadata.name()))
-            return EasyMetadataFacade.validate(readMetadata(metadataFile));
-        else if (metadataFile.getName().startsWith(MDFileName.DansDatasetMetadata.name())) {
-            final Ddm2EmdCrosswalk ddmEmdCrosswalk = new Ddm2EmdCrosswalk();
-            try {
-                EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
-                if (emd == null)
-                    throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "
-                            + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
-                EasyMetadataFacade.validateControlledVocabulairies(emd);
-                EasyMetadataFacade.validateMandatoryFields(emd);
-                return emd;
-            }
-            catch (CrosswalkException e) {
+        if (!metadataFile.getName().startsWith(MDFileName.DansDatasetMetadata.name()))
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Metadata format not implemented: " + metadataFile.getName()));
+
+        final Ddm2EmdCrosswalk ddmEmdCrosswalk = new Ddm2EmdCrosswalk();
+        try {
+            EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
+            if (emd == null)
                 throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
-            }
+            EasyMetadataFacade.validateControlledVocabulairies(emd);
+            EasyMetadataFacade.validateMandatoryFields(emd);
+            return emd;
         }
-        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Metadata format not implemented: " + metadataFile.getName()));
+        catch (CrosswalkException e) {
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+        }
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException {

@@ -90,10 +90,7 @@ public class EasySwordServer implements SWORDServer {
         collection.setMediation(false);
 
         // qualityValue indicates this is the preferred format
-        collection.addAcceptPackaging("http://easy.dans.knaw.nl/schemas/index.xml", 1f);
-
-        // qualityValue indicates this format is deprecated
-        collection.addAcceptPackaging("https://www.dropbox.com/s/8xzzkqztq6c2nh3/SwordPackaging.html", 0f);
+        collection.addAcceptPackaging(Context.getAcceptPackaging(), 1f);
 
         final boolean jetty = !location.contains("/" + Context.getServletName() + "/");
         collection.setLocation(Context.getProviderURL() + (jetty ? "" : Context.getServletName() + "/") + "deposit");

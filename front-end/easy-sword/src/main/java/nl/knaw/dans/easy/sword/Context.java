@@ -15,6 +15,7 @@ public class Context {
 
     private static String workspaceTitle = null;
     private static String collectionTreatment = null;
+    private static String acceptPackaging = null;
     private static String collectionPolicy = null;
     private static String collectionTitle = null;
     private static String collectionAbstract = null;
@@ -24,6 +25,18 @@ public class Context {
     private static String servletName = null;
     private static String easyHome = null;
     private static SystemReadOnlyStatus systemReadOnlyStatus = null;
+
+    public static String getAcceptPackaging() throws SWORDException {
+        if (unzip == null) {
+            error("Missing configuration setting: acceptPackaging");
+        }
+        return acceptPackaging;
+    }
+
+    public static void setAcceptPackaging(String acceptPackaging) {
+        log.debug("Setting acceptPackaging to {}", acceptPackaging);
+        Context.acceptPackaging = acceptPackaging;
+    }
 
     public void setUnzip(String unzip) {
         log.debug("Setting unzip directory to {}", unzip);

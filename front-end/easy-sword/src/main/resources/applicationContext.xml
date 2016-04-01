@@ -32,6 +32,7 @@
 	<bean name="easySwordContext" class="nl.knaw.dans.easy.sword.Context">
 		<property name="unzip" value="${easy.sword.server.unzip.dir}" />
 		<property name="workspaceTitle" value="${easy.sword.server.workspace.title}" />
+		<property name="acceptPackaging" value="${easy.sword.server.acceptPackaging}" />
 		<property name="collectionTreatment" value="${easy.sword.server.collection.treatment}" />
 		<property name="collectionPolicy" value="${easy.sword.server.collection.policy}" />
 		<property name="collectionTitle" value="${easy.sword.server.collection.title}" />

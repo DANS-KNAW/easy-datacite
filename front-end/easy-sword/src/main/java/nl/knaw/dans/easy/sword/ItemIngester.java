@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 public class ItemIngester extends DefaultDelegator {
     private static final String DDM = buildPattern(RequestContent.MDFileName.DansDatasetMetadata).toLowerCase();
-    private static final String EMD = buildPattern(RequestContent.MDFileName.easyMetadata).toLowerCase();
     private static final String FO_DDM = FileOntology.MetadataFormat.DDM.toString();
     private static Logger logger = LoggerFactory.getLogger(ItemIngester.class);
     private final Dataset dataset;
@@ -27,7 +26,7 @@ public class ItemIngester extends DefaultDelegator {
     public void addAdditionalRDF(final FileItem fileItem) {
         logger.debug("checking if file is DDM/EDM: " + fileItem.getPath());
         final String lowerCasePath = fileItem.getPath().toLowerCase();
-        if (lowerCasePath.matches(DDM) || lowerCasePath.matches(EMD)) {
+        if (lowerCasePath.matches(DDM)) {
             logger.info("connecting metadata file " + fileItem.getStoreId() + " with dataset " + dataset.getStoreId());
             @SuppressWarnings("rawtypes")
             final AbstractRelations relations = (AbstractRelations) fileItem.getRelations();
