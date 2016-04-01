@@ -133,15 +133,19 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
                 catch (MalformedURLException e) {
                     int indexOfUrl = value.toLowerCase().indexOf("url=");
                     int indexOfTitle = value.toLowerCase().indexOf("title=");
-                    String title = (indexOfTitle < 0 ? value : indexOfTitle < indexOfUrl ? value.substring(indexOfTitle + 6, indexOfUrl) : value.substring(indexOfTitle + 6)).trim();
+                    String title = (indexOfTitle < 0 ? value : indexOfTitle < indexOfUrl ? value.substring(indexOfTitle + 6, indexOfUrl) : value
+                            .substring(indexOfTitle + 6)).trim();
                     subjectLink = indexOfUrl < 0 ? null : value.substring(indexOfUrl + 4).split(" ")[0].trim();
                     try {
                         new URL(subjectLink);
-                    } catch (MalformedURLException e2) {
+                    }
+                    catch (MalformedURLException e2) {
                         subjectLink = null;
                     }
-                    if (relationType == null) subjectTitle = title;
-                    else subjectTitle = relationType + ": " + title;
+                    if (relationType == null)
+                        subjectTitle = title;
+                    else
+                        subjectTitle = relationType + ": " + title;
                 }
                 emphasis = false;
             }
