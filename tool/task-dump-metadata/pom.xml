@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-task-prototype</artifactId>
-		<version>2.14.3</version>
+		<version>2.x-SNAPSHOT</version>
                 <relativePath>../../lib-deprecated/easy-task-prototype</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
