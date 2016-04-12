@@ -13,7 +13,7 @@
     @extend .modal-dialog;
     z-index: 20001;  // Why Wicket, why!? Wicket inserts inline styles into the
                      // wicket-mask-dark div that sets the z-index to 20000.
-    position: absolute;
+    position: fixed;
 }
 .w_blue {
     @extend .modal-content;
