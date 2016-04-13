@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 public class Pakbon2EmsTransformerTest {
     private static final Logger logger = LoggerFactory.getLogger(Pakbon2EmsTransformerTest.class);
-    private static final String PB_VALID = "src/test/resources/test-files/SIKB0102_Pakbon_3.1.0.xml";
+    private static final String PB_VALID = "src/test/resources/test-files/SIKB0102_Pakbon_3.2.0.xml";
 
     @BeforeClass
     public static void beforeTestClass() {

@@ -8,10 +8,10 @@
   xmlns:gml="http://www.opengis.net/gml/3.2"
   xmlns:nen3610="http://www.ravi.nl/nen3610/2.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:sikb="http://www.sikb.nl/sikb0102/3.1.0"
-  xsi:schemaLocation="http://www.sikb.nl/sikb0102/3.1.0 ../../../../xsd/sikb/0102/3.1.0/sikb0102.xsd"
+  xmlns:sikb="http://www.sikb.nl/sikb0102/3.2.0"
+  xsi:schemaLocation="http://www.sikb.nl/sikb0102/3.2.0 ../../../../xsd/sikb/0102/3.2.0/sikb0102.xsd"
   sikb:id="8cea8762-ecbd-4014-9533-1c98371185d2" 
-  versie="3.1.0"
+  versie="3.2.0"
   timestamp="2001-12-17T09:30:47.0Z">
   <!-- Project -->
   <sikb:project bronId="BC388" sikb:id="a7fa5d30-1877-47e8-b966-f6079fa7f11e">
@@ -32,21 +32,6 @@
       <sikb:depotContactPersoonId>f84513e3-c2b6-44c0-94b1-f2bff01e7818</sikb:depotContactPersoonId>
     </sikb:uitvoerder>
   </sikb:project>
-  <!-- Uitvoerende organisatie -->
-  <sikb:organisatie bronId="4566" sikb:id="36cd6da1-8b0e-402c-91d1-91b7c61100bc">
-    <sikb:naam>Archol BV</sikb:naam>
-    <sikb:adres>
-      <sikb:straat>Reuvensplaats</sikb:straat>
-      <sikb:huisnummer>16</sikb:huisnummer>
-      <sikb:postcode>2300 RA</sikb:postcode>
-      <sikb:plaatsnaam>Leiden</sikb:plaatsnaam>
-      <sikb:gemeente>Leiden</sikb:gemeente>
-      <sikb:provincie>Zuid-Holland</sikb:provincie>
-      <sikb:land>Nederland</sikb:land>
-    </sikb:adres>
-    <sikb:telefoon>071-5273313</sikb:telefoon>
-    <sikb:email>info@archol.nl</sikb:email>
-  </sikb:organisatie>
   <!-- Bevoegd gezag organisatie -->
   <sikb:organisatie bronId="3543" sikb:id="bc3dc3ec-ef03-424f-89a1-0f732d9799fd">
     <sikb:naam>Provincie Zuid-Holland, Bureau Cultuur</sikb:naam>
@@ -313,28 +298,27 @@
   </sikb:foto>
   <!-- Locatie -->
   <sikb:geolocatie sikb:id="1a7f30c0-44c5-4eee-9f08-6db3482b317c">
-    <sikb:geometrie xsi:type="gml:LineStringType" gml:id="HP_1" srsDimension="3" axisLabels="x y z" >
-      <gml:pos srsDimension="3" axisLabels="x y z">123456 987654 0</gml:pos>
-      <gml:pos srsDimension="3" axisLabels="x y z">123456 987654 -1.50</gml:pos>
+    <sikb:geometrie xsi:type="gml:LineStringType" gml:id="HP_1" srsName="urn:ogc:def:crs:EPSG::28992">
+      <gml:posList srsDimension="2">123456.0 987654.0 123456.0 987664.0</gml:posList>
     </sikb:geometrie>
   </sikb:geolocatie>
   <!-- Project BC388 locatie -->
   <sikb:geolocatie sikb:id="d9987be3-fdea-4047-be41-d8b9160c524b">
     <!-- X- en Y-coordinaat van het centrum van het onderzoek conform Rijksdriehoekstelsel in meters. -->
-    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_2" srsDimension="2" axisLabels="x y">
-      <gml:pos srsDimension="2" axisLabels="x y">81620 448320</gml:pos>
+    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_2" srsName="urn:ogc:def:crs:EPSG::28992">
+      <gml:pos srsDimension="2">81620.0 448320.0</gml:pos>
     </sikb:geometrie>
   </sikb:geolocatie>
   <!-- Vindplaats 04HP locatie -->
   <sikb:geolocatie sikb:id="e397b04e-ffd3-4b34-96e9-70f5355262a8">
-    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_3" srsDimension="2" axisLabels="x y">
-      <gml:pos srsDimension="2" axisLabels="x y">81620 448321</gml:pos>
+    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_3" srsName="urn:ogc:def:crs:EPSG::28992">
+      <gml:pos srsDimension="2">81620.0 448321.0</gml:pos>
     </sikb:geometrie>
   </sikb:geolocatie>
   <!-- Vindplaats 05HP locatie -->
   <sikb:geolocatie sikb:id="7f9447ac-15ab-46e5-a287-7480e6d5c16d">
-    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_4" srsDimension="2" axisLabels="x y">
-      <gml:pos srsDimension="2" axisLabels="x y">81621 44832</gml:pos>
+    <sikb:geometrie xsi:type="gml:PointType" gml:id="HP_4" srsName="urn:ogc:def:crs:EPSG::28992">
+      <gml:pos srsDimension="2">81621.0 44832.0</gml:pos>
     </sikb:geometrie>
   </sikb:geolocatie>
   <!-- Monster 9871 -->

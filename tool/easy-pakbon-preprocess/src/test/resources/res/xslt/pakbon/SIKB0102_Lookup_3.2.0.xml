@@ -2,9 +2,9 @@
 <lookup
   xmlns="http://www.sikb.nl/codelijst/1.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.sikb.nl/codelijst/1.0 ../../../../xsd/sikb/0102/3.1.0/codelijsten.xsd"
-  versie="3.1.0"
-  datum="2015-06-19">
+  xsi:schemaLocation="http://www.sikb.nl/codelijst/1.0 ../../../../xsd/sikb/0102/3.2.0/codelijsten.xsd"
+  versie="3.2.0"
+  datum="2015-12-07">
   <artefacttypeCodelijst naam="Artefacttype" omschrijving="Codetabel 1: Artefacttype" versie="1.4.0" datum="2015-06-19">
     <artefacttype versie="1.0.0" datum="2012-09-12" status="Bevestigd">
       <code>AALSTEKR</code>
@@ -11574,7 +11574,7 @@
       <omschrijving>Zweep</omschrijving>
     </artefacttype>
   </artefacttypeCodelijst>
-  <materiaalcategorieCodelijst naam="Materiaalcategorie" omschrijving="Codetabel 2: Materiaalcategorie" versie="1.2.0" datum="2014-12-08">
+  <materiaalcategorieCodelijst naam="Materiaalcategorie" omschrijving="Codetabel 2: Materiaalcategorie" versie="1.3.0" datum="2015-12-07">
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>CPS</code>
       <omschrijving>Composiet</omschrijving>
@@ -11587,11 +11587,23 @@
       <code>GLS</code>
       <omschrijving>Glas</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>KAW</code>
+      <omschrijving>Aardewerk</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>KBW</code>
+      <omschrijving>Bouwaardewerk</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>KER</code>
       <omschrijving>Keramiek, Al het keramische materiaal, incl. aardewerk, bouwmateriaal en huttenleem</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>KHL</code>
+      <omschrijving>Huttenleem</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>KKL</code>
       <omschrijving>Klei</omschrijving>
     </materiaalcategorie>
@@ -11599,15 +11611,16 @@
       <code>KKP</code>
       <omschrijving>Pijpaarde</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>KMA</code>
       <omschrijving>Magering</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>KST</code>
       <omschrijving>Kunststof</omschrijving>
+      <nieuweCode>PLA</nieuweCode>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>MA</code>
       <omschrijving>Monster</omschrijving>
     </materiaalcategorie>
@@ -11623,7 +11636,7 @@
       <code>MAU</code>
       <omschrijving>Goud</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>MBL</code>
       <omschrijving>Bladgoud</omschrijving>
     </materiaalcategorie>
@@ -11639,9 +11652,10 @@
       <code>MFE</code>
       <omschrijving>Ijzer</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>MFO</code>
       <omschrijving>Ijzeroer</omschrijving>
+      <nieuweCode>SFO</nieuweCode>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>MGI</code>
@@ -11671,6 +11685,10 @@
       <code>MZN</code>
       <omschrijving>Zink</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>OAB</code>
+      <omschrijving>Artefact bot/bewerkt been</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>OBA</code>
       <omschrijving>Balein</omschrijving>
@@ -11699,7 +11717,7 @@
       <code>ODS</code>
       <omschrijving>Schelp</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
+    <materiaalcategorie versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>ODT</code>
       <omschrijving>Tand</omschrijving>
     </materiaalcategorie>
@@ -11711,9 +11729,17 @@
       <code>OFO</code>
       <omschrijving>Fossiel</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>OHA</code>
+      <omschrijving>Haar</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>OHO</code>
       <omschrijving>Hoef</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>OIS</code>
+      <omschrijving>Visresten</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>OKE</code>
@@ -11730,6 +11756,14 @@
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OMX</code>
       <omschrijving>Menselijk</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>ONA</code>
+      <omschrijving>Nagel</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>OPA</code>
+      <omschrijving>Papier</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OPHK</code>
@@ -11751,9 +11785,17 @@
       <code>OPZ</code>
       <omschrijving>Macroresten/zaden</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>ORI</code>
+      <omschrijving>Riet</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OTE</code>
       <omschrijving>Textiel</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>OTO</code>
+      <omschrijving>Touw</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OXB</code>
@@ -11762,6 +11804,22 @@
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OXX</code>
       <omschrijving>Organisch, enkel gebruiken indien determinatie niet mogelijk is.</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>PBA</code>
+      <omschrijving>Bakeliet</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>PLA</code>
+      <omschrijving>Plastic/kunststof</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>PMO</code>
+      <omschrijving>Sub-moderne materialen</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>PRU</code>
+      <omschrijving>Rubber</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>SAM</code>
@@ -11787,6 +11845,10 @@
       <code>SDO</code>
       <omschrijving>Dioriet</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>SFO</code>
+      <omschrijving>Ijzeroer</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>SGA</code>
       <omschrijving>Gabbro</omschrijving>
@@ -11811,9 +11873,9 @@
       <code>SJA</code>
       <omschrijving>Jadeit</omschrijving>
     </materiaalcategorie>
-    <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
+    <materiaalcategorie versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>SKA</code>
-      <omschrijving>Kalksteen</omschrijving>
+      <omschrijving>Kalksteen/mergel</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>SKI</code>
@@ -11839,9 +11901,17 @@
       <code>SMA</code>
       <omschrijving>Marmer</omschrijving>
     </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>SMO</code>
+      <omschrijving>Mortel</omschrijving>
+    </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>SOK</code>
       <omschrijving>Oker</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>SPO</code>
+      <omschrijving>Porfier</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>STE</code>
@@ -11858,6 +11928,10 @@
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>SVU</code>
       <omschrijving>Vuursteen</omschrijving>
+    </materiaalcategorie>
+    <materiaalcategorie versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>SWA</code>
+      <omschrijving>Wandschilderingen/pleister</omschrijving>
     </materiaalcategorie>
     <materiaalcategorie versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>SXX</code>
@@ -13319,14 +13393,14 @@
       <omschrijving>Overig</omschrijving>
     </tekeningfototype>
   </tekeningfototypeCodelijst>
-  <monstertypeCodelijst naam="Monstertype" omschrijving="Codetabel 9: Monstertype" versie="1.1.0" datum="2014-12-08">
-    <monstertype versie="1.0.0" datum="2014-12-08" status="Bevestigd">
+  <monstertypeCodelijst naam="Monstertype" omschrijving="Codetabel 9: Monstertype" versie="1.1.1" datum="2015-12-07">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>AZM</code>
-      <omschrijving>Zeven van zaden</omschrijving>
+      <omschrijving>Algemeen zeefmonster - zeven van zaden</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>MART</code>
-      <omschrijving>Monster insecten</omschrijving>
+      <omschrijving>Monster insecten en mijten</omschrijving>
     </monstertype>
     <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>MBOT</code>
@@ -13348,13 +13422,13 @@
       <code>MDNA</code>
       <omschrijving>DNA monster</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>ME</code>
-      <omschrijving>Monsterecologie (algemeen)</omschrijving>
+      <omschrijving>Monster ecologie (algemeen) - algemeen biologisch monster</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>MFF</code>
-      <omschrijving>Fosfaat</omschrijving>
+      <omschrijving>Fosfaat en ander anorganische chemisch onderzoek</omschrijving>
     </monstertype>
     <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>MGR</code>
@@ -13372,21 +13446,21 @@
       <code>MOSL</code>
       <omschrijving>OSL datering</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>MP</code>
-      <omschrijving>Pollenmonster</omschrijving>
+      <omschrijving>Monster pollen, diatomeëen en andere microfossielen</omschrijving>
     </monstertype>
     <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>MPLT</code>
       <omschrijving>Monster plantenresten (botanisch algemeen)</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>MSC</code>
-      <omschrijving>Monster schelpen</omschrijving>
+      <omschrijving>Monster schelpen en kreeftachtigen</omschrijving>
     </monstertype>
-    <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <monstertype versie="1.0.1" datum="2015-12-07" status="Bevestigd">
       <code>MSLP</code>
-      <omschrijving>Slijpplaten</omschrijving>
+      <omschrijving>Slijpplaat (micromorfologisch onderzoek)</omschrijving>
     </monstertype>
     <monstertype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>MZ</code>
@@ -13425,7 +13499,7 @@
       <omschrijving>Overige monsters</omschrijving>
     </monstertype>
   </monstertypeCodelijst>
-  <gemeenteCodelijst naam="Gemeente" omschrijving="Codetabel 10: Gemeente" versie="1.2.0" datum="2014-12-08">
+  <gemeenteCodelijst naam="Gemeente" omschrijving="Codetabel 10: Gemeente" versie="1.3.0" datum="2015-12-07">
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>0003</code>
       <omschrijving>Appingedam</omschrijving>
@@ -13765,9 +13839,10 @@
       <code>0236</code>
       <omschrijving>Geldermalsen</omschrijving>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>0241</code>
       <omschrijving>Groesbeek</omschrijving>
+      <nieuweCode>1945</nieuweCode>
     </gemeente>
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>0243</code>
@@ -14009,9 +14084,10 @@
       <code>0377</code>
       <omschrijving>Bloemendaal</omschrijving>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>0381</code>
       <omschrijving>Bussum</omschrijving>
+      <nieuweCode>1942</nieuweCode>
     </gemeente>
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>0383</code>
@@ -14099,13 +14175,15 @@
       <code>0420</code>
       <omschrijving>Medemblik</omschrijving>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>0424</code>
       <omschrijving>Muiden</omschrijving>
+      <nieuweCode>1942</nieuweCode>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>0425</code>
       <omschrijving>Naarden</omschrijving>
+      <nieuweCode>1942</nieuweCode>
     </gemeente>
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>0431</code>
@@ -14171,9 +14249,10 @@
       <omschrijving>Zijpe</omschrijving>
       <nieuweCode>0441</nieuweCode>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>0478</code>
       <omschrijving>Zeevang</omschrijving>
+      <nieuweCode>0385</nieuweCode>
     </gemeente>
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>0479</code>
@@ -15121,9 +15200,10 @@
       <code>1916</code>
       <omschrijving>Leidschendam-Voorburg</omschrijving>
     </gemeente>
-    <gemeente versie="1.0.0" datum="2014-01-01" status="Bevestigd">
+    <gemeente versie="1.1.0" datum="2015-12-07" status="Vervallen">
       <code>1921</code>
       <omschrijving>De Friese Meren</omschrijving>
+      <nieuweCode>1940</nieuweCode>
     </gemeente>
     <gemeente versie="1.0.0" datum="2013-01-01" status="Bevestigd">
       <code>1924</code>
@@ -15144,6 +15224,18 @@
     <gemeente versie="1.0.0" datum="2015-01-01" status="Bevestigd">
       <code>1931</code>
       <omschrijving>Krimpenerwaard</omschrijving>
+    </gemeente>
+    <gemeente versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>1940</code>
+      <omschrijving>De Fryske Marren</omschrijving>
+    </gemeente>
+    <gemeente versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>1942</code>
+      <omschrijving>Gooise Meren</omschrijving>
+    </gemeente>
+    <gemeente versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>1945</code>
+      <omschrijving>Berg en Dal</omschrijving>
     </gemeente>
     <gemeente versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>1955</code>
@@ -16414,7 +16506,7 @@
       <omschrijving>Kaartblad 69E</omschrijving>
     </kaartblad>
   </kaartbladCodelijst>
-  <documenttypeCodelijst naam="Documenttype" omschrijving="Codetabel 14: Documenttype" versie="1.2.0" datum="2012-06-04">
+  <documenttypeCodelijst naam="Documenttype" omschrijving="Codetabel 14: Documenttype" versie="1.3.0" datum="2015-12-07">
     <documenttype versie="1.0.0" datum="2011-12-12" status="Bevestigd">
       <code>ADMIN</code>
       <omschrijving>Administratie</omschrijving>
@@ -16422,6 +16514,10 @@
     <documenttype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>AWAN</code>
       <omschrijving>Aardewerkanalyse</omschrijving>
+    </documenttype>
+    <documenttype versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>BOOR</code>
+      <omschrijving>Boorstaten</omschrijving>
     </documenttype>
     <documenttype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>BOTAN</code>
@@ -16435,7 +16531,7 @@
       <code>CORRESP</code>
       <omschrijving>Correspondentie</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>COUPELST</code>
       <omschrijving>Coupelijst</omschrijving>
     </documenttype>
@@ -16467,7 +16563,7 @@
       <code>FOTOAFDR</code>
       <omschrijving>Foto-afdrukken</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>FOTOLST</code>
       <omschrijving>Fotolijst</omschrijving>
     </documenttype>
@@ -16507,9 +16603,17 @@
       <code>MATAN</code>
       <omschrijving>Materiaalanalyse</omschrijving>
     </documenttype>
+    <documenttype versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>MEETPNTLST</code>
+      <omschrijving>Meetpuntenlijst</omschrijving>
+    </documenttype>
     <documenttype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>METAN</code>
       <omschrijving>Metaalanalyse</omschrijving>
+    </documenttype>
+    <documenttype versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>MONSTERLST</code>
+      <omschrijving>Monsterlijst</omschrijving>
     </documenttype>
     <documenttype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>MUNTAN</code>
@@ -16523,7 +16627,7 @@
       <code>PUTRAP</code>
       <omschrijving>Putrapport</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>PUTTENLST</code>
       <omschrijving>Puttenlijst</omschrijving>
     </documenttype>
@@ -16551,15 +16655,15 @@
       <code>SLAKAN</code>
       <omschrijving>Metaalslakanalyse</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>SPLITSLST</code>
       <omschrijving>Splitslijst</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>SPOORRELLST</code>
       <omschrijving>Spoorrelatielijst</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>SPORENLST</code>
       <omschrijving>Sporenlijst</omschrijving>
     </documenttype>
@@ -16567,11 +16671,15 @@
       <code>STEENAN</code>
       <omschrijving>Natuursteenanalyse</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>STRUCTLST</code>
       <omschrijving>Structurenlijst</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>TEKENING</code>
+      <omschrijving>Tekening</omschrijving>
+    </documenttype>
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>TEKLST</code>
       <omschrijving>Tekeningenlijst</omschrijving>
     </documenttype>
@@ -16587,15 +16695,15 @@
       <code>TUSSENVSL</code>
       <omschrijving>Tussenverslag</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>VLAKLST</code>
       <omschrijving>Vlakkenlijst</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>VONDSTLST</code>
       <omschrijving>Vondstenlijst</omschrijving>
     </documenttype>
-    <documenttype versie="1.1.0" datum="2012-06-04" status="Vervallen">
+    <documenttype versie="1.2.0" datum="2015-12-07" status="Bevestigd">
       <code>VULLINGLST</code>
       <omschrijving>Vullingenlijst</omschrijving>
     </documenttype>
@@ -16607,12 +16715,16 @@
       <code>WEEKRAP</code>
       <omschrijving>Weekrapport</omschrijving>
     </documenttype>
+    <documenttype versie="1.0.0" datum="2015-12-07" status="Bevestigd">
+      <code>WERKSTAT</code>
+      <omschrijving>Werkstaten</omschrijving>
+    </documenttype>
     <documenttype versie="1.0.0" datum="2011-09-12" status="Bevestigd">
       <code>XXX</code>
       <omschrijving>Overig</omschrijving>
     </documenttype>
   </documenttypeCodelijst>
-  <contexttypeCodelijst naam="Contexttype" omschrijving="Codetabel 15: Contexttype" versie="1.2.0" datum="2015-06-19">
+  <contexttypeCodelijst naam="Contexttype" omschrijving="Codetabel 15: Contexttype" versie="1.2.0" datum="2015-05-19">
     <contexttype versie="1.0.0" datum="2014-12-08" status="Bevestigd">
       <code>BORING</code>
       <omschrijving>Boring</omschrijving>
@@ -16645,7 +16757,7 @@
       <code>VAK</code>
       <omschrijving>Vak</omschrijving>
     </contexttype>
-    <contexttype versie="1.2.0" datum="2015-06-19" status="Bevestigd">
+    <contexttype versie="1.2.0" datum="2015-05-19" status="Bevestigd">
       <code>VLAK</code>
       <omschrijving>Vlak</omschrijving>
     </contexttype>
@@ -16832,10 +16944,6 @@
       <omschrijving>Grondspoor, natuurlijke oorsprong; plantaardig</omschrijving>
       <nieuweCode>NATUURLIJK.PLANT</nieuweCode>
     </grondspoortype>
-    <grondspoortype versie="1.3.0" datum="2015-06-19" status="Bevestigd">
-      <code>NATUURLIJK.PLANT</code>
-      <omschrijving>Grondspoor, natuurlijke oorsprong; plantaardig</omschrijving>
-    </grondspoortype>
     <grondspoortype versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>NATUURLIJK</code>
       <omschrijving>Grondspoor, natuurlijke oorsprong</omschrijving>
@@ -16847,6 +16955,10 @@
     <grondspoortype versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>NATUURLIJK.DIER</code>
       <omschrijving>Grondspoor, natuurlijke oorsprong; diergang</omschrijving>
+    </grondspoortype>
+    <grondspoortype versie="1.3.0" datum="2015-06-19" status="Bevestigd">
+      <code>NATUURLIJK.PLANT</code>
+      <omschrijving>Grondspoor, natuurlijke oorsprong; plantaardig</omschrijving>
     </grondspoortype>
     <grondspoortype versie="1.0.0" datum="2011-05-30" status="Bevestigd">
       <code>OPHOGING</code>
