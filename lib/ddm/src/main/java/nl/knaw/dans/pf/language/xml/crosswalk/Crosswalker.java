@@ -23,7 +23,7 @@ public class Crosswalker<T> {
     private static final String VALIDATE_ERROR_MESSAGE = "could not validate against XSD: ";
     private XMLReader reader;
     private XMLErrorHandler errorHandler = new XMLErrorHandler(Reporter.off);
-    private CrosswalkHandlerMap<T> handlerMap;
+    public CrosswalkHandlerMap<T> handlerMap;
 
     /**
      * * Creates an instance.
