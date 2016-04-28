@@ -66,7 +66,7 @@ public class Ddm2EmdDoc {
         if (firstElement.getQualifiedName().equals("emd:other"))
             return "";
         DefaultElement subElement = (DefaultElement) firstElement.elementIterator().next();
-        return format("&lt;{0}&gt&lt;{1}&gt;", firstElement.getQualifiedName(), subElement.getQualifiedName());
+        return format("&lt;{0}&gt;&lt;{1}&gt;", firstElement.getQualifiedName(), subElement.getQualifiedName());
     }
 
     private static EasyMetadata emdFrom(String xmlns, String element) throws CrosswalkException {
