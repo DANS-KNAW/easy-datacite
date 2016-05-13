@@ -25,7 +25,6 @@ public class Ddm2EmdDoc {
         out.println("</ul></article>");
         for (File file : files) {
             out.println(String.format("<article><a name='%s'> </a>", file.getName().replaceAll("[.].*$", "")));
-//            out.println(String.format("<article>"));
             FileUtils.copyFile(file, out);
             out.println(String.format("\n</article>"));
         }

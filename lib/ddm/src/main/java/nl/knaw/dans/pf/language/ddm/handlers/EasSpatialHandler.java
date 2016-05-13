@@ -52,7 +52,7 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
             if (pos != null && !foundSRS)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, pos));
         } else if ("Envelope".equals(localName)) {
-            if (lower != null && upper != null && !foundSRS) {
+            if (lower != null && upper != null && foundSRS) {
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, createBox()));
             }
         }
@@ -61,10 +61,10 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
     }
 
     private Spatial.Box createBox() throws SAXException {
-        final float upperY = Integer.parseInt(upper.getY());
-        final float upperX = Integer.parseInt(upper.getX());
-        final float lowerY = Integer.parseInt(lower.getY());
-        final float lowerX = Integer.parseInt(lower.getX());
+        final float upperY = Float.parseFloat(upper.getY());
+        final float upperX = Float.parseFloat(upper.getX());
+        final float lowerY = Float.parseFloat(lower.getY());
+        final float lowerX = Float.parseFloat(lower.getX());
         final String n = "" + (upperY > lowerY ? upperY : lowerY);
         final String s = "" + (upperY < lowerY ? upperY : lowerY);
         final String e = "" + (upperX > lowerX ? upperX : lowerX);
