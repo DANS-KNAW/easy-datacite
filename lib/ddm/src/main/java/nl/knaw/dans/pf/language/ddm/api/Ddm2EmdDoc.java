@@ -21,6 +21,7 @@ import java.util.HashMap;
 import static java.text.MessageFormat.format;
 import static java.util.Collections.sort;
 
+/** Provides mapping of DDM elements to EMD elements without details about the content of these elements. */
 public class Ddm2EmdDoc {
 
     public static void main(String[] args) throws CrosswalkException, SAXException, XMLSerializationException, FileNotFoundException {
@@ -56,8 +57,13 @@ public class Ddm2EmdDoc {
 
     private static EasyMetadata toEmd(String nsPrefix, String uri, String localName) throws CrosswalkException {
         String xmlns = nsPrefix.equals("ddm") ? "" : format("xmlns:{0}=''{1}''", nsPrefix, uri);
+
+        // without validation by XSD the next two flavours of values always work
         String value = localName.equals("spatial") ? "<Point><pos>1.0 2.0</pos></Point>" : "2016";
+
+        // without validation by XSD non of the attributes required by some will hurt the others
         String element = format("<{0}:{1}  DAI=''info:eu-repo/dai/nl/1234567897''>{2}</{0}:{1}>", nsPrefix, localName, value);
+
         return emdFrom(xmlns, element);
     }
 
@@ -69,7 +75,8 @@ public class Ddm2EmdDoc {
         return format("&lt;{0}&gt;&lt;{1}&gt;", firstElement.getQualifiedName(), subElement.getQualifiedName());
     }
 
-    private static EasyMetadata emdFrom(String xmlns, String element) throws CrosswalkException {
+    /** Converts ddm to emd without validating the ddm. */
+    static EasyMetadata emdFrom(String xmlns, String element) throws CrosswalkException {
 
         // @formatter:off
         String ddmTemplate = "<?xml version='1.0' encoding='utf-8'?>\n" +
@@ -83,7 +90,7 @@ public class Ddm2EmdDoc {
                 "</ddm:DDM>";
         // @formatter:on
 
-        // no validation to allow "one size to fits all"
+        // no validation to allow "one size fits all"
         Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(null);
 
         EasyMetadata emd = crosswalk.createFrom(String.format(ddmTemplate, xmlns, element));

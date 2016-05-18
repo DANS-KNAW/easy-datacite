@@ -11,6 +11,6 @@ public class Ddm2EmdDocTest {
     public void createSwordPackagingDocFragment() throws IOException {
         File file = new File("target/pageDumps/swordPackagingFragmentHelp.html");
         file.getParentFile().mkdirs();
-        Ddm2EmdDoc.main(new String[]{file.getAbsolutePath()});
+        Ddm2EmdDoc.main(new String[] {file.getAbsolutePath()});
     }
 }
