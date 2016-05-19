@@ -25,10 +25,12 @@ public class Ddm2EmdCrosswalkTest {
                 ">" +
                 " <ddm:dcmiMetadata>" +
                 "  <dcx-gml:spatial>" +
-                "   <gml:Envelope srsName='http://www.opengis.net/def/crs/EPSG/0/28992'>" +
-                "    <gml:lowerCorner>83575.4 455271.2 1.12</gml:lowerCorner>" +
-                "    <gml:upperCorner>83575 455271 1</gml:upperCorner>" +
-                "   </gml:Envelope>" +
+                "   <gml:boundedBy>" +
+                "    <gml:Envelope srsName='http://www.opengis.net/def/crs/EPSG/0/28992'>" +
+                "     <gml:lowerCorner>83575.4 455271.2 1.12</gml:lowerCorner>" +
+                "     <gml:upperCorner>83575 455271 1</gml:upperCorner>" +
+                "    </gml:Envelope>" +
+                "   </gml:boundedBy>" +
                 "  </dcx-gml:spatial>" +
                 " </ddm:dcmiMetadata>" +
                 "</ddm:DDM>";
