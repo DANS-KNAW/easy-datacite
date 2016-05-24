@@ -106,7 +106,7 @@
                                         <artifactItem>
                                             <groupId>nl.knaw.dans.easy</groupId>
                                             <artifactId>easy-schema</artifactId>
-                                            <version>1.2</version>
+                                            <version>1.4</version>
                                             <type>tar.gz</type>
                                             <outputDirectory>${project.build.directory}/easy-schema</outputDirectory>
                                         </artifactItem>

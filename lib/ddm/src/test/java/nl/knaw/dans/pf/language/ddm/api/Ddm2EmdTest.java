@@ -9,6 +9,7 @@ import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +98,7 @@ public class Ddm2EmdTest {
     }
 
     @Test
+    @Ignore
     public void publicExamplesUseLastXsdVersions() throws Exception {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Map<String, String> xsdUri2Url = new HashMap<String, String>();
