@@ -11,20 +11,21 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class Archis2ViewPanel extends AbstractCustomPanel {
+public class ArchisViewPanel extends AbstractCustomPanel {
 
     private static final long serialVersionUID = -9039579510082841556L;
     private final EasyMetadata easyMetadata;
 
-    public Archis2ViewPanel(final String id, final EasyMetadata easyMetadata) {
+    public ArchisViewPanel(final String id, final EasyMetadata easyMetadata) {
         this(id, new Model<EasyMetadata>(easyMetadata));
     }
 
-    public Archis2ViewPanel(final String id, final IModel<EasyMetadata> model) {
+    public ArchisViewPanel(final String id, final IModel<EasyMetadata> model) {
         super(id, model);
         easyMetadata = (EasyMetadata) model.getObject();
         setOutputMarkupId(true);
@@ -53,7 +54,8 @@ public class Archis2ViewPanel extends AbstractCustomPanel {
             final List<Component> links = new ArrayList<Component>();
             for (final BasicIdentifier basicId : identfiers) {
                 final String digits = ArchisCollector.getDigits(basicId.getValue());
-                links.add(new ArchisLink("link", "label", digits));
+                // links do not work yet with archis3, so no ArchisLink("link", "label", digits)
+                links.add(new Label("label", digits));
             }
             return links;
         }

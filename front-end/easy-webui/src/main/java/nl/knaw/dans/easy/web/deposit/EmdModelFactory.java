@@ -14,7 +14,7 @@ import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
+import nl.knaw.dans.easy.web.deposit.repeasy.ArchisListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.AuthorListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicDateListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicRemarkListWrapper;
@@ -131,9 +131,9 @@ public class EmdModelFactory implements IModelFactory {
         return getDataset().getEasyMetadata();
     }
 
-    public IModel<Archis2ListWrapper> createArchis2ListWrapperModel(StandardPanelDefinition definition) {
-        Archis2ListWrapper a2lw = new Archis2ListWrapper(getEasyMetadata());
-        return new Model<Archis2ListWrapper>(a2lw);
+    public IModel<ArchisListWrapper> createArchisListWrapperModel(StandardPanelDefinition definition) {
+        ArchisListWrapper alw = new ArchisListWrapper(getEasyMetadata());
+        return new Model<ArchisListWrapper>(alw);
     }
 
     public IModel<CMDIFormatChoiceWrapper> createCMDIFormatChoiceWrapperModel(StandardPanelDefinition definition) {

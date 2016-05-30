@@ -44,7 +44,7 @@ class ArchisLink extends Link<String> {
         response.setAttachmentHeader(number + ".pdf");
         response.setContentType("application/pdf");
         try {
-            final URL url = new URL(ArchisCollector.ARCHIS_PDF + number);
+            final URL url = new URL(ArchisCollector.ARCHIS2_PDF + number);
             response.write(url.openStream());
             throw new AbortException();
         }

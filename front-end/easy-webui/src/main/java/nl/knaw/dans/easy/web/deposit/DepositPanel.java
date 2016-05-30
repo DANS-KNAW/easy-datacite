@@ -605,7 +605,7 @@ public class DepositPanel extends AbstractDatasetModelPanel {
     }
 
     /**
-     * This method is needed to run init() method of DepositPanel class. This method is used by Archis2EditPanel.
+     * This method is needed to run init() method of DepositPanel class. This method is used by ArchisEditPanel.
      * 
      * @param initiated
      */

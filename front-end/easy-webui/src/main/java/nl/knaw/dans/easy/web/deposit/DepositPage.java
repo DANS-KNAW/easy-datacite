@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
-import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.IsoDate;

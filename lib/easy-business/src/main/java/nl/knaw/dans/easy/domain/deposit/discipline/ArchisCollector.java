@@ -30,13 +30,13 @@ import org.slf4j.LoggerFactory;
 
 public class ArchisCollector {
 
-    public static final String ARCHIS_URI_STRING = "http://archis2.archis.nl";
+    public static final String ARCHIS2_URI_STRING = "http://archis2.archis.nl";
 
-    public static final URI ARCHIS_URI = URI.create(ARCHIS_URI_STRING);
+    public static final URI ARCHIS2_URI = URI.create(ARCHIS2_URI_STRING);
 
-    public static final String ARCHIS_PDF = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=pdf&userid=DANS/EDNA2593@archis2p&report=OMG_OZK_uitgebreid.rep&p_ids=";
+    public static final String ARCHIS2_PDF = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=pdf&userid=DANS/EDNA2593@archis2p&report=OMG_OZK_uitgebreid.rep&p_ids=";
 
-    public static final String BASE_URL = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=xml&userid=DANS/EDNA2593@archis2p&report=OZKMELD_stand.rep&p_ids=";
+    public static final String ARCHIS2_BASE_URL = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=xml&userid=DANS/EDNA2593@archis2p&report=OZKMELD_stand.rep&p_ids=";
 
     public static final String SPATIAL_POINT_SCHEME = "RD";
 
@@ -111,7 +111,7 @@ public class ArchisCollector {
     private InputStream getInputStream(String archisNumber) throws ServiceException {
         InputStream inStream = null;
         try {
-            URL url = new URL(BASE_URL + archisNumber);
+            URL url = new URL(ARCHIS2_BASE_URL + archisNumber);
             inStream = url.openStream();
         }
         catch (IOException e) {
@@ -157,7 +157,7 @@ public class ArchisCollector {
     @SuppressWarnings("unused")
     private void addOMG_NR(String value) {
         currentIdentifier.setScheme(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
-        currentIdentifier.setIdentificationSystem(ARCHIS_URI);
+        currentIdentifier.setIdentificationSystem(ARCHIS2_URI);
         easyMetadata.getEmdIdentifier().add(currentIdentifier);
     }
 

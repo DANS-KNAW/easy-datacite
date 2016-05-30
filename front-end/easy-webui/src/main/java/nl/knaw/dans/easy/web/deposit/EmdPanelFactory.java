@@ -2,7 +2,7 @@ package nl.knaw.dans.easy.web.deposit;
 
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
+import nl.knaw.dans.easy.web.deposit.repeasy.ArchisListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.RepeaterPanelFactory;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
@@ -21,14 +21,14 @@ public class EmdPanelFactory extends RepeaterPanelFactory {
         this.datasetModel = datasetModel;
     }
 
-    public Panel createArchis2EditPanel(StandardPanelDefinition spDef, IModel<Archis2ListWrapper> model) {
-        Archis2EditPanel panel = new Archis2EditPanel(getPanelWicketId(), model);
+    public Panel createArchisEditPanel(StandardPanelDefinition spDef, IModel<ArchisListWrapper> model) {
+        ArchisEditPanel panel = new ArchisEditPanel(getPanelWicketId(), model);
         panel.setPanelDefinition(spDef);
         return panel;
     }
 
-    public Panel createArchis2ViewPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model) {
-        Archis2ViewPanel panel = new Archis2ViewPanel(getPanelWicketId(), model);
+    public Panel createArchisViewPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model) {
+        ArchisViewPanel panel = new ArchisViewPanel(getPanelWicketId(), model);
         panel.setPanelDefinition(spDef);
         return panel;
     }

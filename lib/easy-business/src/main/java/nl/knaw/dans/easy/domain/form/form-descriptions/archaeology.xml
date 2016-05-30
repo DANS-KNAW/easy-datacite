@@ -22,24 +22,24 @@
 
 		<standardPanel>
 			<properties>
-				<id>archis2.view</id>
+				<id>archis.view</id>
 				<labelResourceKey>label.archis.info</labelResourceKey>
 				<shortHelpResourceKey></shortHelpResourceKey>
 				<helpItem>Archis</helpItem>
 			</properties>
 			<modelClass>EasyMetadata</modelClass>
-			<panelClass>Archis2ViewPanel</panelClass>
+			<panelClass>ArchisViewPanel</panelClass>
 		</standardPanel>
 
 		<standardPanel>
 			<properties>
-				<id>archis2.edit</id>
+				<id>archis.edit</id>
 				<labelResourceKey>label.archis.info</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.archis</shortHelpResourceKey>
 				<helpItem>Archis</helpItem>
 			</properties>
-			<modelClass>Archis2ListWrapper</modelClass>
-			<panelClass>Archis2EditPanel</panelClass>
+			<modelClass>ArchisListWrapper</modelClass>
+			<panelClass>ArchisEditPanel</panelClass>
 			<required>false</required>
 			<repeating>true</repeating>
 		</standardPanel>
@@ -813,9 +813,6 @@
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
-						<!-- EASY-933 Temporary removed from deposit because it doesn't work
-						<ref-panelId>archis2.edit</ref-panelId>
-						 -->
 					</panels>
 				</formPage>
 				<formPage>
@@ -843,6 +840,7 @@
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
+                        <ref-panelId>archis.edit</ref-panelId>
 						<ref-panelId>dc.description</ref-panelId>
 						<ref-panelId>subjects</ref-panelId>
 						<ref-panelId>coverage.temporal</ref-panelId>
@@ -915,7 +913,7 @@
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
-						<ref-panelId>archis2.edit</ref-panelId>
+						<ref-panelId>archis.edit</ref-panelId>
 						<ref-panelId>dc.title</ref-panelId>
 						<ref-panelId>dcterms.alternative</ref-panelId>
 						<ref-panelId>dc.creator</ref-panelId>
@@ -958,7 +956,7 @@
 					<cssContainerClassName>descriptionTab</cssContainerClassName>
 					<panels>
 						<ref-panelId>persistent-identifier</ref-panelId>
-						<ref-panelId>archis2.view</ref-panelId>
+						<ref-panelId>archis.view</ref-panelId>
 						<ref-panelId>dc.title</ref-panelId>
 						<ref-panelId>dcterms.alternative</ref-panelId>
 						<ref-panelId>dc.creator</ref-panelId>
