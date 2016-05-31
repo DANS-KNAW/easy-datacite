@@ -43,8 +43,6 @@ public class ArchisEditPanel extends AbstractRepeaterPanel<ArchisListWrapper.Arc
             super(REPEATING_PANEL_ID);
             final TextField<String> textField = new TextField<String>("omg_nr", new PropertyModel<String>(item.getModelObject(), "value"));
             textField.setLabel(new StringResourceModel("label.archis.info", null));
-            textField.add(new SimpleAttributeModifier("maxlength", "10"));
-            textField.add(new PatternValidator("[0-9]{0,10}"));
             add(textField);
         }
     }
