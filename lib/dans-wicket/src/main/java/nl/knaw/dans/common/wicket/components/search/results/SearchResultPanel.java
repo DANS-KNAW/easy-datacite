@@ -22,16 +22,20 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.Loop.LoopItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,8 +113,8 @@ public abstract class SearchResultPanel extends SearchPanel {
         initComponents();
     }
 
-    private SimpleTab getListViewTab() {
-        return new SimpleTab(new Model<String>("List")) {
+    private AbstractTab getListViewTab() {
+        return new AbstractTab(new Model<String>("<i class='fa fa-bars' aria-hidden='true'></i> List")) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -121,7 +125,7 @@ public abstract class SearchResultPanel extends SearchPanel {
     }
 
     private SimpleTab getMapViewTab() {
-        return new SimpleTab(new Model<String>("Map")) {
+        return new SimpleTab(new Model<String>("<i class='fa fa-map-o' aria-hidden='true'></i> Map")) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -202,6 +206,12 @@ public abstract class SearchResultPanel extends SearchPanel {
             private static final long serialVersionUID = 4905295669896593901L;
 
             @Override
+            protected Component newTitle(String titleId, IModel<?> titleModel, int index) {
+                // allow html for 'icon' on tab
+                return super.newTitle(titleId, titleModel, index).setEscapeModelStrings(false);
+            }
+
+            @Override
             public void setSelectedTab(int arg0) {
                 super.setSelectedTab(arg0);
                 // force to redo the search
@@ -236,7 +246,6 @@ public abstract class SearchResultPanel extends SearchPanel {
 
         };
         add(tabbedPanel);
-
         add(createHelpPopup("refineHelpPopup"));
 
         WebMarkupContainer refineSearchContainer = createRefineSearchContainer("refineSearchContainer");
