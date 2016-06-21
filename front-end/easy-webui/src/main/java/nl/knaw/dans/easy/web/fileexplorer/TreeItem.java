@@ -24,7 +24,7 @@ public class TreeItem implements Serializable, ITreeItem {
 
     private static final long serialVersionUID = 1L;
 
-    private int size;
+    private long size;
     private String sizeAsString;
     private String creator;
     private String visibleTo;
@@ -91,7 +91,7 @@ public class TreeItem implements Serializable, ITreeItem {
         return itemVO.getName();
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 

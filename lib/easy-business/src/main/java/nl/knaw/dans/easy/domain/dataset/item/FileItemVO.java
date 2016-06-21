@@ -9,7 +9,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 public class FileItemVO extends AbstractItemVO implements java.io.Serializable, Cloneable {
 
     private static final long serialVersionUID = 6104956832284968887L;
-    private int size;
+    private long size;
     private String mimetype;
     private CreatorRole creatorRole;
     private VisibleTo visibleTo;
@@ -20,7 +20,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
 
     public FileItemVO(FileItem fileItem) {
         super(fileItem.getDmoStoreId().getStoreId(), fileItem.getParentId().getStoreId(), fileItem.getDatasetId().getStoreId(), fileItem.getLabel());
-        size = (int) fileItem.getSize();
+        size = fileItem.getSize();
         mimetype = fileItem.getFileItemMetadata().getMimeType();
         creatorRole = fileItem.getCreatorRole();
         visibleTo = fileItem.getVisibleTo();
@@ -29,7 +29,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         setSha1Checksum(fileItem.getSha1Checksum());
     }
 
-    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String sha1Checksum, String mimetype, CreatorRole creatorRole,
+    public FileItemVO(String sid, String parentSid, String datasetSid, String name, long size, String sha1Checksum, String mimetype, CreatorRole creatorRole,
             VisibleTo visibleTo, AccessibleTo accessibleTo)
     {
         super(sid, parentSid, datasetSid, name);
@@ -41,11 +41,11 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         this.sha1Checksum = sha1Checksum;
     }
 
-    public int getSize() {
+    public long getSize() {
         return this.size;
     }
 
-    public void setSize(int size) {
+    public void setSize(long size) {
         this.size = size;
     }
 

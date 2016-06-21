@@ -3,8 +3,8 @@ package nl.knaw.dans.common.lang.service.exceptions;
 public class FileSizeException extends ServiceException {
     private static final long serialVersionUID = 8483469299362768976L;
 
-    protected int amount;
-    protected int limit;
+    protected long amount;
+    protected long limit;
 
     public FileSizeException(String message) {
         super(message);
@@ -21,17 +21,17 @@ public class FileSizeException extends ServiceException {
     /*
      * Note that sizes in MegaBytes
      */
-    public FileSizeException(int amount, int limit) {
+    public FileSizeException(long amount, long limit) {
         super("The file(s) exceeds the max size limit of " + limit + "megabytes");
         this.amount = amount;
         this.limit = limit;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public int getLimit() {
+    public long getLimit() {
         return limit;
     }
 

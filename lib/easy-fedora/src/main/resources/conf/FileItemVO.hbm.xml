@@ -22,7 +22,7 @@
         <property name="name" type="string">
             <column name="filename" length="256" not-null="true" />
         </property>
-        <property name="size" type="int">
+        <property name="size" type="long">
             <column name="size" not-null="true" />
         </property>
         <property name="mimetype" type="string">
