@@ -9,6 +9,8 @@ import org.rogach.scallop.ScallopConf
 
 class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""
            Task to set dataset status of a given Rights Holder from Restricted to Open Access for Registered Users
            |
@@ -21,6 +23,7 @@ class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
   val username = opt[String]("username", descr = "Username for fedora repository, if omitted provide it on stdin")
   val output = opt[String]("output", descr = "Name of the file where the changed pids are written", default = Some("changed_pids.txt"))
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

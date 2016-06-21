@@ -9,6 +9,8 @@ import org.rogach.scallop.ScallopConf
 
 class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""
            Task to find draft datasets containing license.
            |
@@ -19,6 +21,7 @@ class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
   val username = opt[String]("username", descr = "Username for fedora repository, if omitted provide it on stdin")
   val output = opt[String]("output", descr = "Name of the file where the pids of draft datasets containing license are written", default = Some("draft_with_license_pids.txt"))
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

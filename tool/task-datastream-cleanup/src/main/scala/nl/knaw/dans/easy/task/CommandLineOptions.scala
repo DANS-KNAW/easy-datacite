@@ -4,14 +4,15 @@ import java.net.URL
 
 import com.yourmediashelf.fedora.client.request.FedoraRequest
 import com.yourmediashelf.fedora.client.{FedoraClient, FedoraCredentials}
-import org.rogach.scallop.{ScallopConf, LazyScallopConf}
-import org.rogach.scallop.exceptions._
+import org.rogach.scallop.{ScallopConf}
 
 import scala.xml.transform.{RewriteRule, RuleTransformer}
 import scala.xml.{Elem, Node, NodeSeq}
 
 class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""Task to remove xml tags from datastreams of specified objects in the DANS EASY Archive
            |
            |Options:
@@ -23,8 +24,8 @@ class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
   val streamId = opt[String]("streamId", descr = "The datastream to clean up", required = true)
   val url = opt[URL]("url", noshort = true, descr = "Base url for the fedora repository", default = Some(new URL("http://localhost:8080/fedora")))
   val username = opt[String]("username", descr = "The username for fedora repository, if omitted provide it on stdin")
-
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

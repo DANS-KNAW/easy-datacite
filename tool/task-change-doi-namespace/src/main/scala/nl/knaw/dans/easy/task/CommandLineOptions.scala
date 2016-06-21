@@ -10,6 +10,8 @@ import org.rogach.scallop.ScallopConf
 
 class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""
            Task to correct the DOI namespace in a set of datasets.
            |
@@ -27,6 +29,7 @@ class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
   val output = opt[String]("output", descr = "Name of the file where the changed pids are written", default = Some("changed_pids.txt"))
   val output_2 = opt[String]("output_2", descr = "Name of the file with information about the changed datasets", default = Some("sent_emails.txt"))
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

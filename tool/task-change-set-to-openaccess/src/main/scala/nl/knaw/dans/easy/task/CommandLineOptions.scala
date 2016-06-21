@@ -9,6 +9,8 @@ import org.rogach.scallop.ScallopConf
 
 class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""
            Task to set dataset status of a given list of identifiers (urn's) from Open Access for Registered Users to Open Access
            |
@@ -21,6 +23,7 @@ class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
   val output = opt[String]("output", descr = "Name of the file where the changed pids are written", default = Some("changed_pids.txt"))
   val output_2 = opt[String]("output_2", descr = "Name of the file with information about the changed dataset files", default = Some("changed_files.txt"))
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

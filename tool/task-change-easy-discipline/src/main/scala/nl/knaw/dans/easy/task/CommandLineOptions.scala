@@ -9,6 +9,8 @@ import org.rogach.scallop.ScallopConf
 
 class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
 
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   banner("""
            Task to correct the easy-discipline in a set of datasets.
            |
@@ -23,6 +25,7 @@ class CommandLineOptions (args: Array[String]) extends ScallopConf(args){
   val newdisc = opt[String]("ndis", short='n', required = true, descr = "The new discipline.")
   val output = opt[String]("output", descr = "Name of the file where the changed pids are written", default = Some("changed_pids.txt"))
   footer("")
+  verify()
 }
 
 object CommandLineOptions {

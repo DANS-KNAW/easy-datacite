@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory
 class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
 
   footer("")
+  appendDefaultToDescription = true
+  editBuilder(_.setHelpWidth(110))
   val applyUpdates = opt[Boolean]("apply-updates", short = 'a', default = Some(false),
     descr = "Without this argument no changes are made to the repository, " +
       "the default is a test mode that logs the intended changes")
@@ -21,6 +23,7 @@ class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
   val username = opt[String]("fcrepo-user", short = 'u',
     descr = "The username for fedora repository, if omitted provide it on stdin")
 
+  verify()
 
   /**
    * Parses the command line arguments to connect with a fedora client.
