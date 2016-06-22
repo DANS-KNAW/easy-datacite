@@ -14,10 +14,17 @@
 		<constructor-arg ref="homeDir" />
 	</bean>
 
+    <bean name="licenseResources" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
+        <constructor-arg>
+            <value type="java.io.File">${license.resources}</value>
+        </constructor-arg>
+    </bean>
+
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
 		<constructor-arg>
 			<list>
 				<ref bean="homeDir" />
+				<ref bean="licenseResources" />
 			</list>
 		</constructor-arg>
 	</bean>

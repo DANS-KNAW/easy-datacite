@@ -4,8 +4,8 @@ import java.io.ByteArrayOutputStream;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper.LicenseCreatorWrapperException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +22,14 @@ public class MetadataLicenseGenerator implements SubmissionProcessor {
         final EasyUser depositor = submission.getSessionUser();
         String datasetId = submission.getDatasetId();
         return createLicense(dataset, depositor, datasetId);
-
     }
 
     private static boolean createLicense(final Dataset dataset, final EasyUser depositor, String datasetId) {
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(LicenseComposer.ESTIMATED_PDF_SIZE);
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(LicenseCreatorWrapper.ESTIMATED_PDF_SIZE);
         try {
-            new LicenseComposer(depositor, dataset, false).createPdf(outputStream);
+            new LicenseCreatorWrapper(depositor, dataset, false).createPdf(outputStream);
         }
-        catch (final LicenseComposerException exception) {
+        catch (final LicenseCreatorWrapperException exception) {
             logger.error("failed to create license document for " + datasetId, exception);
             return false;
         }

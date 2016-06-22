@@ -13,7 +13,6 @@ import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -105,7 +104,6 @@ public class TestDdmEmdDocumentation {
         logger.info(crosswalker.getXmlErrorHandler().getMessages());
         String xmlString = new EmdMarshaller(emd).getXmlString();
         writeFile(new File(OUTPUT, "emd.xml"), xmlString);
-        writeFile(new File(OUTPUT, "emd.html"), getMetadataAsHTML(emd));
 
         assertTrue(!xmlString.toLowerCase().contains("not supported"));
         assertTrue(!xmlString.toLowerCase().contains("not implemented"));
@@ -135,29 +133,6 @@ public class TestDdmEmdDocumentation {
         final DisciplineImpl discipline = new DisciplineImpl(formDescriptor);
         expect(Services.getDepositService().getDiscipline(mdFormat)).andStubReturn(discipline);;
         return discipline;
-    }
-
-    private String getMetadataAsHTML(final EasyMetadata emd) throws Exception {
-        new Services().setDisciplineService(mockDisciplineService());
-
-        // ironically the HomeDir is required because the constructor of the LicenseComposer
-        // indirectly calls ResourceLocator.getFile for snippets not used by formatMetaData
-        mockHomeDir();
-
-        // get just a section of the license document
-        // otherwise we have to mock files and more Dataset properties
-        return new LicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true) {
-            String getMetadataAsHTML() throws Exception {
-                // no import because of conflicts with dom4j
-                final com.lowagie.text.Document document = new com.lowagie.text.Document();
-                final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                com.lowagie.text.html.HtmlWriter.getInstance(document, outputStream);
-                document.open();
-                document.add(formatMetaData(document));
-                document.close();
-                return outputStream.toString();
-            }
-        }.getMetadataAsHTML();
     }
 
     @Test

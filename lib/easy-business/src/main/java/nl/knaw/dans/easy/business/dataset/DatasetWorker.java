@@ -28,8 +28,8 @@ import nl.knaw.dans.easy.domain.model.DatasetRelations;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper.LicenseCreatorWrapperException;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
@@ -260,11 +260,11 @@ public class DatasetWorker extends AbstractWorker {
     }
 
     static boolean createLicense(final Dataset dataset) throws ServiceException {
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(LicenseComposer.ESTIMATED_PDF_SIZE);
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(LicenseCreatorWrapper.ESTIMATED_PDF_SIZE);
         try {
-            new LicenseComposer(dataset.getDepositor(), dataset, false).createPdf(outputStream);
+            new LicenseCreatorWrapper(dataset.getDepositor(), dataset, false).createPdf(outputStream);
         }
-        catch (final LicenseComposerException exception) {
+        catch (final LicenseCreatorWrapperException exception) {
             throw new ServiceException(exception.getMessage(), exception);
         }
 

@@ -8,6 +8,7 @@
 			<list>
 				<ref bean="homeDir" />
 				<ref bean="editableContentHome" />
+				<ref bean="licenseResources" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -17,6 +18,12 @@
 		<constructor-arg ref="homeDir" />
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 	</bean>
+
+    <bean name="licenseResources" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
+        <constructor-arg>
+            <value type="java.io.File">${license.resources}</value>
+        </constructor-arg>
+    </bean>
 
 	<bean name="editableContentHome" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
 		<constructor-arg>

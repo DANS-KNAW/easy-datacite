@@ -9,8 +9,8 @@ import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.LicenseUnit;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper;
+import nl.knaw.dans.easy.servicelayer.LicenseCreatorWrapper.LicenseCreatorWrapperException;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
@@ -76,15 +76,19 @@ public class DepositLicensePreview extends DynamicWebResource {
         final EasySession easySession = (EasySession) Session.get();
         final EasyUser user = easySession.getUser();
         final Dataset dataset = getDataset(storeId);
-        if (!dataset.hasDepositor(user))
+        if (!dataset.hasDepositor(user)) {
+            logger.info("No license preview generated because the user is not the depositor");
             return;
-        if (!dataset.getAdministrativeState().equals(DatasetState.DRAFT))
-            return;
-        try {
-            new LicenseComposer(user, dataset, true).createPdf(outputStream);
         }
-        catch (final LicenseComposerException exception) {
-            logger.error(MessageFormat.format("could not create license for dataset {0} of user {0}", user.getId(), storeId), exception);
+        if (!dataset.getAdministrativeState().equals(DatasetState.DRAFT)) {
+            logger.info("No license preview generated because it is NOT a Draft dataset");
+            return;
+        }
+        try {
+            new LicenseCreatorWrapper(user, dataset, true).createPdf(outputStream);
+        }
+        catch (final LicenseCreatorWrapperException exception) {
+            logger.error(MessageFormat.format("could not create license for dataset {1} of user {0}", user.getId(), storeId), exception);
         }
     }
 

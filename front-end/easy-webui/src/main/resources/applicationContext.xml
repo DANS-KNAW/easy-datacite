@@ -368,6 +368,7 @@
 			<list>
 				<ref bean="homeDir" />
 				<ref bean="editableContentHome" />
+                <ref bean="licenseResources" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -387,6 +388,12 @@
 			<value type="java.io.File">${easy.editable.content.root}</value>
 		</constructor-arg>
 	</bean>
+
+    <bean name="licenseResources" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
+        <constructor-arg>
+            <value type="java.io.File">${license.resources}</value>
+        </constructor-arg>
+    </bean>
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
