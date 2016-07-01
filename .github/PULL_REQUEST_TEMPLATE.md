@@ -10,7 +10,6 @@ fixes EASY-
 #### How should this be manually tested?
 
 * in easy-app run `mvn clean install`
-* on deasy delete `/opt/easy-...`
 * in easy-dtap run `./deploy-role.sh easy_...`
 * 
 * 
