@@ -1,9 +1,7 @@
 package nl.knaw.dans.easy.web.deposit.repeasy;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +14,6 @@ import nl.knaw.dans.easy.web.deposit.repeater.AbstractEasyModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 import nl.knaw.dans.pf.language.emd.EmdRelation;
-import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
-import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,24 +25,12 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
     private static final Logger logger = LoggerFactory.getLogger(RelationListWrapper.class);
 
     private static final long serialVersionUID = -7229861811665091371L;
+    // private static Logger logger = LoggerFactory.getLogger(RelationListWrapper.class);
 
-    private Map<String, List<MetadataItem>> listMap = new HashMap<String, List<MetadataItem>>();
+    private Map<String, List<Relation>> listMap = new HashMap<String, List<Relation>>();
 
     public RelationListWrapper(EmdRelation emdRelation) {
-
-        addRelations(emdRelation.getBasicIdentifierMap());
-        addRelations(emdRelation.getRelationMap());
-    }
-
-    private <R extends MetadataItem> void addRelations(Map<String, List<R>> dcRels) {
-        for (String type : dcRels.keySet()) {
-            List<MetadataItem> l = new ArrayList<MetadataItem>();
-            l.addAll(dcRels.get(type));
-            if (listMap.containsKey(type))
-                listMap.get(type).addAll(l);
-            else
-                listMap.put(type, l);
-        }
+        listMap = emdRelation.getRelationMap();
     }
 
     public ChoiceRenderer getChoiceRenderer() {
@@ -61,8 +45,8 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
     public List<RelationModel> getInitialItems() {
         List<RelationModel> listItems = new ArrayList<RelationModel>();
         for (String relationType : listMap.keySet()) {
-            List<? extends MetadataItem> relations = listMap.get(relationType);
-            for (MetadataItem relation : relations) {
+            List<Relation> relations = listMap.get(relationType);
+            for (Relation relation : relations) {
                 listItems.add(new RelationModel(relation, relationType));
             }
         }
@@ -85,7 +69,8 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
         int errors = 0;
         for (int i = 0; i < listItems.size(); i++) {
             RelationModel model = listItems.get(i);
-            MetadataItem relation = model.getRelation();
+            Relation relation = null;
+            relation = model.getRelation();
 
             if (relation != null) {
                 String relationType = model.relationType == null ? "" : model.relationType;
@@ -101,7 +86,7 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
         return errors;
     }
 
-    public static class RelationModel<R extends MetadataItem> extends AbstractEasyModel {
+    public static class RelationModel extends AbstractEasyModel {
 
         private static final long serialVersionUID = 3841830253279006843L;
 
@@ -110,7 +95,7 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
         private String subjectTitle;
         private String subjectLink;
 
-        public RelationModel(R relation, String relationType) {
+        public RelationModel(Relation relation, String relationType) {
             if (relation == null) {
                 throw new IllegalArgumentException("Model for relation cannot be created.");
             }
@@ -118,37 +103,9 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
                 relationType = null;
             }
             this.relationType = relationType;
-            if (relation instanceof Relation) {
-                Relation easyRelation = (Relation) relation;
-                emphasis = easyRelation.hasEmphasis();
-                subjectTitle = easyRelation.getSubjectTitle().getValue().trim();
-                subjectLink = easyRelation.getSubjectLink() == null ? null : easyRelation.getSubjectLink().toString();
-            } else if (relation instanceof BasicIdentifier) {
-                String value = ((BasicIdentifier) relation).getValue().trim();
-                try {
-                    new URL(value);
-                    subjectTitle = relationType == null ? value : relationType;
-                    subjectLink = value;
-                }
-                catch (MalformedURLException e) {
-                    int indexOfUrl = value.toLowerCase().indexOf("url=");
-                    int indexOfTitle = value.toLowerCase().indexOf("title=");
-                    String title = (indexOfTitle < 0 ? value : indexOfTitle < indexOfUrl ? value.substring(indexOfTitle + 6, indexOfUrl) : value
-                            .substring(indexOfTitle + 6)).trim();
-                    subjectLink = indexOfUrl < 0 ? null : value.substring(indexOfUrl + 4).split(" ")[0].trim();
-                    try {
-                        new URL(subjectLink);
-                    }
-                    catch (MalformedURLException e2) {
-                        subjectLink = null;
-                    }
-                    if (relationType == null)
-                        subjectTitle = title;
-                    else
-                        subjectTitle = relationType + ": " + title;
-                }
-                emphasis = false;
-            }
+            emphasis = relation.hasEmphasis();
+            subjectTitle = relation.getSubjectTitle().getValue();
+            subjectLink = relation.getSubjectLink() == null ? null : relation.getSubjectLink().toString();
         }
 
         protected RelationModel() {}
