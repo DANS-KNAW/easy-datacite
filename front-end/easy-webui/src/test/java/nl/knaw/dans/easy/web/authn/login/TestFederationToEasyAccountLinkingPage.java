@@ -56,8 +56,8 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture {
         tester.assertRenderedPage(FederationToEasyAccountLinkingPage.class);
         tester.assertLabelContains(COMMON_FEEDBACK, "Please check the fields indicated below.");
         // executed on a non-english OS "required" becomes something else
-        //tester.assertLabelContains(CREDENTIALS_FEEDBACK, "required");
-        //tester.assertLabelContains(USER_FEEDBACK, "required");
+        // tester.assertLabelContains(CREDENTIALS_FEEDBACK, "required");
+        // tester.assertLabelContains(USER_FEEDBACK, "required");
     }
 
     @Test

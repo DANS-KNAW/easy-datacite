@@ -9,7 +9,13 @@ fixes EASY-
 
 #### How should this be manually tested?
 
+* in easy-app run `mvn clean install`
+* in easy-dtap run `./deploy-role.sh easy_...`
+* 
+* 
+* 
+
 #### related pull requests on github
-repo                       | PR
--------------------------- | -----------------
-easy-                      | [PR#](PRlink) 
+repo                       | PR                | Note
+-------------------------- | ----------------- | ----
+easy-                      | [PR#](PRlink)     |
