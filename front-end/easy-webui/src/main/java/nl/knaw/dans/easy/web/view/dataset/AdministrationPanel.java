@@ -68,9 +68,7 @@ public class AdministrationPanel extends AbstractDatasetModelPanel {
     }
 
     private EasyUploadConfig configureUpload() {
-        final EasyUploadConfig uploadConfig = new EasyUploadConfig();
-        uploadConfig.setAutoRemoveFiles(true);
-        return uploadConfig;
+        return new EasyUploadConfig();
     }
 
     private void addLicensesHistoryPanels() {

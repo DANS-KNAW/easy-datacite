@@ -14,7 +14,7 @@ public class EasyUploadConfig implements Serializable {
 
     private boolean autoRemoveMessages = false;
 
-    private boolean autoRemoveFiles = false;
+    private boolean autoRemoveFiles = true;
 
     public EasyUploadConfig() {
         this.basePath = System.getProperty("java.io.tmpdir");
@@ -61,8 +61,7 @@ public class EasyUploadConfig implements Serializable {
     }
 
     /**
-     * If set to true the files that were uploaded are immediately removed after they have been uploaded and an onReceivedFiles event has been fired. This is
-     * useful for users of the EasyUpload component that immediately process the files and after don't need the files anymore on disk. Defaults to false.
+     * If set to false the files that were uploaded are not removed after they have been uploaded and an onReceivedFiles event has been fired. Defaults to true.
      */
     public boolean autoRemoveFiles() {
         return autoRemoveFiles;

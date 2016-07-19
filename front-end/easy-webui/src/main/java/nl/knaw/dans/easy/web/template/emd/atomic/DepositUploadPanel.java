@@ -47,7 +47,6 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel {
         model.setDynamicReload(true);
 
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
-        uploadConfig.setAutoRemoveFiles(true);
         EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
         easyUpload.registerPostProcess(new UnzipPostProcess());
         IngestPostProcess ipp = new IngestPostProcess();

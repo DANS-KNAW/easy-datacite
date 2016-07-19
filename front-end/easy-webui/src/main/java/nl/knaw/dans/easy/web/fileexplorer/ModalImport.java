@@ -40,8 +40,6 @@ public class ModalImport extends Panel {
     }
 
     private EasyUploadConfig configureFileMetadataUpload() {
-        final EasyUploadConfig config = new EasyUploadConfig();
-        config.setAutoRemoveFiles(true);
-        return config;
+        return new EasyUploadConfig();
     }
 }
