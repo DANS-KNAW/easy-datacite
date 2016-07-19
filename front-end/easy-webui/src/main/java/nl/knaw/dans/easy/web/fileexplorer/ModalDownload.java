@@ -167,7 +167,7 @@ public class ModalDownload extends Panel {
                         downloadAllowed = false;
                     }
                     catch (ZipFileLengthException e) {
-                        logger.info("Zip size is to large: " + e.getAmount() + ", while the limit is " + e.getLimit() + " Bytes");
+                        logger.info("Zip size is too large: " + e.getAmount() + ", while the limit is " + e.getLimit() + " Bytes");
                         // zip exceeds size limit
                         message = new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this, new Model<ZipFileLengthException>(e));
                         downloadAllowed = false;

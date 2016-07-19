@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
+import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
@@ -37,6 +38,9 @@ public aspect AdminAlert
         if ((e instanceof ObjectNotAvailableException) || (e instanceof CommonSecurityException))
         {
             logger.info("Not sending admin mail because exception has external cause: " + e.getMessage());
+        }
+        else if ( e instanceof FileSizeException) {
+            logger.info("Not sending admin mail because exception is thrown for acceptable download behaviour " + e.getMessage());
         }
         else
         {
