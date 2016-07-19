@@ -236,6 +236,8 @@ public class EasyUploadProcess {
                 }
             };
             postProcessorThread.run();
+            if (postProcessorThread.getStatus().isError())
+                cleanFiles();
         } else {
             setUploadCompleted(files);
         }
