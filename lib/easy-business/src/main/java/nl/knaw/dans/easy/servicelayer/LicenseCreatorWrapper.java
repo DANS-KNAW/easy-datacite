@@ -1,11 +1,5 @@
 package nl.knaw.dans.easy.servicelayer;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -18,19 +12,23 @@ import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.license.BaseParameters;
-import nl.knaw.dans.easy.license.FileAccessRight;
 import nl.knaw.dans.easy.license.LicenseCreator;
+import nl.knaw.dans.easy.license.internal.FileAccessRight;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import scala.Enumeration.Value;
 import scala.collection.JavaConverters;
 import scala.collection.mutable.Seq;
+
+import java.io.File;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LicenseCreatorWrapper {
     private static final Logger logger = LoggerFactory.getLogger(LicenseCreatorWrapper.class);
@@ -43,17 +41,12 @@ public class LicenseCreatorWrapper {
             super(identifyingMessage, cause);
             logger.error(identifyingMessage, cause);
         }
-
-        public LicenseCreatorWrapperException(final Throwable cause) {
-            super(cause);
-            logger.error("", cause);
-        }
     }
 
     /** Use as initial size (in bytes) for buffers for the license (pdf file) */
     public static final int ESTIMATED_PDF_SIZE = 70 * 1024;
 
-    private final nl.knaw.dans.easy.license.Dataset licenseDataset;
+    private final nl.knaw.dans.easy.license.internal.Dataset licenseDataset;
     private final LicenseCreator licenseCreator;
 
     public LicenseCreatorWrapper(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseCreatorWrapperException {
@@ -62,8 +55,7 @@ public class LicenseCreatorWrapper {
         try {
             File pdfGen = ResourceLocator.getFile("pdfgen.sh");
             File templateResourceDir = pdfGen.getParentFile();
-            BaseParameters baseParameters = new BaseParameters(templateResourceDir, dataset.getStoreId(), generateSample);
-            licenseCreator = LicenseCreator.apply(baseParameters);
+            licenseCreator = LicenseCreator.apply(BaseParameters.apply(templateResourceDir, dataset.getStoreId(), generateSample));
         }
         catch (ResourceNotFoundException e) {
             throw new LicenseCreatorWrapperException("Could not find resources for license creation", e);
@@ -79,17 +71,17 @@ public class LicenseCreatorWrapper {
         }
     }
 
-    private static nl.knaw.dans.easy.license.Dataset getLicenseDataset(final EasyUser depositor, final Dataset dataset) throws LicenseCreatorWrapperException {
+    private static nl.knaw.dans.easy.license.internal.Dataset getLicenseDataset(final EasyUser depositor, final Dataset dataset) throws LicenseCreatorWrapperException {
         String datasetID = dataset.getStoreId();
         EasyMetadata emd = dataset.getEasyMetadata();
         Seq<String> audiences = getLicenseAudiences(emd);
-        Seq<nl.knaw.dans.easy.license.FileItem> fileItems = getLicenseFileItems(dataset.getDmoStoreId());
-        return new nl.knaw.dans.easy.license.Dataset(datasetID, emd, getLicenseEasyUser(depositor), audiences, fileItems);
+        Seq<nl.knaw.dans.easy.license.internal.FileItem> fileItems = getLicenseFileItems(dataset.getDmoStoreId());
+        return new nl.knaw.dans.easy.license.internal.Dataset(datasetID, emd, getLicenseEasyUser(depositor), audiences, fileItems);
     }
 
-    private static nl.knaw.dans.easy.license.EasyUser getLicenseEasyUser(final EasyUser depositor) {
+    private static nl.knaw.dans.easy.license.internal.EasyUser getLicenseEasyUser(final EasyUser depositor) {
         // @formatter:off
-        return new nl.knaw.dans.easy.license.EasyUser(
+        return new nl.knaw.dans.easy.license.internal.EasyUser(
                 depositor.getDisplayName(), // And not getCommonName()!
                 StringUtils.defaultString(depositor.getOrganization()), 
                 StringUtils.defaultString(depositor.getAddress()), 
@@ -132,31 +124,33 @@ public class LicenseCreatorWrapper {
         if (accessibleTo == null)
             throw new IllegalArgumentException("Could not map accessibleTo=null");
 
-        Value value = null;
         if (accessibleTo.equals(AccessibleTo.ANONYMOUS)) {
-            value = FileAccessRight.ANONYMOUS();
-        } else if (accessibleTo.equals(AccessibleTo.KNOWN)) {
-            value = FileAccessRight.KNOWN();
-        } else if (accessibleTo.equals(AccessibleTo.RESTRICTED_REQUEST)) {
-            value = FileAccessRight.RESTRICTED_REQUEST();
-        } else if (accessibleTo.equals(AccessibleTo.RESTRICTED_GROUP)) {
-            value = FileAccessRight.RESTRICTED_GROUP();
-        } else if (accessibleTo.equals(AccessibleTo.NONE)) {
-            value = FileAccessRight.NONE();
-        } else {
+            return FileAccessRight.ANONYMOUS();
+        }
+        else if (accessibleTo.equals(AccessibleTo.KNOWN)) {
+            return FileAccessRight.KNOWN();
+        }
+        else if (accessibleTo.equals(AccessibleTo.RESTRICTED_REQUEST)) {
+            return FileAccessRight.RESTRICTED_REQUEST();
+        }
+        else if (accessibleTo.equals(AccessibleTo.RESTRICTED_GROUP)) {
+            return FileAccessRight.RESTRICTED_GROUP();
+        }
+        else if (accessibleTo.equals(AccessibleTo.NONE)) {
+            return FileAccessRight.NONE();
+        }
+        else {
             throw new IllegalArgumentException(MessageFormat.format("Could not map accessibleTo='{0}'", accessibleTo));
         }
-
-        return value;
     }
 
-    private static Seq<nl.knaw.dans.easy.license.FileItem> getLicenseFileItems(final DmoStoreId sid) throws LicenseCreatorWrapperException {
-        List<nl.knaw.dans.easy.license.FileItem> licFileItems = new ArrayList<nl.knaw.dans.easy.license.FileItem>();
+    private static Seq<nl.knaw.dans.easy.license.internal.FileItem> getLicenseFileItems(final DmoStoreId sid) throws LicenseCreatorWrapperException {
+        List<nl.knaw.dans.easy.license.internal.FileItem> licFileItems = new ArrayList<nl.knaw.dans.easy.license.internal.FileItem>();
         List<FileItemVO> fileItemVOs = getDatasetFileItemVOs(sid);
         for (FileItemVO fileItemVO : fileItemVOs) {
             AccessibleTo accessibleTo = fileItemVO.getAccessibleTo();
             Value accessRight = getAccessRight(accessibleTo);
-            licFileItems.add(new nl.knaw.dans.easy.license.FileItem(fileItemVO.getPath(), accessRight, fileItemVO.getSha1Checksum()));
+            licFileItems.add(new nl.knaw.dans.easy.license.internal.FileItem(fileItemVO.getPath(), accessRight, fileItemVO.getSha1Checksum()));
         }
         return JavaConverters.asScalaBufferConverter(licFileItems).asScala();
     }
