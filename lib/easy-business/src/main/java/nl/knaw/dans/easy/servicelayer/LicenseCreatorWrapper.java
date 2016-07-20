@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.license.BaseParameters;
 import nl.knaw.dans.easy.license.LicenseCreator;
-import nl.knaw.dans.easy.license.internal.FileAccessRight;
+import nl.knaw.dans.easy.license.FileAccessRight;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -71,11 +71,13 @@ public class LicenseCreatorWrapper {
         }
     }
 
-    private static nl.knaw.dans.easy.license.internal.Dataset getLicenseDataset(final EasyUser depositor, final Dataset dataset) throws LicenseCreatorWrapperException {
+    private static nl.knaw.dans.easy.license.internal.Dataset getLicenseDataset(final EasyUser depositor, final Dataset dataset)
+            throws LicenseCreatorWrapperException
+    {
         String datasetID = dataset.getStoreId();
         EasyMetadata emd = dataset.getEasyMetadata();
         Seq<String> audiences = getLicenseAudiences(emd);
-        Seq<nl.knaw.dans.easy.license.internal.FileItem> fileItems = getLicenseFileItems(dataset.getDmoStoreId());
+        Seq<nl.knaw.dans.easy.license.FileItem> fileItems = getLicenseFileItems(dataset.getDmoStoreId());
         return new nl.knaw.dans.easy.license.internal.Dataset(datasetID, emd, getLicenseEasyUser(depositor), audiences, fileItems);
     }
 
@@ -126,31 +128,26 @@ public class LicenseCreatorWrapper {
 
         if (accessibleTo.equals(AccessibleTo.ANONYMOUS)) {
             return FileAccessRight.ANONYMOUS();
-        }
-        else if (accessibleTo.equals(AccessibleTo.KNOWN)) {
+        } else if (accessibleTo.equals(AccessibleTo.KNOWN)) {
             return FileAccessRight.KNOWN();
-        }
-        else if (accessibleTo.equals(AccessibleTo.RESTRICTED_REQUEST)) {
+        } else if (accessibleTo.equals(AccessibleTo.RESTRICTED_REQUEST)) {
             return FileAccessRight.RESTRICTED_REQUEST();
-        }
-        else if (accessibleTo.equals(AccessibleTo.RESTRICTED_GROUP)) {
+        } else if (accessibleTo.equals(AccessibleTo.RESTRICTED_GROUP)) {
             return FileAccessRight.RESTRICTED_GROUP();
-        }
-        else if (accessibleTo.equals(AccessibleTo.NONE)) {
+        } else if (accessibleTo.equals(AccessibleTo.NONE)) {
             return FileAccessRight.NONE();
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(MessageFormat.format("Could not map accessibleTo='{0}'", accessibleTo));
         }
     }
 
-    private static Seq<nl.knaw.dans.easy.license.internal.FileItem> getLicenseFileItems(final DmoStoreId sid) throws LicenseCreatorWrapperException {
-        List<nl.knaw.dans.easy.license.internal.FileItem> licFileItems = new ArrayList<nl.knaw.dans.easy.license.internal.FileItem>();
+    private static Seq<nl.knaw.dans.easy.license.FileItem> getLicenseFileItems(final DmoStoreId sid) throws LicenseCreatorWrapperException {
+        List<nl.knaw.dans.easy.license.FileItem> licFileItems = new ArrayList<nl.knaw.dans.easy.license.FileItem>();
         List<FileItemVO> fileItemVOs = getDatasetFileItemVOs(sid);
         for (FileItemVO fileItemVO : fileItemVOs) {
             AccessibleTo accessibleTo = fileItemVO.getAccessibleTo();
             Value accessRight = getAccessRight(accessibleTo);
-            licFileItems.add(new nl.knaw.dans.easy.license.internal.FileItem(fileItemVO.getPath(), accessRight, fileItemVO.getSha1Checksum()));
+            licFileItems.add(new nl.knaw.dans.easy.license.FileItem(fileItemVO.getPath(), accessRight, fileItemVO.getSha1Checksum()));
         }
         return JavaConverters.asScalaBufferConverter(licFileItems).asScala();
     }
