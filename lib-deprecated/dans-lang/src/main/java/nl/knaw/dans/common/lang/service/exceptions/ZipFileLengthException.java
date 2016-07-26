@@ -18,7 +18,7 @@ public class ZipFileLengthException extends FileSizeException {
     /*
      * Note that sizes in MegaBytes
      */
-    public ZipFileLengthException(int amount, int limit) {
+    public ZipFileLengthException(long amount, int limit) {
         super("The zip file exceeds the max length of " + limit + "megabytes");
         this.amount = amount;
         this.limit = limit;
