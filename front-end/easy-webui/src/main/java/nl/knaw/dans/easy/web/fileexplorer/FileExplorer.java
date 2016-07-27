@@ -72,7 +72,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 
     private static final Logger logger = LoggerFactory.getLogger(FileExplorer.class);
 
-    private static final String MSG_ZIP_SIZE_TOLARGE = "download.zipSizeToLarge";
+    private static final String MSG_ZIP_SIZE_TOOLARGE = "download.zipSizeTooLarge";
     private static final String MSG_TOO_MANY_FILES = "download.tooManyFiles";
 
     final private ExplorerPanel explorer;
@@ -93,7 +93,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         add(Script.JQUERY_UI_CONTRIBUTION);
         add(Script.FILEEXPLORER_RESIZE_CONTRIBUTION);
 
-        // check if archivist or depsitor view should be enabled
+        // check if archivist or depositor view should be enabled
         if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST)) {
             archivistView = true;
         } else if (datasetModel.getObject().hasDepositor(EasySession.getSessionUser())) {
@@ -183,7 +183,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         explorer.setOutputMarkupId(true);
         add(explorer);
 
-        add(creatFileDetailsLinks(datasetModel, modalFileDetailsWindow));
+        add(createFileDetailsLinks(datasetModel, modalFileDetailsWindow));
         add(createDownloadLink(datasetModel, modalDownloadWindow, modalMessageWindow, hasAdditionalLicense));
         add(createUploadLink(datasetModel, modalUploadWindow));
         add(createImportLink(datasetModel, modalImportWindow));
@@ -223,7 +223,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                // in filterMap we can lookup wich filters are enabled/disabled
+                // in filterMap we can lookup which filters are enabled/disabled
                 // we reload the treeProvider, clear the tableProvider
                 // and update the explorer
                 ((TreeItemProvider) treeProvider).setFilters(filterMap);
@@ -506,7 +506,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         };
     }
 
-    private IndicatingAjaxLink<Void> creatFileDetailsLinks(final DatasetModel datasetModel, final ModalWindow modalFileDetailsWindow) {
+    private IndicatingAjaxLink<Void> createFileDetailsLinks(final DatasetModel datasetModel, final ModalWindow modalFileDetailsWindow) {
         return new IndicatingAjaxLink<Void>("fileDetailsLink") {
             private static final long serialVersionUID = 1L;
 
@@ -611,7 +611,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         catch (ZipFileLengthException e) {
             logger.info("File size too large for download!", e.getMessage());
             // download can't be handled so show a message
-            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
+            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOOLARGE, this,
                     new Model<ZipFileLengthException>(e)).getObject()));
             modalMessageWindow.show(target);
         }

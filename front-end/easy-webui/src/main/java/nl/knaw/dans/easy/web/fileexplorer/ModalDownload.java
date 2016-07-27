@@ -68,8 +68,8 @@ public class ModalDownload extends Panel {
     private static final String MSG_ACCEPT = "download.accept";
     private static final String MSG_ACCEPT_ADDITIONAL = "download.acceptAdditional";
     private static final String MSG_DONT_SHOW = "download.dontShowAgain";
-    private static final String MSG_ZIP_SIZE_TOLARGE = "download.zipSizeToLarge";
-    private static final String MSG_FILE_SIZE_TOLARGE = "download.fileSizeToLarge";
+    private static final String MSG_ZIP_SIZE_TOOLARGE = "download.zipSizeTooLarge";
+    private static final String MSG_FILE_SIZE_TOOLARGE = "download.fileSizeTooLarge";
     private static final String MSG_TOO_MANY_FILES = "download.tooManyFiles";
 
     @SpringBean(name = "itemService")
@@ -149,9 +149,9 @@ public class ModalDownload extends Panel {
                         link = createSingleDownloadLink(window, dataset, fcw);
                     }
                     catch (FileSizeException e) {
-                        logger.info("File size is to large: " + e.getAmount() + ", while the limit is " + e.getLimit() + " Bytes");
+                        logger.info("File size is too large: " + e.getAmount() + ", while the limit is " + e.getLimit() + " Bytes");
                         // file exceeds size limit
-                        message = new StringResourceModel(MSG_FILE_SIZE_TOLARGE, this, new Model<FileSizeException>(e));
+                        message = new StringResourceModel(MSG_FILE_SIZE_TOOLARGE, this, new Model<FileSizeException>(e));
                         downloadAllowed = false;
                     }
                 } else {
@@ -169,7 +169,7 @@ public class ModalDownload extends Panel {
                     catch (ZipFileLengthException e) {
                         logger.info("Zip size is too large: " + e.getAmount() + ", while the limit is " + e.getLimit() + " Bytes");
                         // zip exceeds size limit
-                        message = new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this, new Model<ZipFileLengthException>(e));
+                        message = new StringResourceModel(MSG_ZIP_SIZE_TOOLARGE, this, new Model<ZipFileLengthException>(e));
                         downloadAllowed = false;
                     }
                 }

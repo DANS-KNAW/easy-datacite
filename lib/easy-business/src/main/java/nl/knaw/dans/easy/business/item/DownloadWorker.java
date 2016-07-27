@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.file.ZipItem;
@@ -34,8 +31,6 @@ import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
-import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
@@ -74,7 +69,7 @@ public class DownloadWorker {
         final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId());
         final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset, FILE_STORE_ACCESS);
         try {
-            final List<FileItemVO> itemList = FILE_STORE_ACCESS.findFilesById(Arrays.asList(fileItemId));
+            final List<FileItemVO> itemList = FILE_STORE_ACCESS.findFilesById(Collections.singletonList(fileItemId));
             final List<? extends ItemVO> filteredItems = downloadFilter.apply(itemList);
             if (!filteredItems.isEmpty()) {
                 final FileItemVO fileItemVO = (FileItemVO) filteredItems.get(0);
@@ -140,8 +135,7 @@ public class DownloadWorker {
         if (addLicenseList.isEmpty()) {
             return null;
         } else {
-            final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID), new DateTime());
-            return url;
+            return Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID), new DateTime());
         }
     }
 
@@ -205,7 +199,7 @@ public class DownloadWorker {
         }
         final List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
-        int totalSize = calculateTotalSizeUnzipped(items);
+        long totalSize = calculateTotalSizeUnzipped(items);
         logger.debug("total size unzipped " + totalSize);
 
         if (totalSize > MAX_DOWNLOAD_SIZE) {
@@ -230,8 +224,8 @@ public class DownloadWorker {
         return zipItems;
     }
 
-    private int calculateTotalSizeUnzipped(final List<? extends ItemVO> items) {
-        int totalSize = 0;
+    private long calculateTotalSizeUnzipped(final List<? extends ItemVO> items) {
+        long totalSize = 0;
         for (final ItemVO item : items) {
             if (item instanceof FileItemVO) {
                 totalSize += ((FileItemVO) item).getSize();
@@ -271,14 +265,12 @@ public class DownloadWorker {
     }
 
     private void collectMetadata(final PrintStream metaOutputStream, final ItemVO item) throws IOException, RepositoryException {
-        InputStream stream = null;
-        stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
+        InputStream stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
         int b;
         while (0 < (b = stream.read())) {
             metaOutputStream.write(b);
         }
-        if (stream != null)
-            stream.close();
+        stream.close();
     }
 
     private static List<ItemVO> getRequestedItemVOs(final Collection<RequestedItem> requestedItems) throws StoreAccessException {
