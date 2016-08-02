@@ -70,6 +70,7 @@
         <module>tool/task-change-depositor</module>
         <module>tool/task-easy-export</module>
         <module>tool/task-change-easy-discipline</module>
+        <module>tool/task-add-new-license</module>
         
     </modules>
 </project>
