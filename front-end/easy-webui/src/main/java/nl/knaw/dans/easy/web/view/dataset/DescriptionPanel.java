@@ -7,7 +7,6 @@ import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.DepositPage;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.view.dataset.emd.EasyMetadataViewPanel;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
@@ -23,11 +22,10 @@ public class DescriptionPanel extends AbstractDatasetModelPanel {
 
     public DescriptionPanel(String id, DatasetModel model) {
         super(id, model);
-        final EasyMetadata emd = getDataset().getEasyMetadata();
 
         add(new EasyMetadataViewPanel("easyMetadataPanel", getDatasetModel()));
 
-        add(new DownloadPanel("downloadPanel", emd));
+        add(new DownloadPanel("downloadPanel", getDataset().getStoreId()));
 
         Link editLink = new Link("editLink") {
 

@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.web.deposit.ChoiceListExport;
 import nl.knaw.dans.easy.web.deposit.DepositLicensePreview;
 import nl.knaw.dans.easy.web.download.FileDownloadResource;
 
+import nl.knaw.dans.easy.web.view.dataset.MetadataExportResource;
 import org.apache.wicket.Resource;
 import org.apache.wicket.ResourceReference;
 
@@ -21,13 +22,14 @@ public enum ResourceBookmark implements AliasInterface<Resource> {
     download(FileDownloadResource.class, "fileDownloadResource"), //
     emdDisciplines(ChoiceListExport.class, ChoiceListExport.RESOURCE_NAME), //
     contentExport(DmoContentExport.class, "content"), //
-    depositLicense(DepositLicensePreview.class, DepositLicensePreview.RESOURCE_NAME); //
+    depositLicense(DepositLicensePreview.class, DepositLicensePreview.RESOURCE_NAME), //
+    emdExport(MetadataExportResource.class, MetadataExportResource.RESOURCE_NAME);
 
-    private static ALiasDelegate<Resource> delegate = new ALiasDelegate<Resource>(ResourceBookmark.values());
+    private final static ALiasDelegate<Resource> delegate = new ALiasDelegate<Resource>(ResourceBookmark.values());
     private final String bookmarkedName;
     private final Class<? extends Resource> bookmarkedClass;
 
-    private ResourceBookmark(final Class<? extends Resource> bookmarkedClass, final String bookmarkedName) {
+    ResourceBookmark(final Class<? extends Resource> bookmarkedClass, final String bookmarkedName) {
         this.bookmarkedName = bookmarkedName;
         this.bookmarkedClass = bookmarkedClass;
     }
@@ -40,7 +42,7 @@ public enum ResourceBookmark implements AliasInterface<Resource> {
         return (ResourceBookmark) delegate.valueOfAlias(alias);
     }
 
-    public final static ResourceReference getResourceReferenceOf(final Class<? extends Resource> bookmarkedClass) {
+    public static ResourceReference getResourceReferenceOf(final Class<? extends Resource> bookmarkedClass) {
         return new ResourceReference(delegate.valueOf(bookmarkedClass).getAlias());
     }
 
