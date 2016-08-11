@@ -24,7 +24,7 @@
     <xsl:variable name="date-encoding-attribute-value" select="'w3cdtf'"/>
     <!--<xsl:variable name="pid-resolver" select="'http://www.persistent-identifier.nl/?identifier='"/>-->
     <xsl:variable name="abr-type" select="document('http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd')"/>
-    <xsl:variable name="audience" select="document('http://easy.dans.knaw.nl/schemas/property-list/2012/11/audience.xml')"/> 
+    <xsl:variable name="audience" select="document('http://easy.dans.knaw.nl/schemas/property-list/audience.xml')"/>
     <!-- ==================================================== -->
     
     <xsl:template match="/">
