@@ -4,10 +4,12 @@ import static org.junit.Assert.assertFalse;
 
 import java.util.NoSuchElementException;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.tools.ApplicationOnlineTest;
 import nl.knaw.dans.easy.tools.dmo.DmoFilter;
+import nl.knaw.dans.easy.tools.task.am.dataset.DatasetAccessCategoryFilter;
 import nl.knaw.dans.easy.tools.task.am.dataset.DatasetStateFilter;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
@@ -80,16 +82,9 @@ public class DatasetIteratorOnlineTest extends ApplicationOnlineTest {
     }
 
     @Test
-    public void metadataFormatFilterIterator() throws Exception {
-        DatasetIterator diter = new DatasetIterator(new MetadataFormatFilter(MetadataFormat.ARCHAEOLOGY));
-        while (diter.hasNext()) {
-            System.err.println(diter.next().getLabel() + " (" + this.getClass().getName() + ".metadataFormatFilterIterator)");
-        }
-    }
-
-    @Test
     public void iteratorWith2Filters() throws Exception {
-        DatasetIterator diter = new DatasetIterator(new MetadataFormatFilter(MetadataFormat.SOCIOLOGY), new DatasetStateFilter(DatasetState.DRAFT.toString()));
+        DatasetIterator diter = new DatasetIterator(new DatasetAccessCategoryFilter(AccessCategory.ANONYMOUS_ACCESS.toString()), new DatasetStateFilter(
+                DatasetState.DRAFT.toString()));
         while (diter.hasNext()) {
             System.err.println(diter.next().getLabel() + " (" + this.getClass().getName() + ".iteratorWith2Filters)");
         }

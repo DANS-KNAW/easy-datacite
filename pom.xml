@@ -64,12 +64,8 @@
         <module>tool/easy-ebiu</module>
         <module>tool/easy-pakbon-preprocess</module>
         <module>tool/task-assign-datasets-to-collections</module>
-        <module>tool/task-compute-checksums</module>
         <module>tool/task-dump-metadata</module>
-        <module>tool/task-datastream-cleanup</module>
-        <module>tool/task-change-depositor</module>
         <module>tool/task-easy-export</module>
-        <module>tool/task-change-easy-discipline</module>
         <module>tool/task-add-new-license</module>
         <module>tool/task-add-geo-coordinates</module>
 
