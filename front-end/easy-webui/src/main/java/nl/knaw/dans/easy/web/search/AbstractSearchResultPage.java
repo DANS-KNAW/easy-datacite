@@ -1,14 +1,12 @@
 package nl.knaw.dans.easy.web.search;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
-import nl.knaw.dans.common.lang.search.SearchRequest;
-import nl.knaw.dans.common.lang.search.SearchResult;
-import nl.knaw.dans.common.lang.search.SortOrder;
-import nl.knaw.dans.common.lang.search.SortType;
+import nl.knaw.dans.common.lang.search.*;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchRequest;
 import nl.knaw.dans.common.lang.search.simple.SimpleSortField;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -35,6 +33,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.search.RecursiveListCache;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.authn.login.LoginPage;
+import nl.knaw.dans.easy.web.search.custom.FixedOrderFacetValueComparator;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListTranslator;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListValueCollapser;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
@@ -48,6 +47,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nl.knaw.dans.common.lang.search.simple.SimpleFacetValue;
 
 /**
  * Controlling class for performing searches and viewing the results.
@@ -246,7 +247,8 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
         refineFacets.add(facetConfig);
 
         facetConfig = new FacetConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD);
-        facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
+        facetConfig.setOrder(FacetConfig.Order.CUSTOM);
+        facetConfig.setCustomOrderComparator(getAccessCategoryComparator());
         facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
         facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
         refineFacets.add(facetConfig);
@@ -258,6 +260,27 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage {
         refineFacets.add(facetConfig);
 
         return refineFacets;
+    }
+
+    protected static Comparator<FacetValue<?>> getAccessCategoryComparator() {
+        // @formatter:off
+        FacetValue[] orderedAccessCategories = {
+                new AccessCategorieFacetValueForOrdering("OPEN_ACCESS"),
+                new AccessCategorieFacetValueForOrdering("OPEN_ACCESS_FOR_REGISTERED_USERS"),
+                new AccessCategorieFacetValueForOrdering("GROUP_ACCESS"),
+                new AccessCategorieFacetValueForOrdering("REQUEST_PERMISSION"),
+                new AccessCategorieFacetValueForOrdering("NO_ACCESS")};
+        // @formatter:on
+
+        FixedOrderFacetValueComparator customOrderComparator = new FixedOrderFacetValueComparator<String>(orderedAccessCategories);
+
+        return customOrderComparator;
+    }
+
+    private static class AccessCategorieFacetValueForOrdering extends SimpleFacetValue<String> {
+        public AccessCategorieFacetValueForOrdering(String value) {
+            setValue(value);
+        }
     }
 
     protected List<SortLinkConfig> getSortLinks() {
