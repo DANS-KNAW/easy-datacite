@@ -26,18 +26,11 @@ import org.apache.commons.configuration.PropertiesConfiguration
 import org.rogach.scallop._
 import org.slf4j.LoggerFactory
 
-
 class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
   val log = LoggerFactory.getLogger(getClass)
+
   appendDefaultToDescription = true
   editBuilder(_.setHelpWidth(110))
-
-  private val shouldBeFile = singleArgConverter(value =>
-    new File(value) match {
-      case f if f.isFile => f
-      case _ => throw createException(s"'$value' is not a file")
-    }
-  )
 
   private val createIfNotExists = singleArgConverter(value =>
     new File(value) match {
@@ -61,16 +54,16 @@ class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
             |Options:
             |""".stripMargin)
 
-  val pidsfile = opt[File](name = "pids-file",
-    required = true,
-    descr = "The name of file that contains the list of pids.")(shouldBeFile)
-  val outputFile = opt[File](name = "output-file",
-    required = true,
+  val pidsfile = opt[File](name = "pids-file", required = true,
+    descr = "The name of file that contains the list of pids.")
+  val outputFile = opt[File](name = "output-file", required = true,
     descr = "The name of the file where the process status (success/failure) of the given pids are written")(createIfNotExists)
-  val doUpdate = opt[Boolean]("doUpdate",
-    noshort = true,
-    descr = "Without this argument no new license will added, the default is a test mode that logs the intended changes",
-    default = Some(false))
+  val doUpdate = opt[Boolean]("doUpdate", noshort = true, default = Some(false),
+    descr = "Without this argument no new license will added, the default is a test mode that logs the intended changes")
+
+  validateFileExists(pidsfile)
+  validateFileIsFile(pidsfile)
+
   footer("")
   verify()
 }
@@ -90,11 +83,10 @@ object CommandLineOptions {
       ps
     }
 
-    val z = props.getString("fcrepo.url")
     log.debug("Parsing command line ...")
     val opts = new CommandLineOptions(args)
 
-    val params = new Parameters(
+    val params = Parameters(
       pidsfile = opts.pidsfile(),
       doUpdate = opts.doUpdate(),
       fedoraClient = new FedoraClient(new FedoraCredentials(
@@ -113,8 +105,7 @@ object CommandLineOptions {
 
         new InitialLdapContext(env, null)
       },
-      licenseResource = new File(props.getString("license.resources"))
-    )
+      licenseResource = new File(props.getString("license.resources")))
 
     val outputFile = opts.outputFile()
 

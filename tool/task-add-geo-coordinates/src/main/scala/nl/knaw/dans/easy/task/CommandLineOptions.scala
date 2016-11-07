@@ -14,6 +14,7 @@
   * limitations under the License.
   */
 package nl.knaw.dans.easy.task
+
 import java.io.{File, PrintWriter}
 import java.net.URL
 import java.util.Properties
@@ -26,9 +27,9 @@ class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
 
   appendDefaultToDescription = true
   editBuilder(_.setHelpWidth(110))
+
   printedName = "easy-add-geo-coordinates"
   version(s"$printedName ${Version()}")
-
   banner(s"""
             |Add geographic coordinates (point or box in RD) to Datasets
             |
@@ -37,14 +38,23 @@ class CommandLineOptions(args: Array[String]) extends ScallopConf(args) {
             |
             |Options:
             |""".stripMargin)
-  val doUpdate = opt[Boolean]("doUpdate", descr = "Without this argument no changes are made to the repository, the default is a test mode that logs the intended changes", default = Some(false))
-  val url = opt[String]("url", noshort = true, descr = "Base url for the fedora repository", default = Some("http://localhost:8080/fedora"))
-  val password = opt[String]("password", descr = "Password for fedora repository, if omitted provide it on stdin")
-  val username = opt[String]("username", descr = "Username for fedora repository, if omitted provide it on stdin")
-  val output = opt[String]("output", descr = "Name of the file where the changed pids are written", default = Some("changed_pids.txt"))
 
-  val csvFilename = opt[String]("csv-file", required = true, descr = "The name of file that contains the pids and parameters needed to fix the object with that pid.")
-  val msg = opt[String]("msg", descr = "The message that ends up in the audit trail of the Fedora Object giving a justification for the update)")
+  val doUpdate = opt[Boolean]("doUpdate", default = Some(false),
+    descr = "Without this argument no changes are made to the repository, the default is a test mode that logs the intended changes")
+  val url = opt[String]("url", noshort = true, default = Some("http://localhost:8080/fedora"),
+    descr = "Base url for the fedora repository")
+  val password = opt[String]("password",
+    descr = "Password for fedora repository, if omitted provide it on stdin")
+  val username = opt[String]("username",
+    descr = "Username for fedora repository, if omitted provide it on stdin")
+  val output = opt[String]("output", default = Some("changed_pids.txt"),
+    descr = "Name of the file where the changed pids are written")
+
+  val csvFilename = opt[String]("csv-file", required = true,
+    descr = "The name of file that contains the pids and parameters needed to fix the object with that pid.")
+  val msg = opt[String]("msg",
+    descr = "The message that ends up in the audit trail of the Fedora Object giving a justification for the update)")
+
   footer("")
   verify()
 }
@@ -54,8 +64,8 @@ object CommandLineOptions {
     val opts = new CommandLineOptions(args)
 
     val url = new URL(opts.url())
-    val username = opts.username.get.getOrElse(askUsername(url.toString))
-    val password = opts.password.get.getOrElse(askPassword(username,url.toString))
+    val username = opts.username.toOption.getOrElse(askUsername(url.toString))
+    val password = opts.password.toOption.getOrElse(askPassword(username,url.toString))
 
     FedoraRequest.setDefaultClient(new FedoraClient(new FedoraCredentials(url, username, password)))
 
@@ -64,7 +74,7 @@ object CommandLineOptions {
     val changedPids = opts.output()
     val writer = new PrintWriter(new File(changedPids))
     val csvFilename = opts.csvFilename.apply()
-    val justificationMsg = s"automated object fixing: ${opts.printedName} ${Version()}" + "; " + opts.msg.get.getOrElse("")
+    val justificationMsg = s"automated object fixing: ${opts.printedName} ${Version()}" + "; " + opts.msg.toOption.getOrElse("")
 
     Settings(testMode, updater, writer, csvFilename, justificationMsg, username, url, changedPids)
   }
@@ -78,7 +88,6 @@ object CommandLineOptions {
     print(s"Password for $user on $url: ")
     System.console.readPassword().mkString
   }
-
 }
 
 object Version {

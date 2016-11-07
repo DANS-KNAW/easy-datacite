@@ -28,5 +28,4 @@ case class Settings(testMode : Boolean,
                     pidsFile: String) {
   override def toString: String =
     s"Settings: test=$testMode, fedora-user=$fedoraUser, fedora-baseurl=$fedoraBaseUrl, pids-file=$pidsFile, msg=$justificationMsg"
-
 }

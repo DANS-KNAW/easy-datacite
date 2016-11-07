@@ -20,12 +20,13 @@ object CommandLineOptions {
     log.debug("Parsing command line ...")
     val opts = new ScallopCommandLine(args)
 
-    val fedoraUrl = new URL(opts.fedoraUrl())
-    val fedoraUser = opts.fedoraUsername.get.getOrElse(ask(fedoraUrl.toString,"user name"))
-    val fedoraPassword = opts.fedoraPassword.get.getOrElse(askPassword(fedoraUser, fedoraUrl.toString))
+    val fedoraUrl = opts.fedoraUrl()
+    val fedoraUser = opts.fedoraUsername.toOption.getOrElse(ask(fedoraUrl.toString,"user name"))
+    val fedoraPassword = opts.fedoraPassword.toOption.getOrElse(askPassword(fedoraUser, fedoraUrl.toString))
+
     val ldapUrl = opts.ldapUrl()
-    val ldapPrincipal = opts.ldapPrincipal.get.getOrElse(ask(ldapUrl.toString, "principal"))
-    val ldapPassword = opts.ldapPassword.get.getOrElse(askPassword(ldapPrincipal, ldapUrl.toString))
+    val ldapPrincipal = opts.ldapPrincipal.toOption.getOrElse(ask(ldapUrl.toString, "principal"))
+    val ldapPassword = opts.ldapPassword.toOption.getOrElse(askPassword(ldapPrincipal, ldapUrl.toString))
     Settings(
       !opts.doUpdate(),
       opts.inputFile(),
@@ -61,25 +62,6 @@ class ScallopCommandLine(args: Array[String]) extends ScallopConf(args) {
   appendDefaultToDescription = true
   editBuilder(_.setHelpWidth(110))
 
-  private val shouldBeFile = singleArgConverter(value =>
-    new File(value) match {
-      case f if f.isFile => f
-      case _ => throw createExecption(s"'$value' is not a file")
-    }
-  )
-  private val shouldBeDir = singleArgConverter(value =>
-    new File(value) match {
-      case f if f.isDirectory => f
-      case _ => throw createExecption(s"'$value' is not a directory")
-    }
-  )
-  private val shouldBeUrl = singleArgConverter(value =>
-    Try { new URL(value) } match {
-      case Success(url) => value
-      case Failure(e) => throw createExecption(s"'$value' is not a valid url: ${e.getMessage}")
-    }
-  )
-
   private def createExecption(msg: String) = {
     log.error(msg)
     new IllegalArgumentException(msg)
@@ -96,9 +78,9 @@ class ScallopCommandLine(args: Array[String]) extends ScallopConf(args) {
     descr = "Without this argument no changes are made to the repository, the default is a test mode that logs the intended changes",
     default = Some(false))
 
-  val fedoraUrl = opt[String](name = "fedora-url", short = 'f',
+  val fedoraUrl = opt[URL](name = "fedora-url", short = 'f',
     descr = "Base url for the fedora repository",
-    default = Some("http://localhost:8080/fedora"))(shouldBeUrl)
+    default = Some(new URL("http://localhost:8080/fedora")))
   val fedoraUsername = opt[String](name = "fedora-username", noshort = true,
     descr = "Username for fedora repository, if omitted provide it on stdin")
   val fedoraPassword = opt[String](name = "fedora-password", noshort = true,
@@ -119,7 +101,10 @@ class ScallopCommandLine(args: Array[String]) extends ScallopConf(args) {
     descr = "Name of the file with information about the changed dataset files",
     default = Some("changed_files.txt"))
 
-  val inputFile = trailArg[File](name = "input-file", required = true, descr = "The CSV file with depositors to be changed")(shouldBeFile)
+  val inputFile = trailArg[File](name = "input-file", required = true, descr = "The CSV file with depositors to be changed")
+
+  validateFileExists(inputFile)
+  validateFileIsFile(inputFile)
 
   footer("")
   verify()
