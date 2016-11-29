@@ -1,17 +1,5 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assume.assumeTrue;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
-
 import nl.knaw.dans.common.lang.id.DAI;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
@@ -19,13 +7,24 @@ import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
-
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 public class CrosswalkInlineTest {
     private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
@@ -213,6 +212,7 @@ public class CrosswalkInlineTest {
     }
 
     @Test
+    @Ignore
     public void abr() throws Exception {
         final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 2, "skipped", "temporal", "subject");
         checkMiniProfile(emd);
