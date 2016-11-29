@@ -10,7 +10,6 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,10 +211,15 @@ public class CrosswalkInlineTest {
     }
 
     @Test
-    @Ignore
     public void abr() throws Exception {
-        final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 2, "skipped", "temporal", "subject");
+        final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 0);
         checkMiniProfile(emd);
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getValue(), is("PALEOLB"));
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getScheme(), is("ABR"));
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getSchemeId(), is("archaeology.dcterms.temporal"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getValue(), is("EGVW"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getScheme(), is("ABR"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getSchemeId(), is("archaeology.dc.subject"));
     }
 
     private static final String dateFields[] = {"dcterms:created", "dcterms:available", "dcterms:dateAccepted", "dcterms:valid", "dcterms:issued",
