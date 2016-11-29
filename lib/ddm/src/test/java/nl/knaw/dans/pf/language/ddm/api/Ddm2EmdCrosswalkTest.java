@@ -138,6 +138,59 @@ public class Ddm2EmdCrosswalkTest {
         assertThat(sub.attribute("scheme").getValue(), is("ABR"));
     }
 
+    @Test
+    public void subjectPlainText() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM" +
+                "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'" +
+                "  xmlns:dc='http://purl.org/dc/elements/1.1/'" +
+                ">" +
+                " <ddm:dcmiMetadata>" +
+                "  <dc:subject>hello world</dc:subject>"+
+                " </ddm:dcmiMetadata>" +
+                "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:subject"));
+        assertThat(sub.getQualifiedName(), is("dc:subject"));
+        assertThat(sub.getText(), is("hello world"));
+    }
+
+    @Test
+    public void subjectABR() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM" +
+                "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'" +
+                "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'" +
+                "  xmlns:dc='http://purl.org/dc/elements/1.1/'" +
+                "  xmlns:abr='http://www.den.nl/standaard/166/Archeologisch-Basisregister/'" +
+                ">" +
+                " <ddm:dcmiMetadata>" +
+                "  <dc:subject xsi:type='abr:ABRcomplex'>DEPO</dc:subject>" +
+                " </ddm:dcmiMetadata>" +
+                "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:subject"));
+        assertThat(sub.getQualifiedName(), is("dc:subject"));
+        assertThat(sub.getText(), is("DEPO"));
+        assertThat(sub.attributeCount(), is(2));
+        assertThat(sub.attribute("schemeId").getQualifiedName(), is("eas:schemeId"));
+        assertThat(sub.attribute("schemeId").getValue(), is("archaeology.dc.subject"));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("ABR"));
+    }
+
     private DefaultElement firstEmdElementFrom(String ddm) throws XMLSerializationException, CrosswalkException {
         EasyMetadata emd = new Ddm2EmdCrosswalk(null).createFrom(ddm);
         return (DefaultElement) new EmdMarshaller(emd).getXmlElement().elementIterator().next();

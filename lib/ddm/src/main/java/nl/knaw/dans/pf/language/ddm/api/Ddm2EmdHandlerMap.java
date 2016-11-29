@@ -160,7 +160,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
     }
 
     private void putAudienceHandlers() throws SAXException {
-        final BasicStringHandler narcisHandler = new AudienceHandler(loadVocabulary(NameSpace.NARCIS_TYPE.xsd), NameSpace.NARCIS_TYPE.schemeId);
+        final BasicStringHandler narcisHandler = new AudienceHandler(loadVocabulary(NameSpace.NARCIS_TYPE.xsd));
         map.put("/ddm:audience", narcisHandler);
         map.put("DisciplineType/dcterms:audience", narcisHandler);
         final BasicStringHandler audienceHandler = new AudienceHandler();
@@ -366,11 +366,11 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         // getEmdCoverage().get...
 
         final BasicStringHandler subjectHandler = new SubjectHandler();
-        final BasicStringHandler abrSubjectHandler = new SubjectHandler(NameSpace.ABR.schemeId);
+        final BasicStringHandler abrSubjectHandler = new SubjectHandler(NameSpace.ABR);
         map.put("/dc:subject", subjectHandler);
         map.put("/dcterms:subject", subjectHandler);
-        map.put("abr:ABRcomplex/dc:subject", abrSubjectHandler);
-        map.put("abr:ABRcomplex/dcterms:subject", abrSubjectHandler);
+        map.put("ABRcomplex/dc:subject", abrSubjectHandler);
+        map.put("ABRcomplex/dcterms:subject", abrSubjectHandler);
         // <ref-panelId>dc.subject.abr</ref-panelId>
         // EasyMetadataImpl: EmdSubject emdSubject;
     }

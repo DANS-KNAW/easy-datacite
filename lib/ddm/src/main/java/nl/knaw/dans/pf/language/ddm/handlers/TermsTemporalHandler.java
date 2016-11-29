@@ -3,6 +3,7 @@ package nl.knaw.dans.pf.language.ddm.handlers;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import org.xml.sax.SAXException;
 
 public class TermsTemporalHandler extends BasicStringHandler {
@@ -10,11 +11,11 @@ public class TermsTemporalHandler extends BasicStringHandler {
     private final NameSpace namespace;
 
     public TermsTemporalHandler() {
-        namespace = null;
+        this.namespace = null;
     }
 
     public TermsTemporalHandler(NameSpace namespace) {
-        super(null, namespace.schemeId);
+        super(null, EmdConstants.SCHEME_ID_TEMPORAL);
         this.namespace = namespace;
     }
 
