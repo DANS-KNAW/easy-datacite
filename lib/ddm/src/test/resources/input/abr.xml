@@ -21,8 +21,8 @@
 		<ddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</ddm:accessRights>
 	</ddm:profile>
 
-	<ddm:dcmiMetadata>
+	<ddm:additional-xml>
 		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
 		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
-	</ddm:dcmiMetadata>
+	</ddm:additional-xml>
 </ddm:DDM>
