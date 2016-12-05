@@ -12,6 +12,9 @@ import org.apache.wicket.protocol.http.WebResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * A resource that provides export for metadata of datasets. See the PARAMs for expected parameters. Usage:
  * http://domain/resources/easy/export?sid=easy-dataset:1&format=(xml|csv) (defaults to csv) added to {@link nl.knaw.dans.easy.web.ResourceBookmark} to be
@@ -95,12 +98,18 @@ public class MetadataExportResource extends DynamicWebResource {
     protected void setHeaders(WebResponse response) {
         super.setHeaders(response);
 
-        String datasetId = getParameters().getString(DATASET_ID_PARAM);
-        String link = "<https://easy.dans.knaw.nl/ui/datasets/id/" + datasetId + "> ; rel=\"describes\"";
-        response.setHeader("Link", link);
+        String datasetId = null;
+        try {
+            datasetId = URLEncoder.encode(getParameters().getString(DATASET_ID_PARAM), "UTF-8");
+            String link = "<https://easy.dans.knaw.nl/ui/datasets/id/" + datasetId + "> ; rel=\"describes\"";
+            response.setHeader("Link", link);
+        }
+        catch (UnsupportedEncodingException e) {
+            datasetId = "export";
+        }
 
         String extension = getParameters().containsKey(EXPORT_FORMAT_PARAM) ? getParameters().getString(EXPORT_FORMAT_PARAM) : ExportFormat.CSV.name();
-        response.setAttachmentHeader("export." + extension.toLowerCase());
+        response.setAttachmentHeader(datasetId + "." + extension.toLowerCase());
     }
 
 }
