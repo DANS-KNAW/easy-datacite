@@ -18,13 +18,14 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
     /**
      * Proper processing requires pushing/popping and inheriting the attribute, so we skip for the current implementation
      */
-    private boolean foundSRS = false;
+    // the srs is WGS84_4326 by default
+    private String foundSRS = WGS84_4326;
 
     @Override
     public void initFirstElement(final String uri, final String localName, final Attributes attributes) {
         description = null;
         lower = upper = pos = null;
-        foundSRS = false;
+        foundSRS = WGS84_4326;
         checkSRS(attributes);
     }
 
@@ -34,8 +35,12 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
     }
 
     private void checkSRS(final Attributes attributes) {
-        for (int i = 0; i < attributes.getLength(); i++)
-            foundSRS = foundSRS || SRS_NAME.equals(attributes.getLocalName(i));
+        for (int i = 0; i < attributes.getLength(); i++) {
+            if (attributes.getLocalName(i).equals(SRS_NAME)) {
+                foundSRS = attributes.getValue(i);
+                break;
+            }
+        }
     }
 
     @Override
@@ -49,15 +54,14 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
         else if ("upperCorner".equals(localName))
             upper = wgs84Point();
         else if ("Point".equals(localName)) {
-            if (pos != null && !foundSRS)
+            if (pos != null)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, pos));
-        } else if ("Envelope".equals(localName)) {
-            if (lower != null && upper != null && foundSRS) {
+        }
+        else if ("Envelope".equals(localName)) {
+            if (lower != null && upper != null)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, createBox()));
-            }
         }
         // other types than point/box not supported by EMD: don't warn
-        return;
     }
 
     private Spatial.Box createBox() throws SAXException {
@@ -69,7 +73,7 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
         final String s = "" + (upperY < lowerY ? upperY : lowerY);
         final String e = "" + (upperX > lowerX ? upperX : lowerX);
         final String w = "" + (upperX < lowerX ? upperX : lowerX);
-        return new Spatial.Box(WGS84_4326, n, e, s, w);
+        return new Spatial.Box(foundSRS, n, e, s, w);
     }
 
     private Point wgs84Point() throws SAXException {
@@ -83,6 +87,6 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
             error("expected at least two floats separated with a space");
             return null;
         }
-        return new Spatial.Point(WGS84_4326, yx[1], yx[0]);
+        return new Spatial.Point(foundSRS, yx[1], yx[0]);
     }
 }

@@ -1,21 +1,21 @@
 package nl.knaw.dans.pf.language.ddm.handlers;
 
-import java.util.List;
-import java.util.Map;
-
 import nl.knaw.dans.pf.language.ddm.handlermaps.AudienceFormatMap;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
-
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import org.xml.sax.SAXException;
+
+import java.util.List;
+import java.util.Map;
 
 public class AudienceHandler extends BasicStringHandler {
     public AudienceHandler() {}
 
-    public AudienceHandler(final Map<String, String> vocabulary, final String SchemeId) {
-        super(vocabulary, SchemeId);
+    public AudienceHandler(final Map<String, String> vocabulary) {
+        super(vocabulary, EmdConstants.SCHEME_ID_DISCIPLINES);
     }
 
     @Override
