@@ -39,6 +39,7 @@ object Main {
     for {
       Record(_, _, urn, _, accessRight) <- parse(settings.inputFile)
       pid <- getDatasetPidByURN(urn)
+      _ = settings.changedPids.println(pid)
       _ <- changeFilesFromVisible(pid)
       _ <- if (accessRight == groupAccess) changeFilesFromArchaeology(pid) else Observable.just(())
     } yield ()
