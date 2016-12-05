@@ -94,6 +94,11 @@ public class MetadataExportResource extends DynamicWebResource {
     @Override
     protected void setHeaders(WebResponse response) {
         super.setHeaders(response);
+
+        String datasetId = getParameters().getString(DATASET_ID_PARAM);
+        String link = "<https://easy.dans.knaw.nl/ui/datasets/id/" + datasetId + "> ; rel=\"describes\"";
+        response.setHeader("Link", link);
+
         String extension = getParameters().containsKey(EXPORT_FORMAT_PARAM) ? getParameters().getString(EXPORT_FORMAT_PARAM) : ExportFormat.CSV.name();
         response.setAttachmentHeader("export." + extension.toLowerCase());
     }

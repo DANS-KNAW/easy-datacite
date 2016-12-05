@@ -289,8 +289,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
     @Override
     protected void onDetach() {
         super.onDetach();
-        EasyMetadata emd = getDataset().getEasyMetadata();
-        EmdIdentifier identifier = emd.getEmdIdentifier();
+        EmdIdentifier identifier = getDataset().getEasyMetadata().getEmdIdentifier();
         String doi = identifier.getDansManagedDoi();
         String urn = identifier.getPersistentIdentifier();
         String datasetId = identifier.getDatasetId();
