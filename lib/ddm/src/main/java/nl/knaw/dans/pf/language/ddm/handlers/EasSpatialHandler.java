@@ -56,8 +56,7 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
         else if ("Point".equals(localName)) {
             if (pos != null)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, pos));
-        }
-        else if ("Envelope".equals(localName)) {
+        } else if ("Envelope".equals(localName)) {
             if (lower != null && upper != null)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, createBox()));
         }

@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
@@ -37,11 +38,12 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import org.apache.wicket.PageParameters;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.slf4j.Logger;
@@ -70,18 +72,22 @@ public class DatasetPermissionTest {
         dataset.setState(State.Submitted.toString());
         dataset.setAuthzStrategy(createAuthzStrategy());
         dataset.setAdministrativeMetadata(createAMD(createUser()));
+        dataset.getEasyMetadata()
+                .getEmdIdentifier()
+                .setDcIdentifier(
+                        Arrays.asList(new BasicIdentifier("dans-ab1-cdef", "", EmdConstants.SCHEME_DOI), new BasicIdentifier("urn:nbn:nl:ui:12-3abc-de", "",
+                                EmdConstants.SCHEME_PID), new BasicIdentifier("easy-dataset:1", "", EmdConstants.SCHEME_DMO_ID)));
         return dataset;
     }
 
     private AdministrativeMetadataImpl createAMD(final EasyUser depositor) {
-        AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl() {
+        return new AdministrativeMetadataImpl() {
             private static final long serialVersionUID = 1L;
 
             public EasyUser getDepositor() {
                 return depositor;
             }
         };
-        return administrativeMetadata;
     }
 
     private EasyUser createUser() {
