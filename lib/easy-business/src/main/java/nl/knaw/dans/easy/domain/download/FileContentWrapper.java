@@ -11,6 +11,8 @@ public class FileContentWrapper implements Serializable, DownloadInfo {
 
     private static final long serialVersionUID = 677620380637265652L;
 
+    private final String datasetId;
+
     private final String fileItemId;
 
     private FileItemVO fileItemVO;
@@ -19,12 +21,17 @@ public class FileContentWrapper implements Serializable, DownloadInfo {
 
     private URL url;
 
-    public FileContentWrapper(String fileItemId) {
+    public FileContentWrapper(String fileItemId, String datasetId) {
         this.fileItemId = fileItemId;
+        this.datasetId = datasetId;
     }
 
     public String getFileItemId() {
         return fileItemId;
+    }
+
+    public String getDatasetId() {
+        return datasetId;
     }
 
     public URL getURL() {

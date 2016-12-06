@@ -115,7 +115,7 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler {
             catch (CommonSecurityException e) {
                 logger.warn("Unable to get a URLConnection: " + e.getMessage());
                 hasSecurityException = true;
-                fileContentWrapper = new FileContentWrapper(null);
+                fileContentWrapper = new FileContentWrapper(null, null);
                 fileContentWrapper.setFileName("insufficientRights.html");
                 fileContentWrapper.setURL(getMockURL());
             }
@@ -135,5 +135,4 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler {
     public void setHeaders(WebResponse response) {
         response.setHeader("Content-Disposition", "inline; filename=" + getFileContentWrapper().getFileName());
     }
-
 }

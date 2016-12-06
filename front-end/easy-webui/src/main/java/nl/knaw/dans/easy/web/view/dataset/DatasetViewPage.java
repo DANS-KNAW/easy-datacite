@@ -2,6 +2,8 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.apache.commons.lang.StringUtils.join;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,9 +39,13 @@ import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
+import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
@@ -278,6 +284,54 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         }
 
         super.onBeforeRender();
+    }
+
+    @Override
+    protected void onDetach() {
+        super.onDetach();
+        EmdIdentifier identifier = getDataset().getEasyMetadata().getEmdIdentifier();
+        String doi = identifier.getDansManagedDoi();
+        String urn = identifier.getPersistentIdentifier();
+        String datasetId = identifier.getDatasetId();
+
+        List<String> linkValues = new ArrayList<String>(6);
+
+        String doiUrl = EmdConstants.DOI_RESOLVER + "/" + doi;
+
+        try {
+            String urnUrl = EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(urn, "UTF-8");
+            linkValues.add(formatHeaderLink("identifier", urnUrl));
+        }
+        catch (UnsupportedEncodingException e) {
+            logger.error("could not encode the URN identifier of dataset " + datasetId);
+        }
+
+        try {
+            String ds = URLEncoder.encode(datasetId, "UTF-8");
+            linkValues.add(formatHeaderLink("describedby", "application/xml", "http://easy.dans.knaw.nl/easy/easymetadata/",
+                    "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + ds + "&format=XML"));
+            linkValues.add(formatHeaderLink("describedby", "txt/csv", "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + ds + "&format=CSV"));
+        }
+        catch (UnsupportedEncodingException e) {
+            logger.error("could not encode the dataset identifier of dataset " + datasetId);
+        }
+
+        linkValues.add(formatHeaderLink("describedby", "application/vnd.datacite.datacite+xml", doiUrl));
+        linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", doiUrl));
+
+        getWebRequestCycle().getWebResponse().setHeader("Link", StringUtils.join(linkValues, ','));
+    }
+
+    private String formatHeaderLink(String relation, String link) {
+        return "<" + link + "> ; rel=\"" + relation + "\"";
+    }
+
+    private String formatHeaderLink(String relation, String type, String link) {
+        return "<" + link + "> ; rel=\"" + relation + "\" ; type=\"" + type + "\"";
+    }
+
+    private String formatHeaderLink(String relation, String type, String profile, String link) {
+        return "<" + link + "> ; rel=\"" + relation + "\" ; type=\"" + type + "\" ; profile=\"" + profile + "\"";
     }
 
     public void init() {

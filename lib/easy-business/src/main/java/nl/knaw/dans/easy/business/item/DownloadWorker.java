@@ -66,7 +66,8 @@ public class DownloadWorker {
     protected FileContentWrapper getFileContent(final EasyUser sessionUser, final Dataset dataset, final DmoStoreId fileItemId) throws CommonSecurityException,
             ServiceException
     {
-        final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId());
+        final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId(), dataset.getEasyMetadata().getEmdIdentifier()
+                .getDatasetId());
         final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset, FILE_STORE_ACCESS);
         try {
             final List<FileItemVO> itemList = FILE_STORE_ACCESS.findFilesById(Collections.singletonList(fileItemId));
@@ -109,6 +110,7 @@ public class DownloadWorker {
             zippedContent.setDownloadedItemVOs(permittedItemVOs); // for downloadHistory
             final File zipFile = createZipFile(permittedItemVOs, getAdditionalLicenseUrl(dataset));
             zippedContent.setZipFile(zipFile);
+            zippedContent.setDatasetId(dataset.getEasyMetadata().getEmdIdentifier().getDatasetId());
             zippedContent.setFilename(System.currentTimeMillis() + "-" + baseFolderName + ".zip");
         }
         catch (final StoreAccessException e) {
