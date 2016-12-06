@@ -98,7 +98,7 @@ public class MetadataExportResource extends DynamicWebResource {
     protected void setHeaders(WebResponse response) {
         super.setHeaders(response);
 
-        String datasetId = null;
+        String datasetId;
         try {
             datasetId = URLEncoder.encode(getParameters().getString(DATASET_ID_PARAM), "UTF-8");
             String link = "<https://easy.dans.knaw.nl/ui/datasets/id/" + datasetId + "> ; rel=\"describes\"";

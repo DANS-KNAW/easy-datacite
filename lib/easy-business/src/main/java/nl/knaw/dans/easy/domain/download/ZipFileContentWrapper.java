@@ -18,11 +18,21 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo {
 
     private static final Logger logger = LoggerFactory.getLogger(ZipFileContentWrapper.class);
 
+    private String datasetId;
+
     private File zipFile;
 
     private List<? extends ItemVO> downloadedItemVOs = new ArrayList<ItemVO>();
 
     private String filename;
+
+    public String getDatasetId() {
+        return datasetId;
+    }
+
+    public void setDatasetId(String datasetId) {
+        this.datasetId = datasetId;
+    }
 
     public File getZipFile() {
         return zipFile;

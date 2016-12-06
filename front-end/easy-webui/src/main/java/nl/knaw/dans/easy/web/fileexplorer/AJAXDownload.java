@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AbstractAjaxBehavior;
+import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
 import org.apache.wicket.util.resource.FileResourceStream;
 import org.apache.wicket.util.resource.IResourceStream;
@@ -70,6 +71,13 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
             protected String getFileName() {
                 return fcw.getFileName();
             }
+
+            @Override
+            public void onRequest() {
+                super.onRequest();
+                ((WebResponse) getComponent().getResponse()).setHeader("Link", "<https://easy.dans.knaw.nl/ui/datasets/id/" + fcw.getDatasetId()
+                        + "> ; rel = \"collection\"");
+            }
         };
     }
 
@@ -95,6 +103,13 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
                 catch (IOException e) {
                     // already logged, no reason to bother the client
                 }
+            }
+
+            @Override
+            public void onRequest() {
+                super.onRequest();
+                ((WebResponse) getComponent().getResponse()).setHeader("Link", "<https://easy.dans.knaw.nl/ui/datasets/id/" + zfcw.getDatasetId()
+                        + "> ; rel = \"collection\"");
             }
         };
     }
