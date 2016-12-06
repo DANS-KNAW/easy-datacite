@@ -1,17 +1,5 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assume.assumeTrue;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
-
 import nl.knaw.dans.common.lang.id.DAI;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
@@ -19,13 +7,23 @@ import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
-
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 public class CrosswalkInlineTest {
     private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
@@ -203,19 +201,28 @@ public class CrosswalkInlineTest {
     public void spatialPoint() throws Exception {
         final EasyMetadata emd = runTest(new Exception(), readFile("spatial.xml"), 0);
         checkMiniProfile(emd);
+        assertThat(emd.getEmdCoverage().getEasSpatial().size(), is(3));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getY(), is("1.0"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getX(), is("4.34521"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getY(), is("52.08110"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
-        assertThat(emd.getEmdCoverage().getEasSpatial().size(), is(2));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getX(), is("455271.2"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getY(), is("83575.4"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getScheme(), is("http://www.opengis.net/def/crs/EPSG/0/28992"));
     }
 
     @Test
     public void abr() throws Exception {
-        final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 2, "skipped", "temporal", "subject");
+        final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 0);
         checkMiniProfile(emd);
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getValue(), is("PALEOLB"));
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getScheme(), is("ABR"));
+        assertThat(emd.getEmdCoverage().getTermsTemporal().get(0).getSchemeId(), is("archaeology.dcterms.temporal"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getValue(), is("EGVW"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getScheme(), is("ABR"));
+        assertThat(emd.getEmdSubject().getDcSubject().get(0).getSchemeId(), is("archaeology.dc.subject"));
     }
 
     private static final String dateFields[] = {"dcterms:created", "dcterms:available", "dcterms:dateAccepted", "dcterms:valid", "dcterms:issued",

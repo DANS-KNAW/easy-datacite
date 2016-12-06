@@ -77,5 +77,7 @@ public final class EmdConstants {
     public static final String SCHEME_ARCHIS_ONDERZOEK_M_NR = "Archis_onderzoek_m_nr";
 
     public static final String SCHEME_ID_DISCIPLINES = "custom.disciplines";
+    public static final String SCHEME_ID_TEMPORAL = "archaeology.dcterms.temporal";
+    public static final String SCHEME_ID_SUBJECT = "archaeology.dc.subject";
 
 }

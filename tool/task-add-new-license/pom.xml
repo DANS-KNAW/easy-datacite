@@ -23,7 +23,7 @@
         <artifactId>dans-scala-prototype</artifactId>
         <version>1.35</version>
     </parent>
-    <groupId>nl.knaw.dans.easy</groupId>
+    <groupId>nl.knaw.dans.easy.task</groupId>
     <artifactId>task-add-new-license</artifactId>
     <name>Task: Add new license of given set of datasets</name>
     <description>Aad the new LA to the given pids list</description>

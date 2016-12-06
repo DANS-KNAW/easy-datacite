@@ -1,9 +1,5 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import nl.knaw.dans.pf.language.ddm.datehandlers.DcDateHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.EasAvailableHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.EasCreatedHandler;
@@ -23,7 +19,29 @@ import nl.knaw.dans.pf.language.ddm.datehandlers.TermsIssuedHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.TermsModiefiedHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.TermsValidHandler;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
-import nl.knaw.dans.pf.language.ddm.handlers.*;
+import nl.knaw.dans.pf.language.ddm.handlers.AccessRightsHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.AudienceHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.ContributorDetailsHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.CreatorDetailsHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DaiContributorHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DaiCreatorHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcCoverageHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcFormatHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcLanguageHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcPublisherHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcSourceHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DcTypeHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.DescriptionHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.IdentifierHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.SimpleContributorHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.SimpleCreatorHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.SkippedFieldHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.SubjectHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.TermsRightsHolderHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.TermsSpatialHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.TermsTemporalHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.TitleHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
@@ -46,10 +64,13 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkHandler;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkHandlerMap;
 import nl.knaw.dans.pf.language.xml.vocabulary.MapFromXSD;
-
 import org.dom4j.DocumentException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
     private static final SkippedFieldHandler SKIPPED_FIELD_HANDLER = new SkippedFieldHandler(null);
@@ -139,7 +160,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
     }
 
     private void putAudienceHandlers() throws SAXException {
-        final BasicStringHandler narcisHandler = new AudienceHandler(loadVocabulary(NameSpace.NARCIS_TYPE.xsd), NameSpace.NARCIS_TYPE.schemeId);
+        final BasicStringHandler narcisHandler = new AudienceHandler(loadVocabulary(NameSpace.NARCIS_TYPE.xsd));
         map.put("/ddm:audience", narcisHandler);
         map.put("DisciplineType/dcterms:audience", narcisHandler);
         final BasicStringHandler audienceHandler = new AudienceHandler();
@@ -339,17 +360,17 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         // getEmdCoverage().get...
 
         map.put("/dcterms:temporal", new TermsTemporalHandler());
-        map.put("abr:ABRperiode/dcterms:temporal", new TermsTemporalHandler(NameSpace.ABR.schemeId));
+        map.put("ABRperiode/dcterms:temporal", new TermsTemporalHandler(NameSpace.ABR));
         // <ref-panelId>dcterms.temporal</ref-panelId>
         // <ref-panelId>dcterms.temporal.abr</ref-panelId>
         // getEmdCoverage().get...
 
         final BasicStringHandler subjectHandler = new SubjectHandler();
-        final BasicStringHandler abrSubjectHandler = new SubjectHandler(NameSpace.ABR.schemeId);
+        final BasicStringHandler abrSubjectHandler = new SubjectHandler(NameSpace.ABR);
         map.put("/dc:subject", subjectHandler);
         map.put("/dcterms:subject", subjectHandler);
-        map.put("abr:ABRcomplex/dc:subject", abrSubjectHandler);
-        map.put("abr:ABRcomplex/dcterms:subject", abrSubjectHandler);
+        map.put("ABRcomplex/dc:subject", abrSubjectHandler);
+        map.put("ABRcomplex/dcterms:subject", abrSubjectHandler);
         // <ref-panelId>dc.subject.abr</ref-panelId>
         // EasyMetadataImpl: EmdSubject emdSubject;
     }
