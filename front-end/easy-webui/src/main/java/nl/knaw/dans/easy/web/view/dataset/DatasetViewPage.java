@@ -303,12 +303,18 @@ public class DatasetViewPage extends AbstractEasyNavPage {
             linkValues.add(formatHeaderLink("identifier", urnUrl));
         }
         catch (UnsupportedEncodingException e) {
-            logger.error("could not encode the URN identifier of dataset: " + datasetId);
+            logger.error("could not encode the URN identifier of dataset " + datasetId);
         }
 
-        linkValues.add(formatHeaderLink("describedby", "application/xml", "http://easy.dans.knaw.nl/easy/easymetadata/",
-                "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + datasetId + "&format=XML"));
-        linkValues.add(formatHeaderLink("describedby", "txt/csv", "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + datasetId + "&format=CSV"));
+        try {
+            String ds = URLEncoder.encode(datasetId, "UTF-8");
+            linkValues.add(formatHeaderLink("describedby", "application/xml", "http://easy.dans.knaw.nl/easy/easymetadata/",
+                    "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + ds + "&format=XML"));
+            linkValues.add(formatHeaderLink("describedby", "txt/csv", "https://easy.dans.knaw.nl/ui/resources/easy/export?sid=" + ds + "&format=CSV"));
+        }
+        catch (UnsupportedEncodingException e) {
+            logger.error("could not encode the dataset identifier of dataset " + datasetId);
+        }
 
         linkValues.add(formatHeaderLink("describedby", "application/vnd.datacite.datacite+xml", doiUrl));
         linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", doiUrl));
