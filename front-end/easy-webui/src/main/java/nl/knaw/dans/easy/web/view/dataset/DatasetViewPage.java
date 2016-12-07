@@ -297,6 +297,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         List<String> linkValues = new ArrayList<String>(6);
 
         String doiUrl = EmdConstants.DOI_RESOLVER + "/" + doi;
+        linkValues.add(formatHeaderLink("identifier", doiUrl));
 
         try {
             String urnUrl = EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(urn, "UTF-8");
@@ -317,7 +318,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         }
 
         linkValues.add(formatHeaderLink("describedby", "application/vnd.datacite.datacite+xml", doiUrl));
-        linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", doiUrl));
+        linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", "http://api.datacite.org/works/" + doi));
 
         getWebRequestCycle().getWebResponse().setHeader("Link", StringUtils.join(linkValues, ','));
     }
