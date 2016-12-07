@@ -75,8 +75,8 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
             @Override
             public void onRequest() {
                 super.onRequest();
-                ((WebResponse) getComponent().getResponse()).setHeader("Link",
-                        "<https://easy.dans.knaw.nl/ui/datasets/id/" + fcw.getDatasetId() + "> ; rel=\"collection\"");
+                ((WebResponse) getComponent().getResponse()).setHeader("Link", "<https://easy.dans.knaw.nl/ui/datasets/id/" + fcw.getDatasetId()
+                        + "> ; rel=\"collection\"");
             }
         };
     }
@@ -108,8 +108,8 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
             @Override
             public void onRequest() {
                 super.onRequest();
-                ((WebResponse) getComponent().getResponse()).setHeader("Link",
-                        "<https://easy.dans.knaw.nl/ui/datasets/id/" + zfcw.getDatasetId() + "> ; rel=\"collection\"");
+                ((WebResponse) getComponent().getResponse()).setHeader("Link", "<https://easy.dans.knaw.nl/ui/datasets/id/" + zfcw.getDatasetId()
+                        + "> ; rel=\"collection\"");
             }
         };
     }
