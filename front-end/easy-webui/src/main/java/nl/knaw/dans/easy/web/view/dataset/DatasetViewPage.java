@@ -318,7 +318,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         }
 
         linkValues.add(formatHeaderLink("describedby", "application/vnd.datacite.datacite+xml", doiUrl));
-        linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", doiUrl));
+        linkValues.add(formatHeaderLink("describedby", "application/vnd.citationstyles.csl+json", "http://api.datacite.org/works/" + doi));
 
         getWebRequestCycle().getWebResponse().setHeader("Link", StringUtils.join(linkValues, ','));
     }
