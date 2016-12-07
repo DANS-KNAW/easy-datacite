@@ -297,6 +297,7 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         List<String> linkValues = new ArrayList<String>(6);
 
         String doiUrl = EmdConstants.DOI_RESOLVER + "/" + doi;
+        linkValues.add(formatHeaderLink("identifier", doiUrl));
 
         try {
             String urnUrl = EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(urn, "UTF-8");
