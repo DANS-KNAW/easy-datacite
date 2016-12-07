@@ -69,7 +69,7 @@ public final class EmdConstants {
      */
     public static final String SCHEME_DOI = "DOI";
     public static final String SCHEME_DOI_OTHER_ACCESS = "DOI_OTHER_ACCESS";
-    public static final String DOI_RESOLVER = "http://dx.doi.org";
+    public static final String DOI_RESOLVER = "https://doi.org";
 
     /**
      * value of the scheme attribute of elements representing an identifier that points to Archis OMG_NR.

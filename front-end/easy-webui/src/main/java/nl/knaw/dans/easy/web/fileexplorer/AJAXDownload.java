@@ -83,7 +83,7 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
                 super.onRequest();
                 try {
                     ((WebResponse) getComponent().getResponse()).setHeader("Link",
-                            "<https://easy.dans.knaw.nl/ui/datasets/id/" + URLEncoder.encode(fcw.getDatasetId(), "UTF-8") + "> ; rel = \"collection\"");
+                            "<https://easy.dans.knaw.nl/ui/datasets/id/" + URLEncoder.encode(fcw.getDatasetId(), "UTF-8") + "> ; rel=\"collection\"");
                 }
                 catch (UnsupportedEncodingException e) {
                     logger.error("could not encode the dataset identifier of dataset " + fcw.getDatasetId());
@@ -121,7 +121,7 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
                 super.onRequest();
                 try {
                     ((WebResponse) getComponent().getResponse()).setHeader("Link",
-                            "<https://easy.dans.knaw.nl/ui/datasets/id/" + URLEncoder.encode(zfcw.getDatasetId(), "UTF-8") + "> ; rel = \"collection\"");
+                            "<https://easy.dans.knaw.nl/ui/datasets/id/" + URLEncoder.encode(zfcw.getDatasetId(), "UTF-8") + "> ; rel=\"collection\"");
                 }
                 catch (UnsupportedEncodingException e) {
                     logger.error("could not encode the dataset identifier of dataset " + zfcw.getDatasetId());
