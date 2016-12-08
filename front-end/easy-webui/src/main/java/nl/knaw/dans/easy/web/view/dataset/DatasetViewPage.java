@@ -300,8 +300,10 @@ public class DatasetViewPage extends AbstractEasyNavPage {
         linkValues.add(formatHeaderLink("identifier", doiUrl));
 
         try {
-            String urnUrl = EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(urn, "UTF-8");
-            linkValues.add(formatHeaderLink("identifier", urnUrl));
+            if (urn != null) {
+                String urnUrl = EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(urn, "UTF-8");
+                linkValues.add(formatHeaderLink("identifier", urnUrl));
+            }
         }
         catch (UnsupportedEncodingException e) {
             logger.error("could not encode the URN identifier of dataset " + datasetId);
