@@ -35,4 +35,4 @@ Changing the access rights of datasets with Synthegra reports requires several s
   * ...
 * An archivist can manually send a new example license document.
 
-in order to show the results in the webui, the hibernate cache needs to be cleared. this can be done by restarting tomcat.
+In order to show the results in the webui, the hibernate cache needs to be cleared. This can be done by restarting tomcat.
