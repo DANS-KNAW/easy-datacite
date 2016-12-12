@@ -15,7 +15,7 @@ Changing the access rights of datasets with Synthegra reports requires several s
    
     what makes the file available at `/vagrant/shared/input.csv`
 * On deasy you will need to execute `sudo su` before executing the following commands
-* **NOTE**: add the command line option `--doUpdate` to execute the commands for real (except for `easy-update-`xxx)
+* **NOTE**: add the command line option `--doUpdate` to execute the commands for real (except for `easy-update-fs-rdb` and `easy-update-solr-index`)
 * Change the file rights:
   * The next command prompts for credentials: `egrep '(fedora.admin|ldap.sec)' /opt/easy-webui/cfg/application.properties` 
   * `/home/easy-tool/task-change-synthegra-to-cc0/bin/run.sh input.csv`
@@ -23,14 +23,16 @@ Changing the access rights of datasets with Synthegra reports requires several s
   * copy the dataset IDs to `new-rights.csv` and add a second column with `OPEN_ACCESS`
   * provide a header line which will be ignored and is supposed to contain something like `fedoraID, newValue` 
 * [Change](https://github.com/DANS-KNAW/easy-update-metadata-dataset#readme) the dataset rights:
-  * `easy-update-metadata-dataset/bin/run.sh -s EMD -t accessRights new-rights.csv`
-  * `easy-update-metadata-dataset/bin/run.sh -s DC -t accessRights new-rights.csv`
+  * `easy-update-metadata-dataset -s EMD -t accessRights new-rights.csv`
+  * `easy-update-metadata-dataset -s DC -t rights new-rights.csv`
 * [Update](https://github.com/DANS-KNAW/easy-app/blob/c28b3e6556cea014650f8a9fdeacbbc2a6df23fc/tool/task-add-new-license#readme) the licenses _but do not mail them_:
-  * `/home/easy-tool/task-add-new-license/din/run.sh --file changed_pids.txt`
+  * `/home/easy-tool/task-add-new-license/bin/task-add-new-license --pids-file changed_pids.txt --output-file new-license-added.txt`
 * [Update](https://github.com/DANS-KNAW/easy-update-fs-rdb#readme) the file index:
   * `easy-update-fs-rdb --file changed_pids.txt`
 * [Update](https://github.com/DANS-KNAW/easy-update-solr-index#readme) the solr index: 
-  * `easy-update-solr-index --file changed_pids.txt`
+  * `easy-update-solr-index changed_pids.txt`
 * Update the OAI-PMH cache
   * ...
 * An archivist can manually send a new example license document.
+
+in order to show the results in the webui, the hibernate cache needs to be cleared. this can be done by restarting tomcat.
