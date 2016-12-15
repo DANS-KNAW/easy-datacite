@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.web.wicket;
 
+import org.apache.wicket.util.string.Strings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -131,4 +133,15 @@ public class HighlightedCharSequence implements CharSequence {
         return markedUpString;
     }
 
+    /**
+     * Escape the string for html rendering, but keep the html tags for hithighligting. Use this when highlighted text needs to be shown by a WicketComponent
+     * 
+     * @param str
+     *        Potentially highlighted text
+     * @return The escaped text
+     */
+    public static String escapeString(String str) {
+        return Strings.escapeMarkup(str, false, false).toString().replaceAll("&lt;em&gt;", "<em>") // unescape the html em element start tag
+                .replaceAll("&lt;/em&gt;", "</em>");// unescape the html em element end tag
+    }
 }

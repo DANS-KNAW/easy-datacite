@@ -30,6 +30,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.util.string.Strings;
 import org.joda.time.DateTime;
 
 public class EasyDatasetHitPanel extends AbstractEasyPanel {
@@ -116,8 +117,8 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel {
             }
             add(pmStatus);
 
-            addLabel(new UnescapedLabel("title", new Model<String>(getSnippetOrValue("dcTitle"))));
-            addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(getSnippetOrValue("dcCreator"))));
+            addLabel(new UnescapedLabel("title", new Model<String>(HighlightedCharSequence.escapeString(getSnippetOrValue("dcTitle")))));
+            addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(HighlightedCharSequence.escapeString(getSnippetOrValue("dcCreator")))));
             addLabel(new Label("dateCreated", datasetHit.getDateCreatedFormatted()));
 
             // -------- column 3
@@ -153,7 +154,8 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel {
                     for (String snip : snippetField.getValue())
                         snippet += snip;
                     item.add(new Label("snippetField", new ResourceModel("fieldname." + snippetField.getName())));
-                    item.add(new UnescapedLabel("snippet", new ShortenedCharSequenceModel(new HighlightedCharSequence(snippet), 100)));
+                    item.add(new UnescapedLabel("snippet", new ShortenedCharSequenceModel(new HighlightedCharSequence(HighlightedCharSequence
+                            .escapeString(snippet)), 100)));
                 }
             }.setVisible(remainingSnippets.size() > 0));
         }
