@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.web.search;
 
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.search.SearchHit;
-import nl.knaw.dans.common.wicket.components.UnescapedLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.web.EasySession;
