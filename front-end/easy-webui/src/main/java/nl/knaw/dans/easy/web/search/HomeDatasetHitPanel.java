@@ -35,7 +35,7 @@ public class HomeDatasetHitPanel extends AbstractEasyPanel<SearchHit<EasyDataset
 
         DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel) {
             super(wicketId, model);
-            UnescapedLabel title = new UnescapedLabel("title", new Model<String>(getSnippetOrValue("dcTitle")));
+            Label title = new Label("title", new Model<String>(getSnippetOrValue("dcTitle")));
             title.setRenderBodyOnly(true);
             addLabel(title);
         }
