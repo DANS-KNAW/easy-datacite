@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.web.search;
 
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.search.SearchHit;
-import nl.knaw.dans.common.wicket.components.UnescapedLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.web.EasySession;
@@ -35,7 +34,7 @@ public class HomeDatasetHitPanel extends AbstractEasyPanel<SearchHit<EasyDataset
 
         DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel) {
             super(wicketId, model);
-            UnescapedLabel title = new UnescapedLabel("title", new Model<String>(getSnippetOrValue("dcTitle")));
+            Label title = new Label("title", new Model<String>(getSnippetOrValue("dcTitle")));
             title.setRenderBodyOnly(true);
             addLabel(title);
         }
