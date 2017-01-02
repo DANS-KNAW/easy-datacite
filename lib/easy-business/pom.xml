@@ -90,7 +90,33 @@
             <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>easy-license-creator</artifactId>
             <!-- TODO manage the version in easy-prototype-->
-            <version>1.x-SNAPSHOT</version> 
+            <version>1.x-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-ajp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.scalatra</groupId>
+                    <artifactId>scalatra-scalate_2.11</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.scalatra</groupId>
+                    <artifactId>scalatra_2.11</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
