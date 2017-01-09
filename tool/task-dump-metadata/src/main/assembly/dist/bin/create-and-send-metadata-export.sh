@@ -57,7 +57,7 @@ check_errs $? "Failed to zip metadata export"
 popd
 
 scp $ZIPPED_EXPORT $TARGET_URL
-check_errs $? "Failed to copy zipped metadata export to talfalab01 server"
+check_errs $? "Failed to copy zipped metadata export to $TARGET_URL server"
 
 rm $ZIPPED_EXPORT
 check_errs $? "Failed to remove zipped metadata export"
