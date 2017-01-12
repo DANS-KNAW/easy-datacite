@@ -23,11 +23,11 @@ public class AudienceFormatMap {
     public static MetadataFormat get(final BasicString audience) {
         try {
             if (EmdConstants.SCHEME_ID_DISCIPLINES.equals(audience.getSchemeId())) {
-                final String property = getProps().getProperty(audience.getValue(), MetadataFormat.UNSPECIFIED.name());
+                final String property = getProps().getProperty(audience.getValue(), MetadataFormat.DEFAULT.name());
                 return MetadataFormat.valueOf(property);
             }
         }
         catch (final Throwable e) {}
-        return MetadataFormat.UNSPECIFIED;
+        return MetadataFormat.DEFAULT;
     }
 }

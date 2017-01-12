@@ -119,9 +119,7 @@ public class TestDdmEmdDocumentation {
     private void expectDepositDisciplines() throws Exception {
         new Services().setDepositService(createMock(DepositService.class));
         final List<DepositDiscipline> list = new ArrayList<DepositDiscipline>();
-        for (final ApplicationSpecific.MetadataFormat mdFormat : ApplicationSpecific.MetadataFormat.values()) {
-            list.add(loadDiscipline(mdFormat));
-        }
+        list.add(loadDiscipline(ApplicationSpecific.MetadataFormat.ANY_DISCIPLINE));
         expect(Services.getDepositService().getDisciplines()).andStubReturn(list);
     }
 

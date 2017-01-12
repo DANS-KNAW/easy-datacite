@@ -357,11 +357,9 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         setMockedDepositService();
         final Map<MetadataFormat, DepositDiscipline> disciplineMap = new HashMap<MetadataFormat, DepositDiscipline>();
         final List<DepositDiscipline> list = new ArrayList<DepositDiscipline>();
-        for (final MetadataFormat mdFormat : MetadataFormat.values()) {
-            final DisciplineImpl discipline = loadDiscipline(mdFormat);
-            disciplineMap.put(mdFormat, discipline);
-            list.add(discipline);
-        }
+        final DisciplineImpl discipline = loadDiscipline(MetadataFormat.ANY_DISCIPLINE);
+        disciplineMap.put(MetadataFormat.ANY_DISCIPLINE, discipline);
+        list.add(discipline);
         expect(getDepositService().getDisciplines()).andStubReturn(list);
     }
 

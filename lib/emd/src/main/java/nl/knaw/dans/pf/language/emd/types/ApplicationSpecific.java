@@ -5,7 +5,8 @@ import java.io.Serializable;
 public class ApplicationSpecific implements Serializable {
 
     public enum MetadataFormat {
-        UNSPECIFIED, SOCIOLOGY, HISTORY, ARCHAEOLOGY, LIFESCIENCE, LANGUAGE_LITERATURE
+        UNSPECIFIED, SOCIOLOGY, HISTORY, ARCHAEOLOGY, LIFESCIENCE, LANGUAGE_LITERATURE, ANY_DISCIPLINE;
+        public static final MetadataFormat DEFAULT = ANY_DISCIPLINE;
     }
 
     public enum PakbonStatus {
@@ -14,7 +15,7 @@ public class ApplicationSpecific implements Serializable {
 
     private static final long serialVersionUID = -7645674090791579101L;
 
-    private MetadataFormat metadataFormat = MetadataFormat.UNSPECIFIED;
+    private MetadataFormat metadataFormat = MetadataFormat.DEFAULT;
     private PakbonStatus pakbonStatus = PakbonStatus.NOT_IMPORTED;
 
     public MetadataFormat getMetadataFormat() {
@@ -26,9 +27,7 @@ public class ApplicationSpecific implements Serializable {
     }
 
     public void setPakbonStatus(PakbonStatus status) {
-        if (metadataFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
-            pakbonStatus = status;
-        }
+        pakbonStatus = status;
     }
 
     public PakbonStatus getPakbonStatus() {

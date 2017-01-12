@@ -38,10 +38,10 @@ public class EasyDepositServiceTest extends TestHelper {
         assertSame(fd, dcCreator.getParent());
 
         // test MetadataFormat
-        assertEquals(ApplicationSpecific.MetadataFormat.SOCIOLOGY, discipline.getMetadataFormat());
+        assertEquals(ApplicationSpecific.MetadataFormat.DEFAULT, discipline.getMetadataFormat());
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void getUnknownDiscipline() throws ServiceException {
         startOfTest("getUnknownDiscipline");
         DepositService eds = new EasyDepositService();

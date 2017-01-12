@@ -115,7 +115,7 @@ public class DatasetImplTest {
     @Test
     public void getMetadataFormat() {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
-        assertEquals(MetadataFormat.UNSPECIFIED, dataset.getMetadataFormat());
+        assertEquals(MetadataFormat.DEFAULT, dataset.getMetadataFormat());
     }
 
     @Test

@@ -20,6 +20,7 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -73,7 +74,8 @@ public class TestValidation extends Fixture {
         constructorSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
 
         // just as downloaded from a test dataset
-        constructorSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
+        // doesn't fail since merging deposit formats and reorganizing easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation
+        // constructorSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'common.eas.spatial'"});
 
         // TODO make error message mores specific, needs architectural solution see also EBIU workaround
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});

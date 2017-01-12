@@ -45,7 +45,7 @@ public class TermTest {
 
     @Test
     public void getContainer() {
-        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
         Term term = new Term("dc.title");
         Map<Term, MDContainer> termsMap = emd.getTermsMap();
         MDContainer mdContainer = termsMap.get(term);
@@ -55,7 +55,7 @@ public class TermTest {
 
     @Test
     public void getMetadataListByTerm() {
-        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
         Term term = new Term("dc.title");
         List<MetadataItem> titles = emd.getTerm(term);
         BasicString bs = new BasicString("foo");

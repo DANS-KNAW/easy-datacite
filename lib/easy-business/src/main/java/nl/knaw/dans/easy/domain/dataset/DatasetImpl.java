@@ -265,7 +265,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     public EasyMetadata getEasyMetadata() {
         if (easyMetadata == null) {
-            easyMetadata = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+            easyMetadata = EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
         }
         return easyMetadata;
     }

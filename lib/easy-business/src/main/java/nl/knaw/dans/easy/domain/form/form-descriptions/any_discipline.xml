@@ -1,12 +1,13 @@
 <?xml version="1.0" standalone="yes"?>
 <edf:formDescriptor xmlns:edf="http://easy.dans.knaw.nl/easy/data-form/"
-	version="0.1">
+					version="0.1">
 	<properties>
-		<id>archaeology</id>
-		<labelResourceKey>discipline.archaeology.name</labelResourceKey>
-		<instructionFile>DEP_Archaeology</instructionFile>
+		<id>any_discipline</id>
+		<labelResourceKey>discipline.any_discipline.name</labelResourceKey>
+		<instructionFile>DEP_All other disciplines</instructionFile>
 	</properties>
-	<ordinal>1</ordinal>
+	<ordinal>4</ordinal>
+
 	<panelDefinitions>
 
 		<standardPanel>
@@ -59,9 +60,28 @@
 			<properties>
 				<id>persistent-identifier</id>
 				<labelResourceKey>label.persistent-identifier</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.identifier</shortHelpResourceKey>
+				<helpItem></helpItem>
 			</properties>
 			<modelClass>EasyMetadata</modelClass>
 			<panelClass>PersistentIdentifierPanel</panelClass>
+		</standardPanel>
+
+		<standardPanel>
+			<properties>
+				<id>cmdiChoice</id>
+				<labelResourceKey>label.eas.cmdi.choice</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.cmdi.choice</shortHelpResourceKey>
+				<helpItem>CmdiChoice</helpItem>
+			</properties>
+			<modelClass>CMDIFormatChoiceWrapper</modelClass>
+			<panelClass>RadioGroupPanel</panelClass>
+			<choiceListDefinition>
+				<properties>
+					<id>language_literature.eas.cmdi.choice</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
 		</standardPanel>
 
 		<standardPanel>
@@ -127,28 +147,9 @@
 
 		<termPanel>
 			<properties>
-				<id>dc.date</id>
-				<labelResourceKey>label.dc.date</labelResourceKey>
-				<helpItem>Date</helpItem>
-			</properties>
-			<modelClass>BasicDateListWrapper</modelClass>
-			<panelClass>BasicDatePanel</panelClass>
-			<repeating>true</repeating>
-			<choiceListDefinition>
-				<properties>
-					<id>archaeology.dcterms.date</id>
-				</properties>
-				<nullValid>true</nullValid>
-			</choiceListDefinition>
-			<namespacePrefix>dc</namespacePrefix>
-			<termName>date</termName>
-		</termPanel>
-
-		<termPanel>
-			<properties>
 				<id>dc.description</id>
 				<labelResourceKey>label.dc.description</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.description</shortHelpResourceKey>
 				<helpItem>Description</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -162,7 +163,7 @@
 			<properties>
 				<id>dc.format</id>
 				<labelResourceKey>label.dc.format</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.format</shortHelpResourceKey>
 				<helpItem>Format</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -194,7 +195,7 @@
 
 		<termPanel>
 			<properties>
-				<id>dc.identifier</id>
+				<id>archaeology.identifier</id>
 				<labelResourceKey>label.dc.identifier</labelResourceKey>
 				<helpItem>Identifier</helpItem>
 			</properties>
@@ -215,7 +216,7 @@
 			<properties>
 				<id>dc.language</id>
 				<labelResourceKey>label.dc.language</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.language</shortHelpResourceKey>
 				<helpItem>Language</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -229,6 +230,7 @@
 			<properties>
 				<id>dc.language.iso639</id>
 				<labelResourceKey>label.dc.language.iso639</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.language.iso639</shortHelpResourceKey>
 				<helpItem>LanguageIso639</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -263,11 +265,16 @@
 			<properties>
 				<id>dc.rights</id>
 				<labelResourceKey>label.dc.rights</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.rights</shortHelpResourceKey>
 				<helpItem></helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
 			<repeating>true</repeating>
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>rights</termName>
@@ -277,7 +284,7 @@
 			<properties>
 				<id>dc.source</id>
 				<labelResourceKey>label.dc.source</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.source</shortHelpResourceKey>
 				<helpItem>Source</helpItem>
 			</properties>
 			<modelClass>IdentifierListWrapper</modelClass>
@@ -291,7 +298,7 @@
 			<properties>
 				<id>dc.subject</id>
 				<labelResourceKey>label.dc.subject</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.subject</shortHelpResourceKey>
 				<helpItem>Subject</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -323,6 +330,26 @@
 
 		<termPanel>
 			<properties>
+				<id>dc.subject.bac</id>
+				<labelResourceKey>label.dc.subject.bac</labelResourceKey>
+				<helpItem>SubjectBac</helpItem>
+			</properties>
+			<modelClass>SchemedBasicStringListWrapper</modelClass>
+			<panelClass>DropDownChoicePanel</panelClass>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>lifescience.dc.subject</id>
+				</properties>
+				<schemeName>BAC</schemeName>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>dc</namespacePrefix>
+			<termName>subject</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
 				<id>dc.title</id>
 				<labelResourceKey>label.dc.title</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.dc.title</shortHelpResourceKey>
@@ -331,6 +358,7 @@
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
 			<required>true</required>
+			<repeating>true</repeating>
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>title</termName>
 		</termPanel>
@@ -347,6 +375,27 @@
 			<repeating>true</repeating>
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>type</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.audience</id>
+				<labelResourceKey>label.dcterms.audience</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.audience</shortHelpResourceKey>
+				<helpItem>Audience</helpItem>
+			</properties>
+			<modelClass>SchemedBasicStringListWrapper</modelClass>
+			<panelClass>DropDownChoicePanel</panelClass>
+			<required>true</required>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>custom.disciplines</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>audience</termName>
 		</termPanel>
 
 		<termPanel>
@@ -387,6 +436,7 @@
 			<properties>
 				<id>dcterms.accessrights</id>
 				<labelResourceKey>label.dcterms.accessrights</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.accessrights</shortHelpResourceKey>
 				<helpItem>AccessRights</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -395,12 +445,38 @@
 			<repeating>false</repeating>
 			<choiceListDefinition>
 				<properties>
-					<id>archaeology.dcterms.accessrights</id>
+					<id>common.dcterms.accessrights</id>
 				</properties>
 				<nullValid>false</nullValid>
 			</choiceListDefinition>
 			<namespacePrefix>dcterms</namespacePrefix>
 			<termName>accessrights</termName>
+		</termPanel>
+
+		<termPanel>
+			<!-- non-ISO creation date may occur in datasets ingested from Easy I -->
+			<properties>
+				<id>dcterms.created</id>
+				<labelResourceKey>label.dcterms.created</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.created</shortHelpResourceKey>
+				<helpItem>DateCreatedFreeForm</helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>SingleBasicDateWrapper</modelClass>
+			<panelClass>CreatedDatePanel2</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>common.dcterms.date</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>created</termName>
 		</termPanel>
 
 		<termPanel>
@@ -434,13 +510,52 @@
 			<properties>
 				<id>dcterms.spatial</id>
 				<labelResourceKey>label.dcterms.spatial</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.spatial</shortHelpResourceKey>
 				<helpItem>Spatial</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
 			<repeating>true</repeating>
 			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>spatial</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>eas.spatial.point</id>
+				<labelResourceKey>label.eas.spatial.point</labelResourceKey>
+				<helpItem>SpatialPoint</helpItem>
+			</properties>
+			<modelClass>PointListWrapper</modelClass>
+			<panelClass>PointPanel</panelClass>
+			<repeating>true</repeating>
+			<validatorClassName>nl.knaw.dans.easy.domain.emd.validation.base.EasSpatialValidator</validatorClassName>
+			<choiceListDefinition>
+				<properties>
+					<id>common.eas.spatial</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>eas</namespacePrefix>
+			<termName>spatial</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>eas.spatial.box</id>
+				<labelResourceKey>label.eas.spatial.box</labelResourceKey>
+				<helpItem>SpatialBox</helpItem>
+			</properties>
+			<modelClass>BoxListWrapper</modelClass>
+			<panelClass>BoxPanel</panelClass>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>common.eas.spatial</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>eas</namespacePrefix>
 			<termName>spatial</termName>
 		</termPanel>
 
@@ -468,7 +583,7 @@
 			<properties>
 				<id>dcterms.temporal</id>
 				<labelResourceKey>label.dcterms.temporal</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.temporal</shortHelpResourceKey>
 				<helpItem>Temporal</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
@@ -487,7 +602,7 @@
 			</properties>
 			<modelClass>AvailableDateWrapper</modelClass>
 			<panelClass>AvailableDatePanel</panelClass>
-			<required>true</required>
+			<required>false</required>
 			<repeating>false</repeating>
 			<choiceListDefinition>
 				<properties>
@@ -533,6 +648,63 @@
 
 		<termPanel>
 			<properties>
+				<id>eas.date</id>
+				<labelResourceKey>label.eas.date</labelResourceKey>
+				<helpItem>Date</helpItem>
+			</properties>
+			<modelClass>IsoDateListWrapper</modelClass>
+			<panelClass>IsoDatePanel</panelClass>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>common.dcterms.date</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>eas</namespacePrefix>
+			<termName>date</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dc.date</id>
+				<labelResourceKey>label.dc.date</labelResourceKey>
+				<helpItem>Date</helpItem>
+			</properties>
+			<modelClass>BasicDateListWrapper</modelClass>
+			<panelClass>BasicDatePanel</panelClass>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>common.dcterms.date</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>dc</namespacePrefix>
+			<termName>date</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>eas.dateSubmitted</id>
+				<labelResourceKey>label.eas.dateSubmitted</labelResourceKey>
+				<helpItem>DateSubmitted</helpItem>
+			</properties>
+			<modelClass>SingleISODateWrapper</modelClass>
+			<panelClass>CreatedDatePanel</panelClass>
+			<repeating>true</repeating>
+			<choiceListDefinition>
+				<properties>
+					<id>common.dcterms.date</id>
+				</properties>
+				<nullValid>true</nullValid>
+			</choiceListDefinition>
+			<namespacePrefix>eas</namespacePrefix>
+			<termName>date_submitted</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
 				<id>eas.created</id>
 				<labelResourceKey>label.eas.created</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.eas.created</shortHelpResourceKey>
@@ -554,47 +726,9 @@
 
 		<termPanel>
 			<properties>
-				<id>eas.date</id>
-				<labelResourceKey>label.eas.date</labelResourceKey>
-				<shortHelpResourceKey>shortHelp.eas.date</shortHelpResourceKey>
-				<helpItem>DateIso8601</helpItem>
-			</properties>
-			<modelClass>IsoDateListWrapper</modelClass>
-			<panelClass>IsoDatePanel</panelClass>
-			<repeating>true</repeating>
-			<choiceListDefinition>
-				<properties>
-					<id>archaeology.dcterms.date</id>
-				</properties>
-				<nullValid>true</nullValid>
-			</choiceListDefinition>
-			<namespacePrefix>eas</namespacePrefix>
-			<termName>date</termName>
-		</termPanel>
-
-		<termPanel>
-			<properties>
-				<id>eas.dateSubmitted</id>
-				<labelResourceKey>label.eas.dateSubmitted</labelResourceKey>
-				<helpItem>DateSubmitted</helpItem>
-			</properties>
-			<modelClass>SingleISODateWrapper</modelClass>
-			<panelClass>CreatedDatePanel</panelClass>
-			<repeating>true</repeating>
-			<choiceListDefinition>
-				<properties>
-					<id>archaeology.dcterms.date</id>
-				</properties>
-				<nullValid>true</nullValid>
-			</choiceListDefinition>
-			<namespacePrefix>eas</namespacePrefix>
-			<termName>date_submitted</termName>
-		</termPanel>
-
-		<termPanel>
-			<properties>
 				<id>eas.relation</id>
 				<labelResourceKey>label.eas.relation</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.relation</shortHelpResourceKey>
 				<helpItem>Relation</helpItem>
 			</properties>
 			<modelClass>RelationListWrapper</modelClass>
@@ -612,9 +746,247 @@
 
 		<termPanel>
 			<properties>
+				<id>dc.relation</id>
+				<labelResourceKey>label.dc.relation</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dc</namespacePrefix>
+			<termName>relation</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.conformsTo</id>
+				<labelResourceKey>label.dcterms.conformsTo</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>conforms_to</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isVersionOf</id>
+				<labelResourceKey>label.dcterms.isVersionOf</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_version_of</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.hasVersion</id>
+				<labelResourceKey>label.dcterms.hasVersion</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>has_version</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isReplacedBy</id>
+				<labelResourceKey>label.dcterms.isReplacedBy</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_replaced_by</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.replaces</id>
+				<labelResourceKey>label.dcterms.replaces</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>replaces</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isRequiredBy</id>
+				<labelResourceKey>label.dcterms.isRequiredBy</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_required_by</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.requires</id>
+				<labelResourceKey>label.dcterms.requires</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>requires</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isPartOf</id>
+				<labelResourceKey>label.dcterms.isPartOf</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_part_of</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.hasPart</id>
+				<labelResourceKey>label.dcterms.hasPart</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>has_part</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isReferencedBy</id>
+				<labelResourceKey>label.dcterms.isReferencedBy</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_referenced_by</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.references</id>
+				<labelResourceKey>label.dcterms.references</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>references</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.isFormatOf</id>
+				<labelResourceKey>label.dcterms.isFormatOf</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>is_format_of</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
+				<id>dcterms.hasFormat</id>
+				<labelResourceKey>label.dcterms.hasFormat</labelResourceKey>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
+			</properties>
+			<modelClass>BasicStringListWrapper</modelClass>
+			<panelClass>TextFieldPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>dcterms</namespacePrefix>
+			<termName>has_format</termName>
+		</termPanel>
+
+		<termPanel>
+			<properties>
 				<id>eas.remarks</id>
 				<labelResourceKey>label.eas.remarks</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.remarks</shortHelpResourceKey>
 				<helpItem>Remarks</helpItem>
 			</properties>
 			<modelClass>BasicRemarkListWrapper</modelClass>
@@ -624,44 +996,6 @@
 			<termName>remarks</termName>
 		</termPanel>
 
-		<termPanel>
-			<properties>
-				<id>eas.spatial.point</id>
-				<labelResourceKey>label.eas.spatial.point</labelResourceKey>
-				<helpItem>SpatialPoint</helpItem>
-			</properties>
-			<modelClass>PointListWrapper</modelClass>
-			<panelClass>PointPanel</panelClass>
-			<repeating>true</repeating>
-			<validatorClassName>nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator</validatorClassName>
-			<choiceListDefinition>
-				<properties>
-					<id>archaeology.eas.spatial</id>
-				</properties>
-				<nullValid>true</nullValid>
-			</choiceListDefinition>
-			<namespacePrefix>eas</namespacePrefix>
-			<termName>spatial</termName>
-		</termPanel>
-
-		<termPanel>
-			<properties>
-				<id>eas.spatial.box</id>
-				<labelResourceKey>label.eas.spatial.box</labelResourceKey>
-				<helpItem>SpatialBox</helpItem>
-			</properties>
-			<modelClass>BoxListWrapper</modelClass>
-			<panelClass>BoxPanel</panelClass>
-			<repeating>true</repeating>
-			<choiceListDefinition>
-				<properties>
-					<id>archaeology.eas.spatial</id>
-				</properties>
-				<nullValid>true</nullValid>
-			</choiceListDefinition>
-			<namespacePrefix>eas</namespacePrefix>
-			<termName>spatial</termName>
-		</termPanel>
 
 		<subHeading>
 			<properties>
@@ -690,17 +1024,6 @@
 
 		<subHeading>
 			<properties>
-				<id>date</id>
-				<labelResourceKey>label.date</labelResourceKey>
-			</properties>
-			<panels>
-				<ref-panelId>eas.date</ref-panelId>
-				<ref-panelId>dc.date</ref-panelId>
-			</panels>
-		</subHeading>
-
-		<subHeading>
-			<properties>
 				<id>formats</id>
 				<labelResourceKey>label.formats</labelResourceKey>
 			</properties>
@@ -723,29 +1046,6 @@
 
 		<subHeading>
 			<properties>
-				<id>rights</id>
-				<labelResourceKey>label.rights</labelResourceKey>
-			</properties>
-			<panels>
-				<ref-panelId>dcterms.accessrights</ref-panelId>
-				<ref-panelId>eas.available</ref-panelId>
-			</panels>
-		</subHeading>
-
-
-		<subHeading>
-			<properties>
-				<id>subjects</id>
-				<labelResourceKey>label.subjects</labelResourceKey>
-			</properties>
-			<panels>
-				<ref-panelId>dc.subject.abr</ref-panelId>
-				<ref-panelId>dc.subject</ref-panelId>
-			</panels>
-		</subHeading>
-
-		<subHeading>
-			<properties>
 				<id>types</id>
 				<labelResourceKey>label.types</labelResourceKey>
 			</properties>
@@ -757,42 +1057,184 @@
 
 		<subHeading>
 			<properties>
-				<id>suppliedMetadata</id>
-				<labelResourceKey>label.suppliedMetadata</labelResourceKey>
+				<id>subjects</id>
+				<labelResourceKey>label.subjects</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>dc.subject.abr</ref-panelId>
+				<ref-panelId>dc.subject.bac</ref-panelId>
+				<ref-panelId>dc.subject</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>date</id>
+				<labelResourceKey>label.date</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>eas.date</ref-panelId>
+				<ref-panelId>dc.date</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>import-archaeology</id>
+				<labelResourceKey>label.import.archaeology</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>pakbon.import</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>import-language-literature</id>
+				<labelResourceKey>label.import.language.literature</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>cmdiChoice</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<!-- headings for single items because the panels otherwise seem to belong to another group -->
+
+		<subHeading>
+			<properties>
+				<id>identifier</id>
+				<labelResourceKey>label.dc.identifier</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>archaeology.identifier</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>source</id>
+				<labelResourceKey>label.dc.source</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>dc.source</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>relation-edit</id>
+				<labelResourceKey>label.eas.relation</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>eas.relation</ref-panelId>
+				<!--
+				BasicString/BasicIdentifier confusion by JiBx would only allow delete of these deprecated/DDM fields
+				these fields are only shown under 'supplied metadata' and the 'description' tab of a dataset
+				 -->
+				<!--<ref-panelId>dc.relation</ref-panelId>-->
+				<!--<ref-panelId>dcterms.conformsTo</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isVersionOf</ref-panelId>-->
+				<!--<ref-panelId>dcterms.hasVersion</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isReplacedBy</ref-panelId>-->
+				<!--<ref-panelId>dcterms.replaces</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isRequiredBy</ref-panelId>-->
+				<!--<ref-panelId>dcterms.requires</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isPartOf</ref-panelId>-->
+				<!--<ref-panelId>dcterms.hasPart</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isReferencedBy</ref-panelId>-->
+				<!--<ref-panelId>dcterms.references</ref-panelId>-->
+				<!--<ref-panelId>dcterms.isFormatOf</ref-panelId>-->
+				<!--<ref-panelId>dcterms.hasFormat</ref-panelId>-->
+			</panels>
+		</subHeading>
+
+		<!-- head-less groups per deposit page prevent duplication, only one level possible -->
+
+		<subHeading>
+			<properties>
+				<id>primary-page-content</id>
+				<labelResourceKey>discipline.any_discipline.empty-subheading</labelResourceKey>
 			</properties>
 			<panels>
 				<ref-panelId>dc.title</ref-panelId>
 				<ref-panelId>dcterms.alternative</ref-panelId>
-				<ref-panelId>eas.creator</ref-panelId>
 				<ref-panelId>dc.creator</ref-panelId>
+				<ref-panelId>eas.creator</ref-panelId>
 				<ref-panelId>dc.contributor</ref-panelId>
 				<ref-panelId>eas.contributor</ref-panelId>
 				<ref-panelId>eas.created</ref-panelId>
+				<ref-panelId>dcterms.created</ref-panelId>
+				<ref-panelId>dc.description</ref-panelId>
+				<ref-panelId>dcterms.audience</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>rights-page-content</id>
+				<labelResourceKey>discipline.any_discipline.empty-subheading</labelResourceKey>
+			</properties>
+			<panels>
 				<ref-panelId>dcterms.rightsHolder</ref-panelId>
 				<ref-panelId>dc.publisher</ref-panelId>
-				<ref-panelId>dc.description</ref-panelId>
-				<ref-panelId>dc.subject.abr</ref-panelId>
-				<ref-panelId>dc.subject</ref-panelId>
-				<ref-panelId>dcterms.temporal.abr</ref-panelId>
-				<ref-panelId>dcterms.temporal</ref-panelId>
-				<ref-panelId>eas.spatial.point</ref-panelId>
-				<ref-panelId>eas.spatial.box</ref-panelId>
-				<ref-panelId>dcterms.spatial</ref-panelId>
-				<ref-panelId>dc.identifier</ref-panelId>
-				<ref-panelId>eas.relation</ref-panelId>
-				<ref-panelId>dc.type.dcmi</ref-panelId>
-				<ref-panelId>dc.type</ref-panelId>
-				<ref-panelId>dc.format.imt</ref-panelId>
-				<ref-panelId>dc.format</ref-panelId>
-				<ref-panelId>dc.language.iso639</ref-panelId>
-				<ref-panelId>dc.language</ref-panelId>
-				<ref-panelId>dc.source</ref-panelId>
-				<ref-panelId>eas.date</ref-panelId>
-				<ref-panelId>dc.date</ref-panelId>
 				<ref-panelId>dcterms.accessrights</ref-panelId>
 				<ref-panelId>eas.available</ref-panelId>
-				<ref-panelId>eas.remarks</ref-panelId>
-				<ref-panelId>upload</ref-panelId>
+				<ref-panelId>dc.rights</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>content-description-page-edit</id>
+				<labelResourceKey>discipline.any_discipline.empty-subheading</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>archis.edit</ref-panelId>
+				<ref-panelId>subjects</ref-panelId>
+				<ref-panelId>coverage.temporal</ref-panelId>
+				<ref-panelId>coverage.spatial</ref-panelId>
+				<ref-panelId>identifier</ref-panelId>
+				<ref-panelId>relation-edit</ref-panelId>
+				<ref-panelId>types</ref-panelId>
+				<ref-panelId>formats</ref-panelId>
+				<ref-panelId>languages</ref-panelId>
+				<ref-panelId>source</ref-panelId>
+				<ref-panelId>date</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>content-description-page-view</id>
+				<labelResourceKey>discipline.any_discipline.empty-subheading</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>archis.view</ref-panelId>
+				<ref-panelId>subjects</ref-panelId>
+				<ref-panelId>coverage.temporal</ref-panelId>
+				<ref-panelId>coverage.spatial</ref-panelId>
+				<ref-panelId>identifier</ref-panelId>
+				<ref-panelId>relation-view</ref-panelId>
+				<ref-panelId>types</ref-panelId>
+				<ref-panelId>formats</ref-panelId>
+				<ref-panelId>languages</ref-panelId>
+				<ref-panelId>source</ref-panelId>
+				<ref-panelId>date</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<!-- end of headless groups -->
+
+		<subHeading>
+			<properties>
+				<id>suppliedMetadata</id>
+				<labelResourceKey>label.suppliedMetadata</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>primary-page-content</ref-panelId>
+				<ref-panelId>cmdiChoice</ref-panelId>
+				<ref-panelId>content-description-page-view</ref-panelId>
+				<ref-panelId>rights-page-content</ref-panelId>
 			</panels>
 		</subHeading>
 
@@ -808,65 +1250,48 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.1</id>
-						<labelResourceKey>discipline.archaeology.page.1.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.import.page.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
-						<ref-panelId>pakbon.import</ref-panelId>
+						<ref-panelId>import-archaeology</ref-panelId>
+						<ref-panelId>import-language-literature</ref-panelId>
 					</panels>
 				</formPage>
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.2</id>
-						<labelResourceKey>discipline.archaeology.page.2.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.primary.page.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
-						<ref-panelId>dc.title</ref-panelId>
-						<ref-panelId>dcterms.alternative</ref-panelId>
-						<ref-panelId>dc.creator</ref-panelId>
-						<ref-panelId>eas.creator</ref-panelId>
-						<ref-panelId>dc.contributor</ref-panelId>
-						<ref-panelId>eas.contributor</ref-panelId>
-						<ref-panelId>eas.created</ref-panelId>
-						<ref-panelId>dcterms.rightsHolder</ref-panelId>
-						<ref-panelId>dc.publisher</ref-panelId>
+						<ref-panelId>primary-page-content</ref-panelId>
 					</panels>
 				</formPage>
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.3</id>
-						<labelResourceKey>discipline.archaeology.page.3.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.content.description.page.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
-                        <ref-panelId>archis.edit</ref-panelId>
-						<ref-panelId>dc.description</ref-panelId>
-						<ref-panelId>subjects</ref-panelId>
-						<ref-panelId>coverage.temporal</ref-panelId>
-						<ref-panelId>coverage.spatial</ref-panelId>
-						<ref-panelId>dc.identifier</ref-panelId>
-						<ref-panelId>eas.relation</ref-panelId>
+						<ref-panelId>content-description-page-edit</ref-panelId>
 					</panels>
 				</formPage>
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.4</id>
-						<labelResourceKey>discipline.archaeology.page.4.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.rights.page.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
-						<ref-panelId>types</ref-panelId>
-						<ref-panelId>formats</ref-panelId>
-						<ref-panelId>languages</ref-panelId>
-						<ref-panelId>dc.source</ref-panelId>
-						<ref-panelId>date</ref-panelId>
+						<ref-panelId>rights-page-content</ref-panelId>
 					</panels>
 				</formPage>
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.5</id>
-						<labelResourceKey>discipline.archaeology.page.5.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.upload.page.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
@@ -876,25 +1301,15 @@
 				<formPage>
 					<properties>
 						<id>emd-deposit-form.page.6</id>
-						<labelResourceKey>discipline.archaeology.page.6.title</labelResourceKey>
-					</properties>
-					<cssContainerClassName>depositForm</cssContainerClassName>
-					<panels>
-						<ref-panelId>rights</ref-panelId>
-						<ref-panelId>eas.remarks</ref-panelId>
-					</panels>
-				</formPage>
-
-				<formPage>
-					<properties>
-						<id>emd-deposit-form.page.7</id>
-						<labelResourceKey>discipline.archaeology.page.7.title</labelResourceKey>
+						<labelResourceKey>discipline.any_discipline.submit.page.title</labelResourceKey>
 					</properties>
 					<editable>false</editable>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>dcterms.license</ref-panelId>
 						<ref-panelId>suppliedMetadata</ref-panelId>
+						<ref-panelId>eas.remarks</ref-panelId>
+						<ref-panelId>upload</ref-panelId>
 					</panels>
 				</formPage>
 			</formPages>
@@ -907,36 +1322,17 @@
 			<formPages>
 				<formPage>
 					<properties>
-						<id>emd-deposit-form-page</id>
-						<labelResourceKey>discipline.archaeology.page.archivist.title</labelResourceKey>
+						<id>emd-deposit-form.page</id>
+						<labelResourceKey>discipline.any_discipline.page.archivist.title</labelResourceKey>
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
-						<ref-panelId>archis.edit</ref-panelId>
-						<ref-panelId>dc.title</ref-panelId>
-						<ref-panelId>dcterms.alternative</ref-panelId>
-						<ref-panelId>dc.creator</ref-panelId>
-						<ref-panelId>eas.creator</ref-panelId>
-						<ref-panelId>dc.contributor</ref-panelId>
-						<ref-panelId>eas.contributor</ref-panelId>
-						<ref-panelId>eas.created</ref-panelId>
-						<ref-panelId>dcterms.rightsHolder</ref-panelId>
-						<ref-panelId>dc.publisher</ref-panelId>
-						<ref-panelId>dc.description</ref-panelId>
-						<ref-panelId>subjects</ref-panelId>
-						<ref-panelId>coverage.temporal</ref-panelId>
-						<ref-panelId>coverage.spatial</ref-panelId>
-						<ref-panelId>dc.identifier</ref-panelId>
-						<ref-panelId>eas.relation</ref-panelId>
-						<ref-panelId>types</ref-panelId>
-						<ref-panelId>formats</ref-panelId>
-						<ref-panelId>languages</ref-panelId>
-						<ref-panelId>dc.source</ref-panelId>
-						<ref-panelId>date</ref-panelId>
-						<ref-panelId>rights</ref-panelId>
+						<ref-panelId>cmdiChoice</ref-panelId>
+						<ref-panelId>primary-page-content</ref-panelId>
+						<ref-panelId>content-description-page-edit</ref-panelId>
+						<ref-panelId>rights-page-content</ref-panelId>
 						<ref-panelId>eas.remarks</ref-panelId>
-
 					</panels>
 				</formPage>
 			</formPages>
@@ -947,6 +1343,7 @@
 			<properties>
 				<id>emd-view-definition</id>
 			</properties>
+
 			<formPages>
 				<formPage>
 					<properties>
@@ -955,54 +1352,9 @@
 					<editable>false</editable>
 					<cssContainerClassName>descriptionTab</cssContainerClassName>
 					<panels>
-						<ref-panelId>persistent-identifier</ref-panelId>
-						<ref-panelId>archis.view</ref-panelId>
-						<ref-panelId>dc.title</ref-panelId>
-						<ref-panelId>dcterms.alternative</ref-panelId>
-						<ref-panelId>dc.creator</ref-panelId>
-						<ref-panelId>eas.creator</ref-panelId>
-						<ref-panelId>dc.contributor</ref-panelId>
-						<ref-panelId>eas.contributor</ref-panelId>
-						<ref-panelId>eas.created</ref-panelId>
-						<ref-panelId>dc.rights</ref-panelId>
-						<ref-panelId>dcterms.rightsHolder</ref-panelId>
-						<ref-panelId>dc.publisher</ref-panelId>
-						<ref-panelId>dc.description</ref-panelId>
-
-						<ref-panelId>dc.subject.abr</ref-panelId>
-						<ref-panelId>dc.subject</ref-panelId>
-
-						<ref-panelId>dcterms.temporal.abr</ref-panelId>
-						<ref-panelId>dcterms.temporal</ref-panelId>
-
-						<ref-panelId>eas.spatial.point</ref-panelId>
-						<ref-panelId>eas.spatial.box</ref-panelId>
-						<ref-panelId>dcterms.spatial</ref-panelId>
-
-						<ref-panelId>dc.identifier</ref-panelId>
-
-						<ref-panelId>relation-view</ref-panelId>
-
-						<ref-panelId>dc.type.dcmi</ref-panelId>
-						<ref-panelId>dc.type</ref-panelId>
-
-						<ref-panelId>dc.format.imt</ref-panelId>
-						<ref-panelId>dc.format</ref-panelId>
-
-						<ref-panelId>dc.language.iso639</ref-panelId>
-						<ref-panelId>dc.language</ref-panelId>
-
-						<ref-panelId>dc.source</ref-panelId>
-
+						<ref-panelId>suppliedMetadata</ref-panelId>
 						<ref-panelId>eas.dateSubmitted</ref-panelId>
-						<ref-panelId>dc.date</ref-panelId>
-						<ref-panelId>eas.date</ref-panelId>
-
-						<ref-panelId>dcterms.accessrights</ref-panelId>
-						<ref-panelId>eas.available</ref-panelId>
-
 						<ref-panelId>eas.remarks</ref-panelId>
-
 					</panels>
 				</formPage>
 			</formPages>

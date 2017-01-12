@@ -23,7 +23,7 @@ public class FormDescriptorLoaderTest {
     public void testLoadFormDescriptors() throws ServiceException, ResourceNotFoundException, XMLException, SAXException, SchemaCreationException {
         Map<String, FormDescriptor> formDescriptorMap = new HashMap<String, FormDescriptor>();
         FormDescriptorLoader.loadFormDescriptors(formDescriptorMap);
-        assertEquals(6, formDescriptorMap.size());
+        assertEquals(1, formDescriptorMap.size());
 
         for (String name : formDescriptorMap.keySet()) {
             FormDescriptor formDescriptor = formDescriptorMap.get(name);

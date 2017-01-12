@@ -132,35 +132,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         final EasyMetadata easyMetadata = dataset.getEasyMetadata();
         MetadataFormat mdFormat = easyMetadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         easyMetadata.getEmdIdentifier().setDatasetId(dataset.getStoreId());
-
-        // set standard settings for ARCHAEOLOGY metadata
-        if (mdFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
-            DisciplineContainer arch;
-            try {
-                arch = disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name());
-            }
-            catch (final ObjectNotFoundException e) {
-                throw new ApplicationException(e);
-            }
-            catch (final DomainException e) {
-                throw new ApplicationException(e);
-            }
-
-            final BasicString archAudience = new BasicString();
-            archAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
-            archAudience.setValue(arch.getStoreId());
-            easyMetadata.getEmdAudience().getTermsAudience().add(archAudience);
-
-            easyMetadata.getEmdRights().setAccessCategory(Dataset.DEFAULT_ACCESS_CATEGORY, EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId());
-        } else {
-            if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE)) {
-                final BasicString langlitAudience = new BasicString();
-                langlitAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
-                langlitAudience.setValue(LANGUAGE_LITERATURE_DISCIPLINE_ID);
-                easyMetadata.getEmdAudience().getTermsAudience().add(langlitAudience);
-            }
-            easyMetadata.getEmdRights().setAccessCategory(Dataset.DEFAULT_ACCESS_CATEGORY);
-        }
+        easyMetadata.getEmdRights().setAccessCategory(Dataset.DEFAULT_ACCESS_CATEGORY);
     }
 
     /**

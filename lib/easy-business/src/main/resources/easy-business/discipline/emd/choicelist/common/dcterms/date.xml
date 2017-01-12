@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="created">Created</entry>
 	<entry key="valid">Valid</entry>
-	<entry key="available">Available</entry>
 	<entry key="issued">Issued</entry>
 	<entry key="modified">Modified</entry>
     <entry key="dateAccepted">Date accepted</entry>
     <entry key="dateCopyrighted">Date copyrighted</entry>  
-    <entry key="dateSubmitted">Date submitted</entry>
 </properties>

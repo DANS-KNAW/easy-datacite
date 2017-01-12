@@ -26,7 +26,7 @@ public class EasyMetadataValidatorTest {
 
     @Test
     public void testValidate() throws XMLException, SAXException, SchemaCreationException {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         XMLErrorHandler result = EMDValidator.instance().validate(emd);
         Assert.assertTrue(result.passed());
         //

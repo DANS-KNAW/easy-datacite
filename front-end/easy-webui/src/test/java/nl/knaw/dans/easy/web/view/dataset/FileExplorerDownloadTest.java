@@ -61,7 +61,7 @@ public class FileExplorerDownloadTest {
     private Dataset createDatasetImpl(final int id) {
 
         final DmoStoreId dmoStoreId = new DmoStoreId(Dataset.NAMESPACE, "" + id);
-        final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        final EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         final DatasetImpl dataset = new DatasetImpl(dmoStoreId.getStoreId(), emd);
         dataset.setState(DatasetState.PUBLISHED.toString());
         dataset.setAuthzStrategy(createUthzStrategy(dataset));

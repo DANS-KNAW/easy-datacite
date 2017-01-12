@@ -30,7 +30,7 @@ public class MarshallerTest {
 
     @Test
     public void marshallAndUnmarshallMethods() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(2, emd);
 
         EmdMarshaller m = new EmdMarshaller(emd);
@@ -83,7 +83,7 @@ public class MarshallerTest {
 
     @Test
     public void settings() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(2, emd);
 
         EmdMarshaller m = new EmdMarshaller(emd);
@@ -117,7 +117,7 @@ public class MarshallerTest {
 
     @Test
     public void w3cDomDocumentSettings() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(2, emd);
 
         EmdMarshaller m = new EmdMarshaller(emd);
@@ -156,7 +156,7 @@ public class MarshallerTest {
 
     @Test
     public void w3cDomElementSettings() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(2, emd);
 
         EmdMarshaller m = new EmdMarshaller(emd);
@@ -195,7 +195,7 @@ public class MarshallerTest {
 
     @Test
     public void jibxMarshaller1ParaConstructor() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         JiBXMarshaller jm = new JiBXMarshaller(emd);
 
         // root-binding can be serialized

@@ -30,13 +30,13 @@
     <emd:relation/>
     <emd:coverage>
         <eas:spatial>
-            <eas:point eas:scheme="degrees" eas:schemeId="archaeology.eas.spatial">
+            <eas:point eas:scheme="degrees" eas:schemeId="common.eas.spatial">
                 <eas:y>34</eas:y>
             </eas:point>
         </eas:spatial>
     </emd:coverage>
     <emd:rights>
-        <dcterms:accessRights eas:schemeId="archaeology.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dcterms:accessRights>
+        <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dcterms:accessRights>
         <dcterms:license>accept</dcterms:license>
     </emd:rights>
     <emd:audience>

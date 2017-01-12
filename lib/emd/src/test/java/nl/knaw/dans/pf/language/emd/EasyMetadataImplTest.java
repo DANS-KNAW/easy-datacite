@@ -26,7 +26,7 @@ public class EasyMetadataImplTest {
 
     // @Test // used in javadoc package description
     public void printContainersAndTerms() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         for (MDContainer mdContainer : MDContainer.values()) {
             System.out.println(mdContainer.toString());
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
@@ -39,7 +39,7 @@ public class EasyMetadataImplTest {
 
     // @Test // used for development
     public void printTerms() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         for (Term term : emd.getTermsMap().keySet()) {
             System.out.println(term.getQualifiedName());
         }
@@ -47,7 +47,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void testToString() throws URISyntaxException {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(3, emd);
         String toString = emd.toString(";");
         // System.out.println(toString);
@@ -57,7 +57,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void testContainerToString() throws XMLException, SAXException, SchemaCreationException {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Assert.assertEquals("", emd.toString("&", MDContainer.Audience));
 
         emd.getEmdAudience().getTermsAudience().add(new BasicString("xyz"));
@@ -70,7 +70,7 @@ public class EasyMetadataImplTest {
     @Test
     public void testTermToString() throws XMLException, SAXException, SchemaCreationException {
         Term term1 = new Term(Term.Name.RIGHTS, Term.Namespace.DC);
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Assert.assertEquals("", emd.toString("*", term1));
 
         emd.getEmdRights().getDcRights().add(new BasicString("forbidden"));
@@ -94,14 +94,14 @@ public class EasyMetadataImplTest {
 
     @Test(expected = NoSuchTermException.class)
     public void testNoSuchTermException() {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Term created = new Term(Term.Name.CREATED, Term.Namespace.DC);
         emd.toString(".. will throw exception ..", created);
     }
 
     @Test
     public void testGetTermsMap() {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Map<Term, MDContainer> map = emd.getTermsMap();
         // for (Term term : map.keySet())
         // {
@@ -116,7 +116,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void testGetContainer() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Assert.assertNull(emd.getContainer(MDContainer.Title, true));
         EmdTitle titleContainer = emd.getEmdTitle();
         Assert.assertSame(titleContainer, emd.getContainer(MDContainer.Title, true));
@@ -126,7 +126,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void testGetTerm() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         List<MetadataItem> titles = emd.getTerm(new Term(Term.Name.TITLE, Term.Namespace.DC));
         Assert.assertNotNull(titles);
         Assert.assertSame(titles, emd.getEmdTitle().getDcTitle());
@@ -143,7 +143,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void testDublinCoreMetadata() throws Exception {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         DublinCoreMetadata dc = emd.getDublinCoreMetadata();
         for (PropertyName name : PropertyName.values()) {
             List<String> values = dc.get(name);
@@ -166,7 +166,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void visitChildrenNonEmpty() {
-        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
         Object object = emd.visitChildren(false, new EmdVisitor() {
             private int count;
 
@@ -180,7 +180,7 @@ public class EasyMetadataImplTest {
 
     @Test
     public void visitChildrenEvenEmpty() {
-        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+        EasyMetadata emd = EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
         Object object = emd.visitChildren(true, new EmdVisitor() {
             private int count;
 

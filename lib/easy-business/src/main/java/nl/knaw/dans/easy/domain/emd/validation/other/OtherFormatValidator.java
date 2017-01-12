@@ -1,13 +1,14 @@
 package nl.knaw.dans.easy.domain.emd.validation.other;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import nl.knaw.dans.easy.domain.emd.validation.base.CommonValidators;
+import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class OtherFormatValidator implements Validator {
 
@@ -16,7 +17,7 @@ public class OtherFormatValidator implements Validator {
     private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
 
     private OtherFormatValidator() {
-        VALIDATORS.addAll(CommonValidators.getList());
+        VALIDATORS.add(new ChoiceListValidator.RightsValidator(EmdScheme.COMMON_DCTERMS_ACCESSRIGHTS.getId()));
     }
 
     public static OtherFormatValidator instance() {

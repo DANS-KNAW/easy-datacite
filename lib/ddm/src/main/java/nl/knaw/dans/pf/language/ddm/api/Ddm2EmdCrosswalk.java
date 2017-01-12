@@ -88,7 +88,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata> {
     }
 
     private EasyMetadata newTarget() {
-        return EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
+        return EasyMetadataFactory.newEasyMetadata(MetadataFormat.DEFAULT);
     }
 
     private EasyMetadata validateEMD(final EasyMetadata emd) throws CrosswalkException {

@@ -23,7 +23,7 @@ public final class EMDValidator extends AbstractValidator {
      */
     public static final String VERSION_0_1 = "0.1";
 
-    public static final String SCHEMA_LOCATION = "http://easy.dans.knaw.nl/schemas/md/emd/2013/11/emd.xsd";
+    public static final String SCHEMA_LOCATION = "http://easy.dans.knaw.nl/schemas/md/emd/2016/emd.xsd";
 
     private static final EMDValidator instance = new EMDValidator();
 

@@ -4,7 +4,7 @@
  xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
  xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ http://easy.dans.knaw.nl/schemas/md/emd/2012/11/emd.xsd" emd:version="version0">
+ xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ http://easy.dans.knaw.nl/schemas/md/emd/2016/emd.xsd" emd:version="version0">
     <emd:title>
         <dc:title eas:scheme="scheme0" xml:lang="en-US" eas:schemeId="schemeId0">title0</dc:title>
         <dc:title eas:scheme="scheme1" xml:lang="en-US" eas:schemeId="schemeId1">title1</dc:title>
@@ -334,8 +334,8 @@
         <dcterms:rightsHolder eas:scheme="scheme173" xml:lang="en-US" eas:schemeId="schemeId169">rightsHolder1</dcterms:rightsHolder>
     </emd:rights>
     <emd:audience>
-        <dcterms:audience eas:scheme="scheme174" xml:lang="en-US" eas:schemeId="schemeId170">audience0</dcterms:audience>
-        <dcterms:audience eas:scheme="scheme175" xml:lang="en-US" eas:schemeId="schemeId171">audience1</dcterms:audience>
+        <dcterms:audience eas:scheme="scheme174" xml:lang="en-US" eas:schemeId="custom.disciplines">easy-discipline:11</dcterms:audience>
+        <dcterms:audience eas:scheme="scheme175" xml:lang="en-US" eas:schemeId="custom.disciplines">easy-discipline:2</dcterms:audience>
     </emd:audience>
     <emd:other>
         <eas:remark eas:author="author0" eas:scheme="scheme176" xml:lang="en-US" eas:schemeId="schemeId172">remark0</eas:remark>

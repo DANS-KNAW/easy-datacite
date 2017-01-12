@@ -90,8 +90,15 @@ public class RecursivePanel extends Panel {
         final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer");
         levelContainer.setRenderBodyOnly(true);
         final Label head = new Label("head", new ResourceModel(headResourceKey, ""));
-        head.add(new SimpleAttributeModifier("class", "h" + (level + 1)));
-        head.setVisible(headVisible);
+
+        // Minimum level for markup and maximum level to display are a hack
+        // to allow head-less groups in the form definition (XML file).
+        // These head-less groups abuse subheadings to prevent duplication of lists.
+        // Headers should not appear under "overview of supplied meta data" on the last deposit page
+        // nor on the description tab because no content might be available to show under these headers.
+        head.add(new SimpleAttributeModifier("class", "h" + (Math.min(2, level + 1))));
+        head.setVisible(headVisible && level < 3);
+
         levelContainer.add(head);
 
         @SuppressWarnings({"rawtypes", "unchecked"})

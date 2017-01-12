@@ -335,40 +335,10 @@ public class EasyDatasetServiceTest extends TestHelper {
             }
         });
 
-        // test SOCIOLOGY, UNSPECIFIED AND HISTORY
-        {
-            Dataset output = service.newDataset(MetadataFormat.SOCIOLOGY);
-            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            assertEquals(input, output);
-            assertEquals(newDmoCount, 1);
-        }
-        {
-            Dataset output = service.newDataset(MetadataFormat.UNSPECIFIED);
-            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            assertEquals(input, output);
-            assertEquals(newDmoCount, 2);
-        }
-        {
-            Dataset output = service.newDataset(MetadataFormat.HISTORY);
-            assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            assertEquals(input, output);
-            assertEquals(newDmoCount, 3);
-        }
-
-        // test ARCHAEOLOGY
-        {
-            DisciplineContainer discInput = new DisciplineContainerImpl("dummy-discipline:1");
-            expect(disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name())).andReturn(discInput).times(1);
-            replayAll(AbstractDmoFactory.class);
-            Dataset output = service.newDataset(MetadataFormat.ARCHAEOLOGY);
-
-            assertEquals(1, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
-            BasicString audience = output.getEasyMetadata().getEmdAudience().getTermsAudience().get(0);
-            assertEquals("dummy-discipline:1", audience.getValue());
-            assertEquals(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX, audience.getSchemeId());
-            assertEquals(newDmoCount, 4);
-            verifyAll();
-        }
+        Dataset output = service.newDataset(MetadataFormat.DEFAULT);
+        assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
+        assertEquals(input, output);
+        assertEquals(newDmoCount, 1);
     }
 
     private static class TestReporter extends WorkReporter {

@@ -164,7 +164,7 @@ public class TransformPakbonPostProcess extends UploadSingleFilePostProcess {
     private void error(String msg, Throwable t) throws UploadPostProcessException {
         status.setError(true);
         status.setMessage(msg);
-        throw new UploadPostProcessException(msg);
+        throw new UploadPostProcessException(msg, t);
     }
 
     private void error(String msg) throws UploadPostProcessException {

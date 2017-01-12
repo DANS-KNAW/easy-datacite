@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <comment>AccessCategories common</comment>
+    <comment>AccessCategories archaeology</comment>
     <entry key="OPEN_ACCESS">Open access - Unrestricted access (CC0 Waiver No Rights Reserved - https://creativecommons.org/about/cc0)</entry>
     <entry key="OPEN_ACCESS_FOR_REGISTERED_USERS">Open access for registered users - Unrestricted access for all registered EASY users</entry>
+    <entry key="GROUP_ACCESS">Restricted: archaeology group - Access restricted to registered 'archaeology' group members</entry>
     <entry key="REQUEST_PERMISSION">Restricted: request permission - Registered EASY users, but only after depositor permission is granted</entry>
     <entry key="NO_ACCESS">Other access - The data are not available via EASY (they are either accessible in another way or elsewhere)</entry>
-</properties>
+</properties> 

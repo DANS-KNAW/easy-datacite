@@ -1,8 +1,11 @@
-package nl.knaw.dans.easy.domain.emd.validation.archaeology;
+package nl.knaw.dans.easy.domain.emd.validation.base;
 
 import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.SPATIAL_COVERAGE;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.CacheException;
@@ -10,9 +13,6 @@ import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
-import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
-import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -22,7 +22,10 @@ import nl.knaw.dans.pf.language.emd.types.Spatial;
 
 public class EasSpatialValidator implements Validator {
 
-    public static final String LIST_ID = EmdScheme.ARCHAEOLOGY_EAS_SPATIAL.getId();
+    public static final String LIST_ID = EmdScheme.COMMON_EAS_SPATIAL.getId();
+    public static final Set<String> LIST_IDS = new HashSet<String>(Arrays.asList(EmdScheme.ARCHAEOLOGY_EAS_SPATIAL.getId(), LIST_ID));
+    private static String expectedMsg = "Expected is '" + Arrays.deepToString(LIST_IDS.toArray()) + "'";
+    private static String invalidKeyMsg = " is not a valid key in the list '" + Arrays.deepToString(LIST_IDS.toArray()) + "'";
 
     private ChoiceList choiceList;
 
@@ -58,9 +61,9 @@ public class EasSpatialValidator implements Validator {
 
     private void validate(final ValidationReporter reporter, final String schemeId, final String scheme, final int i, final String name) {
         final String xPathStub = SPATIAL_COVERAGE.getXPath() + name;
-        if (!LIST_ID.equals(schemeId)) {
+        if (!LIST_IDS.contains(schemeId)) {
             reporter.setMetadataValid(false);
-            final String msg = "The value '" + schemeId + "' of the attribute 'schemeId' at " + xPathStub + " is not valid. Expected is '" + LIST_ID + "'";
+            final String msg = "The value '" + schemeId + "' of the attribute 'schemeId' at " + xPathStub + " is not valid. " + expectedMsg;
 
             final String xpath = xPathStub + "[" + i + "]/" + "@eas:schemeId";
             // /emd:easymetadata/emd:coverage/eas:spatial/eas:point[1]/@eas:schemeId
@@ -71,7 +74,7 @@ public class EasSpatialValidator implements Validator {
 
         if (!choiceListContains(scheme)) {
             reporter.setMetadataValid(false);
-            final String msg = "The value '" + scheme + "' of the attribute 'scheme' at " + xPathStub + " is not a valid key in the list '" + LIST_ID + "'";
+            final String msg = "The value '" + scheme + "' of the attribute 'scheme' at " + xPathStub + invalidKeyMsg;
 
             final String xpath = xPathStub + "[" + i + "]/" + "@eas:scheme";
             // /emd:easymetadata/emd:coverage/eas:spatial/eas:point[1]/@eas:scheme
@@ -89,7 +92,7 @@ public class EasSpatialValidator implements Validator {
     private ChoiceList getChoiceList() {
         if (choiceList == null) {
             try {
-                choiceList = ChoiceListGetter.getInstance().getChoiceList(LIST_ID, null);
+                choiceList = ChoiceListGetter.getInstance().getChoiceList(EmdScheme.COMMON_EAS_SPATIAL.getId(), null);
             }
             catch (final ObjectNotFoundException e) {
                 throw new ApplicationException(e);

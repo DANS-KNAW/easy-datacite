@@ -84,7 +84,7 @@ public abstract class AbstractNotification {
             logger.error(SUBJECT_ERROR, e);
         }
         catch (ResourceNotFoundException e) {
-            logger.error("Required resource not fount: {}", SUBJECT_PROPERTIES);
+            logger.error("Required resource not found: {}", SUBJECT_PROPERTIES);
         }
         return null;
     }

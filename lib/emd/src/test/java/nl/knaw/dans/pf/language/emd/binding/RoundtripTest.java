@@ -48,7 +48,7 @@ public class RoundtripTest {
 
     @Test
     public void easyMetadata() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         EmdHelper.populate(2, emd);
 
         String xmlString = new EmdMarshaller(emd).getXmlString();
@@ -67,7 +67,7 @@ public class RoundtripTest {
 
     @Test
     public void easyMetadataEmpty() throws Exception {
-        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         String xmlString = new EmdMarshaller(emd).getXmlString();
 
         EmdUnmarshaller<EasyMetadata> um = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class);

@@ -26,6 +26,8 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static nl.knaw.dans.easy.domain.form.FormDescriptorLoader.DEFAULT_DSICIPLINE_ID;
+
 public class EasyDepositService extends AbstractEasyService implements DepositService {
 
     // public static final String CONF_LOCATION = "easy-business/discipline/emd/form-description";
@@ -44,7 +46,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
     }
 
     public DepositDiscipline getDiscipline(String disciplineId) throws ServiceException {
-        return new DisciplineImpl(getFormDescriptor(disciplineId));
+        return new DisciplineImpl(getFormDescriptor(DEFAULT_DSICIPLINE_ID));
     }
 
     public DepositDiscipline getDiscipline(MetadataFormat emd_format) throws ServiceException {
@@ -92,6 +94,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
     }
 
     private FormDescriptor getFormDescriptor(String disciplineId) throws ServiceException {
+        disciplineId = DEFAULT_DSICIPLINE_ID;
         FormDescriptor descriptor = getFormDescriptorMap().get(disciplineId);
         if (descriptor == null) {
             logger.warn("Unknown discipline: " + disciplineId + ". TRYING A RELOAD!!");

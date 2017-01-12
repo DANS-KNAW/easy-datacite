@@ -17,8 +17,8 @@ public class FormDescriptorLoader {
     public static final String FORM_DESCRIPTIONS_FULL_PATH = "easy-business/discipline/emd/form-description/";
     public static final String FORM_DESCRIPTIONS = "form-descriptions/";
 
-    public static final String[] LOCATIONS = {FORM_DESCRIPTIONS + "archaeology.xml", FORM_DESCRIPTIONS + "history.xml", FORM_DESCRIPTIONS + "sociology.xml",
-            FORM_DESCRIPTIONS + "lifescience.xml", FORM_DESCRIPTIONS + "language_literature.xml", FORM_DESCRIPTIONS + "unspecified.xml",};
+    public static final String DEFAULT_DSICIPLINE_ID = "any_discipline";
+    public static final String[] LOCATIONS = {FORM_DESCRIPTIONS + "any_discipline.xml",};
 
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptorLoader.class);
 

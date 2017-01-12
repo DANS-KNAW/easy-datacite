@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.test.Tester;
-import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.EasSpatialValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -27,24 +27,8 @@ public class FormatValidatorTest {
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testFormatRecognition() {
-        EasyMetadata emd = new EasyMetadataImpl(null);
-        TestValidationReporter reporter = new TestValidationReporter();
-
-        FormatValidator.instance().validate(emd, reporter);
-
-        assertFalse(reporter.isMetadataValid());
-        assertEquals(0, reporter.infoReports.size());
-        assertEquals(0, reporter.warningReports.size());
-        assertEquals(1, reporter.errorReports.size());
-
-        if (verbose)
-            reporter.printReports();
-    }
-
-    @Test
     public void testFormatArchaeologyWithInvalidSpatial() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Spatial spatial = new Spatial("Amsterdam", new Point("RD", "1", "2"));
         emd.getEmdCoverage().getEasSpatial().add(spatial);
 
@@ -52,10 +36,10 @@ public class FormatValidatorTest {
 
         FormatValidator.instance().validate(emd, reporter);
 
-        assertFalse(reporter.isMetadataValid());
+        // assertFalse(reporter.isMetadataValid()); validation switch off for backward compatibility
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
-        assertEquals(1, reporter.errorReports.size());
+        assertEquals(0, reporter.errorReports.size());
 
         if (verbose)
             reporter.printReports();
@@ -64,7 +48,7 @@ public class FormatValidatorTest {
     @Test
     @Ignore
     public void testFormatArchaeologyWithInvalidSpatial2() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Point point = new Point("BLA", "1", "2");
         point.setSchemeId(EasSpatialValidator.LIST_ID);
         Spatial spatial = new Spatial("Amsterdam", point);
@@ -86,7 +70,7 @@ public class FormatValidatorTest {
     @Test
     @Ignore
     public void testFormatArchaeologyWithInvalidSpatial3() {
-        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
+        EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.DEFAULT);
         Point point = new Point(null, "1", "2");
         point.setSchemeId(EasSpatialValidator.LIST_ID);
         Spatial spatial = new Spatial("Amsterdam", point);
