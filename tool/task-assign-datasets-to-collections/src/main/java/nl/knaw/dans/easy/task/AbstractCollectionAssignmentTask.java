@@ -13,6 +13,12 @@ import nl.knaw.dans.easy.tools.exceptions.TaskCycleException;
 import nl.knaw.dans.easy.tools.exceptions.TaskException;
 import nl.knaw.dans.easy.tools.task.am.dataset.AbstractDatasetTask;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdAudience;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+
+import java.util.List;
 
 public abstract class AbstractCollectionAssignmentTask extends AbstractDatasetTask {
 
@@ -35,6 +41,7 @@ public abstract class AbstractCollectionAssignmentTask extends AbstractDatasetTa
         initTargetCollection();
         Dataset dataset = joint.getDataset();
 
+        boolean datasetShouldBeAssignedWithFormatCheck = shouldBeAssignedToCollectionWithFormatCheck(dataset);
         boolean datasetShouldBeAssigned = shouldBeAssignedToCollection(dataset);
         boolean datasetIsPublished = (DatasetState.PUBLISHED.equals(dataset.getAdministrativeState()));
         boolean datasetIsCollectionMember = dataset.getRelations().isCollectionMember(targetCollectionId);
@@ -42,6 +49,12 @@ public abstract class AbstractCollectionAssignmentTask extends AbstractDatasetTa
         String rule;
         String condition = new StringBuilder().append(datasetShouldBeAssigned ? "1" : "0").append(datasetIsPublished ? "1" : "0")
                 .append(datasetIsCollectionMember ? "1" : "0").append(datasetIsOAISetMember ? "1" : "0").append(collectionIsOAISet ? "1" : "0").toString();
+
+        if (datasetShouldBeAssigned != datasetShouldBeAssignedWithFormatCheck) {
+            rule = "rule 1:" + condition;
+            RL.warn(new Event(getTaskName(), "CONDITION 'should be assigned' CHANGED: new=" + datasetShouldBeAssigned + " old="
+                    + datasetShouldBeAssignedWithFormatCheck));
+        }
 
         if (datasetShouldBeAssigned && !datasetIsCollectionMember) {
             rule = "rule 1:" + condition;
@@ -99,7 +112,31 @@ public abstract class AbstractCollectionAssignmentTask extends AbstractDatasetTa
 
     public abstract DmoStoreId getCollectionStoreId();
 
+    protected abstract boolean shouldBeAssignedToCollectionWithFormatCheck(Dataset dataset);
+
     protected abstract boolean shouldBeAssignedToCollection(Dataset dataset);
+
+    final boolean hasArchaeologyAsAudience(Dataset dataset) {
+        final String ARCHAEOLOGY_DISCIPLINE_ID = "easy-discipline:2";
+        EmdAudience emdAudience = dataset.getEasyMetadata().getEmdAudience();
+
+        List<BasicString> disciplines = emdAudience.getDisciplines();
+        for (BasicString discipline : disciplines) {
+            String value = discipline.getValue();
+            if (value.contentEquals(ARCHAEOLOGY_DISCIPLINE_ID))
+                return true; // found so done
+        }
+        // not found
+
+        return false;
+    }
+
+    final boolean hasArchaeologyAsMetadataFormat(Dataset dataset) {
+        EasyMetadata emd = dataset.getEasyMetadata();
+        ApplicationSpecific.MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
+
+        return (ApplicationSpecific.MetadataFormat.ARCHAEOLOGY.equals(mdFormat));
+    }
 
     private void initTargetCollection() throws FatalTaskException {
         if (targetCollection == null) {

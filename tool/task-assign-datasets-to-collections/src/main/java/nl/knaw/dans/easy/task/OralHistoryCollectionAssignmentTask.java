@@ -27,6 +27,11 @@ public class OralHistoryCollectionAssignmentTask extends AbstractCollectionAssig
     }
 
     @Override
+    protected boolean shouldBeAssignedToCollectionWithFormatCheck(Dataset dataset) {
+        return subjectHasOralHistory(dataset) || titleContainsIPNV(dataset);
+    }
+
+    @Override
     protected boolean shouldBeAssignedToCollection(Dataset dataset) {
         return subjectHasOralHistory(dataset) || titleContainsIPNV(dataset);
     }

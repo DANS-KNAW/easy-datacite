@@ -7,7 +7,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdCoverage;
-import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.Spatial;
 
@@ -29,19 +28,17 @@ public class CarareCollectionAssignmentTask extends AbstractCollectionAssignment
     }
 
     @Override
-    protected boolean shouldBeAssignedToCollection(Dataset dataset) {
+    protected boolean shouldBeAssignedToCollectionWithFormatCheck(Dataset dataset) {
         return (isOpen(dataset) && hasArchaeologyAsMetadataFormat(dataset) && hasAtLeastDcmiTypeText(dataset) && (hasSpatialPoint(dataset) || hasSpatialBox(dataset)));
+    }
+
+    @Override
+    protected boolean shouldBeAssignedToCollection(Dataset dataset) {
+        return (isOpen(dataset) && hasArchaeologyAsAudience(dataset) && hasAtLeastDcmiTypeText(dataset) && (hasSpatialPoint(dataset) || hasSpatialBox(dataset)));
     }
 
     private boolean isOpen(Dataset dataset) {
         return AccessCategory.isOpen(dataset.getAccessCategory());
-    }
-
-    private boolean hasArchaeologyAsMetadataFormat(Dataset dataset) {
-        EasyMetadata emd = dataset.getEasyMetadata();
-        MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-
-        return (MetadataFormat.ARCHAEOLOGY.equals(mdFormat));
     }
 
     private boolean hasSpatialPoint(Dataset dataset) {

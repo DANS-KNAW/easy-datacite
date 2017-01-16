@@ -28,8 +28,13 @@ public class WO2CollectionAssignmentTask extends AbstractCollectionAssignmentTas
     }
 
     @Override
-    protected boolean shouldBeAssignedToCollection(Dataset dataset) {
+    protected boolean shouldBeAssignedToCollectionWithFormatCheck(Dataset dataset) {
         return (hasWO2AsSubject(dataset) && !hasArchaeologyAsAudience(dataset) && !hasArchaeologyAsMetadataFormat(dataset));
+    }
+
+    @Override
+    protected boolean shouldBeAssignedToCollection(Dataset dataset) {
+        return (hasWO2AsSubject(dataset) && !hasArchaeologyAsAudience(dataset));
     }
 
     boolean hasWO2AsSubject(Dataset dataset) {
@@ -45,27 +50,4 @@ public class WO2CollectionAssignmentTask extends AbstractCollectionAssignmentTas
 
         return false;
     }
-
-    boolean hasArchaeologyAsAudience(Dataset dataset) {
-        final String ARCHAEOLOGY_DISCIPLINE_ID = "easy-discipline:2";
-        EmdAudience emdAudience = dataset.getEasyMetadata().getEmdAudience();
-
-        List<BasicString> disciplines = emdAudience.getDisciplines();
-        for (BasicString discipline : disciplines) {
-            String value = discipline.getValue();
-            if (value.contentEquals(ARCHAEOLOGY_DISCIPLINE_ID))
-                return true; // found so done
-        }
-        // not found
-
-        return false;
-    }
-
-    boolean hasArchaeologyAsMetadataFormat(Dataset dataset) {
-        EasyMetadata emd = dataset.getEasyMetadata();
-        MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-
-        return (MetadataFormat.ARCHAEOLOGY.equals(mdFormat));
-    }
-
 }
