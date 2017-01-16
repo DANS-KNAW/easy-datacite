@@ -10,6 +10,8 @@ import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.types.Spatial;
 
@@ -26,6 +28,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
 
     public static final String MSG_REQUIRED = "deposit.field_required";
     public static final String MSG_INCOMPLETE = "deposit.field_incomplete";
+    public static final String MSG_NO_GROUP = "deposit.field_invalid_group";
 
     // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for
     // now we do not validate containers.
@@ -34,6 +37,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
     private static final Logger logger = LoggerFactory.getLogger(WebDepositFormMetadataValidator.class);
 
     private boolean metadataIsValid = true;
+    private EasyMetadata easyMetadata;
 
     public boolean continueAfterFailure() {
         return true;
@@ -41,7 +45,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
 
     public boolean process(final DatasetSubmissionImpl submission) {
         final FormDefinition definition = submission.getFormDefinition();
-        final EasyMetadata easyMetadata = submission.getDataset().getEasyMetadata();
+        easyMetadata = submission.getDataset().getEasyMetadata();
 
         iterateFormPages(definition, easyMetadata);
         submission.setMetadataValid(metadataIsValid);
@@ -83,8 +87,25 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
                     tpDef.setRequired(true);
                 }
             }
+            checkDependencies(tpDef, items);
             checkRequired(tpDef, items);
             checkComplete(tpDef, items);
+        }
+    }
+
+    private void checkDependencies(TermPanelDefinition tpDef, List<MetadataItem> items) {
+        for (int index = 0; index < items.size(); index++) {
+            final MetadataItem item = items.get(index);
+            String tpDefId = tpDef.getId();
+            if (item instanceof BasicString && "dcterms.accessrights".equals(tpDefId)) {
+                String value = ((BasicString) item).getValue();
+                if (value != null && value.equals("GROUP_ACCESS")) {
+                    if (!easyMetadata.audienceIsArchaeology()) {
+                        metadataIsValid = false;
+                        tpDef.addItemErrorMessage(index, MSG_NO_GROUP);
+                    }
+                }
+            }
         }
     }
 
@@ -106,28 +127,28 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
         int boxCounter = -1;
         for (int index = 0; index < items.size(); index++) {
             final MetadataItem item = items.get(index);
+            String tpDefId = tpDef.getId();
             if (item instanceof Spatial) {
                 final Spatial spatial = (Spatial) item;
-                if ("eas.spatial.point".equals(tpDef.getId()) && spatial.getPoint() != null) {
+                if ("eas.spatial.point".equals(tpDefId) && spatial.getPoint() != null) {
                     pointCounter++;
                     if (!item.isComplete()) {
                         metadataIsValid = false;
-                        logger.debug("Incomplete item on field " + tpDef.getId());
+                        logger.debug("Incomplete item on field " + tpDefId);
                         tpDef.addItemErrorMessage(pointCounter, MSG_INCOMPLETE);
                     }
                 }
-                if ("eas.spatial.box".equals(tpDef.getId()) && spatial.getBox() != null) {
+                if ("eas.spatial.box".equals(tpDefId) && spatial.getBox() != null) {
                     boxCounter++;
                     if (!item.isComplete()) {
                         metadataIsValid = false;
-                        logger.debug("Incomplete item on field " + tpDef.getId());
+                        logger.debug("Incomplete item on field " + tpDefId);
                         tpDef.addItemErrorMessage(boxCounter, MSG_INCOMPLETE);
                     }
                 }
-
             } else if (!item.isComplete()) {
                 metadataIsValid = false;
-                logger.debug("Incomplete item on field " + tpDef.getId());
+                logger.debug("Incomplete item on field " + tpDefId);
                 tpDef.addItemErrorMessage(index, MSG_INCOMPLETE);
             }
         }

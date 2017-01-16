@@ -533,6 +533,11 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
         return emdAudience;
     }
 
+    @Override
+    public boolean audienceIsArchaeology() {
+        return (emdAudience != null && emdAudience.size() == 1 && emdAudience.containsDiscipline("easy-discipline:2"));
+    }
+
     /**
      * {@inheritDoc}
      */

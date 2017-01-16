@@ -12,12 +12,13 @@ import nl.knaw.dans.easy.business.item.ItemWorker;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.GroupImpl;
-import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class DatasetIngester implements SubmissionProcessor {
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
 
-            addDatasetGroupByAccessRightsAndMetadataFormat(dataset);
+            addDatasetGroupByAccessRightsAndAudience(dataset);
 
             if (updateFileRights) {
                 VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides
@@ -73,11 +74,10 @@ public class DatasetIngester implements SubmissionProcessor {
 
     /*
      * Provisional implementation of setting the group of the dataset. Currently the only supported group is archaeology and it is set on submission if: 1) de
-     * access category of the datase is GROUP_ACCESS and 2) the form used to submit the dataset is the archaeology form.
+     * access category of the datase is GROUP_ACCESS and 2) the the one and only audience of the dataset is archaeology.
      */
-    private void addDatasetGroupByAccessRightsAndMetadataFormat(Dataset dataset) {
-        boolean hasMDFarchaeology = MetadataFormat.ARCHAEOLOGY.equals(dataset.getMetadataFormat());
-        if (AccessCategory.GROUP_ACCESS.equals(dataset.getAccessCategory()) && hasMDFarchaeology) {
+    private void addDatasetGroupByAccessRightsAndAudience(Dataset dataset) throws DomainException {
+        if (dataset.getEasyMetadata().audienceIsArchaeology() && AccessCategory.GROUP_ACCESS.equals(dataset.getAccessCategory())) {
             dataset.addGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
             logger.info(">>>>>>>>>>> Provisional implementation of assigning groups to datasets. <<<<<<<<<<<<<<<");
         } else {

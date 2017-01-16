@@ -46,7 +46,7 @@ public class ReadOnlyTester extends IntegrationFixture {
 
     @BeforeClass
     public static void prepareCountDatasets() throws Exception {
-        SolrSearchEngine searchEngine = new SolrSearchEngine("http://evm:8080/solr", new EasySearchBeanFactory());
+        SolrSearchEngine searchEngine = new SolrSearchEngine("http://deasy:8080/solr", new EasySearchBeanFactory());
         new Data().setSearchEngine(searchEngine);
         new Data().setDatasetSearch(new DatasetSearchImpl(searchEngine));
         searchService = new EasySearchService();

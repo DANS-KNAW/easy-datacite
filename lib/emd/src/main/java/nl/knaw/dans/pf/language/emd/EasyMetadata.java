@@ -279,6 +279,8 @@ public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable {
      */
     EmdAudience getEmdAudience();
 
+    boolean audienceIsArchaeology();
+
     /**
      * Get the EmdOther container, never <code>null</code>.
      * 

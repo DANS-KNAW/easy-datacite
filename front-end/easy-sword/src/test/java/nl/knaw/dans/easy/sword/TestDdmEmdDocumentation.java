@@ -125,7 +125,7 @@ public class TestDdmEmdDocumentation {
 
     private DisciplineImpl loadDiscipline(final ApplicationSpecific.MetadataFormat mdFormat) throws Exception {
 
-        final String location = FormDescriptorLoader.FORM_DESCRIPTIONS + mdFormat.name().toLowerCase() + ".xml";
+        final String location = FormDescriptorLoader.FORM_DESCRIPTIONS + FormDescriptorLoader.DEFAULT_DSICIPLINE_ID + ".xml";
         final FileInputStream stream = new FileInputStream("../../lib/easy-business/src/main/java/nl/knaw/dans/easy/domain/form/" + location);
         final FormDescriptor formDescriptor = (FormDescriptor) JiBXObjectFactory.unmarshal(FormDescriptor.class, stream);
         final DisciplineImpl discipline = new DisciplineImpl(formDescriptor);

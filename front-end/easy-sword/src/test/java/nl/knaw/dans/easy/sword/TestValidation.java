@@ -59,6 +59,7 @@ public class TestValidation extends Fixture {
         final List<String[]> constructorSignatureInstances = new ArrayList<String[]>();
 
         constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
+        // TODO constructorSignatureInstances.add(new String[] {"invalidGroupAccess.xml", " is not a valid key in the list "});
 
         // no longer causes a draft dataset after refactoring
         // nl.knaw.dans.easy.business.dataset.MetadataValidator
@@ -131,6 +132,7 @@ public class TestValidation extends Fixture {
 
     private static List<DisciplineContainer> mockSubDisciplines() {
         final List<DisciplineContainer> list = new ArrayList<DisciplineContainer>();
+        list.add(new DisciplineContainerImpl("easy-discipline:1"));
         list.add(new DisciplineContainerImpl("easy-discipline:2"));
         return list;
     }

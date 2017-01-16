@@ -3,28 +3,49 @@ package nl.knaw.dans.easy.domain.emd.validation.base;
 import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RELATION;
 import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RIGHTS;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 public abstract class ChoiceListValidator implements Validator {
 
     public static final class RightsValidator extends ChoiceListValidator {
+        private boolean isArchaeology = false;
+
         public RightsValidator(final String listId) {
             super(listId, RIGHTS.getXPath());
         }
 
         @Override
-        public List<String> getValidatedValue(final EasyMetadata emd) {
+        List<String> getValidatedValue(EasyMetadata emd) {
+            isArchaeology = emd.audienceIsArchaeology();
             return emd.getEmdRights().getValues();
+        }
+
+        @Override
+        protected ChoiceList getChoiceList() {
+            ChoiceList fullChoiceList = super.getChoiceList();
+            if (isArchaeology) {
+                List<KeyValuePair> allChoices = fullChoiceList.getChoices();
+                List<KeyValuePair> reducedChoices = new ArrayList<KeyValuePair>();
+                for (KeyValuePair kvp : allChoices) {
+                    if (!kvp.getKey().equals(AccessCategory.GROUP_ACCESS.name()))
+                        reducedChoices.add(kvp);
+                }
+                return new ChoiceList(reducedChoices);
+            }
+            return fullChoiceList;
         }
     }
 
@@ -75,7 +96,7 @@ public abstract class ChoiceListValidator implements Validator {
         return getChoiceList().getChoices().contains(keyValuePair);
     }
 
-    private ChoiceList getChoiceList() {
+    protected ChoiceList getChoiceList() {
         if (choiceList == null) {
             try {
                 choiceList = ChoiceListGetter.getInstance().getChoiceList(listId, null);
