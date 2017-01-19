@@ -72,7 +72,6 @@ public class DataciteResourcesBuilder {
         }
     }
 
-
     private void validateArguments(EasyMetadata... emds) {
         if (emds == null || emds.length == 0)
             throw new IllegalArgumentException("expecting at least one EMD");
