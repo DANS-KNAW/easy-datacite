@@ -5,8 +5,6 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.Response;
 
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +14,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public class DataciteService {
 
