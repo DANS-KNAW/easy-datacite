@@ -6,7 +6,12 @@
         <dct:alternative>test-alternative-title2</dct:alternative>
     </emd:title>
     <emd:creator>
-        <dc:creator>Creator, T.E.S.T.</dc:creator>
+        <eas:creator>
+            <eas:initials>X</eas:initials>
+            <eas:surname>Foo</eas:surname>
+            <eas:organization>International Atomic Energy Agency</eas:organization>
+            <eas:entityId eas:scheme="DAI"></eas:entityId>
+        </eas:creator>
     </emd:creator>
     <emd:subject>
         <dc:subject>PROSPECTIE</dc:subject>
@@ -20,7 +25,12 @@
         <dc:publisher>test-publisher</dc:publisher>
     </emd:publisher>
     <emd:contributor>
-        <dc:contributor>Contributor, T.E.S.T.</dc:contributor>
+        <eas:contributor>
+            <eas:initials>Y</eas:initials>
+            <eas:surname>Baar</eas:surname>
+            <eas:organization>CERN</eas:organization>
+            <eas:entityId eas:scheme="DAI"></eas:entityId>
+        </eas:contributor>
     </emd:contributor>
     <emd:date>
         <eas:created eas:scheme="W3CDTF" eas:format="YEAR">2002-01-01T00:00:00.000+01:00</eas:created>
@@ -62,6 +72,18 @@
         <dct:spatial>Overijssel</dct:spatial>
         <dct:spatial>Nederland</dct:spatial>
         <dct:spatial>e-ne (MARC21)</dct:spatial>
+        <eas:spatial>
+            <eas:point eas:scheme="RD">
+                <eas:x>171872</eas:x>
+                <eas:y>584275</eas:y>
+            </eas:point>
+            <eas:box eas:scheme="RD">
+                <eas:north>359400</eas:north>
+                <eas:east>196100</eas:east>
+                <eas:south>354000</eas:south>
+                <eas:west>191450</eas:west>
+            </eas:box>
+        </eas:spatial>
     </emd:coverage>
     <emd:rights>
         <dct:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dct:accessRights>

@@ -11,15 +11,15 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
-import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
-import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
+import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
 
 public class DataciteResourcesBuilder {
 
@@ -56,6 +56,22 @@ public class DataciteResourcesBuilder {
         }
         return String.format(RESOURCES_FORMAT, sb.toString());
     }
+
+    public String getEmd2DataciteXml(EasyMetadata emd) throws DataciteServiceException {
+        try {
+            return transform(toSource(emd));
+        }
+        catch (XMLSerializationException e) {
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+        }
+        catch (IOException e) {
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+        }
+        catch (TransformerException e) {
+            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+        }
+    }
+
 
     private void validateArguments(EasyMetadata... emds) {
         if (emds == null || emds.length == 0)
