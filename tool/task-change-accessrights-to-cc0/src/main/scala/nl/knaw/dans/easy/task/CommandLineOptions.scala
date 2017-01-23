@@ -101,7 +101,7 @@ class ScallopCommandLine(args: Array[String]) extends ScallopConf(args) {
     descr = "Name of the file with information about the changed dataset files",
     default = Some("changed_files.txt"))
 
-  val inputFile = trailArg[File](name = "input-file", required = true, descr = "The CSV file with depositors to be changed")
+  val inputFile = trailArg[File](name = "input-file", required = true, descr = "The CSV file with urns of the datasets to be changed")
 
   validateFileExists(inputFile)
   validateFileIsFile(inputFile)
