@@ -68,6 +68,7 @@
         <module>tool/task-easy-export</module>
         <module>tool/task-add-new-license</module>
         <module>tool/task-add-geo-coordinates</module>
+        <module>tool/task-change-accessrights-to-cc0</module>
 
     </modules>
 </project>

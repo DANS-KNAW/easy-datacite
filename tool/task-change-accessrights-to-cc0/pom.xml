@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.knaw.dans.easy.task</groupId>
-    <artifactId>task-change-synthegra-to-cc0</artifactId>
-    <version>2.x-SNAPSHOT</version>
-    <name>Task: change Syntegra datasets to CC0</name>
-    <description>Reads a CSV file containing a list of URNs, and changes the status of the corresponding projects to openaccess</description>
+    <artifactId>task-change-accessrights-to-cc0</artifactId>
+    <version>2.x.SNAPSHOT</version>
+    <name>Task: change accessrights of datasets to CC0</name>
+    <description>Reads a CSV file containing a list of URNs, and changes the status of the corresponding datasets to openaccess</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <main-class>nl.knaw.dans.easy.task.Main</main-class>
