@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.knaw.dans.easy.task</groupId>
     <artifactId>task-change-accessrights-to-cc0</artifactId>
-    <version>2.x.SNAPSHOT</version>
+    <version>2.x-SNAPSHOT</version>
     <name>Task: change accessrights of datasets to CC0</name>
     <description>Reads a CSV file containing a list of URNs, and changes the status of the corresponding datasets to openaccess</description>
     <properties>
