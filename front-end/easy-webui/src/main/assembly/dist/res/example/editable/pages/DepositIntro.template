@@ -1,5 +1,42 @@
-<br />
-<h2>Instruction summary</h2>
-<p>DANS will store your research data in a permanent and sustainable manner, according to the guidelines of the international <a class="external" href="http://www.datasealofapproval.org/" target="_blank">Data Seal of Approval</a>. Please note the list of <a href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data/DANSpreferredformatsUK.pdf" target="_blank">Preferred formats</a> (pdf). When you are depositing data, you can determine to what extent the data will be accessible. If you opt for Open access for registered users, it means that your data are accessible to registered users of EASY. You can also opt for Restricted access: request permission, which means that users will have to request your permission before they can use the data.<br /> <br />After depositing the data, you will receive a <a href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information" target="_blank">Licence agreement</a> by e-mail, in which the agreements on access to the data are laid down. You will also receive information about the assignment of a <a href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data/persistent-identifiers" target="_blank">Persistent Identifier</a> to your dataset. Even after many years people will still be able to locate and cite your dataset by using this Persistent Identifier, in spite of changes to Internet addresses. <br />After a few workdays, your dataset will be published by a DANS staff member. The dataset will be available to other researchers from that moment, in accordance with the access conditions indicated by you.</p>
-<p><br />At the DANS website you'll find more <a href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data" target="_blank">information on depositing data</a></p>
-<p>For additional information about depositing archaeological﻿ metadata see the <a href="/doc/DANSarchaeologicalmetadataUK.pdf">metadata guidelines</a>.﻿</p>
+<p>
+    Thank you for depositing your data via EASY. Your data will be stored in a permanent and sustainable manner.
+    If you have any questions during your deposite, please <a href="https://dans.knaw.nl/en/contact"
+                                                              data-mce-href="https://dans.knaw.nl/en/contact">contact
+    us</a>.
+</p>
+<p>
+    A few words before you can start:
+</p>
+<ol>
+    <li>Please find <a title="More information about depositing data"
+                       href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data"
+                       data-mce-href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data">more
+        detailed information</a> about the deposit process on the DANS website;
+    </li>
+    <li>Prepare your data before depositing. We have a list of <a
+            href="https://dans.knaw.nl/nl/over/organisatie-beleid/publicaties/DANSpreparingdataforsharing.pdf"
+            data-mce-href="https://dans.knaw.nl/nl/over/organisatie-beleid/publicaties/DANSpreparingdataforsharing.pdf">preferred
+        formats</a> (.pdf) available;
+    </li>
+    <li>During the depositing, you can determine <a
+            href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement/property-rights-statement?set_language=en"
+            data-mce-href="https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/property-rights-statement/property-rights-statement?set_language=en">to
+        what extent the data will be accessible</a>;
+    </li>
+    <li><a title="Log in to EASY"
+           href="https://easy.dans.knaw.nl/ui/deposit?wicket:interface=:0:loginToEASYLink::ILinkListener::"
+           data-mce-href="https://easy.dans.knaw.nl/ui/deposit?wicket:interface=:0:loginToEASYLink::ILinkListener::">Log
+        in</a> to EASY or <a title="Register" href="https://easy.dans.knaw.nl/ui/register"
+                             data-mce-href="https://easy.dans.knaw.nl/ui/register">create an account</a>;
+    </li>
+    <li>After depositing you will receive an e-mail with a <a
+            href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information" target="_blank"
+            data-mce-href="http://www.dans.knaw.nl/en/about/organisation-and-policy/legal-information">license
+        agreement</a> and information about the assignment of a <a
+            href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data/persistent-identifiers"
+            target="_blank"
+            data-mce-href="http://www.dans.knaw.nl/en/deposit/information-about-depositing-data/persistent-identifiers">persistent
+        identifier</a> to your dataset. A DANS staff member will finalize the deposit process and your dataset will be
+        available to you and other researchers (in accordance with the access conditions indicated by you).
+    </li>
+</ol>﻿<br>

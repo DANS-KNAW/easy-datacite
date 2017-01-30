@@ -13,7 +13,7 @@ public class Ddm2EmdDoc {
         File[] files = new File("src/main/assembly/dist/res/example/editable/help").listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(".template");
+                return name.toLowerCase().endsWith(".template") && !name.toLowerCase().startsWith("search") && !name.toLowerCase().startsWith("refine");
             }
         });
         PrintStream out = new PrintStream(args[0]);

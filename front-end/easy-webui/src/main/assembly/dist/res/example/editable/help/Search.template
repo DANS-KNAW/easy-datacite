@@ -8,25 +8,23 @@
 <ul>
 <li>Please enter one or more terms in the search box. All terms occur in the document.<br />For example: archaeological predictive modelling.</li>
 <li>Use <strong>English</strong> and <strong>Dutch</strong> terms<br />For example: Enter human rights, but also mensenrechten. Hence: enter human rights or mensenrechten.</li>
-<li><strong>Quotation marks</strong> can be used to find word combinations.<br />For example: enter “health care”. and you will find records where the words ‘health’ and ‘care' are adjacent.</li>
-<li>You can search on terms that are specified only partially by using an <strong>asterisk: *</strong><br />For example: econom* also provides records about economical, economics, economic, economy et cetera </li>
+<li><strong>Quotation marks</strong> can be used to find word combinations.<br />For example: enter &#8220;health care&#8221;. and you will find records where the words &#8216;health&#8217; and &#8216;care' are adjacent.</li>
+<li>You can search on terms that are specified only partially by using an <strong>asterisk: *</strong><br />For example: econom* also provides records about economical, economics, economic, economy et cetera&#160;</li>
 <li>You can use <strong>question marks: ?</strong> as a subsitute for any letter.<br />For example: sh?p provides all records featuring 'ship' or 'shop';<br />ship???? provides all records where 'ship' is followed by four letters (i.e. 'shipping', 'shipment');<br />ship????? provides all records where ship is followed by five letters (i.e. 'shipwreck', 'shipments').</li>
 </ul>
-<p/>
+<p>&#160;</p>
 <h2>Boolean searching in search box</h2>
-<p>Search terms can be combined using ‘<strong>AND</strong>’,‘<strong>OR</strong>’ and ‘<strong>NOT</strong>’.</p>
+<p>Search terms can be combined using &#8216;<strong>AND</strong>&#8217;,&#8216;<strong>OR</strong>&#8217; and &#8216;<strong>NOT</strong>&#8217;.</p>
 <ul>
-<li>‘<strong>AND</strong><strong></strong>’: both terms should occur, but the order is not important.    </li>
-<li>‘<strong>OR</strong><strong></strong>’: one of either the terms or both terms should occur (e.g. with synonyms or words in different languages), the order is not important.</li>
-<li>‘<strong>NOT</strong><strong></strong>’: the first term should occur and the second not.<br /><br />     For example:</li>
+<li>&#8216;<strong>AND</strong><strong></strong>&#8217;: both terms should occur, but the order is not important.&#160;&#160;&#160;&#160;</li>
+<li>&#8216;<strong>OR</strong><strong></strong>&#8217;: one of either the terms or both terms should occur (e.g.&#160;with synonyms or words in different languages), the order is not important.</li>
+<li>&#8216;<strong>NOT</strong><strong></strong>&#8217;: the first term should occur and the second not.<br /><br />&#160;&#160;&#160;&#160; For example:</li>
 <ul>
 <li>youth <strong>AND</strong><strong></strong> child: Records contain both 'youth' and 'child'.</li>
 <li>youth <strong>OR</strong><strong></strong> child: Records contain either 'youth' or 'child' or both.</li>
-<li>(youth <strong>OR</strong><strong></strong> child) <strong>AND</strong> language: Records contain either 'youth' or 'child' or both, and also 'language'.</li>
-<li>youth <strong>NOT</strong><strong></strong> language: Records contain 'youth' and not 'language'     </li>
-<li>+youth -criminal: Records contain 'youth' and do not contain 'criminal' </li>
+<li>(youth <strong>OR</strong><strong></strong> child)&#160;<strong>AND</strong> language: Records contain either 'youth' or 'child' or both, and also 'language'.</li>
+<li>youth <strong>NOT</strong><strong></strong> language: Records contain 'youth' and not 'language'&#160;&#160;&#160;&#160;&#160;</li>
+<li>+youth -criminal: Records contain 'youth' and do not contain 'criminal'&#160;</li>
 </ul>
 </ul>
-<p/>
-<h2>More about finding data</h2>
-<p>Please continue reading more general information about <a class="external" href="http://www.dans.knaw.nl/en/content/data-archive/finding-data" target="_blank">finding data</a>.</p>
+<p>&#160;</p>

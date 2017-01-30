@@ -48,7 +48,6 @@ public class DepositIntroPage extends AbstractEasyNavPage {
                 final DepositDiscipline discipline = (DepositDiscipline) item.getDefaultModelObject();
                 final FormDescriptor formDescriptor = discipline.getEmdFormDescriptor();
 
-                item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
                 item.add(new ExternalLink("instructionLink_EN", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
                 item.add(new ExternalLink("instructionLink_NL", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
 
@@ -67,11 +66,6 @@ public class DepositIntroPage extends AbstractEasyNavPage {
         };
         add(listView);
         add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
-
-        add(new BookmarkablePageLink<RegistrationPage>("createAnAccountLink", RegistrationPage.class));
-        add(createLoginLink("loginToEASYLink"));
-        add(new ExternalLink("aboutDepositingDataLink", aboutDepositingDataLink, getString("deposit.intro.prepare_your_data_link.title")));
-        add(new ExternalLink("aboutDepositingDataLink2", aboutDepositingDataLink, getString("deposit.intro.more_information_link.title")));
     }
 
     private List<DepositDiscipline> getDisciplines() {
