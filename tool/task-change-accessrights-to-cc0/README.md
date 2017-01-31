@@ -19,7 +19,7 @@ Changing the access rights of datasets reports requires several steps in a speci
 * Change the file rights:
   * The next command prompts for credentials: `egrep '(fedora.admin|ldap.sec)' /opt/easy-webui/cfg/application.properties` 
   * `/home/easy-tool/task-change-access-rights-to-cc0/bin/run.sh input.csv`
-* The previous command creates the files `changed_pids.txt` and `changed_files.txt` on `/home/easy-tool/task-change-accessrights-to-cc0/`
+* The previous command creates the files `dataset_ids.txt` and `fileitem_ids.txt` on `/home/easy-tool/task-change-accessrights-to-cc0/`
   * copy the dataset IDs to `new-rights.csv` and add a second column with `OPEN_ACCESS`
   * provide a header line which will be ignored and is supposed to contain something like `fedoraID, newValue` 
 * [Change](https://github.com/DANS-KNAW/easy-update-metadata-dataset#readme) the dataset rights:
