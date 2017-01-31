@@ -202,15 +202,15 @@ public class CrosswalkInlineTest {
         final EasyMetadata emd = runTest(new Exception(), readFile("spatial.xml"), 0);
         checkMiniProfile(emd);
         assertThat(emd.getEmdCoverage().getEasSpatial().size(), is(3));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(), is(EasSpatialHandler.EAS_SPATIAL_SCHEME_WGS84));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getY(), is("1.0"));
-        assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getScheme(), is(EasSpatialHandler.EAS_SPATIAL_SCHEME_WGS84));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getX(), is("4.34521"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getY(), is("52.08110"));
-        assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
-        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getX(), is("455271.2"));
-        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getY(), is("83575.4"));
-        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getScheme(), is("http://www.opengis.net/def/crs/EPSG/0/28992"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getScheme(), is(EasSpatialHandler.EAS_SPATIAL_SCHEME_RD));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getX(), is("83575.4"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(2).getPoint().getY(), is("455271.2"));
     }
 
     @Test

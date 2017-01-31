@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
 public class Ddm2EmdCrosswalkTest {
 
     @Test
-    public void spatialEnvelope() throws Exception {
+    public void spatialGmlEnvelope() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM" +
                 "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'" +
@@ -39,13 +39,72 @@ public class Ddm2EmdCrosswalkTest {
         DefaultElement top = firstEmdElementFrom(ddm);
         DefaultElement sub = (DefaultElement) top.elements().get(0);
         DefaultElement box = (DefaultElement) sub.elements().get(1);
-        List<DefaultElement> points = box.elements();
+        List<DefaultElement> sides = box.elements();
+
+        String scheme = box.attribute("scheme").getValue();
+        assertThat(scheme, is("RD"));
 
         assertThat(top.elements().size(), is(1));
         assertThat(top.getQualifiedName(), is("emd:coverage"));
         assertThat(sub.getQualifiedName(), is("eas:spatial"));
         assertThat(box.getQualifiedName(), is("eas:box"));
-        assertThat(points.get(0).getQualifiedName(), is("eas:north"));
+        assertThat(sides.get(0).getQualifiedName(), is("eas:north"));
+    }
+
+    @Test
+    public void spatialGmlPoints() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM" +
+                "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'" +
+                "  xmlns:gml='http://www.opengis.net/gml'" +
+                "  xmlns:dcx-gml='http://easy.dans.knaw.nl/schemas/dcx/gml/'" +
+                ">" +
+                " <ddm:dcmiMetadata>" +
+                "  <dcx-gml:spatial>" +
+                "    <gml:Point srsName='http://www.opengis.net/def/crs/EPSG/0/28992'>" +
+                "     <gml:pos>155000 463000</gml:pos>" + // x y
+                "    </gml:Point>" +
+                "  </dcx-gml:spatial>" +
+                "  <dcx-gml:spatial>" +
+                "    <gml:Point srsName='http://www.opengis.net/def/crs/EPSG/0/4326'>" +
+                "     <gml:pos>52.155172 5.387203</gml:pos>" + // y x
+                "    </gml:Point>" +
+                "  </dcx-gml:spatial>" +
+                "  <dcx-gml:spatial>" +
+                "    <gml:Point srsName='http://un.kno.wn/by/easy'>" +
+                "     <gml:pos>1 2</gml:pos>" + // EASY unknown coordinate system, make it 'locale'
+                "    </gml:Point>" +
+                "  </dcx-gml:spatial>" +
+                " </ddm:dcmiMetadata>" +
+                "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+
+        assertThat(top.elements().size(), is(3));
+        assertThat(top.getQualifiedName(), is("emd:coverage"));
+
+        DefaultElement sub1 = (DefaultElement) top.elements().get(0);
+        DefaultElement point1 = (DefaultElement) sub1.elements().get(1);
+        List<DefaultElement> coordinates1 = point1.elements();
+        DefaultElement x1 = coordinates1.get(0);
+        assertThat(sub1.getQualifiedName(), is("eas:spatial"));
+        assertThat(point1.getQualifiedName(), is("eas:point"));
+        assertThat(coordinates1.get(0).getQualifiedName(), is("eas:x"));
+        assertThat(x1.getStringValue(), is("155000"));
+        assertThat(point1.attribute("scheme").getValue(), is("RD"));
+
+        DefaultElement sub2 = (DefaultElement) top.elements().get(1);
+        DefaultElement point2 = (DefaultElement) sub2.elements().get(1);
+        List<DefaultElement> coordinates2 = point2.elements();
+        DefaultElement x2 = coordinates2.get(0);
+        assertThat(coordinates2.get(0).getQualifiedName(), is("eas:x"));
+        assertThat(x2.getStringValue(), is("5.387203"));
+        assertThat(point2.attribute("scheme").getValue(), is("degrees"));
+
+        DefaultElement sub3 = (DefaultElement) top.elements().get(2);
+        DefaultElement point3 = (DefaultElement) sub3.elements().get(1);
+        assertThat(point3.attribute("scheme").getValue(), is("local"));
     }
 
     @Test

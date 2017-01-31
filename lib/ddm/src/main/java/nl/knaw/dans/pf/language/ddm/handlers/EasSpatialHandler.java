@@ -10,7 +10,14 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
-    public static final String WGS84_4326 = "http://www.opengis.net/def/crs/EPSG/0/4326";
+    public static final String EPSG_URL_WGS84 = "http://www.opengis.net/def/crs/EPSG/0/4326";
+    public static final String EPSG_URN_WGS84 = "urn:ogc:def:crs:EPSG::4326";
+    public static final String EPSG_URL_RD = "http://www.opengis.net/def/crs/EPSG/0/28992";
+    public static final String EPSG_URN_RD = "urn:ogc:def:crs:EPSG::28992";
+    public static final String EAS_SPATIAL_SCHEME_WGS84 = "degrees";// WGS84, but in EASY we call it 'degrees'
+    public static final String EAS_SPATIAL_SCHEME_RD = "RD";
+    public static final String EAS_SPATIAL_SCHEME_LOCAL = "local"; // some other system not known by EASY
+
     private static final String SRS_NAME = "srsName";
     private String description = null;
     private Point lower, upper, pos;
@@ -18,14 +25,14 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
     /**
      * Proper processing requires pushing/popping and inheriting the attribute, so we skip for the current implementation
      */
-    // the srs is WGS84_4326 by default
-    private String foundSRS = WGS84_4326;
+    // the srs is the EPSG_URL_WGS84 by default
+    private String foundSRS = EPSG_URL_WGS84;
 
     @Override
     public void initFirstElement(final String uri, final String localName, final Attributes attributes) {
         description = null;
         lower = upper = pos = null;
-        foundSRS = WGS84_4326;
+        foundSRS = EPSG_URL_WGS84;
         checkSRS(attributes);
     }
 
@@ -48,11 +55,11 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
         if ("description".equals(localName))
             description = getCharsSinceStart().trim();
         else if ("pos".equals(localName))
-            pos = wgs84Point();
+            pos = createPoint();
         else if ("lowerCorner".equals(localName))
-            lower = wgs84Point();
+            lower = createPoint();
         else if ("upperCorner".equals(localName))
-            upper = wgs84Point();
+            upper = createPoint();
         else if ("Point".equals(localName)) {
             if (pos != null)
                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, pos));
@@ -72,20 +79,48 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata> {
         final String s = "" + (upperY < lowerY ? upperY : lowerY);
         final String e = "" + (upperX > lowerX ? upperX : lowerX);
         final String w = "" + (upperX < lowerX ? upperX : lowerX);
-        return new Spatial.Box(foundSRS, n, e, s, w);
+        return new Spatial.Box(srsName2EasScheme(foundSRS), n, e, s, w);
     }
 
-    private Point wgs84Point() throws SAXException {
+    private Point createPoint() throws SAXException {
         final String type = getAttribute(NameSpace.XSI.uri, "type");
         if (type != null)
             warning("ignored: not yet implemented");
-        // http://wiki.esipfed.org/index.php/CRS_Specification
-        // urn:ogc:def:crs:EPSG::4326 has coordinate order latitude(north), longitude(east)
-        final String[] yx = getCharsSinceStart().trim().split(" ");
-        if (yx.length < 2) {
-            error("expected at least two floats separated with a space");
+
+        final String[] coordinates = getCharsSinceStart().trim().split(" ");
+        if (coordinates.length < 2) {
+            error("expected at least two coordinate numbers separated with a space");
             return null;
         }
-        return new Spatial.Point(foundSRS, yx[1], yx[0]);
+
+        String easScheme = srsName2EasScheme(foundSRS);
+        if (easScheme != null && easScheme.contentEquals("RD")) {
+            // RD; coordinate order is east, north = x y
+            return new Spatial.Point(easScheme, coordinates[0], coordinates[1]);
+        } else {
+            // WGS84, or at least the order is yx
+            // http://wiki.esipfed.org/index.php/CRS_Specification
+            // urn:ogc:def:crs:EPSG::4326 has coordinate order latitude(north), longitude(east) = y x
+            // we make this the default order
+            return new Spatial.Point(easScheme, coordinates[1], coordinates[0]);
+        }
+    }
+
+    /**
+     * EASY now only supports schemes (for coordinate systems) 'RD' and 'degrees' (WGS84) in the EMD. The official EPSG codes are 28992 for RD in meters x,y and
+     * 4326 for WGS84 in decimal degrees lat,lon
+     * 
+     * @param srsName
+     * @return
+     */
+    static String srsName2EasScheme(final String srsName) {
+        if (srsName == null)
+            return null;
+        else if (srsName.contentEquals(EPSG_URL_RD) || srsName.contentEquals(EPSG_URN_RD))
+            return EAS_SPATIAL_SCHEME_RD;
+        else if (srsName.contentEquals(EPSG_URL_WGS84) || srsName.contentEquals(EPSG_URN_WGS84))
+            return EAS_SPATIAL_SCHEME_WGS84;
+        else
+            return EAS_SPATIAL_SCHEME_LOCAL; // suggesting otherwise it could be 'global', but we can't map it to something else
     }
 }
