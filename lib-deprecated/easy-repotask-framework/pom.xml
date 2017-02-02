@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-prototype</artifactId>
-		<version>2.x-SNAPSHOT</version>
+		<version>2.17-beta-3</version>
                 <relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-repotask-framework</artifactId>
