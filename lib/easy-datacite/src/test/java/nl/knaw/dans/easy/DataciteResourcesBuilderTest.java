@@ -6,6 +6,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeThat;
 import static org.junit.Assume.assumeTrue;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 
@@ -13,25 +14,20 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.IOUtils;
@@ -43,6 +39,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -52,28 +50,48 @@ import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 public class DataciteResourcesBuilderTest {
-    private static final String XSL_EMD2DATACITE = new DataciteServiceConfiguration().getXslEmd2datacite();
-    private static final String DATACITE_SCHEMA_LOCATION = "http://schema.datacite.org/meta/kernel-3/metadata.xsd";
+
+    private static final DataciteServiceConfiguration dsConfig = new DataciteServiceConfiguration();
+
+    private static final String version = "3";
+
+    private static final String XSL_EMD2DATACITE = String.format("xslt-files/EMD_doi_datacite_v%s.xsl", version);
+    private static final String DATACITE_SCHEMA_LOCATION = String.format("http://schema.datacite.org/meta/kernel-%s/metadata.xsd", version);
+    static {
+        dsConfig.setXslEmd2datacite(dsConfig.getXslEmd2datacite());
+    }
+    private static final String CREATOR = "//*[local-name()='creators']/*[local-name()='creator']";
+    private static final String CONTRIBUTOR = "//*[local-name()='contributors']/*[local-name()='contributor']";
     private static final String XP_GEOLOCATION = "//*[local-name()='geoLocations']/*[local-name()='geoLocation']";
     private static final String XP_GEOLOCATION_POINT = XP_GEOLOCATION + "/*[local-name()='geoLocationPoint']";
     private static final String XP_GEOLOCATION_BOX = XP_GEOLOCATION + "/*[local-name()='geoLocationBox']";
+
     private static final Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilderTest.class);
     private Document document;
+    private Element docElement;
+    private Element maxiDocElement;
     private XPath xPath;
+
+    private void ignoreIfNot(String version) {
+        assumeThat(DATACITE_SCHEMA_LOCATION, containsString(version));
+    }
 
     @Before
     public void setup() throws Exception {
 
-        EasyMetadata emd = new EmdBuilder().build();
+        document = getDocument(new EmdBuilder("emd.xml").build());
+        docElement = document.getDocumentElement();
+        maxiDocElement = getDocument(new EmdBuilder("maxi-emd.xml").build()).getDocumentElement();
+        xPath = XPathFactory.newInstance().newXPath();
+    }
 
+    private Document getDocument(EasyMetadata emd) throws DataciteServiceException, ParserConfigurationException, SAXException, IOException {
         String dataciteXml = createDefaultBuilder().getEmd2DataciteXml(emd);
+        InputSource source = new InputSource(new StringReader(dataciteXml));
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        document = db.parse(new InputSource(new StringReader(dataciteXml)));
-
-        XPathFactory xpf = XPathFactory.newInstance();
-        xPath = xpf.newXPath();
+        return dbf.newDocumentBuilder().parse(source);
     }
 
     @Test
@@ -102,6 +120,7 @@ public class DataciteResourcesBuilderTest {
     @Test(expected = IllegalArgumentException.class)
     public void noEmdC() throws Exception {
         EasyMetadata[] emds = null;
+        // noinspection ConstantConditions
         createDefaultBuilder().create(emds);
     }
 
@@ -144,56 +163,112 @@ public class DataciteResourcesBuilderTest {
         logger.debug(out);
     }
 
-    @Ignore(value = "TUDelft doesn't support Datacite v4.")
     @Test
     public void creatorAffiliation() throws Exception {
+        ignoreIfNot("kernel-4");
 
-        String affiliation = xPath.evaluate("//*[local-name()='creators']/*[local-name()='creator']/*[local-name()='affiliation']/text()",
-                document.getDocumentElement());
+        String expression = CREATOR + "/*[local-name()='affiliation']/text()";
 
-        assertEquals("International Atomic Energy Agency", affiliation);
+        assertEquals("International Atomic Energy Agency", xPath.evaluate(expression, docElement));
     }
 
-    @Ignore(value = "TUDelft doesn't support Datacite v4.")
+    @Test
+    public void simpleCreator() throws Exception {
+
+        NodeList creators = (NodeList) xPath.evaluate(CREATOR, maxiDocElement, XPathConstants.NODESET);
+        assertEquals(4, creators.getLength());
+        assertEquals("creator 0", creators.item(2).getTextContent().trim());
+        assertEquals("creator 1", creators.item(3).getTextContent().trim());
+    }
+
+    @Test
+    public void simpleContributor() throws Exception {
+
+        NodeList creators = (NodeList) xPath.evaluate(CONTRIBUTOR, maxiDocElement, XPathConstants.NODESET);
+        assertEquals(6, creators.getLength());
+        assertEquals("contributor 0", creators.item(2).getTextContent().trim());
+        assertEquals("contributor 1", creators.item(3).getTextContent().trim());
+        // FIXME
+        assertEquals("rights 0", creators.item(4).getTextContent().trim());
+        assertEquals("rights 1", creators.item(5).getTextContent().trim());
+    }
+
     @Test
     public void contributorAffiliation() throws Exception {
+        ignoreIfNot("kernel-4");
 
-        String affiliation = xPath.evaluate(
-                "//*[local-name()='contributors']/*[local-name()='contributor'][@contributorType=\"Other\"]/*[local-name()='affiliation']/text()",
-                document.getDocumentElement());
+        String affiliation = CONTRIBUTOR + "[@contributorType=\"Other\"]/*[local-name()='affiliation']/text()";
 
-        assertEquals("CERN", affiliation);
+        assertEquals("CERN", xPath.evaluate(affiliation, docElement));
     }
 
-    @Ignore(value = "TUDelft doesn't support Datacite v4.")
     @Test
     public void geoLocationPoint() throws Exception {
+        ignoreIfNot("kernel-4");
 
-        String pointLatitude = xPath.evaluate(XP_GEOLOCATION_POINT + "/*[local-name()='pointLatitude']/text()", document.getDocumentElement());
-        String pointLongitude = xPath.evaluate(XP_GEOLOCATION_POINT + "/*[local-name()='pointLongitude']/text()", document.getDocumentElement());
+        String latitude = XP_GEOLOCATION_POINT + "/*[local-name()='pointLatitude']/text()";
+        String longitude = XP_GEOLOCATION_POINT + "/*[local-name()='pointLongitude']/text()";
 
-        assertEquals("53.24478539", pointLatitude);
-        assertEquals("5.63994851", pointLongitude);
+        assertEquals("53.24478539", xPath.evaluate(latitude, docElement));
+        assertEquals("5.63994851", xPath.evaluate(longitude, docElement));
     }
 
-    @Ignore(value = "TUDelft doesn't support Datacite v4.")
     @Test
     public void geoLocationBox() throws Exception {
+        ignoreIfNot("kernel-4");
 
-        String northBoundLatitude = xPath.evaluate(XP_GEOLOCATION_BOX + "/*[local-name()='northBoundLatitude']/text()", document.getDocumentElement());
-        String eastBoundLongitude = xPath.evaluate(XP_GEOLOCATION_BOX + "/*[local-name()='eastBoundLongitude']/text()", document.getDocumentElement());
-        String southBoundLatitude = xPath.evaluate(XP_GEOLOCATION_BOX + "/*[local-name()='southBoundLatitude']/text()", document.getDocumentElement());
-        String westBoundLongitude = xPath.evaluate(XP_GEOLOCATION_BOX + "/*[local-name()='westBoundLongitude']/text()", document.getDocumentElement());
+        String north = XP_GEOLOCATION_BOX + "/*[local-name()='northBoundLatitude']/text()";
+        String east = XP_GEOLOCATION_BOX + "/*[local-name()='eastBoundLongitude']/text()";
+        String south = XP_GEOLOCATION_BOX + "/*[local-name()='southBoundLatitude']/text()";
+        String west = XP_GEOLOCATION_BOX + "/*[local-name()='westBoundLongitude']/text()";
 
-        assertEquals("51.22264603", northBoundLatitude);
-        assertEquals("5.97521691", eastBoundLongitude);
-        assertEquals("51.1741085", southBoundLatitude);
-        assertEquals("5.90869255", westBoundLongitude);
+        assertEquals("51.22264603", xPath.evaluate(north, docElement));
+        assertEquals("5.97521691", xPath.evaluate(east, docElement));
+        assertEquals("51.1741085", xPath.evaluate(south, docElement));
+        assertEquals("5.90869255", xPath.evaluate(west, docElement));
+    }
+
+    @Test
+    public void subject() throws Exception {
+        ignoreIfNot("kernel-4");
+
+        String subjectXPath = "//*[local-name()='subject'][@subjectScheme='NARCIS-classification']";
+        Element subjectElement = (Element) xPath.evaluate(subjectXPath, docElement, XPathConstants.NODE);
+
+        assertEquals(subjectElement.getTextContent(), "Archaeology");
+        assertEquals(subjectElement.getAttribute("schemeURI"), "http://www.narcis.nl/classification");
+        assertEquals(subjectElement.getAttribute("valueURI"), "http://www.narcis.nl/classfication/D37000");
+        assertEquals(subjectElement.getAttribute("xml:lang"), "en");
+    }
+
+    @Test
+    public void subjectAbrComplex() throws Exception {
+        ignoreIfNot("kernel-4");
+
+        String subjectXPath = "//*[local-name()='subject'][@subjectScheme='ABR-complex']";
+        Element subjectElement = (Element) xPath.evaluate(subjectXPath, docElement, XPathConstants.NODE);
+
+        assertEquals(subjectElement.getTextContent(), "Begraving, onbepaald (GX)");
+        assertEquals(subjectElement.getAttribute("schemeURI"), "http://cultureelerfgoed.nl/");
+        assertEquals(subjectElement.getAttribute("xml:lang"), "nl");
+    }
+
+    @Test
+    public void subjectAbrPeriode() throws Exception {
+        ignoreIfNot("kernel-4");
+
+        String periodXPath = "//*[local-name()='subject'][@subjectScheme='ABR-periode']";
+        Element periodElement = (Element) xPath.evaluate(periodXPath, docElement, XPathConstants.NODE);
+
+        assertEquals(periodElement.getTextContent(), "Nieuwe tijd: 1500 - heden (NT)");
+        assertEquals(periodElement.getAttribute("schemeURI"), "http://cultureelerfgoed.nl/");
+        assertEquals(periodElement.getAttribute("xml:lang"), "nl");
     }
 
     @Test
     public void validateXmlOutputAgainstDataciteSchema() throws Exception {
-        externalSchemaCheck();
+        ignoreIfNot("kernel-3");
+        ignoreIfSchemaNotAccessible();
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = factory.newSchema(new URL(DATACITE_SCHEMA_LOCATION));
@@ -262,8 +337,7 @@ public class DataciteResourcesBuilderTest {
         return new URL("http://some.domain/and/path");
     }
 
-    private void externalSchemaCheck() {
-        // ignore test case if not available
+    private void ignoreIfSchemaNotAccessible() {
         assumeTrue("can access " + DATACITE_SCHEMA_LOCATION, canConnect(DATACITE_SCHEMA_LOCATION));
     }
 
@@ -277,19 +351,5 @@ public class DataciteResourcesBuilderTest {
         catch (IOException e) {
             return false;
         }
-    }
-
-    public String getStringFromDoc(Document doc) throws TransformerException {
-
-        DOMSource domSource = new DOMSource(doc);
-        StringWriter writer = new StringWriter();
-        StreamResult result = new StreamResult(writer);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(domSource, result);
-        writer.flush();
-        return writer.toString();
     }
 }

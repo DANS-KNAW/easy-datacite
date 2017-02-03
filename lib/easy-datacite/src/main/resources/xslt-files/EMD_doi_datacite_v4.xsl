@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-      xmlns:mods="http://www.loc.gov/mods/v3"
-      xmlns="http://datacite.org/schema/kernel-4"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      xmlns:dai="info:eu-repo/dai"
-      xmlns:dc="http://purl.org/dc/elements/1.1/"
-      xmlns:dcterms="http://purl.org/dc/terms/"
-      xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
-      xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
-      xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      exclude-result-prefixes="xs dai dc dcterms eas emd"
-      version="2.0">
-    
+<xsl:stylesheet
+        xmlns:mods="http://www.loc.gov/mods/v3"
+        xmlns="http://datacite.org/schema/kernel-4"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:dai="info:eu-repo/dai"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:dcterms="http://purl.org/dc/terms/"
+        xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+        xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        exclude-result-prefixes="xs dai dc dcterms eas emd"
+        version="2.0">
+
     <!-- Use this for registration of DOI
          Note that it is similar, but not identical, to the openaire OAI output -->
     <!-- ==================================================== -->
     <xsl:output encoding="UTF-8" indent="yes" method="xml" omit-xml-declaration="yes"/>
     <!-- ==================================================== -->
-    
+
     <!-- ==================================================== -->
     <xsl:variable name="date-encoding-attribute-value" select="'w3cdtf'"/>
     <!--<xsl:variable name="pid-resolver" select="'http://www.persistent-identifier.nl/?identifier='"/>-->
     <xsl:variable name="abr-type" select="document('http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd')"/>
     <xsl:variable name="audience" select="document('http://easy.dans.knaw.nl/schemas/property-list/audience.xml')"/>
+    <xsl:variable name="narcis-type" select="document('http://easy.dans.knaw.nl/schemas/vocab/2015/narcis-type.xsd')"/>
     <!-- ==================================================== -->
-    
+
     <xsl:template match="/">
         <xsl:call-template name="metadata-root"/>
     </xsl:template>
-    
-   
-       
+
+
+
     <!-- ==================================================== -->
     <xsl:template name="metadata-root">
         <xsl:element name="resource">
@@ -40,75 +41,75 @@
             <xsl:if test="//eas:subject-link">
                 <xsl:namespace name="xlink">http://www.w3.org/1999/xlink</xsl:namespace>
             </xsl:if>
-            
+
             <!-- datacite version 4, previous version was 3 -->
             <xsl:attribute name="xsi:schemaLocation" select="'http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4/metadata.xsd'"/>
-            
+
             <xsl:apply-templates select="emd:easymetadata"/>
-            
+
         </xsl:element>
     </xsl:template>
     <!-- ==================================================== -->
-    
+
     <xsl:template match="emd:easymetadata">
         <!--  1. identifier -->
         <xsl:apply-templates select="emd:identifier/dc:identifier[@eas:scheme='DOI']"/>
-        
+
         <!--  2. creators -->
         <xsl:apply-templates select="emd:creator"/>
-        
+
         <!--  3. title -->
         <xsl:apply-templates select="emd:title"/>
-        
+
         <!--  4. publisher -->
         <xsl:call-template name="publisher"/>
-        
+
         <!--  5. publicationYear -->
         <xsl:call-template name="publication-year"/>
-        
+
         <!--  6. subject -->
         <xsl:call-template name="subject"/>
-         
+
         <!--  7. contributor -->
         <xsl:call-template name="contributor"/>
-         
+
         <!--  8. date -->
         <xsl:apply-templates select="emd:date" />
-         
+
         <!--  9. language -->
         <xsl:apply-templates select="emd:language" />
-        
+
         <!-- 10. resourceType -->
         <xsl:call-template name="type" />
-        
+
         <!-- 11. alternateIdentifier OPTIONAL -->
         <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]"/>
-        
+
         <!-- 12. relatedIdentifier -->
         <xsl:apply-templates select="emd:relation" />
-        
+
         <!-- 13. size OPTIONAL -->
         <!-- unavailable -->
-        
+
         <!-- 14. format OPTIONAL -->
         <xsl:apply-templates select="emd:format[dc:format]"/>
-        
+
         <!-- 15. version OPTIONAL -->
         <!-- unavailable -->
-        
+
         <!-- 16. rights -->
         <xsl:element name="rightsList">
             <xsl:apply-templates select="emd:rights/dcterms:accessRights" />
         </xsl:element>
-         
+
         <!-- 17. description -->
         <xsl:apply-templates select="emd:description[dc:description | dcterms:abstract | dcterms:tableOfContents]" />
-        
+
         <!-- 18. geoLocations -->
         <xsl:call-template name="geo"/>
     </xsl:template>
-    
-    
+
+
     <!-- ==================================================== -->
     <!-- dc:identifier to datacite identifier -->
     <!-- ==================================================== -->
@@ -118,7 +119,7 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- creator to datacite creators -->
     <!-- ==================================================== -->
@@ -128,7 +129,7 @@
             <xsl:apply-templates select="dc:creator"/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- dc:creator to datacite name -->
     <!-- ==================================================== -->
@@ -139,7 +140,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-   
+
     <!-- ==================================================== -->
     <!-- eas:creator to datacite creator -->
     <!-- ==================================================== -->
@@ -150,9 +151,9 @@
             </xsl:element>
             <xsl:call-template name="eas-organization" />
             <xsl:call-template name="dai"/>
-        </xsl:element>  
+        </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- eas:organization to datacite affiliation -->
     <!-- ==================================================== -->
@@ -163,7 +164,7 @@
             </xsl:element>
         </xsl:if>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- contributor to datacite contributors -->
     <!-- ==================================================== -->
@@ -175,7 +176,7 @@
             <xsl:apply-templates select="emd:rights/dc:rights"/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- dc:contributor to datacite contributor -->
     <!-- ==================================================== -->
@@ -187,7 +188,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-   
+
     <!-- ==================================================== -->
     <!-- eas:contributor to datacite contributor -->
     <!-- ==================================================== -->
@@ -199,9 +200,9 @@
             </xsl:element>
             <xsl:call-template name="eas-organization" />
             <xsl:call-template name="dai"/>
-        </xsl:element>  
+        </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- eas: creator/contributor name contents -->
     <!-- ==================================================== -->
@@ -220,7 +221,7 @@
                 </xsl:choose>
             </xsl:if>
         </xsl:variable>
-        
+
         <!-- creatorName -->
         <xsl:variable name="initials">
             <xsl:if test="eas:initials and eas:initials != ''">
@@ -237,7 +238,7 @@
                 <xsl:value-of select="concat(' (', eas:organization, ')')"/>
             </xsl:if>
         </xsl:variable>
-        
+
         <xsl:choose>
             <xsl:when test="not(eas:surname) or eas:surname = ''">
                 <xsl:value-of select="eas:organization"/>
@@ -250,7 +251,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- DAI -> nameIdentifier -->
     <!-- ==================================================== -->
@@ -263,8 +264,8 @@
             </xsl:element>
         </xsl:if>
     </xsl:template>
-    
-    
+
+
     <!-- ==================================================== -->
     <!-- dcterms:rightsHolder to datacite contributor -->
     <!-- ==================================================== -->
@@ -276,8 +277,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-   
-    
+
+
     <!-- ==================================================== -->
     <!-- title to datacite titles -->
     <!-- ==================================================== -->
@@ -287,7 +288,7 @@
             <xsl:apply-templates select="dcterms:alternative"/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- dc:title to datacite title -->
     <!-- ==================================================== -->
@@ -296,8 +297,8 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-    
-    
+
+
     <!-- ==================================================== -->
     <!-- dcterms:alternative to datacite title (alternative) -->
     <!-- ==================================================== -->
@@ -307,7 +308,7 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- dc:publisher to publisher -->
     <!-- ==================================================== -->
@@ -323,7 +324,7 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- Publication year -->
     <!-- ==================================================== -->
@@ -346,11 +347,11 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="emd:date/eas:available">
         <xsl:call-template name="w3cdtfEncoding"/>
     </xsl:template>
-    
+
     <!-- =================================================================================== -->
     <!-- emd:date/x to date[@dateType=x] -->
     <!-- ==================================================== -->
@@ -408,7 +409,7 @@
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- w3cdtfEncoding -->
     <xsl:template name="w3cdtfEncoding">
         <!-- xalan chokes on regex -->
@@ -435,7 +436,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:audience, emd:subject, emd:coverage => subject 
            - there are special subjects for archaeology datasets
@@ -445,32 +446,32 @@
         <xsl:element name="subjects">
             <!-- Audience terms -->
             <xsl:apply-templates select="emd:audience/dcterms:audience"/>
-            
+
             <!-- General subject terms -->
             <xsl:if test="emd:subject/dc:subject[not(@eas:schemeId = 'archaeology.dc.subject')]">
                 <xsl:apply-templates select="emd:subject/dc:subject[not(@eas:schemeId = 'archaeology.dc.subject')]"/>
             </xsl:if>
-            
+
             <xsl:apply-templates select="emd:subject/dc:subject[@eas:schemeId = 'archaeology.dc.subject' and . != '']"/>
-            
+
             <!-- Temporal subjects -->
             <xsl:if test="emd:coverage/dcterms:temporal[not(@eas:schemeId = 'archaeology.dcterms.temporal')]">
                 <xsl:for-each select="emd:coverage/dcterms:temporal[not(@eas:schemeId = 'archaeology.dcterms.temporal')]">
                     <xsl:element name="subject">
                         <xsl:variable name="temporal">
-                        Temporal coverage: 
-                        <xsl:call-template name="free-temporal-coverage"/>
+                            Temporal coverage:
+                            <xsl:call-template name="free-temporal-coverage"/>
                         </xsl:variable>
                         <xsl:value-of select="normalize-space($temporal)" />
                     </xsl:element>
                 </xsl:for-each>
             </xsl:if>
-            
+
             <!-- TODO: Inconsistent coding style -->
             <xsl:apply-templates select="emd:coverage/dcterms:temporal[@eas:schemeId = 'archaeology.dcterms.temporal' and . != '']"/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- =================================================================================== -->
     <!-- dcterms:audience to subject -->
     <!-- ==================================================== -->
@@ -478,8 +479,22 @@
         <xsl:element name="subject">
             <xsl:choose>
                 <xsl:when test="@eas:schemeId = 'custom.disciplines' and text() != ''">
-                    <xsl:variable name="disciplineCode" select="."/>
-                    <xsl:value-of select="$audience/properties/entry[@key = $disciplineCode]/text()"/>
+                    <xsl:variable name="disciplineCode" select="./text()"/>
+                    <xsl:variable name="narcis-enumeration" select="$narcis-type//xs:enumeration[./xs:annotation/xs:appinfo[text()=$disciplineCode]]"/>
+                    <xsl:variable name="narcis-documentation" select="$narcis-enumeration/xs:annotation/xs:documentation"/>
+                    <xsl:attribute name="subjectScheme">
+                        <xsl:value-of select="'NARCIS-classification'"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="schemeURI">
+                        <xsl:value-of select="'http://www.narcis.nl/classification'"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="valueURI">
+                        <xsl:value-of select="concat('http://www.narcis.nl/classfication/',$narcis-enumeration/@value)"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="xml:lang">
+                        <xsl:value-of select="$narcis-documentation/@xml:lang"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="$narcis-documentation/text()"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="."/>
@@ -498,6 +513,9 @@
     <!-- =================================================================================== -->
     <xsl:template match="emd:subject/dc:subject[@eas:schemeId = 'archaeology.dc.subject' and . != '']">
         <xsl:element name="subject">
+            <xsl:call-template name="abr-subject-schema">
+                <xsl:with-param name="val" select="'ABR-complex'"/>
+            </xsl:call-template>
             <xsl:value-of>
                 <xsl:call-template name="abr-complex-to-string"/>
             </xsl:value-of>
@@ -511,54 +529,56 @@
     <!-- =================================================================================== -->
     <xsl:template match="emd:coverage/dcterms:temporal[@eas:schemeId = 'archaeology.dcterms.temporal' and . != '']">
         <xsl:element name="subject">
-            <xsl:attribute name="subjectScheme" select="'ABR-periode'"/>
-            <xsl:value-of select="."/>
-        </xsl:element>
-        <xsl:element name="subject">
-            <xsl:attribute name="subjectScheme" select="'ABR-periode-label'"/>
-            <xsl:variable name="periodestring">Periode: 
-                <xsl:call-template name="abr-periode-to-string"/>
-            </xsl:variable>
-            <xsl:value-of select="normalize-space($periodestring)" />
+            <xsl:call-template name="abr-subject-schema">
+                <xsl:with-param name="val" select="'ABR-periode'"/>
+            </xsl:call-template>
+            <xsl:call-template name="abr-periode-to-string"/>
         </xsl:element>
     </xsl:template>
-    
+
+    <xsl:template name="abr-subject-schema">
+        <xsl:param name="val"/>
+        <xsl:attribute name="subjectScheme" select="$val"/>
+        <xsl:attribute name="schemeURI" select="'http://cultureelerfgoed.nl/'"/>
+        <xsl:attribute name="xml:lang" select="'nl'"/>
+    </xsl:template>
+
     <!-- ==================================================== -->
     <!-- emd:language to datacite language -->
     <!-- ==================================================== -->
     <xsl:template match="emd:language">
         <xsl:if test="dc:language[@eas:scheme='ISO 639'][1]/text() != ''">
-             <!-- even if there is more than one language code, we can only include one -->
-             <xsl:variable name="lang" select="dc:language[@eas:scheme='ISO 639'][1]/text()" />
-             <xsl:variable name="dataciteLang">
-             <!-- NOTE we need 2 letter country codes instead, and fix for the /  -->
-             <!-- Also note that we focus own GUI for four languages and ignore others -->
-             <xsl:choose>
-                 <xsl:when test="contains('|dut/nld|dut|nld|nl|', concat('|', $lang, '|'))">
-                     <xsl:value-of select="'nl'"/>
-                 </xsl:when>
-                 <xsl:when test="contains('|eng|en|', concat('|', $lang, '|'))">
-                     <xsl:value-of select="'en'"/>
-                 </xsl:when>
-                 <xsl:when test="contains('|ger/deu|ger|deu|de|', concat('|', $lang, '|'))">
-                     <xsl:value-of select="'de'"/>
-                 </xsl:when>
-                 <xsl:when test="contains('|fre/fra|fre|fra|fr|', concat('|', $lang, '|'))">
-                     <xsl:value-of select="'fr'"/>
-                 </xsl:when>
-                 <xsl:otherwise>
-                     <xsl:value-of select="'-'"/>
-                 </xsl:otherwise>
-             </xsl:choose>
-             </xsl:variable>
-             <xsl:if test="not($dataciteLang = '-')">
-                 <xsl:element name="language">
-                     <xsl:value-of select="$dataciteLang"/>
-                 </xsl:element>
-             </xsl:if>
+            <!-- even if there is more than one language code, we can only include one -->
+            <xsl:variable name="lang" select="dc:language[@eas:scheme='ISO 639'][1]/text()" />
+            <xsl:variable name="dataciteLang">
+                <!-- NOTE we need 2 letter country codes instead, and fix for the /  -->
+                <!-- Also note that we focus own GUI for four languages and ignore others -->
+                <xsl:choose>
+                    <xsl:when test="contains('|dut/nld|dut|nld|nl|', concat('|', $lang, '|'))">
+                        <xsl:value-of select="'nl'"/>
+                    </xsl:when>
+                    <xsl:when test="contains('|eng|en|', concat('|', $lang, '|'))">
+                        <xsl:value-of select="'en'"/>
+                    </xsl:when>
+                    <xsl:when test="contains('|ger/deu|ger|deu|de|', concat('|', $lang, '|'))">
+                        <xsl:value-of select="'de'"/>
+                    </xsl:when>
+                    <xsl:when test="contains('|fre/fra|fre|fra|fr|', concat('|', $lang, '|'))">
+                        <xsl:value-of select="'fr'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="'-'"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:if test="not($dataciteLang = '-')">
+                <xsl:element name="language">
+                    <xsl:value-of select="$dataciteLang"/>
+                </xsl:element>
+            </xsl:if>
         </xsl:if>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:type to datacite resourceType -->
     <!-- ==================================================== -->
@@ -568,7 +588,7 @@
             <xsl:value-of select="'Dataset'" />
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:relation to datacite relatedIdentifiers -->
     <!-- ==================================================== -->
@@ -582,7 +602,7 @@
             <xsl:apply-templates select="eas:isVersionOf[eas:subject-link != '']" />
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template name="relatedIdentifier">
         <xsl:param name="link" />
         <xsl:param name="relationType" />
@@ -608,49 +628,49 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="eas:isReferencedBy[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'IsReferencedBy'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="eas:isReplacedBy[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'IsPreviousVersionOf'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="eas:replaces[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'IsNewVersionOf'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="eas:isPartOf[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'IsPartOf'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="eas:hasPart[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'HasPart'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="eas:isVersionOf[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
             <xsl:with-param name="relationType" select="'IsDerivedFrom'"/>
         </xsl:call-template>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:format to formats -->
     <!-- ==================================================== -->
@@ -663,7 +683,7 @@
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:rights/dct:accessRights to datacite rights -->
     <!-- ==================================================== -->
@@ -697,7 +717,7 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- dc:identifier to datacite alternateIdentifier -->
     <!-- ==================================================== -->
@@ -724,7 +744,7 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- ==================================================== -->
     <!-- emd:description to datacite description -->
     <!-- ==================================================== -->
@@ -750,14 +770,14 @@
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- =================================================================================== -->
     <!-- ABRComplex to string                                                                -->
     <!-- =================================================================================== -->
     <xsl:template name="abr-complex-to-string">
         <xsl:variable name="code-string" select="string()"/>
         <xsl:variable name="str" select="normalize-space($abr-type/xs:schema/xs:simpleType[@name='complex']/xs:restriction/xs:enumeration[@value=$code-string]/xs:annotation/xs:documentation/text())"/>
-        <xsl:value-of select="$str"/>
+        <xsl:value-of select="concat($str, ' ', '(',$code-string,')')"/>
     </xsl:template>
     <!-- =================================================================================== -->
     <!-- ABRPeriode to string                                                                -->
@@ -775,7 +795,7 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="str" select="normalize-space($abr-type/xs:schema/xs:simpleType[@name='periode']/xs:restriction/xs:enumeration[@value=$code-string]/xs:annotation/xs:documentation/text())"/>
-        <xsl:value-of select="$str"/>
+        <xsl:value-of select="concat($str, ' ', '(', $code-string, ')')"/>
     </xsl:template>
 
 
@@ -849,12 +869,12 @@
         <xsl:if test="string(number(eas:north)) != 'NaN' and string(number(eas:east)) != 'NaN' and string(number(eas:south)) != 'NaN' and string(number(eas:west)) != 'NaN'">
             <xsl:element name="geoLocation">
                 <xsl:element name="geoLocationBox">
-                        <xsl:call-template name="box-converter">
-                            <xsl:with-param name="north" select="eas:north"/>
-                            <xsl:with-param name="south" select="eas:south"/>
-                            <xsl:with-param name="west" select="eas:west"/>
-                            <xsl:with-param name="east" select="eas:east"/>
-                        </xsl:call-template>
+                    <xsl:call-template name="box-converter">
+                        <xsl:with-param name="north" select="eas:north"/>
+                        <xsl:with-param name="south" select="eas:south"/>
+                        <xsl:with-param name="west" select="eas:west"/>
+                        <xsl:with-param name="east" select="eas:east"/>
+                    </xsl:call-template>
                 </xsl:element>
             </xsl:element>
         </xsl:if>
@@ -872,7 +892,7 @@
             <xsl:value-of select="$temp[2]"/>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template name="rd-in-xy2">
         <xsl:param name="x"/>
         <xsl:param name="y"/>
@@ -883,8 +903,8 @@
             <xsl:value-of select="$y"/>
         </xsl:element>
     </xsl:template>
-    
-    
+
+
     <!-- =================================================================================== -->
     <!-- RD north east south west to lat lon lat lon                                         -->
     <!-- =================================================================================== -->
@@ -913,7 +933,7 @@
                 <xsl:with-param name="east" select="$east"/>
                 <xsl:with-param name="west" select="$west"/>
             </xsl:call-template>
-         </xsl:element>
+        </xsl:element>
         <xsl:element name="westBoundLongitude">
             <xsl:call-template name="lon-converter-">
                 <xsl:with-param name="x" select="$west"/>
@@ -952,28 +972,28 @@
             </xsl:call-template>
         </xsl:value-of>
     </xsl:template>
-    
+
     <xsl:template name="rd-to-lat-long-lat">
         <xsl:param name="x" as="xs:decimal"/>
         <xsl:param name="y" as="xs:decimal"/>
         <xsl:variable name="p" select="($x - 155000.00) div 100000"/>
         <xsl:variable name="q" select="($y - 463000.00) div 100000"/>
-        
+
         <xsl:variable name="df"
-            select="(($q*3235.65389)+($p*$p*-32.58297)+($q*$q*-0.24750)+($p*$p*$q*-0.84978)+($q*$q*$q*-0.06550)+($p*$p*$q*$q*-0.01709)+($p*-0.00738)+($p*$p*$p*$p*0.00530)+($p*$p*$q*$q*$q*-0.00039)+($p*$p*$p*$p*$q*0.00033)+($p*$q*-0.00012)) div 3600"/>
-         <xsl:value-of select="(round((52.15517440+$df)*100000000.00)) div 100000000.00"/>
-        
+                      select="(($q*3235.65389)+($p*$p*-32.58297)+($q*$q*-0.24750)+($p*$p*$q*-0.84978)+($q*$q*$q*-0.06550)+($p*$p*$q*$q*-0.01709)+($p*-0.00738)+($p*$p*$p*$p*0.00530)+($p*$p*$q*$q*$q*-0.00039)+($p*$p*$p*$p*$q*0.00033)+($p*$q*-0.00012)) div 3600"/>
+        <xsl:value-of select="(round((52.15517440+$df)*100000000.00)) div 100000000.00"/>
+
     </xsl:template>
-    
+
     <xsl:template name="rd-to-lat-long-lon">
         <xsl:param name="x" as="xs:decimal"/>
         <xsl:param name="y" as="xs:decimal"/>
         <xsl:variable name="p" select="($x - 155000.00) div 100000"/>
         <xsl:variable name="q" select="($y - 463000.00) div 100000"/>
-       <xsl:variable name="dl"
-            select="(($p*5260.52916)+($p*$q*105.94684)+($p*$q*$q*2.45656)+($p*$p*$p*-0.81885)+($p*$q*$q*$q*0.05594)+($p*$p*$p*$q*-0.05607)+($q*0.01199)+($p*$p*$p*$q*$q*-0.00256)+($p*$q*$q*$q*$q*0.00128)+($q*$q*0.00022)+($p*$p*-0.00022)+($p*$p*$p*$p*$p*0.00026)) div 3600"/>
+        <xsl:variable name="dl"
+                      select="(($p*5260.52916)+($p*$q*105.94684)+($p*$q*$q*2.45656)+($p*$p*$p*-0.81885)+($p*$q*$q*$q*0.05594)+($p*$p*$p*$q*-0.05607)+($q*0.01199)+($p*$p*$p*$q*$q*-0.00256)+($p*$q*$q*$q*$q*0.00128)+($q*$q*0.00022)+($p*$p*-0.00022)+($p*$p*$p*$p*$p*0.00026)) div 3600"/>
         <xsl:value-of select="(round((5.387206210+$dl)*100000000.00)) div 100000000.00"/>
     </xsl:template>
-    
-    
+
+
 </xsl:stylesheet>

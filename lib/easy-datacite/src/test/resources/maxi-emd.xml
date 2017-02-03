@@ -13,14 +13,14 @@
             <eas:title>Dr.</eas:title>
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
-            <eas:surname>creator 0</eas:surname>
+            <eas:surname>creator00</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
         </eas:creator>
         <eas:creator>
             <eas:title>Dr.</eas:title>
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
-            <eas:surname>creator 1</eas:surname>
+            <eas:surname>creator01</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
         </eas:creator>
     </emd:creator>
@@ -51,14 +51,14 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:title>Dr.</eas:title>
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
-            <eas:surname>contributor 0</eas:surname>
+            <eas:surname>contributor00</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
         </eas:contributor>
         <eas:contributor>
             <eas:title>Dr.</eas:title>
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
-            <eas:surname>contributor 1</eas:surname>
+            <eas:surname>contributor01</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
         </eas:contributor>
     </emd:contributor>

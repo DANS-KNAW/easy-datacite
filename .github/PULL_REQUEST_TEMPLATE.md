@@ -9,7 +9,10 @@ fixes EASY-
 
 #### How should this be manually tested?
 
-* in easy-app run `mvn clean install`
+* build the project (online tests are ignored when the credentials are not specified)
+
+      mvn clean install -Ddatacite.user=... -Ddatacite.password=... -f ~/git/service/easy/easy-app/
+
 * in easy-dtap run `./deploy-role.sh easy_...`
 * 
 * 
