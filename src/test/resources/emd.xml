@@ -17,6 +17,7 @@
         <dc:subject>PROSPECTIE</dc:subject>
         <dc:subject>NIEUWE TIJD</dc:subject>
         <dc:subject>BEWONING</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">GX</dc:subject>
     </emd:subject>
     <emd:description>
         <dc:description>test-description</dc:description>
@@ -72,6 +73,7 @@
         <dct:spatial>Overijssel</dct:spatial>
         <dct:spatial>Nederland</dct:spatial>
         <dct:spatial>e-ne (MARC21)</dct:spatial>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">NT</dct:temporal>
         <eas:spatial>
             <eas:point eas:scheme="RD">
                 <eas:x>171872</eas:x>
