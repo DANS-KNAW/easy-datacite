@@ -468,6 +468,11 @@
             value="${easy.link.about-depositing-data}" />
     </bean>
 
+	<bean id="piwikSiteId" class="java.lang.String">
+		<constructor-arg type="java.lang.String"
+						 value="${easy.piwik.site-id}" />
+	</bean>
+
 	<bean id="pakbonValidatorCredentials"
 		class="nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials">
 		<constructor-arg index="0" type="java.lang.String">

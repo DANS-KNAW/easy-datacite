@@ -35,6 +35,9 @@ import org.apache.wicket.IPageMap;
 import org.apache.wicket.PageMap;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -73,6 +76,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
     private static final String ADVANCED_SEARCH_PAGE = "advancedSearchPage";
     public static final String EDITABLE_ADMIN_BANNER_TEMPLATE = "/pages/AdminBanner.template";
 
+    private static final String PIWIK_JS_ELEMENTID = "Kiwip";
+
     private static final int MAX_NAME_LENGTH = 30;
 
     @SpringBean(name = "searchService")
@@ -107,6 +112,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
 
     @SpringBean(name = "certificeringLink")
     private String certificeringLink;
+
+    @SpringBean(name = "piwikSiteId")
+    private String piwikSiteId;
 
     /**
      * Default constructor.
@@ -243,6 +251,41 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage {
         addReusingDataLink();
         addCertificeringLinkLink();
         add(new VersionPanel(EASY_VERSION));
+
+        add(new HeaderContributor(new IHeaderContributor() {
+            @Override
+            public void renderHead(IHeaderResponse response) {
+                response.renderJavascript(getPiwikJS(), PIWIK_JS_ELEMENTID); // Note that 'OnDomReady' is not needed for this script
+                response.renderString(getPiwikNoJS());
+            }
+        }));
+    }
+
+    /**
+     * @return Piwik javascript tracking code. Note that original piwik filenames have been changed in order to prevent add-blocking
+     */
+    private String getPiwikJS() {
+        //@formatter:off
+        return String.format("var _paq = _paq || [];\n"
+                + "_paq.push(['trackPageView']);\n"
+                + "_paq.push(['enableLinkTracking']);\n"
+                + "(function() { var u=\"//stats.dans.knaw.nl/\"; "
+                + "_paq.push(['setTrackerUrl', u+'danstats.php']); "
+                + "_paq.push(['setSiteId', '%s']); "
+                + "var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; "
+                + "g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'danstats.js'; "
+                + "s.parentNode.insertBefore(g,s); }\n" + ")();", piwikSiteId);
+        //@formatter:on
+    }
+
+    /**
+     * @return Piwik tracking 'code' without javascript
+     */
+    private String getPiwikNoJS() {
+        //@formatter:off
+        return String.format("<noscript><p><img src=\"https://stats.dans.knaw.nl/danstats.php?idsite=%s\" "
+                + "style=\"border:0;\" alt=\"\" /></p></noscript>", piwikSiteId);
+        //@formatter:on
     }
 
     private ManagementBarPanel createManagementBarPanel(String id) {

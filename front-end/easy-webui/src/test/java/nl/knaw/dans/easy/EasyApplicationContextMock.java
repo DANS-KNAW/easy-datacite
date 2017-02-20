@@ -141,6 +141,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
         super();
         expectDefaultFooterLinks();
         expectOtherExternalLinks();
+        setPiwikSiteId("BOGUS");
     }
 
     /**
@@ -631,6 +632,10 @@ public class EasyApplicationContextMock extends ApplicationContextMock {
 
     private void setAboutDepositingDataLink(final String url) {
         putBean("aboutDepositingDataLink", url);
+    }
+
+    private void setPiwikSiteId(final String id) {
+        putBean("piwikSiteId", id);
     }
 
     public Security getSecurity() {
