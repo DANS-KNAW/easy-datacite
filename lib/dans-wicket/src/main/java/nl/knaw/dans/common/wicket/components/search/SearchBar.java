@@ -65,11 +65,9 @@ public class SearchBar extends BaseSearchPanel {
                         q = getPage().getPageParameters().getString(QUERY_PARAM);
                         setObject(q);
                     }
-
                     return q;
                 };
             });
-            queryField.setEscapeModelStrings(false);
             add(new Button("searchSubmitButton"));
             add(queryField);
         }
