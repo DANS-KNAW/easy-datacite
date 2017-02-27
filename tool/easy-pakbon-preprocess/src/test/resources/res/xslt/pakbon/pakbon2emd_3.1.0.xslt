@@ -503,7 +503,7 @@
       <!--  emd:other -->
       <emd:other>
         <eas:application-specific>
-          <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+          <eas:metadataformat>ANY_DISCIPLINE</eas:metadataformat>
         </eas:application-specific>
 
         <!-- emd:etc -->
