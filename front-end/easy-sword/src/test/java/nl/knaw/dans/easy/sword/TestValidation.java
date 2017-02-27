@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.sword.util.Fixture;
 
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -26,7 +33,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.powermock.api.easymock.PowerMock;
+import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
+import org.purl.sword.base.SWORDException;
 
 @RunWith(Parameterized.class)
 public class TestValidation extends Fixture {
@@ -56,22 +65,13 @@ public class TestValidation extends Fixture {
      */
     @Parameters
     public static Collection<String[]> createParameters() throws Exception {
+        // TODO these test seem to belong in the EMD module
         final List<String[]> constructorSignatureInstances = new ArrayList<String[]>();
-
-        constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
-        // TODO constructorSignatureInstances.add(new String[] {"invalidGroupAccess.xml", " is not a valid key in the list "});
-
-        // no longer causes a draft dataset after refactoring
-        // nl.knaw.dans.easy.business.dataset.MetadataValidator
-        // TODO no complaint about neither dc.creator nor eas.creator being specified, but wait for the
-        // external XML
-        constructorSignatureInstances.add(new String[] {"missingMetadata.xml", "Missing required field dc.title"});
 
         // used to cause a draft dataset because the notification message could not be created
         constructorSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
 
         // in this example a schema id is added manually after download of the xml from a test dataset
-        // TODO will fail after 2014-10-18
         constructorSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
 
         // just as downloaded from a test dataset
@@ -84,7 +84,6 @@ public class TestValidation extends Fixture {
 
         constructorSignatureInstances.add(new String[] {"InvalidFormat.xml", "Value 'nonsense' is not facet-valid"});
         constructorSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "999 not found"});
-        constructorSignatureInstances.add(new String[] {"SaxError.xml", "must be terminated by the matching end-tag"});
 
         // TODO mock the system date for more precise boundary checks
         // constructorSignatureInstances.add(new String[] {"embargoPast.xml", "in the past"});
@@ -97,7 +96,7 @@ public class TestValidation extends Fixture {
     public void executeValidation() throws Exception {
         final byte[] fileContent = FileUtil.readFile(new File("src/test/resources/input/" + metadataFileName));
         try {
-            EasyMetadataFacade.validate(fileContent);
+            validate(fileContent);
         }
         catch (final SWORDErrorException se) {
             if (messageContent == null)
@@ -115,6 +114,36 @@ public class TestValidation extends Fixture {
         if (messageContent != null)
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
                     + "\nbut got no exception");
+    }
+
+    /** Just a wrapper for exceptions. */
+    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException {
+        final EasyMetadata metadata;
+        try {
+            metadata = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, data);
+        }
+        catch (final XMLDeserializationException exception) {
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("EASY metadata unmarshall exception: " + exception.getMessage()));
+        }
+        return metadata;
+    }
+
+    public static EasyMetadata validate(final byte[] easyMetaData) throws SWORDErrorException, SWORDException {
+        EasyMetadataFacade.validateSyntax(easyMetaData);
+        final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
+        EasyMetadataFacade.validateControlledVocabulairies(unmarshalled);
+        EasyMetadataFacade.validateMandatoryFields(unmarshalled);
+        for (BasicString audience : unmarshalled.getEmdAudience().getTermsAudience())
+            try {
+                DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
+            }
+            catch (ObjectNotFoundException e) {
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString() + " not found " + e.getMessage());
+            }
+            catch (DomainException e) {
+                throw new SWORDException("discipline validation problem: " + e.getMessage(), e);
+            }
+        return unmarshalled;
     }
 
     private static void mockEasyStore(final DisciplineContainerImpl value) throws ObjectNotInStoreException, RepositoryException {

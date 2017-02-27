@@ -99,14 +99,23 @@ public class RequestContent {
         try {
             EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
             if (emd == null)
-                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+                throw createSwordErrorException(ddmEmdCrosswalk, null);
             EasyMetadataFacade.validateControlledVocabulairies(emd);
             EasyMetadataFacade.validateMandatoryFields(emd);
             return emd;
         }
         catch (CrosswalkException e) {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+            throw createSwordErrorException(ddmEmdCrosswalk, e);
         }
+    }
+
+    private SWORDErrorException createSwordErrorException(Ddm2EmdCrosswalk ddmEmdCrosswalk, Throwable e) {
+        if (!ddmEmdCrosswalk.getXmlErrorHandler().passed())
+            return new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+        else if (e != null)
+            return new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + e.getMessage());
+        else
+            return new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM");
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException {
@@ -165,11 +174,11 @@ public class RequestContent {
         tempDir.delete();
     }
 
-    public EasyMetadata getEasyMetadata() throws SWORDException, SWORDErrorException {
+    public EasyMetadata getEasyMetadata() {
         return easyMetadata;
     }
 
-    private byte[] readMetadata(final File metadataFile) throws SWORDErrorException, SWORDException {
+    private byte[] readMetadata(final File metadataFile) throws SWORDException {
         byte[] readFile;
         try {
             readFile = FileUtil.readFile(metadataFile);
