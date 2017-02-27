@@ -152,7 +152,7 @@ public class Context {
     }
 
     private static void error(String msg, Object... args) throws SWORDException {
-        msg = MessageFormatter.format(msg, args).toString();
+        msg = MessageFormatter.format(msg, args).getMessage();
         log.error(msg);
         throw new SWORDException(msg);
     }

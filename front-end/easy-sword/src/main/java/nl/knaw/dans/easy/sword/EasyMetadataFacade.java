@@ -5,24 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import nl.knaw.dans.common.jibx.JiBXObjectFactory;
-import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
-import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.Term;
-import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
@@ -34,46 +26,9 @@ import org.xml.sax.SAXException;
 public class EasyMetadataFacade {
     private static final String DEFAULT_SYNTAX_VERSION = EMDValidator.VERSION_0_1;
 
-    /** Just a wrapper for exceptions. */
-    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException {
-        final EasyMetadata metadata;
-        try {
-            metadata = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, data);
-        }
-        catch (final XMLDeserializationException exception) {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("EASY metadata unmarshall exception: " + exception.getMessage()));
-        }
-        return metadata;
-    }
-
-    /**
-     * @param easyMetaData
-     *        xml text representation
-     * @return unmarshalled easyMetaData
-     * @throws SWORDErrorException
-     * @throws SWORDException
-     */
-    public static EasyMetadata validate(final byte[] easyMetaData) throws SWORDErrorException, SWORDException {
-        validateSyntax(easyMetaData);
-        final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
-        validateControlledVocabulairies(unmarshalled);
-        validateMandatoryFields(unmarshalled);
-        for (BasicString audience : unmarshalled.getEmdAudience().getTermsAudience())
-            try {
-                DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
-            }
-            catch (ObjectNotFoundException e) {
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString() + " not found " + e.getMessage());
-            }
-            catch (DomainException e) {
-                throw new SWORDException("discipline validation problem: " + e.getMessage(), e);
-            }
-        return unmarshalled;
-    }
-
     /** Just a wrapper for exceptions. To be replaced by implicit validation by the crosswalker. */
     static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
-        final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(metadata);
+        final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition();
         final List<String> messages = new ArrayList<String>();
         for (final FormPage formPage : formDefinition.getFormPages())
             validatePanels(metadata, formPage.getPanelDefinitions(), messages);
@@ -120,7 +75,7 @@ public class EasyMetadataFacade {
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException {
+    static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try {
             EMDValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_SYNTAX_VERSION);
