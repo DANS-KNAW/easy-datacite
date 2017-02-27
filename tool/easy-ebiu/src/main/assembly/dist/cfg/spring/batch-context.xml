@@ -8,7 +8,8 @@
 		class="nl.knaw.dans.easy.DataciteServiceConfiguration">
 		<property name="username" value="${datacite.username}" />
 		<property name="password" value="${datacite.password}" />
-		<property name="doiRegistrationUri" value="${datacite.registration.uri}" />
+		<property name="doiRegistrationUri" value="${datacite.registration.doi.uri}" />
+		<property name="metadataRegistrationUri" value="${datacite.registration.metadata.uri}" />
 		<property name="datasetResolver" value="${dataset.resolver.uri}" />
 	</bean>
 

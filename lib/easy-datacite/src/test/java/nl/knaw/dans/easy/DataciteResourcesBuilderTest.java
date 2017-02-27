@@ -52,14 +52,10 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 public class DataciteResourcesBuilderTest {
 
     private static final DataciteServiceConfiguration dsConfig = new DataciteServiceConfiguration();
-
-    private static final String version = "3";
+    private static final String version = dsConfig.getXslVersion();
 
     private static final String XSL_EMD2DATACITE = String.format("xslt-files/EMD_doi_datacite_v%s.xsl", version);
-    private static final String DATACITE_SCHEMA_LOCATION = String.format("http://schema.datacite.org/meta/kernel-%s/metadata.xsd", version);
-    static {
-        dsConfig.setXslEmd2datacite(dsConfig.getXslEmd2datacite());
-    }
+    private static final String DATACITE_SCHEMA_LOCATION = String.format("http://schema.datacite.org/meta/kernel-%s/metadata.xsd", dsConfig.getXslVersion());
     private static final String CREATOR = "//*[local-name()='creators']/*[local-name()='creator']";
     private static final String CONTRIBUTOR = "//*[local-name()='contributors']/*[local-name()='contributor']";
     private static final String XP_GEOLOCATION = "//*[local-name()='geoLocations']/*[local-name()='geoLocation']";
@@ -78,7 +74,6 @@ public class DataciteResourcesBuilderTest {
 
     @Before
     public void setup() throws Exception {
-
         document = getDocument(new EmdBuilder("emd.xml").build());
         docElement = document.getDocumentElement();
         maxiDocElement = getDocument(new EmdBuilder("maxi-emd.xml").build()).getDocumentElement();
@@ -106,27 +101,10 @@ public class DataciteResourcesBuilderTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void noEmdA() throws Exception {
-        createDefaultBuilder().create();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void noEmdB() throws Exception {
-        EasyMetadata[] emds = {};
-        createDefaultBuilder().create(emds);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void noEmdC() throws Exception {
-        EasyMetadata[] emds = null;
-        // noinspection ConstantConditions
-        createDefaultBuilder().create(emds);
-    }
-
     @Test(expected = IllegalStateException.class)
     public void classpath() throws Exception {
-        new DataciteResourcesBuilder("notFound.xsl", getResolver()).create();
+        new DataciteResourcesBuilder("notFound.xsl", getResolver())
+            .create(new EmdBuilder().build());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -139,33 +117,21 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void once() throws Exception {
-
         EasyMetadata emd = new EmdBuilder().build();
 
-        String out = createDefaultBuilder().create(emd);
+        DataciteResourcesBuilder.Resources out = createDefaultBuilder().create(emd);
+        String doiOut = out.doiResource;
+        String metadataOut = out.metadataResource;
 
-        assertThat(out, containsString(emd.getEmdIdentifier().getDansManagedDoi()));
-        assertThat(out, containsString(emd.getPreferredTitle()));
-        logger.debug(out);
-    }
-
-    @Test
-    public void twice() throws Exception {
-
-        EasyMetadata emd1 = new EmdBuilder().build();
-        EasyMetadata emd2 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build();
-
-        String out = createDefaultBuilder().create(emd1, emd2);
-
-        assertThat(out, containsString(emd1.getEmdIdentifier().getDansManagedDoi()));
-        assertThat(out, containsString(emd2.getEmdIdentifier().getDansManagedDoi()));
-        // further proof of the pudding is eating it: sending it to datacite
-        logger.debug(out);
+        assertThat(doiOut, containsString(emd.getEmdIdentifier().getDansManagedDoi()));
+        assertThat(metadataOut, containsString(emd.getPreferredTitle()));
+        logger.debug(doiOut);
+        logger.debug(metadataOut);
     }
 
     @Test
     public void creatorAffiliation() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String expression = CREATOR + "/*[local-name()='affiliation']/text()";
 
@@ -174,7 +140,6 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void simpleCreator() throws Exception {
-
         NodeList creators = (NodeList) xPath.evaluate(CREATOR, maxiDocElement, XPathConstants.NODESET);
         assertEquals(4, creators.getLength());
         assertEquals("creator 0", creators.item(2).getTextContent().trim());
@@ -183,19 +148,17 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void simpleContributor() throws Exception {
-
         NodeList creators = (NodeList) xPath.evaluate(CONTRIBUTOR, maxiDocElement, XPathConstants.NODESET);
         assertEquals(6, creators.getLength());
         assertEquals("contributor 0", creators.item(2).getTextContent().trim());
         assertEquals("contributor 1", creators.item(3).getTextContent().trim());
-        // FIXME
         assertEquals("rights 0", creators.item(4).getTextContent().trim());
         assertEquals("rights 1", creators.item(5).getTextContent().trim());
     }
 
     @Test
     public void contributorAffiliation() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String affiliation = CONTRIBUTOR + "[@contributorType=\"Other\"]/*[local-name()='affiliation']/text()";
 
@@ -204,7 +167,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void geoLocationPoint() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String latitude = XP_GEOLOCATION_POINT + "/*[local-name()='pointLatitude']/text()";
         String longitude = XP_GEOLOCATION_POINT + "/*[local-name()='pointLongitude']/text()";
@@ -215,7 +178,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void geoLocationBox() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String north = XP_GEOLOCATION_BOX + "/*[local-name()='northBoundLatitude']/text()";
         String east = XP_GEOLOCATION_BOX + "/*[local-name()='eastBoundLongitude']/text()";
@@ -230,7 +193,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void subject() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String subjectXPath = "//*[local-name()='subject'][@subjectScheme='NARCIS-classification']";
         Element subjectElement = (Element) xPath.evaluate(subjectXPath, docElement, XPathConstants.NODE);
@@ -243,7 +206,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void subjectAbrComplex() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String subjectXPath = "//*[local-name()='subject'][@subjectScheme='ABR-complex']";
         Element subjectElement = (Element) xPath.evaluate(subjectXPath, docElement, XPathConstants.NODE);
@@ -255,7 +218,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void subjectAbrPeriode() throws Exception {
-        ignoreIfNot("kernel-4");
+        ignoreIfNot("kernel-" + version);
 
         String periodXPath = "//*[local-name()='subject'][@subjectScheme='ABR-periode']";
         Element periodElement = (Element) xPath.evaluate(periodXPath, docElement, XPathConstants.NODE);
@@ -267,7 +230,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test
     public void validateXmlOutputAgainstDataciteSchema() throws Exception {
-        ignoreIfNot("kernel-3");
+        ignoreIfNot("kernel-" + version);
         ignoreIfSchemaNotAccessible();
 
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

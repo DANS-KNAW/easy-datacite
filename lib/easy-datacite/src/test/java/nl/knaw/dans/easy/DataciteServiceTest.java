@@ -28,7 +28,6 @@ import org.easymock.Capture;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -66,17 +65,29 @@ public class DataciteServiceTest {
     }
 
     @Test
-    @Ignore
-    public void urlDoesNotExist() throws Exception {
-        DataciteServiceConfiguration config = new DataciteServiceConfiguration();
-        config.setUsername("failing-name");
-        config.setPassword("failing-passwd");
-        config.setDoiRegistrationUri("http://failing-url");
-        config.setDatasetResolver(new URL("http://some.domain/and/path"));
+    public void metadataRegistrationUriDoesNotExistCredentialsFromJvmArguments() throws Exception {
+        DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
+        config.setMetadataRegistrationUri("http://failing-url");
         DataciteService service = new DataciteService(config);
         try {
             replayAll();
-            service.create(new EmdBuilder().build());
+            service.create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
+            fail("expecting an exception");
+        }
+        catch (DataciteServiceException e) {
+            assertThat(e.getMessage(), containsString("UnknownHost"));
+            verifyAll();
+        }
+    }
+
+    @Test
+    public void doiRegistrationUriDoesNotExistCredentialsFromJvmArguments() throws Exception {
+        DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
+        config.setDoiRegistrationUri("http://failing-url");
+        DataciteService service = new DataciteService(config);
+        try {
+            replayAll();
+            service.create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
             fail("expecting an exception");
         }
         catch (DataciteServiceException e) {
@@ -90,24 +101,33 @@ public class DataciteServiceTest {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername("failing-name");
         replayAll();
-        new DataciteService(config).create(new EmdBuilder().build());
+        new DataciteService(config).create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
         verifyAll();
     }
 
     @Test(expected = IllegalStateException.class)
-    public void noUriConfigured() throws Exception {
+    public void noDoiRegistrationUriConfigured() throws Exception {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
-        config.setUsername("failing-name");
-        config.setPassword("failing-passwd");
         config.setDoiRegistrationUri("\t ");
         replayAll();
-        new DataciteService(config).create(new EmdBuilder().build());
+        new DataciteService(config).create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
+        verifyAll();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void noMetadataRegistrationUriConfigured() throws Exception {
+        DataciteServiceConfiguration config = new DataciteServiceConfiguration();
+        config.setMetadataRegistrationUri("\t ");
+        replayAll();
+        new DataciteService(config).create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
         verifyAll();
     }
 
     @Test
-    @Ignore
     public void userDoesNotExist() throws Exception {
+        // online test, but doesn't actually use the JVM arguments
+        ignoreIfJVMArgumentsMissing();
+
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         config.setUsername("failing-name");
         config.setPassword("failing-passwd");
@@ -115,12 +135,12 @@ public class DataciteServiceTest {
         DataciteService service = new DataciteService(config);
         try {
             replayAll();
-            service.create(new EmdBuilder().build());
+            service.create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
             fail("expecting an exception");
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
-            assertThat(e.getMessage(), containsString("403"));
+            assertThat(e.getMessage(), containsString("401"));
             verifyAll();
         }
     }
@@ -129,7 +149,7 @@ public class DataciteServiceTest {
     public void noCredentialsConfigured() throws Exception {
         DataciteServiceConfiguration config = new DataciteServiceConfiguration();
         replayAll();
-        new DataciteService(config).create(new EmdBuilder().build());
+        new DataciteService(config).create(new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build());
         verifyAll();
     }
 
@@ -156,33 +176,6 @@ public class DataciteServiceTest {
         }
     }
 
-    /**
-     * Note that you could use curl on the commandline: curl -u fill-in-username:fill-in-password -i -X POST --data-binary "@datacite_valid_v3.xml"
-     * https://datacite.tudelft.nl/dataciteapi/v3/resources?testMode=true -H "Content-Type: application/xml"
-     */
-    @Test
-    public void createFailureDoiWithCredentialsFromJvmArguments() throws Exception {
-        // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
-        Capture<String> capturedMessage = expectLoggedWarn();
-        DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
-        EasyMetadata emd1 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-123").build();
-        EasyMetadata emd2 = new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build();
-        try {
-            replayAll();
-            new DataciteService(config).create(emd1, emd2);
-        }
-        catch (DataciteServiceException e) {
-            ignoreIfNoWebAccess(e);
-            fail();
-        }
-        // DataCite updated while we expected to create
-        // could be publish/republish confusion, but worse: also the same DOI for two objects
-        assertThat(capturedMessage.getValue(), containsString("created: 0"));
-        assertThat(capturedMessage.getValue(), containsString("updated: 2"));
-        assertThat(capturedMessage.getValue(), containsString("Creating 2"));
-        verifyAll();
-    }
-
     @Test
     public void createSuccessCredentialsFromJvmArguments() throws Exception {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
@@ -194,9 +187,8 @@ public class DataciteServiceTest {
         try {
             replayAll();
             new DataciteService(config).create(emd);
-            assertThat(capturedMessage.getValue(), containsString("created: 1"));
-            assertThat(capturedMessage.getValue(), containsString("updated: 0"));
-            assertThat(capturedMessage.getValue(), containsString("Creating 1"));
+            assertThat(capturedMessage.getValue(), containsString("Creating of DOI"));
+            assertThat(capturedMessage.getValue(), containsString("resulted in OK"));
             verifyAll();
         }
         catch (DataciteServiceException e) {
@@ -205,62 +197,30 @@ public class DataciteServiceTest {
         }
     }
 
-    @Ignore
-    @Test
-    public void inconsistenCounts() throws Exception {
-        Capture<String> capturedMessage = expectLoggedError();
-        // this test requires mocking the service
-        // new DataciteService(config).update(emds);
-        assertThat(capturedMessage.getValue(), containsString("created: 1"));
-        assertThat(capturedMessage.getValue(), containsString("updated: 2"));
-        assertThat(capturedMessage.getValue(), containsString("Updating 4"));
-        verifyAll();
-    }
-
     @Test
     public void updateSuccessWithCredentialsFromJvmArguments() throws Exception {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
 
-        Capture<String> capturedMessage = expectLoggedInfo();
-        EasyMetadata[] emds = {new EmdBuilder().replaceAll("dans-test-123", "dans-test-123").build(),
-                new EmdBuilder().replaceAll("dans-test-123", "dans-test-456").build()};
-        try {
-            replayAll();
-            new DataciteService(config).update(emds);
-            // DataCite did what was expected
-            assertThat(capturedMessage.getValue(), containsString("created: 0"));
-            assertThat(capturedMessage.getValue(), containsString("updated: 2"));
-            assertThat(capturedMessage.getValue(), containsString("Updating 2"));
-            verifyAll();
-        }
-        catch (DataciteServiceException e) {
-            ignoreIfNoWebAccess(e);
-            fail();
-        }
-    }
-
-    @Test
-    public void updateWarningWithCredentialsFromJvmArguments() throws Exception {
-        // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
-        DataciteServiceConfiguration config = getConfigWithCredentialsFromJVM();
-
-        Capture<String> capturedMessage = expectLoggedWarn();
+        Capture<String> capturedMessage1 = expectLoggedInfo();
+        Capture<String> capturedMessage2 = expectLoggedInfo();
         EasyMetadata emd = new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build();
-        // with a UUID this test doesn't run into trouble if testMode is accidently false
         try {
             replayAll();
+
+            new DataciteService(config).create(emd);
+            assertThat(capturedMessage1.getValue(), containsString("Creating of DOI"));
+            assertThat(capturedMessage1.getValue(), containsString("resulted in OK"));
+
             new DataciteService(config).update(emd);
-            // DataCite created while an update was expected
-            // for example a republish while the publish somehow wasn't sent to DataCite
-            assertThat(capturedMessage.getValue(), containsString("created: 1"));
-            assertThat(capturedMessage.getValue(), containsString("updated: 0"));
-            assertThat(capturedMessage.getValue(), containsString("Updating 1"));
+            // DataCite did what was expected
+            assertThat(capturedMessage2.getValue(), containsString("Updating of DOI"));
+            assertThat(capturedMessage2.getValue(), containsString("resulted in OK"));
             verifyAll();
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
-            fail();
+            fail("update should not catch: " + e);
         }
     }
 
@@ -269,7 +229,7 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteService dataciteService = new DataciteService(getConfigWithCredentialsFromJVM());
 
-        EasyMetadata emd = new EmdBuilder("maxi-emd.xml").build();
+        EasyMetadata emd = new EmdBuilder("maxi-emd.xml").replaceAll("dans-test-321", "dans-test-" + UUID.randomUUID()).build();
         createWithMissingRelationType(dataciteService, emd);
     }
 
@@ -278,7 +238,7 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteService dataciteService = new DataciteService(getConfigWithCredentialsFromJVM());
 
-        EasyMetadata emd = new EmdBuilder("incomplete-relations-emd.xml").build();
+        EasyMetadata emd = new EmdBuilder("incomplete-relations-emd.xml").replaceAll("dans-test-765", "dans-test-" + UUID.randomUUID()).build();
         createWithMissingRelationType(dataciteService, emd);
     }
 
@@ -292,10 +252,9 @@ public class DataciteServiceTest {
             ignoreIfNoWebAccess(e);
             fail("create should not catch: " + e);
         }
-        // TODO let scala generate EMD's
         verifyAll();
-        assertThat(capturedMessage.getValue(), containsString("created: 1"));
-        assertThat(capturedMessage.getValue(), containsString("updated: 0"));
+        assertThat(capturedMessage.getValue(), containsString("Creating of DOI"));
+        assertThat(capturedMessage.getValue(), containsString("resulted in OK"));
     }
 
     @Test
@@ -303,20 +262,20 @@ public class DataciteServiceTest {
         // the name of the method makes it easy to guess one of the causes why the test is eventually ignored
         DataciteServiceConfiguration configWithCredentialsFromJVM = getConfigWithCredentialsFromJVM();
 
-        EasyMetadata[] emds = {new EmdBuilder().build(), new EmdBuilder().build()};
+        EasyMetadata emd = new EmdBuilder().replaceAll("dans-test-123", "dans-test-" + UUID.randomUUID()).build();
 
         // mock a stylesheet that produces output that is invalid for DataCite
         DataciteService dataciteService = new DataciteService(configWithCredentialsFromJVM);
         File hackedXsl = hackXsl(dataciteService, "<xsl:apply-templates select=\"emd:title\"/>", "");
         try {
             replayAll();
-            dataciteService.update(emds);
+            dataciteService.update(emd);
             fail();
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
             assertThat(e.getMessage(), containsString("HTTP error code : 400"));
-            assertThat(e.getMessage(), containsString("Expected is one of ( {http://datacite.org/schema/kernel-3}titles"));
+            assertThat(e.getMessage(), containsString("One of '{\"http://datacite.org/schema/kernel-4\":titles"));
             verifyAll();
         }
         finally {
@@ -328,13 +287,6 @@ public class DataciteServiceTest {
     private Capture<String> expectLoggedError() {
         Capture<String> capturedMessage = new Capture<String>();
         loggerMock.error((capture(capturedMessage)));
-        expectLastCall().once();
-        return capturedMessage;
-    }
-
-    private Capture<String> expectLoggedWarn() {
-        Capture<String> capturedMessage = new Capture<String>();
-        loggerMock.warn((capture(capturedMessage)));
         expectLastCall().once();
         return capturedMessage;
     }
@@ -389,11 +341,20 @@ public class DataciteServiceTest {
         config.setUsername(userName);
         config.setPassword(password);
         config.setDatasetResolver(new URL("http://some.domain/and/path"));
+        config.setDoiRegistrationUri("https://mds.test.datacite.org/doi");
+        config.setMetadataRegistrationUri("https://mds.test.datacite.org/metadata");
         return config;
     }
 
     private void ignoreIfNoWebAccess(DataciteServiceException e) {
         assumeThat(e.getMessage(), not(containsString("UnknownHost")));
+    }
+
+    private void ignoreIfJVMArgumentsMissing() {
+        Properties systemProperties = System.getProperties();
+        String userName = systemProperties.getProperty("datacite.user", "");
+        String password = systemProperties.getProperty("datacite.password", "");
+        ignoreIfJVMArgumentsMissing(userName, password);
     }
 
     private void ignoreIfJVMArgumentsMissing(String userName, String password) {
