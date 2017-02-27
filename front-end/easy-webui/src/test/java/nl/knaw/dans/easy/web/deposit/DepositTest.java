@@ -103,27 +103,28 @@ public class DepositTest {
         dataset.getEasyMetadata().getEmdTitle().setDcTitle(dcTitle);
     }
 
-    @Ignore("FIX Required resource not found: /mail/templates/subject.properties")
     @Test
     public void browsePages() throws Exception {
 
         final EasyWicketTester tester = selectStartDeposit();
         tester.dumpPage("1");
 
-        for (int i = 2; i < 5; i++) {
-            switchPage(tester, i);
-            tester.dumpPage("" + i);
-        }
+        // trouble with the clarin radio button prevents selecting another page:
+        // A possible reason is that component hierarchy changed between rendering and form submission.
+        // for (int i = 2; i < 6; i++) {
+        // switchPage(tester, i);
+        // tester.dumpPage("" + i);
+        // }
     }
 
-    @Ignore("FIX Required resource not found: /mail/templates/subject.properties")
+    @Ignore("FIX WicketRuntimeException: Trying to select on null component (selectAccessRights)")
     @Test
     public void changeValues() throws Exception {
 
         final EasyWicketTester tester = selectStartDeposit();
         tester.dumpPage("1a");
         tester.debugComponentTrees();
-        selectAccessRights(tester, 1);
+        selectAccessRights(tester, 1); // FIXME moved to another page
         addSecondCreator(tester);
 
         switchPage(tester, 2);
@@ -165,8 +166,7 @@ public class DepositTest {
     }
 
     private void switchPage(final EasyWicketTester tester, final int i) {
-        // TODO at least we can dump the first deposit page per discipline
-        // tester.clickLink("depositPanel:depositForm:navigationPanel:pageLinkContainer:listView:" + (i - 1) + ":pageLink");
+        tester.clickLink("depositPanel:depositForm:navigationPanel:pageLinkContainer:listView:" + (i - 1) + ":pageLink");
     }
 
     private EasyWicketTester selectStartDeposit() {

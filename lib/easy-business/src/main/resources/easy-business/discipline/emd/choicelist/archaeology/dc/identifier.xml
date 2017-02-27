@@ -12,5 +12,6 @@
     <entry key="Archis_waarneming">Archis waarneming</entry>
     <entry key="Archis_monument">Archis monument</entry>
     <entry key="eDNA-project">eDNA-project</entry>
-    <entry key="url">Url</entry> 
+    <entry key="NWO-projectnummer">NWO-projectnummer</entry>
+    <entry key="url">Url</entry>
 </properties>

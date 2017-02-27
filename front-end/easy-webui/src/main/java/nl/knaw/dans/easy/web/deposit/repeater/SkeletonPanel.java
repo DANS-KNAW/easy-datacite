@@ -16,7 +16,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
 
     private static final long serialVersionUID = -8285574501580736346L;
 
-    private String labelResourceKey;
+    protected String labelResourceKey;
     private String shortHelpResourceKey;
     private String helpItem;
     private boolean required;
@@ -61,11 +61,11 @@ public abstract class SkeletonPanel extends AbstractEasyPanel {
      * 
      * @param helpItem
      */
-    public void setHelpItem(final String helptem) {
+    public void setHelpItem(final String helpItem) {
         if (isInitiated()) {
             throw new IllegalStateException("Cannot set representation state after rendering.");
         }
-        this.helpItem = helptem;
+        this.helpItem = helpItem;
     }
 
     /**

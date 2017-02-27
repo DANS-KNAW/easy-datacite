@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.deposit;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeasy.ArchisListWrapper;
+import nl.knaw.dans.easy.web.deposit.repeater.FixedTextPanel;
 import nl.knaw.dans.easy.web.deposit.repeater.RepeaterPanelFactory;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
@@ -63,4 +64,10 @@ public class EmdPanelFactory extends RepeaterPanelFactory {
         return panel;
     }
 
+
+    public Panel createFixedTextPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model) {
+        FixedTextPanel fixedTextPanel = new FixedTextPanel(getPanelWicketId(), model);
+        fixedTextPanel.setPanelDefinition(spDef);
+        return fixedTextPanel;
+    }
 }

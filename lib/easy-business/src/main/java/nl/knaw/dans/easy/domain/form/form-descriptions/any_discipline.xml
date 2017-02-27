@@ -93,6 +93,16 @@
 			<panelClass>RelationViewPanel</panelClass>
 		</standardPanel>
 
+		<standardPanel>
+			<properties>
+				<id>import.other.disciplines</id>
+				<labelResourceKey>label.import.other.disciplines.fixed.text</labelResourceKey>
+			</properties>
+			<modelClass>EasyMetadata</modelClass>
+			<panelClass>FixedTextPanel</panelClass>
+			<required>true</required>
+		</standardPanel>
+
 		<termPanel>
 			<properties><!-- not used -->
 				<id>license</id>
@@ -312,6 +322,7 @@
 			<properties>
 				<id>dc.subject.abr</id>
 				<labelResourceKey>label.dc.subject.abr</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.subject.abr</shortHelpResourceKey>
 				<helpItem>SubjectAbr</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -328,6 +339,7 @@
 			<termName>subject</termName>
 		</termPanel>
 
+<!--
 		<termPanel>
 			<properties>
 				<id>dc.subject.bac</id>
@@ -347,6 +359,7 @@
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>subject</termName>
 		</termPanel>
+-->
 
 		<termPanel>
 			<properties>
@@ -563,6 +576,7 @@
 			<properties>
 				<id>dcterms.temporal.abr</id>
 				<labelResourceKey>label.dcterms.temporal.abr</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.dcterms.temporal.abr</shortHelpResourceKey>
 				<helpItem>TemporalAbr</helpItem>
 			</properties>
 			<modelClass>SchemedBasicStringListWrapper</modelClass>
@@ -996,12 +1010,10 @@
 			<termName>remarks</termName>
 		</termPanel>
 
-
 		<subHeading>
 			<properties>
 				<id>coverage.temporal</id>
 				<labelResourceKey>label.coverage.temporal</labelResourceKey>
-				<helpItem>Temporal</helpItem>
 			</properties>
 			<panels>
 				<ref-panelId>dcterms.temporal.abr</ref-panelId>
@@ -1013,7 +1025,6 @@
 			<properties>
 				<id>coverage.spatial</id>
 				<labelResourceKey>label.coverage.spatial</labelResourceKey>
-				<helpItem>Spatial</helpItem>
 			</properties>
 			<panels>
 				<ref-panelId>eas.spatial.point</ref-panelId>
@@ -1062,7 +1073,7 @@
 			</properties>
 			<panels>
 				<ref-panelId>dc.subject.abr</ref-panelId>
-				<ref-panelId>dc.subject.bac</ref-panelId>
+				<!--<ref-panelId>dc.subject.bac</ref-panelId>-->
 				<ref-panelId>dc.subject</ref-panelId>
 			</panels>
 		</subHeading>
@@ -1095,6 +1106,16 @@
 			</properties>
 			<panels>
 				<ref-panelId>cmdiChoice</ref-panelId>
+			</panels>
+		</subHeading>
+
+		<subHeading>
+			<properties>
+				<id>import-other-disciplines</id>
+				<labelResourceKey>label.import.other.disciplines</labelResourceKey>
+			</properties>
+			<panels>
+				<ref-panelId>import.other.disciplines</ref-panelId>
 			</panels>
 		</subHeading>
 
@@ -1200,6 +1221,7 @@
 				<ref-panelId>languages</ref-panelId>
 				<ref-panelId>source</ref-panelId>
 				<ref-panelId>date</ref-panelId>
+				<ref-panelId>eas.remarks</ref-panelId>
 			</panels>
 		</subHeading>
 
@@ -1220,6 +1242,7 @@
 				<ref-panelId>languages</ref-panelId>
 				<ref-panelId>source</ref-panelId>
 				<ref-panelId>date</ref-panelId>
+				<ref-panelId>eas.remarks</ref-panelId>
 			</panels>
 		</subHeading>
 
@@ -1254,6 +1277,7 @@
 					</properties>
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
+						<ref-panelId>import-other-disciplines</ref-panelId>
 						<ref-panelId>import-archaeology</ref-panelId>
 						<ref-panelId>import-language-literature</ref-panelId>
 					</panels>
@@ -1308,7 +1332,6 @@
 					<panels>
 						<ref-panelId>dcterms.license</ref-panelId>
 						<ref-panelId>suppliedMetadata</ref-panelId>
-						<ref-panelId>eas.remarks</ref-panelId>
 						<ref-panelId>upload</ref-panelId>
 					</panels>
 				</formPage>
@@ -1332,7 +1355,6 @@
 						<ref-panelId>primary-page-content</ref-panelId>
 						<ref-panelId>content-description-page-edit</ref-panelId>
 						<ref-panelId>rights-page-content</ref-panelId>
-						<ref-panelId>eas.remarks</ref-panelId>
 					</panels>
 				</formPage>
 			</formPages>
@@ -1354,7 +1376,6 @@
 					<panels>
 						<ref-panelId>suppliedMetadata</ref-panelId>
 						<ref-panelId>eas.dateSubmitted</ref-panelId>
-						<ref-panelId>eas.remarks</ref-panelId>
 					</panels>
 				</formPage>
 			</formPages>
