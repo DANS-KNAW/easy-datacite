@@ -1,8 +1,5 @@
 package nl.knaw.dans.easy;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
@@ -14,15 +11,11 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import nl.knaw.dans.easy.DataciteResourcesBuilder.Resources;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public class DataciteService {
-
-    private static final String CONTENT_TYPE = "application/xml;charset=UTF-8";
-
-    private static final Pattern createdResultPattern = Pattern.compile("dois created:\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
-    private static final Pattern updatedResultPattern = Pattern.compile("dois updated:\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
 
     private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
@@ -35,91 +28,107 @@ public class DataciteService {
         resourcesBuilder = new DataciteResourcesBuilder(configuration.getXslEmd2datacite(), configuration.getDatasetResolver());
     }
 
-    public void create(EasyMetadata... emds) throws DataciteServiceException {
-        String result = post(resourcesBuilder.create(emds));
-        logResult("Creating", getCreatedCount(result) != emds.length, result, emds);
+    public void create(EasyMetadata emd) throws DataciteServiceException {
+        Resources resources = resourcesBuilder.create(emd);
+
+        // metadata must be uploaded first
+        postMetadata(resources.metadataResource);
+        String doiResult = postDoi(resources.doiResource);
+
+        logResult("Creating", doiResult, emd.getEmdIdentifier().getDansManagedDoi());
     }
 
-    public void update(EasyMetadata... emds) throws DataciteServiceException {
-        String result = post(resourcesBuilder.create(emds));
-        logResult("Updating", getUpdatedCount(result) != emds.length, result, emds);
+    // NOTE: create and update do exactly the same thing, apart from the logging.
+    // We must keep both, however, because this is a public API that is used by other modules
+    public void update(EasyMetadata emd) throws DataciteServiceException {
+        Resources resources = resourcesBuilder.create(emd);
+
+        // metadata must be uploaded first
+        postMetadata(resources.metadataResource);
+        String doiResult = postDoi(resources.doiResource);
+
+        logResult("Updating", doiResult, emd.getEmdIdentifier().getDansManagedDoi());
     }
 
-    public void createOrUpdate(EasyMetadata... emds) throws DataciteServiceException {
-        String result = post(resourcesBuilder.create(emds));
-        logResult("Creating/updating", false, result, emds);
+    private void logResult(String crudType, String result, String doi) {
+        String format = "%s of DOI %s resulted in %s";
+        String message = String.format(format, crudType, doi, result);
+        logger.info(message);
     }
 
-    private void logResult(String crudType, boolean warn, String result, EasyMetadata... emds) throws DataciteServiceException {
-        String firstDOI = emds[0].getEmdIdentifier().getDansManagedDoi();
-        String format = crudType + " %s DOIs resulted in %s. First DOI %s";
-        String message = String.format(format, emds.length, result, firstDOI);
-        if (getCreatedCount(result) + getUpdatedCount(result) != emds.length) {
-            logger.error(message);
-            if (getCreatedCount(result) >= 0 && getUpdatedCount(result) >= 0)
-                throw new DataciteServiceException(message); // we could interpret both numbers but they don't add up correctly
-        } else if (warn)
-            logger.warn(message);
-        else
-            logger.info(message);
-    }
-
-    /** @return something like "dois created: 0, dois updated: 0 (TEST OK)" */
-    private String post(String content) throws DataciteServiceException {
+    private String postDoi(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createWebResource().type(CONTENT_TYPE).post(ClientResponse.class, content);
+            ClientResponse response = createDoiWebResource()
+                .type(configuration.getDoiRegistrationContentType())
+                .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-                throw createPostFailedException(response.getStatus(), entity);
-            }
+            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+                throw createDoiPostFailedException(response.getStatus(), entity);
             return entity;
         }
         catch (UniformInterfaceException e) {
-            throw createPostFailedException(e);
+            throw createDoiPostFailedException(e);
         }
         catch (ClientHandlerException e) {
-            throw createPostFailedException(e);
+            throw createDoiPostFailedException(e);
         }
     }
 
-    private WebResource createWebResource() {
+    private String postMetadata(String content) throws DataciteServiceException {
+        try {
+            logger.debug("THIS IS SENT TO DATACITE: {}", content);
+            ClientResponse response = createMetadataWebResource()
+                .type(configuration.getMetadataRegistrationContentType())
+                .post(ClientResponse.class, content);
+            String entity = response.getEntity(String.class);
+            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+                throw createMetadataPostFailedException(response.getStatus(), entity);
+            return entity;
+        }
+        catch (UniformInterfaceException e) {
+            throw createMetadataPostFailedException(e);
+        }
+        catch (ClientHandlerException e) {
+            throw createMetadataPostFailedException(e);
+        }
+    }
+
+    private WebResource createDoiWebResource() {
+        return createWebResource(configuration.getDoiRegistrationUri());
+    }
+
+    private WebResource createMetadataWebResource() {
+        return createWebResource(configuration.getMetadataRegistrationUri());
+    }
+
+    private WebResource createWebResource(String uri) {
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(configuration.getUsername(), configuration.getPassword()));
-        return client.resource(configuration.getDoiRegistrationUri());
+        return client.resource(uri);
     }
 
-    private DataciteServiceException createPostFailedException(int status, String cause) {
-        return new DataciteServiceException("DOI post failed : HTTP error code : " + status + "\n" + cause);
+    private DataciteServiceException createDoiPostFailedException(int status, String cause) {
+        return createPostFailedException("DOI", status, cause);
     }
 
-    private DataciteServiceException createPostFailedException(Exception cause) {
-        return new DataciteServiceException("DOI post failed: " + cause.getMessage(), cause);
+    private DataciteServiceException createDoiPostFailedException(Exception cause) {
+        return createPostFailedException("DOI", cause);
     }
 
-    private int getCreatedCount(String result) {
-        return getCountFromPatternAndMessage(createdResultPattern, result);
+    private DataciteServiceException createMetadataPostFailedException(int status, String cause) {
+        return createPostFailedException("metadata", status, cause);
     }
 
-    private int getUpdatedCount(String result) {
-        return getCountFromPatternAndMessage(updatedResultPattern, result);
+    private DataciteServiceException createMetadataPostFailedException(Exception cause) {
+        return createPostFailedException("metadata", cause);
     }
 
-    private int getCountFromPatternAndMessage(Pattern p, String msg) {
-        Matcher m = p.matcher(msg);
-        if (m.find()) {
-            try {
-                return Integer.parseInt(m.group(1));
-            }
-            catch (NumberFormatException e) {
-                countNoutFoundError(p.toString());
-            }
-        }
-        countNoutFoundError(p.toString());
-        return -1; // default, not only satisfies compiler, but also allows further checks
+    private DataciteServiceException createPostFailedException(String kind, int status, String cause) {
+        return new DataciteServiceException(kind + " post failed : HTTP error code : " + status + "\n" + cause);
     }
 
-    private void countNoutFoundError(String patternString) {
-        logger.error("DOI post succeeded but could not extract result count with pattern: " + patternString);
+    private DataciteServiceException createPostFailedException(String kind, Exception cause) {
+        return new DataciteServiceException(kind + " post failed: " + cause.getMessage(), cause);
     }
 }

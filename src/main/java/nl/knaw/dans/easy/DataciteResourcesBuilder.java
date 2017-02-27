@@ -23,10 +23,20 @@ import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
 
 public class DataciteResourcesBuilder {
 
-    private static final String RESOURCES_FORMAT = "<resources>\n%s\n</resources>";
-    private static final String DOI_DATA_FORMAT = " <DOIdata>\n  <DOI>%s</DOI>\n  <URL>%s</URL>\n  <metadata>\n   %s\n   </metadata>\n </DOIdata>";
+    class Resources {
+        public Resources(String doiResource, String metadataResource) {
+            this.doiResource = doiResource;
+            this.metadataResource = metadataResource;
+        }
 
-    private static final String EXCEPTION_MESSAGE_FORMAT = "EMD to DataCite transformation failed. %s, DOI = %s, reason : %s";
+        public String doiResource;
+        public String metadataResource;
+    }
+
+    private static final String DOI_DATA_FORMAT = "doi=%s\nurl=%s";
+
+    private static final String DOI_EXCEPTION_MESSAGE_FORMAT = "DOI to DataCite transformation failed. %s, DOI = %s, reason : %s";
+    private static final String METADATA_EXCEPTION_MESSAGE_FORMAT = "EMD to DataCite transformation failed. %s, DOI = %s, reason : %s";
     private static final String MISSING_STYLESHEET = "Stylesheet not found on classpath: '%s'";
 
     private static Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilder.class);
@@ -48,13 +58,9 @@ public class DataciteResourcesBuilder {
         }
     }
 
-    public String create(EasyMetadata... emds) throws DataciteServiceException {
-        validateArguments(emds);
-        StringBuffer sb = new StringBuffer();
-        for (EasyMetadata emd : emds) {
-            sb.append(createDoiData(emd));
-        }
-        return String.format(RESOURCES_FORMAT, sb.toString());
+    public Resources create(EasyMetadata emd) throws DataciteServiceException {
+        validateArguments(emd);
+        return new Resources(createDoiData(emd), createMetadata(emd));
     }
 
     public String getEmd2DataciteXml(EasyMetadata emd) throws DataciteServiceException {
@@ -62,57 +68,72 @@ public class DataciteResourcesBuilder {
             return transform(toSource(emd));
         }
         catch (XMLSerializationException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+            throw createDoiServiceException(emd.getEmdIdentifier().getDatasetId(), emd.getEmdIdentifier().getDansManagedDoi(), e);
         }
         catch (IOException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+            throw createDoiServiceException(emd.getEmdIdentifier().getDatasetId(), emd.getEmdIdentifier().getDansManagedDoi(), e);
         }
         catch (TransformerException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), "", e);
+            throw createDoiServiceException(emd.getEmdIdentifier().getDatasetId(), emd.getEmdIdentifier().getDansManagedDoi(), e);
         }
     }
 
-    private void validateArguments(EasyMetadata... emds) {
-        if (emds == null || emds.length == 0)
-            throw new IllegalArgumentException("expecting at least one EMD");
-        for (EasyMetadata emd : emds) {
-            if (StringUtils.isBlank(emd.getEmdIdentifier().getDansManagedDoi()))
-                throw new IllegalArgumentException("all EMDs should have a DOI");
-        }
+    protected void validateArguments(EasyMetadata emd) {
+        if (StringUtils.isBlank(emd.getEmdIdentifier().getDansManagedDoi()))
+            throw new IllegalArgumentException("the EMD should have a DOI");
     }
 
-    private String createDoiData(EasyMetadata emd) throws DataciteServiceException {
+    protected String createDoiData(EasyMetadata emd) {
+        String doi = emd.getEmdIdentifier().getDansManagedDoi();
+        String uri = datasetResolver + (datasetResolver.getPath().endsWith("/") ? "" : "/") + emd.getEmdIdentifier().getDatasetId();
+        return String.format(DOI_DATA_FORMAT, doi, uri);
+    }
+
+    protected String createMetadata(EasyMetadata emd) throws DataciteServiceException {
         String doi = emd.getEmdIdentifier().getDansManagedDoi();
         try {
-            String url = datasetResolver + (datasetResolver.getPath().endsWith("/") ? "" : "/") + emd.getEmdIdentifier().getDatasetId();
-            String dataciteMetadata = transform(toSource(emd));
-            return String.format(DOI_DATA_FORMAT, doi, url, dataciteMetadata);
+            return transform(toSource(emd));
         }
-        catch (XMLSerializationException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
-        }
-        catch (IOException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
+        catch (UnsupportedEncodingException e) {
+            throw createMetadataServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
         }
         catch (TransformerException e) {
-            throw createServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
+            throw createMetadataServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
+        }
+        catch (XMLSerializationException e) {
+            throw createMetadataServiceException(emd.getEmdIdentifier().getDatasetId(), doi, e);
         }
     }
 
-    private Source toSource(EasyMetadata emd) throws UnsupportedEncodingException, XMLSerializationException {
+    private Source toSource(EasyMetadata emd) throws XMLSerializationException {
         Document prunedEmd = new DocumentPruner(new EmdMarshaller(emd).getW3cDomDocument()).prune();
         return new DOMSource(prunedEmd);
     }
 
-    private DataciteServiceException createServiceException(String fedoraID, String doi, Exception e) {
-        String message = String.format(EXCEPTION_MESSAGE_FORMAT, fedoraID, doi, e.getMessage());
+    private String transform(Source source) throws UnsupportedEncodingException, TransformerException, DataciteServiceException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            Result result = new StreamResult(out);
+            new XMLTransformer(styleSheetURL, XMLTransformer.TF_SAXON).transform(source, result);
+            return new String(out.toByteArray(), "UTF-8");
+        }
+        finally {
+            try {
+                out.close();
+            }
+            catch (IOException e) {
+                // should never happen; interface expects exception, but implementation does not throw anything
+            }
+        }
+    }
+
+    private DataciteServiceException createDoiServiceException(String fedoraID, String doi, Exception e) {
+        String message = String.format(DOI_EXCEPTION_MESSAGE_FORMAT, fedoraID, doi, e.getMessage());
         return new DataciteServiceException(message, e);
     }
 
-    private String transform(Source source) throws UnsupportedEncodingException, TransformerException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Result result = new StreamResult(out);
-        new XMLTransformer(styleSheetURL, XMLTransformer.TF_SAXON).transform(source, result);
-        return new String(out.toByteArray(), "UTF-8");
+    private DataciteServiceException createMetadataServiceException(String fedoraID, String doi, Exception e) {
+        String message = String.format(METADATA_EXCEPTION_MESSAGE_FORMAT, fedoraID, doi, e.getMessage());
+        return new DataciteServiceException(message, e);
     }
 }

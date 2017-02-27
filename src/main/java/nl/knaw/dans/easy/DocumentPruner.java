@@ -15,17 +15,17 @@ import org.w3c.dom.NodeList;
 public class DocumentPruner {
     private Document doc;
 
-    DocumentPruner(Document doc) {
+    public DocumentPruner(Document doc) {
         this.doc = doc;
     }
 
-    Document prune() {
+    public Document prune() {
         XPathExpression xpath;
         try {
             xpath = XPathFactory.newInstance().newXPath().compile("//*[count(./*) = 0]");
             List<Element> ees = getEmptyElements((NodeList) xpath.evaluate(doc, XPathConstants.NODESET));
             while (ees.size() > 0) {
-                removeElementsFromDoc(doc, ees);
+                removeElements(ees);
                 ees = getEmptyElements((NodeList) xpath.evaluate(doc, XPathConstants.NODESET));
             }
             return doc;
@@ -46,9 +46,9 @@ public class DocumentPruner {
         return result;
     }
 
-    private static void removeElementsFromDoc(Document doc, List<Element> es) {
-        for (int i = 0; i < es.size(); i++) {
-            es.get(i).getParentNode().removeChild(es.get(i));
+    private static void removeElements(List<Element> es) {
+        for (Element e : es) {
+            e.getParentNode().removeChild(e);
         }
     }
 }
