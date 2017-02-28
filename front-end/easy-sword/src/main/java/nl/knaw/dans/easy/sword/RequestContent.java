@@ -100,7 +100,6 @@ public class RequestContent {
             EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
             if (emd == null)
                 throw createSwordErrorException(ddmEmdCrosswalk, null);
-            EasyMetadataFacade.validateControlledVocabulairies(emd);
             EasyMetadataFacade.validateMandatoryFields(emd);
             return emd;
         }

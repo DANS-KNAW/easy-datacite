@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 public class EasyMetadataFacade {
     private static final String DEFAULT_SYNTAX_VERSION = EMDValidator.VERSION_0_1;
 
-    /** Just a wrapper for exceptions. To be replaced by implicit validation by the crosswalker. */
+    /** Just a wrapper for exceptions. */
     static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition();
         List<PanelDefinition> archivistPanelDefinitions = formDefinition.getFormPages().get(0).getPanelDefinitions();
@@ -83,15 +83,6 @@ public class EasyMetadataFacade {
 
     private static String concat(List<String> errorMessages) {
         return Arrays.toString(errorMessages.toArray());
-    }
-
-    /** Just a wrapper for exceptions. */
-    static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
-        // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.validateSemantics()
-        final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
-        FormatValidator.instance().validate(metadata, validationReporter);
-        if (!validationReporter.isMetadataValid())
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("invalid meta data: " + validationReporter.getMessages()));
     }
 
     /** Just a wrapper for exceptions. */

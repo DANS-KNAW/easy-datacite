@@ -54,7 +54,8 @@ public class TestEasyBusinessFacade extends Fixture {
             RequestContent rc = new RequestContent(new FileInputStream("src/test/resources/input/invalidMetadata.zip"));
         }
         catch (final SWORDErrorException se) {
-            assertThat(se.getMessage(), is("Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)"));
+            assertThat(se.getMessage(),
+                    is("Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)"));
             return;
         }
         fail("expecting a SWORDException");

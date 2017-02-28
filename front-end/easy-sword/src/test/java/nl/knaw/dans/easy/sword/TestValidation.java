@@ -131,7 +131,6 @@ public class TestValidation extends Fixture {
     public static EasyMetadata validate(final byte[] easyMetaData) throws SWORDErrorException, SWORDException {
         EasyMetadataFacade.validateSyntax(easyMetaData);
         final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
-        EasyMetadataFacade.validateControlledVocabulairies(unmarshalled);
         EasyMetadataFacade.validateMandatoryFields(unmarshalled);
         for (BasicString audience : unmarshalled.getEmdAudience().getTermsAudience())
             try {
