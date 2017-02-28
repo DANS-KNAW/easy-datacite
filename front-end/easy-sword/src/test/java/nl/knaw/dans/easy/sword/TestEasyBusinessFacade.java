@@ -19,10 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
-import org.purl.sword.base.SWORDException;
 
 import static junit.framework.TestCase.fail;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -64,7 +62,7 @@ public class TestEasyBusinessFacade extends Fixture {
     @Test
     public void newFormDefinition() throws Throwable {
         try {
-            EasyBusinessFacade.getFormDefinition();
+            EasyBusinessFacade.getArchivistFormDefinition();
         }
         catch (final SWORDErrorException se) {
             fail("not expecting an exception: " + se);
@@ -75,7 +73,7 @@ public class TestEasyBusinessFacade extends Fixture {
     public void deprecatedFormDefinition() throws Throwable {
         final EasyMetadata emd = new EasyMetadataImpl(ApplicationSpecific.MetadataFormat.ARCHAEOLOGY);
         try {
-            FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition();
+            FormDefinition formDefinition = EasyBusinessFacade.getArchivistFormDefinition();
         }
         catch (final SWORDErrorException se) {
             fail("not expecting an exception: " + se);

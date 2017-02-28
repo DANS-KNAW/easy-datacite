@@ -156,7 +156,7 @@ public class EasyBusinessFacade {
             return mockedDataset;
 
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-        final FormDefinition formDefinition = getFormDefinition();
+        final FormDefinition formDefinition = getArchivistFormDefinition();
 
         // detect as much as possible errors before irreversible creation of the dataset
         // from now on, treat any error as a bad request to return the ID of the created draft dataset
@@ -358,7 +358,6 @@ public class EasyBusinessFacade {
         return dataset;
     }
 
-    /** validates at least the disciplineID */
     public static Dataset validateSubmission(final EasyUser depositor, final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         final Dataset dataset = mockSubmittedDataset(metadata, depositor);
         try {
@@ -373,7 +372,7 @@ public class EasyBusinessFacade {
         }
     }
 
-    public static FormDefinition getFormDefinition() throws SWORDErrorException, SWORDException {
+    public static FormDefinition getArchivistFormDefinition() throws SWORDErrorException, SWORDException {
         final DepositDiscipline discipline;
         try {
             // the implementation ignores the format argument since we have only one deposit form

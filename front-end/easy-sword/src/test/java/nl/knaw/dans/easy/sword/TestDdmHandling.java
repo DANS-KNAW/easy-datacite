@@ -4,7 +4,6 @@ import nl.knaw.dans.easy.sword.util.Fixture;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
@@ -16,8 +15,6 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static nl.knaw.dans.easy.sword.EasyBusinessFacade.validateSubmission;
-import static nl.knaw.dans.easy.sword.util.MockUtil.USER;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -135,7 +132,9 @@ public class TestDdmHandling extends Fixture {
 
     @After
     public void cleanUp() {
+        //noinspection ResultOfMethodCallIgnored
         TEMP_ZIP.delete();
+        //noinspection StatementWithEmptyBody
         if (requestContent != null)
             requestContent.clearTemp();
         else {
