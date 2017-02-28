@@ -52,8 +52,7 @@ public class TestDdmHandling extends Fixture {
             createRequestContent(philosophyWithGroupAccess.replace("<dc:creator>consectetur adipiscing elit</dc:creator>", ""));
         }
         catch (final SWORDErrorException se) {
-            assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
-            assertThat(se.getStatus(), is(415));
+            assertContentError(se);
             assertThat(se.getMessage(), containsString("Could not create EMD from DDM"));
             assertThat(se.getMessage(), containsString("creator}' is expected"));
             return;
@@ -67,8 +66,7 @@ public class TestDdmHandling extends Fixture {
             createRequestContent(philosophyWithGroupAccess.replace("D32000", "123"));
         }
         catch (final SWORDErrorException se) {
-            assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
-            assertThat(se.getStatus(), is(415));
+            assertContentError(se);
             assertThat(se.getMessage(), containsString("Could not create EMD from DDM"));
             assertThat(se.getMessage(), containsString("Value '123' is not facet-valid"));
             return;
@@ -83,9 +81,7 @@ public class TestDdmHandling extends Fixture {
             createRequestContent(philosophyWithGroupAccess);
         }
         catch (final SWORDErrorException se) {
-            se.printStackTrace();
-            assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
-            assertThat(se.getStatus(), is(415));
+            assertContentError(se);
             assertThat(se.getMessage(), containsString("invalid meta data"));
             assertThat(se.getMessage().replace("\n", " "), containsString("dcterms.accessrights[0]: [deposit.field_invalid_group]"));
             return;
@@ -94,14 +90,24 @@ public class TestDdmHandling extends Fixture {
     }
 
     @Test
+    public void validGroupAccess() throws Throwable {
+        MockUtil.mockUser();
+        createRequestContent(philosophyWithGroupAccess.replace("D32000","D37000"));
+    }
+
+    @Test
+    public void noGroupAccess() throws Throwable {
+        MockUtil.mockUser();
+        createRequestContent(philosophyWithGroupAccess.replace("GROUP_ACCESS","OPEN_ACCESS"));
+    }
+
+    @Test
     public void invalidXSD() throws Throwable {
         try {
             createRequestContent(philosophyWithGroupAccess.replace("http://easy.dans.knaw.nl", "http://unknown.host.dans.knaw.nl"));
         }
         catch (final SWORDErrorException se) {
-            se.printStackTrace();
-            assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
-            assertThat(se.getStatus(), is(415));
+            assertContentError(se);
             assertThat(se.getMessage(), containsString("Cannot find the declaration of element 'ddm:DDM'"));
             return;
         }
@@ -115,8 +121,7 @@ public class TestDdmHandling extends Fixture {
         }
         catch (final SWORDErrorException se) {
             se.printStackTrace();
-            assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
-            assertThat(se.getStatus(), is(415));
+            assertContentError(se);
             assertThat(se.getMessage(), containsString("SAXParseException"));
             assertThat(se.getMessage(), containsString("must be terminated by the matching end-tag"));
             return;
@@ -132,14 +137,19 @@ public class TestDdmHandling extends Fixture {
 
     @After
     public void cleanUp() {
-        //noinspection ResultOfMethodCallIgnored
+        // noinspection ResultOfMethodCallIgnored
         TEMP_ZIP.delete();
-        //noinspection StatementWithEmptyBody
+        // noinspection StatementWithEmptyBody
         if (requestContent != null)
             requestContent.clearTemp();
         else {
             // no way to clean up unzip folder if constructor failed on something else
         }
+    }
+
+    private void assertContentError(SWORDErrorException se) {
+        assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
+        assertThat(se.getStatus(), is(415));
     }
 
     private void createRequestContent(String ddm) throws IOException, SWORDException, SWORDErrorException {
