@@ -4,6 +4,7 @@ import nl.knaw.dans.easy.sword.util.Fixture;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static nl.knaw.dans.easy.sword.EasyBusinessFacade.validateSubmission;
 import static nl.knaw.dans.easy.sword.util.MockUtil.USER;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
@@ -22,7 +24,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
-public class TestDdmHandling extends Fixture{
+public class TestDdmHandling extends Fixture {
 
     // @formatter:off
     private static final String philosophyWithGroupAccess = "<?xml version='1.0' encoding='UTF-8'?>\n" +
@@ -82,14 +84,13 @@ public class TestDdmHandling extends Fixture{
         MockUtil.mockUser();
         try {
             createRequestContent(philosophyWithGroupAccess);
-            EasyBusinessFacade.validateSubmission(USER, requestContent.getEasyMetadata());
         }
         catch (final SWORDErrorException se) {
             se.printStackTrace();
             assertThat(se.getErrorURI(), is("http://purl.org/net/sword/error/ErrorContent"));
             assertThat(se.getStatus(), is(415));
-            assertThat(se.getMessage(), containsString("Could not create EMD from DDM"));
-            assertThat(se.getMessage().replace("\n"," "), containsString("Value '123' is not facet-valid"));
+            assertThat(se.getMessage(), containsString("invalid meta data"));
+            assertThat(se.getMessage().replace("\n", " "), containsString("dcterms.accessrights[0]: [deposit.field_invalid_group]"));
             return;
         }
         fail("ddm should be rejected");
@@ -98,7 +99,7 @@ public class TestDdmHandling extends Fixture{
     @Test
     public void invalidXSD() throws Throwable {
         try {
-            createRequestContent(philosophyWithGroupAccess.replace("http://easy.dans.knaw.nl","http://unknown.host.dans.knaw.nl"));
+            createRequestContent(philosophyWithGroupAccess.replace("http://easy.dans.knaw.nl", "http://unknown.host.dans.knaw.nl"));
         }
         catch (final SWORDErrorException se) {
             se.printStackTrace();

@@ -53,6 +53,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor {
     }
 
     public boolean validate(final FormDefinition formDefinition, final EasyMetadata easyMetadata) {
+        this.easyMetadata = easyMetadata;
         iterateFormPages(formDefinition, easyMetadata);
         return metadataIsValid;
     }
