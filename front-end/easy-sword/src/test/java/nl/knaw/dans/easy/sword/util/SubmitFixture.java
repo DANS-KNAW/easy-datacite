@@ -18,7 +18,7 @@ public class SubmitFixture extends EasySwordServerTester {
     }
 
     protected static String getZip(String string) {
-        return new File(INPUT_DIR + string + ".zip").getPath();
+        return new File(INPUT_DIR + string).getPath();
     }
 
     public static File getFile(String string) {

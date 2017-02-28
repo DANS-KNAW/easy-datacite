@@ -33,59 +33,59 @@ public class TestFailingSubmit extends SubmitFixture {
 
     @Test(expected = SWORDErrorException.class)
     public void neitherMetaDataNorData() throws Throwable {
-        execute(false, true, getZip("datasetPictures"));
+        execute(false, true, getZip("datasetPictures.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void noMetaData() throws Throwable {
-        execute(false, true, getZip("data-only"));
+        execute(false, true, getZip("data-only.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void emptyZip() throws Throwable {
-        execute(false, true, getZip("empty"));
+        execute(false, true, getZip("empty.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void dataIsFile() throws Throwable {
-        execute(false, true, getZip("data-is-file"));
+        execute(false, true, getZip("data-is-file.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void metaIsFolder() throws Throwable {
-        execute(false, true, getZip("meta-is-folder"));
+        execute(false, true, getZip("meta-is-folder.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void justFolders() throws Throwable {
-        execute(false, true, getZip("no-files-infolders"));
+        execute(false, true, getZip("no-files-infolders.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void tooManyRootFolders() throws Throwable {
-        execute(false, true, getZip("too-many-root-folers"));
+        execute(false, true, getZip("too-many-root-folers.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void missingMetadataFields() throws Throwable {
-        execute(false, true, getZip("data-plus-missing-meta-fields"));
+        execute(false, true, getZip("data-plus-missing-meta-fields.zip"));
     }
 
     @Test(expected = SWORDErrorException.class)
     public void tooLongPath() throws Throwable {
-        execute(false, true, getZip("max-path-exceeded"));
+        execute(false, true, getZip("max-path-exceeded.zip"));
     }
 
     @Ignore
     @Test(expected = SWORDErrorException.class)
     public void negativeEmbargo() throws Throwable {
-        execute(false, true, getZip("negative-embargo"));
+        execute(false, true, getZip("negative-embargo.zip"));
     }
 
     @Ignore
     @Test(expected = SWORDErrorException.class)
     public void longEmbargo() throws Throwable {
-        execute(false, true, getZip("long-embargo"));
+        execute(false, true, getZip("long-embargo.zip"));
     }
 
     @Test(expected = SWORDAuthenticationException.class)
