@@ -59,9 +59,7 @@ public class DataciteService {
     private String postDoi(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createDoiWebResource()
-                .type(configuration.getDoiRegistrationContentType())
-                .post(ClientResponse.class, content);
+            ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != Response.Status.CREATED.getStatusCode())
                 throw createDoiPostFailedException(response.getStatus(), entity);
@@ -78,9 +76,7 @@ public class DataciteService {
     private String postMetadata(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createMetadataWebResource()
-                .type(configuration.getMetadataRegistrationContentType())
-                .post(ClientResponse.class, content);
+            ClientResponse response = createMetadataWebResource().type(configuration.getMetadataRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != Response.Status.CREATED.getStatusCode())
                 throw createMetadataPostFailedException(response.getStatus(), entity);
