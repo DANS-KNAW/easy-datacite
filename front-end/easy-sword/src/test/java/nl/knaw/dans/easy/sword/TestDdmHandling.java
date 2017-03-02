@@ -1,7 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
 import nl.knaw.dans.easy.sword.util.Fixture;
+import nl.knaw.dans.easy.sword.util.InMemoryZip;
 import nl.knaw.dans.easy.sword.util.MockUtil;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,11 +11,7 @@ import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
@@ -42,9 +40,6 @@ public class TestDdmHandling extends Fixture {
             "    </ddm:profile>\n" +
             "</ddm:DDM>\n";
     // @formatter:on
-
-    private static final File TEMP_ZIP = new File("target/test.zip");
-    private RequestContent requestContent;
 
     @Test
     public void missingMetadata() throws Throwable {
@@ -132,19 +127,12 @@ public class TestDdmHandling extends Fixture {
     @BeforeClass
     public static void init() throws Throwable {
         assumeTrue("can access " + SCHEMAS, canConnect(SCHEMAS));
-        new Context().setUnzip("target");
+        new Context().setUnzip("target/tmp");
     }
 
     @After
-    public void cleanUp() {
-        // noinspection ResultOfMethodCallIgnored
-        TEMP_ZIP.delete();
-        // noinspection StatementWithEmptyBody
-        if (requestContent != null)
-            requestContent.clearTemp();
-        else {
-            // no way to clean up unzip folder if constructor failed on something else
-        }
+    public void cleanUp() throws Exception {
+        FileUtils.deleteDirectory(new File(Context.getUnzip()));
     }
 
     private void assertContentError(SWORDErrorException se) {
@@ -153,14 +141,9 @@ public class TestDdmHandling extends Fixture {
     }
 
     private void createRequestContent(String ddm) throws IOException, SWORDException, SWORDErrorException {
-        ZipOutputStream out = new ZipOutputStream(new FileOutputStream("target/test.zip"));
-        out.putNextEntry(new ZipEntry("DansDatasetMetadata.xml"));
-        out.write(ddm.getBytes());
-        out.closeEntry();
-        out.putNextEntry(new ZipEntry("data/blabla.txt"));
-        out.write("blabla".getBytes());
-        out.close();
-        requestContent = new RequestContent(new FileInputStream(TEMP_ZIP));
+        InMemoryZip zip = new InMemoryZip();
+        zip.add("DansDatasetMetadata.xml", ddm.getBytes());
+        zip.add("data/blabla.txt", "blabla".getBytes());
+        new RequestContent(zip.toInputStream());
     }
-
 }

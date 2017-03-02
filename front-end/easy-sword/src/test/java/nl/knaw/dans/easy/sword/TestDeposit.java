@@ -1,17 +1,17 @@
 package nl.knaw.dans.easy.sword;
 
+import nl.knaw.dans.easy.sword.util.InMemoryZip;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import static nl.knaw.dans.easy.sword.util.MockUtil.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,7 +19,10 @@ import static org.hamcrest.Matchers.containsString;
 
 public class TestDeposit {
 
-    public static final String INVALID_ZIP_MESSAGE = "Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)";
+    private static final String INVALID_ZIP_MESSAGE = "Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)";
+    private static final String PATH_WITH_MAX_LENGTH = "1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/12345/blabla.txt";
+    private static final String TOO_LONG_PATH = PATH_WITH_MAX_LENGTH.replace("/bla","6/bla");
+    private InMemoryZip zip;
 
     @Test
     public void unknownUser() throws Exception {
@@ -59,7 +62,7 @@ public class TestDeposit {
         try {
             new EasySwordServer().doDeposit(request);
         } catch (SWORDErrorException e) {
-            // TODO rather: Expecting a !!ZIP!! with ..., link to sword packaging document?
+            // TODO rather: "Expecting a !!ZIP!! with ...", link to sword packaging document?
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
@@ -67,17 +70,9 @@ public class TestDeposit {
     @Test
     public void nonsenseDdmInZip() throws Exception {
         // other DDM problems are tested in a class of its own
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(byteArrayOutputStream);
-        zip.putNextEntry(new ZipEntry("DansDatasetMetadata.xml"));
-        zip.write("<ddm>".getBytes());
-        zip.closeEntry();
-        zip.putNextEntry(new ZipEntry("data/blabla.txt"));
-        zip.write("blabla".getBytes());
-        zip.closeEntry();
-        zip.close();
+        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
+        zip.add(PATH_WITH_MAX_LENGTH, "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
-        request.setFile(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
         try {
             new EasySwordServer().doDeposit(request);
         } catch (SWORDErrorException e) {
@@ -86,16 +81,22 @@ public class TestDeposit {
     }
 
     @Test
+    public void tooLongPathInZip() throws Exception {
+        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
+        zip.add(TOO_LONG_PATH,"blabla".getBytes());
+        Deposit request = mockRequest(VALID_USER_ID);
+        try {
+            new EasySwordServer().doDeposit(request);
+        } catch (SWORDErrorException e) {
+            assertThat(e.getMessage(), containsString("path name exceeds 247 characters"));
+        }
+    }
+
+    @Test
     public void nonDataFolderInZip() throws Exception {
         // other DDM problems are tested in a class of its own
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(byteArrayOutputStream);
-        zip.putNextEntry(new ZipEntry("DansDatasetMetadata.xml"));
-        zip.write("<ddm>".getBytes());
-        zip.closeEntry();
-        zip.close();
+        zip.add("DansDatasetMetadata.xml", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
-        request.setFile(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
         try {
             new EasySwordServer().doDeposit(request);
         } catch (SWORDErrorException e) {
@@ -103,35 +104,25 @@ public class TestDeposit {
         }
     }
 
-    @Test
-    public void tooLongPathInZip() throws Exception {
-        // other DDM problems are tested in a class of its own
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(byteArrayOutputStream);
-        zip.putNextEntry(new ZipEntry("DansDatasetMetadata.xml"));
-        zip.write("<ddm>".getBytes());
-        zip.closeEntry();
-        zip.putNextEntry(new ZipEntry("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890/blabla.txt"));
-        zip.write("blabla".getBytes());
-        zip.closeEntry();
-        zip.close();
-        Deposit request = mockRequest(VALID_USER_ID);
-        request.setFile(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
-        try {
-            new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
-            assertThat(e.getMessage(), containsString("Failed to unzip deposited file"));
-        }
+    @Before
+    public void createInMemoryZip(){
+        zip = new InMemoryZip();
+    }
+
+    @After
+    public void cleanUp() throws Exception {
+        FileUtils.deleteDirectory(new File(Context.getUnzip()));
     }
 
     private Deposit mockRequest(String userId) throws Exception {
         MockUtil.mockUser();
         MockUtil.mockContext();
-        new Context().setUnzip("target/deposit.zip");
+        new Context().setUnzip("target/tmp");
         Deposit request = new Deposit();
         request.setUsername(userId);
         request.setPassword(PASSWORD);
         request.setLocation("");
+        request.setFile(zip.toInputStream());
         return request;
     }
 }

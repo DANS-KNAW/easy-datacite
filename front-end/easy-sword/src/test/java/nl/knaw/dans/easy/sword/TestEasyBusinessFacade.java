@@ -14,10 +14,8 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.apache.commons.io.FileUtils;
+import org.junit.*;
 import org.purl.sword.base.SWORDErrorException;
 
 import static junit.framework.TestCase.fail;
@@ -44,9 +42,14 @@ public class TestEasyBusinessFacade extends Fixture {
         // TODO clear target/tmp/unzip;
     }
 
+    @After
+    public void cleanUp() throws Exception {
+        FileUtils.deleteDirectory(new File(Context.getUnzip()));
+    }
+
     @Test
     public void invalidMetadataByMM() throws Throwable {
-        new Context().setUnzip("target");
+        new Context().setUnzip("target/tmp");
         try {
             // zip contains (invalid?) EMD which is no longer accepted
             RequestContent rc = new RequestContent(new FileInputStream("src/test/resources/input/invalidMetadata.zip"));
