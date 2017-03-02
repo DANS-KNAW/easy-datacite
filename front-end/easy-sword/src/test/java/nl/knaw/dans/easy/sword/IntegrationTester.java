@@ -56,20 +56,6 @@ public class IntegrationTester extends IntegrationFixture {
     }
 
     @Test
-    public void anonymousServiceDocument() throws Exception {
-        final GetMethod method = new GetMethod(URL + "servicedocument");
-        getResponse(method, createClient(ANONYMOUS, null));
-        assertResponseCode(method, HttpStatus.SC_OK);
-    }
-
-    @Test
-    public void athourisedServiceDocument() throws Exception {
-        final GetMethod method = new GetMethod(URL + "servicedocument");
-        getResponse(method, createClient(DEPOSITOR, null));
-        assertResponseCode(method, HttpStatus.SC_OK);
-    }
-
-    @Test
     public void invalidServicedocumentPath() throws Exception {
         final GetMethod method = new GetMethod(URL + "xxx");
         getResponse(method, createClient(DEPOSITOR, null));
@@ -92,16 +78,6 @@ public class IntegrationTester extends IntegrationFixture {
         // TODO Move to JMEter, might be different on EOF12/EOF13
         getResponse(method, createClient(DEPOSITOR, null));
         assertResponseCode(method, HttpStatus.SC_METHOD_NOT_ALLOWED);
-    }
-
-    @Test
-    public void mediatedServiceDocument() throws Exception {
-        final GetMethod method = new GetMethod(URL + "servicedocument");
-        method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        String response = getResponse(method, createClient(DEPOSITOR, null));
-        assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
-        assertThat(response, containsString("Error 412"));
-        assertThat(response, containsString("Mediated deposits not allowed"));
     }
 
     @Test

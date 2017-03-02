@@ -66,7 +66,7 @@ public class MockUtil {
         mockContext();
     }
 
-    private static void mockContext() throws Exception {
+    public static void mockContext() throws Exception {
         final Context context = new Context();
         context.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
         context.setCollectionTreatment("This is a test server");
@@ -78,6 +78,7 @@ public class MockUtil {
         context.setProviderURL("http://mockedhost:8080/");
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
+        context.setAcceptPackaging("https://easy.dans.knaw.nl/schemas/docs/sword-v1-packaging.html");
 
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemStatus.properties"));
         context.setSystemReadOnlyStatus(systemReadOnlyStatus);
