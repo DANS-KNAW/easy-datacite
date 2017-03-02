@@ -120,14 +120,6 @@ public class IntegrationTester extends IntegrationFixture {
     }
 
     @Test
-    public void maxPathLength() throws Throwable {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
-        final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
-    }
-
-    @Test
     public void nonBoolean() throws Throwable {
         final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, null, null);
