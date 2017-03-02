@@ -94,7 +94,6 @@ public class TestDeposit {
 
     @Test
     public void nonDataFolderInZip() throws Exception {
-        // other DDM problems are tested in a class of its own
         zip.add("DansDatasetMetadata.xml", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
