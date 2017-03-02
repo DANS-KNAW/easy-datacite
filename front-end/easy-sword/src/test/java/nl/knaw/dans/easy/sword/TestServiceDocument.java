@@ -32,7 +32,7 @@ public class TestServiceDocument {
         ServiceDocumentRequest request = mockRequest(VALID_USER_ID);
         request.setOnBehalfOf("anyone");
         try {
-            new EasySwordServer().doServiceDocument(request).marshall();
+            new EasySwordServer().doServiceDocument(request);
         } catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString("Mediated deposits not allowed"));
         }
@@ -41,10 +41,10 @@ public class TestServiceDocument {
     private ServiceDocumentRequest mockRequest(String userId) throws Exception {
         MockUtil.mockUser();
         MockUtil.mockContext();
-        ServiceDocumentRequest sdr = new ServiceDocumentRequest();
-        sdr.setUsername(userId);
-        sdr.setPassword(PASSWORD);
-        sdr.setLocation("");
-        return sdr;
+        ServiceDocumentRequest request = new ServiceDocumentRequest();
+        request.setUsername(userId);
+        request.setPassword(PASSWORD);
+        request.setLocation("");
+        return request;
     }
 }

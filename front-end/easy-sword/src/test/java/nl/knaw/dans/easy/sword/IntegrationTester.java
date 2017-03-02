@@ -81,33 +81,6 @@ public class IntegrationTester extends IntegrationFixture {
     }
 
     @Test
-    public void depositWithInvalidDDM() throws Exception {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-invalid-ddm.zip"));
-        final PostMethod method = createPostMethod(request, false, false);
-        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
-        assertThat(response, containsString("Cannot find"));
-        assertThat(response, containsString("dans-dataset-md"));
-    }
-
-    @Test
-    public void depositWithMinimalDDM() throws Exception {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("minimal-ddm.zip"));
-        final PostMethod method = createPostMethod(request, false, false);
-        String r = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
-        assertThat(r, containsString("Missing required field dc.title, Missing required field dc.description"));
-    }
-
-    @Test
-    public void depositWithDDM() throws Exception {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
-        final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
-    }
-
-    @Test
     public void depositAfterReadOnly() throws Exception {
         Context.getSystemReadOnlyStatus().setReadOnly(true);
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
@@ -116,14 +89,6 @@ public class IntegrationTester extends IntegrationFixture {
         assertResponseCode(method, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         assertThat(response, containsString("ReadOnly"));
         assertThat(response, containsString("temporarily not available"));
-    }
-
-    @Test
-    public void depositWithEMD() throws Exception {
-        final RequestEntity request = createRequest(VALID_FILE);
-        final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
     @Ignore
@@ -169,33 +134,5 @@ public class IntegrationTester extends IntegrationFixture {
         method.addRequestHeader("X-No-Op", "fout");
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
-    }
-
-    @Test
-    public void mediatedDeposit() throws Exception {
-        final RequestEntity request = createRequest(VALID_FILE);
-        final PostMethod method = createPostMethod(request, false, false);
-        method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
-        assertThat(response, containsString("href=\"http://purl.org/net/sword/error/MediationNotAllowed\""));
-    }
-
-    @Test
-    public void invalidDisciplineDeposit() throws Exception {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("invalidDisciplineId.zip"));
-        final PostMethod method = createPostMethod(request, false, false);
-        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
-        assertThat(response, containsString("href=\"http://purl.org/net/sword/error/ErrorBadRequest\""));
-        assertThat(response, containsString("999 not found"));
-    }
-
-    @Test
-    public void depositInvalidZip() throws Exception {
-        final RequestEntity request = createRequest(SubmitFixture.getFile("metadata.xml"));
-        final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
     }
 }

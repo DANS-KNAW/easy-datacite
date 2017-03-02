@@ -71,11 +71,6 @@ public class TestFailingSubmit extends SubmitFixture {
         execute(false, true, getZip("data-plus-missing-meta-fields.zip"));
     }
 
-    @Test(expected = SWORDErrorException.class)
-    public void tooLongPath() throws Throwable {
-        execute(false, true, getZip("max-path-exceeded.zip"));
-    }
-
     @Ignore
     @Test(expected = SWORDErrorException.class)
     public void negativeEmbargo() throws Throwable {
@@ -116,11 +111,6 @@ public class TestFailingSubmit extends SubmitFixture {
     @Test(expected = SWORDAuthenticationException.class)
     public void emptyUser() throws Throwable {
         execute("", MockUtil.PASSWORD, LOCATION);
-    }
-
-    @Test(expected = SWORDAuthenticationException.class)
-    public void unAuthorizedUser() throws Throwable {
-        execute(MockUtil.UNAUTHORIZED_USER_ID, MockUtil.PASSWORD, LOCATION);
     }
 
     private void execute(boolean verbose, boolean noOp, final String zip) throws Exception, SWORDException {
