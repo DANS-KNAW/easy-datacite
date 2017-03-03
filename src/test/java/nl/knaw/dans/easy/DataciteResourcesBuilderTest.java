@@ -103,8 +103,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test(expected = IllegalStateException.class)
     public void classpath() throws Exception {
-        new DataciteResourcesBuilder("notFound.xsl", getResolver())
-            .create(new EmdBuilder().build());
+        new DataciteResourcesBuilder("notFound.xsl", getResolver()).create(new EmdBuilder().build());
     }
 
     @Test(expected = IllegalArgumentException.class)
