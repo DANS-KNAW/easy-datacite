@@ -21,7 +21,7 @@ public class TestDeposit {
 
     private static final String INVALID_ZIP_MESSAGE = "Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)";
     private static final String PATH_WITH_MAX_LENGTH = "1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/1234567890/12345/blabla.txt";
-    private static final String TOO_LONG_PATH = PATH_WITH_MAX_LENGTH.replace("/bla","6/bla");
+    private static final String TOO_LONG_PATH = PATH_WITH_MAX_LENGTH.replace("/bla", "6/bla");
     private InMemoryZip zip;
 
     @Test
@@ -29,7 +29,8 @@ public class TestDeposit {
         Deposit request = mockRequest(INVALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDAuthenticationException e) {
+        }
+        catch (SWORDAuthenticationException e) {
             assertThat(e.getMessage(), containsString("invalid username [nobody] or password"));
         }
     }
@@ -39,7 +40,8 @@ public class TestDeposit {
         Deposit request = mockRequest(UNAUTHORIZED_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDAuthenticationException e) {
+        }
+        catch (SWORDAuthenticationException e) {
             assertThat(e.getMessage(), containsString("somebodyunauthorized not allowed"));
         }
     }
@@ -50,7 +52,8 @@ public class TestDeposit {
         request.setOnBehalfOf("anyone");
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString("Mediated deposit not allowed to this collection"));
         }
     }
@@ -61,7 +64,8 @@ public class TestDeposit {
         request.setFile(new ByteArrayInputStream("blabla".getBytes()));
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             // TODO rather: "Expecting a !!ZIP!! with ...", link to sword packaging document?
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
@@ -70,85 +74,92 @@ public class TestDeposit {
     @Test
     public void nonsenseDdmInZip() throws Exception {
         // other DDM problems are tested in a class of its own
-        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
+        zip.add("DansDatasetMetadata.xml", "<ddm>".getBytes());
         zip.add(PATH_WITH_MAX_LENGTH, "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString("Could not create EMD from DDM"));
         }
     }
 
     @Test
     public void tooLongPathInZip() throws Exception {
-        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
-        zip.add(TOO_LONG_PATH,"blabla".getBytes());
+        zip.add("DansDatasetMetadata.xml", "<ddm>".getBytes());
+        zip.add(TOO_LONG_PATH, "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString("path name exceeds 247 characters"));
         }
     }
 
     @Test
     public void tooManyRootFolders() throws Exception {
-        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
-        zip.add("data/x.txt","blabla".getBytes());
-        zip.add("moredata/x.txt","blabla".getBytes());
+        zip.add("DansDatasetMetadata.xml", "<ddm>".getBytes());
+        zip.add("data/x.txt", "blabla".getBytes());
+        zip.add("moredata/x.txt", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
 
     @Test
     public void tooManyRootFiles() throws Exception {
-        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
-        zip.add("data/x.txt","blabla".getBytes());
-        zip.add("moredata.txt","blabla".getBytes());
+        zip.add("DansDatasetMetadata.xml", "<ddm>".getBytes());
+        zip.add("data/x.txt", "blabla".getBytes());
+        zip.add("moredata.txt", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
 
     @Test
     public void metadataIsFolder() throws Exception {
-        zip.add("DansDatasetMetadata.xml/blabla","<ddm>".getBytes());
-        zip.add("data/x.txt","blabla".getBytes());
+        zip.add("DansDatasetMetadata.xml/blabla", "<ddm>".getBytes());
+        zip.add("data/x.txt", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
 
     @Test
     public void dataIsFile() throws Exception {
-        zip.add("DansDatasetMetadata.xml","<ddm>".getBytes());
-        zip.add("data","blabla".getBytes());
+        zip.add("DansDatasetMetadata.xml", "<ddm>".getBytes());
+        zip.add("data", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
 
     @Test
     public void noDDM() throws Exception {
-        zip.add("data","blabla".getBytes());
+        zip.add("data", "blabla".getBytes());
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
@@ -159,13 +170,14 @@ public class TestDeposit {
         Deposit request = mockRequest(VALID_USER_ID);
         try {
             new EasySwordServer().doDeposit(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString(INVALID_ZIP_MESSAGE));
         }
     }
 
     @Before
-    public void createInMemoryZip(){
+    public void createInMemoryZip() {
         zip = new InMemoryZip();
     }
 

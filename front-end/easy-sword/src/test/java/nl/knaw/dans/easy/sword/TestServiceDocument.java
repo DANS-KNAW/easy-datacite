@@ -33,7 +33,8 @@ public class TestServiceDocument {
         request.setOnBehalfOf("anyone");
         try {
             new EasySwordServer().doServiceDocument(request);
-        } catch (SWORDErrorException e) {
+        }
+        catch (SWORDErrorException e) {
             assertThat(e.getMessage(), containsString("Mediated deposits not allowed"));
         }
     }

@@ -64,7 +64,6 @@ public class EmdPanelFactory extends RepeaterPanelFactory {
         return panel;
     }
 
-
     public Panel createFixedTextPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model) {
         FixedTextPanel fixedTextPanel = new FixedTextPanel(getPanelWicketId(), model);
         fixedTextPanel.setPanelDefinition(spDef);

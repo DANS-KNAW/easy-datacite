@@ -87,13 +87,13 @@ public class TestDdmHandling extends Fixture {
     @Test
     public void validGroupAccess() throws Throwable {
         MockUtil.mockUser();
-        createRequestContent(philosophyWithGroupAccess.replace("D32000","D37000"));
+        createRequestContent(philosophyWithGroupAccess.replace("D32000", "D37000"));
     }
 
     @Test
     public void noGroupAccess() throws Throwable {
         MockUtil.mockUser();
-        createRequestContent(philosophyWithGroupAccess.replace("GROUP_ACCESS","OPEN_ACCESS"));
+        createRequestContent(philosophyWithGroupAccess.replace("GROUP_ACCESS", "OPEN_ACCESS"));
     }
 
     @Test
