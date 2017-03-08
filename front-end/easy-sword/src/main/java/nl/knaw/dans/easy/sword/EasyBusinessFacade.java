@@ -32,7 +32,6 @@ import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.commons.lang.StringUtils;
 import org.easymock.EasyMock;
@@ -157,7 +156,7 @@ public class EasyBusinessFacade {
             return mockedDataset;
 
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-        final FormDefinition formDefinition = getFormDefinition(metadata);
+        final FormDefinition formDefinition = getArchivistFormDefinition();
 
         // detect as much as possible errors before irreversible creation of the dataset
         // from now on, treat any error as a bad request to return the ID of the created draft dataset
@@ -359,7 +358,6 @@ public class EasyBusinessFacade {
         return dataset;
     }
 
-    /** validates at least the disciplineID */
     public static Dataset validateSubmission(final EasyUser depositor, final EasyMetadata metadata) throws SWORDErrorException, SWORDException {
         final Dataset dataset = mockSubmittedDataset(metadata, depositor);
         try {
@@ -374,13 +372,11 @@ public class EasyBusinessFacade {
         }
     }
 
-    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException, SWORDException {
-        final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
-        if (mdFormat == null)
-            throw newBadRequestException("meta data format not specified.");
+    public static FormDefinition getArchivistFormDefinition() throws SWORDErrorException, SWORDException {
         final DepositDiscipline discipline;
         try {
-            discipline = Services.getDepositService().getDiscipline(mdFormat);
+            // the implementation ignores the format argument since we have only one deposit form
+            discipline = Services.getDepositService().getDiscipline("");
         }
         catch (final ServiceException e) {
             throw newSWORDException("Cannot get deposit discipline.", e);
@@ -389,7 +385,7 @@ public class EasyBusinessFacade {
             throw newBadRequestException("Cannot get deposit discipline.");
         final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
         if (formDefinition == null)
-            throw newBadRequestException("Cannot get formdefinition for MetadataFormat " + mdFormat.toString());
+            throw newBadRequestException("Cannot get formdefinition");
         return formDefinition;
     }
 

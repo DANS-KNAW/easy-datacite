@@ -16,7 +16,7 @@
       <operations public="true" package="false" protected="true" private="false"/>    
     </display>  
   </class>  
-  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" project="st-easy-sword" 
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.DepositFormFacade" project="st-easy-sword"
     file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false">    
     <position x="613" y="279" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -87,13 +87,13 @@
       file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/FederativeAuthentication.java" binary="false"/>  
   </dependency>  
   <dependency>    
-    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" 
+    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.DepositFormFacade"
       file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false"/>    
     <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
       file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>  
   </dependency>  
   <dependency>    
-    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" 
+    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.DepositFormFacade"
       file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false"/>    
     <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
       file="/st-easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>  

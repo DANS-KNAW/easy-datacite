@@ -5,6 +5,8 @@ import java.io.File;
 import nl.knaw.dans.easy.sword.Context;
 import nl.knaw.dans.easy.sword.EasyBusinessFacade;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.purl.sword.base.Deposit;
 
@@ -17,8 +19,13 @@ public class SubmitFixture extends EasySwordServerTester {
         new Context().setUnzip("target/tmp");
     }
 
+    @After
+    public void cleanUp() throws Exception {
+        FileUtils.deleteDirectory(new File(Context.getUnzip()));
+    }
+
     protected static String getZip(String string) {
-        return new File(INPUT_DIR + string + ".zip").getPath();
+        return new File(INPUT_DIR + string).getPath();
     }
 
     public static File getFile(String string) {

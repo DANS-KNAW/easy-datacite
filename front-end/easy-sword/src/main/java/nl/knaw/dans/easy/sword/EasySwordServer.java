@@ -131,8 +131,7 @@ public class EasySwordServer implements SWORDServer {
 
         final String datasetUrl = Context.getDatasetPath() + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
-        final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
-        return response;
+        return wrapResponse(swordEntry, datasetUrl);
     }
 
     private static void checkOnBehalfOf(final Deposit deposit) throws SWORDErrorException {

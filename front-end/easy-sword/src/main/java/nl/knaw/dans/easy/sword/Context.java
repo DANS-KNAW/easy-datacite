@@ -27,7 +27,7 @@ public class Context {
     private static SystemReadOnlyStatus systemReadOnlyStatus = null;
 
     public static String getAcceptPackaging() throws SWORDException {
-        if (unzip == null) {
+        if (acceptPackaging == null) {
             error("Missing configuration setting: acceptPackaging");
         }
         return acceptPackaging;
@@ -152,7 +152,7 @@ public class Context {
     }
 
     private static void error(String msg, Object... args) throws SWORDException {
-        msg = MessageFormatter.format(msg, args).toString();
+        msg = MessageFormatter.format(msg, args).getMessage();
         log.error(msg);
         throw new SWORDException(msg);
     }

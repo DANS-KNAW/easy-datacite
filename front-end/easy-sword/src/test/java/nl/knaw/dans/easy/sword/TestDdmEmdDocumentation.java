@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.sword.util.Fixture;
 import nl.knaw.dans.pf.language.ddm.api.DDMValidator;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdHandlerMap;
@@ -26,29 +27,25 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.vocabulary.MapFromXSD;
-
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
+import static nl.knaw.dans.easy.sword.util.Fixture.SCHEMAS;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
-import static org.easymock.EasyMock.contains;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
@@ -59,7 +56,6 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 
 /** Shows how/which DDM fields appear in a license document as meta data */
 public class TestDdmEmdDocumentation {
-    public static final String SCHEMAS = "http://easy.dans.knaw.nl/schemas";
     private static final File INPUT = new File("src/test/resources/input/demoDDM.xml");
     private static final File OUTPUT = new File("target/demoDDM");
 
@@ -69,19 +65,7 @@ public class TestDdmEmdDocumentation {
 
     @BeforeClass
     public static void init() throws Exception {
-        assumeTrue("can access " + SCHEMAS, canConnect(SCHEMAS));
-    }
-
-    private static boolean canConnect(String url) {
-        try {
-            HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
-            urlConnection.connect();
-            urlConnection.disconnect();
-            return true;
-        }
-        catch (IOException e) {
-            return false;
-        }
+        assumeTrue("can access " + SCHEMAS, Fixture.canConnect(SCHEMAS));
     }
 
     @Test

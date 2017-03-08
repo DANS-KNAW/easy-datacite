@@ -1,9 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
-import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
@@ -13,12 +13,14 @@ import nl.knaw.dans.easy.sword.util.MockUtil;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
+import org.apache.commons.io.FileUtils;
+import org.junit.*;
 import org.purl.sword.base.SWORDErrorException;
-import org.purl.sword.base.SWORDException;
+
+import static junit.framework.TestCase.fail;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class TestEasyBusinessFacade extends Fixture {
     static File tempDirectory;
@@ -40,41 +42,48 @@ public class TestEasyBusinessFacade extends Fixture {
         // TODO clear target/tmp/unzip;
     }
 
-    private static void executeSubmit(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception {
-        final List<File> fileList = new UnzipUtil(zipFile, tempDirectory.getPath(), createUnzipListener()).run();
-        try {
-            final EasyMetadata easyMetaData = EasyMetadataFacade.validate(FileUtil.readFile(metaDataFile));
-            EasyBusinessFacade.submitNewDataset(false, MockUtil.USER, easyMetaData, tempDirectory, fileList);
-        }
-        catch (final SWORDException se) {
-            if (expectedCause == null)
-                throw se;
-            if (se.getCause() == null || !(se.getCause().getClass().equals(expectedCause)))
-                throw se;
-        }
-        if (expectedCause != null)
-            throw new Exception("got no exception but expected " + expectedCause.getName());
+    @After
+    public void cleanUp() throws Exception {
+        FileUtils.deleteDirectory(new File(Context.getUnzip()));
     }
 
-    @Test(expected = SWORDErrorException.class)
+    @Test
     public void invalidMetadataByMM() throws Throwable {
-        final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
-        final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
-        executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
+        new Context().setUnzip("target/tmp");
+        try {
+            // zip contains (invalid?) EMD which is no longer accepted
+            RequestContent rc = new RequestContent(new FileInputStream("src/test/resources/input/invalidMetadata.zip"));
+        }
+        catch (final SWORDErrorException se) {
+            assertThat(se.getMessage(),
+                    is("Expecting a folder with files and a file with one of the names: DansDatasetMetadata.xml (preferred metadata format)"));
+            return;
+        }
+        fail("expecting a SWORDException");
     }
 
-    @Test(expected = SWORDErrorException.class)
-    public void getIllegalFormDefinition() throws Throwable {
-        final File file = new File("src/test/resources/input/metadata.xml");
-        final byte[] bytes = FileUtil.readFile(file);
-        final EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, bytes);
-        emd.getEmdAudience().removeAllDisciplines();
-        emd.getEmdOther().getEasApplicationSpecific().setMetadataFormat(null);
-        FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(emd);
-        formDefinition.getHelpFile();
+    @Test
+    public void newFormDefinition() throws Throwable {
+        try {
+            EasyBusinessFacade.getArchivistFormDefinition();
+        }
+        catch (final SWORDErrorException se) {
+            fail("not expecting an exception: " + se);
+        }
     }
 
-    private static UnzipListener createUnzipListener() {
+    @Test
+    public void deprecatedFormDefinition() throws Throwable {
+        final EasyMetadata emd = new EasyMetadataImpl(ApplicationSpecific.MetadataFormat.ARCHAEOLOGY);
+        try {
+            FormDefinition formDefinition = EasyBusinessFacade.getArchivistFormDefinition();
+        }
+        catch (final SWORDErrorException se) {
+            fail("not expecting an exception: " + se);
+        }
+    }
+
+    private static List<File> unzip(File zipFile) throws Exception {
         final UnzipListener unzipListener = new UnzipListener() {
             @Override
             public boolean onUnzipUpdate(final long bytesUnzipped, final long total) {
@@ -87,6 +96,6 @@ public class TestEasyBusinessFacade extends Fixture {
             @Override
             public void onUnzipComplete(final List<File> files, final boolean canceled) {}
         };
-        return unzipListener;
+        return new UnzipUtil(zipFile, tempDirectory.getPath(), unzipListener).run();
     }
 }
