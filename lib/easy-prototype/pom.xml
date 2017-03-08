@@ -17,6 +17,8 @@
         <aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
         <servlet-api.version>2.5</servlet-api.version>
         <json.version>20080701</json.version>
+        <easy.ddm.version>3.0</easy.ddm.version>
+        <easy.emd.version>3.0</easy.emd.version>
         <commons-collections.version>3.2.1</commons-collections.version>
         <commons-email.version>1.3.1</commons-email.version>
         <commons-csv.version>1.1</commons-csv.version>
@@ -100,7 +102,7 @@
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>ddm</artifactId>
-                <version>${project.version}</version>
+                <version>${easy.ddm.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
@@ -126,7 +128,7 @@
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
                 <artifactId>emd</artifactId>
-                <version>${project.version}</version>
+                <version>${easy.emd.version}</version>
             </dependency>
             <dependency>
                 <groupId>nl.knaw.dans.easy</groupId>
