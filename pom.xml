@@ -12,6 +12,10 @@
     <dependencies>
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
+            <artifactId>xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>emd</artifactId>
         </dependency>
         <dependency>
