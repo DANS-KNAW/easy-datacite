@@ -1374,6 +1374,7 @@
 					<editable>false</editable>
 					<cssContainerClassName>descriptionTab</cssContainerClassName>
 					<panels>
+						<ref-panelId>persistent-identifier</ref-panelId>
 						<ref-panelId>suppliedMetadata</ref-panelId>
 						<ref-panelId>eas.dateSubmitted</ref-panelId>
 					</panels>
