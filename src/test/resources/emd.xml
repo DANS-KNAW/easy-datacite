@@ -52,7 +52,7 @@
         <dc:identifier eas:scheme="AIP_ID">twips.dans.knaw.nl-7865083291377881651-1263201312524</dc:identifier>
         <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-sba-6zn</dc:identifier>
         <dc:identifier eas:scheme="DMO_ID">easy-dataset:1</dc:identifier>
-        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-123</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.5072/dans-test-123</dc:identifier>
     </emd:identifier>
     <emd:source/>
     <emd:language>
