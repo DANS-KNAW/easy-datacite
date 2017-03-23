@@ -2,6 +2,6 @@ Dear ~EasyUser.getDisplayName~,
 
 This e-mail concerns the following dataset you deposited with DANS:
 Title: ~Dataset.getPreferredTitle~
-Link: http://dx.doi.org/~Dataset.getDansManagedDoi~ 
+Link: https://doi.org/~Dataset.getDansManagedDoi~
 
 The status of the dataset was changed from "published" to "maintenance". The DANS staff can now make changes to it. Note that it can still be found by users but no details are shown and no actions can be performed on it.

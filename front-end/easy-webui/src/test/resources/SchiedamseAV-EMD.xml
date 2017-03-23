@@ -42,7 +42,7 @@
     <emd:identifier>
         <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-2ajw-cq</dc:identifier>
         <dc:identifier eas:scheme="DMO_ID"/>
-        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-zu8-njxg</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.5072/dans-zu8-njxg</dc:identifier>
     </emd:identifier>
     <emd:source/>
     <emd:language>

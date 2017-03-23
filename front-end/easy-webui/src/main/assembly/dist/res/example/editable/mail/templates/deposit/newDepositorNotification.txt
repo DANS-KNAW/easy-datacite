@@ -2,6 +2,6 @@ Dear ~EasyUser.getDisplayName~,
 
 This E-mail concerns the following dataset:
 Title: ~Dataset.getPreferredTitle~
-Link: http://dx.doi.org/~Dataset.getDansManagedDoi~
+Link: https://doi.org/~Dataset.getDansManagedDoi~
 
 The depositor of the dataset was changed from "~NewDepositorNotification.getOldDisplayName~" to "~NewDepositorNotification.getNewDisplayName~".
