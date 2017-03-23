@@ -149,8 +149,8 @@
             <xsl:element name="creatorName">
                 <xsl:call-template name="eas-name" />
             </xsl:element>
-            <xsl:call-template name="eas-organization" />
             <xsl:call-template name="dai"/>
+            <xsl:call-template name="eas-organization" />
         </xsl:element>
     </xsl:template>
 
@@ -198,8 +198,8 @@
             <xsl:element name="contributorName">
                 <xsl:call-template name="eas-name" />
             </xsl:element>
-            <xsl:call-template name="eas-organization" />
             <xsl:call-template name="dai"/>
+            <xsl:call-template name="eas-organization" />
         </xsl:element>
     </xsl:template>
 

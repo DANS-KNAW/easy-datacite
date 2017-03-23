@@ -14,6 +14,7 @@
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
             <eas:surname>creator00</eas:surname>
+            <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
         </eas:creator>
         <eas:creator>
@@ -52,6 +53,7 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:initials>ABC</eas:initials>
             <eas:prefix>van</eas:prefix>
             <eas:surname>contributor00</eas:surname>
+            <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
         </eas:contributor>
         <eas:contributor>

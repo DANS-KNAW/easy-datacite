@@ -10,7 +10,7 @@
             <eas:initials>X</eas:initials>
             <eas:surname>Foo</eas:surname>
             <eas:organization>International Atomic Energy Agency</eas:organization>
-            <eas:entityId eas:scheme="DAI"></eas:entityId>
+            <eas:entityId eas:scheme="DAI">someDai</eas:entityId>
         </eas:creator>
     </emd:creator>
     <emd:subject>

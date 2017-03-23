@@ -238,6 +238,7 @@ public class DataciteResourcesBuilderTest {
 
         try {
             validator.validate(new DOMSource(document));
+            validator.validate(new DOMSource(maxiDocElement));
         }
         catch (SAXException e) {
             Assert.fail("Not valid xml document, msg: " + e.getMessage());
