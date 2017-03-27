@@ -34,6 +34,12 @@ public class EmdPanelFactory extends RepeaterPanelFactory {
         return panel;
     }
 
+    public Panel createCmdiViewPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model) {
+        CmdiViewPanel panel = new CmdiViewPanel(getPanelWicketId(), model);
+        panel.setPanelDefinition(spDef);
+        return panel;
+    }
+
     public Panel createUploadPanel(StandardPanelDefinition spDef, IModel<?> model) {
         UploadPanel panel = new UploadPanel(getPanelWicketId(), datasetModel);
         panel.setPanelDefinition(spDef);

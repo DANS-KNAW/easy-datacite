@@ -14,7 +14,7 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair> {
     private static final long serialVersionUID = 1L;
 
-    private static final BasicString CMDI_MIME = new BasicString("application/x-cmdi+xml");
+    public static final BasicString CMDI_MIME = new BasicString("application/x-cmdi+xml");
 
     private EasyMetadata easyMetadata;
 
@@ -40,7 +40,7 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair> {
     /**
      * <p>
      * This method is called when the model needs to be updated to the latest version. E.g. when a page is saved, or when you move to another page. If the panel
-     * was in view and was editted it will also be saved.
+     * was in view and was edited it will also be saved.
      * <p>
      * When the YES option was selected we add the CMDI MIME-type to the DC Format field in the EASY Metadata.
      * <p>

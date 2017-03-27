@@ -86,6 +86,16 @@
 
 		<standardPanel>
 			<properties>
+				<id>cmdiView</id>
+				<labelResourceKey>label.eas.cmdi.choice</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.cmdi.choice</shortHelpResourceKey>
+			</properties>
+			<modelClass>EasyMetadata</modelClass>
+			<panelClass>CmdiViewPanel</panelClass>
+		</standardPanel>
+
+		<standardPanel>
+			<properties>
 				<id>relation-view</id>
 				<labelResourceKey>label.relation-view</labelResourceKey>
 			</properties>
@@ -1255,7 +1265,7 @@
 			</properties>
 			<panels>
 				<ref-panelId>primary-page-content</ref-panelId>
-				<ref-panelId>cmdiChoice</ref-panelId>
+				<ref-panelId>cmdiView</ref-panelId>
 				<ref-panelId>content-description-page-view</ref-panelId>
 				<ref-panelId>rights-page-content</ref-panelId>
 			</panels>
@@ -1351,7 +1361,7 @@
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
-						<ref-panelId>cmdiChoice</ref-panelId>
+						<ref-panelId>cmdiView</ref-panelId>
 						<ref-panelId>primary-page-content</ref-panelId>
 						<ref-panelId>content-description-page-edit</ref-panelId>
 						<ref-panelId>rights-page-content</ref-panelId>
