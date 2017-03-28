@@ -1361,8 +1361,8 @@
 					<cssContainerClassName>depositForm</cssContainerClassName>
 					<panels>
 						<ref-panelId>pakbon.import</ref-panelId>
-						<ref-panelId>cmdiView</ref-panelId>
 						<ref-panelId>primary-page-content</ref-panelId>
+						<ref-panelId>cmdiChoice</ref-panelId>
 						<ref-panelId>content-description-page-edit</ref-panelId>
 						<ref-panelId>rights-page-content</ref-panelId>
 					</panels>
