@@ -60,7 +60,6 @@
         
         <!-- Tools -->
         <module>tool/easy-ebiu</module>
-        <module>tool/easy-pakbon-preprocess</module>
         <module>tool/task-assign-datasets-to-collections</module>
         <module>tool/task-dump-metadata</module>
         <module>tool/task-easy-export</module>

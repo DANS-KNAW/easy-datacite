@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 public class Pakbon2EmsTransformerTest {
     private static final Logger logger = LoggerFactory.getLogger(Pakbon2EmsTransformerTest.class);
-    private static final String PB_VALID = "src/test/resources/test-files/SIKB0102_Pakbon_3.2.0.xml";
+    private static final String PB_VALID = "src/test/resources/test-files/SIKB0102_Pakbon_3.3.0.xml";
 
     @BeforeClass
     public static void beforeTestClass() {
@@ -34,7 +34,7 @@ public class Pakbon2EmsTransformerTest {
         // Note that the xslt used by transform specifies that the output is UTF-8
         String out = new String(p2e.transform(new File(PB_VALID)), "UTF-8");
         // Note that we have no asserts here, so it's just a smoke test
-        logger.debug(out);
+        logger.debug("Resulting EMD, dc:title = \"" + StringUtils.substringBetween(out, "<dc:title>", "</dc:title>") + "\"");
     }
 
     @Test

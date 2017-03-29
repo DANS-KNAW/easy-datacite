@@ -5,22 +5,18 @@
    xmlns:dcterms="http://purl.org/dc/terms/" 
    xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
    xmlns:gml="http://www.opengis.net/gml/3.2"
-   xmlns:sikb="http://www.sikb.nl/sikb0102/3.1.0" 
+   xmlns:sikb="http://www.sikb.nl/sikb0102/3.3.0" 
    xmlns:p2e="java:nl.knaw.dans.platform.language.pakbon.Pakbon2EmdFunctions"
    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
    xmlns:sikbl="http://www.sikb.nl/codelijst/1.0" 
    exclude-result-prefixes="sikb gml p2e">
-  
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
-  
-  <!-- 
-  <xsl:variable name="enum-doc" select="document('enumeraties.xsd')"/>
-   -->
-  <xsl:variable name="lookup-doc" select="document('SIKB0102_Lookup.xml')"/>
-  
+
+  <xsl:variable name="lookup-doc" select="document('SIKB0102_Lookup_3.3.0.xml')"/>
+
   <xsl:key name="documents-by-bestandId" match="sikb:document" use="sikb:bestandId" />
-   
+
   <xsl:template match="sikb:sikb0102">
 
     <emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
@@ -34,37 +30,18 @@
             <xsl:value-of select="."/>
           </dc:title>
         </xsl:for-each>
-        <!-- 
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:titel">
-         -->
         <!-- unique titles, ISSUE-704 -->
         <xsl:for-each select="sikb:document/sikb:titel[../sikb:documenttype='EINDRAP' and not(.=/sikb:sikb0102/sikb:project/sikb:projectnaam) and not(.=preceding::sikb:titel)]/ .">
           <dcterms:alternative>
             <xsl:value-of select="."/>
           </dcterms:alternative>
         </xsl:for-each>
-        
-        <!-- ISSUE-705, @bronId and sikb:serie is not considered as alternative title
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../@bronId">
-          <dcterms:alternative>
-            <xsl:value-of select="."/>
-          </dcterms:alternative>
-        </xsl:for-each>
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:serie">
-          <dcterms:alternative>
-            <xsl:value-of select="."/>
-          </dcterms:alternative>
-        </xsl:for-each>
-        -->
       </emd:title>
 
       <!-- emd:creator  -->
       <emd:creator>
         <!-- get the unique auteur names of EINDRAP document -->
         <!-- Using depricated dc:creator, because sikb:auteur cannot be mapped to eas:creator without 'intelligent' string splitting -->
-        <!--
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:auteur">
-        -->
         <xsl:for-each
           select="sikb:document/sikb:auteur[../sikb:documenttype='EINDRAP' and not(.=preceding::sikb:auteur)]/ .">
           <dc:creator>
@@ -124,9 +101,6 @@
         
         <xsl:for-each select="sikb:project/sikb:onderzoektype">
           <xsl:variable name="code" select="."/>
-          <!-- 
-            <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='VerwervingValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
-          -->
           <xsl:variable name="waarde">
             <xsl:call-template name="verwerving">
               <xsl:with-param name="code" select="$code"/>
@@ -233,19 +207,11 @@
             </xsl:choose>
           </xsl:if>
         </xsl:for-each>
-        <!-- date_submitted wordt door EASY toegevoegd -->
-        <!--<eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY"><xsl:value-of select="p2e:currentDateTime()"/></eas:dateSubmitted>-->
 
         <!-- date_available is standaard datum, te veranderen op moment van conversie-->
         <eas:available eas:scheme="W3CDTF" eas:format="DAY">
-          <!-- 
-            <xsl:value-of select="p2e:currentDateTime()"/> 
-            -->
           <xsl:value-of select="current-dateTime()"/>
         </eas:available>
-
-        <!-- dcterms:issued voor het publicatie jaar van de rapport(en) -->
-        <!-- NOT added, see issue EASY-711 -->
       </emd:date>
 
       <!-- emd:type -->
@@ -254,23 +220,6 @@
         <xsl:variable name="documenten" select="sikb:document/sikb:bestandId"/>
         <xsl:variable name="fotos" select="sikb:foto/sikb:bestandId"/>
         <xsl:variable name="tekeningen" select="sikb:tekening/sikb:bestandId"/>
-        <!-- ISSUE-708 previous approach was: Just tick the box when a type is there
-        <xsl:if test="$bestanden">
-          <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
-            <xsl:text>Dataset</xsl:text>
-          </dc:type>
-        </xsl:if>
-        <xsl:if test="$documenten">
-          <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
-            <xsl:text>Text</xsl:text>
-          </dc:type>
-        </xsl:if>
-        <xsl:if test="($fotos) or ($tekeningen)">
-          <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
-            <xsl:text>Image</xsl:text>
-          </dc:type>
-        </xsl:if>
-       -->
         <!-- get the list of bestanden that don't have a document refering to them -->
         <xsl:variable name="nonDocBestanden" select="sikb:bestand[not(key('documents-by-bestandId', @sikb:id))]" />
         <!-- only Text when the list of nonDocBestanden is empty -->
@@ -285,7 +234,7 @@
               <xsl:text>Dataset</xsl:text>
             </dc:type>
           </xsl:otherwise>
-        </xsl:choose>        
+        </xsl:choose>
       </emd:type>
 
       <!--  emd:format -->
@@ -351,8 +300,19 @@
       </emd:language>
 
       <!-- emd: relation -->
-      <emd:relation></emd:relation>
-
+      <emd:relation>
+        <!-- project - depotcode -->
+        <xsl:for-each select="sikb:project/sikb:depotcode">
+          <xsl:variable name="code" select="."/>
+          <xsl:variable name="omschrijving" select="$lookup-doc//sikbl:depot/sikbl:code[text()=$code]/../sikbl:omschrijving"></xsl:variable>
+          <eas:relation>
+            <xsl:element name="eas:subject-title">
+              <xsl:value-of select="concat('vondsten depot: ',$omschrijving, ' (depotcode:', $code, ')' )"/>
+            </xsl:element>
+          </eas:relation>
+        </xsl:for-each>  
+      </emd:relation>
+  
       <!-- emd:coverage -->
       <emd:coverage>
         <!-- spatial -->  
@@ -361,8 +321,6 @@
           
           <xsl:for-each select="/sikb:sikb0102/sikb:projectlocatie[@sikb:id = $locatieId]/sikb:provinciecode">
             <xsl:variable name="code" select="."/>
-            <!-- <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='ProvincieValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
-            -->
             <xsl:variable name="waarde">
               <xsl:call-template name="provincie">
                 <xsl:with-param name="code" select="$code"/>
@@ -378,16 +336,12 @@
             </xsl:choose>
           </xsl:for-each>
 
-<!-- plaatscode and gemeentecode are translated to the human readable or common name (omschrijving)
-          because there are a lot of them we keep them in a separate lookup file. 
-          For now we use the file provided  by the SIKB -->
-          
+          <!-- plaatscode and gemeentecode are translated to the human readable or common name (omschrijving)
+               because there are a lot of them we keep them in a separate lookup file. 
+               For now we use the file provided  by the SIKB -->
           <xsl:for-each select="/sikb:sikb0102/sikb:projectlocatie[@sikb:id = $locatieId]/sikb:gemeentecode">
             <xsl:variable name="code" select="."/>
-<!--            <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='GemeenteValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
-            -->
             <xsl:variable name="waarde" select="$lookup-doc//sikbl:gemeente/sikbl:code[text()=$code]/../sikbl:omschrijving"></xsl:variable>
-            
             <xsl:choose>
               <xsl:when test="$waarde!=''">
                 <xsl:element name="dcterms:spatial"><xsl:value-of select="$waarde"/></xsl:element>
@@ -397,11 +351,9 @@
               </xsl:otherwise>
             </xsl:choose>
           </xsl:for-each>
-          
+
           <xsl:for-each select="/sikb:sikb0102/sikb:projectlocatie[@sikb:id = $locatieId]/sikb:plaatscode">
             <xsl:variable name="code" select="."/>
- <!--           <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='PlaatsValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
-            -->
             <xsl:variable name="waarde" select="$lookup-doc/sikbl:lookup/sikbl:plaatsCodelijst/sikbl:plaats/sikbl:code[text()=$code]/../sikbl:omschrijving"></xsl:variable>
             <xsl:choose>
               <xsl:when test="$waarde!=''">
@@ -426,7 +378,6 @@
           </xsl:for-each>
 
         </xsl:for-each>
-        <!-- projectlocatie  -->
 
         <!-- temporal -->
         <!-- unieke waarden van beginperiode en/of eindperiode -->
@@ -479,20 +430,16 @@
 
       <!-- emd:rights -->
       <emd:rights>
-
         <!-- default toegangscategorie -->
         <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">GROUP_ACCESS</dcterms:accessRights>
-
         <!-- license agreements accepted -->
         <dcterms:license eas:scheme="EASY version 1">accept</dcterms:license>
-        
         <xsl:for-each select="sikb:project/sikb:uitvoerder/sikb:organisatieId">
           <xsl:variable name="opgraver" select="."/>
           <dcterms:rightsHolder>
             <xsl:value-of select="/sikb:sikb0102/sikb:organisatie[@sikb:id = $opgraver]/sikb:naam"/>
           </dcterms:rightsHolder>
         </xsl:for-each>
-
       </emd:rights>
 
       <!-- audience -->
@@ -525,7 +472,7 @@
   </xsl:template>
 
   <!-- Code mapping and translations below -->
-  
+
   <!-- resulting text is taken from the 'Omschrijving' -->
   <xsl:template name="verwerving">
     <xsl:param name="code"/>
@@ -611,14 +558,14 @@
       <xsl:when test="$code = 'XXX'">
         <xsl:text>Onbekend</xsl:text>
       </xsl:when>
-      <!--  -->
+
       <xsl:otherwise>
         <xsl:text/>
       </xsl:otherwise>
       <!-- empty string indicates no match-->
     </xsl:choose>
   </xsl:template>
-  
+
   <!-- Provincie -->
   <xsl:template name="provincie">
     <xsl:param name="code"/>
@@ -659,14 +606,14 @@
       <xsl:when test="$code = '31'">
         <xsl:text>Limburg</xsl:text>
       </xsl:when>
-      <!--  -->
+
       <xsl:otherwise>
         <xsl:text/>
       </xsl:otherwise>
       <!-- empty string indicates no match-->
     </xsl:choose>
   </xsl:template>
-  
+
   <!-- ABR complex type is what we get from sikb0102 -->
   <xsl:template name="easyComplexType">
     <xsl:param name="code"/>
@@ -707,7 +654,8 @@
       <xsl:when test="$code = 'APVV.X'">
         <xsl:text>EX</xsl:text>
       </xsl:when>
-      <xsl:when test="$code = 'BEWV'">
+      <!-- was BEWV in sikb0102 version 3.2.0 -->
+      <xsl:when test="$code = 'BEW.VLP'">
         <xsl:text>VLP</xsl:text>
       </xsl:when>
       <xsl:when test="$code = 'BEWV.AW'">
@@ -842,7 +790,8 @@
       <xsl:when test="$code = 'BGV.X'">
         <xsl:text>GX</xsl:text>
       </xsl:when>
-      <xsl:when test="$code = 'CTHD'">
+      <!-- was CTHD in sikb0102 version 3.2.0  -->
+      <xsl:when test="$code = 'CTHD.RCP'">
         <xsl:text>RCP</xsl:text>
       </xsl:when>
       <xsl:when test="$code = 'CTHD.KERK'">
@@ -1058,21 +1007,17 @@
       <xsl:when test="$code = 'XXX'">
         <xsl:text>XXX</xsl:text>
       </xsl:when>
-      <!--  -->
+
       <xsl:otherwise>
         <xsl:text/>
       </xsl:otherwise>
       <!-- empty string indicates no match-->
     </xsl:choose>
   </xsl:template>
-  
+
   <!-- Periode mappen; van ABR nieuw (RCE en SIKB) naar oud (EASY) -->
   <xsl:template name="dateringen">
     <xsl:param name="code"/>
-    <!-- 
-    <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='PeriodeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/@value"></xsl:variable>
-    <xsl:variable name="documentation" select="$enum-doc/xsd:schema/xsd:simpleType[@name='PeriodeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation/text()"></xsl:variable>
-     -->
     <xsl:variable name="waarde" select="$code"/>
     <xsl:choose>
       <xsl:when test="$waarde='PALEOLB'">
@@ -1081,7 +1026,7 @@
           <xsl:value-of select="'PALEOB'"/>
         </dcterms:temporal>
       </xsl:when>
-      
+
       <!-- Map middeleeuwen -->
       <xsl:when test="$waarde='ME'">
         <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
@@ -1128,7 +1073,7 @@
           <xsl:value-of select="'LMEB'"/>
         </dcterms:temporal>
       </xsl:when>
-      
+
       <!-- Map nieuwe tijd, Vroeg, Midden, Laat -->
       <xsl:when test="$waarde='NTV'">
         <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
@@ -1145,7 +1090,7 @@
           <xsl:value-of select="'NTC'"/>
         </dcterms:temporal>
       </xsl:when>
-      
+
       <!-- we cannot simply map the ABR+, so we put it in free text -->
       <xsl:when test="$waarde='HIST'">
         <dcterms:temporal>
@@ -1167,8 +1112,7 @@
           <xsl:text>Prehistorie: 1.000.000 - 13 vC (Pakbon_Periode: PREH)</xsl:text>
         </dcterms:temporal>
       </xsl:when>
-      
-      <!--  -->
+
       <xsl:when test="$waarde!=''">
         <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
           <xsl:value-of select="$code"/>

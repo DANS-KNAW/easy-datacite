@@ -14,9 +14,9 @@ public class PakbonVersionExtractorTest {
     @Test
     public void extractTest() throws Exception {
         // Note: should we extract the versions from the files in the dir
-        String[] versions = {"2.1.0", "3.1.0"};
+        String[] supportedVersions = {"2.1.0", "3.1.0", "3.2.0", "3.3.0"};
 
-        for (String fileVersion : versions) {
+        for (String fileVersion : supportedVersions) {
             String extractedVersion = extractFromFileWithVersion(fileVersion);
             assertEquals(fileVersion, extractedVersion);
         }
