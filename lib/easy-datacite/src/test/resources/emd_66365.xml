@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/"
+                  xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ https://easy.dans.knaw.nl/schemas/md/emd/emd.xsd" emd:version="0.1">
+    <emd:title>
+        <dc:title>The Aetolian Studies Project</dc:title>
+        <dct:alternative>Village Interviews</dct:alternative>
+    </emd:title>
+    <emd:creator>
+        <eas:creator>
+            <eas:title>dr.</eas:title>
+            <eas:initials>I.</eas:initials>
+            <eas:surname>S.</eas:surname>
+            <eas:entityId eas:scheme="DAI">0123456789</eas:entityId>
+        </eas:creator>
+        <eas:creator>
+            <eas:title>dr.</eas:title>
+            <eas:initials>J.</eas:initials>
+            <eas:surname>Vroom</eas:surname>
+            <eas:organization>naam van de organisatie</eas:organization>
+            <eas:entityId eas:scheme="DAI">12345</eas:entityId>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject>reconstruction settlement history</dc:subject>
+        <dc:subject>historical statistics</dc:subject>
+        <dc:subject>archaeological sites</dc:subject>
+        <dc:subject>location analysis</dc:subject>
+        <dc:subject>land routes</dc:subject>
+        <dc:subject>fieldwork slides</dc:subject>
+        <dc:subject>village interviews</dc:subject>
+        <dc:subject>map data (coordinates)</dc:subject>
+        <dc:subject>physical geography</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>The Aetolian Studies Project is a multidisciplinary project which aims at shedding light on the history of habitation and the
+            long term 'genre de vie' in Aetolia from prehistoric times to the end of the pre-modern (ca. 1950). Research into the settlement history
+            of this area has been undertaken since the early 1980s within the compass of the interdisciplinary Strouza Region Project (1981-1984) and
+            the Aetolian Studies Project (1985-1990). The research originally concentrated on the palaiokastro near the almost ghost village of
+            Strouza, which is presumed to be the first polis of Eastern Aetolia in classical antiquity: Aigition. Over the years the project developed
+            into a longitudinal survey of human settlement, seeking to explain how human habitation interacted with the natural environment. The
+            dataset has a great variety in sources, data collection and data processing. For archiving purposes, all data collected over the years are
+            ordered thematically with themes such as villages interviews, historical statistics, archaeological sites, reports, location analysis,
+            land routes, map data, physical geography, etcetera. At the moment this dataset for the electronic archiving system EASY comprises of
+            files covering the first subject matter 'Village Interviews'. Interviews were conducted in 278 villages in Aetolia from 1981 up to and
+            including 1990. They are an important source of information about many aspects of the project. A structured questionnaire was used which
+            contains questions on various aspects of economic life in pre-war period (such as means of subsistence, transhumance, trades and crafts,
+            village history, etc.). The interviews have covered most of the grounds of the eparchies of Evrytania, Trikhonis, Mesolongion, Navpaktia
+            and Doris. In the near future, this dataset will be extended gradually with the above mentioned themes. The fieldwork of the Aetolian
+            Studies Project was executed under the auspices and with the help of the Archaeological Survey School of Holland in Greece (1981-1983),
+            later Archaeological School of the Netherlands at Athens (1983-1991), and since 1991 Netherlands Institute at Athens (NIA). This dataset
+            is prepared for archiving by dr. P.K. (Peter) Doorn and I.F. (Ilona) von Stein MA.</dc:description>
+    </emd:description>
+    <emd:publisher/>
+    <emd:contributor>
+        <eas:contributor>
+            <eas:initials>P.</eas:initials>
+            <eas:surname>T</eas:surname>
+            <eas:entityId eas:scheme="DAI"/>
+        </eas:contributor>
+        <eas:contributor>
+            <eas:initials>M.</eas:initials>
+            <eas:surname>K</eas:surname>
+            <eas:entityId eas:scheme="DAI"/>
+        </eas:contributor>
+    </emd:contributor>
+    <emd:date>
+        <dc:date>1981-1984: Strouza Region Project</dc:date>
+        <dc:date>1985-1990: Aetolian Studies Project</dc:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="YEAR">1990-01-01T00:00:00.000+01:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2016-11-15T00:00:00.000+01:00</eas:available>
+    </emd:date>
+    <emd:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">text/plain</dc:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/pdf</dc:format>
+        <dc:format>csv</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">some pid</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-123</dc:identifier>
+        <dc:identifier>ASP Aetolian Studies Project (project code)</dc:identifier>
+        <dc:identifier>SRP Strouza Region Project (project code)</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:66365</dc:identifier>
+    </emd:identifier>
+    <emd:source>
+        <dc:source>Language to describe the contents of the files of the dataset is English. However, occasionally, in the dataset itself, files with
+            a Greek and Dutch content are to be found.</dc:source>
+    </emd:source>
+    <emd:language>
+        <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">eng</dc:language>
+        <dc:language>Greek</dc:language>
+        <dc:language>Dutch</dc:language>
+    </emd:language>
+    <emd:relation/>
+    <emd:coverage>
+        <dct:spatial>Aetolia</dct:spatial>
+        <dct:spatial>Central Greece</dct:spatial>
+        <dct:spatial>Evrytania</dct:spatial>
+        <dct:spatial>Trikhonis</dct:spatial>
+        <dct:spatial>Mesolongion</dct:spatial>
+        <dct:spatial>Navpaktia</dct:spatial>
+        <dct:spatial>Doris</dct:spatial>
+        <dct:spatial>Aigition (formerly Strouza)</dct:spatial>
+        <dct:spatial>Mediterranean Archaeology</dct:spatial>
+        <dct:temporal>from prehistory till present</dct:temporal>
+        <eas:spatial>
+            <eas:point eas:scheme="degrees">
+                <eas:x>21.668056</eas:x>
+                <eas:y>38.559444</eas:y>
+            </eas:point>
+        </eas:spatial>
+        <eas:spatial>
+            <eas:box eas:scheme="degrees">
+                <eas:north>39.133333</eas:north>
+                <eas:east>22.2</eas:east>
+                <eas:south>38.4</eas:south>
+                <eas:west>21.25</eas:west>
+            </eas:box>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dct:accessRights>
+        <dct:license>accept</dct:license>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:2</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+            <eas:pakbon-status>NOT_IMPORTED</eas:pakbon-status>
+        </eas:application-specific>
+        <eas:etc/>
+    </emd:other>
+</emd:easymetadata>

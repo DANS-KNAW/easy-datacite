@@ -164,6 +164,11 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
             <eas:subject-link>http://relation.com/sys1</eas:subject-link>
         </eas:relation>
+        <eas:replaces>
+            <eas:subject-title>Prehistorische bewoning op het World Forum gebied - Den Haag (replaces)</eas:subject-title>
+            <eas:subject-identifier eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-aka-hff</eas:subject-link>
+        </eas:replaces>
     </emd:relation>
     <emd:coverage>
         <dc:coverage xml:lang="nld-NLD" eas:scheme="BSS0">coverage 0</dc:coverage>

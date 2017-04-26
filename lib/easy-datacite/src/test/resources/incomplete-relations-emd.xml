@@ -63,6 +63,11 @@ archeologisch onderzoek uitgevoerd op het terrein van de voormalige Statenhal aa
         <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
     </emd:language>
     <emd:relation>
+        <eas:relation eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">relation 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:relation>
         <eas:replaces>
             <eas:subject-title>Prehistorische bewoning op het World Forum gebied - Den Haag (replaces)</eas:subject-title>
             <eas:subject-link>http://persistent-identifier.nl/?identifier=urn:nbn:nl:ui:13-aka-hff</eas:subject-link>

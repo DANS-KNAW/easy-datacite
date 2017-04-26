@@ -824,12 +824,14 @@
         <xsl:apply-templates select="eas:point[@eas:scheme = 'RD']"/>
         <xsl:apply-templates select="eas:box[@eas:scheme = 'RD']"/>
         <xsl:apply-templates select="eas:point[@eas:scheme = 'degrees']"/>
+        <xsl:apply-templates select="eas:box[@eas:scheme = 'degrees']"/>
     </xsl:template>
     <!-- =================================================================================== -->
     <xsl:template match="eas:point[@eas:scheme = 'degrees']">
         <xsl:element name="geoLocation">
             <xsl:element name="geoLocationPoint">
-                <xsl:value-of select="concat(eas:x, ' ', eas:y)"/>
+                <xsl:element name="pointLatitude"><xsl:value-of select="eas:y"/></xsl:element>
+                <xsl:element name="pointLongitude"><xsl:value-of select="eas:x"/></xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -859,7 +861,10 @@
     <xsl:template match="eas:box[@eas:scheme = 'degrees']">
         <xsl:element name="geoLocation">
             <xsl:element name="geoLocationBox">
-                <xsl:value-of select="concat(eas:south, ' ', eas:west, ' ', eas:north, ' ', eas:east)"/>
+                <xsl:element name="northBoundLatitude"><xsl:value-of select="eas:north"/></xsl:element>
+                <xsl:element name="southBoundLatitude"><xsl:value-of select="eas:south"/></xsl:element>
+                <xsl:element name="westBoundLongitude"><xsl:value-of select="eas:west"/></xsl:element>
+                <xsl:element name="eastBoundLongitude"><xsl:value-of select="eas:east"/></xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>
