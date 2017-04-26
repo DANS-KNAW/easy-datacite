@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title>The Gemini Project: Deskbased Assessment and Side Scan Sonar Analysis of the Underwater Cultural Heritage in the Project Area (KP15.5 +)</dc:title>
+    </emd:title>
+    <emd:creator>
+        <eas:creator>
+            <eas:initials>A.</eas:initials>
+            <eas:surname>Cattrysse</eas:surname>
+            <eas:organization>ADEDE bvba</eas:organization>
+            <eas:entityId eas:scheme="DAI"></eas:entityId>
+        </eas:creator>
+        <eas:creator>
+            <eas:initials>D.</eas:initials>
+            <eas:surname>Howell</eas:surname>
+            <eas:organization>ADEDE bvba</eas:organization>
+            <eas:entityId eas:scheme="DAI"></eas:entityId>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject>IVO</dc:subject>
+        <dc:subject>BO</dc:subject>
+        <dc:subject>geophysical analysis</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>Based on the Desk based assessment of the project area KP15.5 + and the analysis of the available geophysical data a number of observation can be made concerning the Underwater Cultural Heritage (UCH) in the project area. The deskbased assessment showed that the project area was an area of intensive shipping traffic. One database entry of note was discovered in the Machu, and Archis databases with the designation Rottumeroog 1, a wooden wreck dated between 1850 and 1950 of which an exact position is not known. Furthermore, for the small portion within the Wadden Sea there is a possibility that traces of human habitation or land use have been preserved buried under the seabed. Due to lower sea-levels in the past, there is also a possibility of prehistoric sites being preserved on the now submerged Pleistocene layers and early-Holocene layers.
+            The analysis of the geophysical data resulted in the retaining of a huge number of magnetic anomalies and some side scan targets of which 2 are considered to be of a ‘high risk’ for being UCH, 20 of medium risk, and 9 of low risk.</dc:description>
+    </emd:description>
+    <emd:publisher>
+        <dc:publisher>ADEDE bvba</dc:publisher>
+    </emd:publisher>
+    <emd:contributor/>
+    <emd:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2015-04-14T00:00:00.000+02:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2015-10-22T00:00:00.000+02:00</eas:available>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2015-10-22T14:56:42.670+02:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Text</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/pdf</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">some pid</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-123</dc:identifier>
+        <dc:identifier eas:scheme="Archis_onderzoek_m_nr">65466</dc:identifier>
+        <dc:identifier eas:scheme="Archis_onderzoek_m_nr">65468</dc:identifier>
+        <dc:identifier eas:scheme="eDNA-project">a26122</dc:identifier>
+        <dc:identifier>66 (ADEDE Archaeological Report)</dc:identifier>
+        <dc:identifier eas:scheme="ISSN">2033-6810</dc:identifier>
+        <dc:identifier>Gemini (Project)</dc:identifier>
+        <dc:identifier>Project area (UTM31, ETRS89)</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:62559</dc:identifier>
+    </emd:identifier>
+    <emd:source/>
+    <emd:language>
+        <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">eng</dc:language>
+    </emd:language>
+    <emd:relation>
+        <eas:isReferencedBy eas:emphasis="true">
+            <eas:subject-title>The Gemini Project: Deskbased Assessment and Side Scan Sonar Analysis of the Underwater Cultural Heritage in the Project Area (KP0-15.5) (ADEDE bvba)</eas:subject-title>
+            <eas:subject-link>http://dx.doi.org/10.5072/dans-xqa-baju</eas:subject-link>
+        </eas:isReferencedBy>
+    </emd:relation>
+    <emd:coverage>
+        <dct:spatial>Waddenzee</dct:spatial>
+        <dct:spatial>Eemsmond</dct:spatial>
+        <dct:spatial>Groningen</dct:spatial>
+        <eas:spatial>
+            <eas:box eas:scheme="degrees">
+                <eas:north>79.5</eas:north>
+                <eas:east>23.0</eas:east>
+                <eas:south>76.7</eas:south>
+                <eas:west>10.0</eas:west>
+            </eas:box>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="archaeology.dcterms.accessrights">REQUEST_PERMISSION</dct:accessRights>
+        <dct:license>accept</dct:license>
+        <dct:rightsHolder>ADEDE bvba</dct:rightsHolder>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:2</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+            <eas:pakbon-status>NOT_IMPORTED</eas:pakbon-status>
+        </eas:application-specific>
+        <eas:etc/>
+    </emd:other>
+</emd:easymetadata>

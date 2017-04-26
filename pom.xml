@@ -9,6 +9,7 @@
     <artifactId>easy-datacite</artifactId>
     <packaging>jar</packaging>
     <name>EASY Datacite Library</name>
+    <inceptionYear>2014</inceptionYear>
     <dependencies>
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
