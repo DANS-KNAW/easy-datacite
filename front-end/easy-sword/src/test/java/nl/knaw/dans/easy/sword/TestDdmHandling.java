@@ -35,6 +35,7 @@ public class TestDdmHandling extends Fixture {
             "        <dc:description>dolor sit amet</dc:description>\n" +
             "        <dc:creator>consectetur adipiscing elit</dc:creator>\n" +
             "        <ddm:created>2012</ddm:created>\n" +
+            "        <ddm:available>2013</ddm:available>\n" +
             "        <ddm:audience>D32000</ddm:audience>\n" +
             "        <ddm:accessRights>GROUP_ACCESS</ddm:accessRights>\n" +
             "    </ddm:profile>\n" +
