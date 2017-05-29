@@ -655,7 +655,7 @@
         <xsl:text>EX</xsl:text>
       </xsl:when>
       <!-- was BEWV in sikb0102 version 3.2.0 -->
-      <xsl:when test="$code = 'BEW.VLP'">
+      <xsl:when test="$code = 'BEWV.VLP'">
         <xsl:text>VLP</xsl:text>
       </xsl:when>
       <xsl:when test="$code = 'BEWV.AW'">
