@@ -29,7 +29,7 @@ CREATE TABLE rcadmin (
 );
 
 
-ALTER TABLE public.rcadmin OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcadmin OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcfailure; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -46,7 +46,7 @@ CREATE TABLE rcfailure (
 );
 
 
-ALTER TABLE public.rcfailure OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcfailure OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcformat; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -61,7 +61,7 @@ CREATE TABLE rcformat (
 );
 
 
-ALTER TABLE public.rcformat OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcformat OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcitem; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -73,7 +73,7 @@ CREATE TABLE rcitem (
 );
 
 
-ALTER TABLE public.rcitem OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcitem OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcmembership; Type: TABLE; Schema: public; Owner: proai; Tablespace: 
@@ -85,7 +85,7 @@ CREATE TABLE rcmembership (
 );
 
 
-ALTER TABLE public.rcmembership OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcmembership OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcprunable; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -97,7 +97,7 @@ CREATE TABLE rcprunable (
 );
 
 
-ALTER TABLE public.rcprunable OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcprunable OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcqueue; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -112,7 +112,7 @@ CREATE TABLE rcqueue (
 );
 
 
-ALTER TABLE public.rcqueue OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcqueue OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcrecord; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -127,7 +127,7 @@ CREATE TABLE rcrecord (
 );
 
 
-ALTER TABLE public.rcrecord OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcrecord OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcset; Type: TABLE; Schema: public; Owner: proai_db_admin; Tablespace: 
@@ -140,7 +140,7 @@ CREATE TABLE rcset (
 );
 
 
-ALTER TABLE public.rcset OWNER TO {{ proai_db_admin_username }};
+ALTER TABLE public.rcset OWNER TO {{ easy_proai_db_admin_username }};
 
 --
 -- Name: rcfailure_pkey; Type: CONSTRAINT; Schema: public; Owner: proai_db_admin; Tablespace: 
