@@ -1,0 +1,36 @@
+#### Maven
+
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+#### Eclipse
+
+/.project
+/.classpath
+/.settings/
+/.cache
+/NOTES.txt
+
+#### Mac OS X
+
+.DS_Store
+
+#### (vim?) backup files
+
+~*
+.~*
+
+#### Sass Cache (webui)
+
+*.scssc
+.sass-cache/
+
+#### IntelliJ
+.idea
+*.iml
