@@ -33,6 +33,10 @@
     <name>EASY Datacite Library</name>
     <inceptionYear>2014</inceptionYear>
 
+    <properties>
+        <easy.emd.version>3.1</easy.emd.version>
+    </properties>
+
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
         <tag>HEAD</tag>
@@ -62,7 +66,7 @@
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>emd</artifactId>
-            <version>3.0</version>
+            <version>${easy.emd.version}</version>
         </dependency>
 
         <dependency>
