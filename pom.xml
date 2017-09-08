@@ -34,7 +34,7 @@
     <inceptionYear>2014</inceptionYear>
 
     <properties>
-        <easy.emd.version>3.2</easy.emd.version>
+        <easy.emd.version>3.3</easy.emd.version>
     </properties>
 
     <scm>
