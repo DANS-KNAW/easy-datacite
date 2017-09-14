@@ -178,20 +178,146 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
         <dcterms:temporal xml:lang="nld-NLD" eas:scheme="BSS0">temporal 0</dcterms:temporal>
         <dcterms:temporal xml:lang="nld-NLD" eas:scheme="BSS1">temporal 1</dcterms:temporal>
         <eas:spatial>
-            <eas:place xml:lang="nld-NLD" eas:scheme="BSS0">spatial 0</eas:place>
-            <eas:point eas:scheme="POI0">
+            <eas:place xml:lang="nld-NLD" eas:scheme="BSS0">spatial 2</eas:place>
+            <eas:point eas:scheme="RD">
                 <eas:x>123.45</eas:x>
                 <eas:y>456.78</eas:y>
             </eas:point>
         </eas:spatial>
         <eas:spatial>
-            <eas:place xml:lang="nld-NLD" eas:scheme="BSS1">spatial 1</eas:place>
-            <eas:box eas:scheme="BOX1">
+            <eas:place xml:lang="nld-NLD" eas:scheme="BSS1">spatial 3</eas:place>
+            <eas:box eas:scheme="RD">
                 <eas:north>12.3</eas:north>
                 <eas:east>23.4</eas:east>
                 <eas:south>34.5</eas:south>
                 <eas:west>45.6</eas:west>
             </eas:box>
+        </eas:spatial>
+        <!-- polygon with degrees -->
+        <eas:spatial>
+            <eas:place>A triangle between DANS, NWO and the railway station</eas:place>
+            <eas:polygon eas:scheme="degrees">
+                <eas:polygon-exterior>
+                    <eas:place>main triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>52.08110</eas:x>
+                        <eas:y>4.34521</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.08071</eas:x>
+                        <eas:y>4.34422</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.07913</eas:x>
+                        <eas:y>4.34332</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.08110</eas:x>
+                        <eas:y>4.34521</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
+                <eas:polygon-interior>
+                    <eas:place>hole1</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080450</eas:x>
+                        <eas:y>4.344323</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080357</eas:x>
+                        <eas:y>4.344110</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+                <eas:polygon-interior>
+                    <eas:place>hole2</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080450</eas:x>
+                        <eas:y>4.344323</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080357</eas:x>
+                        <eas:y>4.344110</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+            </eas:polygon>
+        </eas:spatial>
+        <!-- polygon with RD -->
+        <eas:spatial>
+            <eas:place>A triangle between DANS, NWO and the railway station</eas:place>
+            <eas:polygon eas:scheme="RD">
+                <eas:polygon-exterior>
+                    <eas:place>main triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>83575</eas:x>
+                        <eas:y>455271</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83507</eas:x>
+                        <eas:y>455229</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83443</eas:x>
+                        <eas:y>455054</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83575</eas:x>
+                        <eas:y>455271</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
+                <eas:polygon-interior>
+                    <eas:place>hole1</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>83506</eas:x>
+                        <eas:y>455210</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83513</eas:x>
+                        <eas:y>455200</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83499</eas:x>
+                        <eas:y>455189</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83506</eas:x>
+                        <eas:y>455210</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+                <eas:polygon-interior>
+                    <eas:place>hole2</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>83506</eas:x>
+                        <eas:y>455210</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83513</eas:x>
+                        <eas:y>455200</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83499</eas:x>
+                        <eas:y>455189</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>83506</eas:x>
+                        <eas:y>455210</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+            </eas:polygon>
         </eas:spatial>
     </emd:coverage>
     <emd:rights>

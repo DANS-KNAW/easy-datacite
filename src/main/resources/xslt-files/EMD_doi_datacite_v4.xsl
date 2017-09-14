@@ -823,8 +823,10 @@
         <!-- Ignore coordinates in degrees for now. -->
         <xsl:apply-templates select="eas:point[@eas:scheme = 'RD']"/>
         <xsl:apply-templates select="eas:box[@eas:scheme = 'RD']"/>
+        <xsl:apply-templates select="eas:polygon[@eas:scheme = 'RD']/eas:polygon-exterior"/>
         <xsl:apply-templates select="eas:point[@eas:scheme = 'degrees']"/>
         <xsl:apply-templates select="eas:box[@eas:scheme = 'degrees']"/>
+        <xsl:apply-templates select="eas:polygon[@eas:scheme = 'degrees']/eas:polygon-exterior"/>
     </xsl:template>
     <!-- =================================================================================== -->
     <xsl:template match="eas:point[@eas:scheme = 'degrees']">
@@ -884,6 +886,44 @@
             </xsl:element>
         </xsl:if>
     </xsl:template>
+    <!-- =================================================================================== -->
+    <xsl:template match="eas:polygon[@eas:scheme = 'degrees']/eas:polygon-exterior">
+        <xsl:element name="geoLocation">
+            <xsl:element name="geoLocationPolygon">
+                <xsl:for-each select="eas:polygon-point">
+                    <xsl:element name="polygonPoint">
+                        <xsl:element name="pointLatitude"><xsl:value-of select="eas:x"/></xsl:element>
+                        <xsl:element name="pointLongitude"><xsl:value-of select="eas:y"/></xsl:element>
+                    </xsl:element>
+                </xsl:for-each>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    <!-- =================================================================================== -->
+    <xsl:template match="eas:polygon[@eas:scheme = 'RD']/eas:polygon-exterior">
+        <!-- polygon in WGS84 -->
+        <xsl:element name="geoLocation">
+            <xsl:element name="geoLocationPolygon">
+                <xsl:for-each select="eas:polygon-point">
+                    <xsl:element name="polygonPoint">
+                        <xsl:element name="pointLatitude">
+                            <xsl:call-template name="rd-to-lat-long-lat">
+                                <xsl:with-param name="x" select="eas:x"/>
+                                <xsl:with-param name="y" select="eas:y"/>
+                            </xsl:call-template>
+                        </xsl:element>
+                        <xsl:element name="pointLongitude">
+                            <xsl:call-template name="rd-to-lat-long-lon">
+                                <xsl:with-param name="x" select="eas:x"/>
+                                <xsl:with-param name="y" select="eas:y"/>
+                            </xsl:call-template>
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:for-each>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    <!-- =================================================================================== -->
     <!-- ==================================================== -->
     <!-- x y to datacite pointLatitude pointLongitude -->
     <!-- ==================================================== -->
