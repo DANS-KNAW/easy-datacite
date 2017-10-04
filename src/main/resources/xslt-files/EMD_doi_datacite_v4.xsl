@@ -100,6 +100,7 @@
         <!-- 16. rights -->
         <xsl:element name="rightsList">
             <xsl:apply-templates select="emd:rights/dcterms:accessRights" />
+            <xsl:apply-templates select="emd:rights/dcterms:license"/>
         </xsl:element>
 
         <!-- 17. description -->
@@ -438,7 +439,7 @@
     </xsl:template>
 
     <!-- ==================================================== -->
-    <!-- emd:audience, emd:subject, emd:coverage => subject 
+    <!-- emd:audience, emd:subject, emd:coverage => subject
            - there are special subjects for archaeology datasets
              in a scheme 'archaeology.dc.subject' -->
     <!-- ==================================================== -->
@@ -716,6 +717,10 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="emd:rights/dcterms:license">
+        <xsl:element name="rights"><xsl:value-of select="."/></xsl:element>
     </xsl:template>
 
     <!-- ==================================================== -->
