@@ -23,7 +23,7 @@
             <eas:surname>creator00</eas:surname>
             <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
-            <eas:role eas:scheme="DATACITE">fake</eas:role>
+            <eas:role eas:scheme="DATACITE">Sponsor</eas:role>
         </eas:creator>
         <eas:creator>
             <eas:title>Dr.</eas:title>
@@ -63,6 +63,7 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:surname>contributor00</eas:surname>
             <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            <eas:role eas:scheme="DATACITE">ContactPerson</eas:role>
         </eas:contributor>
         <eas:contributor>
             <eas:title>Dr.</eas:title>
@@ -70,6 +71,10 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:prefix>van</eas:prefix>
             <eas:surname>contributor01</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+        </eas:contributor>
+        <eas:contributor>
+            <eas:organization>Hello Internet</eas:organization>
+            <eas:role eas:scheme="DATACITE">Sponsor</eas:role>
         </eas:contributor>
     </emd:contributor>
     <emd:date>
