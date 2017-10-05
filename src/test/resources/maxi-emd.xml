@@ -1,5 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
-<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+<emd:easymetadata
+    xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    emd:version="0.1"
+    xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ /Users/RichardvanHeest/git/service/easy/easy-schema/src/main/assembly/dist/md/emd/2017/09/emd.xsd">
     <emd:title>
         <dc:title xml:lang="nld-NLD" eas:scheme="BSS0">title 0</dc:title>
         <dc:title xml:lang="nld-NLD" eas:scheme="BSS1">title 1</dc:title>
@@ -16,6 +23,7 @@
             <eas:surname>creator00</eas:surname>
             <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            <eas:role eas:scheme="DATACITE">Sponsor</eas:role>
         </eas:creator>
         <eas:creator>
             <eas:title>Dr.</eas:title>
@@ -55,6 +63,7 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:surname>contributor00</eas:surname>
             <eas:organization>International Atomic Energy Agency</eas:organization>
             <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            <eas:role eas:scheme="DATACITE">ContactPerson</eas:role>
         </eas:contributor>
         <eas:contributor>
             <eas:title>Dr.</eas:title>
@@ -62,6 +71,10 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
             <eas:prefix>van</eas:prefix>
             <eas:surname>contributor01</eas:surname>
             <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+        </eas:contributor>
+        <eas:contributor>
+            <eas:organization>Hello Internet</eas:organization>
+            <eas:role eas:scheme="DATACITE">Sponsor</eas:role>
         </eas:contributor>
     </emd:contributor>
     <emd:date>

@@ -194,7 +194,14 @@
     <!-- ==================================================== -->
     <xsl:template match="eas:contributor">
         <xsl:element name="contributor">
-            <xsl:attribute name="contributorType" select="'Other'"/><!-- required attribute -->
+            <xsl:choose>
+                <xsl:when test="eas:role">
+                    <xsl:attribute name="contributorType" select="eas:role"/><!-- required attribute -->
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="contributorType" select="'Other'"/><!-- required attribute -->
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:element name="contributorName">
                 <xsl:call-template name="eas-name" />
             </xsl:element>
