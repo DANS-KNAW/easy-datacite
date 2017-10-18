@@ -99,8 +99,7 @@
 
         <!-- 16. rights -->
         <xsl:element name="rightsList">
-            <xsl:apply-templates select="emd:rights/dcterms:accessRights" />
-            <xsl:apply-templates select="emd:rights/dcterms:license"/>
+            <xsl:apply-templates select="emd:rights"/>
         </xsl:element>
 
         <!-- 17. description -->
@@ -688,7 +687,38 @@
     <!-- ==================================================== -->
     <!-- emd:rights/dct:accessRights to datacite rights -->
     <!-- ==================================================== -->
-    <xsl:template match="emd:rights/dcterms:accessRights">
+    <xsl:template match="emd:rights">
+        <xsl:apply-templates select="dcterms:accessRights"/>
+
+        <xsl:variable name="licenses" select="dcterms:license"/>
+        <xsl:if test="$licenses">
+            <xsl:for-each select="$licenses">
+                <xsl:choose>
+                    <xsl:when test=". = 'accept' and ../dcterms:accessRights = 'OPEN_ACCESS'">
+                        <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
+                        <xsl:element name="rights">
+                            <xsl:attribute name="rightsURI" select="$cc0"/>
+                            <xsl:value-of select="concat('License: ', $cc0)"/>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test=". = 'accept'"/> <!-- this case is such that the 'accept' value does not end up in the otherwise clause -->
+                    <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
+                        <xsl:element name="rights">
+                            <xsl:attribute name="rightsURI" select="."/>
+                            <xsl:value-of select="concat('License: ', .)"/>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:element name="rights">
+                            <xsl:value-of select="concat('License: ', .)"/>
+                        </xsl:element>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:for-each>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="dcterms:accessRights">
         <!-- 
          info:eu-repo/semantics/closedAccess
          info:eu-repo/semantics/embargoedAccess
@@ -717,17 +747,6 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:element>
-    </xsl:template>
-
-    <xsl:template match="emd:rights/dcterms:license">
-        <xsl:if test=". != 'accept'">
-            <xsl:element name="rights">
-                <xsl:if test="starts-with(., 'http://') or starts-with(., 'https://')">
-                    <xsl:attribute name="rightsURI" select="."/>
-                </xsl:if>
-                <xsl:value-of select="concat('License: ', .)"/>
-            </xsl:element>
-        </xsl:if>
     </xsl:template>
 
     <!-- ==================================================== -->
