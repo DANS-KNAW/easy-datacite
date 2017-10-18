@@ -720,7 +720,14 @@
     </xsl:template>
 
     <xsl:template match="emd:rights/dcterms:license">
-        <xsl:element name="rights"><xsl:value-of select="."/></xsl:element>
+        <xsl:if test=". != 'accept'">
+            <xsl:element name="rights">
+                <xsl:if test="starts-with(., 'http://') or starts-with(., 'https://')">
+                    <xsl:attribute name="rightsURI" select="."/>
+                </xsl:if>
+                <xsl:value-of select="concat('License: ', .)"/>
+            </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <!-- ==================================================== -->
