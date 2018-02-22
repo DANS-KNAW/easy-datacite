@@ -53,6 +53,7 @@
         <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-sba-6zn</dc:identifier>
         <dc:identifier eas:scheme="DMO_ID">easy-dataset:1</dc:identifier>
         <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.5072/dans-test-123</dc:identifier>
+        <dc:identifier eas:scheme="DOI_OTHER_ACCESS" eas:identification-system="https://doi.org">10.5072/other-test-123</dc:identifier>
     </emd:identifier>
     <emd:source/>
     <emd:language>

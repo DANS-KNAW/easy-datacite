@@ -763,9 +763,17 @@
         <xsl:element name="alternateIdentifiers">
             <!-- we cannot tell whether identifiers other than the ones matched below
                  belong to the dataset, so we leave them out (EASY-1002) -->
+            <xsl:apply-templates select="dc:identifier[@eas:scheme='DOI_OTHER_ACCESS']" />
             <xsl:apply-templates select="dc:identifier[@eas:scheme='PID']" />
             <xsl:apply-templates select="dc:identifier[@eas:scheme='DMO_ID']" />
             <xsl:apply-templates select="dc:identifier[@eas:scheme='AIP_ID']" />
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="dc:identifier[@eas:scheme='DOI_OTHER_ACCESS']">
+        <xsl:element name="alternateIdentifier">
+            <xsl:attribute name="alternateIdentifierType" select="'DOI'"/>
+            <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
 

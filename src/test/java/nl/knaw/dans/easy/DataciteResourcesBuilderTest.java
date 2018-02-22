@@ -244,6 +244,17 @@ public class DataciteResourcesBuilderTest {
     }
 
     @Test
+    public void otherAccessDoi() throws Exception {
+        ignoreIfNot("kernel-" + version);
+
+        String periodXPath = "//*[local-name()='alternateIdentifier'][@alternateIdentifierType='DOI']";
+        Element identifierElement = (Element) xPath.evaluate(periodXPath, docElement, XPathConstants.NODE);
+
+        assertEquals(identifierElement.getTextContent(), "10.5072/other-test-123");
+        assertEquals(identifierElement.getAttribute("alternateIdentifierType"), "DOI");
+    }
+
+    @Test
     public void validateXmlOutputAgainstDataciteSchema() throws Exception {
         ignoreIfNot("kernel-" + version);
         ignoreIfSchemaNotAccessible();
