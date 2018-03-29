@@ -601,12 +601,20 @@
     <!-- ==================================================== -->
     <xsl:template match="emd:relation">
         <xsl:element name="relatedIdentifiers">
+            <!-- TODO no clue yet how what to map 'eas:conformsTo' to; see also below -->
+            <!--<xsl:apply-templates select="eas:conformsTo[eas:subject-link != '']" />-->
+            <xsl:apply-templates select="eas:hasFormat[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:hasPart[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:hasVersion[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isFormatOf[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isPartOf[eas:subject-link != '']" />
             <xsl:apply-templates select="eas:isReferencedBy[eas:subject-link != '']" />
             <xsl:apply-templates select="eas:isReplacedBy[eas:subject-link != '']" />
-            <xsl:apply-templates select="eas:replaces[eas:subject-link != '']" />
-            <xsl:apply-templates select="eas:isPartOf[eas:subject-link != '']" />
-            <xsl:apply-templates select="eas:hasPart[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:isRequiredBy[eas:subject-link != '']" />
             <xsl:apply-templates select="eas:isVersionOf[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:references[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:replaces[eas:subject-link != '']" />
+            <xsl:apply-templates select="eas:requires[eas:subject-link != '']" />
         </xsl:element>
     </xsl:template>
 
@@ -636,6 +644,49 @@
         </xsl:element>
     </xsl:template>
 
+    <!-- TODO no clue what to use for the relationType here -->
+    <!--<xsl:template match="eas:conformsTo[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'???'"/>
+        </xsl:call-template>
+    </xsl:template>-->
+
+    <xsl:template match="eas:hasFormat[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsVariantFormatOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:hasPart[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'HasPart'"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:hasVersion[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsSourceOf'"/> <!-- TODO change in v4.1 to HasVersion -->
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:isFormatOf[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsVariantFormOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:isPartOf[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsPartOf'"/>
+        </xsl:call-template>
+    </xsl:template>
+
     <xsl:template match="eas:isReferencedBy[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
@@ -650,6 +701,27 @@
         </xsl:call-template>
     </xsl:template>
 
+    <xsl:template match="eas:isRequiredBy[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsSupplementTo'"/> <!-- TODO change in v4.1 to IsRequiredBy -->
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:isVersionOf[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'IsDerivedFrom'"/> <!-- TODO change in v4.1 to IsVersionOf -->
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="eas:references[eas:subject-link != '']">
+        <xsl:call-template name="relatedIdentifier">
+            <xsl:with-param name="link" select="eas:subject-link/text()"/>
+            <xsl:with-param name="relationType" select="'References'"/>
+        </xsl:call-template>
+    </xsl:template>
+
     <xsl:template match="eas:replaces[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
@@ -657,24 +729,10 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="eas:isPartOf[eas:subject-link != '']">
+    <xsl:template match="eas:requires[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
-            <xsl:with-param name="relationType" select="'IsPartOf'"/>
-        </xsl:call-template>
-    </xsl:template>
-
-    <xsl:template match="eas:hasPart[eas:subject-link != '']">
-        <xsl:call-template name="relatedIdentifier">
-            <xsl:with-param name="link" select="eas:subject-link/text()"/>
-            <xsl:with-param name="relationType" select="'HasPart'"/>
-        </xsl:call-template>
-    </xsl:template>
-
-    <xsl:template match="eas:isVersionOf[eas:subject-link != '']">
-        <xsl:call-template name="relatedIdentifier">
-            <xsl:with-param name="link" select="eas:subject-link/text()"/>
-            <xsl:with-param name="relationType" select="'IsDerivedFrom'"/>
+            <xsl:with-param name="relationType" select="'IsSupplementedBy'"/> <!-- TODO change in v4.1 to Requires -->
         </xsl:call-template>
     </xsl:template>
 
