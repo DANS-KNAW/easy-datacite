@@ -6,7 +6,7 @@
     xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     emd:version="0.1"
-    xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ /Users/RichardvanHeest/git/service/easy/easy-schema/src/main/assembly/dist/md/emd/2017/09/emd.xsd">
+    xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ https://easy.dans.knaw.nl/schemas/md/emd/emd.xsd">
     <emd:title>
         <dc:title xml:lang="nld-NLD" eas:scheme="BSS0">title 0</dc:title>
         <dc:title xml:lang="nld-NLD" eas:scheme="BSS1">title 1</dc:title>
@@ -330,6 +330,138 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
                         <eas:y>455210</eas:y>
                     </eas:polygon-point>
                 </eas:polygon-interior>
+            </eas:polygon>
+        </eas:spatial>
+        <!-- MultiSurface polygon with degrees -->
+        <eas:spatial>
+            <eas:place>A random surface with multiple polygons</eas:place>
+            <eas:polygon eas:scheme="degrees">
+                <eas:place>A triangle between DANS, NWO and the railway station</eas:place>
+                <eas:polygon-exterior>
+                    <eas:place>main triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>52.080741</eas:x>
+                        <eas:y>4.345312</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.08071</eas:x>
+                        <eas:y>4.34422</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.07913</eas:x>
+                        <eas:y>4.34332</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080741</eas:x>
+                        <eas:y>4.345312</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
+                <eas:polygon-interior>
+                    <eas:place>hole in the triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080450</eas:x>
+                        <eas:y>4.344323</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080357</eas:x>
+                        <eas:y>4.344110</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080542</eas:x>
+                        <eas:y>4.344215</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+            </eas:polygon>
+            <eas:polygon eas:scheme="degrees">
+                <eas:place>A triangle between BP, De Horeca Academie en the railway station</eas:place>
+                <eas:polygon-exterior>
+                    <eas:polygon-point>
+                        <eas:x>52.079710</eas:x>
+                        <eas:y>4.342778</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.080518</eas:x>
+                        <eas:y>4.343342</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.07913</eas:x>
+                        <eas:y>4.34332</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>52.079710</eas:x>
+                        <eas:y>4.342778</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
+            </eas:polygon>
+        </eas:spatial>
+        <!-- MultiSurface polygon with RD -->
+        <eas:spatial>
+            <eas:place>A random surface with multiple polygons</eas:place>
+            <eas:polygon eas:scheme="RD">
+                <eas:place>A triangle between DANS, NWO and the railway station</eas:place>
+                <eas:polygon-exterior>
+                    <eas:place>main triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>4.345312</eas:x>
+                        <eas:y>52.080741</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.34422</eas:x>
+                        <eas:y>52.08071</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.34332</eas:x>
+                        <eas:y>52.07913</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.345312</eas:x>
+                        <eas:y>52.080741</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
+                <eas:polygon-interior>
+                    <eas:place>hole in the triangle</eas:place>
+                    <eas:polygon-point>
+                        <eas:x>4.344215</eas:x>
+                        <eas:y>52.080542</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.344323</eas:x>
+                        <eas:y>52.080450</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.344110</eas:x>
+                        <eas:y>52.080357</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.344215</eas:x>
+                        <eas:y>52.080542</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-interior>
+            </eas:polygon>
+            <eas:polygon eas:scheme="RD">
+                <eas:place>A triangle between BP, De Horeca Academie en the railway station</eas:place>
+                <eas:polygon-exterior>
+                    <eas:polygon-point>
+                        <eas:x>4.342778</eas:x>
+                        <eas:y>52.079710</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.343342</eas:x>
+                        <eas:y>52.080518</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.34332</eas:x>
+                        <eas:y>52.07913</eas:y>
+                    </eas:polygon-point>
+                    <eas:polygon-point>
+                        <eas:x>4.342778</eas:x>
+                        <eas:y>52.079710</eas:y>
+                    </eas:polygon-point>
+                </eas:polygon-exterior>
             </eas:polygon>
         </eas:spatial>
     </emd:coverage>
