@@ -73,7 +73,9 @@ public class DataciteService {
     private String postDoi(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
+            ClientResponse response = createDoiWebResource()
+                .type(configuration.getDoiRegistrationContentType())
+                .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != CREATED)
                 throw createDoiPostFailedException(response.getStatus(), entity);
@@ -89,20 +91,18 @@ public class DataciteService {
 
     public boolean getDoi(String doi) throws DataciteServiceException {
         try {
-          final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
-          logger.debug("Checking if doi: {} is registered in Datacite", doi);
-          final ClientResponse response = createWebResource(uri)
-              .type(configuration.getMetadataRegistrationContentType())
-              .get(ClientResponse.class);
-          int status = response.getStatus();
-          if (status == NO_CONTENT || status == OK) {
-            return true;
-          }
-          else if (status == NOT_FOUND) {
-            return false;
-          }
-          else
-            throw createDoiGetFailedException(status, response.getEntity(String.class));
+            final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
+            logger.debug("Checking if doi: {} is registered in Datacite", doi);
+            final ClientResponse response = createWebResource(uri)
+                .type(configuration.getMetadataRegistrationContentType())
+                .get(ClientResponse.class);
+            int status = response.getStatus();
+            if (status == NO_CONTENT || status == OK) {
+                return true;
+            } else if (status == NOT_FOUND) {
+                return false;
+            } else
+                throw createDoiGetFailedException(status, response.getEntity(String.class));
         }
         catch (UniformInterfaceException e) {
             throw createDoiGetFailedException(e);
@@ -115,7 +115,9 @@ public class DataciteService {
     private String postMetadata(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createMetadataWebResource().type(configuration.getMetadataRegistrationContentType()).post(ClientResponse.class, content);
+            ClientResponse response = createMetadataWebResource()
+                .type(configuration.getMetadataRegistrationContentType())
+                .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != CREATED)
                 throw createMetadataPostFailedException(response.getStatus(), entity);
