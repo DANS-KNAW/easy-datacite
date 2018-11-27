@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2014 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,6 @@
  */
 package nl.knaw.dans.easy;
 
-import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -27,8 +22,11 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import nl.knaw.dans.easy.DataciteResourcesBuilder.Resources;
-
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.core.Response;
 
 public class DataciteService {
 
@@ -88,10 +86,36 @@ public class DataciteService {
         }
     }
 
+    public boolean getDoi(String doi) throws DataciteServiceException { // is doi registered?
+        try {
+          final String uri = String.format("{}/{}", configuration.getDoiRegistrationUri(), doi);
+          logger.debug("Checking if doi: {} is registered in Datacite", doi);
+          final ClientResponse response = createWebResource(uri)
+              .type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
+          int status = response.getStatus();
+          if (status == Response.Status.NO_CONTENT.getStatusCode()) {
+            return true;
+          }
+          else if (status == Response.Status.NOT_FOUND.getStatusCode()) {
+            return false;
+          }
+          else
+            throw createDoiGetFailedException(status, response.getEntity(String.class));
+        }
+        catch (UniformInterfaceException e) {
+          throw createDoiGetFailedException(e);
+        }
+        catch (DataciteServiceException e) {
+          throw createDoiGetFailedException(e);
+        }
+    }
+
     private String postMetadata(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createMetadataWebResource().type(configuration.getMetadataRegistrationContentType()).post(ClientResponse.class, content);
+            ClientResponse response = createMetadataWebResource()
+                .type(configuration.getMetadataRegistrationContentType())
+                .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
             if (response.getStatus() != Response.Status.CREATED.getStatusCode())
                 throw createMetadataPostFailedException(response.getStatus(), entity);
@@ -117,6 +141,18 @@ public class DataciteService {
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(configuration.getUsername(), configuration.getPassword()));
         return client.resource(uri);
+    }
+
+    private DataciteServiceException createDoiGetFailedException(int status, String cause) {
+      return new DataciteServiceException("GET doi failed: HTTP error code " + status + " and cause: " + cause);
+    }
+
+    private DataciteServiceException createDoiGetFailedException(Exception cause) {
+      return createGetFailedException("DOI", cause);
+    }
+
+    private DataciteServiceException createGetFailedException(String kind, Exception cause) {
+      return new DataciteServiceException(kind + " get failed: " + cause.getMessage(), cause);
     }
 
     private DataciteServiceException createDoiPostFailedException(int status, String cause) {
