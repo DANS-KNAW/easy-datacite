@@ -87,7 +87,7 @@ public class DataciteService {
         }
     }
 
-    public boolean getDoi(String doi) throws DataciteServiceException {
+    public boolean doiExists(String doi) throws DataciteServiceException {
         try {
             String uri = configuration.getDoiRegistrationUri() + "/" + doi;
             logger.debug("Checking if doi: {} is registered in Datacite", doi);
