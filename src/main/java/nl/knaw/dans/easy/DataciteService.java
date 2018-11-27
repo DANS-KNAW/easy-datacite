@@ -89,16 +89,20 @@ public class DataciteService {
 
     public boolean getDoi(String doi) throws DataciteServiceException {
         try {
-            final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
-            logger.debug("Checking if doi: {} is registered in Datacite", doi);
-            final ClientResponse response = createWebResource(uri).type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
-            int status = response.getStatus();
-            if (status == NO_CONTENT || status == OK) {
-                return true;
-            } else if (status == NOT_FOUND) {
-                return false;
-            } else
-                throw createDoiGetFailedException(status, response.getEntity(String.class));
+          final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
+          logger.debug("Checking if doi: {} is registered in Datacite", doi);
+          final ClientResponse response = createWebResource(uri)
+              .type(configuration.getMetadataRegistrationContentType())
+              .get(ClientResponse.class);
+          int status = response.getStatus();
+          if (status == NO_CONTENT || status == OK) {
+            return true;
+          }
+          else if (status == NOT_FOUND) {
+            return false;
+          }
+          else
+            throw createDoiGetFailedException(status, response.getEntity(String.class));
         }
         catch (UniformInterfaceException e) {
             throw createDoiGetFailedException(e);
