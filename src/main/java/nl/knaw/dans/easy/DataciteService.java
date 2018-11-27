@@ -26,15 +26,16 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.OK;
+
 public class DataciteService {
 
     private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
     private final DataciteServiceConfiguration configuration;
-    private static final int OK = 200;
-    private static final int CREATED = 201;
-    private static final int NO_CONTENT = 204;
-    private static final int NOT_FOUND = 404;
     private DataciteResourcesBuilder resourcesBuilder;
 
     public DataciteService(DataciteServiceConfiguration configuration) {
@@ -75,7 +76,7 @@ public class DataciteService {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
             ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != CREATED)
+            if (response.getStatus() != CREATED.getStatusCode())
                 throw createDoiPostFailedException(response.getStatus(), entity);
             return entity;
         }
@@ -93,9 +94,9 @@ public class DataciteService {
             logger.debug("Checking if doi: {} is registered in Datacite", doi);
             ClientResponse response = createWebResource(uri).type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
             int status = response.getStatus();
-            if (status == NO_CONTENT || status == OK) {
+            if (status == NO_CONTENT.getStatusCode() || status == OK.getStatusCode()) {
                 return true;
-            } else if (status == NOT_FOUND) {
+            } else if (status == NOT_FOUND.getStatusCode()) {
                 return false;
             } else
                 throw createDoiGetFailedException(status, response.getEntity(String.class));
@@ -113,7 +114,7 @@ public class DataciteService {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
             ClientResponse response = createMetadataWebResource().type(configuration.getMetadataRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != CREATED)
+            if (response.getStatus() != CREATED.getStatusCode())
                 throw createMetadataPostFailedException(response.getStatus(), entity);
             return entity;
         }
