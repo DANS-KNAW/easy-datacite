@@ -86,9 +86,9 @@ public class DataciteService {
         }
     }
 
-    public boolean getDoi(String doi) throws DataciteServiceException { // is doi registered?
+    public boolean getDoi(String doi) throws DataciteServiceException {
         try {
-          final String uri = String.format("{}/{}", configuration.getDoiRegistrationUri(), doi);
+          final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
           logger.debug("Checking if doi: {} is registered in Datacite", doi);
           final ClientResponse response = createWebResource(uri)
               .type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
