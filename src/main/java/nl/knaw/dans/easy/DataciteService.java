@@ -26,14 +26,16 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.core.Response;
 
 public class DataciteService {
 
     private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
     private final DataciteServiceConfiguration configuration;
-
+    private final int OK = 200;
+    private final int CREATED = 201;
+    private final int NO_CONTENT = 204;
+    private final int NOT_FOUND = 404;
     private DataciteResourcesBuilder resourcesBuilder;
 
     public DataciteService(DataciteServiceConfiguration configuration) {
@@ -72,9 +74,11 @@ public class DataciteService {
     private String postDoi(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
+            ClientResponse response = createDoiWebResource()
+                .type(configuration.getDoiRegistrationContentType())
+                .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+            if (response.getStatus() != CREATED)
                 throw createDoiPostFailedException(response.getStatus(), entity);
             return entity;
         }
@@ -93,10 +97,10 @@ public class DataciteService {
           final ClientResponse response = createWebResource(uri)
               .type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
           int status = response.getStatus();
-          if (status == Response.Status.NO_CONTENT.getStatusCode()) {
+          if (status == NO_CONTENT || status == OK) {
             return true;
           }
-          else if (status == Response.Status.NOT_FOUND.getStatusCode()) {
+          else if (status == NOT_FOUND) {
             return false;
           }
           else
@@ -117,7 +121,7 @@ public class DataciteService {
                 .type(configuration.getMetadataRegistrationContentType())
                 .post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+            if (response.getStatus() != CREATED)
                 throw createMetadataPostFailedException(response.getStatus(), entity);
             return entity;
         }
