@@ -95,7 +95,8 @@ public class DataciteService {
           final String uri = configuration.getDoiRegistrationUri() + "/" + doi;
           logger.debug("Checking if doi: {} is registered in Datacite", doi);
           final ClientResponse response = createWebResource(uri)
-              .type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
+              .type(configuration.getMetadataRegistrationContentType())
+              .get(ClientResponse.class);
           int status = response.getStatus();
           if (status == NO_CONTENT || status == OK) {
             return true;
