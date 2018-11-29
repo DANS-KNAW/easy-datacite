@@ -15,11 +15,6 @@
  */
 package nl.knaw.dans.easy;
 
-import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -27,15 +22,20 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import nl.knaw.dans.easy.DataciteResourcesBuilder.Resources;
-
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.OK;
 
 public class DataciteService {
 
     private static Logger logger = LoggerFactory.getLogger(DataciteService.class);
 
     private final DataciteServiceConfiguration configuration;
-
     private DataciteResourcesBuilder resourcesBuilder;
 
     public DataciteService(DataciteServiceConfiguration configuration) {
@@ -76,7 +76,7 @@ public class DataciteService {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
             ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+            if (response.getStatus() != CREATED.getStatusCode())
                 throw createDoiPostFailedException(response.getStatus(), entity);
             return entity;
         }
@@ -88,12 +88,33 @@ public class DataciteService {
         }
     }
 
+    public boolean doiExists(String doi) throws DataciteServiceException {
+        try {
+            String uri = configuration.getDoiRegistrationUri() + "/" + doi;
+            logger.debug("Checking if doi: {} is registered in Datacite", doi);
+            ClientResponse response = createWebResource(uri).type(configuration.getMetadataRegistrationContentType()).get(ClientResponse.class);
+            int status = response.getStatus();
+            if (status == NO_CONTENT.getStatusCode() || status == OK.getStatusCode()) {
+                return true;
+            } else if (status == NOT_FOUND.getStatusCode()) {
+                return false;
+            } else
+                throw createDoiGetFailedException(status, response.getEntity(String.class));
+        }
+        catch (UniformInterfaceException e) {
+            throw createDoiGetFailedException(e);
+        }
+        catch (DataciteServiceException e) {
+            throw createDoiGetFailedException(e);
+        }
+    }
+
     private String postMetadata(String content) throws DataciteServiceException {
         try {
             logger.debug("THIS IS SENT TO DATACITE: {}", content);
             ClientResponse response = createMetadataWebResource().type(configuration.getMetadataRegistrationContentType()).post(ClientResponse.class, content);
             String entity = response.getEntity(String.class);
-            if (response.getStatus() != Response.Status.CREATED.getStatusCode())
+            if (response.getStatus() != CREATED.getStatusCode())
                 throw createMetadataPostFailedException(response.getStatus(), entity);
             return entity;
         }
@@ -117,6 +138,14 @@ public class DataciteService {
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter(configuration.getUsername(), configuration.getPassword()));
         return client.resource(uri);
+    }
+
+    private DataciteServiceException createDoiGetFailedException(int status, String cause) {
+        return new DataciteServiceException("GET doi failed: HTTP error code " + status + " and cause: " + cause);
+    }
+
+    private DataciteServiceException createDoiGetFailedException(Exception cause) {
+        return new DataciteServiceException("DOI get failed: " + cause.getMessage(), cause);
     }
 
     private DataciteServiceException createDoiPostFailedException(int status, String cause) {
