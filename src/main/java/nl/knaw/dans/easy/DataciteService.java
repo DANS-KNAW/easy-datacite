@@ -136,6 +136,8 @@ public class DataciteService {
 
     private WebResource createWebResource(String uri) {
         Client client = Client.create();
+        client.setConnectTimeout(configuration.getConnectionTimeout());
+        client.setReadTimeout(configuration.getReadTimeout());
         client.addFilter(new HTTPBasicAuthFilter(configuration.getUsername(), configuration.getPassword()));
         return client.resource(uri);
     }
