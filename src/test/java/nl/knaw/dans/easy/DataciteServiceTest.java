@@ -15,6 +15,20 @@
  */
 package nl.knaw.dans.easy;
 
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import org.apache.commons.io.FileUtils;
+import org.easymock.Capture;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.io.File;
+import java.net.URL;
+import java.util.Properties;
+import java.util.UUID;
+
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -30,22 +44,6 @@ import static org.powermock.api.easymock.PowerMock.resetAll;
 import static org.powermock.api.easymock.PowerMock.verifyAll;
 import static org.powermock.reflect.Whitebox.getInternalState;
 import static org.powermock.reflect.Whitebox.setInternalState;
-
-import java.io.File;
-import java.net.URL;
-import java.util.Properties;
-import java.util.UUID;
-
-import com.sun.jersey.api.client.WebResource;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-
-import org.apache.commons.io.FileUtils;
-import org.easymock.Capture;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
 
 public class DataciteServiceTest {
 
