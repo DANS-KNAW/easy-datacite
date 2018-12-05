@@ -28,8 +28,8 @@ public class DataciteServiceConfiguration {
     private static final String DEFAULT_DATACITE_DOI_CONTENT_TYPE = "text/plain;charset=UTF-8";
     private static final String DEFAULT_DATACITE_METADATA_URI = "https://mds.test.datacite.org/metadata";
     private static final String DEFAULT_DATACITE_METADATA_CONTENT_TYPE = "application/xml";
-    private static final int DEFAULT_WEB_RESOURCE_READ_TIMEOUT_IN_MILLIS = 5000;
-    private static final int DEFAULT_WEB_RESOURCE_CONNECTION_TIMEOUT_IN_MILLIS = 5000;
+    private static final int DEFAULT_READ_TIMEOUT_IN_MILLIS = 5000;
+    private static final int DEFAULT_CONNECTION_TIMEOUT_IN_MILLIS = 5000;
 
     private String username;
     private String password;
@@ -40,8 +40,8 @@ public class DataciteServiceConfiguration {
     private String xslVersion = DEFAULT_XSL_VERSION;
     private String xslEmd2datacite = DEFAULT_XSL;
     private URL datasetResolver;
-    private int webResourceReadTimeout = DEFAULT_WEB_RESOURCE_READ_TIMEOUT_IN_MILLIS;
-    private int WebResourceConnectionTimeout = DEFAULT_WEB_RESOURCE_CONNECTION_TIMEOUT_IN_MILLIS;
+    private int readTimeout = DEFAULT_READ_TIMEOUT_IN_MILLIS;
+    private int connectionTimeout = DEFAULT_CONNECTION_TIMEOUT_IN_MILLIS;
 
     public String getUsername() {
         if (StringUtils.isBlank(username))
@@ -138,19 +138,19 @@ public class DataciteServiceConfiguration {
         this.datasetResolver = datasetResolver;
     }
 
-    public int getWebResourceReadTimeout() {
-        return this.webResourceReadTimeout;
+    public int getReadTimeout() {
+        return this.readTimeout;
     }
 
-    public void setWebResourceReadTimeout(int webResourceReadTimeout) {
-        this.webResourceReadTimeout = webResourceReadTimeout;
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
     }
 
-    public int getWebResourceConnectionTimeout() {
-        return this.WebResourceConnectionTimeout;
+    public int getConnectionTimeout() {
+        return this.connectionTimeout;
     }
 
-    public void setWebResourceConnectionTimeout(int webResourceConnectionTimeout) {
-        this.WebResourceConnectionTimeout = webResourceConnectionTimeout;
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
     }
 }

@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.sun.jersey.api.client.WebResource;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.commons.io.FileUtils;
