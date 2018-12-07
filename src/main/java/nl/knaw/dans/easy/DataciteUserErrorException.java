@@ -18,6 +18,5 @@ package nl.knaw.dans.easy;
 public class DataciteUserErrorException extends DataciteServiceException {
     public DataciteUserErrorException(String message, int httpStatusCode) {
         super(message, httpStatusCode);
-        this.httpStatusCode = httpStatusCode;
     }
 }
