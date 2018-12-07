@@ -149,7 +149,7 @@ public class DataciteService {
     private DataciteServiceException createDoiGetFailedException(int status, String cause) {
         String message = "GET doi failed: HTTP error code: " + status + "\\n + cause" + cause;
         if (isUserError(status)) {
-            return new DataciteBadRequestException(message, status);
+            return new DataciteUserErrorException(message, status);
         }
         return new DataciteServiceException(message, status);
     }
@@ -177,7 +177,7 @@ public class DataciteService {
     private DataciteServiceException createPostFailedException(String kind, int status, String cause) {
         String message = kind + " post failed : HTTP error code : " + status + "\n" + cause;
         if (isUserError(status)) {
-            return new DataciteBadRequestException(message, status);
+            return new DataciteUserErrorException(message, status);
         }
         return new DataciteServiceException(message, status);
     }
