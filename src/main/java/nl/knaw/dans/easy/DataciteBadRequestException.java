@@ -15,21 +15,9 @@
  */
 package nl.knaw.dans.easy;
 
-public class DataciteServiceException extends Exception {
-
-    private static final long serialVersionUID = 1L;
-    protected int httpStatusCode = 0;
-
-    public DataciteServiceException(String message, Exception cause) {
-        super(message, cause);
-    }
-
-    public DataciteServiceException(String message, int httpStatusCode) {
-        super(message);
+public class DataciteBadRequestException extends DataciteServiceException {
+    public DataciteBadRequestException(String message, int httpStatusCode) {
+        super(message, httpStatusCode);
         this.httpStatusCode = httpStatusCode;
-    }
-
-    public int getHttpStatusCode() {
-        return this.httpStatusCode;
     }
 }
