@@ -71,23 +71,6 @@ public class DataciteService {
         logger.info(message);
     }
 
-    private String postDoi(String content) throws DataciteServiceException {
-        try {
-            logger.debug("THIS IS SENT TO DATACITE: {}", content);
-            ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
-            String entity = response.getEntity(String.class);
-            if (response.getStatus() != CREATED.getStatusCode())
-                throw createDoiPostFailedException(response.getStatus(), entity);
-            return entity;
-        }
-        catch (UniformInterfaceException e) {
-            throw createDoiPostFailedException(e);
-        }
-        catch (ClientHandlerException e) {
-            throw createDoiPostFailedException(e);
-        }
-    }
-
     public boolean doiExists(String doi) throws DataciteServiceException {
         try {
             String uri = configuration.getDoiRegistrationUri() + "/" + doi;
@@ -107,6 +90,27 @@ public class DataciteService {
         catch (DataciteServiceException e) {
             throw createDoiGetFailedException(e);
         }
+    }
+
+    private String postDoi(String content) throws DataciteServiceException {
+        try {
+            logger.debug("THIS IS SENT TO DATACITE: {}", content);
+            ClientResponse response = createDoiWebResource().type(configuration.getDoiRegistrationContentType()).post(ClientResponse.class, content);
+            String entity = response.getEntity(String.class);
+            if (response.getStatus() != CREATED.getStatusCode())
+                throw createDoiPostFailedException(response.getStatus(), entity);
+            return entity;
+        }
+        catch (UniformInterfaceException e) {
+            throw createDoiPostFailedException(e);
+        }
+        catch (ClientHandlerException e) {
+            throw createDoiPostFailedException(e);
+        }
+    }
+
+    private boolean isUserError(int statusCode) {
+        return (statusCode >= 400) && (statusCode < 500);
     }
 
     private String postMetadata(String content) throws DataciteServiceException {
@@ -143,7 +147,11 @@ public class DataciteService {
     }
 
     private DataciteServiceException createDoiGetFailedException(int status, String cause) {
-        return new DataciteServiceException("GET doi failed: HTTP error code " + status + " and cause: " + cause);
+        String message = "GET doi failed: HTTP error code: " + status + "\\n + cause" + cause;
+        if (isUserError(status)) {
+            return new DataciteUserErrorException(message, status);
+        }
+        return new DataciteServiceException(message, status);
     }
 
     private DataciteServiceException createDoiGetFailedException(Exception cause) {
@@ -167,7 +175,11 @@ public class DataciteService {
     }
 
     private DataciteServiceException createPostFailedException(String kind, int status, String cause) {
-        return new DataciteServiceException(kind + " post failed : HTTP error code : " + status + "\n" + cause);
+        String message = kind + " post failed : HTTP error code : " + status + "\n" + cause;
+        if (isUserError(status)) {
+            return new DataciteUserErrorException(message, status);
+        }
+        return new DataciteServiceException(message, status);
     }
 
     private DataciteServiceException createPostFailedException(String kind, Exception cause) {
