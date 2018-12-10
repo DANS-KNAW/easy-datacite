@@ -27,7 +27,7 @@
 
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-datacite</artifactId>
-    <version>3.7.1-SNAPSHOT</version>
+    <version>3.7.1</version>
     <packaging>jar</packaging>
 
     <name>EASY Datacite Library</name>
@@ -39,7 +39,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v3.7.1</tag>
     </scm>
 
     <dependencies>
