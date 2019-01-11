@@ -20,9 +20,9 @@ import java.net.URL;
 import org.apache.commons.lang.StringUtils;
 
 public class DataciteServiceConfiguration {
-    private static final String DEFAULT_XSL_VERSION = "4_1"; // Note that if the datacite version is updated the proai.properties needs to be updated as well!
-                                                           // Change the driver.fedora.md.format.oai_datacite.loc and driver.fedora.md.format.oai_datacite.uri
-                                                           // values accordingly.
+    private static final String DEFAULT_XSL_VERSION = "4.1"; // Note that if the datacite version is updated the proai.properties needs to be updated as well!
+                                                             // Change the driver.fedora.md.format.oai_datacite.loc and driver.fedora.md.format.oai_datacite.uri
+                                                             // values accordingly.
     private static final String DEFAULT_XSL = String.format("xslt-files/EMD_doi_datacite_v%s.xsl", DEFAULT_XSL_VERSION);
     private static final String DEFAULT_DATACITE_DOI_URI = "https://mds.test.datacite.org/doi";
     private static final String DEFAULT_DATACITE_DOI_CONTENT_TYPE = "text/plain;charset=UTF-8";
