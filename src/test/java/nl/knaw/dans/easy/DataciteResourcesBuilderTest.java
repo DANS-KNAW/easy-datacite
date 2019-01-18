@@ -164,7 +164,7 @@ public class DataciteResourcesBuilderTest {
     public void simpleContributor() throws Exception {
         NodeList creators = (NodeList) xPath.evaluate(CONTRIBUTOR, maxiDocElement, XPathConstants.NODESET);
         assertEquals(7, creators.getLength());
-        assertEquals("Hello Internet\n         Hello Internet", creators.item(2).getTextContent().trim());
+        assertEquals("Hello Internet", creators.item(2).getChildNodes().item(1).getTextContent().trim());
         assertEquals("contributor 0", creators.item(3).getTextContent().trim());
         assertEquals("contributor 1", creators.item(4).getTextContent().trim());
         assertEquals("rights 0", creators.item(5).getTextContent().trim());
