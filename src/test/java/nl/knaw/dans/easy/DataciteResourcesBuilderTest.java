@@ -144,6 +144,28 @@ public class DataciteResourcesBuilderTest {
     }
 
     @Test
+    public void noAccessWithDansDoi() throws Exception {
+        EasyMetadata emd = new EmdBuilder("no-access-dans-doi-emd.xml").build();
+
+        DataciteResourcesBuilder.Resources out = createDefaultBuilder().create(emd);
+        String metadataOut = out.metadataResource;
+
+        assertThat(metadataOut, containsString("<rights>info:eu-repo/semantics/closedAccess</rights>"));
+        logger.debug(metadataOut);
+    }
+
+    @Test
+    public void noAccessWithOtherDoi() throws Exception {
+        EasyMetadata emd = new EmdBuilder("no-access-other-doi-emd.xml").build();
+
+        DataciteResourcesBuilder.Resources out = createDefaultBuilder().create(emd);
+        String metadataOut = out.metadataResource;
+
+        assertThat(metadataOut, containsString("<rights>info:eu-repo/semantics/openAccess</rights>"));
+        logger.debug(metadataOut);
+    }
+
+    @Test
     public void creatorAffiliation() throws Exception {
         ignoreIfNot("kernel-" + version);
 

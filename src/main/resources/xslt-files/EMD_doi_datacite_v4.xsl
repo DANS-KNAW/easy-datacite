@@ -790,6 +790,8 @@
          info:eu-repo/semantics/restrictedAccess
          info:eu-repo/semantics/openAccess
         -->
+        <xsl:variable name="doi" select="//emd:identifier/dc:identifier[@eas:scheme='DOI']/text()"/>
+        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.5072/dans-')) then 'DANS' else 'OTHER'"/>
         <xsl:element name="rights">
             <xsl:choose>
                 <xsl:when test=". = 'OPEN_ACCESS_FOR_REGISTERED_USERS'">
@@ -803,6 +805,9 @@
                 </xsl:when>
                 <xsl:when test=". = 'REQUEST_PERMISSION'">
                     <xsl:value-of select="'info:eu-repo/semantics/restrictedAccess'"/>
+                </xsl:when>
+                <xsl:when test=". = 'NO_ACCESS' and $origin-doi != 'DANS'">
+                    <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
                 </xsl:when>
                 <xsl:when test=". = 'NO_ACCESS'">
                     <xsl:value-of select="'info:eu-repo/semantics/closedAccess'"/>
