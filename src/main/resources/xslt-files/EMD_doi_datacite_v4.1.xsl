@@ -817,7 +817,7 @@
          info:eu-repo/semantics/openAccess
         -->
         <xsl:variable name="doi" select="//emd:identifier/dc:identifier[@eas:scheme='DOI']/text()"/>
-        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.5072/dans-')) then 'DANS' else 'OTHER'"/>
+        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.17026/dans-')) then 'DANS' else 'OTHER'"/>
         <xsl:element name="rights">
             <xsl:choose>
                 <xsl:when test=". = 'OPEN_ACCESS_FOR_REGISTERED_USERS'">
