@@ -782,7 +782,7 @@
         <xsl:variable name="access-rights" select="dcterms:accessRights"/>
         <xsl:variable name="licenses" select="dcterms:license"/>
         <xsl:variable name="doi" select="//emd:identifier/dc:identifier[@eas:scheme='DOI']/text()"/>
-        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.17026/dans-')) then 'DANS' else 'OTHER'"/>
+        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.17026/')) then 'DANS' else 'OTHER'"/>
         <xsl:variable name="access-rights-datacite">
             <xsl:choose>
                 <xsl:when test="$access-rights ='NO_ACCESS' and $origin-doi != 'DANS'">
@@ -822,7 +822,7 @@
         <xsl:if test="$licenses">
             <xsl:for-each select="$licenses">
                 <xsl:choose>
-                    <xsl:when test=". = 'accept' and $access-rights-datacite = 'OPEN_ACCESS'">
+                    <xsl:when test=". = 'accept' and ../dcterms:accessRights = 'OPEN_ACCESS'">
                         <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
                         <xsl:element name="rights">
                             <xsl:attribute name="rightsURI" select="$cc0"/>
