@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title>test-title</dc:title>
+        <dct:alternative>test-alternative-title</dct:alternative>
+        <dct:alternative>test-alternative-title2</dct:alternative>
+    </emd:title>
+    <emd:creator>
+        <eas:creator>
+            <eas:initials>X</eas:initials>
+            <eas:surname>Foo</eas:surname>
+            <eas:organization>International Atomic Energy Agency</eas:organization>
+            <eas:entityId eas:scheme="DAI">someDai</eas:entityId>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject>PROSPECTIE</dc:subject>
+        <dc:subject>NIEUWE TIJD</dc:subject>
+        <dc:subject>BEWONING</dc:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">GX</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>test-description</dc:description>
+    </emd:description>
+    <emd:publisher>
+        <dc:publisher>test-publisher</dc:publisher>
+    </emd:publisher>
+    <emd:contributor>
+        <eas:contributor>
+            <eas:initials>Y</eas:initials>
+            <eas:surname>Baar</eas:surname>
+            <eas:organization>CERN</eas:organization>
+            <eas:entityId eas:scheme="DAI"></eas:entityId>
+        </eas:contributor>
+    </emd:contributor>
+    <emd:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="YEAR">2002-01-01T00:00:00.000+01:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2010-01-07T00:00:00.000+01:00</eas:available>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2010-01-11T09:15:12.000+01:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type>rapport</dc:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Text</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format>test-format</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier>test-identifier</dc:identifier>
+        <dc:identifier eas:scheme="ISBN">9077000232</dc:identifier>
+        <dc:identifier eas:scheme="eDNA-project">a07223</dc:identifier>
+        <dc:identifier eas:scheme="AIP_ID">twips.dans.knaw.nl-7865083291377881651-1263201312524</dc:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-sba-6zn</dc:identifier>
+        <dc:identifier eas:scheme="DMO_ID">easy-dataset:1</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.17026/dans-123</dc:identifier>
+        <dc:identifier eas:scheme="DOI_OTHER_ACCESS" eas:identification-system="https://doi.org">10.5072/other-test-123</dc:identifier>
+    </emd:identifier>
+    <emd:source/>
+    <emd:language>
+        <dc:language>test-language</dc:language>
+        <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
+    </emd:language>
+    <emd:relation>
+        <eas:isPartOf>
+            <eas:subject-title>test-partof-subject-title</eas:subject-title>
+            <eas:subject-link/>
+        </eas:isPartOf>
+        <eas:isPartOf>
+            <eas:subject-title>test-partof-subject-title2</eas:subject-title>
+            <eas:subject-link/>
+        </eas:isPartOf>
+    </emd:relation>
+    <emd:coverage>
+        <dct:spatial>Overijssel</dct:spatial>
+        <dct:spatial>Nederland</dct:spatial>
+        <dct:spatial>e-ne (MARC21)</dct:spatial>
+        <dct:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">NT</dct:temporal>
+        <eas:spatial>
+            <eas:point eas:scheme="RD">
+                <eas:x>171872</eas:x>
+                <eas:y>584275</eas:y>
+            </eas:point>
+            <eas:box eas:scheme="RD">
+                <eas:north>359400</eas:north>
+                <eas:east>196100</eas:east>
+                <eas:south>354000</eas:south>
+                <eas:west>191450</eas:west>
+            </eas:box>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dct:accessRights eas:schemeId="common.dcterms.accessrights">NO_ACCESS</dct:accessRights>
+        <dct:rightsHolder>test-rightsholder</dct:rightsHolder>
+    </emd:rights>
+    <emd:audience>
+        <dct:audience eas:schemeId="custom.disciplines">easy-discipline:2</dct:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+        </eas:application-specific>
+        <eas:etc>
+            <property-list>
+                <comment>Conversion of EasyI to EasyII</comment>
+                <entry key="conversion.date">2011-03-31T17:29:41.661Z</entry>
+                <entry key="previous.collection-id">twips.dans.knaw.nl-7865083291377881651-1263201312524</entry>
+            </property-list>
+        </eas:etc>
+    </emd:other>
+</emd:easymetadata>

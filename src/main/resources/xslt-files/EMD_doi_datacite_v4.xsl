@@ -753,9 +753,46 @@
     <!-- emd:rights/dct:accessRights to datacite rights -->
     <!-- ==================================================== -->
     <xsl:template match="emd:rights">
-        <xsl:apply-templates select="dcterms:accessRights"/>
-
+        <xsl:variable name="access-rights" select="dcterms:accessRights"/>
         <xsl:variable name="licenses" select="dcterms:license"/>
+        <xsl:variable name="doi" select="//emd:identifier/dc:identifier[@eas:scheme='DOI']/text()"/>
+        <xsl:variable name="origin-doi" select="if (starts-with($doi, '10.17026/')) then 'DANS' else 'OTHER'"/>
+        <xsl:variable name="access-rights-datacite">
+            <xsl:choose>
+                <xsl:when test="$access-rights ='NO_ACCESS' and $origin-doi != 'DANS'">
+                    <xsl:value-of select="'OPEN_ACCESS'"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$access-rights"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <xsl:if test="$access-rights">
+            <xsl:element name="rights">
+                <xsl:choose>
+                    <xsl:when test="$access-rights-datacite = 'OPEN_ACCESS_FOR_REGISTERED_USERS'">
+                        <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
+                    </xsl:when>
+                    <xsl:when test="$access-rights-datacite = 'OPEN_ACCESS'">
+                        <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
+                    </xsl:when>
+                    <xsl:when test="$access-rights-datacite = 'GROUP_ACCESS'">
+                        <xsl:value-of select="'info:eu-repo/semantics/restrictedAccess'"/>
+                    </xsl:when>
+                    <xsl:when test="$access-rights-datacite = 'REQUEST_PERMISSION'">
+                        <xsl:value-of select="'info:eu-repo/semantics/restrictedAccess'"/>
+                    </xsl:when>
+                    <xsl:when test="$access-rights-datacite = 'NO_ACCESS'">
+                        <xsl:value-of select="'info:eu-repo/semantics/closedAccess'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="."/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:element>
+        </xsl:if>
+
         <xsl:if test="$licenses">
             <xsl:for-each select="$licenses">
                 <xsl:choose>
@@ -781,37 +818,6 @@
                 </xsl:choose>
             </xsl:for-each>
         </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="dcterms:accessRights">
-        <!-- 
-         info:eu-repo/semantics/closedAccess
-         info:eu-repo/semantics/embargoedAccess
-         info:eu-repo/semantics/restrictedAccess
-         info:eu-repo/semantics/openAccess
-        -->
-        <xsl:element name="rights">
-            <xsl:choose>
-                <xsl:when test=". = 'OPEN_ACCESS_FOR_REGISTERED_USERS'">
-                    <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
-                </xsl:when>
-                <xsl:when test=". = 'OPEN_ACCESS'">
-                    <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
-                </xsl:when>
-                <xsl:when test=". = 'GROUP_ACCESS'">
-                    <xsl:value-of select="'info:eu-repo/semantics/restrictedAccess'"/>
-                </xsl:when>
-                <xsl:when test=". = 'REQUEST_PERMISSION'">
-                    <xsl:value-of select="'info:eu-repo/semantics/restrictedAccess'"/>
-                </xsl:when>
-                <xsl:when test=". = 'NO_ACCESS'">
-                    <xsl:value-of select="'info:eu-repo/semantics/closedAccess'"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="."/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
     </xsl:template>
 
     <!-- ==================================================== -->
