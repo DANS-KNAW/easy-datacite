@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://datacite.org/schema/kernel-4 https://easy.dans.knaw.nl/schemas/extern/datacite/v4.1/metadata.xsd http://easy.dans.knaw.nl/easy/easymetadata/ https://easy.dans.knaw.nl/schemas/md/emd/emd.xsd"
+                  emd:version="0.1">
     <emd:title>
         <dc:title>Prehistorische bewoning op het World Forum gebied - Den Haag</dc:title>
     </emd:title>
