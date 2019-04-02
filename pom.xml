@@ -27,7 +27,7 @@
 
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>easy-datacite</artifactId>
-    <version>3.8.1-SNAPSHOT</version>
+    <version>3.9.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>EASY Datacite Library</name>
