@@ -124,7 +124,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void noDoi() throws Exception {
-        EasyMetadata emd = new EmdBuilder().replaceAll("10.5072/dans-test-123", "\t").build();
+        EasyMetadata emd = new EmdBuilder().replaceAll("10.17026/dans-test-123", "\t").build();
         assertThat(emd.getEmdIdentifier().getDansManagedDoi(), equalTo("\t"));
 
         createDefaultBuilder().create(emd);
@@ -273,7 +273,7 @@ public class DataciteResourcesBuilderTest {
         String periodXPath = "//*[local-name()='alternateIdentifier'][@alternateIdentifierType='DOI']";
         Element identifierElement = (Element) xPath.evaluate(periodXPath, docElement, XPathConstants.NODE);
 
-        assertEquals(identifierElement.getTextContent(), "10.5072/other-test-123");
+        assertEquals(identifierElement.getTextContent(), "10.17026/other-test-123");
         assertEquals(identifierElement.getAttribute("alternateIdentifierType"), "DOI");
     }
 
@@ -356,7 +356,7 @@ public class DataciteResourcesBuilderTest {
     }
 
     private BasicIdentifier createDOI() {
-        BasicIdentifier bi = new BasicIdentifier("10.5072/dans-test-123");
+        BasicIdentifier bi = new BasicIdentifier("10.17026/dans-test-123");
         bi.setIdentificationSystem(URI.create(DOI_RESOLVER));
         bi.setScheme(SCHEME_DOI);
         return bi;

@@ -59,7 +59,7 @@ archeologisch onderzoek uitgevoerd op het terrein van de voormalige Statenhal aa
         <dc:identifier eas:scheme="Archis_onderzoek_m_nr" eas:schemeId="archaeology.dc.identifier" eas:identification-system="http://archis2.archis.nl">17659</dc:identifier>
         <dc:identifier eas:scheme="Archis_onderzoek_m_nr" eas:schemeId="archaeology.dc.identifier" eas:identification-system="http://archis2.archis.nl">19113</dc:identifier>
         <dc:identifier eas:scheme="DMO_ID">easy-dataset:34136</dc:identifier>
-        <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.5072/dans-test-765</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="https://doi.org">10.17026/dans-test-765</dc:identifier>
     </emd:identifier>
     <emd:source/>
     <emd:language>

@@ -154,7 +154,7 @@ public class DataciteServiceTest {
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
-            assertThat(e.getMessage(), containsString("401"));
+            assertThat(e.getMessage(), containsString("404"));
             verifyAll();
         }
     }
@@ -288,8 +288,8 @@ public class DataciteServiceTest {
         }
         catch (DataciteServiceException e) {
             ignoreIfNoWebAccess(e);
-            assertThat(e.getMessage(), containsString("HTTP error code : 400"));
-            assertThat(e.getMessage(), containsString("One of '{\"http://datacite.org/schema/kernel-4\":titles"));
+            assertThat(e.getMessage(), containsString("HTTP error code : 422"));
+            assertThat(e.getMessage(), containsString("one of ( {http://datacite.org/schema/kernel-4}titles"));
             verifyAll();
         }
         finally {
