@@ -117,6 +117,7 @@ Vestibulum mollis auctor sapien. Integer pede. Vivamus eu augue. Donec nisi puru
     <emd:type>
         <dc:type xml:lang="nld-NLD" eas:scheme="BSS0">type 0</dc:type>
         <dc:type xml:lang="nld-NLD" eas:scheme="BSS1">type 1</dc:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
     </emd:type>
     <emd:format>
         <dc:format xml:lang="nld-NLD" eas:scheme="BSS0">format 0</dc:format>

@@ -76,6 +76,7 @@ public class DataciteResourcesBuilderTest {
     private static final String XP_GEOLOCATION = "//*[local-name()='geoLocations']/*[local-name()='geoLocation']";
     private static final String XP_GEOLOCATION_POINT = XP_GEOLOCATION + "/*[local-name()='geoLocationPoint']";
     private static final String XP_GEOLOCATION_BOX = XP_GEOLOCATION + "/*[local-name()='geoLocationBox']";
+    private static final String XP_TYPE = "//*[local-name()='resourceType']";
 
     private static final Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilderTest.class);
     private Document document;
@@ -274,6 +275,26 @@ public class DataciteResourcesBuilderTest {
 
         assertEquals(identifierElement.getTextContent(), "10.5072/other-test-123");
         assertEquals(identifierElement.getAttribute("alternateIdentifierType"), "DOI");
+    }
+
+    @Test
+    public void dcmiTypeForEMD() throws Exception {
+        ignoreIfNot("kernel-" + version);
+
+        Element dcmiTypeElement = (Element) xPath.evaluate(XP_TYPE, docElement, XPathConstants.NODE);
+
+        assertEquals("Text", dcmiTypeElement.getTextContent());
+        assertEquals("Text", dcmiTypeElement.getAttribute("resourceTypeGeneral"));
+    }
+
+    @Test
+    public void dcmiTypeForMaxiEMD() throws Exception {
+        ignoreIfNot("kernel-" + version);
+
+        Element dcmiTypeElement = (Element) xPath.evaluate(XP_TYPE, maxiDocElement, XPathConstants.NODE);
+
+        assertEquals("Dataset", dcmiTypeElement.getTextContent());
+        assertEquals("Dataset", dcmiTypeElement.getAttribute("resourceTypeGeneral"));
     }
 
     @Test

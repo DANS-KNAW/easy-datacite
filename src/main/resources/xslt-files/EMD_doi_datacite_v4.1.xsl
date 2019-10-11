@@ -86,7 +86,7 @@
         <xsl:apply-templates select="emd:language" />
 
         <!-- 10. resourceType -->
-        <xsl:call-template name="type" />
+        <xsl:apply-templates select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
 
         <!-- 11. alternateIdentifier OPTIONAL -->
         <xsl:apply-templates select="emd:identifier[dc:identifier[not(@eas:scheme='DOI')]]"/>
@@ -615,10 +615,10 @@
     <!-- ==================================================== -->
     <!-- emd:type to datacite resourceType -->
     <!-- ==================================================== -->
-    <xsl:template name="type">
+    <xsl:template match="emd:type/dc:type[@eas:scheme='DCMI']">
         <xsl:element name="resourceType">
-            <xsl:attribute name="resourceTypeGeneral" select="'Dataset'" />
-            <xsl:value-of select="'Dataset'" />
+            <xsl:attribute name="resourceTypeGeneral" select="text()" />
+            <xsl:value-of select="text()" />
         </xsl:element>
     </xsl:template>
 
