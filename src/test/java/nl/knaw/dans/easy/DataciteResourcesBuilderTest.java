@@ -76,6 +76,7 @@ public class DataciteResourcesBuilderTest {
     private static final String XP_GEOLOCATION = "//*[local-name()='geoLocations']/*[local-name()='geoLocation']";
     private static final String XP_GEOLOCATION_POINT = XP_GEOLOCATION + "/*[local-name()='geoLocationPoint']";
     private static final String XP_GEOLOCATION_BOX = XP_GEOLOCATION + "/*[local-name()='geoLocationBox']";
+    private static final String XP_TYPE = "//*[local-name()='resourceType']";
 
     private static final Logger logger = LoggerFactory.getLogger(DataciteResourcesBuilderTest.class);
     private Document document;
@@ -123,7 +124,7 @@ public class DataciteResourcesBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void noDoi() throws Exception {
-        EasyMetadata emd = new EmdBuilder().replaceAll("10.5072/dans-test-123", "\t").build();
+        EasyMetadata emd = new EmdBuilder().replaceAll("10.17026/dans-test-123", "\t").build();
         assertThat(emd.getEmdIdentifier().getDansManagedDoi(), equalTo("\t"));
 
         createDefaultBuilder().create(emd);
@@ -272,8 +273,28 @@ public class DataciteResourcesBuilderTest {
         String periodXPath = "//*[local-name()='alternateIdentifier'][@alternateIdentifierType='DOI']";
         Element identifierElement = (Element) xPath.evaluate(periodXPath, docElement, XPathConstants.NODE);
 
-        assertEquals(identifierElement.getTextContent(), "10.5072/other-test-123");
+        assertEquals(identifierElement.getTextContent(), "10.17026/other-test-123");
         assertEquals(identifierElement.getAttribute("alternateIdentifierType"), "DOI");
+    }
+
+    @Test
+    public void dcmiTypeForEMD() throws Exception {
+        ignoreIfNot("kernel-" + version);
+
+        Element dcmiTypeElement = (Element) xPath.evaluate(XP_TYPE, docElement, XPathConstants.NODE);
+
+        assertEquals("Text", dcmiTypeElement.getTextContent());
+        assertEquals("Text", dcmiTypeElement.getAttribute("resourceTypeGeneral"));
+    }
+
+    @Test
+    public void dcmiTypeForMaxiEMD() throws Exception {
+        ignoreIfNot("kernel-" + version);
+
+        Element dcmiTypeElement = (Element) xPath.evaluate(XP_TYPE, maxiDocElement, XPathConstants.NODE);
+
+        assertEquals("Dataset", dcmiTypeElement.getTextContent());
+        assertEquals("Dataset", dcmiTypeElement.getAttribute("resourceTypeGeneral"));
     }
 
     @Test
@@ -335,7 +356,7 @@ public class DataciteResourcesBuilderTest {
     }
 
     private BasicIdentifier createDOI() {
-        BasicIdentifier bi = new BasicIdentifier("10.5072/dans-test-123");
+        BasicIdentifier bi = new BasicIdentifier("10.17026/dans-test-123");
         bi.setIdentificationSystem(URI.create(DOI_RESOLVER));
         bi.setScheme(SCHEME_DOI);
         return bi;

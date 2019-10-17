@@ -43,7 +43,7 @@
     </emd:format>
     <emd:identifier>
         <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">some pid</dc:identifier>
-        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.5072/dans-test-123</dc:identifier>
+        <dc:identifier eas:scheme="DOI" eas:identification-system="http://dx.doi.org">10.17026/dans-test-123</dc:identifier>
         <dc:identifier eas:scheme="Archis_onderzoek_m_nr">65466</dc:identifier>
         <dc:identifier eas:scheme="Archis_onderzoek_m_nr">65468</dc:identifier>
         <dc:identifier eas:scheme="eDNA-project">a26122</dc:identifier>
