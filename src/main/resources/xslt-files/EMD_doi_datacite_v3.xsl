@@ -750,17 +750,7 @@
     <!-- ABRPeriode to string                                                                -->
     <!-- =================================================================================== -->
     <xsl:template name="abr-periode-to-string">
-        <!-- there may be a typo in the original -->
-        <xsl:variable name="code-string">
-            <xsl:choose>
-                <xsl:when test="string() = 'PALEOB'">
-                    <xsl:value-of select="'PALEOLB'"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="string()"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
+        <xsl:variable name="code-string" select="string()"/>
         <xsl:variable name="str" select="normalize-space($abr-type/xs:schema/xs:simpleType[@name='periode']/xs:restriction/xs:enumeration[@value=$code-string]/xs:annotation/xs:documentation/text())"/>
         <xsl:value-of select="$str"/>
     </xsl:template>
