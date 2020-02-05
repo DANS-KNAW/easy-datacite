@@ -84,6 +84,9 @@ public class DataciteService {
             } else
                 throw createDoiGetFailedException(status, response.getEntity(String.class));
         }
+        catch (ClientHandlerException e) {
+            throw createDoiGetFailedException(e);
+        }
         catch (UniformInterfaceException e) {
             throw createDoiGetFailedException(e);
         }
