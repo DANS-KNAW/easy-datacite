@@ -828,18 +828,25 @@
                 </xsl:choose>
             </xsl:element>
         </xsl:if>
-
-        <xsl:if test="$licenses">
+        
+        <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
+        <xsl:variable name="dansLicense" select="'https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSLicence.pdf'"/>
+        <xsl:if test="$licenses">            
             <xsl:for-each select="$licenses">
                 <xsl:choose>
-                    <xsl:when test=". = 'accept' and ../dcterms:accessRights = 'OPEN_ACCESS'">
-                        <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
+                    <xsl:when test=". = 'accept' and count($licenses) = 1">  
                         <xsl:element name="rights">
-                            <xsl:attribute name="rightsURI" select="$cc0"/>
-                            <xsl:value-of select="concat('License: ', $cc0)"/>
+                            <xsl:if test="$access-rights-datacite = 'OPEN_ACCESS'">
+                                <xsl:attribute name="rightsURI" select="$cc0"/>
+                                <xsl:value-of select="concat('License: ', $cc0)"/>
+                            </xsl:if>
+                            <xsl:if test="not($access-rights-datacite = 'OPEN_ACCESS')">
+                                <xsl:attribute name="rightsURI" select="$dansLicense"/>
+                                <xsl:value-of select="'DANS License'"/>
+                            </xsl:if>
                         </xsl:element>
                     </xsl:when>
-                    <xsl:when test=". = 'accept'"/> <!-- this case is such that the 'accept' value does not end up in the otherwise clause -->
+                    <xsl:when test=". = 'accept'"/><!-- this case is such that the 'accept' value does not end up in the otherwise clause -->
                     <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
                         <xsl:element name="rights">
                             <xsl:attribute name="rightsURI" select="."/>
@@ -853,6 +860,18 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
+        </xsl:if>
+        <xsl:if test="not($licenses)">
+            <xsl:element name="rights">
+                <xsl:if test="$access-rights-datacite = 'OPEN_ACCESS'">
+                    <xsl:attribute name="rightsURI" select="$cc0"/>
+                    <xsl:value-of select="concat('License: ', $cc0)"/>
+                </xsl:if>
+                <xsl:if test="not($access-rights-datacite = 'OPEN_ACCESS')">
+                    <xsl:attribute name="rightsURI" select="$dansLicense"/>
+                    <xsl:value-of select="'DANS License'"/>
+                </xsl:if>
+            </xsl:element>
         </xsl:if>
     </xsl:template>
 
