@@ -618,9 +618,37 @@
     <xsl:template name="type">
         <xsl:choose>
             <xsl:when test="emd:type/dc:type[@eas:scheme='DCMI']">
+                <xsl:variable name="easy_rt" select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
+                <xsl:variable name="datacite_rt">
+                    <xsl:choose>
+                        <xsl:when test="$easy_rt = 'Interactive_Resource'">
+                            <xsl:value-of select="'InteractiveResource'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'MovingImage'">
+                            <xsl:value-of select="'Audiovisual'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Moving_Image'">
+                            <xsl:value-of select="'Audiovisual'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Physical_Object'">
+                            <xsl:value-of select="'PhysicalObject'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'StillImage'">
+                            <xsl:value-of select="'Image'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Still_Image'">
+                            <xsl:value-of select="'Image'"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- all others are identity mappings and hence don't require their own clause -->
+                            <xsl:value-of select="$easy_rt"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+
                 <xsl:element name="resourceType">
-                    <xsl:attribute name="resourceTypeGeneral" select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
-                    <xsl:value-of select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
+                    <xsl:attribute name="resourceTypeGeneral" select="$datacite_rt"/>
+                    <xsl:value-of select="$easy_rt"/>
                 </xsl:element>
             </xsl:when>
             <xsl:otherwise>
