@@ -618,9 +618,37 @@
     <xsl:template name="type">
         <xsl:choose>
             <xsl:when test="emd:type/dc:type[@eas:scheme='DCMI']">
+                <xsl:variable name="easy_rt" select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
+                <xsl:variable name="datacite_rt">
+                    <xsl:choose>
+                        <xsl:when test="$easy_rt = 'Interactive_Resource'">
+                            <xsl:value-of select="'InteractiveResource'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'MovingImage'">
+                            <xsl:value-of select="'Audiovisual'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Moving_Image'">
+                            <xsl:value-of select="'Audiovisual'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Physical_Object'">
+                            <xsl:value-of select="'PhysicalObject'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'StillImage'">
+                            <xsl:value-of select="'Image'"/>
+                        </xsl:when>
+                        <xsl:when test="$easy_rt = 'Still_Image'">
+                            <xsl:value-of select="'Image'"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- all others are identity mappings and hence don't require their own clause -->
+                            <xsl:value-of select="$easy_rt"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+
                 <xsl:element name="resourceType">
-                    <xsl:attribute name="resourceTypeGeneral" select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
-                    <xsl:value-of select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
+                    <xsl:attribute name="resourceTypeGeneral" select="$datacite_rt"/>
+                    <xsl:value-of select="$easy_rt"/>
                 </xsl:element>
             </xsl:when>
             <xsl:otherwise>
@@ -691,7 +719,7 @@
     <xsl:template match="eas:hasFormat[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
-            <xsl:with-param name="relationType" select="'IsVariantFormatOf'"/>
+            <xsl:with-param name="relationType" select="'IsVariantFormOf'"/>
         </xsl:call-template>
     </xsl:template>
 
@@ -828,18 +856,25 @@
                 </xsl:choose>
             </xsl:element>
         </xsl:if>
-
-        <xsl:if test="$licenses">
+        
+        <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
+        <xsl:variable name="dansLicense" select="'https://dans.knaw.nl/en/about/organisation-and-policy/legal-information/DANSLicence.pdf'"/>
+        <xsl:if test="$licenses">            
             <xsl:for-each select="$licenses">
                 <xsl:choose>
-                    <xsl:when test=". = 'accept' and ../dcterms:accessRights = 'OPEN_ACCESS'">
-                        <xsl:variable name="cc0" select="'http://creativecommons.org/publicdomain/zero/1.0'"/>
+                    <xsl:when test=". = 'accept' and count($licenses) = 1">  
                         <xsl:element name="rights">
-                            <xsl:attribute name="rightsURI" select="$cc0"/>
-                            <xsl:value-of select="concat('License: ', $cc0)"/>
+                            <xsl:if test="$access-rights-datacite = 'OPEN_ACCESS'">
+                                <xsl:attribute name="rightsURI" select="$cc0"/>
+                                <xsl:value-of select="concat('License: ', $cc0)"/>
+                            </xsl:if>
+                            <xsl:if test="not($access-rights-datacite = 'OPEN_ACCESS')">
+                                <xsl:attribute name="rightsURI" select="$dansLicense"/>
+                                <xsl:value-of select="'DANS License'"/>
+                            </xsl:if>
                         </xsl:element>
                     </xsl:when>
-                    <xsl:when test=". = 'accept'"/> <!-- this case is such that the 'accept' value does not end up in the otherwise clause -->
+                    <xsl:when test=". = 'accept'"/><!-- this case is such that the 'accept' value does not end up in the otherwise clause -->
                     <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
                         <xsl:element name="rights">
                             <xsl:attribute name="rightsURI" select="."/>
@@ -853,6 +888,18 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
+        </xsl:if>
+        <xsl:if test="not($licenses)">
+            <xsl:element name="rights">
+                <xsl:if test="$access-rights-datacite = 'OPEN_ACCESS'">
+                    <xsl:attribute name="rightsURI" select="$cc0"/>
+                    <xsl:value-of select="concat('License: ', $cc0)"/>
+                </xsl:if>
+                <xsl:if test="not($access-rights-datacite = 'OPEN_ACCESS')">
+                    <xsl:attribute name="rightsURI" select="$dansLicense"/>
+                    <xsl:value-of select="'DANS License'"/>
+                </xsl:if>
+            </xsl:element>
         </xsl:if>
     </xsl:template>
 
