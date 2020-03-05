@@ -719,7 +719,7 @@
     <xsl:template match="eas:hasFormat[eas:subject-link != '']">
         <xsl:call-template name="relatedIdentifier">
             <xsl:with-param name="link" select="eas:subject-link/text()"/>
-            <xsl:with-param name="relationType" select="'IsVariantFormatOf'"/>
+            <xsl:with-param name="relationType" select="'IsVariantFormOf'"/>
         </xsl:call-template>
     </xsl:template>
 
