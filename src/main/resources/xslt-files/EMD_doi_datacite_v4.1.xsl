@@ -621,22 +621,10 @@
                 <xsl:variable name="easy_rt" select="emd:type/dc:type[@eas:scheme='DCMI'][1]"/>
                 <xsl:variable name="datacite_rt">
                     <xsl:choose>
-                        <xsl:when test="$easy_rt = 'Interactive_Resource'">
-                            <xsl:value-of select="'InteractiveResource'"/>
-                        </xsl:when>
                         <xsl:when test="$easy_rt = 'MovingImage'">
                             <xsl:value-of select="'Audiovisual'"/>
                         </xsl:when>
-                        <xsl:when test="$easy_rt = 'Moving_Image'">
-                            <xsl:value-of select="'Audiovisual'"/>
-                        </xsl:when>
-                        <xsl:when test="$easy_rt = 'Physical_Object'">
-                            <xsl:value-of select="'PhysicalObject'"/>
-                        </xsl:when>
                         <xsl:when test="$easy_rt = 'StillImage'">
-                            <xsl:value-of select="'Image'"/>
-                        </xsl:when>
-                        <xsl:when test="$easy_rt = 'Still_Image'">
                             <xsl:value-of select="'Image'"/>
                         </xsl:when>
                         <xsl:otherwise>
