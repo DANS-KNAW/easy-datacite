@@ -49,12 +49,12 @@ public class DataciteServiceTest {
 
     private static Logger savedLogger, savedBuilderLogger;
     private Logger loggerMock;
-    private Capture<String> capturedDebugMessage = new Capture<String>();
-    private Capture<Object> capturedDebugArg = new Capture<Object>();
-    private Capture<Object> capturedDebugArg1 = new Capture<Object>();
-    private Capture<Object> capturedDebugArg2 = new Capture<Object>();
-    private Capture<Object[]> capturedDebugArgs = new Capture<Object[]>();
-    private Capture<Throwable> capturedDebugException = new Capture<Throwable>();
+    private Capture<String> capturedDebugMessage = Capture.newInstance();
+    private Capture<Object> capturedDebugArg = Capture.newInstance();
+    private Capture<Object> capturedDebugArg1 = Capture.newInstance();
+    private Capture<Object> capturedDebugArg2 = Capture.newInstance();
+    private Capture<Object[]> capturedDebugArgs = Capture.newInstance();
+    private Capture<Throwable> capturedDebugException = Capture.newInstance();
 
     @BeforeClass
     public static void beforeClass() {
@@ -299,14 +299,14 @@ public class DataciteServiceTest {
     }
 
     private Capture<String> expectLoggedError() {
-        Capture<String> capturedMessage = new Capture<String>();
+        Capture<String> capturedMessage = Capture.newInstance();
         loggerMock.error((capture(capturedMessage)));
         expectLastCall().once();
         return capturedMessage;
     }
 
     private Capture<String> expectLoggedInfo() {
-        Capture<String> capturedMessage = new Capture<String>();
+        Capture<String> capturedMessage = Capture.newInstance();
         loggerMock.info((capture(capturedMessage)));
         expectLastCall().once();
         return capturedMessage;
