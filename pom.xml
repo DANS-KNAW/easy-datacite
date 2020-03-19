@@ -34,7 +34,7 @@
     <inceptionYear>2014</inceptionYear>
 
     <properties>
-        <easy.emd.version>3.9.0</easy.emd.version>
+        <easy.emd.version>3.9.1</easy.emd.version>
         <easy.xml.version>2.19</easy.xml.version>
         <jersey-client.version>1.19.4</jersey-client.version>
     </properties>
