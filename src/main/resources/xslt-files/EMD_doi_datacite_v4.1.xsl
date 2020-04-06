@@ -235,7 +235,7 @@
     <!-- ==================================================== -->
     <!-- contributor to datacite contributors -->
     <!-- ==================================================== -->
-    <xsl:template name="contributor">        
+    <xsl:template name="contributor">
         <xsl:element name="contributors">
             <xsl:apply-templates select="emd:contributor/eas:contributor[not(eas:role='Funder')]">
                 <xsl:with-param name="authortype">contributor</xsl:with-param>
