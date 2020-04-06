@@ -132,7 +132,7 @@
     <!-- ==================================================== -->
     <xsl:template match="emd:creator">
         <xsl:element name="creators">
-            <xsl:apply-templates select="eas:creator">
+            <xsl:apply-templates select="eas:creator[not(eas:role='Funder')]">
                 <xsl:with-param name="authortype">creator</xsl:with-param>
             </xsl:apply-templates>
             <xsl:apply-templates select="dc:creator"/>
@@ -155,7 +155,7 @@
     <!-- eas:creator/eas:contributor to datacite creator/contributor -->
     <!-- ==================================================== -->
     <xsl:template match="eas:creator[eas:role='Funder'] | eas:contributor[eas:role='Funder']">
-        <xsl:element name="fundingReferences">
+        
             <xsl:element name="fundingReference">
                 <xsl:element name="funderName">
                     <xsl:choose>
@@ -176,7 +176,7 @@
                     </xsl:element>
                 </xsl:for-each>
             </xsl:element>
-        </xsl:element>
+        
     </xsl:template>
     <xsl:template match="eas:creator | eas:contributor">
         <xsl:param name="authortype"/>
@@ -235,7 +235,7 @@
     <!-- ==================================================== -->
     <!-- contributor to datacite contributors -->
     <!-- ==================================================== -->
-    <xsl:template name="contributor">
+    <xsl:template name="contributor">        
         <xsl:element name="contributors">
             <xsl:apply-templates select="emd:contributor/eas:contributor[not(eas:role='Funder')]">
                 <xsl:with-param name="authortype">contributor</xsl:with-param>
@@ -250,7 +250,10 @@
     <!-- funding contributor to datacite fundingReference -->
     <!-- ==================================================== -->
     <xsl:template name="funder">
-        <xsl:apply-templates select="emd:contributor/eas:contributor[eas:role='Funder']"/>
+        <xsl:element name="fundingReferences">
+            <xsl:apply-templates select="emd:contributor/eas:contributor[eas:role='Funder']"/>
+            <xsl:apply-templates select="emd:creator/eas:creator[eas:role='Funder']"/>
+        </xsl:element>
     </xsl:template>
 
     <!-- ==================================================== -->
