@@ -29,7 +29,13 @@
     <emd:publisher>
         <dc:publisher>ADEDE bvba</dc:publisher>
     </emd:publisher>
-    <emd:contributor/>
+    <emd:contributor>
+        <eas:contributor>
+            <eas:organization>NWO</eas:organization>
+            <eas:organizationId eas:scheme="ISNI">123</eas:organizationId>
+            <eas:role eas:scheme="EASY">Funder</eas:role>
+        </eas:contributor>
+    </emd:contributor>
     <emd:date>
         <eas:created eas:scheme="W3CDTF" eas:format="DAY">2015-04-14T00:00:00.000+02:00</eas:created>
         <eas:available eas:scheme="W3CDTF" eas:format="DAY">2015-10-22T00:00:00.000+02:00</eas:available>

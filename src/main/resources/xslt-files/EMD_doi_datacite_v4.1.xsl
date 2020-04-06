@@ -78,6 +78,7 @@
 
         <!--  7. contributor -->
         <xsl:call-template name="contributor"/>
+        <xsl:call-template name="funder"/>
 
         <!--  8. date -->
         <xsl:apply-templates select="emd:date" />
@@ -153,6 +154,30 @@
     <!-- ==================================================== -->
     <!-- eas:creator/eas:contributor to datacite creator/contributor -->
     <!-- ==================================================== -->
+    <xsl:template match="eas:creator[eas:role='Funder'] | eas:contributor[eas:role='Funder']">
+        <xsl:element name="fundingReferences">
+            <xsl:element name="fundingReference">
+                <xsl:element name="funderName">
+                    <xsl:choose>
+                        <xsl:when test="eas:organization">
+                            <xsl:value-of select="eas:organization"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="eas-name" />
+                            <!-- if the nameType is not given, the nameIdentifier is expected to refer to 
+                         the person, not the organization. So the ISNI etc is skipped here -->
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:element>                    
+                <xsl:for-each select="eas:organizationId">
+                    <xsl:element name="funderIdentifier">
+                        <xsl:attribute name="funderIdentifierType"><xsl:value-of select="@eas:scheme"/></xsl:attribute>
+                        <xsl:value-of select="text()"/>
+                    </xsl:element>
+                </xsl:for-each>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="eas:creator | eas:contributor">
         <xsl:param name="authortype"/>
         
@@ -212,13 +237,20 @@
     <!-- ==================================================== -->
     <xsl:template name="contributor">
         <xsl:element name="contributors">
-            <xsl:apply-templates select="emd:contributor/eas:contributor">
+            <xsl:apply-templates select="emd:contributor/eas:contributor[not(eas:role='Funder')]">
                 <xsl:with-param name="authortype">contributor</xsl:with-param>
             </xsl:apply-templates>
             <xsl:apply-templates select="emd:contributor/dc:contributor"/>
             <xsl:apply-templates select="emd:rights/dcterms:rightsHolder"/>
             <xsl:apply-templates select="emd:rights/dc:rights"/>
         </xsl:element>
+    </xsl:template>
+    
+    <!-- ==================================================== -->
+    <!-- funding contributor to datacite fundingReference -->
+    <!-- ==================================================== -->
+    <xsl:template name="funder">
+        <xsl:apply-templates select="emd:contributor/eas:contributor[eas:role='Funder']"/>
     </xsl:template>
 
     <!-- ==================================================== -->
