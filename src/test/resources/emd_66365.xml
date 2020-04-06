@@ -64,6 +64,10 @@
             <eas:surname>K</eas:surname>
             <eas:entityId eas:scheme="DAI"/>
         </eas:contributor>
+        <eas:contributor>
+            <eas:organization>NWO</eas:organization>
+            <eas:role eas:scheme="EASY">Funder</eas:role>
+        </eas:contributor>
     </emd:contributor>
     <emd:date>
         <dc:date>1981-1984: Strouza Region Project</dc:date>
