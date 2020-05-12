@@ -321,7 +321,7 @@
     <!-- ==================================================== -->
     <xsl:template name="dai">
         <!-- is there a DAI? > ID for daiList -->
-        <xsl:if test="eas:entityId/@eas:scheme = 'DAI' and eas:entityId[@eas:scheme = 'DAI']/text() != ''">
+        <xsl:if test="eas:entityId[@eas:scheme = 'DAI']/text() != ''">
             <xsl:element name="nameIdentifier">
                 <xsl:attribute name="nameIdentifierScheme" select="'info:eu-repo/dai'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'DAI']/text()" />
@@ -330,7 +330,7 @@
     </xsl:template>
 
     <xsl:template name="orcid">
-        <xsl:if test="eas:entityId/@eas:scheme = 'ORCID' and eas:entityId[@eas:scheme = 'ORCID']/text() != ''">
+        <xsl:if test="eas:entityId[@eas:scheme = 'ORCID']/text() != ''">
             <xsl:element name="nameIdentifier">
                 <xsl:attribute name="nameIdentifierScheme" select="'https://orcid.org/'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'ORCID']/text()" />
@@ -339,7 +339,7 @@
     </xsl:template>
 
     <xsl:template name="isni">
-        <xsl:if test="eas:entityId/@eas:scheme = 'ISNI' and eas:entityId[@eas:scheme = 'ISNI']/text() != ''">
+        <xsl:if test="eas:entityId[@eas:scheme = 'ISNI']/text() != ''">
             <xsl:element name="nameIdentifier">
                 <xsl:attribute name="nameIdentifierScheme" select="'http://isni.org/isni/'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'ISNI']/text()" />
@@ -348,7 +348,7 @@
     </xsl:template>
 
     <xsl:template name="organisationalID">
-        <xsl:if test="eas:organizationId/@eas:scheme = 'ISNI' and eas:organizationId[@eas:scheme = 'ISNI']/text() != ''">
+        <xsl:if test="eas:organizationId[@eas:scheme = 'ISNI']/text() != ''">
             <xsl:element name="nameIdentifier">
                 <xsl:attribute name="nameIdentifierScheme" select="'http://isni.org/isni/'" />
                 <xsl:value-of select="eas:organizationId[@eas:scheme = 'ISNI']/text()" />
