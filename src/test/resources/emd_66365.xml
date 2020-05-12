@@ -12,7 +12,9 @@
             <eas:title>dr.</eas:title>
             <eas:initials>I.</eas:initials>
             <eas:surname>S.</eas:surname>
-            <eas:entityId eas:scheme="DAI">0123456789</eas:entityId>
+            <eas:entityId eas:scheme="DAI">dai-0123456789</eas:entityId>
+            <eas:entityId eas:scheme="ISNI">isni-0123456789</eas:entityId>
+            <eas:entityId eas:scheme="ORCID">orcid-0123456789</eas:entityId>
         </eas:creator>
         <eas:creator>
             <eas:title>dr.</eas:title>
