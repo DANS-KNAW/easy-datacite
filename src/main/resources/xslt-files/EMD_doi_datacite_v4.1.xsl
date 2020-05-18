@@ -323,7 +323,8 @@
         <!-- is there a DAI? > ID for daiList -->
         <xsl:if test="eas:entityId[@eas:scheme = 'DAI']/text() != ''">
             <xsl:element name="nameIdentifier">
-                <xsl:attribute name="nameIdentifierScheme" select="'info:eu-repo/dai'" />
+                <xsl:attribute name="nameIdentifierScheme" select="'DAI'" />
+                <xsl:attribute name="schemeURI" select="'info:eu-repo/dai'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'DAI']/text()" />
             </xsl:element>
         </xsl:if>
@@ -332,7 +333,8 @@
     <xsl:template name="orcid">
         <xsl:if test="eas:entityId[@eas:scheme = 'ORCID']/text() != ''">
             <xsl:element name="nameIdentifier">
-                <xsl:attribute name="nameIdentifierScheme" select="'https://orcid.org/'" />
+                <xsl:attribute name="nameIdentifierScheme" select="'ORCID'" />
+                <xsl:attribute name="schemeURI" select="'https://orcid.org'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'ORCID']/text()" />
             </xsl:element>
         </xsl:if>
@@ -341,7 +343,8 @@
     <xsl:template name="isni">
         <xsl:if test="eas:entityId[@eas:scheme = 'ISNI']/text() != ''">
             <xsl:element name="nameIdentifier">
-                <xsl:attribute name="nameIdentifierScheme" select="'http://isni.org/isni/'" />
+                <xsl:attribute name="nameIdentifierScheme" select="'ISNI'" />
+                <xsl:attribute name="schemeURI" select="'http://isni.org/'" />
                 <xsl:value-of select="eas:entityId[@eas:scheme = 'ISNI']/text()" />
             </xsl:element>
         </xsl:if>
@@ -350,7 +353,8 @@
     <xsl:template name="organisationalID">
         <xsl:if test="eas:organizationId[@eas:scheme = 'ISNI']/text() != ''">
             <xsl:element name="nameIdentifier">
-                <xsl:attribute name="nameIdentifierScheme" select="'http://isni.org/isni/'" />
+                <xsl:attribute name="nameIdentifierScheme" select="'ISNI'" />
+                <xsl:attribute name="schemeURI" select="'http://isni.org/'" />
                 <xsl:value-of select="eas:organizationId[@eas:scheme = 'ISNI']/text()" />
             </xsl:element>
         </xsl:if>
