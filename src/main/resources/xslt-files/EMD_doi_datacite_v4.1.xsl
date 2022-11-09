@@ -1138,16 +1138,17 @@
             <xsl:element name="geoLocationPolygon">
                 <xsl:for-each select="eas:polygon-point">
                     <xsl:element name="polygonPoint">
+                        <!-- EASY-2875 : the x and y are switched, because they were switched in the input EMD -->
                         <xsl:element name="pointLatitude">
                             <xsl:call-template name="rd-to-lat-long-lat">
-                                <xsl:with-param name="x" select="eas:x"/>
-                                <xsl:with-param name="y" select="eas:y"/>
+                                <xsl:with-param name="x" select="eas:y"/>
+                                <xsl:with-param name="y" select="eas:x"/>
                             </xsl:call-template>
                         </xsl:element>
                         <xsl:element name="pointLongitude">
                             <xsl:call-template name="rd-to-lat-long-lon">
-                                <xsl:with-param name="x" select="eas:x"/>
-                                <xsl:with-param name="y" select="eas:y"/>
+                                <xsl:with-param name="x" select="eas:y"/>
+                                <xsl:with-param name="y" select="eas:x"/>
                             </xsl:call-template>
                         </xsl:element>
                     </xsl:element>
